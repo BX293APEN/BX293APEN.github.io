@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="icon" href="icon/PEN.ico">
+        <link rel="stylesheet" href="css/css.css">
+        <script src="js/index/model/data.js"></script>
+        <script src="js/index/model/config.js"></script>
+
+        <style>
+            
+        </style>
+        <title>
+            PENSite
+        </title>
+    </head>
+
+    <body onresize="window.resizeTo(window.outerWidth, window.outerHeight)">
+        <p>
+            <img class="googletitle" height ="60px" src="icon/googlewhite.png" onclick = "url_search('https://www.google.co.jp')"/>
+            <span class="penhp" title="PEN HP" style="font-size : 60px" onclick= "url_search('https://github.com/BX293APEN')">&#x1F427;</span>
+        </p>
+        <p>
+            <select name="typeselect" id="typemain"></select>
+            <span class="subtype"></span>
+            <input type="button" value = "検索" id="search" onclick = "url_search(quickSelectboxSubMenu.value)">
+        </p>
+
+        <p>
+            <input type="search" id="searchbox" placeholder="検索" maxlength="256">
+        </p>
+        
+        <p id = "quickAccess">
+        </p>
+        
+        <div class="bottomsep"></div>
+        <p>
+            <img class="img1" src="icon/book.ico" height ="64px" width="64px" title="Book" onclick= "lists('book')" />
+            <span class="listbox1" margin></span>
+            <input type="button" value="GO" id="bookbutton" onclick="url_search(bookSelect.value)">
+        </p>
+        <input type="number" id="page" max="100" min="1" value="1" />
+        <input type="search" id="searchbox2" placeholder="検索" maxlength="256">
+    </body>
+
+    <footer>
+        <script src="js/index/view/index.js"></script>
+    </footer>
+</html>
