@@ -77,11 +77,11 @@ const bookmarkData = [
     },
     {
         "value" : "https://www.google.com/maps?force=tt&source=ttpwa",
-        "name" : 'map'
+        "name" : 'Google map'
     },
     {
         "value" : "https://earth.google.com/web/?authuser=0",
-        "name" : 'earth'
+        "name" : 'Google Earth'
     },
     {
         "value" : "https://fast.com/ja/#",
@@ -89,7 +89,7 @@ const bookmarkData = [
     },
     {
         "value" : "https://finance.yahoo.com/",
-        "name" : 'finance'
+        "name" : 'Yahoo finance'
     },
     {
         "value" : "https://time.is/ja/",
