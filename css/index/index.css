@@ -85,5 +85,12 @@
 }
 
 .font-shadow {
-    text-shadow: 1px 2px 3px #000; 
+    text-shadow: 
+        2px 2px 4px #000,
+        0   0   1em #000,
+        0   0   0.2em #000; 
+}
+
+.bg-white {
+    background : #FFFFFF;
 }

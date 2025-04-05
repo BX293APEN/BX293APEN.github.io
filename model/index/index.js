@@ -8,6 +8,10 @@ const bookmarkData = [
         "value" : "https://bsky.app/profile/bx293apen.bsky.social"
     },
     {
+        "name" : "秋月電子通商",
+        "value" : "https://akizukidenshi.com/catalog/default.aspx"
+    },
+    {
         "name" :"Twitter", 
         "value" : "https://x.com/BX293A_PEN"
     },
