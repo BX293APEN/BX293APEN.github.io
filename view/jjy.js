@@ -24,18 +24,21 @@ class JJYGenerate {
         this.play_flag = false;
         this.control_button = document.getElementById(controlButton);
 
-        this.control_button.addEventListener('click', () => {
-            if (this.play_flag) {
-                this.control_button.innerText = "Start";
-                this.play_flag = false;
-                this.jjy_control("stop");
-            } 
-            else {
-                this.control_button.innerText = "Stop";
-                this.play_flag = true;
-                this.jjy_control("start");
+        this.control_button.addEventListener(
+            'click', 
+            () => {
+                if (this.play_flag) {
+                    this.control_button.innerText = "Start";
+                    this.play_flag = false;
+                    this.jjy_control("stop");
+                } 
+                else {
+                    this.control_button.innerText = "Stop";
+                    this.play_flag = true;
+                    this.jjy_control("start");
+                }
             }
-        });
+        );
 
         this.render();
     }
@@ -217,7 +220,6 @@ class JJYGenerate {
     }
 
     interval() {
-        //this.summer_time_input = document.getElementById("summer-time"); //ガベージコレクション対策
         this.t += 60 * 1000;
         this.signal = this.schedule(new Date(this.t), this.summer_time_input.checked);
     }
