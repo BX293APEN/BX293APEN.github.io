@@ -94,3 +94,8 @@
 .bg-white {
     background : #FFFFFF;
 }
+
+textarea {
+    resize: none;
+    width:100%;
+}
