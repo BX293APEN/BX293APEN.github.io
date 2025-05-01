@@ -11,7 +11,8 @@ class ConsoleText{
         fontShadowColor     = 'rgba(0, 0, 0, .3)',
         bgColor             = "#101010",
         bgShadowColor       = "#191919",
-        shadowColor         = '#3f3'
+        shadowColor         = '#3f3',
+        changeInterval      = 800
     ){
         this.canvas                     = document.getElementById(canvasName);
         this.canvas.style.background    = bgColor;
@@ -41,7 +42,7 @@ class ConsoleText{
         this.text;      
         this.isLoop                     = isLoop
         this.isVisible                  = true;
-        this.changeTime                 = 5;
+        this.changeInterval             = changeInterval;
 
         this.setup();
         this.loop();
@@ -130,7 +131,7 @@ class ConsoleText{
                     return;
                 }
                 this.setup();
-                this.changeTime += 800;
+                this.changeTime += this.changeInterval;
        
             }
         }
