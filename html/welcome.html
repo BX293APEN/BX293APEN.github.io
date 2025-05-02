@@ -67,7 +67,7 @@
                 </div>
             </nav>
         </header>
-        <div class="container pt-3 mt-3">
+        <div class="container pt-3">
             <div class="container-fluid p-3 bg-black">
                 <div class="d-grid gap-3">
                     <div class="fw-bold d-flex">
@@ -280,12 +280,13 @@
         <script async src="../view/widgets.js" charset="utf-8"></script>
         <script src="../view/consoletext.js"></script>
         <script>
+            new Search(model.bookmarkData);
             new ConsoleText(
                 'consoleText',
                 [
                     "",
                     "ようこそ",
-                    "Welcome to PENSite "
+                    "Welcome to PENSite"
                 ],
                 [
                     "|",
@@ -293,10 +294,10 @@
                     "|",
                 ],
                 false,
-                450,
+                500,
                 70,
                 "2.5rem",
-
+                "Cascadia Mono",
             );
         </script>
     </footer>

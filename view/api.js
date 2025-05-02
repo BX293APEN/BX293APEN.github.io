@@ -62,4 +62,4 @@ class GetWeather{
     }
 }
 
-new GetWeather("weather", "weather-place");
+//new GetWeather("weather", "weather-place");

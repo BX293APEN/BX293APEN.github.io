@@ -57,4 +57,4 @@ class MermaidUML{
       
 }
 
-new MermaidUML("drawUML", "sourceUML", "umlDownload", "uml");
+// new MermaidUML("drawUML", "sourceUML", "umlDownload", "uml");

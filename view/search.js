@@ -35,4 +35,4 @@ class Search{
     }
 }
 
-new Search(model.bookmarkData);
+//new Search(model.bookmarkData);

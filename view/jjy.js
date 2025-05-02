@@ -1,40 +1,38 @@
 class JJYGenerate {
     constructor(
-        controlButton = "control-button", 
-        jjyCanvas = "canvas", 
-        nowtimeID = "time", 
-        summerTimeID = "summer-time",
-        freq = 13333
+        controlButton           = "control-button", 
+        jjyCanvas               = "canvas", 
+        nowtimeID               = "time", 
+        summerTimeID            = "summer-time",
+        freq                    = 13333
     ) {
-        this.freq = freq;
-        this.AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.array = [];
-        this.plus_leapsecond_list = [new Date(2017, 0, 1, 9)];
-        this.offset = 0;
-        this.pa = 0;
-        this.signal = null;
-        this.ctx = null;
-        this.summer_time_input = document.getElementById(summerTimeID);
-        this.nowtime = document.getElementById(nowtimeID);
-        this.intervalId = null;
-        this.canvas = document.getElementById(jjyCanvas);
-        this.ctx2d = this.canvas.getContext('2d');
-        this.w = this.canvas.width;
-        this.h = this.canvas.height;
-        this.play_flag = false;
-        this.control_button = document.getElementById(controlButton);
+        this.freq               = freq;
+        this.AudioContext       = window.AudioContext || window.webkitAudioContext;
+        this.array              = [];
+        this.plusLeapsecondList = [new Date(2017, 0, 1, 9)];
+        this.offset             = 0;
+        this.pa                 = 0;
+        this.signal             = null;
+        this.ctx                = null;
+        this.summerTimeInput    = document.getElementById(summerTimeID);
+        this.nowtime            = document.getElementById(nowtimeID);
+        this.intervalId         = null;
+        this.canvas             = document.getElementById(jjyCanvas);
+        this.ctx2d              = this.canvas.getContext('2d');
+        this.playFlag           = false;
+        this.controlButton      = document.getElementById(controlButton);
 
-        this.control_button.addEventListener(
+        this.controlButton.addEventListener(
             'click', 
             () => {
-                if (this.play_flag) {
-                    this.control_button.innerText = "Start";
-                    this.play_flag = false;
+                if (this.playFlag) {
+                    this.controlButton.innerText = "Start";
+                    this.playFlag = false;
                     this.jjy_control("stop");
                 } 
                 else {
-                    this.control_button.innerText = "Stop";
-                    this.play_flag = true;
+                    this.controlButton.innerText = "Stop";
+                    this.playFlag = true;
                     this.jjy_control("start");
                 }
             }
@@ -57,8 +55,8 @@ class JJYGenerate {
 
     getleapsecond() {
         this.now = Date.now();
-        for (let i = 0; i < this.plus_leapsecond_list.length; i++) {
-            let diff = this.plus_leapsecond_list[i] - this.now;
+        for (let i = 0; i < this.plusLeapsecondList.length; i++) {
+            let diff = this.plusLeapsecondList[i] - this.now;
             if (diff > 0 && diff <= 31 * 24 * 60 * 60 * 1000) {
                 return 1;
             }
@@ -197,7 +195,7 @@ class JJYGenerate {
                 delay += 60 * 1000;
             }
 
-            this.signal = this.schedule(new Date(this.t), this.summer_time_input.checked);
+            this.signal = this.schedule(new Date(this.t), this.summerTimeInput.checked);
 
             this.intervalId = setTimeout(() => {
                     this.interval();
@@ -221,13 +219,13 @@ class JJYGenerate {
 
     interval() {
         this.t += 60 * 1000;
-        this.signal = this.schedule(new Date(this.t), this.summer_time_input.checked);
+        this.signal = this.schedule(new Date(this.t), this.summerTimeInput.checked);
     }
 
     render() {
         let i;
         this.nowtime.innerText = new Date().toString();
-        this.ctx2d.clearRect(0, 0, this.w, this.h);
+        this.ctx2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         if (!this.signal) {
             requestAnimationFrame(this.render.bind(this));
@@ -254,4 +252,4 @@ class JJYGenerate {
 }
 
 
-new JJYGenerate(undefined,"jjyCode");
+//new JJYGenerate(undefined,"jjyCode");
