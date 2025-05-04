@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">-->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/index/index.css" rel="stylesheet">
+        <link href="../css/welcome/welcome.css" rel="stylesheet">
+        <link href="../css/carousel.css" rel="stylesheet">
+        <link href="../css/blog.css" rel="stylesheet">
+        <link rel="icon" href="../img/PEN.ico">
+        <script src="../model/index/index.js"></script>
+
+        <title>RN4020</title>
+    </head>
+    <body>
+        <header data-bs-theme="dark">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="https://github.com/BX293APEN">
+                        <img src = "../img/PEN.png" height= "40px" width="40px">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="../index.html">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="../html/welcome.html">
+                                    Works
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://github.com/BX293APEN">
+                                    <img src = "../img/GitHub.png" height= "40px" width="40px">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://discord.gg/hszD9jqpq2">
+                                    <img src = "../img/game.ico" height= "40px" width="40px">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://bsky.app/profile/bx293apen.bsky.social">
+                                    <img src = "../img/BlueSky.png" height= "40px" width="40px">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://x.com/BX293A_PEN">
+                                    <img src = "../img/X.png" height= "40px" width="40px">
+                                </a>
+                            </li>
+                        </ul>
+                        <span class="ms-3 d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchbox">
+                        </span>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            Bluetooth Low Energyモジュール
+                        </h3>
+                        <article class="blog-post">
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                RN4020使い方ガイド
+                            </h4>
+                            <img src = "../img/RN4020.png" width="100%">
+                            <p class="text-center fw-bold">
+                                ピンアサイン
+                            </p>
+                            <p>
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">ピン機能</th>
+                                        <th scope="col">接続(起動時)</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            WAKE_SW 
+                                        </td>
+                                        <td>
+                                            HIGH 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            CMD/MLDP
+                                        </td>
+                                        <td>
+                                            LOW
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            WAKE_HW
+                                        </td>
+                                        <td>
+                                            HIGH 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            UART TX 
+                                        </td>
+                                        <td>
+                                            RX
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            UART RX 
+                                        </td>
+                                        <td>
+                                            TX
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p>
+                            <hr>
+
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold"> 基本コマンド</h5>
+
+                            <p>
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">コマンド</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>SF,1</code></pre>
+                                        </td>
+                                        <td>
+                                            工場出荷時の既定値
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>SF,2</code></pre>
+                                        </td>
+                                        <td>
+                                            完全工場出荷時の既定値
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>SN,[名前]</code></pre>
+                                        </td>
+                                        <td>
+                                            デバイスの名前を[名前]に変更
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>SR,[機能設定]</code></pre>
+                                        </td>
+                                        <td>
+                                            有効化/無効化する機能を設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>SS,[サービス設定]</code></pre>
+                                        </td>
+                                        <td>
+                                            サービスを設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>PS,[UUID]</code></pre>
+                                        </td>
+                                        <td>
+                                            UUIDを設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>PC,[プライベートキャラスタリック値],1A,FF</code></pre>
+                                        </td>
+                                        <td>
+                                            プライベートキャラスタリック値を設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>D</code></pre>
+                                        </td>
+                                        <td>
+                                            デバイス情報を確認
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>R,1</code></pre>
+                                        </td>
+                                        <td>
+                                            再起動
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>LS</code></pre>
+                                        </td>
+                                        <td>
+                                            BLEデバイスのUUIDとハンドル値の対応を確認(ペリフェラルのみ)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>H</code></pre>
+                                        </td>
+                                        <td>
+                                            <a href="https://ww1.microchip.com/downloads/jp/DeviceDoc/70005191A_JP.pdf">
+                                                ヘルプ
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </p>
+
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold"> セントラルコマンド</h5>
+                            <p>
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">コマンド</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>F</code></pre>
+                                        </td>
+                                        <td>
+                                            ペリフェラルデバイスを検索(<code class="bg-body-tertiary">X</code>で終了)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>X</code></pre>
+                                        </td>
+                                        <td>
+                                            デバイスの検索を終了する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre class="bg-body-tertiary"><code>E,0,[BTA]</code></pre>
+                                        </td>
+                                        <td>
+                                            [BTA]のペリフェラルBLEデバイスに接続
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p>
+
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold"> 接続中コマンド</h5>
+                            <p>
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">コマンド</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <tr>
+                                            <td>
+                                                <pre class="bg-body-tertiary"><code>K</code></pre>
+                                            </td>
+                                            <td>
+                                                接続解除
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre class="bg-body-tertiary"><code>M</code></pre>
+                                            </td>
+                                            <td>
+                                                通信強度
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre class="bg-body-tertiary"><code>LC</code></pre>
+                                            </td>
+                                            <td>
+                                                接続したBLEデバイスのUUIDとハンドル値の対応を確認(セントラルのみ)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre class="bg-body-tertiary"><code>CHW,[ハンドル値],[転送データ]</code></pre>
+                                            </td>
+                                            <td>
+                                                接続したBLEデバイスの[ハンドル値]に[転送データ]を送る(セントラルのみ)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre class="bg-body-tertiary"><code>SHR,[ハンドル値]</code></pre>
+                                            </td>
+                                            <td>
+                                                [ハンドル値]に送られてきたデータを読み出す(ペリフェラルのみ)
+                                            </td>
+                                        </tr>
+                                    </tr>
+                                </table>
+                            </p>
+
+                            
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <p class="float-end">
+            &copy; 
+            PEN
+            &middot; 
+            <a href="https://github.com/BX293APEN/BX293APEN.github.io?tab=Apache-2.0-1-ov-file">
+                LICENCE
+            </a>
+        </p>
+        <script src="../view/bootstrap.bundle.min.js"></script>
+        <script src="../view/search.js"></script>
+        <script src="../view/embeddedHTML.js"></script>
+        <script>
+            new Search(model.bookmarkData);
+            embedded_html("../template/tips.html", "tips");
+        </script>
+    </footer>
+</html>
