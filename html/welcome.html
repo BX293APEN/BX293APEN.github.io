@@ -200,53 +200,7 @@
                                 </ul>
                             </div>
 
-                            <div class="p-2">
-                                <h4 class="fst-italic">Tips</h4>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a 
-                                            class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" 
-                                            href="../BX293APEN/github.html"
-                                        >
-                                            <img 
-                                                class="bd-placeholder-img" 
-                                                width="100%" height="96" 
-                                                src="https://skillicons.dev/icons?i=github" 
-                                                aria-hidden="true" 
-                                                preserveAspectRatio="xMidYMid slice" 
-                                                focusable="false"
-                                            />
-                                            <div class="col-lg-8">
-                                                <h6 class="mb-0">GitHub</h6>
-                                                <small class="text-body-secondary">Summary: How to use GitHub</small>
-                                            </div>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a 
-                                            class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" 
-                                            href="../BX293APEN/vim.html"
-                                        >
-                                            <img 
-                                                class="bd-placeholder-img" 
-                                                width="100%" height="96" 
-                                                src="https://skillicons.dev/icons?i=vim" 
-                                                aria-hidden="true" 
-                                                preserveAspectRatio="xMidYMid slice" 
-                                                focusable="false"
-                                            />
-                                            <div class="col-lg-8">
-                                                <h6 class="mb-0">Vim</h6>
-                                                <small class="text-body-secondary">
-                                                    Want to learn Vim?<br> 
-                                                    This guide will help you understand.
-                                                </small>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <div id="tips"></div>
 
                             <!--
                             <div class="p-4">
@@ -279,6 +233,7 @@
         <script src="../view/search.js"></script>
         <script async src="../view/widgets.js" charset="utf-8"></script>
         <script src="../view/consoletext.js"></script>
+        <script src="../view/embeddedHTML.js"></script>
         <script>
             new Search(model.bookmarkData);
             new ConsoleText(
@@ -299,6 +254,7 @@
                 "2.5rem",
                 "Cascadia Mono",
             );
+            embedded_html("../template/tips.html", "tips")
         </script>
     </footer>
 </html>
