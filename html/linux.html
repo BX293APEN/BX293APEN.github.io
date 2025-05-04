@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">-->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/index/index.css" rel="stylesheet">
+        <link href="../css/welcome/welcome.css" rel="stylesheet">
+        <link href="../css/carousel.css" rel="stylesheet">
+        <link href="../css/blog.css" rel="stylesheet">
+        <link rel="icon" href="../img/PEN.ico">
+        <link rel="stylesheet" href="../css/default.min.css">
+        <script src="../view/highlight.min.js"></script>
+        <script src="../model/index/index.js"></script>
+
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <header data-bs-theme="dark">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="https://github.com/BX293APEN">
+                        <img src = "../img/PEN.png" height= "40px" width="40px">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="../index.html">
+                                    Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="../html/welcome.html">
+                                    Works
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://github.com/BX293APEN">
+                                    <img src = "../img/GitHub.png" height= "40px" width="40px">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://discord.gg/hszD9jqpq2">
+                                    <img src = "../img/game.ico" height= "40px" width="40px">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://bsky.app/profile/bx293apen.bsky.social">
+                                    <img src = "../img/BlueSky.png" height= "40px" width="40px">
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://x.com/BX293A_PEN">
+                                    <img src = "../img/X.png" height= "40px" width="40px">
+                                </a>
+                            </li>
+                        </ul>
+                        <span class="ms-3 d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="searchbox">
+                        </span>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            Linuxセットアップガイド
+                        </h3>
+                        <article class="blog-post">
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                Bash
+                            </h4>
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                Aliasの設定
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano ~/.bashrc</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">alias addcmd="nano ~/.bashrc"
+alias linux_update="sudo apt update&&sudo apt upgrade -y&&sudo apt autoremove -y"</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                Python
+                            </h4>
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                pip --break-system-packages問題
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano ~/.config/pip/pip.conf
+nano ~/.pip/pip.conf    # Legacy</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[global]
+break-system-packages = true</code></pre>
+                            </p>
+                            
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                SSH
+                            </h4>
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                公開鍵認証
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    Windows ターミナル
+                                </div>
+                                <pre><code class="language-bash">ssh-keygen -t ed25519 -C '""'
+cd %userprofile%/.ssh
+scp id_ed25519.pub [リモート接続するユーザ名]@[リモート接続する端末のIPアドレス]:~/</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd ~/
+mkdir .ssh
+mv id_ed25519.pub .ssh/authorized_keys
+chmod 700 .ssh
+cd .ssh
+chmod 600 authorized_keys</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                日本語入力
+                            </h4>
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                mozcのインストール
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt -y install fcitx5 fcitx5-mozc</code></pre>
+                            </p>
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                フォントのインストール
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt -y install fonts-noto fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji</code></pre>
+                            </p>
+
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <p class="float-end">
+            &copy; 
+            PEN
+            &middot; 
+            <a href="https://github.com/BX293APEN/BX293APEN.github.io?tab=Apache-2.0-1-ov-file">
+                LICENCE
+            </a>
+        </p>
+        <script src="../view/bootstrap.bundle.min.js"></script>
+        <script src="../view/search.js"></script>
+        <script src="../view/embeddedHTML.js"></script>
+        <script>
+            new Search(model.bookmarkData);
+            embedded_html("../template/tips.html", "tips");
+            hljs.highlightAll();
+        </script>
+    </footer>
+</html>
