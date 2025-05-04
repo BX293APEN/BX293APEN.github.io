@@ -2,4 +2,4 @@ User-agent: *
 Disallow: 
 Allow: /
 Sitemap: https://bx293apen.github.io/sitemap.xml
-Sitemap: https://bx293apen.github.io/config/sitemap.xml
+Sitemap: https://bx293apen.github.io/BX293APEN/sitemap.xml
