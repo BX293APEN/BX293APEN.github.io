@@ -4,15 +4,11 @@
         <meta charset="UTF-8">
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">-->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/index/index.css" rel="stylesheet">
-        <link href="css/carousel.css" rel="stylesheet">
-        <link rel="icon" href="img/PEN.ico">
         <script src="model/index/index.js"></script>
         <title>とあるペンギンの実験室</title>
     </head>
     <body>
+        <div id="styleList"></div>
         <header data-bs-theme="dark">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div class="container-fluid">
@@ -337,12 +333,14 @@ graph LR
         <script src="view/api.js"></script>
         <script src="view/createUML.js"></script>
         <script src="view/search.js"></script>
+        <script src="view/embeddedHTML.js"></script>
         <script>
             new MatrixDraw("matrix", 10, "HGPゴシックE", undefined, window.screen.width);
             new JJYGenerate(undefined,"jjyCode");
             new GetWeather("weather", "weather-place");
             new MermaidUML("drawUML", "sourceUML", "umlDownload", "uml");
             new Search(model.bookmarkData);
+            embedded_html("template/styleConfig.html", "styleList");
         </script>
     </footer>
 </html>
