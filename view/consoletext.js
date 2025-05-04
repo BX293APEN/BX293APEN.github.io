@@ -124,7 +124,7 @@ class ConsoleText{
                 if(this.page<this.totalMessages)    this.page++;
                 else if(this.isLoop)                this.page=0;
                 else{
-                    setTimeout(this.blinkingText.bind(this), 300);
+                    this.timeoutID = setTimeout(this.blinkingText.bind(this), 300);
                     return;
                 }
                 this.setup();
