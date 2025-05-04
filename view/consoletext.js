@@ -45,7 +45,8 @@ class ConsoleText{
         this.isLoop                     = isLoop
         this.isVisible                  = true;
         this.changeInterval             = changeInterval;
-        this.changeTime                 = changeTime
+        this.changeTime                 = changeTime;
+        this.timeoutID                  = undefined;
 
         this.setup();
         this.loop();
@@ -93,7 +94,7 @@ class ConsoleText{
             } 
             this.renderLines();
             this.isVisible = !this.isVisible;
-            setTimeout(this.blinkingText.bind(this), this.isVisible ? 500 : 500);
+            this.timeoutID = setTimeout(this.blinkingText.bind(this), this.isVisible ? 500 : 500);
         }
     }
 
@@ -134,7 +135,7 @@ class ConsoleText{
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.renderMessage();
         this.renderLines();
-        setTimeout(this.loop.bind(this), changeTime);
+        this.timeoutID = setTimeout(this.loop.bind(this), changeTime);
     }
 }
 

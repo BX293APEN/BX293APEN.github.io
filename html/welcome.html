@@ -222,7 +222,7 @@
         <script src="../view/embeddedHTML.js"></script>
         <script>
             new Search(model.bookmarkData);
-            new ConsoleText(
+            let consoleText = new ConsoleText(
                 'consoleText',
                 [
                     "",
@@ -240,10 +240,39 @@
                     "|"
                 ],
                 false,
-                window.screen.width,
+                window.innerWidth,
                 75,
                 "3rem",
                 "Cascadia Mono",
+            );
+            window.addEventListener(
+                'resize', 
+                function(){
+                    clearTimeout(consoleText.timeoutID);
+                    consoleText = new ConsoleText(
+                        'consoleText',
+                        [
+                            "",
+                            "ようこそ ",
+                            "Welcome to PENSite ",
+                            "",
+                            "PENSite"
+                        ],
+                        [
+                            "|",
+                            "|",
+                            "|",
+                            "|",
+                            "|",
+                            "|"
+                        ],
+                        false,
+                        window.innerWidth,
+                        75,
+                        "3rem",
+                        "Cascadia Mono",
+                    );
+                }
             );
             embedded_html("../template/tips.html", "tips");
             embedded_html("../template/styleConfig.html", "styleList");
