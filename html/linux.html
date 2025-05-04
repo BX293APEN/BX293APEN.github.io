@@ -4,20 +4,11 @@
         <meta charset="UTF-8">
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">-->
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/index/index.css" rel="stylesheet">
-        <link href="../css/welcome/welcome.css" rel="stylesheet">
-        <link href="../css/carousel.css" rel="stylesheet">
-        <link href="../css/blog.css" rel="stylesheet">
-        <link rel="icon" href="../img/PEN.ico">
-        <link rel="stylesheet" href="../css/default.min.css">
-        <script src="../view/highlight.min.js"></script>
         <script src="../model/index/index.js"></script>
-
         <title>Linuxセットアップガイド</title>
     </head>
     <body>
+        <div id="styleList"></div>
         <header data-bs-theme="dark">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                 <div class="container-fluid">
@@ -191,6 +182,7 @@ chmod 600 authorized_keys</code></pre>
         <script src="../view/bootstrap.bundle.min.js"></script>
         <script src="../view/search.js"></script>
         <script src="../view/embeddedHTML.js"></script>
+        <script src="../view/highlight.min.js"></script>
         <script>
             new Search(model.bookmarkData);
             embedded_html("../template/tips.html", "tips");
