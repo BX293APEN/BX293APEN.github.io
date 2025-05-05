@@ -5,7 +5,7 @@ window.addEventListener(
             function() {
                 document.getElementById("loadingScreen").style.display = "none";
             }, 
-            300
+            500
         );
     }
 );

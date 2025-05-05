@@ -1,4 +1,4 @@
-function active_nav(id = "home", time = 200){
+function active_nav(id = "home", time = 300){
     return function(){
         setTimeout(
             function() {
