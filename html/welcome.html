@@ -162,6 +162,7 @@
         <script async src="../view/widgets.js" charset="utf-8"></script>
         <script src="../view/consoletext.js"></script>
         <script src="../view/embeddedHTML.js"></script>
+        <script src="../view/activenav.js"></script>
         <script>
             let consoleText = new ConsoleText(
                 'consoleText',
@@ -219,16 +220,7 @@
             embedded_html("../template/styleConfig.html", "styleList");
             embedded_html("../template/header.html", "header-contents");
             embedded_html("../template/footer.html", "footer-contents");
-            window.onload = function () {
-                setTimeout(
-                    function() {
-                        let activeNav = document.getElementById('works');
-                        activeNav.classList.add('active');
-                        new Search(model.bookmarkData);
-                    }, 
-                    100
-                );
-            }
+            window.onload = active_nav("works");
         </script>
     </footer>
 </html>
