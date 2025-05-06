@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../model/index/index.js"></script>
+        <div id="styleList"></div>
+        <link href="../css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="../view/loading.js"></script>
+        <title>Pythonの環境構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            Pythonの環境構築
+                        </h3>
+                        <article class="blog-post">
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                インストール方法
+                            </h4>
+                            <a href ="https://www.python.org/"> 
+                                <img src="../img/Python-Dark.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://www.python.org/"> 
+                                <b>Install</b>
+                            </a>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                Cupy
+                            </h4>
+
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold">
+                                NVIDIA CUDA Toolkit
+                            </h5>
+                            <a href ="https://developer.nvidia.com/cuda-downloads"> 
+                                <img src="../img/nvidia.png" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://developer.nvidia.com/cuda-downloads"> 
+                                <b>Install</b>
+                            </a>
+
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold">
+                                Cupy Install
+                            </h5>
+                            <img src="../img/cupy.png" width = "100" />
+                            <pre><code class="language-bash">pip install cupy-cuda12x</code></pre>
+                            
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                pipが破損した場合
+                            </h4>
+                            <pre><code class="language-bash">mkdir %userprofile%\python # フォルダ作成(初回のみ)
+curl -sSL https://bootstrap.pypa.io/get-pip.py -o %userprofile%\python\get-pip.py
+python %userprofile%\python\get-pip.py
+py -m pip install --upgrade pip --user</code></pre>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                pipパッケージの更新
+                            </h4>
+
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold">
+                                pip-reviewのインストール
+                            </h5>
+                            <pre><code class="language-bash">pip install pip-review</code></pre>
+
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold">
+                                パッケージのアップデート
+                            </h5>
+                            <pre><code class="language-bash">pip-review --auto</code></pre>
+                            
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="../view/bootstrap.bundle.min.js"></script>
+        <script src="../view/search.js"></script>
+        <script src="../view/embeddedHTML.js"></script>
+        <script src="../view/highlight.min.js"></script>
+        <script src="../view/activenav.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("../template/tips.html", "tips");
+            embedded_html("../template/styleConfig.html", "styleList");
+            embedded_html("../template/header.html", "header-contents");
+            embedded_html("../template/footer.html", "footer-contents");
+            window.onload = active_nav("works");
+        </script>
+    </footer>
+</html>
