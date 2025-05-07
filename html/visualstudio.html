@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../model/index/index.js"></script>
+        <div id="styleList"></div>
+        <link href="../css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="../view/loading.js"></script>
+        <title>Visual Studio Tips</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Visual Studio
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="setup">
+                                Visual Studioのセットアップ
+                            </h3>
+                            <p>
+                                &emsp;プログラムにアイコン等を付与したり、ソースコードが大規模になった場合、フレームワークを利用すると管理が容易になります。 今回は、C言語を動かす環境を構築します。
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                1. インストール
+                            </h4>
+                            <p>
+                                &emsp;Visual Studio Communityをインストールする
+                            </p>
+                            <a href ="https://visualstudio.microsoft.com/ja/"> 
+                                <img src="../img/VisualStudio-Dark.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://visualstudio.microsoft.com/ja/"> 
+                                <b>Install</b>
+                            </a>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                2. 必要なコンポーネント(ワークロード)を選択
+                            </h4>
+                            <p>
+                                &emsp;今回は、「C++によるデスクトップ開発」を選択する
+                            </p>
+                            <img src="../img/VisualStudio/visualstudio1.png" width = "100%"/>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="project">
+                                プロジェクトの作成
+                            </h3>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                1. 「新しいプロジェクトの作成」を選択
+                            </h4>
+                            <img src="../img/VisualStudio/visualstudio2.png" width = "100%"/>
+                            
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                2. テンプレートを選択
+                            </h4>
+                            <p>
+                                &emsp;今回は、「Windowsデスクトップウィザード」を選択する
+                            </p>
+                            <img src="../img/VisualStudio/visualstudio3.png" width = "100%"/>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                3. プロジェクトの名前と場所を決める
+                            </h4>
+                            <p>
+                                &emsp;「ソリューションとプロジェクトを同じディレクトリに配置する」にもチェックを入れましょう。
+                            </p>
+                            <img src="../img/VisualStudio/visualstudio4.png" width = "100%"/>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                「空のプロジェクト」を選択してOK
+                            </h4>
+                            <p>
+                                &emsp;これでプロジェクトが作成されます
+                            </p>
+                            <img src="../img/VisualStudio/visualstudio5.png" width = "100%"/>
+                            
+                        </article>
+                        
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="createFile">
+                                ファイルの作成
+                            </h3>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                1. ソリューションエクスプローラの「ソースファイル」を右クリック
+                            </h4>
+                            <img src="../img/VisualStudio/visualstudio6.png" width = "80%"/>
+                            
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                2. 「追加」→「新しい項目」を選択
+                            </h4>
+                            <img src="../img/VisualStudio/visualstudio7.png" width = "100%"/>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                3. ファイル名と拡張子を変更し、「追加」を押す
+                            </h4>
+                            <p>
+                                &emsp;C言語の場合は拡張子を <code>.c</code> にする
+                            </p>
+                            <img src="../img/VisualStudio/visualstudio8.png" width = "60%"/>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold" id="programming">
+                                4. プログラミング
+                            </h4>
+                            <p>
+                                &emsp;正しく環境構築出来ているか確認しましょう
+                            </p>
+                            <pre><code class="language-c">#include &lt;stdio.h&gt;          // printf関数等を使えるようにする
+int main(
+    int argc,               // コマンドの引数の数 
+    char* argv[]            // コマンドの引数を入れる配列
+) {
+    printf("Hello World!"); // 表示
+    return 0;               // 正常終了 : 0 (0以外はエラーコード)
+}</code></pre>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                5. デバッグ
+                            </h4>
+                            <p>
+                                &emsp;メニューバーの「デバッグ」を押した後、「デバッグなしで開始」を選択しましょう。「Hello World!」と表示されれば成功です。
+                            </p>
+                            <img src="../img/VisualStudio/visualstudio9.png" width = "60%"/>
+
+                            <h5 class="pt-3 mt-3 fw-bold">
+                                成功画像
+                            </h5>
+                            <img src="../img/VisualStudio/success.png" width = "100%"/>
+                            
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="sdl">
+                                SDLチェックの無効化
+                            </h3>
+                            <p>
+                                &emsp;実験等のために、あえて脆弱性のある関数を使用する場合はSDLチェックを無効化しなければなりません
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                1. メニューバーの「プロジェクト」→ 「[プロジェクト名]のプロパティ」を選択
+                            </h4>
+                            <img src="../img/VisualStudio/visualstudio10.png" width = "60%"/>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                2. 「C/C++」→「全般」→「SDLチェック」が「はい」になっていたら「いいえ」に変更し、「OK」
+                            </h4>
+                            <img src="../img/VisualStudio/visualstudio11.png" width = "100%"/>
+
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="exportFile">
+                                ソースコードの出力
+                            </h3>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                メニューバーの「ファイル」→ 「名前を付けて保存」を選択
+                            </h4>
+                            <img src="../img/VisualStudio/visualstudio12.png" width = "60%"/>
+
+                        </article>
+
+                            
+                            
+                        
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#setup">Visual Studioのセットアップ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#project">プロジェクトの作成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#createFile">ファイルの作成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#programming">プログラミング/デバッグ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sdl">SDLチェックの無効化</a>
+                                    </li>
+                                    <li>
+                                        <a href="#exportFile">ソースコードの出力</a>
+                                    </li>
+    
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="../view/bootstrap.bundle.min.js"></script>
+        <script src="../view/search.js"></script>
+        <script src="../view/embeddedHTML.js"></script>
+        <script src="../view/highlight.min.js"></script>
+        <script src="../view/activenav.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("../template/tips.html", "tips");
+            embedded_html("../template/styleConfig.html", "styleList");
+            embedded_html("../template/header.html", "header-contents");
+            embedded_html("../template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("works"));
+        </script>
+    </footer>
+</html>
