@@ -4,71 +4,19 @@
         <meta charset="UTF-8">
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="../model/index/index.js"></script>
+        <script src="/model/index/index.js"></script>
         <div id="styleList"></div>
-        <link href="../css/loading.css" rel="stylesheet">
+        <link href="/css/loading.css" rel="stylesheet">
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
         </div>
-        <script src="../view/loading.js"></script>
+        <script src="/view/loading.js"></script>
         <title>BX293A_PEN</title>
     </head>
     <body>
         <div id="header-contents"></div>
-        <canvas id = 'consoleText' class="pt-3"></canvas>
         <div class="container pt-3">
             <main>
-                <div class="row mb-2 border-bottom py-3">
-                    <div class="col-md-6">
-                        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                            <div class="col p-4 d-flex flex-column position-static">
-                                <strong class="d-inline-block mb-2 text-success-emphasis">
-                                    Profile
-                                </strong>
-                                <a href="https://github.com/BX293APEN/BX293APEN">
-                                    <img class="bd-placeholder-img" 
-                                        width = "100%"
-                                        src="https://github-readme-stats.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN" 
-                                        aria-label="プロフィール" 
-                                        preserveAspectRatio="xMidYMid slice" focusable="false"
-                                    />
-                                </a>
-                            </div>
-                            <div class="col-auto d-none d-lg-block">
-                                <img class="bd-placeholder-img" 
-                                    height="250"
-                                    src="https://github-readme-stats.vercel.app/api/top-langs/?username=BX293APEN&theme=github_dark" 
-                                    aria-label="よく使う言語" 
-                                    preserveAspectRatio="xMidYMid slice" focusable="false"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                            <div class="col p-4 d-flex flex-column position-static">
-                                <strong class="d-inline-block mb-2 text-success-emphasis">Webページのソースコード</strong>
-                                <a href="https://github.com/BX293APEN/BX293APEN.github.io">
-                                    <img class="bd-placeholder-img" 
-                                        width = "100%"
-                                        src="https://github-readme-stats.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN.github.io" 
-                                        aria-label="Webページのソースコード" 
-                                        preserveAspectRatio="xMidYMid slice" focusable="false"
-                                    />
-                                </a>
-                            </div>
-                            <div class="col-auto d-none d-lg-block">
-                                <img class="bd-placeholder-img" 
-                                    width="200"
-                                    src="../img/PEN.ico" 
-                                    aria-label="PENSite" 
-                                    preserveAspectRatio="xMidYMid slice" focusable="false"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
                 <div class="row g-5">
                     <div class="col-md-8">
                         <h3 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
@@ -83,9 +31,7 @@
                         </article>
                     
                     </div>
-                
-                    
-                
+
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4 mb-3 bg-body-tertiary rounded">
@@ -119,25 +65,6 @@
                                 </ul>
                             </div>
 
-                            <div id="tips"></div>
-                            
-                            <div>
-                                <h4 class="fst-italic">Works</h4>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="https://github.com/BX293APEN/aiccmd">
-                                            <img class="bd-placeholder-img" 
-                                                width="100%"
-                                                src="https://github-readme-stats.vercel.app/api/pin/?username=BX293APEN&repo=aiccmd" 
-                                                aria-label="AiC CMD Script" 
-                                                preserveAspectRatio="xMidYMid slice" focusable="false"
-                                            />
-                                        </a>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-
 
                             <div class="p-4">
                                 <h4 class="fst-italic border-bottom">Archives</h4>
@@ -156,72 +83,16 @@
         </div>
     </body>
     <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
-        <script src="../view/bootstrap.bundle.min.js"></script>
-        <script src="../view/search.js"></script>
-        <script async src="../view/widgets.js" charset="utf-8"></script>
-        <script src="../view/consoletext.js"></script>
-        <script src="../view/embeddedHTML.js"></script>
-        <script src="../view/activenav.js"></script>
-        <script src="../view/disp.js"></script>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script async src="/view/widgets.js" charset="utf-8"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/activenav.js"></script>
         <script>
-            let consoleText = new ConsoleText(
-                'consoleText',
-                [
-                    "",
-                    "ようこそ ",
-                    "Welcome to PENSite ",
-                    "",
-                    "PENSite"
-                ],
-                [
-                    "|",
-                    "|",
-                    "|",
-                    "|",
-                    "|",
-                    "|"
-                ],
-                false,
-                window.innerWidth,
-                75,
-                "3rem",
-                "Cascadia Mono",
-            );
-            window.addEventListener(
-                'resize', 
-                function(){
-                    clearTimeout(consoleText.timeoutID);
-                    consoleText = new ConsoleText(
-                        'consoleText',
-                        [
-                            "",
-                            "ようこそ ",
-                            "Welcome to PENSite ",
-                            "",
-                            "PENSite"
-                        ],
-                        [
-                            "|",
-                            "|",
-                            "|",
-                            "|",
-                            "|",
-                            "|"
-                        ],
-                        false,
-                        window.innerWidth,
-                        75,
-                        "3rem",
-                        "Cascadia Mono",
-                    );
-                }
-            );
-            embedded_html("../template/tips.html", "tips");
-            embedded_html("../template/styleConfig.html", "styleList");
-            embedded_html("../template/header.html", "header-contents");
-            embedded_html("../template/footer.html", "footer-contents");
-            window.addEventListener("load", active_nav("works"));
-            window.addEventListener("load", element_disp(["githubTip", "vimTip", "linuxTip", "pythonTip", "rn4020Tip"],[]));
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("blog"));
         </script>
     </footer>
 </html>

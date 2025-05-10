@@ -4,13 +4,13 @@
         <meta charset="UTF-8">
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="../model/index/index.js"></script>
+        <script src="/model/index/index.js"></script>
         <div id="styleList"></div>
-        <link href="../css/loading.css" rel="stylesheet">
+        <link href="/css/loading.css" rel="stylesheet">
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
         </div>
-        <script src="../view/loading.js"></script>
+        <script src="/view/loading.js"></script>
         <title>RN4020</title>
     </head>
     <body>
@@ -26,7 +26,7 @@
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
                                 RN4020使い方ガイド
                             </h3>
-                            <img src = "../img/RN4020.png" width="100%">
+                            <img src = "/img/RN4020.png" width="100%">
                             <p class="text-center fw-bold">
                                 ピンアサイン
                             </p>
@@ -283,18 +283,18 @@
         </div>
     </body>
     <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
-        <script src="../view/bootstrap.bundle.min.js"></script>
-        <script src="../view/search.js"></script>
-        <script src="../view/embeddedHTML.js"></script>
-        <script src="../view/highlight.min.js"></script>
-        <script src="../view/activenav.js"></script>
-        <script src="../view/disp.js"></script>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/disp.js"></script>
         <script>
             hljs.highlightAll();
-            embedded_html("../template/tips.html", "tips");
-            embedded_html("../template/styleConfig.html", "styleList");
-            embedded_html("../template/header.html", "header-contents");
-            embedded_html("../template/footer.html", "footer-contents");
+            embedded_html("/template/tips.html", "tips");
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
 
             window.addEventListener("load", element_disp(["linuxTip", "pythonTip", "vimTip"],[]));
