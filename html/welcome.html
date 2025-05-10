@@ -162,6 +162,7 @@
         <script src="../view/consoletext.js"></script>
         <script src="../view/embeddedHTML.js"></script>
         <script src="../view/activenav.js"></script>
+        <script src="../view/disp.js"></script>
         <script>
             let consoleText = new ConsoleText(
                 'consoleText',
@@ -220,6 +221,7 @@
             embedded_html("../template/header.html", "header-contents");
             embedded_html("../template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("works"));
+            window.addEventListener("load", element_disp([],["visualstudioTip"]));
         </script>
     </footer>
 </html>
