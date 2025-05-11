@@ -40,7 +40,11 @@
                                     エディタ
                                 </div>
                                 <pre><code class="language-bash">alias addcmd="nano ~/.bashrc"
-alias linux_update="sudo apt update&&sudo apt upgrade -y&&sudo apt autoremove -y"</code></pre>
+alias linux_update="sudo apt update&&sudo apt upgrade -y&&sudo apt autoremove -y"
+
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'</code></pre>
                             </p>
 
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
@@ -137,7 +141,108 @@ date # 確認</code></pre>
 
 
                         </article>
-                    
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                修復コマンド
+                            </h3>
+
+                            <p>
+                                <div class="fw-bold">
+                                    Windows
+                                </div>
+                                <pre><code class="language-bash">sfc /scannow
+dism /online /cleanup-image /restorehealth</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    Linux
+                                </div>
+                                <pre><code class="language-bash">sudo debsums -s
+sudo touch /forcefsck
+                                </code></pre>
+                            </p>
+
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                ログクリア
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo logrotate -f /etc/logrotate.conf</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                トリム
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo fstrim -av</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Raspberry Pi
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                I2C確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">i2cdetect -y 1</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                仮想メモリサイズの変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo swapon --show #現在の仮想メモリサイズを確認
+sudo dphys-swapfile swapoff # 仮想メモリの使用を中止
+sudo nano /etc/dphys-swapfile</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">CONF_SWAPSIZE=2048</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                RTCの電圧確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cat /sys/devices/platform/soc/soc\:rpi_rtc/rtc/rtc0/battery_voltage</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                UIの修復
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">startx
+sudo apt install raspberrypi-ui-mods</code></pre>
+                            </p>
+                        </article>
+
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
