@@ -282,10 +282,28 @@ graph LR
         <script src="view/embeddedHTML.js"></script>
         <script src="view/activenav.js"></script>
         <script>
-            new MatrixDraw("matrix", 10, "HGPゴシックE", undefined, window.screen.width);
-            new JJYGenerate(undefined,"jjyCode");
+            new MatrixDraw(
+                {
+                    "canvasName"    : "matrix", 
+                    "charSize"      : 10, 
+                    "fontFamily"    : "HGPゴシックE", 
+                    "width"         : window.screen.width
+                }
+            );
+            new JJYGenerate(
+                {
+                    "jjyCanvas" : "jjyCode"
+                }
+            );
             new GetWeather("weather", "weather-place");
-            new MermaidUML("drawUML", "sourceUML", "umlDownload", "uml");
+            new MermaidUML(
+                {
+                    "umlPlace"  : "drawUML", 
+                    "umlSource" : "sourceUML", 
+                    "dl"        : "umlDownload", 
+                    "umlName"   : "uml"
+                }
+            );
             embedded_html("template/styleConfig.html", "styleList");
             embedded_html("template/header.html", "header-contents");
             embedded_html("template/footer.html", "footer-contents");

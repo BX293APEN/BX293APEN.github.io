@@ -1,10 +1,12 @@
 class JJYGenerate {
     constructor(
-        controlButton           = "control-button", 
-        jjyCanvas               = "canvas", 
-        nowtimeID               = "time", 
-        summerTimeID            = "summer-time",
-        freq                    = 13333
+        {
+            controlButton           = "control-button", 
+            jjyCanvas               = "canvas", 
+            nowtimeID               = "time", 
+            summerTimeID            = "summer-time",
+            freq                    = 13333
+        } = {}
     ) {
         this.freq               = freq;
         this.AudioContext       = window.AudioContext || window.webkitAudioContext;

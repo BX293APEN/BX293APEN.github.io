@@ -296,8 +296,14 @@
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-
-            window.addEventListener("load", element_disp(["linuxTip", "pythonTip", "vimTip"],[]));
+            window.addEventListener(
+                "load", 
+                element_disp(
+                    {
+                        "dispIDList" : ["linuxTip", "pythonTip", "vimTip"]
+                    }
+                )
+            );
         </script>
     </footer>
 </html>

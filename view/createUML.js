@@ -1,5 +1,12 @@
 class MermaidUML{
-    constructor (umlPlace, umlSource, dl, umlName){
+    constructor (
+        {
+            umlPlace, 
+            umlSource, 
+            dl, 
+            umlName
+        }={}
+    ){
         this.uml    = document.getElementById(umlPlace);
         this.src    = document.getElementById(umlSource);
         this.dl     = document.getElementById(dl);
