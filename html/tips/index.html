@@ -210,27 +210,29 @@
                 function(){
                     clearTimeout(consoleText.timeoutID);
                     consoleText = new ConsoleText(
-                        'consoleText',
-                        [
-                            "",
-                            "ようこそ ",
-                            "Welcome to PENSite ",
-                            "",
-                            "PENSite"
-                        ],
-                        [
-                            "|",
-                            "|",
-                            "|",
-                            "|",
-                            "|",
-                            "|"
-                        ],
-                        false,
-                        window.innerWidth,
-                        75,
-                        "3rem",
-                        "Cascadia Mono",
+                        {
+                            "canvasName"    : 'consoleText',
+                            "textList"      : [
+                                "",
+                                "ようこそ ",
+                                "Welcome to PENSite ",
+                                "",
+                                "PENSite"
+                            ],
+                            "cursorList"    : [
+                                "|",
+                                "|",
+                                "|",
+                                "|",
+                                "|",
+                                "|"
+                            ],
+                            "isLoop"        : false,
+                            "width"         : window.innerWidth,
+                            "height"        : 75,
+                            "fontSize"      : "3rem",
+                            "fontFamily"    : "Cascadia Mono",
+                        }
                     );
                 }
             );

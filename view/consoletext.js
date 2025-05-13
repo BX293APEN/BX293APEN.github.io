@@ -1,20 +1,22 @@
 class ConsoleText{
     constructor (
-        canvasName          = 'consoleText',
-        textList            = ["Hello World!"],
-        cursorList          = ["_"],
-        isLoop             = false,
-        width               = 400,
-        height              = 58,
-        fontSize            = "20px",
-        fontFamily          = "monospace",
-        fontColor           = 'rgba(0, 255, 0, 1)',
-        fontShadowColor     = 'rgba(0, 0, 0, .3)',
-        bgColor             = "#101010",
-        bgShadowColor       = "#191919",
-        shadowColor         = '#3f3',
-        changeInterval      = 800,
-        changeTime          = 10,
+        {
+            canvasName          = 'consoleText',
+            textList            = ["Hello World!"],
+            cursorList          = ["_"],
+            isLoop             = false,
+            width               = 400,
+            height              = 58,
+            fontSize            = "20px",
+            fontFamily          = "monospace",
+            fontColor           = 'rgba(0, 255, 0, 1)',
+            fontShadowColor     = 'rgba(0, 0, 0, .3)',
+            bgColor             = "#101010",
+            bgShadowColor       = "#191919",
+            shadowColor         = '#3f3',
+            changeInterval      = 800,
+            changeTime          = 10,
+        } = {}
     ){
         this.canvas                     = document.getElementById(canvasName);
         this.canvas.style.background    = bgColor;
