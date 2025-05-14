@@ -1,111 +1,88 @@
 class Model {
     constructor(){
-        this.bookmarkData = [
-            {
-                "value" : "https://github.com/BX293APEN",
-                "name" : "GitHub"
+        this.bookmarkData = {
+            "GitHub" : {
+                "href" : "https://github.com/BX293APEN",
             },
-            {
-                "name" :"Bluesky", 
-                "value" : "https://bsky.app/profile/bx293apen.bsky.social"
+            "Bluesky" : {
+                "href" : "https://bsky.app/profile/bx293apen.bsky.social"
             },
-            {
-                "name" : "秋月電子通商",
-                "value" : "https://akizukidenshi.com/catalog/default.aspx"
+            "秋月電子通商" : {
+                "href" : "https://akizukidenshi.com/catalog/default.aspx"
             },
-            {
-                "name" :"Twitter", 
-                "value" : "https://x.com/BX293A_PEN"
+            "Twitter" : { 
+                "href" : "https://x.com/BX293A_PEN"
             },
-            {
-                "name" :"X", 
-                "value" : "https://x.com/BX293A_PEN"
+            "X" : {
+                "href" : "https://x.com/BX293A_PEN"
             },
-            {
-                "name" :"unv", 
-                "value" : "https://kyomuportal.daido-it.ac.jp/uniprove_pt/"
+            "unv" :  {
+                "href" : "https://kyomuportal.daido-it.ac.jp/uniprove_pt/"
             },
-            {
-                "name" :"YouTube", 
-                "value" : "https://www.youtube.com/"
+            "YouTube" : { 
+                "href" : "https://www.youtube.com/"
             },
-            {
-                "name" :"Abema", 
-                "value" : "https://abema.tv/"
+            "Abema" : { 
+                "href" : "https://abema.tv/"
             },
-            {
-                "name" :"Amazon", 
-                "value" : "https://www.amazon.co.jp/"
+            "Amazon" : { 
+                "href" : "https://www.amazon.co.jp/"
             },
-            {
-                "name" :"価格.com", 
-                "value" : "https://kakaku.com/"
+            "価格.com" : { 
+                "href" : "https://kakaku.com/"
             },
-            {
-                "name" :"radiko", 
-                "value" : "https://radiko.jp/#!/timetable"
+            "radiko" : { 
+                "href" : "https://radiko.jp/#!/timetable"
             },
-            {
-                "name" :"セキュリティソフト比較", 
-                "value" : "https://www.av-comparatives.org/"
+            "セキュリティソフト比較" : { 
+                "href" : "https://www.av-comparatives.org/"
             },
-            {
-                "name" :"CPU", 
-                "value" : "https://pcfreebook.com/article/450856544.html"
+            "CPU" : { 
+                "href" : "https://pcfreebook.com/article/450856544.html"
             },
-            {
-                "name" :"lCPU", 
-                "value" : "https://pcfreebook.com/article/458775622.html"
+            "lCPU" : { 
+                "href" : "https://pcfreebook.com/article/458775622.html"
             },
-            {
-                "name" :"phone", 
-                "value" : "https://pcfreebook.com/article/smartfone-cpu-list.html"
+            "phone" : { 
+                "href" : "https://pcfreebook.com/article/smartfone-cpu-list.html"
             },
-            {
-                "name" :"GPU", 
-                "value" : "https://pcfreebook.com/article/459993300.html"
+            "GPU" : { 
+                "href" : "https://pcfreebook.com/article/459993300.html"
             },
-            {
-                "value" : "https://mail.google.com/mail/u/0/#inbox",
-                "name" : 'Gmail'
+            'Gmail' : {
+                "href" : "https://mail.google.com/mail/u/0/#inbox", 
             },
-            {
-                "value" : "https://www.google.co.jp",
-                "name" : 'Google'
+            'Google' : {
+                "href" : "https://www.google.co.jp", 
             },
-            {
-                "value" : "https://www.google.co.jp/imghp?hl=ja&tab=ri&authuser=0&ogbl",
-                "name" : '画像検索'
+            '画像検索' : {
+                "href" : "https://www.google.co.jp/imghp?hl=ja&tab=ri&authuser=0&ogbl", 
             },
-            {
-                "value" : "https://translate.google.com/?lfhs=2",
-                "name" : 'Google翻訳'
+            'Google翻訳' : {
+                "href" : "https://translate.google.com/?lfhs=2", 
             },
-            {
-                "value" : "https://www.google.com/maps?force=tt&source=ttpwa",
-                "name" : 'Google map'
+            'Google map' : {
+                "href" : "https://www.google.com/maps?force=tt&source=ttpwa", 
             },
-            {
-                "value" : "https://earth.google.com/web/?authuser=0",
-                "name" : 'Google Earth'
+            'Google Earth' : {
+                "href" : "https://earth.google.com/web/?authuser=0", 
             },
-            {
-                "value" : "https://fast.com/ja/#",
-                "name" : '回線速度測定'
+            '回線速度測定' : {
+                "href" : "https://fast.com/ja/#", 
             },
-            {
-                "value" : "https://finance.yahoo.com/",
-                "name" : 'Yahoo finance'
+            'Yahoo finance' : {
+                "href" : "https://finance.yahoo.com/", 
             },
-            {
-                "value" : "https://time.is/ja/",
-                "name" : 'TIMEIS'
+            'TIMEIS' : {
+                "href" : "https://time.is/ja/", 
             },
-            {
-                "value" : "https://ja.numberempire.com/9018421",
-                "name" : "num"
+            "num" : {
+                "href" : "https://ja.numberempire.com/9018421", 
             },
-        ]
+        }
+
+        this.bookmarkIndex = Object.keys(this.bookmarkData);
+        this.bookmarkIndex.sort();
 
         this.areaID = [
             {"name" : "北海道", "id" : "016000"},

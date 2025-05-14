@@ -23,9 +23,9 @@ class Search{
     key_press(pressKey){
         if (pressKey.key === "Enter") {
             let url = `https://www.google.com/search?q=${this.searchQuery.value}&udm=14`;
-            for(let alias of this.bookmarkData){
-                if ( alias["name"].toUpperCase().indexOf(this.searchQuery.value.toUpperCase()) != -1) {
-                    url = alias["value"];
+            for(let alias in this.bookmarkData){
+                if ( alias.toUpperCase().indexOf(this.searchQuery.value.toUpperCase()) != -1) {
+                    url = this.bookmarkData[alias]["href"];
                     break;
                 }
             }
