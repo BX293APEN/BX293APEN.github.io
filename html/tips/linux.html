@@ -5,6 +5,8 @@
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
         <div class="loading-container" id="loadingScreen">
@@ -19,14 +21,14 @@
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
-                        <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
                             Linuxセットアップガイド
                         </h2>
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold">
                                 Bash
                             </h3>
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h4 class="pt-4 border-bottom fw-bold" id="alias">
                                 Aliasの設定
                             </h4>
                             <p>
@@ -47,7 +49,7 @@ alias la='ls -A'
 alias l='ls -CF'</code></pre>
                             </p>
 
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="python">
                                 Python
                             </h3>
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -68,7 +70,7 @@ nano ~/.pip/pip.conf    # Legacy</code></pre>
 break-system-packages = true</code></pre>
                             </p>
                             
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="ssh">
                                 SSH
                             </h3>
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -94,7 +96,7 @@ cd .ssh
 chmod 600 authorized_keys</code></pre>
                             </p>
 
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold" id="inputJA">
                                 日本語入力
                             </h3>
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -116,7 +118,7 @@ chmod 600 authorized_keys</code></pre>
                                 <pre><code class="language-bash">sudo apt -y install fonts-noto fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji</code></pre>
                             </p>
 
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold" id ="time">
                                 時刻設定
                             </h3>
                             <p>
@@ -143,7 +145,7 @@ date # 確認</code></pre>
                         </article>
 
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold" id ="recovimg">
                                 修復コマンド
                             </h3>
 
@@ -165,7 +167,7 @@ sudo touch /forcefsck</code></pre>
                         </article>
 
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold" id="logclear">
                                 ログクリア
                             </h3>
                             <p>
@@ -177,7 +179,7 @@ sudo touch /forcefsck</code></pre>
                         </article>
 
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold" id="trim">
                                 トリム
                             </h3>
                             <p>
@@ -189,7 +191,7 @@ sudo touch /forcefsck</code></pre>
                         </article>
 
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "raspi">
                                 Raspberry Pi
                             </h3>
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -230,7 +232,7 @@ sudo nano /etc/dphys-swapfile</code></pre>
                                 <pre><code class="language-bash">cat /sys/devices/platform/soc/soc\:rpi_rtc/rtc/rtc0/battery_voltage</code></pre>
                             </p>
 
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h4 class="pt-4 border-bottom fw-bold" id="raspiUI">
                                 UIの修復
                             </h4>
                             <p>
@@ -245,6 +247,47 @@ sudo apt install raspberrypi-ui-mods</code></pre>
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#alias">Aliasの設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#python">Python</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ssh">SSH</a>
+                                    </li>
+                                    <li>
+                                        <a href="#inputJA">日本語入力</a>
+                                    </li>
+                                    <li>
+                                        <a href="#time">時刻設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#recovimg">修復コマンド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#logclear">ログクリア</a>
+                                    </li>
+                                    <li>
+                                        <a href="#trim">トリム</a>
+                                    </li>
+                                    <li>
+                                        <a href="#raspi">Raspberry Pi</a>
+                                    </li>
+                                    <li>
+                                        <a href="#raspiUI">Raspberry PiのUI修復</a>
+                                    </li>
+
+    
+                                </ol>
+                            </div>
+
                             <div id="tips"></div>
                         </div>
                     </div>
@@ -259,22 +302,14 @@ sudo apt install raspberrypi-ui-mods</code></pre>
         <script src="/view/embeddedHTML.js"></script>
         <script src="/view/highlight.min.js"></script>
         <script src="/view/activenav.js"></script>
-        <script src="/view/disp.js"></script>
+        <script src="/view/tips/tips.js"></script>
         <script>
             hljs.highlightAll();
-            embedded_html("/template/tips.html", "tips");
             embedded_html("/template/styleConfig.html", "styleList");
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-            window.addEventListener(
-                "load", 
-                element_disp(
-                    {
-                        "dispIDList" : ["githubTip", "vimTip", "rn4020Tip", "pythonTip"]
-                    }
-                )
-            );
+            new TipsView(tipsModel, "tips", "tips", ["githubTip", "vimTip", "rn4020Tip", "pythonTip"]);
         </script>
     </footer>
 </html>
