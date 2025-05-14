@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>C/C++ Notes</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            C/C++ Notes
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="overview">
+                                Overview
+                            </h3>
+                            <p>
+                                &emsp;C言語は、1972年にAT&Tベル研究所で開発された汎用プログラミング言語である。<br>
+                                &emsp;高水準言語の特徴を持ちながら、ハードウェア寄りの記述も可能な低水準言語の特徴も併せ持つ。コンパイラ型言語であるため、実行速度が他の言語と比べ速く、資源制約が厳しい場合(組み込み系)や、実行速度性能が要求されるソフトウェア(バックグラウンドアプリケーション等)の開発に用いられることが多い。
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                コンパイラ型言語
+                            </h4>
+                            <p>
+                                &emsp;プログラムの<b>実行前</b>にソースコードを機械語に変換する言語。一度コンパイルしてしまえば、機械語を実行するだけなので、インタプリタ型言語に比べ、実行速度が速い。
+                            </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                インタプリタ型言語
+                            </h4>
+                            <p>
+                                &emsp;ソースコードを<b>1行ずつ</b>機械語に変換しながら実行する言語。翻訳しながら実行するので、コンパイラ型言語に比べ実行速度が遅いが、不具合箇所を特定しやすい。
+                            </p>
+                            
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="overview">
+                                コンパイラ (Windows)
+                            </h3>
+                            <a href="https://github.com/niXman/mingw-builds-binaries/releases">
+                                <img class="bd-placeholder-img" 
+                                    width = "60%"
+                                    src="https://github-readme-stats.vercel.app/api/pin/?username=niXman&repo=mingw-builds-binaries" 
+                                    aria-label="参考文献" 
+                                    preserveAspectRatio="xMidYMid slice" focusable="false"
+                                />
+                            </a><br>
+                            <a 
+                                href="https://github.com/niXman/mingw-builds-binaries/releases"
+                                class="btn btn-bd-primary"
+                            >
+                                GCC コンパイラ
+                            </a><br>
+                            <br>
+                            <img src="/img/C/コンパイラ.png" width = "100%">
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="format">
+                                フォーマット指定子
+                            </h3>
+                            <table class="table table-bordered">
+                                    <tr>
+                                        <th>指定子</th>
+                                        <th>対応する型</th>
+                                        <th>説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%c</code></pre></td>
+                                        <td><pre><code class="language-c">char</code></pre></td>
+                                        <td>
+                                            <b>c</b>haracter<br>
+                                            1文字を出力する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%s</code></pre></td>
+                                        <td><pre><code class="language-c">char *</code></pre></td>
+                                        <td>
+                                            <b>s</b>tring<br>
+                                            文字列を出力する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%d</code></pre></td>
+                                        <td><pre><code class="language-c">int, short</code></pre></td>
+                                        <td>
+                                            <b>d</b>ecimal<br>
+                                            整数を10進数で出力する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%x</code></pre></td>
+                                        <td><pre><code class="language-c">int, short, unsigned int, unsigned short</code></pre></td>
+                                        <td>
+                                            he<b>x</b>adecimal<br>
+                                            整数を16進で出力する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%o</code></pre></td>
+                                        <td><pre><code class="language-c">int, short, unsigned int, unsigned short</code></pre></td>
+                                        <td>
+                                            <b>o</b>ctal<br>
+                                            整数を8進で出力する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%f</code></pre></td>
+                                        <td><pre><code class="language-c">float</code></pre></td>
+                                        <td>
+                                            <b>f</b>loating-point number<br>
+                                            実数を出力する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%e</code></pre></td>
+                                        <td><pre><code class="language-c">float</code></pre></td>
+                                        <td>
+                                            <b>e</b>xponent<br>
+                                            実数を指数表示で出力する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%lf</code></pre></td>
+                                        <td><pre><code class="language-c">double</code></pre></td>
+                                        <td>
+                                            <b>l</b>ong <b>f</b>loating-point number<br>
+                                            倍精度実数を出力する
+                                        </td>
+                                    </tr>
+
+                                </table>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="overview">
+                                プリプロセッサ
+                            </h3>
+                            <p>
+                                &emsp;ソースコードをコンパイルする前に事前処理をさせる。<br>
+                                &emsp;ソースコードの変換や置換を行うことで、開発者の生産性を向上させる。
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                #include
+                            </h4>
+                            <p>
+                                &emsp;ソースコードに別のファイルの内容を組み込む
+                            </p>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>ライブラリファイル</th>
+                                    <th>含まれている関数</th>
+                                    <th>説明</th>
+                                </tr>
+                                <tr>
+                                    <td><pre><code class="language-c">&lt;stdio.h&gt;</code></pre></td>
+                                    <td><pre><code class="language-c">printf();         // 表示
+sprintf();          // 文字列の生成・格納
+scanf(); fgets();   // 入力
+fopen();            // ファイルを開く
+fclose();           // ファイルを閉じる</code></pre></td>
+                                    <td>
+                                        <b>st</b>an<b>d</b>ard <b>i</b>nput <b>o</b>utput<br>
+                                        主に入出力を扱うための関数が含まれている
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><pre><code class="language-c">&lt;stdlib.h&gt;</code></pre></td>
+                                    <td><pre><code class="language-c">system();       //OSのコマンドを実行
+atoi();         //文字列を int 型に変換
+atof();         //文字列を double 型に変換
+rand();         //疑似乱数を生成
+srand();        //乱数の種を設定
+malloc();       //指定サイズのメモリを確保
+calloc();       //ゼロ初期化されたメモリを確保
+realloc();      //メモリサイズを変更
+free();         //確保したメモリを解放
+exit();         //プログラムを終了
+abort();        //異常終了を引き起こす
+bsearch();      //二分探索を行う
+qsort();        //クイックソートを実行
+getenv();       //環境変数の値を取得</code></pre></td>
+                                    <td>
+                                        <b>st</b>an<b>d</b>ard <b>lib</b>rary<br>
+                                        汎用的に役立つ関数が含まれている
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><pre><code class="language-c">&lt;string.h&gt;</code></pre></td>
+                                    <td><pre><code class="language-c">strcmp();     //文字列を比較
+strstr();   //部分文字列を検索
+strtok();   //文字列をトークンに分割
+strlen();   //文字列の長さを取得</code></pre></td>
+                                    <td>
+                                        <b>string</b><br>
+                                        主に文字列操作に関する関数が含まれている
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><pre><code class="language-c">&lt;math.h&gt;</code></pre></td>
+                                    <td><pre><code class="language-c">sin();        //サイン（正弦）
+cos();      //コサイン（余弦）
+tan();      //タンジェント（正接）
+asin();     //アークサイン（逆正弦）
+acos();     //アークコサイン（逆余弦）
+atan();     //アークタンジェント（逆正接）
+atan2();    //2つの値からアークタンジェントを計算
+exp();      //指数関数（e^x）
+log();      //自然対数（ln x）
+log10();    //常用対数（log₁₀ x）
+sqrt();     //平方根
+pow();      //累乗（x^y）
+fabs();     //絶対値
+ceil();     //切り上げ
+floor();    //切り捨て
+round();    //四捨五入</code></pre></td>
+                                    <td>
+                                        <b>math</b>ematics<br>
+                                        主に数学的な計算を行うための関数が含まれている
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                #define
+                            </h4>
+                            <p>
+                                &emsp;ソースコードを置換する。
+                            </p>
+                            
+                        </article>
+                        
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://www.k-cube.co.jp/wakaba/server/format.html">
+                                    <a href="https://www.k-cube.co.jp/wakaba/server/format.html">
+                                        フォーマット指定子一覧
+                                    </a>
+                                </blockquote>
+                            </div>
+
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#overview">Overview</a>
+                                    </li>
+                                    <li>
+                                        <a href="#format">フォーマット指定子</a>
+                                    </li>
+    
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script>
+            hljs.highlightAll();
+            
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["githubTip", "visualstudioTip", "pythonTip"]);
+        </script>
+    </footer>
+</html>

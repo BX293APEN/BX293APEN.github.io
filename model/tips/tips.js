@@ -49,6 +49,13 @@ class TipsModel {
                 "svg"       : true
 
             },
+            "cTip" :{
+                "href"      : "/html/tips/c.html",
+                "imgSrc"    : "/img/C.svg", 
+                "title"     : "C/C++ Notes",
+                "text"      : "&emsp;C言語を学ぶことで、コンピュータの深淵を覗くことが出来ます。",
+                "svg"       : true
+            }
 
         }
         this.tipsIndex = Object.keys(this.tipsData);
