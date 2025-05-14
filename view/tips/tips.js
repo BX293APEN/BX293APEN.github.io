@@ -84,7 +84,7 @@ class TipsView{
                     aTag.href                   = model.tipsData[tipID]["href"];
 
                     let imgTag                  = document.createElement("img");
-                    imgTag.src                  = model.tipsData[tipID]["imgSrc"]; // src="https://skillicons.dev/icons?i=github"
+                    imgTag.src                  = model.tipsData[tipID]["imgSrc"];
                     imgTag.classList.add("bd-placeholder-img");
                     imgTag.ariaHidden           = "true";
 

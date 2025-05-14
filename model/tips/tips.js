@@ -1,4 +1,4 @@
-class TipsModel {
+class TipsModel { // img src="https://skillicons.dev/icons?i=github"
     constructor(){
         this.tipsData = {
             "githubTip" : {
