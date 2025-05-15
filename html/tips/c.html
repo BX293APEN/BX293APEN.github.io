@@ -53,20 +53,20 @@
                                 コンパイラ (Windows)
                             </h3>
                             <a href="https://github.com/niXman/mingw-builds-binaries/releases">
-                                <img class="bd-placeholder-img" 
-                                    width = "60%"
+                                <img class="bd-placeholder-img pt-3 w-50" 
                                     src="https://github-readme-stats.vercel.app/api/pin/?username=niXman&repo=mingw-builds-binaries" 
                                     aria-label="参考文献" 
                                     preserveAspectRatio="xMidYMid slice" focusable="false"
                                 />
-                            </a><br>
-                            <a 
-                                href="https://github.com/niXman/mingw-builds-binaries/releases"
-                                class="btn btn-bd-primary"
-                            >
-                                GCC コンパイラ
-                            </a><br>
-                            <br>
+                            </a>
+                            <div class="text-center pb-3">
+                                <a 
+                                    href="https://github.com/niXman/mingw-builds-binaries/releases"
+                                    class="btn btn-bd-primary"
+                                >
+                                    GCC コンパイラ
+                                </a>
+                            </div>
                             <img src="/img/C/コンパイラ.png" width = "100%">
                         </article>
 
@@ -74,11 +74,12 @@
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="format">
                                 フォーマット指定子
                             </h3>
-                            <table class="table table-bordered">
+                            <div class="m-5 table-responsive">
+                                <table class="table table-bordered w-100">
                                     <tr>
-                                        <th>指定子</th>
-                                        <th>対応する型</th>
-                                        <th>説明</th>
+                                        <th scope="col">指定子</th>
+                                        <th scope="col">対応する型</th>
+                                        <th scope="col">説明</th>
                                     </tr>
                                     <tr>
                                         <td><pre><code class="language-c">%c</code></pre></td>
@@ -98,7 +99,8 @@
                                     </tr>
                                     <tr>
                                         <td><pre><code class="language-c">%d</code></pre></td>
-                                        <td><pre><code class="language-c">int, short</code></pre></td>
+                                        <td><pre><code class="language-c">int 
+short</code></pre></td>
                                         <td>
                                             <b>d</b>ecimal<br>
                                             整数を10進数として入出力する
@@ -106,7 +108,10 @@
                                     </tr>
                                     <tr>
                                         <td><pre><code class="language-c">%x</code></pre></td>
-                                        <td><pre><code class="language-c">int, short, unsigned int, unsigned short</code></pre></td>
+                                        <td><pre><code class="language-c">int
+short
+unsigned int
+unsigned short</code></pre></td>
                                         <td>
                                             he<b>x</b>adecimal<br>
                                             整数を16進数として入出力する
@@ -114,7 +119,10 @@
                                     </tr>
                                     <tr>
                                         <td><pre><code class="language-c">%o</code></pre></td>
-                                        <td><pre><code class="language-c">int, short, unsigned int, unsigned short</code></pre></td>
+                                        <td><pre><code class="language-c">int
+short
+unsigned int
+unsigned short</code></pre></td>
                                         <td>
                                             <b>o</b>ctal<br>
                                             整数を8進数として入出力する
@@ -133,7 +141,7 @@
                                         <td><pre><code class="language-c">float</code></pre></td>
                                         <td>
                                             <b>e</b>xponent<br>
-                                            実数を指数表示で入出力する
+                                            実数を指数表示で出力する
                                         </td>
                                     </tr>
                                     <tr>
@@ -144,8 +152,17 @@
                                             倍精度実数を入出力する
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%p</code></pre></td>
+                                        <td><pre><code class="language-c">void *</code></pre></td>
+                                        <td>
+                                            <b>p</b>ointer<br>
+                                            ポインタのアドレスを入出力する
+                                        </td>
+                                    </tr>
 
                                 </table>
+                            </div>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="overview">
@@ -162,66 +179,69 @@
                             <p>
                                 &emsp;ソースコードに別のファイルの内容を組み込む
                             </p>
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th>ライブラリファイル</th>
-                                    <th>含まれている関数</th>
-                                    <th>説明</th>
-                                </tr>
-                                <tr>
-                                    <td><pre><code class="language-c">&lt;stdio.h&gt;</code></pre></td>
-                                    <td><pre><code class="language-c">printf();         // 表示
-sprintf();          // 文字列の生成・格納
-scanf(); fgets();   // 入力
-fopen();            // ファイルを開く
-fclose();           // ファイルを閉じる</code></pre></td>
-                                    <td>
-                                        <b>st</b>an<b>d</b>ard <b>i</b>nput <b>o</b>utput<br>
-                                        主に入出力を扱うための関数が含まれている
-                                    </td>
-                                </tr>
+                            <div class="m-5 table-responsive">
+                                <table class="table table-bordered w-100">
+                                    <tr>
+                                        <th scope="col">ライブラリファイル</th>
+                                        <th scope="col">含まれている関数</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&lt;stdio.h&gt;</code></pre></td>
+                                        <td><pre><code class="language-c">printf();   // 表示
+sprintf();  // 文字列の生成・格納
+scanf();    // 入力
+fgets();    // 入力
+fopen();    // ファイルを開く
+fclose();   // ファイルを閉じる</code></pre></td>
+                                        <td>
+                                            <b>st</b>an<b>d</b>ard <b>i</b>nput <b>o</b>utput<br>
+                                            主に入出力を扱うための関数が含まれている
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td><pre><code class="language-c">&lt;stdlib.h&gt;</code></pre></td>
-                                    <td><pre><code class="language-c">system();       //OSのコマンドを実行
-atoi();         //文字列を int 型に変換
-atof();         //文字列を double 型に変換
-rand();         //疑似乱数を生成
-srand();        //乱数の種を設定
-malloc();       //指定サイズのメモリを確保
-calloc();       //ゼロ初期化されたメモリを確保
-realloc();      //メモリサイズを変更
-free();         //確保したメモリを解放
-exit();         //プログラムを終了
-abort();        //異常終了を引き起こす
-bsearch();      //二分探索を行う
-qsort();        //クイックソートを実行
-getenv();       //環境変数の値を取得</code></pre></td>
-                                    <td>
-                                        <b>st</b>an<b>d</b>ard <b>lib</b>rary<br>
-                                        汎用的に役立つ関数が含まれている
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><pre><code class="language-c">&lt;string.h&gt;</code></pre></td>
-                                    <td><pre><code class="language-c">strcmp();     //文字列を比較
+                                    <tr>
+                                        <td><pre><code class="language-c">&lt;stdlib.h&gt;</code></pre></td>
+                                        <td><pre><code class="language-c">system();   //OSのコマンドを実行
+atoi();     //文字列を int 型に変換
+atof();     //文字列を double 型に変換
+rand();     //疑似乱数を生成
+srand();    //乱数の種を設定
+malloc();   //指定サイズのメモリを確保
+calloc();   //ゼロ初期化されたメモリを確保
+realloc();  //メモリサイズを変更
+free();     //確保したメモリを解放
+exit();     //プログラムを終了
+abort();    //異常終了を引き起こす
+bsearch();  //二分探索を行う
+qsort();    //クイックソートを実行
+getenv();   //環境変数の値を取得</code></pre></td>
+                                        <td>
+                                            <b>st</b>an<b>d</b>ard <b>lib</b>rary<br>
+                                            汎用的に役立つ関数が含まれている
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&lt;string.h&gt;</code></pre></td>
+                                        <td><pre><code class="language-c">strcmp();   //文字列を比較
 strstr();   //部分文字列を検索
 strtok();   //文字列をトークンに分割
 strlen();   //文字列の長さを取得</code></pre></td>
-                                    <td>
-                                        <b>string</b><br>
-                                        主に文字列操作に関する関数が含まれている
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><pre><code class="language-c">&lt;math.h&gt;</code></pre></td>
-                                    <td><pre><code class="language-c">sin();        //サイン（正弦）
+                                        <td>
+                                            <b>string</b><br>
+                                            主に文字列操作に関する関数が含まれている
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&lt;math.h&gt;</code></pre></td>
+                                        <td><pre><code class="language-c">sin();      //サイン（正弦）
 cos();      //コサイン（余弦）
 tan();      //タンジェント（正接）
 asin();     //アークサイン（逆正弦）
 acos();     //アークコサイン（逆余弦）
 atan();     //アークタンジェント（逆正接）
-atan2();    //2つの値からアークタンジェントを計算
+atan2();    //2つの値から
+            //アークタンジェントを計算
 exp();      //指数関数（e^x）
 log();      //自然対数（ln x）
 log10();    //常用対数（log₁₀ x）
@@ -231,13 +251,15 @@ fabs();     //絶対値
 ceil();     //切り上げ
 floor();    //切り捨て
 round();    //四捨五入</code></pre></td>
-                                    <td>
-                                        <b>math</b>ematics<br>
-                                        主に数学的な計算を行うための関数が含まれている
-                                    </td>
-                                </tr>
-
-                            </table>
+                                        <td>
+                                            <b>math</b>ematics<br>
+                                            主に数学的な計算を行うための関数が含まれている
+                                        </td>
+                                    </tr>
+                                
+                                </table>
+                            </div>
+                            
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
                                 #define
                             </h4>
