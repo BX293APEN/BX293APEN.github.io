@@ -244,6 +244,55 @@ sudo apt install raspberrypi-ui-mods</code></pre>
                             </p>
                         </article>
 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "nas">
+                                NASの接続
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                接続確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install -y cifs-utils
+sudo mkdir -p [マウントポイントのフォルダのパス]
+sudo chmod 777 [マウントポイントのフォルダのパス]
+sudo mount -t cifs -o username=[NASのユーザー名],password=[NASのパスワード] //[NASのIPアドレス] [マウントポイントのフォルダのパス]      #テスト 上手くいかない場合はバージョン指定,ver=2.0
+</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                自動マウント
+                            </h4>
+                            
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                アカウント登録
+                            </h5>
+                            <div class="fw-bold">
+                                ターミナル
+                            </div>
+                            <pre><code class="language-bash">sudo nano /etc/samba/credentials</code></pre>
+                            <div class="fw-bold">
+                                エディタ
+                            </div>
+                            <pre><code class="language-bash">username=[NASのユーザー名]
+password=[NASのパスワード]</code></pre>
+
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                マウントポイント登録
+                            </h5>
+                            <pre><code class="language-bash">sudo nano /etc/fstab</code></pre>
+                            <div class="fw-bold">
+                                エディタ
+                            </div>
+                            <pre><code class="language-bash">//[NASのIPアドレス] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8 0 0</code></pre>
+                            <div class="fw-bold">
+                                ターミナル
+                            </div>
+                            <pre><code class="language-bash">sudo mount -a # エラーチェック</code></pre>
+                            </p>
+                        </article>
+
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
@@ -282,6 +331,9 @@ sudo apt install raspberrypi-ui-mods</code></pre>
                                     </li>
                                     <li>
                                         <a href="#raspiUI">Raspberry PiのUI修復</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nas">NASの接続</a>
                                     </li>
 
     
