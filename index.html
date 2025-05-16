@@ -198,18 +198,24 @@
 flowchart TD
     %%{
         init: {
+            'theme':'base',
             'themeVariables': { 
                 'fontSize': '32px',
-                'fontFamily': 'HGPゴシックE'
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
             }
         }
     }%%
-    A[ソース<br>プログラム.c] --> B{コンパイラでコンパイル}
-    B -->|エラー無し| C[オブジェクト<br>プログラム.o]
-    B -->|バグ| D[エラー<br>メッセージ]
-    C --> F[実行形式<br>プログラム.exe]
-    D --> |デバッグ|A
-    E[ライブラリ.h] -->|リンカでリンク|F
+    A(["ソース<br>プログラム"]) ==> B{"コンパイラで<br>コンパイル"}
+    B ==>|"エラー無し"| C["オブジェクト<br>プログラム"]
+    B -.->|"バグ"| D["エラー<br>メッセージ"]
+    C ==> F(["実行形式<br>プログラム"])
+    D -.-> |"デバッグ"|A
+    E["ライブラリ"] -->|"リンカで<br>リンク"|F
                         </textarea>
                         <div class="text-end">
                             <button class="btn btn-secondary" id = "umlDownload">
