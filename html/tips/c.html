@@ -196,82 +196,531 @@ unsigned short</code></pre></td>
                                 &emsp;外部ファイルの取り込み
                             </p>
                             <div class="table-responsive">
-                                <table class="table table-bordered w-100">
+                                <table class="table table-bordered table-fixed">
                                     <tr>
                                         <th scope="col">ライブラリファイル</th>
                                         <th scope="col">含まれている関数</th>
                                         <th scope="col">説明</th>
+                                        <th scope="col">戻り値</th>
                                     </tr>
                                     <tr>
-                                        <td><pre><code class="language-c">&lt;stdio.h&gt;</code></pre></td>
-                                        <td><pre><code class="language-c">printf();   // 表示
-sprintf();  // 文字列の生成・格納
-scanf();    // 入力
-fgets();    // 入力
-fopen();    // ファイルを開く
-fclose();   // ファイルを閉じる</code></pre></td>
-                                        <td>
-                                            <b>st</b>an<b>d</b>ard <b>i</b>nput <b>o</b>utput<br>
+                                        <td rowspan="6">
+                                            <pre><code class="language-c">&lt;stdio.h&gt;</code></pre>
+                                            <b>st</b>an<b>d</b>ard <b>i</b>nput <b>o</b>utput<br><br>
                                             主に入出力を扱うための関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">printf(
+    "フォーマット文字列", 
+    a, 
+    b...
+);</code></pre></td>
+                                        <td>
+                                            第1引数(<code>"フォーマット文字列"</code>)をコマンドプロンプトに表示<br> 
+                                            フォーマット指定子(<code>%~</code>)により、第2引数以降(<code>a, b...</code>)を表示可能
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">sprintf_s(
+    a, 
+    sizeof(a), 
+    "フォーマット文字列", 
+    b, 
+    c...
+);</code></pre></td>
+                                        <td>
+                                            <code>a</code>に<code>sizeof(a)</code>(aの大きさ分)第3引数(<code>"フォーマット文字列"</code>)を代入<br>
+                                            フォーマット指定子(<code>%~</code>)により、第4引数以降(<code>b, c...</code>)を代入可能
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">scanf(
+    "フォーマット文字列", 
+    &a, 
+    &b...
+);</code></pre></td>
+                                        <td>
+                                            第1引数(<code>"フォーマット文字列"</code>)内の型(フォーマット指定子(<code>%~</code>)により指定可能)通りに入力を受け付け、第2引数以降の変数アドレス(<code>&a, &b...</code>)に文字列を代入(空白で区切られる)<br> 
+                                            ※別の入力関数を一緒に使うとエラーの元になることがある
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fgets(
+    char a, 
+    sizeof(a), 
+    f
+);</code></pre></td>
+                                        <td>
+                                            <code>a</code>に<code>sizeof(a)</code>(aの大きさ分)fから読み込む<br>
+                                            キーボード入力の場合 : <code>f</code>を<code>stdin</code>とする
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">char *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fopen(
+    "ファイルのパス", 
+    "モード"
+);</code></pre></td>
+                                        <td>
+                                            <code>"ファイルのパス"</code>のファイルを<code>"モード"</code>に従い開く<br>
+                                            読み取り : <code>r</code><br>
+                                            バイナリ読み取り : <code>rb</code><br>
+                                            書き込み : <code>w</code><br>
+                                            バイナリ書き込み : <code>wb</code><br>
+                                            追記 : <code>a</code><br>
+                                            バイナリ追記 : <code>ab</code><br>
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">FILE *fp</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fclose(FILE *fp);</code></pre></td>
+                                        <td>
+                                            <code>fopen();</code>で開いたファイルを閉じる
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
                                         </td>
                                     </tr>
 
                                     <tr>
-                                        <td><pre><code class="language-c">&lt;stdlib.h&gt;</code></pre></td>
-                                        <td><pre><code class="language-c">system();   //OSのコマンドを実行
-atoi();     //文字列を int 型に変換
-atof();     //文字列を double 型に変換
-rand();     //疑似乱数を生成
-srand();    //乱数の種を設定
-malloc();   //指定サイズのメモリを確保
-calloc();   //ゼロ初期化されたメモリを確保
-realloc();  //メモリサイズを変更
-free();     //確保したメモリを解放
-exit();     //プログラムを終了
-abort();    //異常終了を引き起こす
-bsearch();  //二分探索を行う
-qsort();    //クイックソートを実行
-getenv();   //環境変数の値を取得</code></pre></td>
-                                        <td>
-                                            <b>st</b>an<b>d</b>ard <b>lib</b>rary<br>
+                                        <td rowspan="15">
+                                            <pre><code class="language-c">&lt;stdlib.h&gt;</code></pre>
+                                            <b>st</b>an<b>d</b>ard <b>lib</b>rary<br><br>
                                             汎用的に役立つ関数が含まれている
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><pre><code class="language-c">&lt;string.h&gt;</code></pre></td>
-                                        <td><pre><code class="language-c">strcmp();   //文字列を比較
-strstr();   //部分文字列を検索
-strtok();   //文字列をトークンに分割
-strlen();   //文字列の長さを取得</code></pre></td>
+                                        <td><pre><code class="language-c">system("コマンド");</code></pre></td>
                                         <td>
-                                            <b>string</b><br>
-                                            主に文字列操作に関する関数が含まれている
+                                            第一引数<code>"コマンド"</code>(OSのコマンド)を実行
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><pre><code class="language-c">&lt;math.h&gt;</code></pre></td>
-                                        <td><pre><code class="language-c">sin();      //サイン（正弦）
-cos();      //コサイン（余弦）
-tan();      //タンジェント（正接）
-asin();     //アークサイン（逆正弦）
-acos();     //アークコサイン（逆余弦）
-atan();     //アークタンジェント（逆正接）
-atan2();    //2つの値からアークタンジェントを計算
-exp();      //指数関数（e^x）
-log();      //自然対数（ln x）
-log10();    //常用対数（log₁₀ x）
-sqrt();     //平方根
-pow();      //累乗（x^y）
-fabs();     //絶対値
-ceil();     //切り上げ
-floor();    //切り捨て
-round();    //四捨五入</code></pre></td>
+                                        <td><pre><code class="language-c">atoi("文字列");</code></pre></td>
                                         <td>
-                                            <b>math</b>ematics<br>
-                                            主に数学的な計算を行うための関数が含まれている
+                                            <code>"文字列"</code>を<code>int</code>型に変換
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
                                         </td>
                                     </tr>
-                                
+                                    <tr>
+                                        <td><pre><code class="language-c">atof("文字列");</code></pre></td>
+                                        <td>
+                                            <code>"文字列"</code>を<code>double</code>型に変換
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">rand();</code></pre></td>
+                                        <td>
+                                            <code>0</code>から<code>RAND_MAX</code>までの範囲の疑似乱数整数を生成
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">srand(unsigned int seed);</code></pre></td>
+                                        <td>
+                                            疑似乱数を生成するための開始点を設定
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">malloc(size_t size);</code></pre></td>
+                                        <td>
+                                            <code>size</code>[Byte]のメモリを確保(最大 16711568[Byte])
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">calloc(
+    size_t size, 
+    size_t type
+);</code></pre></td>
+                                        <td>
+                                            <code>type * size</code>[Byte]のメモリを確保し、<code>0</code>で初期化 (最大 2147483424[Byte])
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">realloc(
+    void *ptr, 
+    size_t size
+);</code></pre></td>
+                                        <td>
+                                            先頭アドレス<code>*ptr</code>から、<code>size</code>[Byte]のメモリを確保
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">free(void *ptr);</code></pre></td>
+                                        <td>
+                                            指定したアドレス<code>*ptr</code>のメモリを解放
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><pre><code class="language-c">exit(int status);</code></pre></td>
+                                        <td>
+                                            エラーコード : <code>status</code>でプログラムを終了
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">abort();</code></pre></td>
+                                        <td>
+                                            プログラムを異常終了させる
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><pre><code class="language-c">qsort(
+    void *base,
+    size_t num,
+    size_t width,
+    int (*compare)(
+        const void *element1,
+        const void *element2
+    )
+);</code></pre></td>
+                                        <td>
+                                            <code>*base</code>が先頭アドレスの配列をクイックソートする
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-fixed">
+                                                    <tr>
+                                                        <th scope="col">引数</th>
+                                                        <th scope="col">説明</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">void *base</code></pre>
+                                                        </td>
+                                                        <td>ソート対象配列の先頭アドレス</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">size_t num</code></pre>
+                                                        </td>
+                                                        <td>ソート対象配列の要素数</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">size_t num</code></pre>
+                                                        </td>
+                                                        <td>ソート対象配列の要素数</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">size_t width</code></pre>
+                                                        </td>
+                                                        <td>ソート対象配列の各要素のサイズ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">int (*compare)(
+    const void *element1, 
+    const void *element2
+)</code></pre>
+                                                        </td>
+                                                        <td nowrap>
+                                                            比較基準関数 戻り値で大きさを決める<br>
+                                                            <code>0</code>より小さい → <code>element2</code>より、<code>element1</code>が小さい<br>
+                                                            <code>0</code>より大きい → <code>element2</code>より、<code>element1</code>が大きい<br>
+                                                            <code>0</code> → <code>element1</code>と<code>element2</code>は等しい
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><pre><code class="language-c">bsearch(
+    void *key,
+    void *base,
+    sizeof(base)/sizeof(key),
+    sizeof(key),
+    int (*compare)(
+        const void *element1,
+        const void *element2
+    )
+);</code></pre></td>
+                                        <td>
+                                            <code>qsort();</code>等で事前にソートした配列から二分探索を行う
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-fixed">
+                                                    <tr>
+                                                        <th scope="col">引数</th>
+                                                        <th scope="col">説明</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">void *key</code></pre>
+                                                        </td>
+                                                        <td>検索キーのアドレス</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">void *base</code></pre>
+                                                        </td>
+                                                        <td>探索対象配列の先頭アドレス</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">int (*compare)(
+    const void *element1, 
+    const void *element2
+)</code></pre>
+                                                        </td>
+                                                        <td nowrap>
+                                                            比較基準関数 戻り値で大きさを決める<br>
+                                                            <code>0</code>より小さい → <code>element2</code>より、<code>element1</code>が小さい<br>
+                                                            <code>0</code>より大きい → <code>element2</code>より、<code>element1</code>が大きい<br>
+                                                            <code>0</code> → <code>element1</code>と<code>element2</code>は等しい
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">getenv("環境変数");</code></pre></td>
+                                        <td>
+                                            <code>"環境変数"</code>に対応する値が入ったアドレスを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">char *</code></pre>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td rowspan="3">
+                                            <pre><code class="language-c" >&lt;string.h&gt;</code></pre>
+                                            <b>string</b><br><br>
+                                            主に文字列操作に関する関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">strcmp(
+    char *string1, 
+    char *string2
+);</code></pre></td>
+                                        <td>
+                                            文字列を比較<br>
+                                            <code>0</code>より小さい → <code>string2</code>より、<code>string1</code>が小さい<br>
+                                            <code>0</code>より大きい → <code>string2</code>より、<code>string1</code>が大きい<br>
+                                            <code>0</code> → <code>string1</code>と<code>string2</code>は等しい
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">strstr(
+    char *string1, 
+    char *string2
+);</code></pre></td>
+                                        <td>
+                                            <code>string1</code>で<code>string2</code> が最初に現れる位置を検索
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">char *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">strlen("文字列");</code></pre></td>
+                                        <td>
+                                            <code>"文字列"</code>の長さを取得
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="16">
+                                            <pre><code class="language-c" >&lt;math.h&gt;</code></pre>
+                                            <b>math</b>ematics<br><br>
+                                            主に数学的な計算を行うための関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">sin(x);</code></pre></td>
+                                        <td>
+                                            y=sin(<code>x</code>) (正弦)のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">cos(x);</code></pre></td>
+                                        <td>
+                                            y=cos(<code>x</code>) (余弦)のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">tan(x);</code></pre></td>
+                                        <td>
+                                            y=tan(<code>x</code>) (正接)のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">asin(x);</code></pre></td>
+                                        <td>
+                                            y=arcsin(<code>x</code>) (逆正弦)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">acos(x);</code></pre></td>
+                                        <td>
+                                            y=arccos(<code>x</code>) (逆余弦)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">atan(x);</code></pre></td>
+                                        <td>
+                                            y=arctan(<code>x</code>) (逆正接)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">atan2(a, b);</code></pre></td>
+                                        <td>
+                                            y=arctan(a/b) (逆正接)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">exp(x);</code></pre></td>
+                                        <td>
+                                            y=e^<code>x</code>のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">log(x);</code></pre></td>
+                                        <td>
+                                            自然対数 y=ln(<code>x</code>) のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">log10(x);</code></pre></td>
+                                        <td>
+                                            常用対数 y=log₁₀(<code>x</code>) のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">sqrt(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>の正の平方根を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">pow(x, y);</code></pre></td>
+                                        <td>
+                                            z=<code>x</code>^<code>y</code>のzを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double z</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fabs(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>の絶対値を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">ceil(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>以上の最小の整数値を返す(天井関数)
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">floor(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>以下の最大の整数値を返す(床関数 ガウス記号)
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">round(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>の小数点以下を四捨五入
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                             
