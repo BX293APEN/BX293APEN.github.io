@@ -195,12 +195,21 @@
                             </blockquote>
                         </figure>
                         <textarea id="sourceUML" rows = "10">
-graph LR
-    A[Start] --> B{Check something}
-    B -->|Yes| C[Process #1]
-    B -->|No| D[Process #2]
-    C --> E[End]
-    D --> E[End]
+flowchart TD
+    %%{
+        init: {
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily': 'HGPゴシックE'
+            }
+        }
+    }%%
+    A[ソースプログラム.c] --> B{コンパイラでコンパイル}
+    B -->|エラー無し| C[オブジェクトプログラム.o]
+    B -->|バグ| D[エラーメッセージ]
+    C --> F[実行形式プログラム.exe]
+    D --> |デバッグ|A
+    E[ライブラリ.h] -->|リンカでリンク|F
                         </textarea>
                         <div class="text-end">
                             <button class="btn btn-secondary" id = "umlDownload">

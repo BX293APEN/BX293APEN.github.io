@@ -30,20 +30,31 @@
                             </h3>
                             <p>
                                 &emsp;C言語は、1972年にAT&Tベル研究所で開発された汎用プログラミング言語である。<br>
-                                &emsp;高水準言語の特徴を持ちながら、ハードウェア寄りの記述も可能な低水準言語の特徴も併せ持つ。コンパイラ型言語であるため、実行速度が他の言語と比べ速く、資源制約が厳しい場合(組み込み系)や、実行速度性能が要求されるソフトウェア(OS, バックグラウンドアプリケーション等)の開発に用いられることが多い。
+                                &emsp;高級言語の特徴を持ちながら、ハードウェア寄りの記述も可能な低級言語の特徴も併せ持つ。コンパイラ型言語であるため、実行速度が他の言語と比べ速く、資源制約が厳しい場合(組み込み系)や、実行速度性能が要求されるソフトウェア(OS, バックグラウンドアプリケーション等)の開発に用いられることが多い。
                             </p>
 
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
-                                コンパイラ型言語
+                                コンパイラ型言語 (高級言語)
                             </h4>
                             <p>
-                                &emsp;プログラムの<b>実行前</b>にソースコードを機械語に変換する言語。一度コンパイルしてしまえば、機械語を実行するだけなので、インタプリタ型言語に比べ、実行速度が速い。
+                                &emsp;プログラムの<b>実行前</b>に<b>コンパイラ</b>(翻訳機)を使い、ソースコードを機械語に変換する言語。一度コンパイルしてしまえば、機械語を実行するだけなので、インタプリタ型言語に比べ、実行速度が速い。<br>
+                                <br>
+                                C/C++, Java, Rust, Go, COBOL, FORTRAN, Pascal...
+
                             </p>
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
-                                インタプリタ型言語
+                                インタプリタ型言語 (高級言語)
                             </h4>
                             <p>
-                                &emsp;ソースコードを<b>1行ずつ</b>機械語に変換しながら実行する言語。翻訳しながら実行するので、コンパイラ型言語に比べ実行速度が遅いが、不具合箇所を特定しやすい。
+                                &emsp;ソースコードを<b>1行ずつ</b>機械語に変換しながら実行する言語。翻訳しながら実行するので、コンパイラ型言語に比べ実行速度が遅いが、不具合箇所を特定しやすい。<br>
+                                <br>
+                                Python, JavaScript, Ruby, PHP...
+                            </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                アセンブリ言語 (低級言語)
+                            </h4>
+                            <p>
+                                &emsp;機械語の命令を人間に分かりやすいようにアルファベットや数字で表現する言語
                             </p>
                             
                         </article>
@@ -107,7 +118,7 @@ short</code></pre></td>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><pre><code class="language-c">%x</code></pre></td>
+                                        <td><pre><code class="language-c">%x %X</code></pre></td>
                                         <td><pre><code class="language-c">int
 short
 unsigned int
@@ -118,7 +129,7 @@ unsigned short</code></pre></td>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><pre><code class="language-c">%o</code></pre></td>
+                                        <td><pre><code class="language-c">%o %O</code></pre></td>
                                         <td><pre><code class="language-c">int
 short
 unsigned int
@@ -165,7 +176,7 @@ unsigned short</code></pre></td>
                             </div>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="overview">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="preprocess">
                                 プリプロセッサ
                             </h3>
                             <p>
@@ -177,7 +188,7 @@ unsigned short</code></pre></td>
                                 #include
                             </h4>
                             <p>
-                                &emsp;ソースコードに別のファイルの内容を組み込む
+                                &emsp;外部ファイルの取り込み
                             </p>
                             <div class="table-responsive">
                                 <table class="table table-bordered w-100">
@@ -260,14 +271,122 @@ round();    //四捨五入</code></pre></td>
                             </div>
                             
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
-                                #define
+                                #define (マクロ)
                             </h4>
                             <p>
                                 &emsp;ソースコードを置換する。
                             </p>
                             
                         </article>
-                        
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="escape">
+                                エスケープシーケンス
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered w-100">
+                                    <tr>
+                                        <th scope="col">エスケープシーケンス</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\a</code></pre></td>
+                                        <td>
+                                            警告音
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\b</code></pre></td>
+                                        <td>
+                                            1文字左にカーソルを移動
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\f</code></pre></td>
+                                        <td>
+                                            ページ送り (クリア)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\n</code></pre></td>
+                                        <td>
+                                            改行
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\r</code></pre></td>
+                                        <td>
+                                            同じ行の先頭にカーソルを移動
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\t</code></pre></td>
+                                        <td>
+                                            水平タブ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\v</code></pre></td>
+                                        <td>
+                                            垂直タブ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\\</code></pre></td>
+                                        <td>
+                                            <code>\</code>を表示
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\?</code></pre></td>
+                                        <td>
+                                            <code>?</code>を表示
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\'</code></pre></td>
+                                        <td>
+                                            <code>'</code>を表示
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\"</code></pre></td>
+                                        <td>
+                                            <code>"</code>を表示
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\0</code></pre></td>
+                                        <td>
+                                            NULL文字 (終端記号)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\N</code></pre></td>
+                                        <td>
+                                            <code>N</code>(8進数)を表示
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">\xN</code></pre></td>
+                                        <td>
+                                            <code>N</code>(16進数)を表示
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="comment">
+                                コメント (注釈)
+                            </h3>
+                            <p>
+                                &emsp;プログラムの保守(メンテナンス)をする際、コメントがあると効率を上げることが出来ます。
+                            </p>
+                            
+                            <pre><code class="language-c">// 改行するまでコメントとする
+/* この間をコメントとする */</code></pre>
+                        </article>
                     
                     </div>
                     <div class="col-md-4">
@@ -293,6 +412,16 @@ round();    //四捨五入</code></pre></td>
                                     <li>
                                         <a href="#format">フォーマット指定子</a>
                                     </li>
+                                    <li>
+                                        <a href="#preprocess">プリプロセッサ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#escape">エスケープシーケンス</a>
+                                    </li>
+                                    <li>
+                                        <a href="#comment">コメント</a>
+                                    </li>
+                                    
     
                                 </ol>
                             </div>
