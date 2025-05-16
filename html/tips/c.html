@@ -721,6 +721,56 @@ unsigned short</code></pre></td>
                                             <pre><code class="language-c">double y</code></pre>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td rowspan="3">
+                                            <pre><code class="language-c" >&lt;ctype.h&gt;</code></pre>
+                                            <b>c</b>haracter <b>type</b><br><br>
+                                            主に文字の分類や変換を行うための関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">islower(int c);</code></pre></td>
+                                        <td>
+                                            cが 英小文字以外:0 英小文字:非0 を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">isupper(int c);</code></pre></td>
+                                        <td>
+                                            cが 英大文字以外:0 英大文字:非0 を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">isdigit(int c);</code></pre></td>
+                                        <td>
+                                            cが 数字以外:0 数字:非0 を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">tolower(int c);</code></pre></td>
+                                        <td>
+                                            cが大文字なら小文字 大文字以外はそのままにしたものを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">toupper(int c);</code></pre></td>
+                                        <td>
+                                            cが小文字なら大文字 小文字以外はそのままにしたものを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                             
@@ -827,6 +877,7 @@ unsigned short</code></pre></td>
                                             <code>N</code>(16進数)を表示
                                         </td>
                                     </tr>
+
                                 </table>
                             </div>
                         </article>
