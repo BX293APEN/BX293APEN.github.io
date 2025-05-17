@@ -62,6 +62,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "文字コード",
                 "text"      : "&emsp;ASCIIコード表",
                 "svg"       : true
+            },
+            "opencvTip" :{
+                "href"      : "/BX293APEN/opencv.html",
+                "imgSrc"    : "/img/OpenCV-Dark", 
+                "title"     : "OpenCV",
+                "text"      : "&emsp;OpenCVを利用し、画像処理を行ってみましょう！",
+                "svg"       : true
             }
 
         }
