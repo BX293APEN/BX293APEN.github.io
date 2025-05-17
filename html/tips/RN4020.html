@@ -32,7 +32,7 @@
                             <p class="text-center fw-bold">
                                 ピンアサイン
                             </p>
-                            <p>
+                            <div class="table-responsive">
                                 <table class="table table-striped-columns table-bordered">
                                     <tr>
                                         <th scope="col">ピン機能</th>
@@ -79,12 +79,12 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </p>
+                            </div>
                             <hr>
 
                             <h4 class="pt-4 mt-4 border-bottom fw-bold"> 基本コマンド</h4>
 
-                            <p>
+                            <div class="table-responsive">
                                 <table class="table table-striped-columns table-bordered">
                                     <tr>
                                         <th scope="col">コマンド</th>
@@ -110,7 +110,7 @@
                                         <td>
                                             <pre><code class="language-bash">SN,[名前]</code></pre>
                                         </td>
-                                        <td>
+                                        <td nowrap>
                                             デバイスの名前を[名前]に変更
                                         </td>
                                     </tr>
@@ -142,7 +142,7 @@
                                         <td>
                                             <pre><code class="language-bash">PC,[プライベートキャラスタリック値],1A,FF</code></pre>
                                         </td>
-                                        <td>
+                                        <td nowrap>
                                             プライベートキャラスタリック値を設定
                                         </td>
                                     </tr>
@@ -166,7 +166,7 @@
                                         <td>
                                             <pre><code class="language-bash">LS</code></pre>
                                         </td>
-                                        <td>
+                                        <td nowrap>
                                             BLEデバイスのUUIDとハンドル値の対応を確認(ペリフェラルのみ)
                                         </td>
                                     </tr>
@@ -182,10 +182,10 @@
                                     </tr>
 
                                 </table>
-                            </p>
+                            </div>
 
                             <h4 class="pt-4 mt-4 border-bottom fw-bold"> セントラルコマンド</h4>
-                            <p>
+                            <div class="table-responsive">
                                 <table class="table table-striped-columns table-bordered">
                                     <tr>
                                         <th scope="col">コマンド</th>
@@ -195,7 +195,7 @@
                                         <td>
                                             <pre><code class="language-bash">F</code></pre>
                                         </td>
-                                        <td>
+                                        <td nowrap>
                                             ペリフェラルデバイスを検索(<code class="language-bash bg-body-tertiary">X</code>で終了)
                                         </td>
                                     </tr>
@@ -211,15 +211,15 @@
                                         <td>
                                             <pre><code class="language-bash">E,0,[BTA]</code></pre>
                                         </td>
-                                        <td>
+                                        <td nowrap>
                                             [BTA](ボンディング済みMACアドレス)のペリフェラルBLEデバイスに接続
                                         </td>
                                     </tr>
                                 </table>
-                            </p>
+                            </div>
 
                             <h4 class="pt-4 mt-4 border-bottom fw-bold"> 接続中コマンド</h4>
-                            <p>
+                            <div class="table-responsive">
                                 <table class="table table-striped-columns table-bordered">
                                     <tr>
                                         <th scope="col">コマンド</th>
@@ -246,7 +246,7 @@
                                             <td>
                                                 <pre><code class="language-bash">LC</code></pre>
                                             </td>
-                                            <td>
+                                            <td nowrap>
                                                 接続したBLEデバイスのUUIDとハンドル値の対応を確認(セントラルのみ)
                                             </td>
                                         </tr>
@@ -254,7 +254,7 @@
                                             <td>
                                                 <pre><code class="language-bash">CHW,[ハンドル値],[転送データ]</code></pre>
                                             </td>
-                                            <td>
+                                            <td nowrap>
                                                 接続したBLEデバイスの[ハンドル値]に[転送データ]を送る(セントラルのみ)
                                             </td>
                                         </tr>
@@ -262,13 +262,13 @@
                                             <td>
                                                 <pre><code class="language-bash">SHR,[ハンドル値]</code></pre>
                                             </td>
-                                            <td>
+                                            <td nowrap>
                                                 [ハンドル値]に送られてきたデータを読み出す(ペリフェラルのみ)
                                             </td>
                                         </tr>
                                     </tr>
                                 </table>
-                            </p>
+                            </div>
 
                             
                         </article>
