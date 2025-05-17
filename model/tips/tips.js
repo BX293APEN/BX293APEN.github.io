@@ -55,6 +55,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "C/C++ Notes",
                 "text"      : "&emsp;C言語を学ぶことで、コンピュータの深淵を覗くことが出来ます。",
                 "svg"       : true
+            },
+            "asciiCodeTip" :{
+                "href"      : "/html/tips/ascii-code.html",
+                "imgSrc"    : "/img/bin.svg", 
+                "title"     : "ASCIIコード表",
+                "text"      : "&emsp;ASCIIコード",
+                "svg"       : true
             }
 
         }
