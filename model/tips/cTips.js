@@ -61,7 +61,7 @@ class CPPModel{
                     '<pre><code class="language-c">double</code></pre>',
                     '8',
                     '64',
-                    "±2.2250738585072014 * 10⁻³⁰⁸ ～ ±1.7976931348623158 * 10³⁰⁸"
+                    "±2.2250738585072014 * 10⁻³⁰⁸ ～ <br>±1.7976931348623158 * 10³⁰⁸"
                 ],
                 [
                     '<pre><code class="language-c">void</code></pre>',
