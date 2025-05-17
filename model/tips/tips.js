@@ -65,7 +65,7 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
             },
             "opencvTip" :{
                 "href"      : "/BX293APEN/opencv.html",
-                "imgSrc"    : "/img/OpenCV-Dark", 
+                "imgSrc"    : "/img/OpenCV-Dark.svg", 
                 "title"     : "OpenCV",
                 "text"      : "&emsp;OpenCVを利用し、画像処理を行ってみましょう！",
                 "svg"       : true
