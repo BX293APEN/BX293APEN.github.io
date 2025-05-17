@@ -59,8 +59,8 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
             "asciiCodeTip" :{
                 "href"      : "/html/tips/ascii-code.html",
                 "imgSrc"    : "/img/bin.svg", 
-                "title"     : "ASCIIコード表",
-                "text"      : "&emsp;ASCIIコード",
+                "title"     : "文字コード",
+                "text"      : "&emsp;ASCIIコード表",
                 "svg"       : true
             }
 
