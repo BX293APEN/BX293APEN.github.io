@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="/model/index/index.js"></script>
         <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/cTips.js"></script>
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
@@ -149,190 +150,14 @@
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="type">
                                 データ型
                             </h3>
-                            <div class="table-responsive">
-                                <table class="table table-bordered w-100">
-                                    <tr>
-                                        <th scope="col">type</th>
-                                        <th scope="col">Byte</th>
-                                        <th scope="col">bit</th>
-                                        <th scope="col">range</th>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">char</code></pre></td>
-                                        <td>1</td>
-                                        <td>8</td>
-                                        <td>-128 ～ 127</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">unsigned char</code></pre></td>
-                                        <td>1</td>
-                                        <td>8</td>
-                                        <td>0 ～ 255</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">short</code></pre></td>
-                                        <td>2</td>
-                                        <td>16</td>
-                                        <td>-32768 ～ 32767</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">unsigned short</code></pre></td>
-                                        <td>2</td>
-                                        <td>16</td>
-                                        <td>0 ～ 65535</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">int</code></pre></td>
-                                        <td nowrap>
-                                            CPU依存<br>
-                                            16[bit]型CPU : 2<br>
-                                            32[bit]型CPU : 4<br>
-                                        </td>
-                                        <td nowrap>
-                                            CPU依存<br>
-                                            16[bit]型CPU : 16<br>
-                                            32[bit]型CPU : 32<br>
-                                        </td>
-                                        <td nowrap>
-                                            CPU依存<br>
-                                            16[bit]型CPU : -2^15 ～ 2^15-1<br>
-                                            32[bit]型CPU : -2^31 ～ 2^31-1<br>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">long</code></pre></td>
-                                        <td>4</td>
-                                        <td>32</td>
-                                        <td>-2147483648 ～ 2147483647</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">unsigned long</code></pre></td>
-                                        <td>4</td>
-                                        <td>32</td>
-                                        <td nowrap>0 ～ 4294967295</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">long long</code></pre></td>
-                                        <td>8</td>
-                                        <td>64</td>
-                                        <td>-2^63 ～ 2^63-1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">float</code></pre></td>
-                                        <td>4</td>
-                                        <td>32</td>
-                                        <td>±1.175494351 * 10⁻³⁸ ～ ±3.402823466 * 10³⁸</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">double</code></pre></td>
-                                        <td>8</td>
-                                        <td>64</td>
-                                        <td nowrap>±2.2250738585072014 * 10⁻³⁰⁸ ～ ±1.7976931348623158 * 10³⁰⁸</td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">void</code></pre></td>
-                                        <td>不定</td>
-                                        <td>不定</td>
-                                        <td>不定</td>
-                                    </tr>
-
-                                </table>
-                            </div>
+                            <div id = "cpptype"></div>
                         </article>
 
                         <article class="blog-post">
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="format">
                                 フォーマット指定子
                             </h3>
-                            <div class="table-responsive">
-                                <table class="table table-bordered w-100">
-                                    <tr>
-                                        <th scope="col">指定子</th>
-                                        <th scope="col">対応する型</th>
-                                        <th scope="col">説明</th>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%c</code></pre></td>
-                                        <td><pre><code class="language-c">char</code></pre></td>
-                                        <td>
-                                            <b>c</b>haracter<br>
-                                            1文字を入出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%s</code></pre></td>
-                                        <td><pre><code class="language-c">char *</code></pre></td>
-                                        <td>
-                                            <b>s</b>tring<br>
-                                            文字列を入出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%d</code></pre></td>
-                                        <td><pre><code class="language-c">int 
-short</code></pre></td>
-                                        <td>
-                                            <b>d</b>ecimal<br>
-                                            整数を10進数として入出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%x %X</code></pre></td>
-                                        <td><pre><code class="language-c">int
-short
-unsigned int
-unsigned short</code></pre></td>
-                                        <td>
-                                            he<b>x</b>adecimal<br>
-                                            整数を16進数として入出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%o %O</code></pre></td>
-                                        <td><pre><code class="language-c">int
-short
-unsigned int
-unsigned short</code></pre></td>
-                                        <td>
-                                            <b>o</b>ctal<br>
-                                            整数を8進数として入出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%f</code></pre></td>
-                                        <td><pre><code class="language-c">float</code></pre></td>
-                                        <td>
-                                            <b>f</b>loating-point number<br>
-                                            実数を入出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%e</code></pre></td>
-                                        <td><pre><code class="language-c">float</code></pre></td>
-                                        <td>
-                                            <b>e</b>xponent<br>
-                                            実数を指数表示で出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%lf</code></pre></td>
-                                        <td><pre><code class="language-c">double</code></pre></td>
-                                        <td>
-                                            <b>l</b>ong <b>f</b>loating-point number<br>
-                                            倍精度実数を入出力する
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">%p</code></pre></td>
-                                        <td><pre><code class="language-c">void *</code></pre></td>
-                                        <td>
-                                            <b>p</b>ointer<br>
-                                            ポインタのアドレスを入出力する
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </div>
+                            <div id = "formatTable"></div>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="preprocess">
@@ -941,99 +766,7 @@ unsigned short</code></pre></td>
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="escape">
                                 エスケープシーケンス
                             </h3>
-                            <div class="table-responsive">
-                                <table class="table table-bordered w-100">
-                                    <tr>
-                                        <th scope="col">エスケープシーケンス</th>
-                                        <th scope="col">説明</th>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\a</code></pre></td>
-                                        <td>
-                                            警告音
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\b</code></pre></td>
-                                        <td>
-                                            1文字左にカーソルを移動
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\f</code></pre></td>
-                                        <td>
-                                            ページ送り (クリア)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\n</code></pre></td>
-                                        <td>
-                                            改行
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\r</code></pre></td>
-                                        <td>
-                                            同じ行の先頭にカーソルを移動
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\t</code></pre></td>
-                                        <td>
-                                            水平タブ
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\v</code></pre></td>
-                                        <td>
-                                            垂直タブ
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\\</code></pre></td>
-                                        <td>
-                                            <code>\</code>を表示
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\?</code></pre></td>
-                                        <td>
-                                            <code>?</code>を表示
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\'</code></pre></td>
-                                        <td>
-                                            <code>'</code>を表示
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\"</code></pre></td>
-                                        <td>
-                                            <code>"</code>を表示
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\0</code></pre></td>
-                                        <td>
-                                            NULL文字 (終端記号)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\N</code></pre></td>
-                                        <td>
-                                            <code>N</code>(8進数)を表示
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><pre><code class="language-c">\xN</code></pre></td>
-                                        <td>
-                                            <code>N</code>(16進数)を表示
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </div>
+                            <div id="escapeTable"></div>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="comment">
@@ -1388,9 +1121,12 @@ unsigned short</code></pre></td>
         <script src="/view/highlight.min.js"></script>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
         <script>
             hljs.highlightAll();
-            
+            createTable("cpptype", cppModel.type, true);
+            createTable("formatTable", cppModel.format, true);
+            createTable("escapeTable", cppModel.escape, true);
             embedded_html("/template/styleConfig.html", "styleList");
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
