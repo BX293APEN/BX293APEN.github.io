@@ -87,6 +87,95 @@
                         </article>
 
                         <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="type">
+                                データ型
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered w-100">
+                                    <tr>
+                                        <th scope="col">type</th>
+                                        <th scope="col">Byte</th>
+                                        <th scope="col">bit</th>
+                                        <th scope="col">range</th>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">char</code></pre></td>
+                                        <td>1</td>
+                                        <td>8</td>
+                                        <td>-128 ～ 127</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">unsigned char</code></pre></td>
+                                        <td>1</td>
+                                        <td>8</td>
+                                        <td>0 ～ 255</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">short</code></pre></td>
+                                        <td>2</td>
+                                        <td>16</td>
+                                        <td>-32768 ～ 32767</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">unsigned short</code></pre></td>
+                                        <td>2</td>
+                                        <td>16</td>
+                                        <td>0 ～ 65535</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">int</code></pre></td>
+                                        <td>
+                                            CPU依存<br>
+                                            16[bit]型CPU : 2<br>
+                                            32[bit]型CPU : 4<br>
+                                        </td>
+                                        <td>
+                                            CPU依存<br>
+                                            16[bit]型CPU : 16<br>
+                                            32[bit]型CPU : 32<br>
+                                        </td>
+                                        <td>
+                                            CPU依存<br>
+                                            16[bit]型CPU : -2^15 ～ 2^15-1<br>
+                                            32[bit]型CPU : -2^31 ～ 2^31-1<br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">long</code></pre></td>
+                                        <td>4</td>
+                                        <td>32</td>
+                                        <td>-2147483648 ～ 2147483647</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">unsigned long</code></pre></td>
+                                        <td>4</td>
+                                        <td>32</td>
+                                        <td nowrap>0 ～ 4294967295</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">long long</code></pre></td>
+                                        <td>8</td>
+                                        <td>64</td>
+                                        <td>-2^63 ～ 2^63-1</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">float</code></pre></td>
+                                        <td>4</td>
+                                        <td>32</td>
+                                        <td>1.175494351 * 10⁻³⁸ ～ 3.402823466 * 10³⁸</td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">double</code></pre></td>
+                                        <td>8</td>
+                                        <td>64</td>
+                                        <td>2.2250738585072014 * 10⁻³⁰⁸ ～ 1.7976931348623158 * 10³⁰⁸</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </article>
+
+                        <article class="blog-post">
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="format">
                                 フォーマット指定子
                             </h3>
@@ -722,7 +811,7 @@ unsigned short</code></pre></td>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="3">
+                                        <td rowspan="5">
                                             <pre><code class="language-c" >&lt;ctype.h&gt;</code></pre>
                                             <b>c</b>haracter <b>type</b><br><br>
                                             主に文字の分類や変換を行うための関数が含まれている
@@ -913,6 +1002,9 @@ unsigned short</code></pre></td>
                                     </li>
                                     <li>
                                         <a href="#overview">Overview</a>
+                                    </li>
+                                    <li>
+                                        <a href="#type">データ型</a>
                                     </li>
                                     <li>
                                         <a href="#format">フォーマット指定子</a>
