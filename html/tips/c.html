@@ -1044,6 +1044,278 @@ unsigned short</code></pre></td>
                             <pre><code class="language-c">// 改行するまでコメントとする
 /* この間をコメントとする */</code></pre>
                         </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="operand">
+                                演算順序
+                            </h3>
+                            <p>
+                                &emsp;C言語における演算順序を以下に示す。
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered w-100">
+                                    <tr>
+                                        <th scope="col">演算順序</th>
+                                        <th scope="col">演算子</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="6">1</td>
+                                        <td><pre><code class="language-c">()</code></pre></td>
+                                        <td>
+                                            関数呼び出し, 優先
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">[]</code></pre></td>
+                                        <td>
+                                            配列添え字
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">.</code></pre></td>
+                                        <td>
+                                            構造体メンバ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-></code></pre></td>
+                                        <td>
+                                            アロー演算子(ポインタから構造体のメンバを呼び出す)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">++</code></pre></td>
+                                        <td>
+                                            インクリメント(後置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">--</code></pre></td>
+                                        <td>
+                                            デクリメント(後置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="9">2</td>
+                                        <td><pre><code class="language-c">++</code></pre></td>
+                                        <td>
+                                            インクリメント(前置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">--</code></pre></td>
+                                        <td>
+                                            デクリメント(前置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">sizeof</code></pre></td>
+                                        <td>
+                                            記憶サイズ[Byte]
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&</code></pre></td>
+                                        <td>
+                                            アドレス
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">*</code></pre></td>
+                                        <td>
+                                            ポインタ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">+</code></pre></td>
+                                        <td>
+                                            正符号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-</code></pre></td>
+                                        <td>
+                                            負符号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">!</code></pre></td>
+                                        <td>
+                                            否定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">~</code></pre></td>
+                                        <td>
+                                            ビット補数
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">3</td>
+                                        <td><pre><code class="language-c">(型)</code></pre></td>
+                                        <td>
+                                            キャスト
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">4</td>
+                                        <td><pre><code class="language-c">*</code></pre></td>
+                                        <td>
+                                            乗算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">/</code></pre></td>
+                                        <td>
+                                            除算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%</code></pre></td>
+                                        <td>
+                                            剰余
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">5</td>
+                                        <td><pre><code class="language-c">+</code></pre></td>
+                                        <td>
+                                            加算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-</code></pre></td>
+                                        <td>
+                                            減算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">6</td>
+                                        <td><pre><code class="language-c">&lt;&lt;</code></pre></td>
+                                        <td>
+                                            ビット左シフト
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&gt;&gt;</code></pre></td>
+                                        <td>
+                                            ビット右シフト
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">7</td>
+                                        <td><pre><code class="language-c">&lt;</code></pre></td>
+                                        <td>
+                                            小なり (左辺が右辺に比べて小さい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&lt;=</code></pre></td>
+                                        <td>
+                                            小なりイコール (左辺が右辺に比べて同じか小さい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&gt;</code></pre></td>
+                                        <td>
+                                            大なり (左辺が右辺に比べて大きい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&gt;=</code></pre></td>
+                                        <td>
+                                            大なりイコール (左辺が右辺に比べて同じか大きい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">8</td>
+                                        <td><pre><code class="language-c">==</code></pre></td>
+                                        <td>
+                                            等号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">!=</code></pre></td>
+                                        <td>
+                                            不等号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">9</td>
+                                        <td><pre><code class="language-c">&</code></pre></td>
+                                        <td>
+                                            ビット毎論理積(AND)
+                                        </td>
+                                    </tr>
+                                    <tr><td rowspan="1">10</td>
+                                        <td><pre><code class="language-c">^</code></pre></td>
+                                        <td>
+                                            ビット毎排他的論理和(XOR)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">11</td>
+                                        <td><pre><code class="language-c">|</code></pre></td>
+                                        <td>
+                                            ビット毎論理和(OR)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">12</td>
+                                        <td><pre><code class="language-c">&&</code></pre></td>
+                                        <td>
+                                            論理積(AND)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">13</td>
+                                        <td><pre><code class="language-c">||</code></pre></td>
+                                        <td>
+                                            論理和(OR)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">14</td>
+                                        <td><pre><code class="language-c">条件?a:b</code></pre></td>
+                                        <td>
+                                            三項演算子
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">15</td>
+                                        <td><pre><code class="language-c">=</code></pre></td>
+                                        <td>
+                                            代入
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">+=</code></pre></td>
+                                        <td>
+                                            加算代入
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-=</code></pre></td>
+                                        <td>
+                                            減算代入
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end">...</td>
+                                        <td class="text-end">...</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">16</td>
+                                        <td><pre><code class="language-c">,</code></pre></td>
+                                        <td>
+                                            コンマ(順次)
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </article>
                     
                     </div>
                     <div class="col-md-4">
@@ -1093,8 +1365,9 @@ unsigned short</code></pre></td>
                                     <li>
                                         <a href="#comment">コメント</a>
                                     </li>
-                                    
-    
+                                    <li>
+                                        <a href="#operand">演算順序</a>
+                                    </li>
                                 </ol>
                             </div>
 
