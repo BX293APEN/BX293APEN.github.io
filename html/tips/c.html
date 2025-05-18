@@ -388,8 +388,8 @@
                                     <tr>
                                         <td><pre><code class="language-c">qsort(
     void *base,
-    size_t num,
-    size_t width,
+    sizeof(base)/sizeof(type),
+    size_t type,
     int (*compare)(
         const void *element1,
         const void *element2
@@ -411,19 +411,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <pre><code class="language-c">size_t num</code></pre>
-                                                        </td>
-                                                        <td>ソート対象配列の要素数</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <pre><code class="language-c">size_t num</code></pre>
-                                                        </td>
-                                                        <td>ソート対象配列の要素数</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <pre><code class="language-c">size_t width</code></pre>
+                                                            <pre><code class="language-c">size_t type</code></pre>
                                                         </td>
                                                         <td>ソート対象配列の各要素のサイズ</td>
                                                     </tr>
