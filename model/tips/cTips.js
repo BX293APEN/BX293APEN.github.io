@@ -31,7 +31,7 @@ class CPPModel{
                     '<pre><code class="language-c">int</code></pre>',
                     'CPU依存<br>16[bit]型CPU : 2<br>32[bit]型CPU : 4',
                     'CPU依存<br>16[bit]型CPU : 16<br>32[bit]型CPU : 32',
-                    "CPU依存<br>16[bit]型CPU : -2^15 ～ 2^15-1<br>32[bit]型CPU : -2^31 ～ 2^31-1"
+                    "CPU依存<br>16[bit]型CPU : -2<sup>15</sup> ～ 2<sup>15</sup>-1<br>32[bit]型CPU : -2<sup>31</sup> ～ 2<sup>31</sup>-1"
                 ],
                 [
                     '<pre><code class="language-c">long</code></pre>',
@@ -49,19 +49,19 @@ class CPPModel{
                     '<pre><code class="language-c">long long</code></pre>',
                     '8',
                     '64',
-                    "-2^63 ～ 2^63-1"
+                    "-2<sup>63</sup> ～ 2<sup>63</sup>-1"
                 ],
                 [
                     '<pre><code class="language-c">foat</code></pre>',
                     '4',
                     '32',
-                    "±1.175494351 * 10⁻³⁸ ～ ±3.402823466 * 10³⁸"
+                    "±1.175494351 * 10<sup>-38</sup> ～ ±3.402823466 * 10<sup>38</sup>"
                 ],
                 [
                     '<pre><code class="language-c">double</code></pre>',
                     '8',
                     '64',
-                    "±2.2250738585072014 * 10⁻³⁰⁸ ～ <br>±1.7976931348623158 * 10³⁰⁸"
+                    "±2.2250738585072014 * 10<sup>-308</sup> ～ <br>±1.7976931348623158 * 10<sup>308</sup>"
                 ],
                 [
                     '<pre><code class="language-c">void</code></pre>',
