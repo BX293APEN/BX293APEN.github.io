@@ -100,3 +100,8 @@ textarea {
     resize: none;
     width:100%;
 }
+
+.badge{
+    background-color: purple;
+    margin-left: 20px;
+}

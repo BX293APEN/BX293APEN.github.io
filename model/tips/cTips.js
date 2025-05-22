@@ -188,4 +188,4 @@ class CPPModel{
     }
 }
 
-cppModel = new CPPModel();
+let cppModel = new CPPModel();

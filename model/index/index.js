@@ -136,6 +136,6 @@ class Model {
     }
 }
 
-model = new Model();
+let model = new Model();
 
    

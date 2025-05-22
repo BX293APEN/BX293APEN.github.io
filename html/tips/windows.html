@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/windowsTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/bootstrap-treeview.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Windows便利機能集</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Windows機能集
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="recovimg">
+                                修復コマンド
+                            </h3>
+                            <p>
+                                <pre><code class="language-bash">sfc /scannow
+dism /online /cleanup-image /restorehealth</code></pre>
+                            </p>
+                        </article>
+
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="regedit">
+                                コンテキストメニュー(右クリックメニュー)の変更
+                            </h3>
+                            <p>
+                                &emsp;コンテキストメニューの編集は、管理者権限でレジストリを操作する必要があります。レジストリエディタでの誤操作は、最悪の場合、WindowsOSの再インストールを伴う大規模なデータ破損を招く恐れがあります。この項の情報をもとに行われたあらゆる操作において、執筆者は一切の責任を負いません。レジストリ操作は、すべて自己責任で行ってください。(Microsoftサポートも対象外となります)
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                Windows 11のコンテキストメニューをWindows 10仕様に戻す
+                            </h4>
+                            <p>
+                                <pre><code class="language-bash">reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve</code></pre>
+                            </p>
+                            <figure class="figure">
+                                <img src="/img/Windows/Win10.png" class="figure-img img-fluid rounded" alt="C言語のコンパイル過程">
+                                <figcaption class="figure-caption text-end">Windows 10仕様のコンテキストメニュー</figcaption>
+                            </figure><br>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                コンテキストメニューを編集
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                基本構造
+                            </h5>
+                            <div id="context-tree"></div>
+
+                            <h5 class="pt-4 fw-bold">
+                                編集箇所と変更位置
+                            </h5>
+                            <div id="context-key"></div>
+                       </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://qiita.com/NumLocker/items/f8016f1aed7207b850fb">
+                                    <a href="https://qiita.com/NumLocker/items/f8016f1aed7207b850fb">
+                                        あなただけの右クリックで、ストレスフリーな開発を。
+                                    </a>
+                                </blockquote>
+                            </div>
+
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#recovimg">修復コマンド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#regedit">右クリックメニュー</a>
+                                    </li>
+
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/view/bootstrap-treeview.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "pythonTip", "cTip"]);
+
+            $('#context-tree').treeview({
+                data: windowsTipsModel.treeData,
+                showTags: true,
+                expandIcon: 'glyphicon glyphicon-plus',  // 展開アイコン
+                collapseIcon: 'glyphicon glyphicon-minus', // 折りたたみアイコン
+                showBorder: false,
+                levels: 2
+            });
+
+            // ノードクリック時に開閉
+            $('#context-tree').on('nodeSelected', function(event, data) {
+                $('#context-tree').treeview('toggleNodeExpanded', [data.nodeId, { silent: false }]);
+            });
+
+            createTable("context-key", windowsTipsModel.regeditData, true);
+        </script>
+    </footer>
+</html>

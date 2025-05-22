@@ -69,6 +69,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "OpenCV",
                 "text"      : "&emsp;OpenCVを利用し、画像処理を行ってみましょう！",
                 "svg"       : true
+            },
+            "windowsTip" :{
+                "href"      : "/html/tips/windows.html",
+                "imgSrc"    : "/img/Windows-Dark.svg", 
+                "title"     : "Windows便利機能集",
+                "text"      : "&emsp;Windowsの設定を変えて扱いやすくしましょう！",
+                "svg"       : true
             }
 
         }
@@ -77,4 +84,4 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
     }
 }
 
-tipsModel = new TipsModel();
+let tipsModel = new TipsModel();
