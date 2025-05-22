@@ -51,7 +51,7 @@ dism /online /cleanup-image /restorehealth</code></pre>
                                 <pre><code class="language-bash">reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve</code></pre>
                             </p>
                             <figure class="figure">
-                                <img src="/img/Windows/Win10.png" class="figure-img img-fluid rounded" alt="C言語のコンパイル過程">
+                                <img src="/img/Windows/Win10.png" class="figure-img img-fluid rounded" alt="Win10コンテキストメニュー">
                                 <figcaption class="figure-caption text-end">Windows 10仕様のコンテキストメニュー</figcaption>
                             </figure><br>
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -67,6 +67,42 @@ dism /online /cleanup-image /restorehealth</code></pre>
                             </h5>
                             <div id="context-key"></div>
                        </article>
+
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="onedrive">
+                                OneDriveの削除
+                            </h3>
+                            
+                            <p>
+                                <pre><code class="language-bash">reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSyncNGSC" /t REG_DWORD /d "1" /f
+taskkill /f /im OneDrive.exe
+%SystemRoot%\SysWOW64\OneDriveSetup.exe /uninstall</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold" id="onedrive">
+                                OneDriveの再インストール
+                            </h3>
+                            <p>
+                                <pre><code class="language-bash">reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSyncNGSC" /t REG_DWORD /d "0" /f</code></pre>
+                            </p>
+                            <a href="https://www.microsoft.com/ja-jp/microsoft-365/onedrive/download" class="btn btn-bd-primary">
+                                OneDriveのダウンロード
+                            </a>
+                       </article>
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="onedrive">
+                                Windowsの機能の有効化または無効化
+                            </h3>
+                            <p>
+                                <pre><code class="language-bash">optionalfeatures</code></pre>
+                            </p>
+                            <figure class="figure">
+                                <img src="/img/Windows/optionalfeatures.png" class="figure-img img-fluid rounded" alt="オプション機能">
+                                <figcaption class="figure-caption text-end">Windowsの機能の有効化または無効化</figcaption>
+                            </figure><br>
+                            <p>
+                                &emsp;有効化したい機能にチェックを入れる (無効化したい機能はチェックを外す)。
+                            </p>
+                        </article>
 
                     </div>
                     <div class="col-md-4">
@@ -91,6 +127,9 @@ dism /online /cleanup-image /restorehealth</code></pre>
                                     </li>
                                     <li>
                                         <a href="#regedit">右クリックメニュー</a>
+                                    </li>
+                                    <li>
+                                        <a href="#onedrive">OneDriveの削除 / 再インストール</a>
                                     </li>
 
                                 </ol>
