@@ -32,6 +32,9 @@
                                 修復コマンド
                             </h3>
                             <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
                                 <pre><code class="language-bash">sfc /scannow
 dism /online /cleanup-image /restorehealth</code></pre>
                             </p>
@@ -48,6 +51,9 @@ dism /online /cleanup-image /restorehealth</code></pre>
                                 Windows 11のコンテキストメニューをWindows 10仕様に戻す
                             </h4>
                             <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
                                 <pre><code class="language-bash">reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve</code></pre>
                             </p>
                             <figure class="figure">
@@ -63,7 +69,7 @@ dism /online /cleanup-image /restorehealth</code></pre>
                             <div id="context-tree"></div>
 
                             <h5 class="pt-4 fw-bold">
-                                編集箇所と変更位置
+                                レジストリエディタの編集箇所と変更位置
                             </h5>
                             <div id="context-key"></div>
                        </article>
@@ -74,6 +80,9 @@ dism /online /cleanup-image /restorehealth</code></pre>
                             </h3>
                             
                             <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
                                 <pre><code class="language-bash">reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSyncNGSC" /t REG_DWORD /d "1" /f
 taskkill /f /im OneDrive.exe
 %SystemRoot%\SysWOW64\OneDriveSetup.exe /uninstall</code></pre>
@@ -82,6 +91,9 @@ taskkill /f /im OneDrive.exe
                                 OneDriveの再インストール
                             </h3>
                             <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
                                 <pre><code class="language-bash">reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSyncNGSC" /t REG_DWORD /d "0" /f</code></pre>
                             </p>
                             <a href="https://www.microsoft.com/ja-jp/microsoft-365/onedrive/download" class="btn btn-bd-primary">
@@ -93,6 +105,9 @@ taskkill /f /im OneDrive.exe
                                 Windowsの機能の有効化または無効化
                             </h3>
                             <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
                                 <pre><code class="language-bash">optionalfeatures</code></pre>
                             </p>
                             <figure class="figure">
