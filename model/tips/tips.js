@@ -85,4 +85,4 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
 }
 
 let tipsModel = new TipsModel();
-model.bookmarkData = {...model.bookmarkData, ...tipsModel.tipsData}
+model.bookmarkData = {...tipsModel.tipsData, ...model.bookmarkData}
