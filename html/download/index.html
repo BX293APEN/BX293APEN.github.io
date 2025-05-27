@@ -5,6 +5,7 @@
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="/model/index/index.js"></script>
+        <script src="/model/download/index.js"></script>
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
         <div class="loading-container" id="loadingScreen">
@@ -18,47 +19,10 @@
         <div class="container pt-3">
             <main>
                 <div class="row g-5">
-                    <div class="col-md-8">
-                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                    <div class="col-md-8" id="article_top">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold">
                             Download Contents
                         </h1>
-                    
-                        <article class="blog-post">
-                            <h2 class="pt-3 mt-3 border-bottom fw-bold">
-                                Make for Windows
-                            </h2>
-                            <p>
-                                &emsp;makefileを利用することで、簡単にビルドが出来るようになります
-                            </p>
-                            
-                            <figure class="figure">
-                                <a href="https://gnuwin32.sourceforge.net/packages/make.htm">
-                                    <img src="/img/CMake-Dark.svg" class="figure-img img-fluid rounded w-25" alt="make">
-                                </a>
-                                <a href="https://gnuwin32.sourceforge.net/packages/make.htm">
-                                    <figcaption class="btn btn-bd-primary figure-caption text-end">Download</figcaption>
-                                </a>
-                            </figure>
-                        </article>
-
-                        <article class="blog-post">
-                            <h2 class="pt-3 mt-3 border-bottom fw-bold">
-                                Visual Studio Code
-                            </h2>
-                            <p>
-                                &emsp;VSCodeを利用して、様々な言語のデバッグをしてみましょう！
-                            </p>
-                            
-                            <figure class="figure">
-                                <a href="https://code.visualstudio.com/">
-                                    <img src="/img/VSCode-Dark.svg" class="figure-img img-fluid rounded w-25" alt="make">
-                                </a>
-                                <a href="https://code.visualstudio.com/">
-                                    <figcaption class="btn btn-bd-primary figure-caption text-end">Download</figcaption>
-                                </a>
-                            </figure>
-                        </article>
-                        
                     
                     </div>
 
@@ -74,8 +38,8 @@
                             </div>
 
                             <div class="p-4">
-                                <h4 class="fst-italic border-bottom">Archives</h4>
-                                <ol class="list-unstyled mb-0">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0" id = "toc">
                                     <li>
                                         <a href="#article_top">Top</a>
                                     </li>
@@ -94,11 +58,13 @@
         <script src="/view/search.js"></script>
         <script src="/view/embeddedHTML.js"></script>
         <script src="/view/activenav.js"></script>
+        <script src="/view/download/download.js"></script>
         <script>
             embedded_html("/template/styleConfig.html", "styleList");
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("downloads"));
+            new DownloadView(dlModel, "article_top", "toc");
         </script>
     </footer>
 </html>
