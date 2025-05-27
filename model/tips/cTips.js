@@ -185,6 +185,13 @@ class CPPModel{
                 ],
             ]
         }
+
+        this.page =[
+            {
+                "page" : 1,
+                "href" : "/html/tips/c.html"
+            }
+        ]
     }
 }
 
