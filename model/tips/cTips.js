@@ -122,7 +122,7 @@ class CPPModel{
                 ],
                 [
                     '<pre><code class="language-c">%%</code></pre>',
-                    '',
+                    '-',
                     '<code>%</code>を表示'
                 ],
             ]
