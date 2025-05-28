@@ -18,7 +18,7 @@ class DownloadModel {
             "cpplib_ioset" : {
                 "imgType"   : "none",
                 "title"     : "CPPヘッダ (ioset.cpp)",
-                "text"      : "&emsp;C++を扱いやすくするヘッダを作ってみました。",
+                "text"      : "&emsp;C++を扱いやすくするヘッダを作ってみました。(C++17以上推奨)",
                 "content"   : '<pre><code class="language-bash">curl -OL https://bx293apen.github.io/html/download/content/ioset.cpp</code></pre>',
                 
             },
