@@ -14,30 +14,34 @@ class DownloadView{
             let pTag                        = document.createElement("p");
             pTag.innerHTML                  = model.dlData[article]["text"];
             
-            let figureTag                   = document.createElement("figure");
-            figureTag.classList.add("figure");
+            if(model.dlData[article]["imgType"] != "none"){
+                let figureTag               = document.createElement("figure");
+                figureTag.classList.add("figure");
 
-            let aTag                        = document.createElement("a");
-            aTag.href                       = model.dlData[article]["href"];
+                let aTag                    = document.createElement("a");
+                aTag.href                   = model.dlData[article]["href"];
+                let imgTag                  = document.createElement("img");
+                imgTag.src                  = model.dlData[article]["imgSrc"];
+                if(model.dlData[article]["imgType"] == ".svg"){
+                    imgTag.classList.add("figure-img", "img-fluid", "rounded", "w-25");
+                }
+                aTag.appendChild(imgTag);
+                let aDLTag                  = document.createElement("a");
+                aDLTag.href                 = model.dlData[article]["href"];
+                let figcaptionTag           = document.createElement("figcaption");
+                figcaptionTag.classList.add("btn", "btn-bd-primary", "figure-caption", "text-end");
+                figcaptionTag.innerHTML     = "Download";
+                aDLTag.appendChild(figcaptionTag);
 
-            let imgTag                      = document.createElement("img");
-            imgTag.src                      = model.dlData[article]["imgSrc"];
-            imgTag.classList.add("figure-img", "img-fluid", "rounded", "w-25");
-            aTag.appendChild(imgTag);
+                figureTag.appendChild(aTag);
+                figureTag.appendChild(aDLTag);
 
-            let aDLTag                      = document.createElement("a");
-            aDLTag.href                     = model.dlData[article]["href"];
-            let figcaptionTag               = document.createElement("figcaption");
-            figcaptionTag.classList.add("btn", "btn-bd-primary", "figure-caption", "text-end");
-            figcaptionTag.innerHTML         = "Download";
-            aDLTag.appendChild(figcaptionTag);
+                articleTag.appendChild(figureTag);
+            }
 
-            figureTag.appendChild(aTag);
-            figureTag.appendChild(aDLTag);
-            
             articleTag.appendChild(h2Tag);
             articleTag.appendChild(pTag);
-            articleTag.appendChild(figureTag);
+            
 
             this.position.appendChild(articleTag);
 
