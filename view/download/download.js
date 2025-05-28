@@ -14,8 +14,9 @@ class DownloadView{
             let pTag                        = document.createElement("p");
             pTag.innerHTML                  = model.dlData[article]["text"];
             
+            let figureTag;
             if(model.dlData[article]["imgType"] != "none"){
-                let figureTag               = document.createElement("figure");
+                figureTag                   = document.createElement("figure");
                 figureTag.classList.add("figure");
 
                 let aTag                    = document.createElement("a");
@@ -36,11 +37,15 @@ class DownloadView{
                 figureTag.appendChild(aTag);
                 figureTag.appendChild(aDLTag);
 
-                articleTag.appendChild(figureTag);
+            }
+            else{
+                figureTag                   = document.createElement("div");
+                figureTag.innerHTML         = model.dlData[article]["content"];
             }
 
             articleTag.appendChild(h2Tag);
             articleTag.appendChild(pTag);
+            articleTag.appendChild(figureTag);
             
 
             this.position.appendChild(articleTag);
