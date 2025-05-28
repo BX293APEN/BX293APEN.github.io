@@ -120,6 +120,11 @@ class CPPModel{
                     '<pre><code class="language-c">void *</code></pre>',
                     '<b>p</b>ointer<br>ポインタのアドレスを入出力する'
                 ],
+                [
+                    '<pre><code class="language-c">%%</code></pre>',
+                    '',
+                    '<code>%</code>を表示'
+                ],
             ]
 
         }
