@@ -15,6 +15,13 @@ class DownloadModel {
                 "text"      : "&emsp;VSCodeを利用して、様々な言語のデバッグをしてみましょう！",
                 "imgType"   : ".svg"
             },
+            "cpplib_ioset" : {
+                "imgType"   : "none",
+                "title"     : "CPPヘッダ (ioset.cpp)",
+                "text"      : "&emsp;C++を扱いやすくするヘッダを作ってみました。",
+                "content"   : '<pre><code class="language-bash">curl -OL https://bx293apen.github.io/html/download/content/ioset.cpp</code></pre>',
+                
+            },
         }
         this.dlIndex = Object.keys(this.dlData);
         this.dlIndex.sort();
