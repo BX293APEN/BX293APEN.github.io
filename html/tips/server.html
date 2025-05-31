@@ -138,6 +138,7 @@ nano etc/base.hocon # 設定ファイル</code></pre>
     emqx/emqx:5.9.0 # 再起動
 
 ./bin/emqx ctl listeners # 開いているポートを確認</code></pre>
+                            </p>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 自動起動化
                             </h3>
@@ -167,6 +168,14 @@ Group=emqx
 
 [Install]
 WantedBy=multi-user.target</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable emqx.service
+sudo systemctl restart emqx.service
+                                </code></pre>
                             </p>
                         </article>
                     </div>
