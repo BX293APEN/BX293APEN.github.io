@@ -40,20 +40,6 @@ rebar3 update
 rebar3 upgrade</code></pre>
                             </p>
                             <h3 class="pt-4 border-bottom fw-bold">
-                                Erlangインストール(OTP 27.1以上推奨)
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">wget http://erlang.org/download/otp_src_27.1.tar.gz
-tar -xzf otp_src_27.1.tar.gz
-cd otp_src_27.1
-./configure
-make
-sudo make install</code></pre>
-                            </p>
-                            <h3 class="pt-4 border-bottom fw-bold">
                                 unixODBCのインストール
                             </h3>
                             <p>
@@ -67,11 +53,37 @@ sudo make install</code></pre>
 wget https://bx293apen.github.io/html/download/content/unixODBC-2.3.12.tar.gz # バージョン確認済みのモノ
 tar -xzf unixODBC-2.3.12.tar.gz
 cd unixODBC-2.3.12
-./configure
+./configure 
 make
-sudo make install 
-odbcinst -j # インストール確認</code></pre>
+sudo make install
+odbcinst -j # インストール確認
+sudo apt install unixodbc unixodbc-dev</code></pre>
                             </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Erlangインストール(OTP 27.1以上推奨)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">wget http://erlang.org/download/otp_src_27.1.tar.gz
+tar -xzf otp_src_27.1.tar.gz
+cd otp_src_27.1
+./configure --enable-odbc
+make
+sudo make install</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                ErlangでunixODBCを使えるようにする
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">application:load(odbc).
+application:start(odbc).</code></pre>
+                            </p>
+
                             <h3 class="pt-4 border-bottom fw-bold">
                                 empx(ブローカー)をリポジトリからクローンし、インストール
                             </h3>
@@ -82,10 +94,11 @@ odbcinst -j # インストール確認</code></pre>
                                 <pre><code class="language-bash">git clone https://github.com/emqx/emqx
 git clone https://github.com/BX293APEN/emqx.git # バージョン確認済みフォーク
 cd emqx
-make</code></pre>
+make
+cd _build/emqx-enterprise/rel/emqx
+nano etc/base.hocon # 設定ファイル
+./bin/emqx start # 起動</code></pre>
                             </p>
-
-
                         </article>
                     </div>
                     <div class="col-md-4">
