@@ -160,7 +160,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=[path]/emqx/bin/emqx start -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 18083:18083 -p 19080:19080/udp -e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="[path]/etc/certs/private_key.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__certfile="[path]/etc/certs/certificate.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__ENABLED=true emqx/emqx:5.9.0
+ExecStart=[path]/emqx/bin/emqx start -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 18083:18083 -p 19080:19080/udp -e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="[path]/etc/certs/private_key.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__certfile="[path]/etc/certs/certificate.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__ENABLED=true emqx/emqx:5.10.0
 #ExecStop=[path]/emqx/bin/emqx stop
 Restart=always
 
