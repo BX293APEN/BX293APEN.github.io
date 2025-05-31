@@ -117,8 +117,8 @@ nano etc/base.hocon # 設定ファイル</code></pre>
     enabled = true
     bind = "0.0.0.0:19080"
     max_connections = 1024000
-    keyfile = "etc/certs/key.pem"
-    certfile = "etc/certs/cert.pem"
+    keyfile = "etc/certs/private_key.pem"
+    certfile = "etc/certs/certificate.pem"
 }</code></pre>
                             </p>
                             <p>
@@ -132,8 +132,8 @@ nano etc/base.hocon # 設定ファイル</code></pre>
     -p 8883:8883 \
     -p 18083:18083 \
     -p 19080:19080/udp \
-    -e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="etc/certs/key.pem" \
-    -e EMQX_LISTENERS__QUIC__DEFAULT__certfile="etc/certs/cert.pem" \
+    -e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="etc/certs/private_key.pem" \
+    -e EMQX_LISTENERS__QUIC__DEFAULT__certfile="etc/certs/certificate.pem" \
     -e EMQX_LISTENERS__QUIC__DEFAULT__ENABLED=true \
     emqx/emqx:5.9.0 # 再起動
 
