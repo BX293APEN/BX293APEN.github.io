@@ -96,9 +96,37 @@ git clone https://github.com/BX293APEN/emqx.git # バージョン確認済みフ
 cd emqx
 make
 cd _build/emqx-enterprise/rel/emqx
-nano etc/base.hocon # 設定ファイル
 ./bin/emqx start # 起動</code></pre>
                             </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                ブローカーの設定(QUIC有効化)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel/emqx
+nano etc/base.hocon # 設定ファイル</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">listeners.quic.default {
+    enabled = true
+    bind = "0.0.0.0:19080"
+    max_connections = 1024000
+    keyfile = "etc/certs/key.pem"
+    certfile = "etc/certs/cert.pem"
+}</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel/emqx
+./bin/emqx start -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 18083:18083 -p 19080:19080/udp -e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="etc/certs/key.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__certfile="etc/certs/cert.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__ENABLED=true emqx/emqx:5.9.0 # 再起動</code></pre>
                         </article>
                     </div>
                     <div class="col-md-4">
