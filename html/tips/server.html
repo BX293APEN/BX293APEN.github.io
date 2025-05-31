@@ -173,7 +173,8 @@ WantedBy=multi-user.target</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo systemctl enable emqx.service
+                                <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl enable emqx.service
 sudo systemctl restart emqx.service
                                 </code></pre>
                             </p>
