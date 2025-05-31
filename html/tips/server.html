@@ -126,16 +126,18 @@ nano etc/base.hocon # 設定ファイル</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel/emqx
-./bin/emqx -p 1883:1883 \
--p 8083:8083 \
--p 8084:8084 \
--p 8883:8883 \
--p 18083:18083 \
--p 19080:19080/udp \
--e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="etc/certs/key.pem" \
--e EMQX_LISTENERS__QUIC__DEFAULT__certfile="etc/certs/cert.pem" \
--e EMQX_LISTENERS__QUIC__DEFAULT__ENABLED=true \
-emqx/emqx:5.9.0 # 再起動</code></pre>
+./bin/emqx start -p 1883:1883 \
+    -p 8083:8083 \
+    -p 8084:8084 \
+    -p 8883:8883 \
+    -p 18083:18083 \
+    -p 19080:19080/udp \
+    -e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="etc/certs/key.pem" \
+    -e EMQX_LISTENERS__QUIC__DEFAULT__certfile="etc/certs/cert.pem" \
+    -e EMQX_LISTENERS__QUIC__DEFAULT__ENABLED=true \
+    emqx/emqx:5.9.0 # 再起動
+
+./bin/emqx ctl listeners # 開いているポートを確認</code></pre>
                         </article>
                     </div>
                     <div class="col-md-4">
