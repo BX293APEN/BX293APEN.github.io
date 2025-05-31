@@ -76,6 +76,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "Windows便利機能集",
                 "text"      : "&emsp;Windowsの設定を変えて扱いやすくしましょう！",
                 "svg"       : true
+            },
+            "serverTip" : {
+                "href"      : "/html/tips/server.html",
+                "imgSrc"    : "/img/RaspberryPi-Dark.svg", 
+                "title"     : "サーバの構築",
+                "text"      : "&emsp;インターネットを利用した便利なサービスを自分で実現してみましょう",
+                "svg"       : true
             }
 
         }
