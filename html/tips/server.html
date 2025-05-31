@@ -138,8 +138,39 @@ nano etc/base.hocon # 設定ファイル</code></pre>
     emqx/emqx:5.9.0 # 再起動
 
 ./bin/emqx ctl listeners # 開いているポートを確認</code></pre>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                自動起動化
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel
+copy -r emqx [path]/emqx # empxを移動
+sudo nano /etc/systemd/system/emqx.service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=EMQX MQTT Broker
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=[path]/emqx/bin/emqx start -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 18083:18083 -p 19080:19080/udp -e EMQX_LISTENERS__QUIC__DEFAULT__keyfile="etc/certs/private_key.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__certfile="etc/certs/certificate.pem" -e EMQX_LISTENERS__QUIC__DEFAULT__ENABLED=true emqx/emqx:5.9.0
+ExecStop=[path]/emqx/bin/emqx stop
+Restart=always
+User=emqx
+Group=emqx
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                            </p>
                         </article>
                     </div>
+
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4">
