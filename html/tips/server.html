@@ -106,7 +106,9 @@ cd _build/emqx-enterprise/rel/emqx
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel/emqx
+                                <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel
+copy -r emqx [path]/emqx # EMQXを移動
+cd [path]/emqx
 nano etc/base.hocon # 設定ファイル</code></pre>
                             </p>
                             <p>
@@ -125,7 +127,7 @@ nano etc/base.hocon # 設定ファイル</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel/emqx
+                                <pre><code class="language-bash">cd [path]/emqx
 ./bin/emqx start -p 1883:1883 \
     -p 8083:8083 \
     -p 8084:8084 \
@@ -146,9 +148,7 @@ nano etc/base.hocon # 設定ファイル</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">cd emqx/_build/emqx-enterprise/rel
-copy -r emqx [path]/emqx # EMQXを移動
-sudo nano /etc/systemd/system/emqx.service</code></pre>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/system/emqx.service</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
