@@ -66,14 +66,16 @@ sudo apt install unixodbc unixodbc-dev</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">wget https://github.com/erlang/otp/releases/download/OTP-27.3.3/otp_src_27.3.3.tar.gz
-tar -xzf otp_src_27.3.3.tar.gz
-cd otp_src_27.3.3
+                                <pre><code class="language-bash">wget https://github.com/erlang/otp/releases/download/OTP-27.2.3/otp_src_27.2.3.tar.gz
+tar -xzf otp_src_27.2.3.tar.gz
+cd otp_src_27.2.3
 ./configure --prefix=/usr --enable-kernel-poll --enable-dirty-schedulers --enable-jit --enable-odbc --with-ssl
 make
-sudo make install</code></pre>
+sudo apt remove --purge erlang # 違うバージョンのerlangを消す
+sudo apt autoremove
+sudo make install
+sudo apt install erlang erlang-dev</code></pre>
                             </p>
-                            <!--sudo apt-get remove --purge erlang-->
                             <h3 class="pt-4 border-bottom fw-bold">
                                 ErlangでunixODBCを使えるようにする
                             </h3>
