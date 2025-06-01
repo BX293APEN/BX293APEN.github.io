@@ -35,7 +35,7 @@
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo apt install -y rebar3 build-essential git libssl-dev libcurl4-openssl-dev  libkrb5-dev libsasl2-dev jq
+                                <pre><code class="language-bash">sudo apt install -y default-jdk rebar3 build-essential git libssl-dev libcurl4-openssl-dev libkrb5-dev libsasl2-dev jq
 rebar3 update
 rebar3 upgrade</code></pre>
                             </p>
@@ -66,13 +66,14 @@ sudo apt install unixodbc unixodbc-dev</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">wget http://erlang.org/download/otp_src_27.1.tar.gz
-tar -xzf otp_src_27.1.tar.gz
-cd otp_src_27.1
-./configure --enable-odbc
+                                <pre><code class="language-bash">wget https://github.com/erlang/otp/releases/download/OTP-27.3.3/otp_src_27.3.3.tar.gz
+tar -xzf otp_src_27.3.3.tar.gz
+cd otp_src_27.3.3
+./configure --prefix=/usr --enable-kernel-poll --enable-dirty-schedulers --enable-jit --enable-odbc --with-ssl
 make
 sudo make install</code></pre>
                             </p>
+                            <!--sudo apt-get remove --purge erlang-->
                             <h3 class="pt-4 border-bottom fw-bold">
                                 ErlangでunixODBCを使えるようにする
                             </h3>
@@ -99,6 +100,15 @@ cd _build/emqx-enterprise/rel/emqx
 ./bin/emqx start # 起動</code></pre>
                             </p>
 
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                環境変数の設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/profile</code></pre>
+                            </p>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 ブローカーの設定(QUIC有効化)
                             </h3>
@@ -174,16 +184,6 @@ WantedBy=multi-user.target</code></pre>
                                 <pre><code class="language-bash">sudo systemctl daemon-reload
 sudo systemctl enable emqx.service
 sudo systemctl restart emqx.service</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                環境変数の設定
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo nano /etc/profile</code></pre>
                             </p>
                             
                         </article>
