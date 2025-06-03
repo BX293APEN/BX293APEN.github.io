@@ -99,8 +99,10 @@ odbcinst -j # インストール確認</code></pre>
                                 <pre><code class="language-bash">git clone https://github.com/emqx/emqx
 git clone https://github.com/BX293APEN/emqx.git # バージョン確認済みフォーク
 cd emqx
+export BUILD_WITH_QUIC=1
 make
 cd _build/emqx-enterprise/rel/emqx
+sudo chmod -R 777 data/*
 ./bin/emqx start # 起動</code></pre>
                             </p>
 
@@ -153,7 +155,8 @@ nano etc/base.hocon # 設定ファイル</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">cd ${EMQX_DIR}
-./bin/emqx ctl listeners # 開いているポートを確認</code></pre>
+./bin/emqx ctl listeners # 開いているポートを確認
+sudo netstat -tunlp | grep 19080 # ポートの状態を確認</code></pre>
                             </p>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 自動起動化
