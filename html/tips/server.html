@@ -146,8 +146,11 @@ nano etc/base.hocon # 設定ファイル</code></pre>
     enabled = true
     bind = "0.0.0.0:19080"
     max_connections = 1024000
-    keyfile = "etc/certs/private_key.pem"
-    certfile = "etc/certs/certificate.pem"
+    ssl_options {
+        keyfile = "/[TLSの秘密鍵があるパス]/private_key.pem"
+        certfile = "/[TLS証明書があるパス]/certificate.pem"
+        # keypassword = "your_key_password" # 秘密鍵にパスワードがある場合
+    }
 }</code></pre>
                             </p>
                             <p>
