@@ -96,9 +96,10 @@ odbcinst -j # インストール確認</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">git clone https://github.com/emqx/emqx
-git clone https://github.com/BX293APEN/emqx.git # バージョン確認済みフォーク
-cd emqx
+                                <pre><code class="language-bash">git clone https://github.com/emqx/emqx # beta版
+wget https://github.com/emqx/emqx/archive/refs/tags/e5.9.0.tar.gz
+tar -xzf emqx-e5.9.0.tar.gz
+cd emqx-e5.9.0
 export BUILD_WITH_QUIC=1
 make
 cd _build/emqx-enterprise/rel/emqx
@@ -119,7 +120,7 @@ sudo chmod -R 777 data/*
                                 <div class="fw-bold">
                                     エディタ(追記)
                                 </div>
-                                <pre><code class="language-bash">EMQX_DIR="/[DLパス]/emqx/_build/emqx-enterprise/rel/emqx"
+                                <pre><code class="language-bash">EMQX_DIR="/[DLパス]/emqx-e5.9.0/_build/emqx-enterprise/rel/emqx"
 export EMQX_DIR</code></pre>
                             </p>
                             <p>
@@ -180,7 +181,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/[DLパス]/emqx/_build/emqx-enterprise/rel/emqx/bin/emqx start
+ExecStart=/[DLパス]/emqx-e5.9.0/_build/emqx-enterprise/rel/emqx/bin/emqx start
 Restart=always
 
 [Install]
