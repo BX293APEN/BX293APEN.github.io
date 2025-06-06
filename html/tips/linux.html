@@ -289,6 +289,13 @@ BOOT_ORDER=0xf164
 # USBブート(4) → NVMe(6) → microSD(1) → Restart(f)
 # https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#BOOT_ORDER</code></pre>
                             </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="sdcardcopier">
+                                ディスククローン (SD Card Copier)
+                            </h4>
+                            <figure class="figure">
+                                <img src="/img/linux/SDCP.png" class="figure-img img-fluid rounded" alt="SDCardCopier">
+                            </figure><br>
                         </article>
 
                         <article class="blog-post">
@@ -386,10 +393,11 @@ password=[NASのパスワード]</code></pre>
                                         <a href="#raspiEEPROM">Raspberry PiのEEPROM書き換え</a>
                                     </li>
                                     <li>
+                                        <a href="#sdcardcopier">Raspberry Pi クローン</a>
+                                    </li>
+                                    <li>
                                         <a href="#nas">NASの接続</a>
                                     </li>
-
-    
                                 </ol>
                             </div>
 
@@ -414,7 +422,7 @@ password=[NASのパスワード]</code></pre>
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-            new TipsView(tipsModel, "tips", "tips", ["githubTip", "vimTip", "windowsTip", "pythonTip", "cTip"]);
+            new TipsView(tipsModel, "tips", "tips", ["githubTip", "vimTip", "windowsTip", "pythonTip", "cTip", "serverTip"]);
         </script>
     </footer>
 </html>
