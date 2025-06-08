@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "raspi">
+                                Raspberry Pi
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                I2C確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">i2cdetect -y 1</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                仮想メモリサイズの変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo swapon --show #現在の仮想メモリサイズを確認
+sudo dphys-swapfile swapoff # 仮想メモリの使用を中止
+sudo nano /etc/dphys-swapfile</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">CONF_SWAPSIZE=2048</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                RTCの電圧確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cat /sys/devices/platform/soc@107c000000/soc@107c000000:rpi_rtc/rtc/rtc0/battery_voltage</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="raspiUI">
+                                UIの修復
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">startx
+sudo apt install raspberrypi-ui-mods</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="raspiEEPROM">
+                                EEPROMの書き換え(Raspberry Pi 5用)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo rpi-eeprom-config --edit</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[all]
+BOOT_UART=1
+POWER_OFF_ON_HALT=0
+BOOT_ORDER=0xf164
+
+# USBブート(4) → NVMe(6) → microSD(1) → Restart(f)
+# https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#BOOT_ORDER</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="sdcardcopier">
+                                ディスククローン (SD Card Copier)
+                            </h4>
+                            <figure class="figure">
+                                <img src="/img/linux/SDCP.png" class="figure-img img-fluid rounded" alt="SDCardCopier">
+                            </figure><br>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#raspi">Raspberry Pi</a>
+                                    </li>
+                                    <li>
+                                        <a href="#raspiUI">Raspberry PiのUI修復</a>
+                                    </li>
+                                    <li>
+                                        <a href="#raspiEEPROM">Raspberry PiのEEPROM書き換え</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sdcardcopier">Raspberry Pi クローン</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["githubTip", "cTip" ]);
+            new Pagination(2, linuxModel.page, "pagination");
+        </script>
+    </footer>
+</html>
