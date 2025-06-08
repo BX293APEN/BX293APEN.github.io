@@ -25,6 +25,17 @@
                             サーバの構築手順
                         </h1>
                         <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="self-signed_cert">
+                                自己CA証明書のインストール(Linux)
+                            </h2>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cp [自己CA証明書のパス] /usr/local/share/ca-certificates
+sudo update-ca-certificates</code></pre>
+                        </article>
+                        <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="mqtt">
                                 MQTTブローカ
                             </h2>
@@ -161,6 +172,9 @@ nano etc/base.hocon # 設定ファイル</code></pre>
         keyfile = "/[TLSの秘密鍵があるパス]/private_key.pem"
         certfile = "/[TLS証明書があるパス]/certificate.pem"
         # keypassword = "your_key_password" # 秘密鍵にパスワードがある場合
+        versions = [tlsv1.3]
+        verify = verify_none
+        ciphers = "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256"
     }
 }</code></pre>
                             </p>
@@ -216,6 +230,9 @@ sudo systemctl restart emqx.service</code></pre>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#self-signed_cert">自己CA証明書のインストール(Linux)</a>
                                     </li>
                                     <li>
                                         <a href="#mqtt">MQTTブローカ</a>
