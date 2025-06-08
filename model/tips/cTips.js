@@ -195,6 +195,10 @@ class CPPModel{
             {
                 "page" : 1,
                 "href" : "/html/tips/c.html"
+            },
+            {
+                "page" : 2,
+                "href" : "/html/tips/c2.html"
             }
         ]
     }
