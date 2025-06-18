@@ -52,7 +52,7 @@ class CPPModel{
                     "-2<sup>63</sup> ～ 2<sup>63</sup>-1"
                 ],
                 [
-                    '<pre><code class="language-c">foat</code></pre>',
+                    '<pre><code class="language-c">float</code></pre>',
                     '4',
                     '32',
                     "±1.175494351 * 10<sup>-38</sup> ～ ±3.402823466 * 10<sup>38</sup>"
