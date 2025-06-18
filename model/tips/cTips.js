@@ -198,7 +198,7 @@ class CPPModel{
             },
             {
                 "page" : 2,
-                "href" : "/html/tips/c2.html"
+                "href" : "/html/tips/c-lang/c2.html"
             }
         ]
     }

@@ -7,7 +7,11 @@ class LinuxModel{
             },
             {
                 "page" : 2,
-                "href" : "/html/tips/raspi.html"
+                "href" : "/html/tips/linux/raspi.html"
+            },
+            {
+                "page" : 3,
+                "href" : "/html/tips/linux/daemon.html"
             }
         ]
     }
