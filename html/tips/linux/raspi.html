@@ -106,6 +106,43 @@ BOOT_ORDER=0xf164
                             <figure class="figure">
                                 <img src="/img/linux/SDCP.png" class="figure-img img-fluid rounded" alt="SDCardCopier">
                             </figure><br>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                pigpio有効化(Raspberry Pi 5を除く)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable pigpiod
+sudo systemctl restart pigpiod</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "sample">
+                                サンプルプログラム
+                            </h3>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                Lチカ
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    Python
+                                </div>
+                                <pre><code class="language-python">import gpiozero
+from time import sleep
+
+if __name__ == "__main__":
+    led_pin = gpiozero.DigitalOutputDevice(pin=18)
+    led_pin.value = 0
+    while True:
+        led_pin.value = 1 - led_pin.value
+        sleep(1)
+</code></pre>
+                            </p>
+
                         </article>
 
                     </div>
@@ -128,6 +165,9 @@ BOOT_ORDER=0xf164
                                     </li>
                                     <li>
                                         <a href="#sdcardcopier">Raspberry Pi クローン</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sample">サンプルプログラム</a>
                                     </li>
                                 </ol>
                             </div>
