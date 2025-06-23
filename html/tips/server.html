@@ -396,6 +396,78 @@ named-checkzone 10.168.192.in-addr.arpa /var/cache/bind/raspi3b.rev # 逆引き�
 sudo systemctl status bind9 # 状態確認</code></pre>
                             </p>
                         </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="ftp">
+                                vsftpdを利用したFTPサーバの構築方法
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install vsftpd</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/vsftpd/vsftpd.conf</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">anonymous_enable=YES            # アノニマス(匿名)ユーザを許可する。
+local_enable=YES                # ローカルユーザアカウントによるログインを許可する。
+write_enable=YES                # ファイルに変更を加える FTP コマンドの使用を、許可するかどうかを指定する。
+local_umask=022                 # (システム規定値)∩ (~(umask値))をする。
+                                # 今回はシステム規定値 : 777, umask値 : 022なので、755を適用する。
+dirmessage_enable=YES           # ディレクトリメッセージを表示する。
+xferlog_enable=YES              # ログの取得を行う。
+connect_from_port_20=YES        # ftp_data_portで指定するポートを使用する。
+xferlog_std_format=YES          # 取得するログの形式を指定する。(今回はデフォルト)
+listen=YES                      # IPv4有効化。
+listen_ipv6=NO                  # IPv6無効化。
+pam_service_name=vsftpd         # サービス名指定する。
+tcp_wrappers=NO                 # denyファイル（/etc/hosts.allow, /etc/hosts.deny)を利用しない。
+userlist_enable=NO              # userlist_fileを使用しない。
+pasv_enable=YES                 # パッシブモードの接続を許可する。
+                                # ※パッシブモード : データ転送用・制御用の線の両方をクライアント側から接続する方式
+pasv_address=192.168.10.97      # FTPサーバのIPアドレスを指定する。
+pasv_min_port=60001
+pasv_max_port=60010             # データ転送用ポートを指定する。
+force_dot_files=YES             # 「.」から始まるファイルを含めた一覧を返す。
+use_localtime=YES               # ファイル (ディレクトリ) のタイムスタンプ表示をローカルタイムで行う。
+user_config_dir=/etc/vsftpd/user_conf       # アクセスするユーザの設定ファイルの場所を指定する。
+chroot_local_user=NO            # ユーザはログインディレクトリの外側にアクセスできなくなる。
+chroot_list_enable=YES          # 指定ファイルに記載されたユーザをchroot_local_userの設定に基づいて制御する。
+chroot_list_file=/etc/vsftpd/chroot_list    # chroot_list_enableがYESの場合に参照するファイルを指定する。
+allow_writeable_chroot=YES      # 書き込み許可をする。</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir -p /home/admin/ftp                # (必要に応じて親ディレクトリを作成し)FTPで使うフォルダを作成する。
+chown admin /home/admin/ftp
+chmod 777 /home/admin/ftp               # 権限を変更する。(読み書き出来るようにする。)
+sudo nano /etc/vsftpd/chroot_list       # アクセスするユーザのリストを作成する。(今回はadminでログインするので、「admin」と書き込み保存する。)
+mkdir /etc/vsftpd/user_conf
+sudo nano /etc/vsftpd/user_conf/admin   # 「local_root=/home/admin/ftp」と書き込み保存する。
+                                        # アクセスするユーザのルートディレクトリ(/home/admin/ftp)を設定する。
+systemctl start vsftpd                  # FTPサーバを起動する。</code></pre>
+                            </p>
+                        </article>
                     </div>
 
                     <div class="col-md-4">
@@ -414,6 +486,9 @@ sudo systemctl status bind9 # 状態確認</code></pre>
                                     </li>
                                     <li>
                                         <a href="#dns">DNSサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ftp">FTPサーバの構築</a>
                                     </li>
     
                                 </ol>
