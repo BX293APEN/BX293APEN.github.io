@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="/model/index/index.js"></script>
         <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
@@ -222,252 +223,7 @@ sudo systemctl restart emqx.service</code></pre>
                             </p>
                             
                         </article>
-                        <article class="blog-post">
-                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dns">
-                                DNSサーバの構築
-                            </h2>
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                必要なパッケージのインストール
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo apt install bind9 dnsutils
-named -v # バージョン確認</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                設定ファイルの場所を確認
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">cat /etc/bind/named.conf</code></pre>
-
-                                <div class="fw-bold">
-                                    出力
-                                </div>
-                                <pre><code class="language-bash">include "/etc/bind/named.conf.options";         // bindの設定
-include "/etc/bind/named.conf.local";           // 正引き逆引きの参照ファイルの設定
-include "/etc/bind/named.conf.default-zones";   // デフォルト設定 (変更しない)</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                bind9の設定
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo nano /etc/bind/named.conf.options</code></pre>
-                            </p>
-                            <p>
-                                <div class="fw-bold">
-                                    エディタ
-                                </div>
-                                <pre><code class="language-bash">//======================================
-// /etc/named.conf.options
-//======================================
-//optionsでDNS全般の設定をします.
-options {
-    directory "/var/cache/bind";
-    version "unknown"; //BINDのバージョン情報を公開しない
-    // recursion no; //再帰検索要求は受け付けない
-    // allow-query {any;}; //どこからの問合せも受け付ける
-    forwarders {
-        1.1.1.1;        // Cloudflare
-        8.8.8.8;        // Google Public DNS
-        192.168.10.1;   // その他DNS
-    };
-    forward only;
-    // dnssec-validation no;
-    // allow-recursion { 127.0.0.1; 192.168.10.0/24; };
-    // listen-on-v6 { any; };
-};</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                参照ファイルの設定
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">//
-// Do any local configuration here
-//
-
-// Consider adding the 1918 zones here, if they are not used in your
-// organization
-//include "/etc/bind/zones.rfc1918";
-
-// file : /var/cache/bind/...
-
-// 正引き(ドメイン : lan)設定
-zone "lan"{
-    type master;
-    file "raspi3b.zone"; // 正引きファイル : /var/cache/bind/raspi3b.zone を参照
-};
-
-// 逆引き設定(ネットワークアドレス : 192.168.10.0)
-zone "10.168.192.in-addr.arpa"{
-    type master;
-    file "raspi3b.rev"; // 逆引きファイル : /var/cache/bind/raspi3b.rev を参照
-};</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                正引き設定
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo nano /var/cache/bind/raspi3b.zone</code></pre>
-                            </p>
-                            <p>
-                                <div class="fw-bold">
-                                    エディタ
-                                </div>
-                                <pre><code class="language-bash">$TTL 3600
-@ IN SOA raspi3b.lan. root.raspi3b.lan. (
-    06010000   ; serial (毎回変更すること推奨)
-    3H         ; refresh
-    15M        ; retry
-    1W         ; expire
-    1H )       ; minimum
-
-            IN      NS      raspi3b.lan.
-            IN      A       192.168.10.99
-www         IN      CNAME   raspi3b.lan.
-raspi3b     IN      A       192.168.10.99
-gateway     IN      A       192.168.10.1</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                逆引き設定
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo nano /var/cache/bind/raspi3b.rev</code></pre>
-                            </p>
-                            <p>
-                                <div class="fw-bold">
-                                    エディタ
-                                </div>
-                                <pre><code class="language-bash">$TTL 3600
-@ IN SOA raspi3b.lan. root.raspi3b.lan. (
-    0601000000 ; serial (毎回変更すること推奨)
-    3H         ; refresh
-    15M        ; retry
-    1W         ; expire
-    1H )       ; minimum
-
-            IN      NS      raspi3b.lan.
-99          IN      PTR     raspi3b.lan.
-1           IN      PTR     gateway.lan.</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                設定ミスが無いか確認
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">named-checkconf                                                     # 設定ファイルの構文チェック
-named-checkzone lan /var/cache/bind/raspi3b.zone                    # 正引き確認
-named-checkzone 10.168.192.in-addr.arpa /var/cache/bind/raspi3b.rev # 逆引き確認
-</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                DNSサーバを再起動
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo systemctl restart bind9
-sudo systemctl status bind9 # 状態確認</code></pre>
-                            </p>
-                        </article>
-
-                        <article class="blog-post">
-                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="ftp">
-                                vsftpdを利用したFTPサーバの構築方法
-                            </h2>
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                必要なパッケージのインストール
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo apt install vsftpd</code></pre>
-                            </p>
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                設定ファイルの編集
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo nano /etc/vsftpd/vsftpd.conf</code></pre>
-                            </p>
-                            <p>
-                                <div class="fw-bold">
-                                    エディタ
-                                </div>
-                                <pre><code class="language-bash">anonymous_enable=YES            # アノニマス(匿名)ユーザを許可する。
-local_enable=YES                # ローカルユーザアカウントによるログインを許可する。
-write_enable=YES                # ファイルに変更を加える FTP コマンドの使用を、許可するかどうかを指定する。
-local_umask=022                 # (システム規定値)∩ (~(umask値))をする。
-                                # 今回はシステム規定値 : 777, umask値 : 022なので、755を適用する。
-dirmessage_enable=YES           # ディレクトリメッセージを表示する。
-xferlog_enable=YES              # ログの取得を行う。
-connect_from_port_20=YES        # ftp_data_portで指定するポートを使用する。
-xferlog_std_format=YES          # 取得するログの形式を指定する。(今回はデフォルト)
-listen=YES                      # IPv4有効化。
-listen_ipv6=NO                  # IPv6無効化。
-pam_service_name=vsftpd         # サービス名指定する。
-tcp_wrappers=NO                 # denyファイル（/etc/hosts.allow, /etc/hosts.deny)を利用しない。
-userlist_enable=NO              # userlist_fileを使用しない。
-pasv_enable=YES                 # パッシブモードの接続を許可する。
-                                # ※パッシブモード : データ転送用・制御用の線の両方をクライアント側から接続する方式
-pasv_address=192.168.10.97      # FTPサーバのIPアドレスを指定する。
-pasv_min_port=60001
-pasv_max_port=60010             # データ転送用ポートを指定する。
-force_dot_files=YES             # 「.」から始まるファイルを含めた一覧を返す。
-use_localtime=YES               # ファイル (ディレクトリ) のタイムスタンプ表示をローカルタイムで行う。
-user_config_dir=/etc/vsftpd/user_conf       # アクセスするユーザの設定ファイルの場所を指定する。
-chroot_local_user=NO            # ユーザはログインディレクトリの外側にアクセスできなくなる。
-chroot_list_enable=YES          # 指定ファイルに記載されたユーザをchroot_local_userの設定に基づいて制御する。
-chroot_list_file=/etc/vsftpd/chroot_list    # chroot_list_enableがYESの場合に参照するファイルを指定する。
-allow_writeable_chroot=YES      # 書き込み許可をする。</code></pre>
-                            </p>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                設定の変更
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">mkdir -p /home/admin/ftp                # (必要に応じて親ディレクトリを作成し)FTPで使うフォルダを作成する。
-chown admin /home/admin/ftp
-chmod 777 /home/admin/ftp               # 権限を変更する。(読み書き出来るようにする。)
-sudo nano /etc/vsftpd/chroot_list       # アクセスするユーザのリストを作成する。(今回はadminでログインするので、「admin」と書き込み保存する。)
-mkdir /etc/vsftpd/user_conf
-sudo nano /etc/vsftpd/user_conf/admin   # 「local_root=/home/admin/ftp」と書き込み保存する。
-                                        # アクセスするユーザのルートディレクトリ(/home/admin/ftp)を設定する。
-systemctl start vsftpd                  # FTPサーバを起動する。</code></pre>
-                            </p>
-                        </article>
+                        
                     </div>
 
                     <div class="col-md-4">
@@ -484,13 +240,6 @@ systemctl start vsftpd                  # FTPサーバを起動する。</code><
                                     <li>
                                         <a href="#mqtt">MQTTブローカ</a>
                                     </li>
-                                    <li>
-                                        <a href="#dns">DNSサーバの構築</a>
-                                    </li>
-                                    <li>
-                                        <a href="#ftp">FTPサーバの構築</a>
-                                    </li>
-    
                                 </ol>
                             </div>
 
@@ -502,13 +251,16 @@ systemctl start vsftpd                  # FTPサーバを起動する。</code><
             </main>
         </div>
     </body>
-    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
         <script src="/view/bootstrap.bundle.min.js"></script>
         <script src="/view/search.js"></script>
         <script src="/view/embeddedHTML.js"></script>
         <script src="/view/highlight.min.js"></script>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -516,6 +268,7 @@ systemctl start vsftpd                  # FTPサーバを起動する。</code><
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["githubTip", "linuxTip"]);
+            new Pagination(1, serverModel.page, "pagination");
         </script>
     </footer>
 </html>
