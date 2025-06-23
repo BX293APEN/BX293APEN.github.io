@@ -26,6 +26,30 @@
                             Linuxセットアップガイド
                         </h2>
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="hostname">
+                                ホスト名の変更
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                現在のホスト名を確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">hostnamectl status</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                新しいホスト名を設定する
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo hostnamectl set-hostname [新しいホスト名]
+sudo reboot # 再起動して適用</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold">
                                 Bash
                             </h3>
@@ -273,6 +297,9 @@ password=[NASのパスワード]</code></pre>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#hostname">ホスト名の変更</a>
                                     </li>
                                     <li>
                                         <a href="#alias">Aliasの設定</a>
