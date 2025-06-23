@@ -222,6 +222,180 @@ sudo systemctl restart emqx.service</code></pre>
                             </p>
                             
                         </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dns">
+                                DNSサーバの構築
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install bind9 dnsutils
+named -v # バージョン確認</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの場所を確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cat /etc/bind/named.conf</code></pre>
+
+                                <div class="fw-bold">
+                                    出力
+                                </div>
+                                <pre><code class="language-bash">include "/etc/bind/named.conf.options";         // bindの設定
+include "/etc/bind/named.conf.local";           // 正引き逆引きの参照ファイルの設定
+include "/etc/bind/named.conf.default-zones";   // デフォルト設定 (変更しない)</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                bind9の設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/bind/named.conf.options</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">//======================================
+// /etc/named.conf.options
+//======================================
+//optionsでDNS全般の設定をします.
+options {
+    directory "/var/cache/bind";
+    version "unknown"; //BINDのバージョン情報を公開しない
+    // recursion no; //再帰検索要求は受け付けない
+    // allow-query {any;}; //どこからの問合せも受け付ける
+    forwarders {
+        1.1.1.1;        // Cloudflare
+        8.8.8.8;        // Google Public DNS
+        192.168.10.1;   // その他DNS
+    };
+    forward only;
+    // dnssec-validation no;
+    // allow-recursion { 127.0.0.1; 192.168.10.0/24; };
+    // listen-on-v6 { any; };
+};</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                参照ファイルの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+// file : /var/cache/bind/...
+
+// 正引き(ドメイン : lan)設定
+zone "lan"{
+    type master;
+    file "raspi3b.zone"; // 正引きファイル : /var/cache/bind/raspi3b.zone を参照
+};
+
+// 逆引き設定(ネットワークアドレス : 192.168.10.0)
+zone "10.168.192.in-addr.arpa"{
+    type master;
+    file "raspi3b.rev"; // 逆引きファイル : /var/cache/bind/raspi3b.rev を参照
+};</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                正引き設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /var/cache/bind/raspi3b.zone</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">$TTL 3600
+@ IN SOA raspi3b.lan. root.raspi3b.lan. (
+    06010000   ; serial (毎回変更すること推奨)
+    3H         ; refresh
+    15M        ; retry
+    1W         ; expire
+    1H )       ; minimum
+
+            IN      NS      raspi3b.lan.
+            IN      A       192.168.10.99
+www         IN      CNAME   raspi3b.lan.
+raspi3b     IN      A       192.168.10.99
+gateway     IN      A       192.168.10.1</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                逆引き設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /var/cache/bind/raspi3b.rev</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">$TTL 3600
+@ IN SOA raspi3b.lan. root.raspi3b.lan. (
+    0601000000 ; serial (毎回変更すること推奨)
+    3H         ; refresh
+    15M        ; retry
+    1W         ; expire
+    1H )       ; minimum
+
+            IN      NS      raspi3b.lan.
+99          IN      PTR     raspi3b.lan.
+1           IN      PTR     gateway.lan.</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ミスが無いか確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">named-checkconf                                                     # 設定ファイルの構文チェック
+named-checkzone lan /var/cache/bind/raspi3b.zone                    # 正引き確認
+named-checkzone 10.168.192.in-addr.arpa /var/cache/bind/raspi3b.rev # 逆引き確認
+</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                DNSサーバを再起動
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart bind9
+sudo systemctl status bind9 # 状態確認</code></pre>
+                            </p>
+                        </article>
                     </div>
 
                     <div class="col-md-4">
@@ -237,6 +411,9 @@ sudo systemctl restart emqx.service</code></pre>
                                     </li>
                                     <li>
                                         <a href="#mqtt">MQTTブローカ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#dns">DNSサーバの構築</a>
                                     </li>
     
                                 </ol>
