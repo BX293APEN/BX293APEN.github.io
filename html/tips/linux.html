@@ -46,7 +46,24 @@
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">sudo hostnamectl set-hostname [新しいホスト名]
-sudo reboot # 再起動して適用</code></pre>
+sudo nano /etc/hosts</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">127.0.0.1       localhost
+::1             localhost ip6-localhost ip6-loopback
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+
+127.0.1.1       [新しいホスト名]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo reboot # 再起動して適用</code></pre>
                             </p>
                         </article>
                         <article class="blog-post">
