@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>How to use Docker?</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold">
+                            Dockerの使い方ガイド
+                        </h1>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                概要
+                            </h3>
+                            <h4 class="pt-2 mt-2 fw-bold">
+                                Docker (ドッカー)
+                            </h4>
+                            <ul>
+                                <li>
+                                    コンテナ仮想化技術を利用したオープンプラットフォーム
+                                </li>
+                                <li>
+                                    アプリケーションの開発、デプロイ、実行を効率化出来る
+                                </li>
+                            </ul>
+
+                            <h5 class="pt-3 mt-3 fw-bold">
+                                メリット
+                            </h5>
+                            <ul>
+                                <li>
+                                    仮想環境であるため、隔離されており、実機に影響を及ぼしにくい
+                                </li>
+                                <li>
+                                    VMよりも軽量
+                                </li>
+                                <li>
+                                    起動や動作が速い
+                                </li>
+                                <li>
+                                    開発環境の共有や移行が容易
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                ディレクトリ
+                            </h3>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                基本コマンド
+                            </h3>
+                            <p>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-fixed">
+                                        <tr>
+                                            <th scope="col">コマンド</th>
+                                            <th scope="col">説明</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose up -d</code></pre>
+                                            </td>
+                                            <td>
+                                                バックグラウンドで全てのサービスを起動
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose up</code></pre>
+                                            </td>
+                                            <td>
+                                                全てのサービスをフォアグラウンドで起動し、ログを表示
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose exec [コンテナ名] [コマンド]</code></pre>
+                                            </td>
+                                            <td>
+                                                既に実行中のコンテナ内で、新しいコマンドを実行する
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose run [コンテナ名] [コマンド]</code></pre>
+                                            </td>
+                                            <td>
+                                                一度限りのコマンドを実行
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose down</code></pre>
+                                            </td>
+                                            <td>
+                                                完全にコンテナを終了させる
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose stop</code></pre>
+                                            </td>
+                                            <td>
+                                                コンテナをサスペンドする
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose build</code></pre>
+                                            </td>
+                                            <td>
+                                                Dockerfileに基づいてサービス用のDockerイメージをビルド
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                            </p>
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "windowsTip", "vimTip", "serverTip"]);
+        </script>
+    </footer>
+</html>

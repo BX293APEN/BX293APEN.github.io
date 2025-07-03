@@ -83,6 +83,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "サーバの構築",
                 "text"      : "&emsp;インターネットを利用した便利なサービスを自分で実現してみましょう",
                 "svg"       : true
+            },
+            "dockerTip" : {
+                "href"      : "/html/tips/docker.html",
+                "imgSrc"    : "/img/Docker.svg", 
+                "title"     : "Dockerの使い方ガイド",
+                "text"      : "&emsp;コンテナを利用し、仮想環境での開発に挑戦してみましょう！",
+                "svg"       : true
             }
 
         }
