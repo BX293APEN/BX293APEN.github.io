@@ -117,6 +117,15 @@
                                         </tr>
                                         <tr>
                                             <td>
+                                                <pre><code class="language-bash">docker compose up --build -d</code></pre>
+                                            </td>
+                                            <td class ="text-nowrap">
+                                                Dockerfileに基づいてサービス用のDockerイメージを更新し、<br>
+                                                バックグラウンドで全てのサービスを起動
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <pre><code class="language-bash">docker compose up -d</code></pre>
                                             </td>
                                             <td>
@@ -127,8 +136,16 @@
                                             <td>
                                                 <pre><code class="language-bash">docker compose up</code></pre>
                                             </td>
-                                            <td class ="text-nowrap">
+                                            <td>
                                                 全てのサービスをフォアグラウンドで起動し、ログを表示
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose build</code></pre>
+                                            </td>
+                                            <td>
+                                                Dockerfileに基づいてサービス用のDockerイメージをビルド
                                             </td>
                                         </tr>
                                         <tr>
@@ -163,14 +180,6 @@
                                                 コンテナをサスペンドする
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker compose build</code></pre>
-                                            </td>
-                                            <td>
-                                                Dockerfileに基づいてサービス用のDockerイメージをビルド
-                                            </td>
-                                        </tr>
                                     </table>
                                 </div>
                                 
@@ -200,8 +209,8 @@ services: # 作成したいコンテナを列挙
     # depends_on: # コンテナ間の依存関係を定義
     #   - db # 先にdbコンテナが動いていることを確認する
 
-    command: # サービスコンテナが起動したときに実行するコマンド
-      - bash</code></pre>
+    # command: # サービスコンテナが起動したときに実行するコマンド
+    #   - bash</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
@@ -216,7 +225,11 @@ FROM ubuntu:25.10
 
 RUN apt update && apt upgrade -y
 
-WORKDIR /WS</code></pre>
+WORKDIR /WS
+
+# 起動したら実行するコマンド
+CMD ["/bin/bash", "-c", "while true; do sleep 1000; done"]
+# 無限ループでbashを起動し続ける（Ctrl+Cで停止）</code></pre>
                             </p>
                         </article>
                     
