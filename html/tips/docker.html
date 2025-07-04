@@ -190,10 +190,10 @@ services: # 作成したいコンテナを列挙
     build: . # Dockerfileへの相対パス
     # image: ubuntu:22.10 # Dockerfileが無い場合
     volumes: # マウント
-      - linux_data: /WS # ホストディレクトリ: コンテナ内ディレクトリ
+      - ./linux_data:/WS # ホストディレクトリ: コンテナ内ディレクトリ
     restart: always
     environment: # 環境変数を設定
-      - TZ: Asia/Tokyo
+      - TZ=Asia/Tokyo
     ports: # ポートを接続
       - "3000:3000" # ホストマシンのポート番号:コンテナのポート番号
     
@@ -201,7 +201,7 @@ services: # 作成したいコンテナを列挙
     #   - db # 先にdbコンテナが動いていることを確認する
 
     command: # サービスコンテナが起動したときに実行するコマンド
-      bash</code></pre>
+      - bash</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
