@@ -176,6 +176,49 @@
                                 
                             </p>
                         </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                サンプル
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    docker-compose.yml
+                                </div>
+                                <pre><code class="language-bash"># YAMLはスペース2つ
+services: # 作成したいコンテナを列挙
+  linux: # 作成するコンテナの名前
+    build: . # Dockerfileへの相対パス
+    # image: ubuntu:22.10 # Dockerfileが無い場合
+    volumes: # マウント
+      - linux_data: /WS # ホストディレクトリ: コンテナ内ディレクトリ
+    restart: always
+    environment: # 環境変数を設定
+      - TZ: Asia/Tokyo
+    ports: # ポートを接続
+      - "3000:3000" # ホストマシンのポート番号:コンテナのポート番号
+    
+    # depends_on: # コンテナ間の依存関係を定義
+    #   - db # 先にdbコンテナが動いていることを確認する
+
+    command: # サービスコンテナが起動したときに実行するコマンド
+      bash</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    Dockerfie
+                                </div>
+                                <pre><code class="language-bash"># FROM [イメージ] [タグ]
+# Docker Hub (https://hub.docker.com/) 参照
+FROM ubuntu:22.10
+
+# RUN 命令はなるべく1つにまとめる
+# コマンドが長くなる場合は \ で改行すること
+
+RUN apt update && apt upgrade -y
+
+WORKDIR /WS</code></pre>
+                            </p>
+                        </article>
                     
                     </div>
                     <div class="col-md-4">
