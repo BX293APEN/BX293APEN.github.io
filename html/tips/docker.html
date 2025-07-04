@@ -188,7 +188,7 @@
 services: # 作成したいコンテナを列挙
   linux: # 作成するコンテナの名前
     build: . # Dockerfileへの相対パス
-    # image: ubuntu:22.10 # Dockerfileが無い場合
+    # image: ubuntu:25.10 # Dockerfileが無い場合
     volumes: # マウント
       - ./linux_data:/WS # ホストディレクトリ: コンテナ内ディレクトリ
     restart: always
@@ -209,7 +209,7 @@ services: # 作成したいコンテナを列挙
                                 </div>
                                 <pre><code class="language-bash"># FROM [イメージ] [タグ]
 # Docker Hub (https://hub.docker.com/) 参照
-FROM ubuntu:22.10
+FROM ubuntu:25.10
 
 # RUN 命令はなるべく1つにまとめる
 # コマンドが長くなる場合は \ で改行すること
