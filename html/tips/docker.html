@@ -197,12 +197,17 @@
 services: # 作成したいコンテナを列挙
   linux: # 作成するコンテナの名前
     build: . # Dockerfileへの相対パス
+    
     # image: ubuntu:25.10 # Dockerfileが無い場合
+
     volumes: # マウント
       - ./linux_data:/WS # ホストディレクトリ: コンテナ内ディレクトリ
-    restart: unless-stopped
+
+    restart: no # unless-stopped always
+    
     environment: # 環境変数を設定
       - TZ=Asia/Tokyo
+    
     ports: # ポートを接続
       - "3000:3000" # ホストマシンのポート番号:コンテナのポート番号
     
@@ -222,8 +227,9 @@ FROM ubuntu:25.10
 
 # RUN 命令はなるべく1つにまとめる
 # コマンドが長くなる場合は \ で改行すること
-
-RUN apt update && apt upgrade -y
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y nano
 
 WORKDIR /WS
 
