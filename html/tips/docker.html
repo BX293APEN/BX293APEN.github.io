@@ -62,119 +62,113 @@
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
                                 Dockerで利用するファイル
                             </h3>
-                            <p>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-fixed">
-                                        <tr>
-                                            <th scope="col">ファイル</th>
-                                            <th scope="col">内容</th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose.yml</code></pre>
-                                            </td>
-                                            <td>
-                                                複数コンテナの一括定義・連携
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">Dockerfile</code></pre>
-                                            </td>
-                                            <td>
-                                                <ul>
-                                                    <li>
-                                                        ベースイメージの指定
-                                                    </li>
-                                                    <li>
-                                                        ポート指定 (情報提供のみで、実際のポートマッピングは<b>docker-compose.yml</b>で行う)
-                                                    </li>
-                                                    <li>
-                                                        必要なソフトウェアのインストール
-                                                    </li>
-                                                    <li>
-                                                        起動時に実行するコマンド等を指定
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        
-                                    </table>
-                                </div>
-                                
-                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">ファイル</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose.yml</code></pre>
+                                        </td>
+                                        <td>
+                                            複数コンテナの一括定義・連携
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">Dockerfile</code></pre>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>
+                                                    ベースイメージの指定
+                                                </li>
+                                                <li>
+                                                    ポート指定 (情報提供のみで、実際のポートマッピングは<b>docker-compose.yml</b>で行う)
+                                                </li>
+                                                <li>
+                                                    必要なソフトウェアのインストール
+                                                </li>
+                                                <li>
+                                                    起動時に実行するコマンド等を指定
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
                                 基本コマンド
                             </h3>
-                            <p>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-fixed">
-                                        <tr>
-                                            <th scope="col">コマンド</th>
-                                            <th scope="col">説明</th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose up -d</code></pre>
-                                            </td>
-                                            <td>
-                                                バックグラウンドで全てのサービスを起動
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose up</code></pre>
-                                            </td>
-                                            <td>
-                                                全てのサービスをフォアグラウンドで起動し、ログを表示
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose exec [コンテナ名] [コマンド]</code></pre>
-                                            </td>
-                                            <td>
-                                                既に実行中のコンテナ内で、新しいコマンドを実行する
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose run [コンテナ名] [コマンド]</code></pre>
-                                            </td>
-                                            <td>
-                                                一度限りのコマンドを実行
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose down</code></pre>
-                                            </td>
-                                            <td>
-                                                完全にコンテナを終了させる
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose stop</code></pre>
-                                            </td>
-                                            <td>
-                                                コンテナをサスペンドする
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <pre><code class="language-bash">docker-compose build</code></pre>
-                                            </td>
-                                            <td>
-                                                Dockerfileに基づいてサービス用のDockerイメージをビルド
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                
-                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">コマンド</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose up -d</code></pre>
+                                        </td>
+                                        <td>
+                                            バックグラウンドで全てのサービスを起動
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose up</code></pre>
+                                        </td>
+                                        <td>
+                                            全てのサービスをフォアグラウンドで起動し、ログを表示
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose exec [コンテナ名] [コマンド]</code></pre>
+                                        </td>
+                                        <td>
+                                            既に実行中のコンテナ内で、新しいコマンドを実行する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose run [コンテナ名] [コマンド]</code></pre>
+                                        </td>
+                                        <td>
+                                            一度限りのコマンドを実行
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose down</code></pre>
+                                        </td>
+                                        <td>
+                                            完全にコンテナを終了させる
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose stop</code></pre>
+                                        </td>
+                                        <td>
+                                            コンテナをサスペンドする
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">docker-compose build</code></pre>
+                                        </td>
+                                        <td>
+                                            Dockerfileに基づいてサービス用のDockerイメージをビルド
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </article>
                     
                     </div>
