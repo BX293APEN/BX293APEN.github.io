@@ -191,7 +191,7 @@ services: # 作成したいコンテナを列挙
     # image: ubuntu:25.10 # Dockerfileが無い場合
     volumes: # マウント
       - ./linux_data:/WS # ホストディレクトリ: コンテナ内ディレクトリ
-    restart: always
+    restart: unless-stopped
     environment: # 環境変数を設定
       - TZ=Asia/Tokyo
     ports: # ポートを接続
