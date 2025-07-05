@@ -25,7 +25,7 @@ class DownloadModel {
             "kali_key" : {
                 "imgType"   : "none",
                 "title"     : "Kali Linux のアーカイブキーをシステムに追加する",
-                "text"      : "&emsp;",
+                "text"      : "&emsp;Kali Linuxの更新に失敗した時に試してみてください",
                 "content"   : '<pre><code class="language-bash">sudo wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg\nwget -q -O - https://archive.kali.org/archive-key.asc | apt-key add # old</code></pre>',
                 
             },
