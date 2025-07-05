@@ -29,6 +29,22 @@ class DownloadModel {
                 "content"   : '<pre><code class="language-bash">sudo wget https://archive.kali.org/archive-keyring.gpg -O /usr/share/keyrings/kali-archive-keyring.gpg\nsudo wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add # old</code></pre>',
                 
             },
+            "eb" : {
+                "imgType"   : ".svg",
+                "imgSrc"    : "/img/DLC/eb.png", 
+                "title"     : "EaseUS Todo Backup(旧バージョン)",
+                "text"      : "&emsp;最新バージョンでは動かないOS用",
+                "href"      : "/DLC/download/easeus-todo-backup-free-12-0-0.exe",
+                
+            },
+            "epm" : {
+                "imgType"   : ".svg",
+                "imgSrc"    : "/img/DLC/epm.png", 
+                "title"     : "EaseUS Partition Master(旧バージョン)",
+                "text"      : "&emsp;最新バージョンでは動かないOS用",
+                "href"      : "/DLC/download/epm.exe",
+                
+            },
         }
         this.dlIndex = Object.keys(this.dlData);
         this.dlIndex.sort();
