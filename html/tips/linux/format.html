@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "format">
+                                ext4でフォーマット
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ターゲットのパーティションを確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo fdisk -l</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ターゲットのパーティションを設定する
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo fdisk /dev/[ターゲットのパーティション]
+Command (m for help): d # パーティションを削除
+Command (m for help): n # パーティションを追加
+Select (default p): p # パーティション情報を表示
+Partition number (1-4, default 1): 1 # 1番目を選択
+Command (m for help): w # 適用
+Command (m for help): q # 何もしないで終了</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ターゲットをフォーマット
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo umount /dev/[ターゲットのパーティション]
+sudo mkfs.ext4 /dev/[ターゲットのパーティション]</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                マウント先を設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir [ターゲットをマウントするフォルダのパス]
+chmod 777 [ターゲットをマウントするフォルダのパス] # 読み書き実行全て許可
+sudo mount /dev/[ターゲットのパーティション] [ターゲットをマウントするフォルダのパス]
+df # ファイルシステムのディスク容量を確認</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold" id = "mount">
+                                起動時にターゲットを自動マウント
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ターゲットのUUIDを確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo blkid /dev/[ターゲットのパーティション]</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                fstab に追記
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano fstab</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">proc            /proc           proc    defaults          0       0
+
+# 省略
+
+UUID=[ターゲットのUUID] [ターゲットをマウントするフォルダのパス]     ext4    defaults,noatime  0       0</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                再起動
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo reboot</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold" id = "umount">
+                                取り外し
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                アンマウント
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo umount [ターゲットをマウントするフォルダのパス]</code></pre>
+                            </p>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#format">ext4でフォーマット</a>
+                                    </li>
+                                    <li>
+                                        <a href="#mount">起動時にターゲットを自動マウント</a>
+                                    </li>
+                                    <li>
+                                        <a href="#umount">取り外し方法</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["serverTip", "pythonTip", "dockerTip"]);
+            new Pagination(4, linuxModel.page, "pagination");
+        </script>
+    </footer>
+</html>
