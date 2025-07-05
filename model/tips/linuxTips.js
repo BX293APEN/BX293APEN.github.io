@@ -12,6 +12,10 @@ class LinuxModel{
             {
                 "page" : 3,
                 "href" : "/html/tips/linux/daemon.html"
+            },
+            {
+                "page" : 4,
+                "href" : "/html/tips/linux/format.html"
             }
         ]
     }
