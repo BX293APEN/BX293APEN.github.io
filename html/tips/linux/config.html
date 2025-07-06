@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "network">
+                                ネットワーク設定
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                グラフィカルに設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nmtui</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                コマンドで設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nmcli device # デバイス名(ネットワークインターフェース名)を確認
+sudo nmcli connection show # 接続プロファイル一覧を確認
+
+# 新しい接続プロファイルを作成
+sudo nmcli connection add type [接続タイプ ethernet wifi 等] \
+    con-name [接続プロファイル名] \
+    ifname [デバイス名]
+
+# 接続プロファイルを編集
+sudo nmcli connection modify [接続プロファイル名] \
+    ipv4.method manual # IPv4手動設定 \
+    ipv4.addresses [IPアドレス]/[ビットマスク] \
+    ipv4.gateway [デフォルトゲートウェイ] \
+    ipv4.dns [DNSサーバのIPアドレス] \
+    ipv4.ignore-auto-dns yes # DHCPサーバーから自動的に提供されるDNSサーバー情報を無視する \
+    ipv6.method ignore # IPv6 無効化
+
+sudo nmcli connection reload
+sudo nmcli connection up [接続プロファイル名]</code></pre>
+                            </p>
+                            
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="trim">
+                                トリム
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo fstrim -av</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="low-code">
+                                ローコード開発
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold" id="node-red">
+                                Node-RED
+                            </h4>
+                            <p>
+                                &emsp;フローベースの<b>ローコード</b>ビジュアルプログラミングツール。処理がNode単位に分割されており、WebブラウザからNodeを編集し、ワイヤー(線)を結びつけることにより、フローを作成していく。<br>
+                                &emsp;ハードウェアデバイスやAPI、クラウドサービス等も操作可能であるため、IoTアプリ開発に使える。
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">bash &lt;(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+# 基本デフォルト推奨(全て y or Enter)
+
+sudo node-red-pi --max-old-space-size=256 # Ctrl + Cで処理を一度止める
+sudo systemctl enable nodered.service
+sudo reboot</code></pre>
+                            </p>
+                            <p>
+                                http://localhost:1880 をブラウザで開いて開始
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "nas">
+                                NASの接続
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                接続確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install -y cifs-utils
+sudo mkdir -p [マウントポイントのフォルダのパス]
+sudo chmod 777 [マウントポイントのフォルダのパス]
+sudo mount -t cifs -o username=[NASのユーザー名],password=[NASのパスワード] //[NASのIPアドレス] [マウントポイントのフォルダのパス]      #テスト 上手くいかない場合はバージョン指定,ver=2.0
+</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                自動マウント
+                            </h4>
+                            
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                アカウント登録
+                            </h5>
+                            <div class="fw-bold">
+                                ターミナル
+                            </div>
+                            <pre><code class="language-bash">sudo nano /etc/samba/credentials</code></pre>
+                            <div class="fw-bold">
+                                エディタ
+                            </div>
+                            <pre><code class="language-bash">username=[NASのユーザー名]
+password=[NASのパスワード]</code></pre>
+
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                マウントポイント登録
+                            </h5>
+                            <pre><code class="language-bash">sudo nano /etc/fstab</code></pre>
+                            <div class="fw-bold">
+                                エディタ
+                            </div>
+                            <pre><code class="language-bash">//[NASのIPアドレス] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8,vers=2.0 0 0</code></pre>
+                            <div class="fw-bold">
+                                ターミナル
+                            </div>
+                            <pre><code class="language-bash">sudo mount -a # エラーチェック</code></pre>
+                            </p>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#network">ネットワーク設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#trim">トリム</a>
+                                    </li>
+                                    <li>
+                                        <a href="#node-red">Node-RED</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nas">NASの接続</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["serverTip", "pythonTip", "dockerTip"]);
+            new Pagination(5, linuxModel.page, "pagination");
+        </script>
+    </footer>
+</html>

@@ -254,91 +254,7 @@ sudo touch /forcefsck</code></pre>
                             </p>
                         </article>
 
-                        <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="trim">
-                                トリム
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo fstrim -av</code></pre>
-                            </p>
-                        </article>
-
-                        <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="low-code">
-                                ローコード開発
-                            </h3>
-                            <h4 class="pt-4 border-bottom fw-bold" id="node-red">
-                                Node-RED
-                            </h4>
-                            <p>
-                                &emsp;フローベースの<b>ローコード</b>ビジュアルプログラミングツール。処理がNode単位に分割されており、WebブラウザからNodeを編集し、ワイヤー(線)を結びつけることにより、フローを作成していく。<br>
-                                &emsp;ハードウェアデバイスやAPI、クラウドサービス等も操作可能であるため、IoTアプリ開発に使える。
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">bash &lt;(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
-# 基本デフォルト推奨(全て y or Enter)
-
-sudo node-red-pi --max-old-space-size=256 # Ctrl + Cで処理を一度止める
-sudo systemctl enable nodered.service
-sudo reboot</code></pre>
-                            </p>
-                            <p>
-                                http://localhost:1880 をブラウザで開いて開始
-                            </p>
-                        </article>
-
-                        <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id = "nas">
-                                NASの接続
-                            </h3>
-                            <h4 class="pt-4 border-bottom fw-bold">
-                                接続確認
-                            </h4>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo apt install -y cifs-utils
-sudo mkdir -p [マウントポイントのフォルダのパス]
-sudo chmod 777 [マウントポイントのフォルダのパス]
-sudo mount -t cifs -o username=[NASのユーザー名],password=[NASのパスワード] //[NASのIPアドレス] [マウントポイントのフォルダのパス]      #テスト 上手くいかない場合はバージョン指定,ver=2.0
-</code></pre>
-                            </p>
-                            <h4 class="pt-4 border-bottom fw-bold">
-                                自動マウント
-                            </h4>
-                            
-                            <h5 class="pt-4 border-bottom fw-bold">
-                                アカウント登録
-                            </h5>
-                            <div class="fw-bold">
-                                ターミナル
-                            </div>
-                            <pre><code class="language-bash">sudo nano /etc/samba/credentials</code></pre>
-                            <div class="fw-bold">
-                                エディタ
-                            </div>
-                            <pre><code class="language-bash">username=[NASのユーザー名]
-password=[NASのパスワード]</code></pre>
-
-                            <h5 class="pt-4 border-bottom fw-bold">
-                                マウントポイント登録
-                            </h5>
-                            <pre><code class="language-bash">sudo nano /etc/fstab</code></pre>
-                            <div class="fw-bold">
-                                エディタ
-                            </div>
-                            <pre><code class="language-bash">//[NASのIPアドレス] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8,vers=2.0 0 0</code></pre>
-                            <div class="fw-bold">
-                                ターミナル
-                            </div>
-                            <pre><code class="language-bash">sudo mount -a # エラーチェック</code></pre>
-                            </p>
-                        </article>
+                        
 
                     </div>
                     <div class="col-md-4">
@@ -378,15 +294,6 @@ password=[NASのパスワード]</code></pre>
                                     </li>
                                     <li>
                                         <a href="#logclear">ログクリア</a>
-                                    </li>
-                                    <li>
-                                        <a href="#trim">トリム</a>
-                                    </li>
-                                    <li>
-                                        <a href="#node-red">Node-RED</a>
-                                    </li>
-                                    <li>
-                                        <a href="#nas">NASの接続</a>
                                     </li>
                                 </ol>
                             </div>

@@ -16,6 +16,10 @@ class LinuxModel{
             {
                 "page" : 4,
                 "href" : "/html/tips/linux/format.html"
+            },
+            {
+                "page" : 5,
+                "href" : "/html/tips/linux/config.html"
             }
         ]
     }
