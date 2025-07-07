@@ -191,22 +191,42 @@
                             </h3>
                             <p>
                                 <div class="fw-bold">
+                                    .env
+                                </div>
+                                <pre><code class="language-bash"># 環境変数の設定
+CONTAINER_NAME=linux
+Dockerfile_DIR=.
+Dockerfile=Dockerfile
+TIME_ZONE=Asia/Tokyo
+WS=WS
+ENTRY_POINT=start.sh</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
                                     docker-compose.yml
                                 </div>
                                 <pre><code class="language-yaml"># YAMLはスペース2つ
 services: # 作成したいコンテナを列挙
-  linux: # 作成するコンテナの名前
-    build: . # Dockerfileへの相対パス
+  linux: # 機能名(任意の文字列)
+    env_file: .env
+    container_name: ${CONTAINER_NAME} # 作成するコンテナの名前
+    build: 
+      context: ${Dockerfile_DIR}
+      dockerfile: ${Dockerfile} # Dockerfileへの相対パス
+      args: # Dockerfile内の環境変数を設定
+        WS: ${WS}
+        CONTAINER_NAME: ${CONTAINER_NAME}
+        ENTRY_POINT: ${ENTRY_POINT}
     
     # image: ubuntu:25.10 # Dockerfileが無い場合
 
     volumes: # マウント
-      - ./linux_data:/WS # ホストディレクトリ: コンテナ内ディレクトリ
+      - ./linux_data:/home/${CONTAINER_NAME}/${WS} # ホストディレクトリ: コンテナ内ディレクトリ
 
     restart: no # unless-stopped always
-    
-    environment: # 環境変数を設定
-      - TZ=Asia/Tokyo
+
+    environment: # コンテナ内の環境変数を設定
+      - TZ=${TIME_ZONE}
     
     ports: # ポートを接続
       - "3000:3000" # ホストマシンのポート番号:コンテナのポート番号
@@ -225,17 +245,38 @@ services: # 作成したいコンテナを列挙
 # Docker Hub (https://hub.docker.com/) 参照
 FROM ubuntu:25.10
 
+# 環境変数を docker-compose.yml から受け取る
+ARG WS
+ARG CONTAINER_NAME
+ARG ENTRY_POINT
+
 # RUN 命令はなるべく1つにまとめる
 # コマンドが長くなる場合は \ で改行すること
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y nano
+    apt install -y nano && \
+    mkdir -p /home/${CONTAINER_NAME}/Programs
 
-WORKDIR /WS
+WORKDIR /home/${CONTAINER_NAME}/${WS}
+COPY ${ENTRY_POINT} /home/${CONTAINER_NAME}/Programs/${ENTRY_POINT}
+RUN chmod +x /home/${CONTAINER_NAME}/Programs/${ENTRY_POINT}
 
 # 起動したら実行するコマンド
-CMD ["/bin/bash", "-c", "while true; do sleep 1000; done"]
+ENTRYPOINT ["/home/linux/Programs/start.sh"] 
+
+# 起動したら実行するコマンド
+# CMD ["/bin/bash", "-c", "while true; do sleep 1000; done"]
 # 無限ループでbashを起動し続ける</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    start.sh
+                                </div>
+                                <pre><code class="language-bash">#!/usr/bin/env bash
+while true; do
+    sleep 1000 
+done</code></pre>
                             </p>
                         </article>
                     
