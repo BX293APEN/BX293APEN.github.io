@@ -206,34 +206,34 @@ VOLUME=./linux_data</code></pre>
                                     docker-compose.yml
                                 </div>
                                 <pre><code class="language-yaml"># YAMLはスペース2つ
-services: # 作成したいコンテナを列挙
-  linux: # 機能名(任意の文字列)
+services:                                   # 作成したいコンテナを列挙
+  linux:                                    # 作成するコンテナの名前(docker composeで管理する名前)
     env_file: .env
-    # container_name: linux # 作成するコンテナの名前
+    container_name: Docker_Linux            # 外部から見た時の名前
     build: 
       context: ${Dockerfile_DIR}
-      dockerfile: ${Dockerfile} # Dockerfileへの相対パス
-      args: # Dockerfile内の環境変数を設定
+      dockerfile: ${Dockerfile}             # Dockerfileへの相対パス
+      args:                                 # Dockerfile内の環境変数を設定
         WS: ${WS}
         USER_NAME: ${USER_NAME}
     
-    # image: ubuntu:25.10 # Dockerfileが無い場合
+    # image: ubuntu:25.10                   # Dockerfileが無い場合
 
-    volumes: # マウント
-      - ${VOLUME}:/home/${USER_NAME}/${WS} # ホストディレクトリ: コンテナ内ディレクトリ
+    volumes:                                # マウント
+      - ${VOLUME}:/home/${USER_NAME}/${WS}  # ホストディレクトリ: コンテナ内ディレクトリ
 
-    restart: no # unless-stopped always
+    restart: no                             # unless-stopped always ...
 
-    environment: # コンテナ内の環境変数を設定
+    environment:                            # コンテナ内の環境変数を設定
       - TZ=${TIME_ZONE}
     
-    ports: # ポートを接続
-      - "3000:3000" # ホストマシンのポート番号:コンテナのポート番号
+    ports:                                  # ポートを接続
+      - "3000:3000"                         # ホストマシンのポート番号:コンテナのポート番号
     
-    # depends_on: # コンテナ間の依存関係を定義
-    #   - db # 先にdbコンテナが動いていることを確認する
+    # depends_on:                           # コンテナ間の依存関係を定義
+    #   - db                                # 先にdbコンテナが動いていることを確認する
 
-    # command: # サービスコンテナが起動したときに実行するコマンド
+    # command:                              # サービスコンテナが起動したときに実行するコマンド
     #   - bash</code></pre>
                             </p>
                             <p>
