@@ -194,12 +194,18 @@
                                     .env
                                 </div>
                                 <pre><code class="language-bash"># docker-compose.yml内で利用する環境変数の設定
-USER_NAME=PEN
 Dockerfile_DIR=.
 Dockerfile=Dockerfile
+
+VOLUME=./linux_data
+
 TIME_ZONE=Asia/Tokyo
+USER_NAME=PEN
+
 WS=WS
-VOLUME=./linux_data</code></pre>
+
+ENTRY_DIR=Programs
+ENTRY_POINT=start.sh</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
@@ -216,6 +222,8 @@ services:                                   # 作成したいコンテナを列�
       args:                                 # Dockerfile内の環境変数を設定
         WS: ${WS}
         USER_NAME: ${USER_NAME}
+        ENTRY_DIR: ${ENTRY_DIR}
+        ENTRY_POINT: ${ENTRY_POINT}
     
     # image: ubuntu:25.10                   # Dockerfileが無い場合
 
@@ -233,8 +241,8 @@ services:                                   # 作成したいコンテナを列�
     # depends_on:                           # コンテナ間の依存関係を定義
     #   - db                                # 先にdbコンテナが動いていることを確認する
 
-    # command:                              # サービスコンテナが起動したときに実行するコマンド
-    #   - bash</code></pre>
+    command:                              # サービスコンテナが起動したときに実行するコマンド
+      - /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
@@ -247,25 +255,27 @@ FROM ubuntu:25.10
 # 環境変数を docker-compose.yml から受け取る
 ARG WS
 ARG USER_NAME
+ARG ENTRY_DIR
+ARG ENTRY_POINT
 
 # 環境変数を設定
-ENV ENTRY_DIR=/Programs
-ENV ENTRY_POINT=start.sh
+# ENV ENTRY_DIR=Programs
+# ENV ENTRY_POINT=start.sh
 
 # RUN 命令はなるべく1つにまとめる
 # コマンドが長くなる場合は \ で改行すること
 RUN apt update && \
     apt upgrade -y && \
     apt install -y nano && \
-    mkdir -p ${ENTRY_DIR}
+    mkdir -p /home/${USER_NAME}/${ENTRY_DIR}
 
 WORKDIR /home/${USER_NAME}/${WS}
-COPY ${ENTRY_POINT} ${ENTRY_DIR}/${ENTRY_POINT}
-RUN chmod +x ${ENTRY_DIR}/${ENTRY_POINT}
+COPY ${ENTRY_POINT} /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
+RUN chmod +x /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
 
 # 起動したら実行するコマンド
 # 環境変数は使えないので注意
-ENTRYPOINT ["/Programs/start.sh"] 
+# ENTRYPOINT ["/Programs/start.sh"] 
 
 # 起動したら実行するコマンド
 # CMD ["/bin/bash", "-c", "while true; do sleep 1000; done"]
