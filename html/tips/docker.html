@@ -194,6 +194,9 @@
                                     .env
                                 </div>
                                 <pre><code class="language-bash"># docker-compose.yml内で利用する環境変数の設定
+COMPOSE_PROJECT_NAME=project1           # プロジェクト名(全て小文字)
+CONTAINER_NAME=Docker_Linux
+
 Dockerfile_DIR=.
 Dockerfile=Dockerfile
 
@@ -212,10 +215,18 @@ ENTRY_POINT=start.sh</code></pre>
                                     docker-compose.yml
                                 </div>
                                 <pre><code class="language-yaml"># YAMLはスペース2つ
+# name: project1                            # プロジェクト名(全て小文字)
 services:                                   # 作成したいコンテナを列挙
   linux:                                    # 作成するコンテナの名前(docker composeで管理する名前)
     env_file: .env
-    container_name: Docker_Linux            # 外部から見た時の名前
+    
+    container_name: ${CONTAINER_NAME}       # 外部から見た時の名前
+    
+    # IPアドレスの確認 
+    # docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" [${CONTAINER_NAME}の値]
+
+    hostname: ${USER_NAME}                  # ホスト名
+
     build: 
       context: ${Dockerfile_DIR}
       dockerfile: ${Dockerfile}             # Dockerfileへの相対パス
@@ -242,7 +253,24 @@ services:                                   # 作成したいコンテナを列�
     #   - db                                # 先にdbコンテナが動いていることを確認する
 
     command:                                # サービスコンテナが起動したときに実行するコマンド
-      - /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}</code></pre>
+      - /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
+    
+    networks:
+      - docker_eth
+
+networks:
+  default:
+    external: true
+    name: bridge
+
+  docker_eth:
+    name: ethd
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.10.0/24"         # 物理ネットワークに直接接続したい場合は実環境に合わせる
+          gateway: "192.168.10.1"</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
@@ -266,7 +294,8 @@ ARG ENTRY_POINT
 # コマンドが長くなる場合は \ で改行すること
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y nano && \
+    apt install -y \
+    nano iproute2 iputils-ping && \
     mkdir -p /home/${USER_NAME}/${ENTRY_DIR}
 
 WORKDIR /home/${USER_NAME}/${WS}
