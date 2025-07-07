@@ -194,12 +194,12 @@
                                     .env
                                 </div>
                                 <pre><code class="language-bash"># docker-compose.yml内で利用する環境変数の設定
-CONTAINER_NAME=linux
+USER_NAME=PEN
 Dockerfile_DIR=.
 Dockerfile=Dockerfile
 TIME_ZONE=Asia/Tokyo
 WS=WS
-ENTRY_POINT=start.sh</code></pre>
+VOLUME=./linux_data</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
@@ -209,19 +209,18 @@ ENTRY_POINT=start.sh</code></pre>
 services: # 作成したいコンテナを列挙
   linux: # 機能名(任意の文字列)
     env_file: .env
-    container_name: ${CONTAINER_NAME} # 作成するコンテナの名前
+    # container_name: linux # 作成するコンテナの名前
     build: 
-      context: ${Dockerfile_DIR} # Dockerfileが保存されているフォルダのパス
-      dockerfile: ${Dockerfile} # Dockerfileの名前
+      context: ${Dockerfile_DIR}
+      dockerfile: ${Dockerfile} # Dockerfileへの相対パス
       args: # Dockerfile内の環境変数を設定
         WS: ${WS}
-        CONTAINER_NAME: ${CONTAINER_NAME}
-        ENTRY_POINT: ${ENTRY_POINT}
+        USER_NAME: ${USER_NAME}
     
     # image: ubuntu:25.10 # Dockerfileが無い場合
 
     volumes: # マウント
-      - ./linux_data:/home/${CONTAINER_NAME}/${WS} # ホストディレクトリ: コンテナ内ディレクトリ
+      - ${VOLUME}:/home/${USER_NAME}/${WS} # ホストディレクトリ: コンテナ内ディレクトリ
 
     restart: no # unless-stopped always
 
@@ -247,22 +246,26 @@ FROM ubuntu:25.10
 
 # 環境変数を docker-compose.yml から受け取る
 ARG WS
-ARG CONTAINER_NAME
-ARG ENTRY_POINT
+ARG USER_NAME
+
+# 環境変数を設定
+ENV ENTRY_DIR=/Programs
+ENV ENTRY_POINT=start.sh
 
 # RUN 命令はなるべく1つにまとめる
 # コマンドが長くなる場合は \ で改行すること
 RUN apt update && \
     apt upgrade -y && \
     apt install -y nano && \
-    mkdir -p /home/${CONTAINER_NAME}/Programs
+    mkdir -p ${ENTRY_DIR}
 
-WORKDIR /home/${CONTAINER_NAME}/${WS}
-COPY ${ENTRY_POINT} /home/${CONTAINER_NAME}/Programs/${ENTRY_POINT}
-RUN chmod +x /home/${CONTAINER_NAME}/Programs/${ENTRY_POINT}
+WORKDIR /home/${USER_NAME}/${WS}
+COPY ${ENTRY_POINT} ${ENTRY_DIR}/${ENTRY_POINT}
+RUN chmod +x ${ENTRY_DIR}/${ENTRY_POINT}
 
 # 起動したら実行するコマンド
-ENTRYPOINT ["/home/linux/Programs/start.sh"] 
+# 環境変数は使えないので注意
+ENTRYPOINT ["/Programs/start.sh"] 
 
 # 起動したら実行するコマンド
 # CMD ["/bin/bash", "-c", "while true; do sleep 1000; done"]
