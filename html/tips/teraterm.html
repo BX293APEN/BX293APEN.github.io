@@ -36,9 +36,9 @@
                                 <div class="fw-bold">
                                     LOGIN.ttl
                                 </div>
-                                <pre><code class="language-bash">HOSTADDR = [ターゲットのIPアドレス]
-USERNAME = [ユーザ名]
-PASSWORD = [パスワード]
+                                <pre><code class="language-bash">HOSTADDR = "[ターゲットのIPアドレス]"
+USERNAME = "[ユーザ名]"
+PASSWORD = "[パスワード]"
 
 sprintf2 COMMAND "%s:22 /ssh /2 /auth=password /user=%s /passwd=%s" HOSTADDR USERNAME PASSWORD
 connect COMMAND
