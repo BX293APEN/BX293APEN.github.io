@@ -312,12 +312,13 @@ RUN apt update && \
     echo "${USER_NAME}:${PASSWORD}" | chpasswd && \
     mkdir -p /home/${USER_NAME}/${ENTRY_DIR}
 
-COPY .bashrc /home/${USER_NAME}/.bashrc
-
 WORKDIR /home/${USER_NAME}/${WS}
 
+COPY .bashrc /home/${USER_NAME}/.bashrc
 COPY ${ENTRY_POINT} /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
-RUN chmod +x /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
+
+RUN chmod 777 /home/${USER_NAME}/.bashrc && \
+    chmod +x /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
 
 USER ${USER_NAME}
 
