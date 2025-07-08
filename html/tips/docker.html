@@ -203,6 +203,7 @@ Dockerfile=Dockerfile
 VOLUME=./linux_data
 
 TIME_ZONE=Asia/Tokyo
+LANG=ja_JP.UTF8
 
 NETWORK_NAME=ethd
 IP_SUBNET_ADDR=192.168.10.0
@@ -253,6 +254,7 @@ services:                                   # 作成したいコンテナを列�
 
     environment:                            # コンテナ内の環境変数を設定
       - TZ=${TIME_ZONE}
+      - LANG=${LANG}
     
     ports:                                  # ポートを接続
       - "3000:3000"                         # ホストマシンのポート番号:コンテナのポート番号
@@ -305,12 +307,13 @@ ENV GROUP_ID=1001
 RUN apt update && \
     apt upgrade -y && \
     apt install -y \
-    nano iproute2 iputils-ping sudo && \
+    sudo nano iproute2 iputils-ping language-pack-ja && \
     useradd -m -s /bin/bash -u ${USER_ID} ${USER_NAME} && \
     usermod -aG sudo ${USER_NAME} && \
     echo "root:${PASSWORD}" | chpasswd && \
     echo "${USER_NAME}:${PASSWORD}" | chpasswd && \
-    mkdir -p /home/${USER_NAME}/${ENTRY_DIR}
+    mkdir -p /home/${USER_NAME}/${ENTRY_DIR} && \
+    update-locale LANG=ja_JP.UTF8
 
 COPY ${ENTRY_POINT} /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
 RUN chmod +x /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
