@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Tera Termマクロ</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                            Tera Term
+                        </h2>
+                        <p>
+                            &emsp;Tera Termは、Windows用のターミナルエミュレータである。<br>
+                            &emsp;ここでは、Tera Termが保存されているパスを <code>C:\Program Files (x86)\teraterm\</code> とする。
+                        </p>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                SSHマクロでログインする
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    LOGIN.ttl
+                                </div>
+                                <pre><code class="language-bash">HOSTADDR = [ターゲットのIPアドレス]
+USERNAME = [ユーザ名]
+PASSWORD = [パスワード]
+
+sprintf2 COMMAND "%s:22 /ssh /2 /auth=password /user=%s /passwd=%s" HOSTADDR USERNAME PASSWORD
+connect COMMAND
+
+end</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">"C:\Program Files (x86)\teraterm\ttpmacro.exe" .\LOGIN.ttl</code></pre>
+                            </p>
+                            
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "windowsTip"]);
+        </script>
+    </footer>
+</html>

@@ -90,6 +90,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "Dockerの使い方ガイド",
                 "text"      : "&emsp;コンテナを利用し、仮想環境での開発に挑戦してみましょう！",
                 "svg"       : true
+            },
+            "teratermTip" : {
+                "href"      : "/html/tips/teraterm.html",
+                "imgSrc"    : "/img/teraterm.png", 
+                "title"     : "Tera Termのマクロについて",
+                "text"      : "&emsp;マクロを利用することにより、高速なセットアップが可能となります",
+                "svg"       : false
             }
 
         }
