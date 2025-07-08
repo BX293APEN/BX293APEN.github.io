@@ -48,9 +48,11 @@ end</code></pre>
 
                             <p>
                                 <div class="fw-bold">
-                                    コマンドプロンプト
+                                    バッチファイル (拡張子 : .bat)
                                 </div>
-                                <pre><code class="language-bash">"C:\Program Files (x86)\teraterm\ttpmacro.exe" .\LOGIN.ttl</code></pre>
+                                <pre><code class="language-bash">@echo off
+cls
+"C:\Program Files (x86)\teraterm\ttpmacro.exe" "%~dp0\LOGIN.ttl"</code></pre>
                             </p>
                             
                         </article>
