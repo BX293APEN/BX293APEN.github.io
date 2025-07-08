@@ -239,11 +239,12 @@ services:                                   # 作成したいコンテナを列�
       context: ${Dockerfile_DIR}
       dockerfile: ${Dockerfile}             # Dockerfileへの相対パス
       args:                                 # Dockerfile内の環境変数を設定
-        WS: ${WS}
-        USER_NAME: ${USER_NAME}
-        PASSWORD: ${PASSWORD}
-        ENTRY_DIR: ${ENTRY_DIR}
-        ENTRY_POINT: ${ENTRY_POINT}
+        WS:           ${WS}
+        USER_NAME:    ${USER_NAME}
+        PASSWORD:     ${PASSWORD}
+        ENTRY_DIR:    ${ENTRY_DIR}
+        ENTRY_POINT:  ${ENTRY_POINT}
+        LANG:         ${LANG}
     
     # image: ubuntu:25.10                   # Dockerfileが無い場合
 
@@ -296,6 +297,7 @@ ARG USER_NAME
 ARG PASSWORD
 ARG ENTRY_DIR
 ARG ENTRY_POINT
+ARG LANG
 
 # 環境変数を設定
 # 1000以上推奨
@@ -313,7 +315,7 @@ RUN apt update && \
     echo "root:${PASSWORD}" | chpasswd && \
     echo "${USER_NAME}:${PASSWORD}" | chpasswd && \
     mkdir -p /home/${USER_NAME}/${ENTRY_DIR} && \
-    update-locale LANG=ja_JP.UTF8
+    update-locale LANG=${LANG}
 
 COPY ${ENTRY_POINT} /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
 RUN chmod +x /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
