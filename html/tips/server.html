@@ -26,6 +26,73 @@
                             サーバの構築手順
                         </h1>
                         <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="lan">
+                                LANケーブルの作成ポイント
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                芯線の配線
+                            </h3>
+                            <figure class="figure">
+                                <img src="/img/server/LAN.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">芯線の配線</figcaption>
+                            </figure><br>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                詳細
+                            </h4>
+                            <figure class="figure px-4">
+                                <img src="/img/server/LAN-T.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">上面図</figcaption>
+                            </figure>
+
+                            <figure class="figure ps-4">
+                                <img src="/img/server/LAN-F.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">正面図</figcaption>
+                            </figure><br>
+                            
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ポイント
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                ロードバー型コネクタ
+                            </h5>
+                            <ul>
+                                <li>
+                                    ラジオペンチで芯線を1本ずつ芯線を引き出すこと
+                                </li>
+                                <li>
+                                    芯線を引き出したらなるべく短く切ること
+                                </li>
+                                <li>
+                                    ロードバーは奥まできちんとはめ込むこと
+                                </li>
+                            </ul>
+                            <h5 class="pt-4 fw-bold">
+                                貫通型コネクタ
+                            </h5>
+                            <ul>
+                                <li>
+                                    芯線の並び方が間違っていないことを再度確認すること (コネクタ内部で順番が変わることあり)
+                                </li>
+                                <li>
+                                    加締めるまで何度でも修正可能であるため、きちんと確認すること
+                                </li>
+                            </ul>
+
+                            <h5 class="pt-4 fw-bold">
+                                6Aケーブル
+                            </h5>
+                            <ul>
+                                <li>
+                                    仕切り板は根元で切ること
+                                </li>
+                                <li>
+                                    ねじれている箇所はきちんとまっすぐにすること(上下に波を打たせるようにするとまっすぐになりやすい)
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="self-signed_cert">
                                 自己CA証明書のインストール(Linux)
                             </h2>
@@ -36,6 +103,8 @@
                                 <pre><code class="language-bash">sudo apt install -y ca-certificates
 sudo cp [自己CA証明書のパス] /usr/local/share/ca-certificates
 sudo update-ca-certificates</code></pre>
+                            </p>
+                            
                         </article>
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="mqtt">
@@ -233,6 +302,9 @@ sudo systemctl restart emqx.service</code></pre>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#lan">LANケーブルの作成ポイント</a>
                                     </li>
                                     <li>
                                         <a href="#self-signed_cert">自己CA証明書のインストール(Linux)</a>
