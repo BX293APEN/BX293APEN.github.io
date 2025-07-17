@@ -21,13 +21,16 @@
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
-                        <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
                             Pythonの環境構築
-                        </h2>
-                        <article class="blog-post">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                        </h1>
+                        <article class="blog-post" id="install">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 インストール方法
-                            </h3>
+                            </h2>
+                            <p>
+                                ※Pythonのパスは通すこと
+                            </p>
                             <a href ="https://www.python.org/"> 
                                 <img src="/img/Python-Dark.svg" width = "100"/>
                             </a>
@@ -35,9 +38,20 @@
                             <a href ="https://www.python.org/"> 
                                 <b>Install</b>
                             </a>
+                        </article>
 
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
-                                Cupy
+                        <article class="blog-post" id="module">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                モジュールのインストール
+                            </h2>
+                            <p>
+                                &emsp;モジュールは<code>pip</code>等を使うことでインストール可能である。<br>
+                                ※<b>管理者権限</b>で動作させること(権限問題が発生しにくくなる)<br>
+                                ※Linuxの場合は<a href="/html/tips/linux.html#python">設定</a>するとpipでインストールが可能になる。
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="cuda">
+                                GPUを利用したモジュール
                             </h3>
 
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
@@ -57,6 +71,22 @@
                             <img src="/img/cupy.png" width = "100" />
                             <pre><code class="language-bash">pip install cupy-cuda12x</code></pre>
                             
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                PyTorch Install
+                            </h4>
+                            <a href ="https://pytorch.org/get-started/locally/"> 
+                                <img src="/img/PyTorch-Dark.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://pytorch.org/get-started/locally/"> 
+                                <b>Install</b>
+                            </a>
+                        </article>
+
+                        <article class="blog-post" id="pip">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                Troubleshooting pip-related issues
+                            </h2>
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
                                 pipが破損した場合
                             </h3>
@@ -84,6 +114,27 @@ py -m pip install --upgrade pip --user</code></pre>
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#install">Pythonのインストール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#module">モジュールのインストール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cuda">GPUを利用したモジュール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pip">pipのトラブルシューティング</a>
+                                    </li>
+
+                                </ol>
+                            </div>
                             <div id="tips"></div>
                         </div>
                     </div>
