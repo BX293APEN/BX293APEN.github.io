@@ -97,6 +97,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "Tera Termのマクロについて",
                 "text"      : "&emsp;マクロを利用することにより、高速なセットアップが可能となります",
                 "svg"       : false
+            },
+            "UEFITip" : {
+                "href"      : "/html/tips/UEFI.html",
+                "imgSrc"    : "/img/asus-rog-1-logo.svg", 
+                "title"     : "UEFI (AMD用)",
+                "text"      : "&emsp;UEFI (BIOS)の設定を変更することで、最適なパフォーマンスでパソコンを動作させることが出来ます",
+                "svg"       : true
             }
 
         }

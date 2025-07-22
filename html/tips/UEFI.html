@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>UEFI (AMD用)</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold">
+                            ROG UEFI (AMD用)
+                        </h1>
+                        <p>
+                            &emsp;マザーボードメーカーのロゴが表示されてからWindowsの読み込みが始まる前の間に、<code>F2</code>キー 又は <code>Delete</code>キーを押すことにより、UEFIに入ることが出来る。
+                        </p>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                UEFIのスクリーンショット
+                            </h2>
+                            <p>
+                                &emsp;UEFIのスクリーンショットは、互換性のため、FAT32が推奨されているが、筆者の環境(ROG X670E-F)ではexFATでも認識したため、exFAT形式でフォーマットされたUSBを使い、スクリーンショットを撮っている。(32GB以下のUSBが手持ちに無かったのでありがたい...)
+                            </p>
+                            <p>
+                                &emsp;UEFIのスクリーンショットは、<b><code>F12</code>キーを押す</b>ことで可能である。尚、スクリーンショット画像はビットマップ形式で保存されるため、ここに載せている画像は、1024x768 の png画像に圧縮してある。
+                            </p>
+
+                            <figure class="figure">
+                                <img src="/img/UEFI/BASE.png" class="figure-img img-fluid rounded" alt="X670E-F">
+                                <figcaption class="figure-caption text-end">筆者の環境</figcaption>
+                            </figure><br>
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                UEFI設定
+                            </h2>
+                            <p>
+                                &emsp;UEFIは様々なことが設定できるため、非常に多くの項目があり、目的の項目を見つけるのに時間がかかってしまう場合がある。そこで、自分の設定を備忘録としてここに記録する。
+                            </p>
+                            <p>
+                                ※CMOSクリアや、BIOSアップデートを行うと、設定値が初期化されるので注意
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                電力制限 PPT設定 (Package Power Tracking)
+                            </h3>
+                            <p>
+                                &emsp;CPUパッケージ全体が消費できる最大電力[W]
+                            </p>
+
+                            <h4 class="pt-2 mt-2 fw-bold">設定</h4>
+                            <p>
+                                &emsp;<code>Advanced Mode</code> → <code>詳細</code> → <code>AMD CBS</code> → <code>SMU Common Options</code> → <code>PPT Control</code>
+                            </p>
+
+                            <h5 class="pt-2 mt-2 fw-bold">PPT Control</h5>
+                            <p>
+                                <code>Auto</code> → <code>Manual</code>
+                            </p>
+
+                            <h5 class="pt-2 mt-2 fw-bold">PPT</h5>
+                            <p>
+                                [mW]で設定
+                            </p>
+
+                            <figure class="figure">
+                                <img src="/img/UEFI/PPT.png" class="figure-img img-fluid rounded" alt="X670E-F">
+                                <figcaption class="figure-caption text-end">PPT設定</figcaption>
+                            </figure><br>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                PBO (Precision Boost Overdrive)
+                            </h3>
+                            <p>
+                                &emsp;AMD CPUの自動OC機能
+                            </p>
+
+                            <h4 class="pt-2 mt-2 fw-bold">設定</h4>
+                            <p>
+                                &emsp;<code>Advanced Mode</code> → <code>Ai Tweaker</code> → <code>Precision Boost Overdrive</code>
+                            </p>
+
+                            <figure class="figure">
+                                <img src="/img/UEFI/PBO.png" class="figure-img img-fluid rounded" alt="X670E-F">
+                                <figcaption class="figure-caption text-end">PBO設定</figcaption>
+                            </figure><br>
+
+                            <h4 class="pt-2 mt-2 fw-bold">Curve Optimizer設定</h4>
+                            <p>
+                                &emsp;クロック当たりの電圧を調整する機能(基本マイナス値にする)<br>
+                                ※最小値 : -30
+                            </p>
+                            <h5 class="pt-2 mt-2 fw-bold">設定</h5>
+                            <p>
+                                &emsp;<code>Advanced Mode</code> → <code>Ai Tweaker</code> → <code>Precision Boost Overdrive</code> → <code>Curve Optimizer</code>
+                            </p>
+
+                            <figure class="figure">
+                                <img src="/img/UEFI/ThermalThrottleLimit.png" class="figure-img img-fluid rounded" alt="X670E-F">
+                                <figcaption class="figure-caption text-end">Curve Optimizerの項目 と Platform Thermal Throttle Limit(最大温度設定 85～90℃推奨)</figcaption><br>
+                                <img src="/img/UEFI/CurveOptimizer.png" class="figure-img img-fluid rounded" alt="X670E-F">
+                                <figcaption class="figure-caption text-end">Curve Optimizer設定</figcaption>
+                            </figure><br>
+
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "serverTip", "dockerTip"]);
+        </script>
+    </footer>
+</html>
