@@ -72,6 +72,30 @@ dism /online /cleanup-image /restorehealth</code></pre>
                                 レジストリエディタの編集箇所と変更位置
                             </h5>
                             <div id="context-key"></div>
+
+                            <h5 class="pt-4 fw-bold">
+                                レジストリファイル(拡張子 : .reg) サンプル
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background\shell]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background\shell\000 cmd.exe]
+"icon"="C:\\Windows\\System32\\cmd.exe"
+"position"="top"
+"MUIVerb"="コマンドプロンプト"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background\shell\000 cmd.exe\command]
+@="cmd"</code></pre>
+                            </p>
                        </article>
 
                        <article class="blog-post">
