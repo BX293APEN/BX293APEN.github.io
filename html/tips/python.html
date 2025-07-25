@@ -88,6 +88,53 @@
                                 Troubleshooting pip-related issues
                             </h2>
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                インストールされているパッケージ一覧の出力
+                            </h3>
+                            <pre><code class="language-bash">pip freeze > requirements.txt</code></pre>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                パッケージの一括インストール (管理者権限で実行を推奨)
+                            </h3>
+                            <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                            <p>
+                                ※途中で失敗すると全て取り消しになるため注意
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                パッケージを自動インストール (管理者権限で実行を推奨)
+                            </h3>
+                            <pre><code class="language-python">import subprocess, sys
+
+def install_package(path):
+    with open(path, "r", encoding="UTF-8") as f: # エンコーディングを指定
+        packages = f.read().split("\n")
+
+    for package in packages:
+        package = package.strip()
+        if not package or package.startswith("#"): # 空行やコメント行をスキップ
+            continue
+
+        print(f"インストールを試行中: {package}")
+        try:
+            subprocess.check_call(["pip", "install", package])
+            print(f"正常にインストールされました: {package}")
+        except subprocess.CalledProcessError as e:
+            print(f"--- インストールに失敗しました: {package} ---")
+            print(f"エラー: {e}")
+            print("--- このパッケージはスキップします ---")
+        print()
+
+if __name__ == "__main__":
+    argv = sys.argv
+    file = "requirements.txt"
+    try:
+        file = argv[1]
+    finally:
+        install_package(file)</code></pre>
+                            <p>
+                                ※一つずつインストールするため、失敗したパッケージのみ確認すれば良い
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
                                 pipが破損した場合
                             </h3>
                             <pre><code class="language-bash">mkdir %userprofile%\python # フォルダ作成(初回のみ)
@@ -108,7 +155,6 @@ py -m pip install --upgrade pip --user</code></pre>
                                 パッケージのアップデート
                             </h4>
                             <pre><code class="language-bash">pip-review --auto</code></pre>
-                            
                         </article>
                     
                     </div>
