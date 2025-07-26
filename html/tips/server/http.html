@@ -278,6 +278,7 @@ User=www-data
 Group=www-data
 WorkingDirectory=[path]/[Project Name] 
 ExecStart=uwsgi --ini [path]/[Project Name]/[Project Name]_uwsgi.ini
+Restart=always
 
 [Install]
 WantedBy=multi-user.target</code></pre>
