@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            サーバの構築手順
+                        </h1>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="django-http">
+                                Djangoを利用したWebサーバの構築 (nginx)
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                プロジェクトの作成 (Windows用)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    バッチファイル (.bat)
+                                </div>
+                                <pre><code class="language-bash">@echo off
+if "%1" == "" (
+    set /p projectName="プロジェクト名を入力 : "
+) else (
+    set projectName=%1
+)
+django-admin startproject %projectName%
+echo 作成完了
+pause > nul</code></pre> 
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                アプリの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd [Project Name]</code></pre> 
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    バッチファイル (.bat)
+                                </div>
+                                <pre><code class="language-bash">@echo off
+
+if "%1" == "" (
+    goto help
+
+) else if "%~1" == "/?" (
+    goto help
+
+) else if "%~1" == "-help" (
+    goto help
+
+) else if "%~1" == "-app" (
+    if "%2" == "" (
+        echo アプリ作成
+        set /p appName="アプリ名 : "
+    ) else (
+        set appName=%2
+    )
+    setlocal enabledelayedexpansion
+    python manage.py startapp !appName!
+    echo 完了しました
+    pause > nul
+    exit /b
+
+) else if "%~1" == "-mig" (
+    if "%2" == "" (
+        echo マイグレーション
+        set /p appName="アプリ名 : "
+    ) else (
+        set appName=%2
+    )
+    setlocal enabledelayedexpansion
+    python manage.py makemigrations !appName!
+    python manage.py migrate
+    echo 完了しました
+    pause > nul
+    exit /b
+
+) else if "%~1" == "-run" (
+    python manage.py runserver
+    pause>nul
+    exit /b
+
+) else if "%~1" == "-col" (
+    python manage.py collectstatic
+    pause>nul
+    exit /b
+
+) else if "%~1" == "--create-admin" (
+    python manage.py createsuperuser
+    pause>nul
+    exit /b
+
+) else (
+    echo 引数が違います
+    goto help
+)
+
+:help
+    echo %~0
+    echo [/?]             : help
+    echo [-app] [appName] : 指定したアプリを作成
+    echo [-mig] [appName] : 指定したアプリのマイグレーションを実行
+    echo [-run]           : ローカルサーバ立ち上げ
+    echo [-col]           : staticファイルを集める
+    echo [--create-admin] : 管理者登録
+    cmd
+    exit /b</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install nginx
+pip install uwsgi</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano [path]/[Project Name]/[Project Name]_uwsgi.ini</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[uwsgi]
+socket = /tmp/mysite.sock
+chmod-socket = 666
+
+chdir = [path]/[Project Name]
+
+module = [Project Name].wsgi
+
+processes = 4
+threads = 2
+
+uid = www-data
+gid = www-data
+
+pidfile = /tmp/mysite.pid
+logto = /var/log/uwsgi/mysite.log
+daemonize = /var/log/uwsgi/mysite.log</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">uwsgi --ini [path]/[Project Name]/[Project Name]_uwsgi.ini # テスト</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/nginx/sites-available/[Project Name]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+
+server {
+    listen 80;
+    # root /var/www/html;
+
+    server_name raspi5.lan;
+
+    # 静的ファイル
+    location /static/ {
+        alias [path]/[Project Name]/static/;
+    }
+
+    # すべての動的リクエストをuWSGIに転送
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:///tmp/mysite.sock; # uWSGI設定ファイルで指定したソケットのパス
+    }
+
+    error_log /var/log/nginx/mysite_error.log;
+    access_log /var/log/nginx/mysite_access.log;
+}</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/[Project Name] /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t # テスト</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                起動
+                            </h3>
+                            <p>
+                                &emsp;正常起動しない場合は 読み取り/書き込み/実行 権限 の値を確認すること
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart nginx</code></pre>
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#django-http">Djangoを利用したWebサーバの構築 (nginx)</a>
+                                    </li>
+    
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["githubTip", "linuxTip"]);
+            new Pagination(4, serverModel.page, "pagination");
+        </script>
+    </footer>
+</html>

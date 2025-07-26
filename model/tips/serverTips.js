@@ -12,6 +12,10 @@ class ServerModel{
             {
                 "page" : 3,
                 "href" : "/html/tips/server/ftp.html"
+            },
+            {
+                "page" : 4,
+                "href" : "/html/tips/server/http.html"
             }
         ]
     }
