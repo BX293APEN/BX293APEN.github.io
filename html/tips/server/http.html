@@ -281,6 +281,15 @@ ExecStart=uwsgi --ini [path]/[Project Name]/[Project Name]_uwsgi.ini
 [Install]
 WantedBy=multi-user.target</code></pre>
                             </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl restart [Project Name].service
+sudo systemctl enable [Project Name].service</code></pre>
+                            </p>
                         </article>
                     </div>
 
