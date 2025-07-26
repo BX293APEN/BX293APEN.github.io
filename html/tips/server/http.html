@@ -248,7 +248,8 @@ sudo nginx -t # テスト</code></pre>
                                 起動
                             </h3>
                             <p>
-                                &emsp;正常起動しない場合は 読み取り/書き込み/実行 権限 の値を確認すること
+                                &emsp;親ディレクトリにも実行権限<code>o+x</code>を与えること<br>
+                                &emsp;子ディレクトリには<code>-R</code>オプションで一括権限付与
                             </p>
                             <p>
                                 <div class="fw-bold">
