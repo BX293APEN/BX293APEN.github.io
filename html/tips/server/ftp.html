@@ -228,8 +228,18 @@ sudo smbpasswd -a [NAS用ユーザ名]</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo service smbd restart
-sudo service nmbd restart</code></pre>
+                                <pre><code class="language-bash">sudo systemctl restart smbd
+sudo systemctl restart nmbd</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                自動起動設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable smbd
+sudo systemctl enable nmbd</code></pre>
                             </p>
                         </article>
                     </div>
