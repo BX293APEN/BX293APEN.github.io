@@ -255,6 +255,32 @@ sudo nginx -t # テスト</code></pre>
                                 </div>
                                 <pre><code class="language-bash">sudo systemctl restart nginx</code></pre>
                             </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                自動起動
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/system/[Project Name].service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=uWSGI instance to serve [Project Name]
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=[path]/[Project Name] 
+ExecStart=uwsgi --ini [path]/[Project Name]/[Project Name]_uwsgi.ini
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                            </p>
                         </article>
                     </div>
 
