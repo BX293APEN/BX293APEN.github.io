@@ -151,7 +151,7 @@ sudo smbpasswd -a [NAS用ユーザ名]</code></pre>
     dos charset             = CP932
     interfaces              = 127.0.0.0/8 192.168.10.0/24   # 自環境に合わせる
     log file                = /var/log/samba/log.%m
-    max log size            = 1000 # [KB]
+    max log size            = 1000K
     logging                 = file
     panic action            = /usr/share/samba/panic-action %d
     server role             = standalone server
