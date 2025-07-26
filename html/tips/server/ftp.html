@@ -97,6 +97,141 @@ sudo nano /etc/vsftpd/user_conf/admin   # 「local_root=/home/admin/ftp」と書
 systemctl start vsftpd                  # FTPサーバを起動する。</code></pre>
                             </p>
                         </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="smb">
+                                SMBを利用したネットワークストレージの構築
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install samba smbclient cifs-utils mdadm</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                共有フォルダ作成
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir [path]/share 
+sudo chmod 777 [path]/share</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                ユーザ登録
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo useradd -M [NAS用ユーザ名]
+sudo smbpasswd -a [NAS用ユーザ名]</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/samba/smb.conf</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">#======================= Global Settings =======================
+[global]
+    workgroup               = WORKGROUP
+    unix charset            = UTF-8
+    dos charset             = CP932
+    interfaces              = 127.0.0.0/8 192.168.10.0/24   # 自環境に合わせる
+    log file                = /var/log/samba/log.%m
+    max log size            = 1000 # [KB]
+    logging                 = file
+    panic action            = /usr/share/samba/panic-action %d
+    server role             = standalone server
+    obey pam restrictions   = yes
+    unix password sync      = yes
+    passwd program          = /usr/bin/passwd %u
+    passwd chat             = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+    pam password change     = yes
+    map to guest            = bad user
+    usershare allow guests  = yes
+
+#======================= Share Definitions =======================
+
+;[homes]
+;   comment         = Home Directories
+;   browseable      = no
+;   read only       = no
+;   create mask     = 0770
+;   directory mask  = 0770
+;   valid users     = %S
+
+;[netlogon]
+;   comment         = Network Logon Service
+;   path            = /home/samba/netlogon
+;   guest ok        = yes
+;   read only       = yes
+
+;[profiles]
+;   comment         = Users profiles
+;   path            = /home/samba/profiles
+;   guest ok        = no
+;   browseable      = no
+;   create mask     = 0600
+;   directory mask  = 0700
+
+[printers]
+    comment         = All Printers
+    browseable      = no
+    path            = /var/tmp
+    printable       = yes
+    guest ok        = no
+    read only       = yes
+    create mask     = 0700
+
+[print$]
+    comment         = Printer Drivers
+    path            = /var/lib/samba/printers
+    browseable      = yes
+    read only       = yes
+    guest ok        = no
+
+[share]
+    comment         = 共有フォルダ
+    path            = [path]/share 
+    writable        = yes
+    valid users     = [NAS用ユーザ名]
+    create mode     = 0770
+    directory mode  = 0770</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">testparm</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の適用
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo service smbd restart
+sudo service nmbd restart</code></pre>
+                            </p>
+                        </article>
                     </div>
 
                     <div class="col-md-4">
@@ -109,6 +244,9 @@ systemctl start vsftpd                  # FTPサーバを起動する。</code><
                                     </li>
                                     <li>
                                         <a href="#ftp">FTPサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#smb">ネットワーク共有ストレージの構築</a>
                                     </li>
     
                                 </ol>
