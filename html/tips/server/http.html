@@ -155,7 +155,7 @@ sudo pip install django djangorestframework django-bootstrap5 uwsgi --break-syst
                                     エディタ
                                 </div>
                                 <pre><code class="language-bash">[uwsgi]
-socket = /tmp/mysite.sock
+socket = /tmp/[Project Name].sock
 chmod-socket = 666
 
 chdir = [path]/[Project Name]
@@ -168,9 +168,9 @@ threads = 2
 uid = www-data
 gid = www-data
 
-pidfile = /tmp/mysite.pid
-logto = /var/log/uwsgi/mysite.log
-daemonize = /var/log/uwsgi/mysite.log</code></pre>
+pidfile = /tmp/[Project Name].pid
+logto = /var/log/uwsgi/[Project Name].log
+daemonize = /var/log/uwsgi/[Project Name].log</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
@@ -224,11 +224,11 @@ server {
     # すべての動的リクエストをuWSGIに転送
     location / {
         include uwsgi_params;
-        uwsgi_pass unix:///tmp/mysite.sock; # uWSGI設定ファイルで指定したソケットのパス
+        uwsgi_pass unix:///tmp/[Project Name].sock; # uWSGI設定ファイルで指定したソケットのパス
     }
 
-    error_log /var/log/nginx/mysite_error.log;
-    access_log /var/log/nginx/mysite_access.log;
+    error_log /var/log/nginx/[Project Name]_error.log;
+    access_log /var/log/nginx/[Project Name]_access.log;
 }</code></pre>
                             </p>
 
