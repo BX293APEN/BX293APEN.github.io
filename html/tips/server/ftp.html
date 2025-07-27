@@ -109,7 +109,7 @@ systemctl start vsftpd                  # FTPサーバを起動する。</code><
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo apt install samba smbclient cifs-utils mdadm</code></pre>
+                                <pre><code class="language-bash">sudo apt install samba smbclient cifs-utils mdadm wsdd</code></pre>
                             </p>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 共有フォルダ作成
@@ -229,7 +229,8 @@ sudo smbpasswd -a [NAS用ユーザ名]</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">sudo systemctl restart smbd
-sudo systemctl restart nmbd</code></pre>
+sudo systemctl restart nmbd
+sudo systemctl restart wsdd</code></pre>
                             </p>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 自動起動設定
@@ -239,7 +240,8 @@ sudo systemctl restart nmbd</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">sudo systemctl enable smbd
-sudo systemctl enable nmbd</code></pre>
+sudo systemctl enable nmbd
+sudo systemctl enable wsdd</code></pre>
                             </p>
                         </article>
                     </div>
