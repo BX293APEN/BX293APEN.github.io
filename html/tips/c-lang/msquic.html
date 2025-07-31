@@ -90,7 +90,9 @@ git submodule update --init --recursive</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">cmake -B build -S ..
+                                <pre><code class="language-bash">mkdir build
+cd build
+cmake -B build -S ..
 cmake --build build
 sudo cmake --install build
 sudo ldconfig</code></pre>
