@@ -92,7 +92,7 @@ git submodule update --init --recursive</code></pre>
                                 </div>
                                 <pre><code class="language-bash">mkdir build
 cd build
-cmake -B build -S .. -GNinja -DQUIC_API_ENABLE_PREVIEW_FEATURES=ON
+QUIC_ENABLE_PREVIEW_FEATURES=1 cmake -B build -S .. -GNinja
 ninja --build build
 sudo ninja --install build
 sudo ldconfig</code></pre>
