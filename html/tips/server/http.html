@@ -211,6 +211,16 @@ daemonize = /var/log/uwsgi/[Project Name].log</code></pre>
 #
 
 server {
+    listen 80 default_server;
+
+    # ワイルドカード (ホスト名がマッチしないすべて)
+    server_name _;
+
+    # 接続を即時切断
+    return 444;
+}
+
+server {
     listen 80;
     # root /var/www/html;
 
