@@ -208,25 +208,25 @@ cmake --build build</code></pre>
                                 ヘッダーファイルのインクルードパスを設定
                             </h5>
                             <p>
-                                [プロジェクト] → [プロパティ]→[構成プロパティ] → [VC++ ディレクトリ] → [全般] → [外部インクルードディレクトリ]
+                                [プロジェクト] → [プロパティ] → [構成プロパティ] → [VC++ ディレクトリ] → [全般] → [外部インクルードディレクトリ]
                             </p>
                             <code>C:/Programs/msquic/src/inc</code>
                             <h5 class="pt-4 fw-bold">
                                 ライブラリディレクトリの追加
                             </h5>
                             <p>
-                                [プロジェクト] → [プロパティ]→[構成プロパティ] → [リンカー] → [全般] → [追加のライブラリディレクトリ]
+                                [プロジェクト] → [プロパティ] → [構成プロパティ] → [リンカー] → [全般] → [追加のライブラリディレクトリ]
                             </p>
-                            <code>C:/Programs/msquic/build/build/bin/Debug</code>
+                            <code>C:/Programs/msquic/build/build/obj/Debug</code>
                             <h5 class="pt-4 fw-bold">
                                 リンクするライブラリの指定
                             </h5>
                             <p>
-                                [プロジェクト] → [プロパティ]→[構成プロパティ] → [リンカー] → [入力] → [追加の依存ファイル]
+                                [プロジェクト] → [プロパティ] → [構成プロパティ] → [リンカー] → [入力] → [追加の依存ファイル]
                             </p>
-                            <code>msquic.dll</code>
+                            <code>msquic.lib</code>
                             <h5 class="pt-4 fw-bold">
-                                環境変数にPATHを追加
+                                環境変数にDLLのPATHを追加
                             </h5>
                             <code>C:\Programs\msquic\build\build\bin\Debug</code>
 
