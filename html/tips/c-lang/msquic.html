@@ -854,7 +854,7 @@ int main(int argc, char** argv){
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "serverTip", "windowsTip"]);
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "serverTip", "windowsTip", "visualstudioTip"]);
             new Pagination(2, cppModel.page, "pagination");
         </script>
     </footer>
