@@ -178,7 +178,9 @@ sudo ldconfig</code></pre>
                                 <div class="fw-bold">
                                     コマンドプロンプト
                                 </div>
-                                <pre><code class="language-bash">git clone https://github.com/microsoft/msquic.git
+                                <pre><code class="language-bash">cd C:/
+mkdir Programs
+git clone https://github.com/microsoft/msquic.git
 cd msquic
 git submodule update --init --recursive
 mkdir build
@@ -186,6 +188,17 @@ cd build
 cmake -B build -S .. -G "Visual Studio 17 2022" -A x64 -DQUIC_TLS_LIB=schannel
 cmake --build build</code></pre>
                             </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                ライブラリ
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                ライブラリのパス
+                            </h5>
+                            <code>C:/Programs/msquic/build/build/bin/Debug/msquic.dll</code>
+                            <h5 class="pt-4 fw-bold">
+                                ヘッダのパス
+                            </h5>
+                            <code>C:/Programs/msquic/src/inc/msquic.h</code>
                         </article>
 
                         <article class="blog-post">
