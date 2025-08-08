@@ -321,14 +321,15 @@ cmake --build build</code></pre>
 
 #elif _WIN32
     // windows code
+    #define WIN32_LEAN_AND_MEAN
+    #include &lt;Windows.h&gt;
     #include &lt;direct.h&gt;
     #include &lt;tchar.h&gt;
     #include &lt;WinSock2.h&gt;
     #include &lt;ws2tcpip.h&gt;
     #include &lt;windowsx.h&gt;
-    #include &lt;Windows.h&gt;
-    //#include &lt;shellapi.h&gt;
     #pragma comment(lib, "ws2_32.lib")
+    #pragma comment(lib, "msquic.lib")
     #pragma warning(disable:4996)
 
 #else
@@ -373,7 +374,7 @@ cmake --build build</code></pre>
                     case QUIC_LISTENER_EVENT_NEW_CONNECTION:
                         if (self-&gt;debug) printf("[ListenerCallback] NEW_CONNECTION\n");
                         self-&gt;QUICConnection = Event-&gt;NEW_CONNECTION.Connection;
-                        self-&gt;MsQuic-&gt;SetCallbackHandler(self-&gt;QUICConnection, (void*)self->ConnectionCallback, self);
+                        self-&gt;MsQuic-&gt;SetCallbackHandler(self-&gt;QUICConnection, (void*)QUICStart::ConnectionCallback, self);
                         self-&gt;status = self-&gt;MsQuic-&gt;ConnectionSetConfiguration(self-&gt;QUICConnection, self-&gt;Configuration);
                         if (QUIC_FAILED(self-&gt;status)) {
                             printf("[FAILED] ConnectionSetConfiguration: 0x%x\n", self-&gt;status);
@@ -391,9 +392,7 @@ cmake --build build</code></pre>
             
             _IRQL_requires_max_(DISPATCH_LEVEL)
             _Function_class_(QUIC_CONNECTION_CALLBACK)
-            QUIC_STATUS
-            QUIC_API
-            static ConnectionCallback( // ConnectionCallback関数
+            static QUIC_STATUS QUIC_API ConnectionCallback( // ConnectionCallback関数
                 _In_ HQUIC Connection,
                 _In_opt_ void* Context,
                 _Inout_ QUIC_CONNECTION_EVENT* Event
@@ -433,7 +432,7 @@ cmake --build build</code></pre>
                         if (self-&gt;debug) printf("[ConnectionCallback] QUIC_CONNECTION_EVENT_PEER_STREAM_STARTED\n");
                         if(self-&gt;isServer){
                             Stream = Event-&gt;PEER_STREAM_STARTED.Stream;
-                            self-&gt;MsQuic-&gt;SetCallbackHandler(Stream, (void*)self-&gt;StreamCallback, self);
+                            self-&gt;MsQuic-&gt;SetCallbackHandler(Stream, (void*)QUICStart::StreamCallback, self);
                             self-&gt;MsQuic-&gt;StreamReceiveSetEnabled(Stream, TRUE);
                         }
                         break;
@@ -451,9 +450,7 @@ cmake --build build</code></pre>
 
             _IRQL_requires_max_(DISPATCH_LEVEL)
             _Function_class_(QUIC_STREAM_CALLBACK)
-            QUIC_STATUS
-            QUIC_API
-            static StreamCallback( // StreamCallback関数
+            static QUIC_STATUS QUIC_API StreamCallback( // StreamCallback関数
                 _In_ HQUIC Stream,
                 _In_opt_ void* Context,
                 _Inout_ QUIC_STREAM_EVENT* Event
