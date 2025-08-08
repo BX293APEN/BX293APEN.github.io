@@ -361,6 +361,7 @@ cmake --build build</code></pre>
             std::string sendData                            = "";
             bool debug                                      = false;
             bool retry                                      = false;
+            std::string alpn;
 
             _IRQL_requires_max_(DISPATCH_LEVEL) 
             _Function_class_(QUIC_LISTENER_CALLBACK) 
@@ -544,11 +545,10 @@ cmake --build build</code></pre>
                 this-&gt;debug                                     = debug;
                 this-&gt;RegistrationConfig.ExecutionProfile       = QUIC_EXECUTION_PROFILE_LOW_LATENCY;
                 this-&gt;RegistrationConfig.AppName                = appName.c_str();
+                this-&gt;alpn                                      = alpn;
 
-                const char* alpnString                          = alpn.c_str();
-
-                this-&gt;AlpnBuffer.Buffer                         = (uint8_t*)alpnString;
-                this-&gt;AlpnBuffer.Length                         = (uint32_t)strlen(alpnString);
+                this-&gt;AlpnBuffer.Buffer                         = (uint8_t*)this-&gt;alpn.c_str();
+                this-&gt;AlpnBuffer.Length                         = (uint32_t)strlen(this-&gt;alpn.c_str());
 
                 this-&gt;Settings.IsSet.PeerBidiStreamCount        = TRUE;
                 this-&gt;Settings.PeerBidiStreamCount              = streamCount; // 双方向ストリーム数
