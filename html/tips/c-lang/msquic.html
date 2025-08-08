@@ -30,7 +30,7 @@
                                 MsQuicのセットアップ (Linux用)
                             </h3>
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
-                                CMAKEのアップグレード(>= 3.16) 
+                                CMakeのアップグレード(>= 3.16) 
                             </h4>
                             <h5 class="pt-4 fw-bold">
                                 バージョン確認
@@ -61,7 +61,7 @@
 sudo apt install -t bookworm-backports cmake</code></pre>
                             </p>
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
-                                MSQUICのインストール
+                                MsQuicのインストール
                             </h4>
                             <h5 class="pt-4 fw-bold">
                                 必要なパッケージをインストール
@@ -146,8 +146,46 @@ sudo ldconfig</code></pre>
                                 MsQuicのセットアップ (Windows用)
                             </h3>
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
-                                編集中
+                                Visual Studioをインストールする
                             </h4>
+                            <a href ="https://visualstudio.microsoft.com/ja/"> 
+                                <img src="/img/VisualStudio-Dark.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://visualstudio.microsoft.com/ja/"> 
+                                <b>Download</b>
+                            </a>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                CMakeをインストールする
+                            </h4>
+                            <p>
+                                &emsp;最新版をインストール
+                            </p>
+                            <a href ="https://cmake.org/download/"> 
+                                <img src="/img/CMake-Dark.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://cmake.org/download/"> 
+                                <b>Download</b>
+                            </a>
+                            <p>
+                                &emsp;Windows x64 Installerを選択 (インストール後パスが通っていることを確認)
+                            </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                MsQuicをビルド
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">git clone https://github.com/microsoft/msquic.git
+cd msquic
+git submodule update --init --recursive
+mkdir build
+cd build
+cmake -B build -S .. -G "Visual Studio 17 2022" -A x64 -DQUIC_TLS_LIB=schannel
+cmake --build build</code></pre>
+                            </p>
                         </article>
 
                         <article class="blog-post">
@@ -727,7 +765,7 @@ int main(int argc, char** argv){
                                 <h4 class="fst-italic border-bottom">References</h4>
                                 <blockquote cite="https://github.com/microsoft/msquic">
                                     <a href="https://github.com/microsoft/msquic">
-                                        MSQUIC
+                                        MsQuic
                                     </a>
                                 </blockquote>
                             </div>
@@ -739,7 +777,7 @@ int main(int argc, char** argv){
                                         <a href="#article_top">Top</a>
                                     </li>
                                     <li>
-                                        <a href="#msquic">MSQUICのセットアップ (Linux用)</a>
+                                        <a href="#msquic">MsQuicのセットアップ (Linux用)</a>
                                     </li>
                                     <li>
                                         <a href="#sample">サンプルコード</a>
