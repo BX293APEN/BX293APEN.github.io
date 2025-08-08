@@ -372,7 +372,7 @@ cmake --build build</code></pre>
                     case QUIC_LISTENER_EVENT_NEW_CONNECTION:
                         if (self-&gt;debug) printf("[ListenerCallback] NEW_CONNECTION\n");
                         self-&gt;QUICConnection = Event-&gt;NEW_CONNECTION.Connection;
-                        self-&gt;MsQuic-&gt;SetCallbackHandler(self-&gt;QUICConnection, (void*)ConnectionCallback, self);
+                        self-&gt;MsQuic-&gt;SetCallbackHandler(self-&gt;QUICConnection, (void*)self->ConnectionCallback, self);
                         self-&gt;status = self-&gt;MsQuic-&gt;ConnectionSetConfiguration(self-&gt;QUICConnection, self-&gt;Configuration);
                         if (QUIC_FAILED(self-&gt;status)) {
                             printf("[FAILED] ConnectionSetConfiguration: 0x%x\n", self-&gt;status);
