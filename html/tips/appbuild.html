@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>アプリのビルド方法</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold">
+                            アプリのビルド方法
+                        </h1>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                Chromiumのビルド方法
+                            </h2>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                depot_toolsのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git</code></pre>
+                            </p>
+                            <p>
+                                環境変数に追加(最優先にすること)
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                作業ディレクトリの作成&移動
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">mkdir chromium && cd chromium</code></pre>
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                ソースコードの取得
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">fetch --no-history chromium
+cd src</code></pre>
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                環境の更新
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">set DEPOT_TOOLS_WIN_TOOLCHAIN=0
+gclient sync</code></pre>
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                ビルド先のディレクトリを指定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">gn gen out/Default</code></pre>
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                フルビルド
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">autoninja -C out/Default chrome</code></pre>
+                            </p>
+                            <p>
+                                ※筆者の環境(Ryzen9 7950X & DDR5 4800MHz 64GB)で2時間以上かかったためフルビルドする際は注意
+                            </p>
+                            <p>
+                                <code>gn args out/Default</code>でオプションを指定
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                実行
+                            </h3>
+                            <p>
+                                <code>out/Default/chrome.exe</code>を実行すると起動
+                            </p>
+
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
+        </script>
+    </footer>
+</html>

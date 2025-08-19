@@ -104,6 +104,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "UEFI (AMD用)",
                 "text"      : "&emsp;UEFI (BIOS)の設定を変更することで、最適なパフォーマンスでパソコンを動作させることが出来ます",
                 "svg"       : true
+            },
+            "appTip" : {
+                "href"      : "/html/tips/appbuild.html",
+                "imgSrc"    : "/img/chrome.svg", 
+                "title"     : "アプリのビルド",
+                "text"      : "&emsp;オープンソースアプリを書き換え、独自のアプリケーションを作成してみましょう",
+                "svg"       : true
             }
 
         }
