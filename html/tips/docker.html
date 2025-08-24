@@ -59,6 +59,25 @@
                             </ul>
                         </article>
                         <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "docker">
+                                Dockerのインストール(Linux用)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y docker-ce containerd.io docker-buildx-plugin docker-ce-cli docker-ce-rootless-extras docker-compose-plugin
+sudo systemctl enable docker
+sudo systemctl restart docker
+sudo docker run hello-world # 確認
+sudo usermod -aG docker $USER
+newgrp docker</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "config">
                                 Dockerで利用するファイル
                             </h3>
