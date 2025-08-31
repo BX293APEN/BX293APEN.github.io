@@ -71,21 +71,30 @@ include "/etc/bind/named.conf.default-zones";   // デフォルト設定 (変更
                                     エディタ
                                 </div>
                                 <pre><code class="language-bash">//======================================
+//======================================
 // /etc/named.conf.options
 //======================================
-//optionsでDNS全般の設定をします.
+// optionsでDNS全般の設定をします.
+
 options {
     directory "/var/cache/bind";
-    version "unknown"; //BINDのバージョン情報を公開しない
-    // recursion no; //再帰検索要求は受け付けない
-    // allow-query {any;}; //どこからの問合せも受け付ける
+    version "unknown";          //BINDのバージョン情報を公開しない
+    listen-on port 53 {
+        any;
+    };
+
+    allow-query {               // 問合せ
+        localhost;
+        192.168.10.0/24;
+    };
+
     forwarders {
-        1.1.1.1;        // Cloudflare
-        8.8.8.8;        // Google Public DNS
-        192.168.10.1;   // その他DNS
+        1.1.1.1;
+        8.8.8.8;
     };
     forward only;
     // dnssec-validation no;
+    // recursion no;            //再帰検索要求は受け付けない
     // allow-recursion { 127.0.0.1; 192.168.10.0/24; };
     // listen-on-v6 { any; };
 };</code></pre>
