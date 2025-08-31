@@ -79,8 +79,11 @@ options {
     directory "/var/cache/bind";
     version "unknown";          //BINDのバージョン情報を公開しない
     listen-on port 53 {
-        any;
+        127.0.0.1;
+        192.168.10.99;          // DNSサーバのIPアドレス
     };
+
+    // listen-on-v6 { ::1; };
 
     allow-query {               // 問合せ
         localhost;
@@ -91,11 +94,14 @@ options {
         1.1.1.1;
         8.8.8.8;
     };
-    forward only;
-    // dnssec-validation no;
-    // recursion no;            //再帰検索要求は受け付けない
-    // allow-recursion { 127.0.0.1; 192.168.10.0/24; };
-    listen-on-v6 { any; };
+    forward first;
+    dnssec-validation auto;
+
+    recursion yes;           // 再帰検索要求
+    allow-recursion {
+        127.0.0.1;
+        192.168.10.0/24;
+    };
 };</code></pre>
                             </p>
 
