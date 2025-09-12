@@ -56,6 +56,14 @@ sudo nano /etc/dphys-swapfile</code></pre>
                                 </div>
                                 <pre><code class="language-bash">CONF_SWAPSIZE=2048</code></pre>
                             </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo dphys-swapfile setup # 仮想メモリを再生成
+sudo dphys-swapfile swapon # 仮想メモリの使用を開始
+sudo reboot</code></pre>
+                            </p>
 
                             <h4 class="pt-4 border-bottom fw-bold">
                                 RTCの電圧確認
