@@ -35,8 +35,39 @@
                                 <div class="fw-bold">
                                     管理者権限コマンドプロンプト
                                 </div>
-                                <pre><code class="language-bash">sfc /scannow
-dism /online /cleanup-image /restorehealth</code></pre>
+                                <pre><code class="language-bash">dism /online /cleanup-image /restorehealth
+sfc /scannow</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                DISM エラー : 0x800f0915 対策 (WIMファイルからの復元)
+                            </h3>
+                            <h4 class="pt-3 fw-bold">
+                                復元するWindowsと完璧に同じバージョンのイメージを取得
+                            </h4>
+                            <p>
+                                <a href="https://uupdump.net/known.php">UUP dump</a>
+                            </p>
+                            <p>
+                                ISOファイルをマウントし、<code>install.wim</code>ファイルを通常フォルダにコピーすること
+                            </p>
+                            <h4 class="pt-3 fw-bold">
+                                コピーしたWIMファイルの情報を取得
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">dism /get-wiminfo /winfile:"[path]\install.wim"</code></pre>
+                            </p>
+                            <h4 class="pt-3 fw-bold">
+                                コピーしたWIMファイルからWindowsイメージを修復
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">dism /online /cleanup-image /restorehealth /source:wim:"[path]\install.wim":[index] /limitaccess</code></pre>
                             </p>
                         </article>
 
