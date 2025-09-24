@@ -45,6 +45,12 @@ class DownloadModel {
                 "href"      : "/DLC/download/epm.exe",
                 
             },
+            "MakeMKV_Beta_Key" : {
+                "imgType"   : "none",
+                "title"     : "MakeMKV Beta Key",
+                "text"      : "&emsp;MakeMKVのBeta版ライセンスキーを取得する",
+                "content"   : '<a href="https://cable.ayra.ch/makemkv/"><figcaption class = "btn btn-bd-primary figure-caption text-end">Get Key</figcaption></a>',
+            },
         }
         this.dlIndex = Object.keys(this.dlData);
         this.dlIndex.sort();
