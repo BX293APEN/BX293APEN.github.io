@@ -100,9 +100,15 @@
     <footer>
         <script src="/view/three.min.js"></script>
         <script src="/view/cannon.min.js"></script>
+        <script src="/model/app/Katamari_Damacy/default.js"></script>
         <script src="/view/app/Katamari_Damacy/game.js"></script>
         <script>
-            let gameData = new KatamariDamacy();
+            let katamariDamacyModel = new KatamariDamacyModel();
+            let gameData        = new KatamariDamacy(
+                htmlStructure   = katamariDamacyModel.htmlStructure,
+                difficulty      = katamariDamacyModel.difficulty,
+                stages          = katamariDamacyModel.stages,
+            );
         </script>
     </footer>
 </html>

@@ -1,22 +1,85 @@
 class KatamariDamacy {
     constructor(
-        htmlStructure = {
-            "easyButtonID"              : 'easyBtn',
-            "normalButtonID"            : 'normalBtn',
-            "hardButtonID"              : 'hardBtn',
-            "cityButtonID"              : 'cityBtn',
-            "parkButtonID"              : 'parkBtn',
-            "tutorialCloseButtonID"     : 'tutorialCloseBtn',
-            "tutorialID"                : 'tutorial',
-            "resumeButtonID"            : 'resumeBtn',
-            "pauseScreenID"             : 'pauseScreen',
-            "helpButtonID"              : 'helpBtn',
-            "nextLevelButtonID"         : 'nextLevelBtn',
-            "minimapID"                 : 'minimap'
+        {
+            htmlStructure = {
+                "easyButtonID"              : 'easyBtn',
+                "normalButtonID"            : 'normalBtn',
+                "hardButtonID"              : 'hardBtn',
+                "cityButtonID"              : 'cityBtn',
+                "parkButtonID"              : 'parkBtn',
+                "tutorialCloseButtonID"     : 'tutorialCloseBtn',
+                "tutorialID"                : 'tutorial',
+                "resumeButtonID"            : 'resumeBtn',
+                "pauseScreenID"             : 'pauseScreen',
+                "helpButtonID"              : 'helpBtn',
+                "nextLevelButtonID"         : 'nextLevelBtn',
+                "minimapID"                 : 'minimap'
 
-        }
+            },
+            difficulty = {
+                "easy" : {
+                    "name"                  : '🌱 イージー',
+                    "timeLimit"             : 600,          // 秒数
+                    "targetCount"           : 150,
+                    "sizeMultiplier"        : 1.15,
+                    "growthBonus"           : 1.2,
+                    "objects": {                            // オブジェクトの数を指定
+                        "tiny"              : 80,           // 極小
+                        "small"             : 60,           // 小
+                        "medium"            : 40,           // 中
+                        "large"             : 25,           // 大
+                        "huge"              : 15,           // 超大
+                        "moving"            : 10            // 動く
+                    }
+                },
+                "normal": {
+                    "name"                  : '⚖️ ノーマル',
+                    "timeLimit"             : 480,
+                    "targetCount"           : 200,
+                    "sizeMultiplier"        : 1.3,
+                    "growthBonus"           : 1.0,
+                    "objects": {                            // オブジェクトの数を指定
+                        "tiny"              : 80,           // 極小
+                        "small"             : 60,           // 小
+                        "medium"            : 40,           // 中
+                        "large"             : 25,           // 大
+                        "huge"              : 15,           // 超大
+                        "moving"            : 10            // 動く
+                    }
+                },
+                "hard" : {
+                    "name"                  : '🔥 ハード',
+                    "timeLimit"             : 360,
+                    "targetCount"           : 250,
+                    "sizeMultiplier"        : 1.5,
+                    "growthBonus"           : 0.8,
+                    "objects": {                            // オブジェクトの数を指定
+                        "tiny"              : 80,           // 極小
+                        "small"             : 60,           // 小
+                        "medium"            : 40,           // 中
+                        "large"             : 25,           // 大
+                        "huge"              : 15,           // 超大
+                        "moving"            : 10            // 動く
+                    }
+                }
+            },
+            stages = {
+                "city" : {
+                    "name"                  : '🏙️ 街',
+                    "skyColor"              : 0x87CEEB,
+                    "groundColor"           : 0x4A4A4A
+                },
+                "park" : {
+                    "name"                  : '🌳 公園',
+                    "skyColor"              : 0x87CEEB,
+                    "groundColor"           : 0x2D5016
+                },
+            },
+        }={}
     ){
-        this.htmlStructure = htmlStructure;
+        this.difficulty     = difficulty;
+        this.stages         = stages;
+        this.htmlStructure  = htmlStructure;
         this.config =   {
             "features" : {
                 "pause"                     : true,
@@ -62,49 +125,7 @@ class KatamariDamacy {
                 "speed" : 35,
                 "jump"  : 12
             },
-            "difficulty": {
-                "easy" : {
-                    "name"                  : '🌱 イージー',
-                    "timeLimit"             : 600,          // 秒数
-                    "targetCount"           : 150,
-                    "sizeMultiplier"        : 1.15,
-                    "growthBonus"           : 1.2
-                },
-                "normal": {
-                    "name"                  : '⚖️ ノーマル',
-                    "timeLimit"             : 480,
-                    "targetCount"           : 200,
-                    "sizeMultiplier"        : 1.3,
-                    "growthBonus"           : 1.0
-                },
-                "hard" : {
-                    "name"                  : '🔥 ハード',
-                    "timeLimit"             : 360,
-                    "targetCount"           : 250,
-                    "sizeMultiplier"        : 1.5,
-                    "growthBonus"           : 0.8
-                }
-            },
-            "stages": {
-                "city" : {
-                    "name"                  : '🏙️ 街',
-                    "skyColor"              : 0x87CEEB,
-                    "groundColor"           : 0x4A4A4A
-                },
-                "park" : {
-                    "name"                  : '🌳 公園',
-                    "skyColor"              : 0x87CEEB,
-                    "groundColor"           : 0x2D5016
-                },
-            },
-            "objects": {                                // オブジェクトの数を指定
-                "tiny"                      : 80,       // 極小
-                "small"                     : 60,       // 小
-                "medium"                    : 40,       // 中
-                "large"                     : 25,       // 大
-                "huge"                      : 15,       // 超大
-                "moving"                    : 10        // 動く
-            },
+            
         }
 
         this.cameraModes = ['三人称視点', '肩越し視点', '一人称視点', '俯瞰視点']
@@ -243,13 +264,13 @@ class KatamariDamacy {
     }
 
     selectDifficulty(diff) {
-        this.currentDifficulty = this.config["difficulty"][diff];
+        this.currentDifficulty = this.difficulty[diff];
         document.getElementById('difficultySelect').style.display = 'none';
         if (this.config["features"]["stageSelect"]) {
             document.getElementById('stageSelect').style.display = 'flex';
         } 
         else {
-            this.currentStage = this.config["stages"]["city"];
+            this.currentStage = this.stages["city"];
             if (this.config["features"]["tutorial"] && !localStorage.getItem('katamariTutorialShown')) {
                 document.getElementById(this.htmlStructure["tutorialID"]).style.display = 'flex';
             } 
@@ -259,7 +280,7 @@ class KatamariDamacy {
         }
     }
     selectStage(stage) {
-        this.currentStage = this.config["stages"][stage];
+        this.currentStage = this.stages[stage];
         document.getElementById('stageSelect').style.display = 'none';
         if (this.config["features"]["tutorial"] && !localStorage.getItem('katamariTutorialShown')) {
             document.getElementById(this.htmlStructure["tutorialID"]).style.display = 'flex';
@@ -413,31 +434,31 @@ class KatamariDamacy {
         );
     }
     spawnObjects() {
-        for (let i = 0; i < this.config["objects"]["tiny"]; i++) {
+        for (let i = 0; i < this.currentDifficulty["objects"]["tiny"]; i++) {
             const angle = Math.random() * Math.PI * 2;
             const radius = 5 + Math.random() * 15;
             this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.2 + Math.random() * 0.15);
         }
 
-        for (let i = 0; i < this.config["objects"]["small"]; i++) {
+        for (let i = 0; i < this.currentDifficulty["objects"]["small"]; i++) {
             const angle = Math.random() * Math.PI * 2;
             const radius = 15 + Math.random() * 20;
             this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.4 + Math.random() * 0.4);
         }
 
-        for (let i = 0; i < this.config["objects"]["medium"]; i++) {
+        for (let i = 0; i < this.currentDifficulty["objects"]["medium"]; i++) {
             const angle = Math.random() * Math.PI * 2;
             const radius = 35 + Math.random() * 25;
             this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.8 + Math.random() * 1.0);
         }
 
-        for (let i = 0; i < this.config["objects"]["large"]; i++) {
+        for (let i = 0; i < this.currentDifficulty["objects"]["large"]; i++) {
             const angle = Math.random() * Math.PI * 2;
             const radius = 60 + Math.random() * 25;
             this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 2.5 + Math.random() * 2.5);
         }
 
-        for (let i = 0; i < this.config["objects"]["huge"]; i++) {
+        for (let i = 0; i < this.currentDifficulty["objects"]["huge"]; i++) {
             const angle = Math.random() * Math.PI * 2;
             const radius = 90 + Math.random() * 30;
             this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 6.0 + Math.random() * 4.0);
