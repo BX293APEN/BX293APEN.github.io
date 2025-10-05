@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>BX293A_PEN</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Apps
+                        </h1>
+
+                         <div class="row mb-2">
+                            <div class="col-12" id = "Katamari_Damacy">
+                                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                                    <div class="col p-4 d-flex flex-column position-static">
+                                        <h3 class="mb-0">塊魂風ゲーム</h3>
+                                        <p class="card-text mb-auto mt-3">
+                                            &emsp;アルコールにおぼれて星空を破壊し、暗闇に変えてしまった王様、そして親の尻拭いのために地球に飛ばされた王子。<br>
+                                            王子は破壊しつくされた星空を取り戻すべく、モノだらけの地球で塊を転がし、大きくして「星」を作ります。<br>
+                                            そして大きくした塊(星)を暗闇の夜空に浮かべていきます。<br>
+                                            王子は失われた星空の輝きを、再び取り戻すことができるのでしょうか‥‥? &emsp; (公式サイトより)
+                                        </p>
+                                        <a href="/html/app/Katamari_Damacy.html" class="icon-link gap-1 icon-link-hover stretched-link mt-3">
+                                            Let's Play &gt;
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Archives</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#Katamari_Damacy">塊魂風ゲーム</a>
+                                    </li>
+                                </ol>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script async src="/view/widgets.js" charset="utf-8"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script>
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("apps"));
+        </script>
+    </footer>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>塊魂風ゲーム</title>
+        <link rel="stylesheet" href="/css/app/Katamari_Damacy/game.css">
+    </head>
+    <body>
+        <div id="difficultySelect">
+            <h1>🎯 難易度を選択</h1>
+            <button class="difficulty-btn" id="easyBtn">
+                🌱 イージー
+                <div class="difficulty-info">時間: 10分 | 目標: 150個</div>
+            </button>
+            <button class="difficulty-btn" id="normalBtn">
+                ⚖️ ノーマル
+                <div class="difficulty-info">時間: 8分 | 目標: 200個</div>
+            </button>
+            <button class="difficulty-btn" id="hardBtn">
+                🔥 ハード
+                <div class="difficulty-info">時間: 6分 | 目標: 250個</div>
+            </button>
+        </div>
+
+
+        <div id="stageSelect">
+            <h1>🗺️ ステージを選択</h1>
+            <button class="stage-btn" id="cityBtn">
+                🏙️ 街
+                <div class="difficulty-info">街灯・信号機・ゴミ箱のある都会</div>
+            </button>
+            <button class="stage-btn" id="parkBtn">
+                🌳 公園
+                <div class="difficulty-info">木・花・ベンチのある公園</div>
+            </button>
+        </div>
+
+        <div id="tutorial">
+            <h1>🎓 遊び方</h1>
+            <div class="tutorial-content">
+                <p>🎮 <strong>WASD</strong> または <strong>矢印キー</strong> で移動</p>
+                <p>⬆️ <strong>スペースキー</strong> でジャンプ</p>
+                <p>📷 <strong>Cキー</strong> で視点切替（三人称/肩越し/一人称/俯瞰）</p>
+                <p>⏸️ <strong>Pキー</strong> でポーズ</p>
+                <p>🖱️ <strong>マウスドラッグ</strong> でカメラ回転</p>
+                <br>
+                <p>✊ <strong>ジェスチャー操作</strong></p>
+                <p>✊ グー → 前進 | 🖐️ パー → 後退</p>
+                <p>☝️ 1本指 → 左移動 | ✌️ 2本指 → 右移動</p>
+                <br>
+                <p>💡 自分より小さいものを巻き込んで大きくなろう！</p>
+                <p>🏠 巨大化すると建物も巻き込めるようになります！</p>
+                <p>🔥 連続で巻き込むとコンボボーナス！</p>
+            </div>
+            <button id="tutorialCloseBtn">ゲームを始める</button>
+        </div>
+
+        <div id="pauseScreen">
+            <h1>⏸️ PAUSE</h1>
+            <button id="resumeBtn">▶️ 再開</button>
+            <button onclick="location.reload()">🔄 リスタート</button>
+            <button id="helpBtn">❓ 遊び方</button>
+        </div>
+
+
+        <div id="ui">
+            <div>🎯 レベル: <span id="level">1</span></div>
+            <div>⭐ スコア: <span id="score">0</span></div>
+            <div>🏆 最高: <span id="highScore">0</span></div>
+            <div>🎪 巻き込み: <span id="count">0</span>/<span id="goal">30</span></div>
+            <div>難易度: <span id="difficultyLabel">-</span></div>
+            <div>🗺️ ステージ: <span id="stageLabel">-</span></div>
+            <div>📷 視点: <span id="cameraMode">三人称視点</span></div>
+        </div>
+
+        <div id="sizeInfo">
+            <div>📏 サイズ: <span id="size">50</span>cm</div>
+            <div id="sizeClass">クラス: 🐜 極小</div>
+        </div>
+
+        <div id="timer">10:00</div>
+        <div id="combo">🔥 COMBO x<span id="comboCount">0</span></div>
+        <canvas id="minimap"></canvas>
+
+        <div id="info">
+          🎮 WASD/矢印 = 移動 | スペース = ジャンプ<br>
+          📷 C = 視点切替 | ⏸️ P = ポーズ | 🖱️ マウス = カメラ<br>
+          💡 小さいものから巻き込んで大きくなろう！
+        </div>
+
+
+        <div id="gameOver">
+            <h1 id="resultTitle">TIME UP!</h1>
+            <p id="resultText" style="font-size: 24px; margin: 20px 0;"></p>
+            <button onclick="location.reload()">🔄 もう一度</button>
+            <button id="nextLevelBtn">➡️ 次のレベル</button>
+        </div>
+
+        <div id="notification"></div>
+
+
+    </body>
+    <footer>
+        <script src="/view/three.min.js"></script>
+        <script src="/view/cannon.min.js"></script>
+        <script src="/view/app/Katamari_Damacy/game.js"></script>
+        <script>
+            let gameData = new KatamariDamacy();
+        </script>
+    </footer>
+</html>
