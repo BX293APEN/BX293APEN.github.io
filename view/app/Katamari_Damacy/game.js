@@ -11,7 +11,8 @@ class KatamariDamacy {
             "resumeButtonID"            : 'resumeBtn',
             "pauseScreenID"             : 'pauseScreen',
             "helpButtonID"              : 'helpBtn',
-            "nextLevelButtonID"         : 'nextLevelBtn'
+            "nextLevelButtonID"         : 'nextLevelBtn',
+            "minimapID"                 : 'minimap'
 
         }
     ){
@@ -514,7 +515,7 @@ class KatamariDamacy {
 
     drawMinimap() {
         if (!this.config["features"]["minimap"]) return;
-        const canvas = document.getElementById('minimap');
+        const canvas = document.getElementById(this.htmlStructure["minimapID"]);
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, 200, 200);
