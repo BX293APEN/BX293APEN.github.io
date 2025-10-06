@@ -536,12 +536,12 @@ class KatamariDamacy {
 
     drawMinimap() {
         if (!this.config["features"]["minimap"]) return;
-        const canvas = document.getElementById(this.htmlStructure["minimapID"]);
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, 200, 200);
-        ctx.fillStyle = 'rgba(0, 50, 0, 0.5)';
-        ctx.fillRect(0, 0, 200, 200);
+        this.minimapCanvas = document.getElementById(this.htmlStructure["minimapID"]);
+        if (!this.minimapCanvas) return;
+        this.minimapCtx = this.minimapCanvas.getContext('2d');
+        this.minimapCtx.clearRect(0, 0, 200, 200);
+        this.minimapCtx.fillStyle = 'rgba(0, 50, 0, 0.5)';
+        this.minimapCtx.fillRect(0, 0, 200, 200);
         
         const scale = 200 / 200;
         const centerX = 100;
@@ -550,16 +550,16 @@ class KatamariDamacy {
         this.gameState.objects.forEach(
             obj => {
                 if (!obj.collected) {
-                    ctx.fillStyle = '#ffff00';
-                    ctx.fillRect(centerX + obj.body.position.x * scale - 1, centerY + obj.body.position.z * scale - 1, 2, 2);
+                    this.minimapCtx.fillStyle = '#ffff00';
+                    this.minimapCtx.fillRect(centerX + obj.body.position.x * scale - 1, centerY + obj.body.position.z * scale - 1, 2, 2);
                 }
             }
         );
 
-        ctx.fillStyle = '#ff69b4';
-        ctx.beginPath();
-        ctx.arc(centerX + this.ballBody.position.x * scale, centerY + this.ballBody.position.z * scale, 5, 0, Math.PI * 2);
-        ctx.fill();
+        this.minimapCtx.fillStyle = '#ff69b4';
+        this.minimapCtx.beginPath();
+        this.minimapCtx.arc(centerX + this.ballBody.position.x * scale, centerY + this.ballBody.position.z * scale, 5, 0, Math.PI * 2);
+        this.minimapCtx.fill();
     }
 
     animate() {
