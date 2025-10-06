@@ -534,7 +534,13 @@ class KatamariDamacy {
         document.getElementById('size').textContent = Math.floor(sizeCm);
     }
 
-    drawMinimap() {
+    drawMinimap(
+        {
+            scale       = 200 / 200,
+            centerX     = 100,
+            centerY     = 100,
+        } = {}
+    ) {
         if (!this.config["features"]["minimap"]) return;
         this.minimapCanvas = document.getElementById(this.htmlStructure["minimapID"]);
         if (!this.minimapCanvas) return;
@@ -543,9 +549,7 @@ class KatamariDamacy {
         this.minimapCtx.fillStyle = 'rgba(0, 50, 0, 0.5)';
         this.minimapCtx.fillRect(0, 0, 200, 200);
         
-        const scale = 200 / 200;
-        const centerX = 100;
-        const centerY = 100;
+        
         
         this.gameState.objects.forEach(
             obj => {
