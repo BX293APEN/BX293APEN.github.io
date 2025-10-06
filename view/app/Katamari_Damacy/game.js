@@ -545,9 +545,12 @@ class KatamariDamacy {
         this.minimapCanvas = document.getElementById(this.htmlStructure["minimapID"]);
         if (!this.minimapCanvas) return;
         this.minimapCtx = this.minimapCanvas.getContext('2d');
-        this.minimapCtx.clearRect(0, 0, 200, 200);
+        this.minimapCanvas.width    = 200
+        this.minimapCanvas.height   = 200
+
+        this.minimapCtx.clearRect(0, 0, this.minimapCanvas.width, this.minimapCanvas.height);
         this.minimapCtx.fillStyle = 'rgba(0, 50, 0, 0.5)';
-        this.minimapCtx.fillRect(0, 0, 200, 200);
+        this.minimapCtx.fillRect(0, 0, this.minimapCanvas.width, this.minimapCanvas.height);
         
         
         
