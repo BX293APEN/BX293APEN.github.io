@@ -1,85 +1,88 @@
 class KatamariDamacy {
     constructor(
-        {
-            htmlStructure = {
-                "easyButtonID"              : 'easyBtn',
-                "normalButtonID"            : 'normalBtn',
-                "hardButtonID"              : 'hardBtn',
-                "cityButtonID"              : 'cityBtn',
-                "parkButtonID"              : 'parkBtn',
-                "tutorialCloseButtonID"     : 'tutorialCloseBtn',
-                "tutorialID"                : 'tutorial',
-                "resumeButtonID"            : 'resumeBtn',
-                "pauseScreenID"             : 'pauseScreen',
-                "helpButtonID"              : 'helpBtn',
-                "nextLevelButtonID"         : 'nextLevelBtn',
-                "minimapID"                 : 'minimap'
-
-            },
-            difficulty = {
-                "easy" : {
-                    "name"                  : '🌱 イージー',
-                    "timeLimit"             : 600,          // 秒数
-                    "targetCount"           : 150,
-                    "sizeMultiplier"        : 1.15,
-                    "growthBonus"           : 1.2,
-                    "objects": {                            // オブジェクトの数を指定
-                        "tiny"              : 80,           // 極小
-                        "small"             : 60,           // 小
-                        "medium"            : 40,           // 中
-                        "large"             : 25,           // 大
-                        "huge"              : 15,           // 超大
-                        "moving"            : 10            // 動く
-                    }
-                },
-                "normal": {
-                    "name"                  : '⚖️ ノーマル',
-                    "timeLimit"             : 480,
-                    "targetCount"           : 200,
-                    "sizeMultiplier"        : 1.3,
-                    "growthBonus"           : 1.0,
-                    "objects": {                            // オブジェクトの数を指定
-                        "tiny"              : 80,           // 極小
-                        "small"             : 60,           // 小
-                        "medium"            : 40,           // 中
-                        "large"             : 25,           // 大
-                        "huge"              : 15,           // 超大
-                        "moving"            : 10            // 動く
-                    }
-                },
-                "hard" : {
-                    "name"                  : '🔥 ハード',
-                    "timeLimit"             : 360,
-                    "targetCount"           : 250,
-                    "sizeMultiplier"        : 1.5,
-                    "growthBonus"           : 0.8,
-                    "objects": {                            // オブジェクトの数を指定
-                        "tiny"              : 80,           // 極小
-                        "small"             : 60,           // 小
-                        "medium"            : 40,           // 中
-                        "large"             : 25,           // 大
-                        "huge"              : 15,           // 超大
-                        "moving"            : 10            // 動く
-                    }
-                }
-            },
-            stages = {
-                "city" : {
-                    "name"                  : '🏙️ 街',
-                    "skyColor"              : 0x87CEEB,
-                    "groundColor"           : 0x4A4A4A
-                },
-                "park" : {
-                    "name"                  : '🌳 公園',
-                    "skyColor"              : 0x87CEEB,
-                    "groundColor"           : 0x2D5016
-                },
-            },
-        }={}
+        htmlStructure,
+        difficulty,
+        stages
     ){
         this.difficulty     = difficulty;
+        // {
+        //     "easy" : {
+        //         "name"                  : '🌱 イージー',
+        //         "timeLimit"             : 600,          // 秒数
+        //         "targetCount"           : 150,
+        //         "sizeMultiplier"        : 1.15,
+        //         "growthBonus"           : 1.2,
+        //         "objects": {                            // オブジェクトの数を指定
+        //             "tiny"              : 80,           // 極小
+        //             "small"             : 60,           // 小
+        //             "medium"            : 40,           // 中
+        //             "large"             : 25,           // 大
+        //             "huge"              : 15,           // 超大
+        //             "moving"            : 10            // 動く
+        //         }
+        //     },
+        //     "normal": {
+        //         "name"                  : '⚖️ ノーマル',
+        //         "timeLimit"             : 480,
+        //         "targetCount"           : 200,
+        //         "sizeMultiplier"        : 1.3,
+        //         "growthBonus"           : 1.0,
+        //         "objects": {                            // オブジェクトの数を指定
+        //             "tiny"              : 80,           // 極小
+        //             "small"             : 60,           // 小
+        //             "medium"            : 40,           // 中
+        //             "large"             : 25,           // 大
+        //             "huge"              : 15,           // 超大
+        //             "moving"            : 10            // 動く
+        //         }
+        //     },
+        //     "hard" : {
+        //         "name"                  : '🔥 ハード',
+        //         "timeLimit"             : 360,
+        //         "targetCount"           : 250,
+        //         "sizeMultiplier"        : 1.5,
+        //         "growthBonus"           : 0.8,
+        //         "objects": {                            // オブジェクトの数を指定
+        //             "tiny"              : 80,           // 極小
+        //             "small"             : 60,           // 小
+        //             "medium"            : 40,           // 中
+        //             "large"             : 25,           // 大
+        //             "huge"              : 15,           // 超大
+        //             "moving"            : 10            // 動く
+        //         }
+        //     }
+        // }
+
         this.stages         = stages;
+        // {
+        //     "city" : {
+        //         "name"                  : '🏙️ 街',
+        //         "skyColor"              : 0x87CEEB,
+        //         "groundColor"           : 0x4A4A4A
+        //     },
+        //     "park" : {
+        //         "name"                  : '🌳 公園',
+        //         "skyColor"              : 0x87CEEB,
+        //         "groundColor"           : 0x2D5016
+        //     },
+        // }
+
         this.htmlStructure  = htmlStructure;
+        //{
+        //    "easyButtonID"              : 'easyBtn',
+        //    "normalButtonID"            : 'normalBtn',
+        //    "hardButtonID"              : 'hardBtn',
+        //    "cityButtonID"              : 'cityBtn',
+        //    "parkButtonID"              : 'parkBtn',
+        //    "tutorialCloseButtonID"     : 'tutorialCloseBtn',
+        //    "tutorialID"                : 'tutorial',
+        //    "resumeButtonID"            : 'resumeBtn',
+        //    "pauseScreenID"             : 'pauseScreen',
+        //    "helpButtonID"              : 'helpBtn',
+        //    "nextLevelButtonID"         : 'nextLevelBtn',
+        //    "minimapID"                 : 'minimap'
+        //}
+
         this.config =   {
             "features" : {
                 "pause"                     : true,
@@ -606,7 +609,7 @@ class KatamariDamacy {
                     const canCollect = this.gameState.ballSize >= requiredSize;
                     const collectionRange = (this.ballRadius + obj.size) * this.config["ball"]["grow"]["collectionRange"];  // ★判定を拡大★
                     
-                    if (dist < collectionRange && canCollect) {
+                    if (dist < collectionRange && canCollect) { // 巻き込み判定
                         obj.collected = true;
                         this.world.remove(obj.body);
                         this.scene.remove(obj.mesh);
@@ -639,7 +642,7 @@ class KatamariDamacy {
                         if (this.config["ball"]["grow"]["enable"]) {
                             const objVolume = obj.size * obj.size * obj.size;
                             const currentVolume = (4/3) * Math.PI * Math.pow(this.ballRadius, 3);
-                            const newVolume = currentVolume + (objVolume * this.config["ball"]["grow"]["raito"]);
+                            const newVolume = currentVolume + (objVolume * this.config["ball"]["grow"]["raito"] * this.currentDifficulty["growthBonus"]);
                             const newRadius = Math.pow((3 * newVolume) / (4 * Math.PI), 1/3);
                             this.gameState.ballSize = newRadius;
                             this.ballRadius = newRadius;
