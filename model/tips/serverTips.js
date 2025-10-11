@@ -16,6 +16,10 @@ class ServerModel{
             {
                 "page" : 4,
                 "href" : "/html/tips/server/http.html"
+            },
+            {
+                "page" : 5,
+                "href" : "/html/tips/server/ntp.html"
             }
         ]
     }

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            サーバの構築手順
+                        </h1>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="ntp-chrony">
+                                ChronyでNTPサーバの構築
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Chronyのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install chrony</code></pre> 
+                            <p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイル
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/chrony/chrony.conf</code></pre> 
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash"># /etc/chrony/chrony.conf
+
+# Welcome to the chrony configuration file. See chrony.conf(5) for more
+# information about usable directives.
+
+# Include configuration files found in /etc/chrony/conf.d.
+confdir /etc/chrony/conf.d
+
+# Use Debian vendor zone.
+# pool 2.debian.pool.ntp.org iburst
+server 127.127.1.0 prefer
+server ntp.nict.jp iburst
+
+
+# Use time sources from DHCP.
+sourcedir /run/chrony-dhcp
+
+# Use NTP sources found in /etc/chrony/sources.d.
+sourcedir /etc/chrony/sources.d
+
+# This directive specify the location of the file containing ID/key pairs for
+# NTP authentication.
+keyfile /etc/chrony/chrony.keys
+
+# This directive specify the file into which chronyd will store the rate
+# information.
+driftfile /var/lib/chrony/chrony.drift
+
+# Save NTS keys and cookies.
+ntsdumpdir /var/lib/chrony
+
+# Uncomment the following line to turn logging on.
+#log tracking measurements statistics
+
+# Log files location.
+logdir /var/log/chrony
+
+# Stop bad estimates upsetting machine clock.
+maxupdateskew 100.0
+
+# This directive enables kernel synchronisation (every 11 minutes) of the
+# real-time clock. Note that it can’t be used along with the 'rtcfile' directive.
+rtcsync
+
+# Step the system clock instead of slewing it if the adjustment is larger than
+# one second, but only in the first three clock updates.
+makestep 1 3
+
+# Get TAI-UTC offset and leap seconds from the system tz database.
+# This directive must be commented out when using time sources serving
+# leap-smeared time.
+leapsectz right/UTC
+
+# ローカルクライアントからの接続を許可
+allow 192.168.10.0/24
+
+# バインド設定（任意）
+bindaddress 0.0.0.0
+bindcmdaddress 127.0.0.1
+</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の適用
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart chrony</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                同期確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">chronyc sources -v</code></pre>
+                            </p>
+                            
+                        </article>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ntp-chrony">NTPサーバの構築</a>
+                                    </li>
+    
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
+            new Pagination(5, serverModel.page, "pagination");
+        </script>
+    </footer>
+</html>
