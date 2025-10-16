@@ -94,6 +94,9 @@ class KatamariDamacy {
                 "cameraSwitch"              : true,
                 "minimap"                   : true
             },
+            "storage":{
+                "score"                     : "katamariHighScore"
+            },
             "sound" : {
                 "baseFreq"                  : 440,
                 "comboFreqBoost"            : 50,
@@ -186,6 +189,7 @@ class KatamariDamacy {
                             "max" : 10.0
                         },
                     },
+                    
 
                 },
             }
@@ -311,16 +315,15 @@ class KatamariDamacy {
     }
     save(score) {
         if (!this.config["features"]["highScore"]) return false;
-        let current = this.get_score();
-        if (score > current) {
-            localStorage.setItem('katamariHighScore', score);
+        if (score > this.get_score()) {
+            localStorage.setItem(this.config["storage"]["score"], score);
             return true;
         }
         return false;
     }
     get_score() {
         if (!this.config["features"]["highScore"]) return 0;
-        return parseInt(localStorage.getItem('katamariHighScore') || '0');
+        return parseInt(localStorage.getItem(this.config["storage"]["score"]) || '0');
     }
     display() {
         if (!this.config["features"]["highScore"]) return;
