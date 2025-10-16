@@ -288,23 +288,23 @@ class KatamariDamacy {
     }
 
     sounds_collect(frequency) {
-        let osc = this.audioContext.createOscillator();
-        let gain = this.audioContext.createGain();
+        const osc               = this.audioContext.createOscillator();
+        const gain              = this.audioContext.createGain();
         osc.connect(gain);
         gain.connect(this.audioContext.destination);
-        osc.frequency.value = frequency;
-        osc.type = 'sine';
+        osc.frequency.value     = frequency;
+        osc.type                = 'sine';
         gain.gain.setValueAtTime(this.config["sound"]["volume"], this.audioContext.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.3);
         osc.start();
         osc.stop(this.audioContext.currentTime + 0.3);
     }
     sounds_big_collect() {
-        let osc = this.audioContext.createOscillator();
-        let gain = this.audioContext.createGain();
+        const osc               = this.audioContext.createOscillator();
+        const gain              = this.audioContext.createGain();
         osc.connect(gain);
         gain.connect(this.audioContext.destination);
-        osc.type = 'sawtooth';
+        osc.type                = 'sawtooth';
         osc.frequency.setValueAtTime(880, this.audioContext.currentTime);
         osc.frequency.exponentialRampToValueAtTime(220, this.audioContext.currentTime + 0.5);
         gain.gain.setValueAtTime(this.config["sound"]["volume"] + 0.1, this.audioContext.currentTime);
@@ -370,21 +370,26 @@ class KatamariDamacy {
     }
 
     init_game() {
-        this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(this.currentStage["skyColor"]);
+        this.scene                  = new THREE.Scene();
+        this.scene.background       = new THREE.Color(this.currentStage["skyColor"]);
   
         if (this.config["visuals"]["fogEnabled"]) {
-            this.scene.fog = new THREE.Fog(this.currentStage["skyColor"], 50, 250);
+            this.scene.fog          = new THREE.Fog(this.currentStage["skyColor"], 50, 250);
         }
   
-        this.camera = new THREE.PerspectiveCamera(this.config["visuals"]["cameraFov"], window.innerWidth / window.innerHeight, 0.1, 500);
+        this.camera                 = new THREE.PerspectiveCamera(
+            this.config["visuals"]["cameraFov"], 
+            window.innerWidth / window.innerHeight, 
+            0.1, 500
+        );
+
         this.camera.position.set(0, 15, 25);
   
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer               = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
   
-        this.controls = {
+        this.controls               = {
             mouseDown: false,
             mouseX: 0,
             mouseY: 0,
@@ -412,33 +417,33 @@ class KatamariDamacy {
             'mousemove', 
             (e) => {
                 if (this.controls.mouseDown && this.cameraMode === 0) {
-                    let deltaX = e.clientX - this.controls.mouseX;
-                    let deltaY = e.clientY - this.controls.mouseY;
-                    this.controls.rotateX -= deltaY * 0.005;
-                    this.controls.rotateY -= deltaX * 0.005;
-                    this.controls.rotateX = Math.max(0.1, Math.min(Math.PI / 2.5, this.controls.rotateX));
-                    this.controls.mouseX = e.clientX;
-                    this.controls.mouseY = e.clientY;
+                    const deltaX            = e.clientX - this.controls.mouseX;
+                    const deltaY            = e.clientY - this.controls.mouseY;
+                    this.controls.rotateX   -= deltaY * 0.005;
+                    this.controls.rotateY   -= deltaX * 0.005;
+                    this.controls.rotateX   = Math.max(0.1, Math.min(Math.PI / 2.5, this.controls.rotateX));
+                    this.controls.mouseX    = e.clientX;
+                    this.controls.mouseY    = e.clientY;
                 }
             }
         );
   
-        let ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        const ambientLight                  = new THREE.AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
   
-        let dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        const dirLight                      = new THREE.DirectionalLight(0xffffff, 0.8);
         dirLight.position.set(50, 100, 50);
         this.scene.add(dirLight);
   
-        let pointLight = new THREE.PointLight(this.config["ball"]["shape"]["color"], 1, 50);
+        const pointLight                    = new THREE.PointLight(this.config["ball"]["shape"]["color"], 1, 50);
         pointLight.position.set(0, 10, 0);
         this.scene.add(pointLight);
   
-        this.world = new CANNON.World();
+        this.world                          = new CANNON.World();
         this.world.gravity.set(0, -20, 0);
   
-        let groundShape = new CANNON.Plane();
-        let groundBody = new CANNON.Body(
+        const groundShape                   = new CANNON.Plane();
+        const groundBody                    = new CANNON.Body(
             { 
                 mass: 0 
             }
@@ -448,13 +453,13 @@ class KatamariDamacy {
         groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
         this.world.add(groundBody);
   
-        let groundGeometry = new THREE.PlaneGeometry(300, 300);
-        let groundMaterial = new THREE.MeshStandardMaterial({ color: this.currentStage["groundColor"] });
-        let groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-        groundMesh.rotation.x = -Math.PI / 2;
+        const groundGeometry                = new THREE.PlaneGeometry(300, 300);
+        const groundMaterial                = new THREE.MeshStandardMaterial({ color: this.currentStage["groundColor"] });
+        const groundMesh                    = new THREE.Mesh(groundGeometry, groundMaterial);
+        groundMesh.rotation.x               = -Math.PI / 2;
         this.scene.add(groundMesh);
   
-        this.ballRadius = this.gameState.ballSize;
+        this.ballRadius                     = this.gameState.ballSize;
         this.ballBody = new CANNON.Body(
             {
                 mass: this.config["ball"]["shape"]["mass"],
@@ -466,8 +471,8 @@ class KatamariDamacy {
         this.ballBody.addShape(new CANNON.Sphere(this.ballRadius));
         this.world.add(this.ballBody);
   
-        let ballGeometry = new THREE.SphereGeometry(this.ballRadius, 32, 32);
-        let ballMaterial = new THREE.MeshStandardMaterial(
+        const ballGeometry                  = new THREE.SphereGeometry(this.ballRadius, 32, 32);
+        const ballMaterial                  = new THREE.MeshStandardMaterial(
             {
                 color               : this.config["ball"]["shape"]["color"],
                 emissive            : this.config["ball"]["shape"]["color"],
@@ -476,10 +481,10 @@ class KatamariDamacy {
                 opacity             : 0.4
             }
         );
-        this.ballMesh = new THREE.Mesh(ballGeometry, ballMaterial);
+        this.ballMesh                       = new THREE.Mesh(ballGeometry, ballMaterial);
         this.scene.add(this.ballMesh);
 
-        this.attachedGroup = new THREE.Group();
+        this.attachedGroup                  = new THREE.Group();
         this.scene.add(this.attachedGroup);
   
         this.spawn_objects();
@@ -508,24 +513,29 @@ class KatamariDamacy {
     }   
 
     create_n_objects(objectSize){
-        let objectConfig    = this.config["objects"]["coordinates"][objectSize]
+        const objectConfig      = this.config["objects"]["coordinates"][objectSize]
 
         for (let i = 0; i < this.currentDifficulty["objects"][objectSize]; i++) {
-            let angle           = Math.random() * objectConfig["angle"];
-            let radius          = objectConfig["radius"]["min"] + Math.random() * (objectConfig["radius"]["max"] - objectConfig["radius"]["min"]);
-            let size            = objectConfig["size"]["min"] + Math.random() * (objectConfig["size"]["max"] - objectConfig["size"]["min"]);
+            const angle         = Math.random() * objectConfig["angle"];
+            const radius        = objectConfig["radius"]["min"] + Math.random() * (objectConfig["radius"]["max"] - objectConfig["radius"]["min"]);
+            const size          = objectConfig["size"]["min"] + Math.random() * (objectConfig["size"]["max"] - objectConfig["size"]["min"]);
 
             this.create_object(Math.cos(angle) * radius, Math.sin(angle) * radius, size);
         }
     }
 
     create_object(x, z, size) {
-        let geometry = new THREE.BoxGeometry(size, size, size);
-        let material = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff });
-        let mesh = new THREE.Mesh(geometry, material);
+        const geometry          = new THREE.BoxGeometry(size, size, size);
+        const material          = new THREE.MeshStandardMaterial(
+            { 
+                color: Math.random() * 0xffffff 
+            }
+        );
+
+        const mesh              = new THREE.Mesh(geometry, material);
         this.scene.add(mesh);
         
-        let body = new CANNON.Body(
+        const body              = new CANNON.Body(
             { 
                 mass: size * 0.5, 
                 position: new CANNON.Vec3(x, size/2 + 0.5, z) 
@@ -552,12 +562,12 @@ class KatamariDamacy {
         document.getElementById('comboCount').textContent = this.gameState.combo;
         document.getElementById('combo').style.display = 'block';
 
-        let delay = Math.min(5000, 2000 + this.gameState.combo * 100);
+        const delay                     = Math.min(5000, 2000 + this.gameState.combo * 100);
 
         clearTimeout(this.gameState.comboTimer);
-        this.gameState.comboTimer = setTimeout(
+        this.gameState.comboTimer       = setTimeout(
             () => {
-                this.gameState.combo = 0;
+                this.gameState.combo    = 0;
                 document.getElementById('combo').style.display = 'none';
             }, 
             delay
@@ -565,8 +575,8 @@ class KatamariDamacy {
     }
 
     update_timer() {
-        let min = Math.floor(this.gameState.gameTime / 60);
-        let sec = this.gameState.gameTime % 60;
+        const min                       = Math.floor(this.gameState.gameTime / 60);
+        const sec                       = this.gameState.gameTime % 60;
         document.getElementById('timer').textContent = `${min}:${sec.toString().padStart(2, '0')}`;
     
         if (this.gameState.gameTime <= 30) {
@@ -575,7 +585,7 @@ class KatamariDamacy {
     }
     
     show_notification(text) {
-        let notif = document.getElementById('notification');
+        const notif                     = document.getElementById('notification');
         notif.textContent = text;
         notif.style.display = 'block';
         setTimeout(
@@ -587,8 +597,8 @@ class KatamariDamacy {
     }
 
     update_size_class() {
-        let sizeCm = this.gameState.ballSize * 100;
-        let sizeClass = this.ballSize.find(c => sizeCm >= c.min && sizeCm < c.max);
+        const sizeCm                    = this.gameState.ballSize * 100;
+        const sizeClass                 = this.ballSize.find(c => sizeCm >= c.min && sizeCm < c.max);
         if (sizeClass) {  // ★undefinedチェック★
             document.getElementById('sizeClass').textContent = `クラス: ${sizeClass.name}`;
         }
@@ -597,9 +607,9 @@ class KatamariDamacy {
 
     draw_minimap(
         {
-            scale       = 200 / 200,
-            centerX     = 100,
-            centerY     = 100,
+            scale                   = 200 / 200,
+            centerX                 = 100,
+            centerY                 = 100,
         } = {}
     ) {
         if (!this.config["features"]["minimap"]) return;
@@ -610,7 +620,7 @@ class KatamariDamacy {
         this.minimapCanvas.height   = 200
 
         this.minimapCtx.clearRect(0, 0, this.minimapCanvas.width, this.minimapCanvas.height);
-        this.minimapCtx.fillStyle = 'rgba(0, 50, 0, 0.5)';
+        this.minimapCtx.fillStyle   = 'rgba(0, 50, 0, 0.5)';
         this.minimapCtx.fillRect(0, 0, this.minimapCanvas.width, this.minimapCanvas.height);
         
         
@@ -638,7 +648,7 @@ class KatamariDamacy {
             return;
         }
 
-        let force = this.config["control"]["speed"];
+        const force = this.config["control"]["speed"];
         if (this.keys['w'] || this.keys['ArrowUp']) this.ballBody.applyForce(new CANNON.Vec3(0, 0, -force), this.ballBody.position);
         if (this.keys['s'] || this.keys['ArrowDown']) this.ballBody.applyForce(new CANNON.Vec3(0, 0, force), this.ballBody.position);
         if (this.keys['a'] || this.keys['ArrowLeft']) this.ballBody.applyForce(new CANNON.Vec3(-force, 0, 0), this.ballBody.position);
@@ -658,25 +668,25 @@ class KatamariDamacy {
                     obj.mesh.position.copy(obj.body.position);
                     obj.mesh.quaternion.copy(obj.body.quaternion);
                     
-                    let dx = this.ballBody.position.x - obj.body.position.x;
-                    let dy = this.ballBody.position.y - obj.body.position.y;
-                    let dz = this.ballBody.position.z - obj.body.position.z;
-                    let dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                    const dx                = this.ballBody.position.x - obj.body.position.x;
+                    const dy                = this.ballBody.position.y - obj.body.position.y;
+                    const dz                = this.ballBody.position.z - obj.body.position.z;
+                    const dist              = Math.sqrt(dx*dx + dy*dy + dz*dz);
                     
-                    let requiredSize = obj.size * this.currentDifficulty.sizeMultiplier;
-                    let canCollect = this.gameState.ballSize >= requiredSize;
-                    let collectionRange = (this.ballRadius + obj.size) * this.config["ball"]["grow"]["collectionRange"];  // ★判定を拡大★
+                    const requiredSize      = obj.size * this.currentDifficulty.sizeMultiplier;
+                    const canCollect        = this.gameState.ballSize >= requiredSize;
+                    const collectionRange   = (this.ballRadius + obj.size) * this.config["ball"]["grow"]["collectionRange"];  // ★判定を拡大★
                     
                     if (dist < collectionRange && canCollect) { // 巻き込み判定
-                        obj.collected = true;
+                        obj.collected   = true;
                         this.world.remove(obj.body);
                         this.scene.remove(obj.mesh);
 
-                        let theta = Math.random() * Math.PI * 2;
-                        let phi = Math.acos(2 * Math.random() - 1);
-                        let r = this.ballRadius * (0.8 + Math.random() * 0.4);
+                        const theta         = Math.random() * Math.PI * 2;
+                        const phi           = Math.acos(2 * Math.random() - 1);
+                        const r             = this.ballRadius * (0.8 + Math.random() * 0.4);
 
-                        let relPos = new THREE.Vector3(
+                        const relPos        = new THREE.Vector3(
                             r * Math.sin(phi) * Math.cos(theta),
                             r * Math.sin(phi) * Math.sin(theta),
                             r * Math.cos(phi)
@@ -688,29 +698,29 @@ class KatamariDamacy {
                             Math.random() * Math.PI * 2, 
                             Math.random() * Math.PI * 2
                         );
-                        let scale = 0.7 + Math.random() * 0.3;
+                        const scale         = 0.7 + Math.random() * 0.3;
                         obj.mesh.scale.set(scale, scale, scale);
                         this.attachedGroup.add(obj.mesh);
 
                         this.gameState.collectedCount++;
-                        let comboBonus = this.config["features"]["comboSystem"] && this.gameState.combo > 0 ? this.gameState.combo * 5 : 0;
+                        const comboBonus    = this.config["features"]["comboSystem"] && this.gameState.combo > 0 ? this.gameState.combo * 5 : 0;
                         this.gameState.score += obj.points + comboBonus;
 
                         // ★体積ベースの成長★
                         if (this.config["ball"]["grow"]["enable"]) {
-                            let objVolume = obj.size * obj.size * obj.size;
-                            let currentVolume = (4/3) * Math.PI * Math.pow(this.ballRadius, 3);
-                            let newVolume = currentVolume + (objVolume * this.config["ball"]["grow"]["raito"] * this.currentDifficulty["growthBonus"]);
-                            let newRadius = Math.pow((3 * newVolume) / (4 * Math.PI), 1/3);
+                            const objVolume         = obj.size * obj.size * obj.size;
+                            const currentVolume     = (4/3) * Math.PI * Math.pow(this.ballRadius, 3);
+                            const newVolume         = currentVolume + (objVolume * this.config["ball"]["grow"]["raito"] * this.currentDifficulty["growthBonus"]);
+                            const newRadius         = Math.pow((3 * newVolume) / (4 * Math.PI), 1/3);
                             this.gameState.ballSize = newRadius;
-                            this.ballRadius = newRadius;
+                            this.ballRadius         = newRadius;
                         }
 
                         document.getElementById('count').textContent = this.gameState.collectedCount;
                         document.getElementById('score').textContent = this.gameState.score;
                         this.update_size_class();
 
-                        let frequency = 
+                        const frequency = 
                             this.config["sound"]["baseFreq"] + 
                             (
                                 this.config["features"]["comboSystem"] ? 
@@ -727,14 +737,14 @@ class KatamariDamacy {
 
                         if (this.config["features"]["comboSystem"]) this.add_combo();
 
-                        let spinBoost = this.config["ball"]["rotation"]["spinBoost"];
-                        let randomSpin = new CANNON.Vec3(
+                        const spinBoost             = this.config["ball"]["rotation"]["spinBoost"];
+                        const randomSpin            = new CANNON.Vec3(
                             (Math.random() - 0.5) * spinBoost,
                             (Math.random() - 0.5) * spinBoost,
                             (Math.random() - 0.5) * spinBoost
                         );
 
-                        let prevAngularVelocity = this.ballBody.angularVelocity.vadd(randomSpin);
+                        const prevAngularVelocity   = this.ballBody.angularVelocity.vadd(randomSpin);
                         this.world.remove(this.ballBody);
                         this.ballBody = new CANNON.Body(
                             {
@@ -751,7 +761,7 @@ class KatamariDamacy {
 
                         this.scene.remove(this.ballMesh);
                         this.ballMesh.geometry.dispose();
-                        this.ballMesh.geometry = new THREE.SphereGeometry(this.ballRadius, 32, 32);
+                        this.ballMesh.geometry      = new THREE.SphereGeometry(this.ballRadius, 32, 32);
                         this.scene.add(this.ballMesh);
 
                         if (this.gameState.collectedCount >= this.gameState.goalCount) this.end_game(true);
@@ -763,22 +773,22 @@ class KatamariDamacy {
         // ★カメラ制御を修正★
         if (this.config["features"]["cameraSwitch"]) {
             if (this.cameraMode === 0) {
-                let dist = 8 + this.ballRadius * 2;
-                let height = 5 + this.ballRadius;
-                this.camera.position.x = this.ballBody.position.x + Math.sin(this.controls.rotateY) * dist * Math.cos(this.controls.rotateX);
-                this.camera.position.y = this.ballBody.position.y + height + dist * Math.sin(this.controls.rotateX);
-                this.camera.position.z = this.ballBody.position.z + Math.cos(this.controls.rotateY) * dist * Math.cos(this.controls.rotateX);
+                const dist                          = 8 + this.ballRadius * 2;
+                const height                        = 5 + this.ballRadius;
+                this.camera.position.x              = this.ballBody.position.x + Math.sin(this.controls.rotateY) * dist * Math.cos(this.controls.rotateX);
+                this.camera.position.y              = this.ballBody.position.y + height + dist * Math.sin(this.controls.rotateX);
+                this.camera.position.z              = this.ballBody.position.z + Math.cos(this.controls.rotateY) * dist * Math.cos(this.controls.rotateX);
                 this.camera.lookAt(this.ballBody.position.x, this.ballBody.position.y + this.ballRadius * 0.5, this.ballBody.position.z);
             
             } 
             else if (this.cameraMode === 1) {
-                let dist = 5 + this.ballRadius * 1.5;
-                let height = this.ballRadius * 2;
-                this.camera.position.x = this.ballBody.position.x + Math.sin(this.controls.rotateY) * dist;
-                this.camera.position.y = this.ballBody.position.y + height;
-                this.camera.position.z = this.ballBody.position.z + Math.cos(this.controls.rotateY) * dist;
+                const dist                          = 5 + this.ballRadius * 1.5;
+                const height                        = this.ballRadius * 2;
+                this.camera.position.x              = this.ballBody.position.x + Math.sin(this.controls.rotateY) * dist;
+                this.camera.position.y              = this.ballBody.position.y + height;
+                this.camera.position.z              = this.ballBody.position.z + Math.cos(this.controls.rotateY) * dist;
                 
-                let lookAtDist = 10;
+                const lookAtDist                    = 10;
                 this.camera.lookAt(
                   this.ballBody.position.x - Math.sin(this.controls.rotateY) * lookAtDist,
                   this.ballBody.position.y,
@@ -788,7 +798,7 @@ class KatamariDamacy {
             else if (this.cameraMode === 2) {
                 this.camera.position.set(this.ballBody.position.x, this.ballBody.position.y, this.ballBody.position.z);
                 
-                let lookAtDist = 10;
+                const lookAtDist                    = 10;
                 this.camera.lookAt(
                     this.ballBody.position.x - Math.sin(this.controls.rotateY) * lookAtDist,
                     this.ballBody.position.y,
@@ -808,16 +818,16 @@ class KatamariDamacy {
     }
 
     end_game(win = false) {
-        this.gameState.isGameOver = true;
-        let title = document.getElementById('resultTitle');
-        let text = document.getElementById('resultText');
+        this.gameState.isGameOver                   = true;
+        const title                                 = document.getElementById('resultTitle');
+        const text                                  = document.getElementById('resultText');
         
-        let isNewRecord = this.save(this.gameState.score);
+        const isNewRecord                           = this.save(this.gameState.score);
         
         if (win) {
-            title.textContent = '🎉 クリア！';
-            title.style.color = '#4CAF50';
-            text.innerHTML = `
+            title.textContent                       = '🎉 クリア！';
+            title.style.color                       = '#4CAF50';
+            text.innerHTML                          = `
                 ${isNewRecord ? '🎊 新記録！<br>' : ''}
                 スコア: ${this.gameState.score.toLocaleString()}点<br>
                 巻き込み: ${this.gameState.collectedCount}個<br>
@@ -825,9 +835,9 @@ class KatamariDamacy {
             `;
         } 
         else {
-            title.textContent = '⏰ タイムアップ';
-            title.style.color = '#F44336';
-            text.innerHTML = `
+            title.textContent                       = '⏰ タイムアップ';
+            title.style.color                       = '#F44336';
+            text.innerHTML                          = `
                 ${isNewRecord ? '🎊 新記録！<br>' : ''}
                 スコア: ${this.gameState.score.toLocaleString()}点<br>
                 巻き込み: ${this.gameState.collectedCount}/${this.gameState.goalCount}個<br>
