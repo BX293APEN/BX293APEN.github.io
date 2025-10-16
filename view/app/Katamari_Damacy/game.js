@@ -190,7 +190,6 @@ class KatamariDamacy {
                         },
                     },
                     
-
                 },
             }
             
@@ -553,7 +552,7 @@ class KatamariDamacy {
         document.getElementById('comboCount').textContent = this.gameState.combo;
         document.getElementById('combo').style.display = 'block';
 
-        let delay = Math.min(3000, 2000 + this.gameState.combo * 100);
+        let delay = Math.min(5000, 2000 + this.gameState.combo * 100);
 
         clearTimeout(this.gameState.comboTimer);
         this.gameState.comboTimer = setTimeout(
