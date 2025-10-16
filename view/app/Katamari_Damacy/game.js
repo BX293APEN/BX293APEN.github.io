@@ -123,11 +123,72 @@ class KatamariDamacy {
                     "irregularity"          : 1.0,          // 回転のいびつさ（0〜1）
                     "spinBoost"             : 5.0           // 巻き込み時の回転ブースト
                 },
+                
             },
             "control" : {
                 "speed" : 35,
                 "jump"  : 12
             },
+            "objects" : {
+                "coordinates":{
+                    "tiny" : {
+                        "angle"             : Math.PI * 2,
+                        "radius"            : {
+                            "min" : 5,
+                            "max" : 20
+                        },
+                        "size"              : {
+                            "min" : 0.2,
+                            "max" : 0.35
+                        },
+                    },
+                    "small" : {
+                        "angle"             : Math.PI * 2,
+                        "radius"            : {
+                            "min" : 15,
+                            "max" : 35
+                        },
+                        "size"              : {
+                            "min" : 0.4,
+                            "max" : 0.8
+                        },
+                    },
+                    "medium" : {
+                        "angle"             : Math.PI * 2,
+                        "radius"            : {
+                            "min" : 35,
+                            "max" : 60
+                        },
+                        "size"              : {
+                            "min" : 0.8,
+                            "max" : 1.8
+                        },
+                    },
+                    "large" : {
+                        "angle"             : Math.PI * 2,
+                        "radius"            : {
+                            "min" : 60,
+                            "max" : 85
+                        },
+                        "size"              : {
+                            "min" : 2.5,
+                            "max" : 5.0
+                        },
+                    },
+                    "huge" : {
+                        "angle"             : Math.PI * 2,
+                        "radius"            : {
+                            "min" : 90,
+                            "max" : 120
+                        },
+                        "size"              : {
+                            "min" : 6.0,
+                            "max" : 10.0
+                        },
+                    },
+
+                },
+            }
             
         }
 
@@ -202,14 +263,14 @@ class KatamariDamacy {
             }
         );
         // イベントリスナー
-        document.getElementById(this.htmlStructure["easyButtonID"]).onclick = () => this.selectDifficulty('easy');
-        document.getElementById(this.htmlStructure["normalButtonID"]).onclick = () => this.selectDifficulty('normal');
-        document.getElementById(this.htmlStructure["hardButtonID"]).onclick = () => this.selectDifficulty('hard');
-        document.getElementById(this.htmlStructure["cityButtonID"]).onclick = () => this.selectStage('city');
-        document.getElementById(this.htmlStructure["parkButtonID"]).onclick = () => this.selectStage('park');
+        document.getElementById(this.htmlStructure["easyButtonID"]).onclick = () => this.select_difficulty('easy');
+        document.getElementById(this.htmlStructure["normalButtonID"]).onclick = () => this.select_difficulty('normal');
+        document.getElementById(this.htmlStructure["hardButtonID"]).onclick = () => this.select_difficulty('hard');
+        document.getElementById(this.htmlStructure["cityButtonID"]).onclick = () => this.select_stage('city');
+        document.getElementById(this.htmlStructure["parkButtonID"]).onclick = () => this.select_stage('park');
         document.getElementById(this.htmlStructure["tutorialCloseButtonID"]).onclick = () => {
             document.getElementById(this.htmlStructure["tutorialID"]).style.display = 'none';
-            this.startGame();
+            this.start_game();
         };
         document.getElementById(this.htmlStructure["resumeButtonID"]).onclick = () => {
             this.isPaused = false;
@@ -235,7 +296,7 @@ class KatamariDamacy {
         osc.start();
         osc.stop(this.audioContext.currentTime + 0.3);
     }
-    sounds_bigCollect() {
+    sounds_big_collect() {
         let osc = this.audioContext.createOscillator();
         let gain = this.audioContext.createGain();
         osc.connect(gain);
@@ -250,7 +311,7 @@ class KatamariDamacy {
     }
     save(score) {
         if (!this.config["features"]["highScore"]) return false;
-        const current = this.get_score();
+        let current = this.get_score();
         if (score > current) {
             localStorage.setItem('katamariHighScore', score);
             return true;
@@ -266,7 +327,7 @@ class KatamariDamacy {
         document.getElementById('highScore').textContent = this.get_score().toLocaleString();
     }
 
-    selectDifficulty(diff) {
+    select_difficulty(diff) {
         this.currentDifficulty = this.difficulty[diff];
         document.getElementById('difficultySelect').style.display = 'none';
         if (this.config["features"]["stageSelect"]) {
@@ -278,21 +339,21 @@ class KatamariDamacy {
                 document.getElementById(this.htmlStructure["tutorialID"]).style.display = 'flex';
             } 
             else {
-                this.startGame();
+                this.start_game();
             }
         }
     }
-    selectStage(stage) {
+    select_stage(stage) {
         this.currentStage = this.stages[stage];
         document.getElementById('stageSelect').style.display = 'none';
         if (this.config["features"]["tutorial"] && !localStorage.getItem('katamariTutorialShown')) {
             document.getElementById(this.htmlStructure["tutorialID"]).style.display = 'flex';
         } 
         else {
-            this.startGame();
+            this.start_game();
         }
     }
-    startGame() {
+    start_game() {
         if (this.config["features"]["tutorial"]) {
             localStorage.setItem('katamariTutorialShown', 'true');
         }
@@ -303,10 +364,10 @@ class KatamariDamacy {
         document.getElementById('stageLabel').textContent = this.currentStage["name"];
         this.display();
 
-        this.initGame();
+        this.init_game();
     }
 
-    initGame() {
+    init_game() {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(this.currentStage["skyColor"]);
   
@@ -349,8 +410,8 @@ class KatamariDamacy {
             'mousemove', 
             (e) => {
                 if (this.controls.mouseDown && this.cameraMode === 0) {
-                    const deltaX = e.clientX - this.controls.mouseX;
-                    const deltaY = e.clientY - this.controls.mouseY;
+                    let deltaX = e.clientX - this.controls.mouseX;
+                    let deltaY = e.clientY - this.controls.mouseY;
                     this.controls.rotateX -= deltaY * 0.005;
                     this.controls.rotateY -= deltaX * 0.005;
                     this.controls.rotateX = Math.max(0.1, Math.min(Math.PI / 2.5, this.controls.rotateX));
@@ -360,22 +421,22 @@ class KatamariDamacy {
             }
         );
   
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        let ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
   
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        let dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
         dirLight.position.set(50, 100, 50);
         this.scene.add(dirLight);
   
-        const pointLight = new THREE.PointLight(this.config["ball"]["shape"]["color"], 1, 50);
+        let pointLight = new THREE.PointLight(this.config["ball"]["shape"]["color"], 1, 50);
         pointLight.position.set(0, 10, 0);
         this.scene.add(pointLight);
   
         this.world = new CANNON.World();
         this.world.gravity.set(0, -20, 0);
   
-        const groundShape = new CANNON.Plane();
-        const groundBody = new CANNON.Body(
+        let groundShape = new CANNON.Plane();
+        let groundBody = new CANNON.Body(
             { 
                 mass: 0 
             }
@@ -385,9 +446,9 @@ class KatamariDamacy {
         groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
         this.world.add(groundBody);
   
-        const groundGeometry = new THREE.PlaneGeometry(300, 300);
-        const groundMaterial = new THREE.MeshStandardMaterial({ color: this.currentStage["groundColor"] });
-        const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+        let groundGeometry = new THREE.PlaneGeometry(300, 300);
+        let groundMaterial = new THREE.MeshStandardMaterial({ color: this.currentStage["groundColor"] });
+        let groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
         groundMesh.rotation.x = -Math.PI / 2;
         this.scene.add(groundMesh);
   
@@ -403,8 +464,8 @@ class KatamariDamacy {
         this.ballBody.addShape(new CANNON.Sphere(this.ballRadius));
         this.world.add(this.ballBody);
   
-        const ballGeometry = new THREE.SphereGeometry(this.ballRadius, 32, 32);
-        const ballMaterial = new THREE.MeshStandardMaterial(
+        let ballGeometry = new THREE.SphereGeometry(this.ballRadius, 32, 32);
+        let ballMaterial = new THREE.MeshStandardMaterial(
             {
                 color               : this.config["ball"]["shape"]["color"],
                 emissive            : this.config["ball"]["shape"]["color"],
@@ -419,62 +480,50 @@ class KatamariDamacy {
         this.attachedGroup = new THREE.Group();
         this.scene.add(this.attachedGroup);
   
-        this.spawnObjects();
+        this.spawn_objects();
         this.animate();
-        this.updateTimer();
-        this.updateSizeClass();  // ★初期化時に呼ぶ★
+        this.update_timer();
+        this.update_size_class();  // ★初期化時に呼ぶ★
 
 
         setInterval(
             () => {
                 if (this.gameState.gameTime > 0 && !this.gameState.isGameOver && !this.isPaused) {
                     this.gameState.gameTime--;
-                    this.updateTimer();
+                    this.update_timer();
                 }
-                if (this.gameState.gameTime <= 0 && !this.gameState.isGameOver) this.endGame();
+                if (this.gameState.gameTime <= 0 && !this.gameState.isGameOver) this.end_game();
             }, 
             1000
         );
     }
-    spawnObjects() {
-        for (let i = 0; i < this.currentDifficulty["objects"]["tiny"]; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = 5 + Math.random() * 15;
-            this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.2 + Math.random() * 0.15);
-        }
-
-        for (let i = 0; i < this.currentDifficulty["objects"]["small"]; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = 15 + Math.random() * 20;
-            this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.4 + Math.random() * 0.4);
-        }
-
-        for (let i = 0; i < this.currentDifficulty["objects"]["medium"]; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = 35 + Math.random() * 25;
-            this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 0.8 + Math.random() * 1.0);
-        }
-
-        for (let i = 0; i < this.currentDifficulty["objects"]["large"]; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = 60 + Math.random() * 25;
-            this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 2.5 + Math.random() * 2.5);
-        }
-
-        for (let i = 0; i < this.currentDifficulty["objects"]["huge"]; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = 90 + Math.random() * 30;
-            this.createObject(Math.cos(angle) * radius, Math.sin(angle) * radius, 6.0 + Math.random() * 4.0);
-        }
+    spawn_objects() {
+        this.create_n_objects("tiny");
+        this.create_n_objects("small");
+        this.create_n_objects("medium");
+        this.create_n_objects("large");
+        this.create_n_objects("huge");
     }   
 
-    createObject(x, z, size) {
-        const geometry = new THREE.BoxGeometry(size, size, size);
-        const material = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff });
-        const mesh = new THREE.Mesh(geometry, material);
+    create_n_objects(objectSize){
+        let objectConfig    = this.config["objects"]["coordinates"][objectSize]
+
+        for (let i = 0; i < this.currentDifficulty["objects"][objectSize]; i++) {
+            let angle           = Math.random() * objectConfig["angle"];
+            let radius          = objectConfig["radius"]["min"] + Math.random() * (objectConfig["radius"]["max"] - objectConfig["radius"]["min"]);
+            let size            = objectConfig["size"]["min"] + Math.random() * (objectConfig["size"]["max"] - objectConfig["size"]["min"]);
+
+            this.create_object(Math.cos(angle) * radius, Math.sin(angle) * radius, size);
+        }
+    }
+
+    create_object(x, z, size) {
+        let geometry = new THREE.BoxGeometry(size, size, size);
+        let material = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff });
+        let mesh = new THREE.Mesh(geometry, material);
         this.scene.add(mesh);
         
-        const body = new CANNON.Body(
+        let body = new CANNON.Body(
             { 
                 mass: size * 0.5, 
                 position: new CANNON.Vec3(x, size/2 + 0.5, z) 
@@ -495,29 +544,36 @@ class KatamariDamacy {
         );
     }
 
-    addCombo() {
+    add_combo() {
         if (!this.config["features"]["comboSystem"]) return;
         this.gameState.combo++;
         document.getElementById('comboCount').textContent = this.gameState.combo;
         document.getElementById('combo').style.display = 'block';
+
+        let delay = Math.min(3000, 2000 + this.gameState.combo * 100);
+
         clearTimeout(this.gameState.comboTimer);
-        this.gameState.comboTimer = setTimeout(() => {
-            this.gameState.combo = 0;
-            document.getElementById('combo').style.display = 'none';
-        }, 2000);
+        this.gameState.comboTimer = setTimeout(
+            () => {
+                this.gameState.combo = 0;
+                document.getElementById('combo').style.display = 'none';
+            }, 
+            delay
+        );
     }
 
-    updateTimer() {
-        const min = Math.floor(this.gameState.gameTime / 60);
-        const sec = this.gameState.gameTime % 60;
+    update_timer() {
+        let min = Math.floor(this.gameState.gameTime / 60);
+        let sec = this.gameState.gameTime % 60;
         document.getElementById('timer').textContent = `${min}:${sec.toString().padStart(2, '0')}`;
     
         if (this.gameState.gameTime <= 30) {
             document.getElementById('timer').style.color = '#ff0000';
         }
     }
-    showNotification(text) {
-        const notif = document.getElementById('notification');
+    
+    show_notification(text) {
+        let notif = document.getElementById('notification');
         notif.textContent = text;
         notif.style.display = 'block';
         setTimeout(
@@ -528,16 +584,16 @@ class KatamariDamacy {
         );
     }
 
-    updateSizeClass() {
-        const sizeCm = this.gameState.ballSize * 100;
-        const sizeClass = this.ballSize.find(c => sizeCm >= c.min && sizeCm < c.max);
+    update_size_class() {
+        let sizeCm = this.gameState.ballSize * 100;
+        let sizeClass = this.ballSize.find(c => sizeCm >= c.min && sizeCm < c.max);
         if (sizeClass) {  // ★undefinedチェック★
             document.getElementById('sizeClass').textContent = `クラス: ${sizeClass.name}`;
         }
         document.getElementById('size').textContent = Math.floor(sizeCm);
     }
 
-    drawMinimap(
+    draw_minimap(
         {
             scale       = 200 / 200,
             centerX     = 100,
@@ -580,7 +636,7 @@ class KatamariDamacy {
             return;
         }
 
-        const force = this.config["control"]["speed"];
+        let force = this.config["control"]["speed"];
         if (this.keys['w'] || this.keys['ArrowUp']) this.ballBody.applyForce(new CANNON.Vec3(0, 0, -force), this.ballBody.position);
         if (this.keys['s'] || this.keys['ArrowDown']) this.ballBody.applyForce(new CANNON.Vec3(0, 0, force), this.ballBody.position);
         if (this.keys['a'] || this.keys['ArrowLeft']) this.ballBody.applyForce(new CANNON.Vec3(-force, 0, 0), this.ballBody.position);
@@ -600,25 +656,25 @@ class KatamariDamacy {
                     obj.mesh.position.copy(obj.body.position);
                     obj.mesh.quaternion.copy(obj.body.quaternion);
                     
-                    const dx = this.ballBody.position.x - obj.body.position.x;
-                    const dy = this.ballBody.position.y - obj.body.position.y;
-                    const dz = this.ballBody.position.z - obj.body.position.z;
-                    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                    let dx = this.ballBody.position.x - obj.body.position.x;
+                    let dy = this.ballBody.position.y - obj.body.position.y;
+                    let dz = this.ballBody.position.z - obj.body.position.z;
+                    let dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
                     
-                    const requiredSize = obj.size * this.currentDifficulty.sizeMultiplier;
-                    const canCollect = this.gameState.ballSize >= requiredSize;
-                    const collectionRange = (this.ballRadius + obj.size) * this.config["ball"]["grow"]["collectionRange"];  // ★判定を拡大★
+                    let requiredSize = obj.size * this.currentDifficulty.sizeMultiplier;
+                    let canCollect = this.gameState.ballSize >= requiredSize;
+                    let collectionRange = (this.ballRadius + obj.size) * this.config["ball"]["grow"]["collectionRange"];  // ★判定を拡大★
                     
                     if (dist < collectionRange && canCollect) { // 巻き込み判定
                         obj.collected = true;
                         this.world.remove(obj.body);
                         this.scene.remove(obj.mesh);
 
-                        const theta = Math.random() * Math.PI * 2;
-                        const phi = Math.acos(2 * Math.random() - 1);
-                        const r = this.ballRadius * (0.8 + Math.random() * 0.4);
+                        let theta = Math.random() * Math.PI * 2;
+                        let phi = Math.acos(2 * Math.random() - 1);
+                        let r = this.ballRadius * (0.8 + Math.random() * 0.4);
 
-                        const relPos = new THREE.Vector3(
+                        let relPos = new THREE.Vector3(
                             r * Math.sin(phi) * Math.cos(theta),
                             r * Math.sin(phi) * Math.sin(theta),
                             r * Math.cos(phi)
@@ -630,29 +686,29 @@ class KatamariDamacy {
                             Math.random() * Math.PI * 2, 
                             Math.random() * Math.PI * 2
                         );
-                        const scale = 0.7 + Math.random() * 0.3;
+                        let scale = 0.7 + Math.random() * 0.3;
                         obj.mesh.scale.set(scale, scale, scale);
                         this.attachedGroup.add(obj.mesh);
 
                         this.gameState.collectedCount++;
-                        const comboBonus = this.config["features"]["comboSystem"] && this.gameState.combo > 0 ? this.gameState.combo * 5 : 0;
+                        let comboBonus = this.config["features"]["comboSystem"] && this.gameState.combo > 0 ? this.gameState.combo * 5 : 0;
                         this.gameState.score += obj.points + comboBonus;
 
                         // ★体積ベースの成長★
                         if (this.config["ball"]["grow"]["enable"]) {
-                            const objVolume = obj.size * obj.size * obj.size;
-                            const currentVolume = (4/3) * Math.PI * Math.pow(this.ballRadius, 3);
-                            const newVolume = currentVolume + (objVolume * this.config["ball"]["grow"]["raito"] * this.currentDifficulty["growthBonus"]);
-                            const newRadius = Math.pow((3 * newVolume) / (4 * Math.PI), 1/3);
+                            let objVolume = obj.size * obj.size * obj.size;
+                            let currentVolume = (4/3) * Math.PI * Math.pow(this.ballRadius, 3);
+                            let newVolume = currentVolume + (objVolume * this.config["ball"]["grow"]["raito"] * this.currentDifficulty["growthBonus"]);
+                            let newRadius = Math.pow((3 * newVolume) / (4 * Math.PI), 1/3);
                             this.gameState.ballSize = newRadius;
                             this.ballRadius = newRadius;
                         }
 
                         document.getElementById('count').textContent = this.gameState.collectedCount;
                         document.getElementById('score').textContent = this.gameState.score;
-                        this.updateSizeClass();
+                        this.update_size_class();
 
-                        const frequency = 
+                        let frequency = 
                             this.config["sound"]["baseFreq"] + 
                             (
                                 this.config["features"]["comboSystem"] ? 
@@ -660,23 +716,23 @@ class KatamariDamacy {
                             );
 
                         if (obj.size > 5) {
-                            this.sounds_bigCollect();
-                            this.showNotification(`🏠 ${obj.size.toFixed(1)}mを巻き込んだ！`);
+                            this.sounds_big_collect();
+                            this.show_notification(`🏠 ${obj.size.toFixed(1)}mを巻き込んだ！`);
                         } 
                         else {
                             this.sounds_collect(frequency);
                         }
 
-                        if (this.config["features"]["comboSystem"]) this.addCombo();
+                        if (this.config["features"]["comboSystem"]) this.add_combo();
 
-                        const spinBoost = this.config["ball"]["rotation"]["spinBoost"];
-                        const randomSpin = new CANNON.Vec3(
+                        let spinBoost = this.config["ball"]["rotation"]["spinBoost"];
+                        let randomSpin = new CANNON.Vec3(
                             (Math.random() - 0.5) * spinBoost,
                             (Math.random() - 0.5) * spinBoost,
                             (Math.random() - 0.5) * spinBoost
                         );
 
-                        const prevAngularVelocity = this.ballBody.angularVelocity.vadd(randomSpin);
+                        let prevAngularVelocity = this.ballBody.angularVelocity.vadd(randomSpin);
                         this.world.remove(this.ballBody);
                         this.ballBody = new CANNON.Body(
                             {
@@ -696,7 +752,7 @@ class KatamariDamacy {
                         this.ballMesh.geometry = new THREE.SphereGeometry(this.ballRadius, 32, 32);
                         this.scene.add(this.ballMesh);
 
-                        if (this.gameState.collectedCount >= this.gameState.goalCount) this.endGame(true);
+                        if (this.gameState.collectedCount >= this.gameState.goalCount) this.end_game(true);
                   }
                 }
             }
@@ -705,8 +761,8 @@ class KatamariDamacy {
         // ★カメラ制御を修正★
         if (this.config["features"]["cameraSwitch"]) {
             if (this.cameraMode === 0) {
-                const dist = 8 + this.ballRadius * 2;
-                const height = 5 + this.ballRadius;
+                let dist = 8 + this.ballRadius * 2;
+                let height = 5 + this.ballRadius;
                 this.camera.position.x = this.ballBody.position.x + Math.sin(this.controls.rotateY) * dist * Math.cos(this.controls.rotateX);
                 this.camera.position.y = this.ballBody.position.y + height + dist * Math.sin(this.controls.rotateX);
                 this.camera.position.z = this.ballBody.position.z + Math.cos(this.controls.rotateY) * dist * Math.cos(this.controls.rotateX);
@@ -714,13 +770,13 @@ class KatamariDamacy {
             
             } 
             else if (this.cameraMode === 1) {
-                const dist = 5 + this.ballRadius * 1.5;
-                const height = this.ballRadius * 2;
+                let dist = 5 + this.ballRadius * 1.5;
+                let height = this.ballRadius * 2;
                 this.camera.position.x = this.ballBody.position.x + Math.sin(this.controls.rotateY) * dist;
                 this.camera.position.y = this.ballBody.position.y + height;
                 this.camera.position.z = this.ballBody.position.z + Math.cos(this.controls.rotateY) * dist;
                 
-                const lookAtDist = 10;
+                let lookAtDist = 10;
                 this.camera.lookAt(
                   this.ballBody.position.x - Math.sin(this.controls.rotateY) * lookAtDist,
                   this.ballBody.position.y,
@@ -730,7 +786,7 @@ class KatamariDamacy {
             else if (this.cameraMode === 2) {
                 this.camera.position.set(this.ballBody.position.x, this.ballBody.position.y, this.ballBody.position.z);
                 
-                const lookAtDist = 10;
+                let lookAtDist = 10;
                 this.camera.lookAt(
                     this.ballBody.position.x - Math.sin(this.controls.rotateY) * lookAtDist,
                     this.ballBody.position.y,
@@ -744,17 +800,17 @@ class KatamariDamacy {
             }
         }
 
-        if (this.config["features"]["minimap"]) this.drawMinimap();
+        if (this.config["features"]["minimap"]) this.draw_minimap();
 
         this.renderer.render(this.scene, this.camera);
     }
 
-    endGame(win = false) {
+    end_game(win = false) {
         this.gameState.isGameOver = true;
-        const title = document.getElementById('resultTitle');
-        const text = document.getElementById('resultText');
+        let title = document.getElementById('resultTitle');
+        let text = document.getElementById('resultText');
         
-        const isNewRecord = this.save(this.gameState.score);
+        let isNewRecord = this.save(this.gameState.score);
         
         if (win) {
             title.textContent = '🎉 クリア！';
