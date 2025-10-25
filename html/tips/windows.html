@@ -284,7 +284,9 @@ URL=https://...</code></pre>
             </main>
         </div>
     </body>
-    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
         <script src="/view/bootstrap.bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="/view/bootstrap-treeview.min.js"></script>
@@ -294,6 +296,7 @@ URL=https://...</code></pre>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/createTable.js"></script>
+        <script src="/view/pagination.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -317,6 +320,7 @@ URL=https://...</code></pre>
             });
 
             createTable("context-key", windowsTipsModel.regeditData, true);
+            new Pagination(1, windowsTipsModel.page, "pagination");
         </script>
     </footer>
 </html>

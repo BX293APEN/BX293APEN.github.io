@@ -1,5 +1,16 @@
 class WindowsTipsModel { 
     constructor(){
+        this.page =[
+            {
+                "page" : 1,
+                "href" : "/html/tips/windows.html"
+            },
+            {
+                "page" : 2,
+                "href" : "/html/tips/windows/wsl.html"
+            }
+        ]
+
         this.regeditData = {
             "index" : ["キー", "変更位置"],
             "record" : [
