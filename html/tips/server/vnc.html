@@ -28,7 +28,7 @@
 
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="vnc">
-                                TigerVNCサーバの構築(ディスプレイが無い場合)
+                                xfce4 + TigerVNCサーバの構築(ディスプレイが無い場合)
                             </h2>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 TigerVNCのインストール
@@ -37,7 +37,7 @@
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo apt install -y tigervnc-standalone-server tigervnc-common tigervnc-tools openbox obconf xfce4 xfce4-goodies</code></pre> 
+                                <pre><code class="language-bash">sudo apt install -y tigervnc-standalone-server tigervnc-common tigervnc-tools xfce4 xfce4-goodies</code></pre> 
                             </p>
 
                             <h3 class="pt-4 border-bottom fw-bold">
@@ -64,14 +64,18 @@ nano ~/.config/tigervnc/xstartup</code></pre>
                                     エディタ
                                 </div>
                                 <pre><code class="language-bash">#!/bin/sh
+
 export XMODIFIERS="@im=fcitx"
-export GTK_IM_MODULE=fcitx
+export GTK_IM_MODULE=fcitx5
 export QT_IM_MODULE=fcitx
 export SDL_IM_MODULE=fcitx
 export DISPLAY=:1
 
 xsetroot -solid grey
 xhost +SI:localuser:$(whoami)
+
+# スタートアップアプリの追加
+# xfce4-terminal &
 
 exec startxfce4</code></pre> 
                             </p>
@@ -105,6 +109,14 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target</code></pre> 
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl enable tigervnc@:1.service
+sudo systemctl restart tigervnc@:1.service</code></pre>
                             </p>
                         </article>
                     </div>
