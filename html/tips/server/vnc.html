@@ -37,7 +37,7 @@
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo apt install -y tigervnc-standalone-server tigervnc-common tigervnc-tools openbox obconf</code></pre> 
+                                <pre><code class="language-bash">sudo apt install -y tigervnc-standalone-server tigervnc-common tigervnc-tools openbox obconf xfce4 xfce4-goodies</code></pre> 
                             <p>
 
                             <h3 class="pt-4 border-bottom fw-bold">
@@ -94,9 +94,9 @@ After=network.target
 
 [Service]
 Type=forking
-User=pen
-Group=pen
-WorkingDirectory=/home/pen
+User=[ユーザ名]
+Group=[ユーザ名]
+WorkingDirectory=/home/[ユーザ名]
 
 ExecStart=/usr/bin/vncserver %i -localhost no
 ExecStop=/usr/bin/vncserver -kill %i
