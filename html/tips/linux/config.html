@@ -129,28 +129,41 @@ sudo mount -t cifs -o username=[NASのユーザー名],password=[NASのパスワ
                             <h5 class="pt-4 border-bottom fw-bold">
                                 アカウント登録
                             </h5>
-                            <div class="fw-bold">
-                                ターミナル
-                            </div>
-                            <pre><code class="language-bash">sudo nano /etc/samba/credentials</code></pre>
-                            <div class="fw-bold">
-                                エディタ
-                            </div>
-                            <pre><code class="language-bash">username=[NASのユーザー名]
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/samba/credentials</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">username=[NASのユーザー名]
 password=[NASのパスワード]</code></pre>
+                            </p>
 
                             <h5 class="pt-4 border-bottom fw-bold">
                                 マウントポイント登録
                             </h5>
-                            <pre><code class="language-bash">sudo nano /etc/fstab</code></pre>
-                            <div class="fw-bold">
-                                エディタ
-                            </div>
-                            <pre><code class="language-bash">//[NASのIPアドレス] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8,vers=2.0 0 0</code></pre>
-                            <div class="fw-bold">
-                                ターミナル
-                            </div>
-                            <pre><code class="language-bash">sudo mount -a # エラーチェック</code></pre>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/fstab</code></pre>
+                            </p>
+                            
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">//[NASのIPアドレス] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8,vers=2.0 0 0</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mount -a # エラーチェック</code></pre>
                             </p>
                         </article>
 
