@@ -137,8 +137,7 @@ allow_writeable_chroot=YES</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">mkdir -p [path]/ftp                     # FTPで使うフォルダを作成する。
-chown admin [path]/ftp
-chmod 777 [path]/ftp                    # 権限を変更する。(読み書き出来るようにする。)
+sudo chmod 777 [path]/ftp               # 権限を変更する。(読み書き実行出来るようにする。)
 sudo mkdir -p /etc/vsftpd
 sudo nano /etc/vsftpd/chroot_list       # アクセスするユーザのリストを作成する。</code></pre>
                             </p>
