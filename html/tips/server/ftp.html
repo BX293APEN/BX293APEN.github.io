@@ -52,49 +52,127 @@
                                 <div class="fw-bold">
                                     エディタ
                                 </div>
-                                <pre><code class="language-bash">anonymous_enable=YES            # アノニマス(匿名)ユーザを許可する。
-local_enable=YES                # ローカルユーザアカウントによるログインを許可する。
-write_enable=YES                # ファイルに変更を加える FTP コマンドの使用を、許可するかどうかを指定する。
-local_umask=022                 # (システム規定値)∩ (~(umask値))をする。
-                                # 今回はシステム規定値 : 777, umask値 : 022なので、755を適用する。
-dirmessage_enable=YES           # ディレクトリメッセージを表示する。
-xferlog_enable=YES              # ログの取得を行う。
-connect_from_port_20=YES        # ftp_data_portで指定するポートを使用する。
-xferlog_std_format=YES          # 取得するログの形式を指定する。(今回はデフォルト)
-listen=YES                      # IPv4有効化。
-listen_ipv6=NO                  # IPv6無効化。
-pam_service_name=vsftpd         # サービス名指定する。
-tcp_wrappers=NO                 # denyファイル（/etc/hosts.allow, /etc/hosts.deny)を利用しない。
-userlist_enable=NO              # userlist_fileを使用しない。
-pasv_enable=YES                 # パッシブモードの接続を許可する。
-                                # ※パッシブモード : データ転送用・制御用の線の両方をクライアント側から接続する方式
-pasv_address=192.168.10.97      # FTPサーバのIPアドレスを指定する。
+                                <pre><code class="language-bash"># /etc/vsftpd.conf
+# アノニマス(匿名)ユーザを許可する。
+anonymous_enable=YES
+
+# ローカルユーザアカウントによるログインを許可する。
+local_enable=YES
+
+# ファイルに変更を加える FTP コマンドの使用を、許可するかどうかを指定する。
+write_enable=YES
+
+# (システム規定値)∩ (~(umask値))をする。
+# 今回はシステム規定値 : 777, umask値 : 022なので、755を適用する。
+local_umask=022
+
+# ディレクトリメッセージを表示する。
+dirmessage_enable=YES
+
+# ログの取得を行う。
+xferlog_enable=YES
+
+# ftp_data_portで指定するポートを使用する。
+connect_from_port_20=YES
+
+# 取得するログの形式を指定する。(今回はデフォルト)
+xferlog_std_format=YES
+
+# IPv4有効化。
+listen=YES
+
+# IPv6無効化。
+listen_ipv6=NO
+
+# サービス名指定する。
+pam_service_name=vsftpd
+
+# denyファイル（/etc/hosts.allow, /etc/hosts.deny)を利用しない。
+tcp_wrappers=NO
+
+# userlist_fileを使用しない。
+userlist_enable=NO
+
+# パッシブモードの接続を許可する。
+# ※パッシブモード : データ転送用・制御用の線の両方をクライアント側から接続する方式
+pasv_enable=YES
+
+# FTPサーバのIPアドレスを指定する。
+pasv_address=192.168.10.97
+
+# データ転送用ポートを指定する。
 pasv_min_port=60001
-pasv_max_port=60010             # データ転送用ポートを指定する。
-force_dot_files=YES             # 「.」から始まるファイルを含めた一覧を返す。
-use_localtime=YES               # ファイル (ディレクトリ) のタイムスタンプ表示をローカルタイムで行う。
-user_config_dir=/etc/vsftpd/user_conf       # アクセスするユーザの設定ファイルの場所を指定する。
-chroot_local_user=NO            # ユーザはログインディレクトリの外側にアクセスできなくなる。
-chroot_list_enable=YES          # 指定ファイルに記載されたユーザをchroot_local_userの設定に基づいて制御する。
-chroot_list_file=/etc/vsftpd/chroot_list    # chroot_list_enableがYESの場合に参照するファイルを指定する。
-allow_writeable_chroot=YES      # 書き込み許可をする。</code></pre>
+pasv_max_port=60010             
+
+# 「.」から始まるファイルを含めた一覧を返す。
+force_dot_files=YES
+
+# ファイル (ディレクトリ) のタイムスタンプ表示をローカルタイムで行う。
+use_localtime=YES
+
+# アクセスするユーザの設定ファイルの場所を指定する。
+user_config_dir=/etc/vsftpd/user_conf
+
+# ユーザはログインディレクトリの外側にアクセスできなくなる。
+chroot_local_user=NO
+
+# 指定ファイルに記載されたユーザをchroot_local_userの設定に基づいて制御する。
+chroot_list_enable=YES
+
+# chroot_list_enableがYESの場合に参照するファイルを指定する。
+chroot_list_file=/etc/vsftpd/chroot_list
+
+# 書き込み許可をする。
+allow_writeable_chroot=YES</code></pre>
                             </p>
 
                             <h3 class="pt-4 border-bottom fw-bold">
                                 設定の変更
                             </h3>
+                            <h4 class="pt-2 border-bottom fw-bold">
+                                アクセスするユーザの設定
+                            </h4>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">mkdir -p /home/admin/ftp                # (必要に応じて親ディレクトリを作成し)FTPで使うフォルダを作成する。
-chown admin /home/admin/ftp
-chmod 777 /home/admin/ftp               # 権限を変更する。(読み書き出来るようにする。)
-sudo nano /etc/vsftpd/chroot_list       # アクセスするユーザのリストを作成する。(今回はadminでログインするので、「admin」と書き込み保存する。)
-mkdir /etc/vsftpd/user_conf
-sudo nano /etc/vsftpd/user_conf/admin   # 「local_root=/home/admin/ftp」と書き込み保存する。
-                                        # アクセスするユーザのルートディレクトリ(/home/admin/ftp)を設定する。
-systemctl start vsftpd                  # FTPサーバを起動する。</code></pre>
+                                <pre><code class="language-bash">mkdir -p [path]/ftp                     # FTPで使うフォルダを作成する。
+chown admin [path]/ftp
+chmod 777 [path]/ftp                    # 権限を変更する。(読み書き出来るようにする。)
+sudo mkdir -p /etc/vsftpd
+sudo nano /etc/vsftpd/chroot_list       # アクセスするユーザのリストを作成する。</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[ユーザ名]</code></pre>
+                            </p>
+                            <h4 class="pt-2 border-bottom fw-bold">
+                                アクセスするフォルダの設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir /etc/vsftpd/user_conf
+sudo nano /etc/vsftpd/user_conf/[ユーザ名]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">local_root=[path]/ftp</code></pre>
+                            </p>
+                            <h4 class="pt-2 border-bottom fw-bold">
+                                FTPサーバを起動する。
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable vsftpd
+sudo systemctl restart vsftpd</code></pre>
                             </p>
                         </article>
 
