@@ -27,112 +27,85 @@
                         </h1>
 
                         <article class="blog-post">
-                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="ntp-chrony">
-                                ChronyでNTPサーバの構築
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="vnc">
+                                TigerVNCサーバの構築(ディスプレイが無い場合)
                             </h2>
                             <h3 class="pt-4 border-bottom fw-bold">
-                                Chronyのインストール
+                                TigerVNCのインストール
                             </h3>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo apt install chrony</code></pre> 
-                            </p>
+                                <pre><code class="language-bash">sudo apt install -y tigervnc-standalone-server tigervnc-common tigervnc-tools openbox obconf</code></pre> 
+                            <p>
 
                             <h3 class="pt-4 border-bottom fw-bold">
-                                設定ファイル
+                                パスワード設定
                             </h3>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo nano /etc/chrony/chrony.conf</code></pre> 
+                                <pre><code class="language-bash">vncpasswd</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir -p ~/.config/tigervnc
+nano ~/.config/tigervnc/xstartup</code></pre> 
                             </p>
                             <p>
                                 <div class="fw-bold">
                                     エディタ
                                 </div>
-                                <pre><code class="language-bash"># /etc/chrony/chrony.conf
+                                <pre><code class="language-bash">#!/bin/sh
+export XMODIFIERS="@im=fcitx"
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export SDL_IM_MODULE=fcitx
+export DISPLAY=:1
 
-# Welcome to the chrony configuration file. See chrony.conf(5) for more
-# information about usable directives.
+xsetroot -solid grey
+xhost +SI:localuser:$(whoami)
 
-# Include configuration files found in /etc/chrony/conf.d.
-confdir /etc/chrony/conf.d
-
-# Use Debian vendor zone.
-# pool 2.debian.pool.ntp.org iburst
-server 127.127.1.0 prefer
-server ntp.nict.jp iburst
-
-
-# Use time sources from DHCP.
-sourcedir /run/chrony-dhcp
-
-# Use NTP sources found in /etc/chrony/sources.d.
-sourcedir /etc/chrony/sources.d
-
-# This directive specify the location of the file containing ID/key pairs for
-# NTP authentication.
-keyfile /etc/chrony/chrony.keys
-
-# This directive specify the file into which chronyd will store the rate
-# information.
-driftfile /var/lib/chrony/chrony.drift
-
-# Save NTS keys and cookies.
-ntsdumpdir /var/lib/chrony
-
-# Uncomment the following line to turn logging on.
-#log tracking measurements statistics
-
-# Log files location.
-logdir /var/log/chrony
-
-# Stop bad estimates upsetting machine clock.
-maxupdateskew 100.0
-
-# This directive enables kernel synchronisation (every 11 minutes) of the
-# real-time clock. Note that it can’t be used along with the 'rtcfile' directive.
-rtcsync
-
-# Step the system clock instead of slewing it if the adjustment is larger than
-# one second, but only in the first three clock updates.
-makestep 1 3
-
-# Get TAI-UTC offset and leap seconds from the system tz database.
-# This directive must be commented out when using time sources serving
-# leap-smeared time.
-leapsectz right/UTC
-
-# ローカルクライアントからの接続を許可
-allow 192.168.10.0/24
-
-# バインド設定（任意）
-bindaddress 0.0.0.0
-bindcmdaddress 127.0.0.1
-</code></pre> 
+exec startxfce4</code></pre> 
                             </p>
                             <h3 class="pt-4 border-bottom fw-bold">
-                                設定の適用
+                                起動設定
                             </h3>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo systemctl restart chrony</code></pre> 
+                                <pre><code class="language-bash">sudo nano /etc/systemd/system/tigervnc@:1.service</code></pre>
                             </p>
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                同期確認
-                            </h3>
                             <p>
                                 <div class="fw-bold">
-                                    ターミナル
+                                    エディタ
                                 </div>
-                                <pre><code class="language-bash">chronyc sources -v</code></pre>
+                                <pre><code class="language-bash">[Unit]
+Description=TigerVNC Server for %i
+After=network.target
+
+[Service]
+Type=forking
+User=pen
+Group=pen
+WorkingDirectory=/home/pen
+
+ExecStart=/usr/bin/vncserver %i -localhost no
+ExecStop=/usr/bin/vncserver -kill %i
+
+Restart=always
+
+[Install]
+WantedBy=multi-user.target</code></pre> 
                             </p>
-                            
                         </article>
                     </div>
 
@@ -145,7 +118,7 @@ bindcmdaddress 127.0.0.1
                                         <a href="#article_top">Top</a>
                                     </li>
                                     <li>
-                                        <a href="#ntp-chrony">NTPサーバの構築</a>
+                                        <a href="#vnc">VNCサーバの構築</a>
                                     </li>
     
                                 </ol>
@@ -176,7 +149,7 @@ bindcmdaddress 127.0.0.1
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
-            new Pagination(5, serverModel.page, "pagination");
+            new Pagination(6, serverModel.page, "pagination");
         </script>
     </footer>
 </html>
