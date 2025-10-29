@@ -148,7 +148,7 @@ WantedBy=multi-user.target</code></pre>
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-            new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "appTip"]);
             new Pagination(6, serverModel.page, "pagination");
         </script>
     </footer>
