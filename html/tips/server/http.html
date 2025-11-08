@@ -228,6 +228,19 @@ server {
 }
 
 server {
+    listen 443 ssl default_server;
+
+    ssl_certificate [path]/server.crt;
+    ssl_certificate_key [path]/server.key;
+
+    # ワイルドカード (ホスト名がマッチしないすべて)
+    server_name _;
+
+    # 接続を即時切断
+    return 444;
+}
+
+server {
     listen 80;
     # root /var/www/html;
 
@@ -246,7 +259,35 @@ server {
 
     error_log /var/log/nginx/[Project Name]_error.log;
     access_log /var/log/nginx/[Project Name]_access.log;
-}</code></pre>
+}
+
+server {
+    listen 443 ssl;
+
+    ssl_certificate [path]/server.crt;
+    ssl_certificate_key [path]/server.key;
+
+    # root /var/www/html;
+
+    server_name raspi5.lan;
+
+    # 静的ファイル
+    location /static/ {
+        alias [path]/[Project Name]/static/;
+    }
+
+    # すべての動的リクエストをuWSGIに転送
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:///tmp/[Project Name].sock; # uWSGI設定ファイルで指定したソケットのパス
+    }
+
+    error_log /var/log/nginx/[Project Name]_error.log;
+    access_log /var/log/nginx/[Project Name]_access.log;
+
+}
+
+</code></pre>
                             </p>
 
                             <h3 class="pt-4 border-bottom fw-bold">
