@@ -203,6 +203,18 @@ taskkill /f /im OneDrive.exe
                         </article>
 
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="re">
+                                接続されているUSB機器の確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    PowerShell
+                                </div>
+                                <pre><code class="language-bash">Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="sc">
                                 ショートカットキー
                             </h3>

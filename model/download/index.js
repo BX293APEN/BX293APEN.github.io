@@ -51,6 +51,12 @@ class DownloadModel {
                 "text"      : "&emsp;MakeMKVのBeta版ライセンスキーを取得する",
                 "content"   : '<a href="https://cable.ayra.ch/makemkv/"><figcaption class = "btn btn-bd-primary figure-caption text-end">Get Key</figcaption></a>',
             },
+            "Windows11_uupdump" : {
+                "imgType"   : "none",
+                "title"     : "Windows11 ISO",
+                "text"      : "&emsp;Windows11のイメージを取得する",
+                "content"   : '<a href="https://uupdump.net/known.php"><figcaption class = "btn btn-bd-primary figure-caption text-end">Get</figcaption></a>',
+            },
         }
         this.dlIndex = Object.keys(this.dlData);
         this.dlIndex.sort();
