@@ -15,8 +15,7 @@
     </head>
     <body>
         <div id="header-contents"></div>
-        <canvas id = 'consoleText' class="pt-3"></canvas>
-        <div class="container pt-3">
+        <div class="container pt-3 mt-3">
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
@@ -31,6 +30,7 @@
                                 編集中...
                             </p>
                         </article>
+                        <canvas id="cv" width="500" height="500"></canvas>
                     
                     </div>
                             
@@ -75,67 +75,18 @@
         <script async src="/view/widgets.js" charset="utf-8"></script>
         <script src="/view/embeddedHTML.js"></script>
         <script src="/view/activenav.js"></script>
-        <script src="/view/consoletext.js"></script>
+        <script src="/view/polygon.js"></script>
         <script>
             embedded_html("/template/styleConfig.html", "styleList");
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
-            window.addEventListener("load", active_nav("blog"));
-            let consoleText = new ConsoleText(
+            window.addEventListener("load", active_nav("about"));
+            new Polygon(
                 {
-                    "canvasName"    : 'consoleText',
-                    "textList"      : [
-                        "",
-                        "ようこそ ",
-                        "Welcome to PENSite ",
-                        "",
-                        "PENSite"
-                    ],
-                    "cursorList"    : [
-                        "|",
-                        "|",
-                        "|",
-                        "|",
-                        "|",
-                        "|"
-                    ],
-                    "isLoop"        : false,
-                    "width"         : window.innerWidth,
-                    "height"        : 75,
-                    "fontSize"      : "3rem",
-                    "fontFamily"    : "Cascadia Mono",
-                }
-            );
-            window.addEventListener(
-                'resize', 
-                function(){
-                    clearTimeout(consoleText.timeoutID);
-                    consoleText = new ConsoleText(
-                        {
-                            "canvasName"    : 'consoleText',
-                            "textList"      : [
-                                "",
-                                "ようこそ ",
-                                "Welcome to PENSite ",
-                                "",
-                                "PENSite"
-                            ],
-                            "cursorList"    : [
-                                "|",
-                                "|",
-                                "|",
-                                "|",
-                                "|",
-                                "|"
-                            ],
-                            "isLoop"        : false,
-                            "width"         : window.innerWidth,
-                            "height"        : 75,
-                            "fontSize"      : "3rem",
-                            "fontFamily"    : "Cascadia Mono",
-                        }
-                    );
-                }
+                    place : "cv", 
+                    n: 2.5, 
+                    time: 20
+                } 
             );
         </script>
     </footer>

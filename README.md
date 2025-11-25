@@ -34,7 +34,7 @@ https://img.shields.io/badge/${subject}-${status}-${color}.svg
 > [気象庁](https://www.jma.go.jp/jma/index.html)  
 > [JJYシミュレータWeb版](https://shogo82148.github.io/web-jjy/)  
 > [Supported Languages — highlight.js 11.9.0 documentation](https://highlightjs.readthedocs.io/en/latest/supported-languages.html)
-
+> [ナゾトキラボ](https://nazotokilab.main.jp/polygon/)
 ---
 
 ![](https://raw.githubusercontent.com/BX293APEN/BX293APEN/output/github-contribution-grid-snake.svg)
