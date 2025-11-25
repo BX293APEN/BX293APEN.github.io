@@ -255,6 +255,24 @@ URL=https://...</code></pre>
                             </p>
                         </article>
 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="file">
+                                DiskPart
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">diskpart
+    list disk                       # 接続されているディスク一覧を表示
+    select disk [番号]              # list disk                 で取得した操作対象のディスクを選択
+    list partition                  # select disk [番号]        で 選択したディスクのパーティション一覧を表示
+    select partition [番号]         # list partition            で取得した操作対象のディスクを選択
+    delete partition override       # select partition [番号]   で選択したパーティションを強制削除
+    assign letter=X                 # select partition [番号]で選択したパーティションにドライブレターを割り当て</code></pre>
+                            </p>
+                        </article>
+
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
