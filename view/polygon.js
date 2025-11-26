@@ -3,16 +3,34 @@ class Polygon {
         { 
             place   = "cv", 
             n       = 3,
-            time    = 5
+            time    = 5,
+            width   = 500, 
+            height  = 500,
+            bg      = true
         } = {}
     ) {
-        this.fps    = 144
-        this.time   = time
-        this.cvs    = document.getElementById(place);
-        this.ctx    = this.cvs.getContext("2d");
-        this.r      = 200;
-        this.n      = n;
-        this.grad   = this.ctx.createLinearGradient(0, 0, 0, 600);
+        this.width      = width
+        this.height     = height
+        this.fps        = 144
+        this.time       = time
+        this.cvs        = document.getElementById(place);
+        this.parent     = this.cvs.parentElement;
+        if (bg) {
+            this.cvs.style.position     = "absolute";
+            this.cvs.style.zIndex       = "-1";
+            if (this.parent) {
+                this.parent.style.position  = "relative";
+            }
+        }
+        
+        this.cvs.width  = this.width;
+        this.cvs.height = this.height;
+        this.centerX    = this.cvs.width / 2;
+        this.centerY    = this.cvs.height / 2;
+        this.ctx        = this.cvs.getContext("2d");
+        this.r          = 200;
+        this.n          = n;
+        this.grad       = this.ctx.createLinearGradient(0, 0, 0, 600);
         this.grad.addColorStop(0,   'rgb(255, 255, 0)');
         this.grad.addColorStop(0.5, 'rgb(0, 255, 255)');
         this.grad.addColorStop(1,   'rgb(255, 0, 255)');
@@ -22,7 +40,7 @@ class Polygon {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, 500, 500);
+        this.ctx.clearRect(0, 0, this.width, this.height);
         this.ctx.beginPath();
         this.ctx.strokeStyle = this.grad;
 
@@ -38,15 +56,15 @@ class Polygon {
         }
 
         this.ctx.moveTo(
-            250 + this.r * Math.cos(theta),
-            250 + this.r * Math.sin(theta)
+            this.centerX + this.r * Math.cos(theta),
+            this.centerY + this.r * Math.sin(theta)
         );
 
         for (let i = 0; i < sides + 1; i++) {
             theta += Math.PI * 2 / this.n;
             this.ctx.lineTo(
-                250 + this.r * Math.cos(theta),
-                250 + this.r * Math.sin(theta)
+                this.centerX + this.r * Math.cos(theta),
+                this.centerY + this.r * Math.sin(theta)
             );
         }
 
