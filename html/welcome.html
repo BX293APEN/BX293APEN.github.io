@@ -15,7 +15,7 @@
     </head>
 
     <body class="text-center text-bg-dark">
-        <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column min-vh-100">
+        <div class="container d-flex w-100 h-100 p-3 mx-auto flex-column min-vh-100" id = "top">
             <div id="header-contents" class="mb-auto"></div>
             <canvas id="cv"></canvas>
             <main class="px-3">
@@ -40,26 +40,29 @@
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("about"));
+
+            const polyParent = document.getElementById("top");
             let poly = new Polygon(
                 {
                     place       : "cv", 
                     n           : 2.5, 
                     time        : 20,
-                    width       : window.innerHeight, 
+                    width       : window.innerWidth, 
                     height      : window.innerHeight
                 } 
             );
+
+            window.addEventListener(
+                "load", 
+                function() {
+                    poly.calc(polyParent.clientWidth, polyParent.clientHeight)
+                }
+            );
+            
             window.addEventListener(
                 'resize', 
                 function(){
-                    let l;
-                    if (window.innerHeight > window.innerWidth){
-                        l = window.innerWidth
-                    }
-                    else{
-                        l = window.innerHeight
-                    }
-                    poly.calc(l, l)
+                    poly.calc(polyParent.clientWidth, polyParent.clientHeight)
                 }
             )
         </script>
