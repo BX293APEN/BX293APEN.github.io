@@ -9,8 +9,6 @@ class Polygon {
             bg      = true
         } = {}
     ) {
-        this.width      = width
-        this.height     = height
         this.fps        = 144
         this.time       = time
         this.cvs        = document.getElementById(place);
@@ -22,11 +20,8 @@ class Polygon {
                 this.parent.style.position  = "relative";
             }
         }
+        this.calc(width, height);
         
-        this.cvs.width  = this.width;
-        this.cvs.height = this.height;
-        this.centerX    = this.cvs.width / 2;
-        this.centerY    = this.cvs.height / 2;
         this.ctx        = this.cvs.getContext("2d");
         this.r          = 200;
         this.n          = n;
@@ -37,6 +32,16 @@ class Polygon {
         this.draw();
         this.angle  = 0; // 回転角度
         this.animate();
+    }
+
+    calc(width, height){
+        this.width      = width
+        this.height     = height
+        this.cvs.width  = this.width;
+        this.cvs.height = this.height;
+        this.centerX    = this.cvs.width / 2;
+        this.centerY    = this.cvs.height / 2;
+
     }
 
     draw() {
