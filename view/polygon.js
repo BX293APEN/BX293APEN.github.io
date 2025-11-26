@@ -20,15 +20,11 @@ class Polygon {
                 this.parent.style.position  = "relative";
             }
         }
-        this.calc(width, height);
-        
         this.ctx        = this.cvs.getContext("2d");
         this.r          = 200;
         this.n          = n;
-        this.grad       = this.ctx.createLinearGradient(0, 0, 0, 600);
-        this.grad.addColorStop(0,   'rgb(255, 255, 0)');
-        this.grad.addColorStop(0.5, 'rgb(0, 255, 255)');
-        this.grad.addColorStop(1,   'rgb(255, 0, 255)');
+        this.calc(width, height);
+
         this.draw();
         this.angle  = 0; // 回転角度
         this.animate();
@@ -41,6 +37,11 @@ class Polygon {
         this.cvs.height = this.height;
         this.centerX    = this.cvs.width / 2;
         this.centerY    = this.cvs.height / 2;
+
+        this.grad       = this.ctx.createLinearGradient(0, 0, this.width, this.height);
+        this.grad.addColorStop(0.4,   'rgb(255, 255, 0)');
+        this.grad.addColorStop(0.5, 'rgb(0, 255, 255)');
+        this.grad.addColorStop(0.6,   'rgb(255, 0, 255)');
 
     }
 
