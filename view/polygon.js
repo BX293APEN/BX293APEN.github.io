@@ -4,12 +4,14 @@ class Polygon {
             place   = "cv", 
             n       = 3,
             time    = 5,
+            fps     = 144,
             width   = 500, 
             height  = 500,
+            size    = 200,
             bg      = true
         } = {}
     ) {
-        this.fps        = 144
+        this.fps        = fps
         this.time       = time
         this.cvs        = document.getElementById(place);
         this.parent     = this.cvs.parentElement;
@@ -21,7 +23,7 @@ class Polygon {
             }
         }
         this.ctx        = this.cvs.getContext("2d");
-        this.r          = 200;
+        this.r          = size;
         this.n          = n;
         this.calc(width, height);
 
