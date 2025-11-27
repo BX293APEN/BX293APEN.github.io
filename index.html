@@ -71,11 +71,9 @@
                         </div>
                     </div>
                     <div class="carousel-item bg-black">
-                        <span class="pc bd-placeholder-img" width="100%" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <img src = "/img/BUFFALO.gif" class="d-block mx-auto" height="100%">
-                        </span>
-                        <span class="sp bd-placeholder-img" width="100%" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <img src = "/img/BUFFALO_sp.gif" class="d-block mx-auto" height="100%">
+                        <span class="bd-placeholder-img" width="100%" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <img src = "/img/BUFFALO.gif" class="pc mx-auto" height="100%">
+                            <img src = "/img/BUFFALO_sp.gif" class="sp mx-auto" height="100%">
                         </span>
                         <div class="container">
                             <div class="carousel-caption text-end">
@@ -357,6 +355,33 @@ flowchart TD
             embedded_html("template/header.html", "header-contents");
             embedded_html("template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("home"));
+
+
+            function pcspView(){
+                if (window.innerWidth >= 768) {
+                    for (const el of document.querySelectorAll('.pc')) {
+                        el.style.display = 'block';
+                    }
+                    for (const el of document.querySelectorAll('.sp')) {
+                        el.style.display = 'none';
+                    }
+                } 
+                else {
+                    for (const el of document.querySelectorAll('.pc')) {
+                        el.style.display = 'none';
+                    }
+                    for (const el of document.querySelectorAll('.sp')) {
+                        el.style.display = 'block';
+                    }
+                }
+            }
+            window.addEventListener(
+                'resize', 
+                pcspView
+            )
+            pcspView();
+
+            
         </script>
     </footer>
 </html>
