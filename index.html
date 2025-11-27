@@ -375,11 +375,8 @@ flowchart TD
                     }
                 }
             }
-            window.addEventListener(
-                'resize', 
-                pcspView
-            )
-            pcspView();
+            window.addEventListener('resize', pcspView);
+            window.addEventListener("load", pcspView);
 
             
         </script>
