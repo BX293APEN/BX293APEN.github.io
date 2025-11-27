@@ -72,7 +72,19 @@
                     poly.calc(polyParent.clientWidth, polyParent.clientHeight)
                 }
             )
-            document.body.style.cursor = "url('/img/mouse.ico') 8 8, auto";
+
+            window.addEventListener( // マウスカーソルの変更
+                "load", 
+                function() {
+                    document.body.style.cursor = "url('/img/noel.ico') 8 8, auto";
+                    const aTags = document.querySelectorAll('a');
+                    for (const aTag of aTags) {
+                        aTag.style.cursor = "url('/img/mouse.ico') 8 8, auto";
+                    }
+                }
+            );
+            
+            
         </script>
     </footer>
 </html>
