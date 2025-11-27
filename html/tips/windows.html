@@ -201,6 +201,15 @@ taskkill /f /im OneDrive.exe
                                 </div>
                                 <pre><code class="language-bash">reagentc /enable</code></pre>
                             </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Windows RE で使用するWIMファイルの場所を指定 (※ winre.wim が R:\Recovery\WindowsRE\winre.wim にある場合)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reagentc /setreimage /path R:\Recovery\WindowsRE</code></pre>
+                            </p>
                         </article>
 
                         <article class="blog-post">
@@ -270,7 +279,8 @@ URL=https://...</code></pre>
     list partition                  # select disk [番号]        で 選択したディスクのパーティション一覧を表示
     select partition [番号]         # list partition            で取得した操作対象のディスクを選択
     delete partition override       # select partition [番号]   で選択したパーティションを強制削除
-    assign letter=X                 # select partition [番号]   で選択したパーティションにドライブレターを割り当て</code></pre>
+    assign letter=X                 # select partition [番号]   で選択したパーティションにドライブレターを割り当て
+    remove letter=X                 # select partition [番号]   で選択したパーティションのドライブレターを削除</code></pre>
                             </p>
                         </article>
 
