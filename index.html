@@ -319,15 +319,16 @@ flowchart TD
         </main>
     </body>
     <footer class="container" id="footer-contents"> <!-- FOOTER -->
-        <script src="view/bootstrap.bundle.min.js"></script>
-        <script src="view/mermaid.min.js"></script>
-        <script src="view/matrix.js"></script>
-        <script src="view/jjy.js"></script>
-        <script src="view/api.js"></script>
-        <script src="view/createUML.js"></script>
-        <script src="view/search.js"></script>
-        <script src="view/embeddedHTML.js"></script>
-        <script src="view/activenav.js"></script>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/mermaid.min.js"></script>
+        <script src="/view/matrix.js"></script>
+        <script src="/view/jjy.js"></script>
+        <script src="/view/api.js"></script>
+        <script src="/view/createUML.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/device.js"></script>
         <script>
             new MatrixDraw(
                 {
@@ -357,27 +358,26 @@ flowchart TD
             window.addEventListener("load", active_nav("home"));
 
 
-            function pcspView(){
-                if (window.innerWidth >= 768) {
-                    for (const el of document.querySelectorAll('.pc')) {
-                        el.style.display = 'block';
+            
+            window.addEventListener(
+                'resize', 
+                switchDeviceView(
+                    {
+                        pcClass     : ".pc",
+                        mobileClass : ".sp",
                     }
-                    for (const el of document.querySelectorAll('.sp')) {
-                        el.style.display = 'none';
+                )
+            );
+
+            window.addEventListener(
+                "load", 
+                switchDeviceView(
+                    {
+                        pcClass     : ".pc",
+                        mobileClass : ".sp",
                     }
-                } 
-                else {
-                    for (const el of document.querySelectorAll('.pc')) {
-                        el.style.display = 'none';
-                    }
-                    for (const el of document.querySelectorAll('.sp')) {
-                        el.style.display = 'block';
-                    }
-                }
-            }
-            window.addEventListener('resize', pcspView);
-            window.addEventListener('click', pcspView);
-            window.addEventListener("load", pcspView);
+                )
+            );
 
             
         </script>
