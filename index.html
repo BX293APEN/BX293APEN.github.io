@@ -14,7 +14,7 @@
         <meta name="theme-color" content="#FF0000" />
 
         
-        <script src="model/index/index.js"></script>
+        <script src="/model/index/index.js"></script>
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
         <div class="loading-container" id="loadingScreen">
@@ -330,6 +330,7 @@ flowchart TD
         <script src="/view/embeddedHTML.js"></script>
         <script src="/view/activenav.js"></script>
         <script src="/view/device.js"></script>
+        <script src="/model/env.js"></script>
         <script>
             new MatrixDraw(
                 {
@@ -353,9 +354,9 @@ flowchart TD
                     "umlName"   : "uml"
                 }
             );
-            embedded_html("template/styleConfig.html", "styleList");
-            embedded_html("template/header.html", "header-contents");
-            embedded_html("template/footer.html", "footer-contents");
+            embedded_html(`${ioset.template}/styleConfig.html`, "styleList");
+            embedded_html(`${ioset.template}/header.html`, "header-contents");
+            embedded_html(`${ioset.template}/footer.html`, "footer-contents");
             window.addEventListener("load", active_nav("home"));
 
 
