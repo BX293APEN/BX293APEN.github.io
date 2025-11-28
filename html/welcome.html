@@ -63,7 +63,12 @@
             window.addEventListener(
                 "load", 
                 function() {
-                    poly.calc(polyParent.clientWidth, polyParent.clientHeight)
+                    setTimeout(
+                        function() {
+                            poly.calc(polyParent.clientWidth, polyParent.clientHeight)
+                        },
+                        300
+                    )
                 }
             );
             
