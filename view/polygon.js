@@ -1,30 +1,31 @@
 class Polygon {
     constructor(
         { 
-            place   = "cv", 
-            n       = 3,
-            time    = 5,
-            fps     = 144,
-            width   = 500, 
-            height  = 500,
-            size    = 200,
-            bg      = true
+            place               = "cv", 
+            n                   = 3,
+            time                = 5,
+            fps                 = 144,
+            width               = 500, 
+            height              = 500,
+            size                = 200,
+            bg                  = true
         } = {}
     ) {
-        this.fps        = fps
-        this.time       = time
-        this.cvs        = document.getElementById(place);
-        this.parent     = this.cvs.parentElement;
+        this.fps                = fps
+        this.time               = time
+        this.cvs                = document.getElementById(place);
+        this.parent             = this.cvs.parentElement;
         if (bg) {
-            this.cvs.style.position     = "absolute";
-            this.cvs.style.zIndex       = "-1";
+            this.cvs.style.position         = "absolute";
+            this.cvs.style.zIndex           = "-1";
             if (this.parent) {
                 this.parent.style.position  = "relative";
             }
         }
-        this.ctx        = this.cvs.getContext("2d");
-        this.r          = size;
-        this.n          = n;
+        this.ctx                = this.cvs.getContext("2d");
+        this.r                  = size;
+        this.initPolygon        = n;
+        this.n                  = n;
         this.calc(width, height);
 
         this.draw();
@@ -33,14 +34,14 @@ class Polygon {
     }
 
     calc(width, height){
-        this.width      = width
-        this.height     = height
-        this.cvs.width  = this.width;
-        this.cvs.height = this.height;
-        this.centerX    = this.cvs.width / 2;
-        this.centerY    = this.cvs.height / 2;
+        this.width              = width
+        this.height             = height
+        this.cvs.width          = this.width;
+        this.cvs.height         = this.height;
+        this.centerX            = this.cvs.width / 2;
+        this.centerY            = this.cvs.height / 2;
 
-        this.grad       = this.ctx.createLinearGradient(0, 0, this.width, this.height);
+        this.grad               = this.ctx.createLinearGradient(0, 0, this.width, this.height);
         this.grad.addColorStop(0.4,   'rgb(255, 255, 0)');
         this.grad.addColorStop(0.5, 'rgb(0, 255, 255)');
         this.grad.addColorStop(0.6,   'rgb(255, 0, 255)');
@@ -50,16 +51,16 @@ class Polygon {
     draw() {
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.ctx.beginPath();
-        this.ctx.strokeStyle = this.grad;
+        this.ctx.strokeStyle    = this.grad;
 
-        let theta = this.angle;
-        let sides = Math.floor(this.n * 10000 + 0.5);
+        let theta               = this.angle;
+        let sides               = Math.floor(this.n * 10000 + 0.5);
         for (let j = 0; j < 4 ; j++) {
             if (sides % 2 == 0) {
-                sides = sides / 2;
+                sides           = sides / 2;
             }
             if (sides % 5 == 0) {
-                sides = sides / 5;
+                sides           = sides / 5;
             }
         }
 
@@ -99,7 +100,7 @@ class Polygon {
     }
 
     def_func(){
-        this.n = 2.5 + ((this.n + 0.1 - 2.5) % (50 - 2.5));
+        this.n = this.initPolygon + ((this.n + 0.1 - this.initPolygon) % (50 - this.initPolygon))
         console.clear();
         console.log(`${this.n}角形`)
     }
