@@ -57,6 +57,13 @@ class DownloadModel {
                 "text"      : "&emsp;Windows11のイメージを取得する",
                 "content"   : '<a href="https://uupdump.net/known.php"><figcaption class = "btn btn-bd-primary figure-caption text-end">Get</figcaption></a>',
             },
+            "net28cheat" : {
+                "imgType"   : "none",
+                "title"     : "Net24 → Net28",
+                "text"      : "&emsp;dnsmasqの設定を変更するスクリプトのサンプル",
+                "content"   : '<pre><code class="language-bash">curl -OL https://bx293apen.github.io/html/download/content/net28cheat.sh</code></pre>',
+                
+            },
         }
         this.dlIndex = Object.keys(this.dlData);
         this.dlIndex.sort();
