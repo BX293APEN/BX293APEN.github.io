@@ -35,13 +35,13 @@ fi
 
 if ! nmcli connection show "${profileName}" &> /dev/null; then
     # 新しい接続プロファイルを作成
-    nmcli connection add type ethernet         \
+    nmcli connection add type ethernet              \
         con-name "${profileName}"                   \
         ifname eth1
 fi
 
 # 接続プロファイルを編集
-nmcli connection modify "${profileName}"       \
+nmcli connection modify "${profileName}"            \
     ipv4.method manual                              \
     ipv4.addresses "192.168.2${teamID}.1/28"        \
     ipv4.gateway "192.168.2${teamID}.1"             \
@@ -55,7 +55,11 @@ nmcli connection down "${profileName}"
 nmcli connection up "${profileName}"
 
 cp "/etc/dnsmasq.conf" "/home/${TARGETUSER}/dnsmasq.conf.${today}"
-cp "/home/${TARGETUSER}/dnsmasq.conf.${today}" "/home/${TARGETUSER}/dnsmasq.conf.backup.${today}"
+
+if [ ! -f "/home/${TARGETUSER}/dnsmasq.conf.backup.${today}" ]; then
+    cp "/home/${TARGETUSER}/dnsmasq.conf.${today}" "/home/${TARGETUSER}/dnsmasq.conf.backup.${today}"
+fi
+
 
 # net24 → net28
 # dnsmasq設定ファイルの編集
