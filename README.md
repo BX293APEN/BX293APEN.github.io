@@ -9,29 +9,10 @@
 https://img.shields.io/badge/${subject}-${status}-${color}.svg
 -->
 
-## PEN Repositories
+<a href="https://bx293apen.github.io/">
+    <img style="width:50%" src="https://raw.githubusercontent.com/BX293APEN/BX293APEN-IMAGE/main/assets/img.png" />
+</a>
 
-<table>
-    <tr>
-        <td>
-            <a href="https://github.com/BX293APEN/BX293APEN">
-                <img src="https://github-readme-stats-private-eosin.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN" />
-            </a>
-        </td>
-        <td>
-            <a href="https://github.com/BX293APEN/BX293APEN.github.io">
-                <img src="https://raw.githubusercontent.com/BX293APEN/BX293APEN-IMAGE/main/assets/img.png" />
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="https://github.com/BX293APEN/aiccmd">
-                <img src="https://github-readme-stats-private-eosin.vercel.app/api/pin/?username=BX293APEN&repo=aiccmd" />
-            </a>
-        </td>
-    </tr>
-</table>
 
 ## References
 > [Bootstrap](https://getbootstrap.jp/)  
