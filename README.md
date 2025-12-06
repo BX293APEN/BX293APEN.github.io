@@ -10,19 +10,19 @@ https://img.shields.io/badge/${subject}-${status}-${color}.svg
     <tr>
         <td>
             <a href="https://github.com/BX293APEN/BX293APEN">
-                <img src="https://github-readme-stats.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN" />
+                <img src="https://github-readme-stats-private-eosin.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN" />
             </a>
         </td>
         <td>
             <a href="https://github.com/BX293APEN/BX293APEN.github.io">
-                <img src="https://github-readme-stats.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN.github.io" />
+                <img src="https://github-readme-stats-private-eosin.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN.github.io" />
             </a>
         </td>
     </tr>
     <tr>
         <td>
             <a href="https://github.com/BX293APEN/aiccmd">
-                <img src="https://github-readme-stats.vercel.app/api/pin/?username=BX293APEN&repo=aiccmd" />
+                <img src="https://github-readme-stats-private-eosin.vercel.app/api/pin/?username=BX293APEN&repo=aiccmd" />
             </a>
         </td>
     </tr>
