@@ -20,7 +20,7 @@ https://img.shields.io/badge/${subject}-${status}-${color}.svg
         </td>
         <td>
             <a href="https://github.com/BX293APEN/BX293APEN.github.io">
-                <img src="https://github-readme-stats-private-eosin.vercel.app/api/pin/?username=BX293APEN&repo=BX293APEN.github.io" />
+                <img src="https://raw.githubusercontent.com/BX293APEN/BX293APEN-IMAGE/main/assets/img.png" />
             </a>
         </td>
     </tr>
