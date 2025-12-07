@@ -5,14 +5,9 @@
     </a>
 </h1>
 
-<!-- 
-https://img.shields.io/badge/${subject}-${status}-${color}.svg
--->
-
 <a href="https://bx293apen.github.io/">
     <img style="width:50%" src="https://raw.githubusercontent.com/BX293APEN/BX293APEN-IMAGE/main/assets/img.png" />
 </a>
-
 
 ## References
 > [Bootstrap](https://getbootstrap.jp/)  
