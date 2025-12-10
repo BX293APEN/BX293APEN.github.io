@@ -72,9 +72,10 @@ confdir /etc/chrony/conf.d
 
 # Use Debian vendor zone.
 # pool 2.debian.pool.ntp.org iburst
-server 127.127.1.0 prefer
-server ntp.nict.jp iburst
-
+pool ntp.nict.jp iburst
+# server 10.120.2.200
+local stratum 2
+manual
 
 # Use time sources from DHCP.
 sourcedir /run/chrony-dhcp
