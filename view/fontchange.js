@@ -28,7 +28,7 @@ class ChangeFont{
             }
         `
         document.head.appendChild(style);
-        this.wrapLetters();
+        this.wrap_letters();
 
         this.letters                = document.getElementsByClassName(this.letterClass);
         this.container              = document.querySelector(this.queryPlace);
@@ -36,20 +36,20 @@ class ChangeFont{
         this.container.addEventListener(
             'mouseleave', 
             () => {
-                this.changeFont(font1, 50);
+                this.change_font(font1, 50);
             }
         );
 
         this.container.addEventListener(
             'mouseenter', 
             () => {
-                this.changeFont(font2, 50);
+                this.change_font(font2, 50);
             }
         );
 
-        this.changeFont(font1, 0);
+        this.change_font(font1, 0);
     }
-    wrapLetters() {
+    wrap_letters() {
         /*
             <div id = "letter-wrap">
                 KAWAISOU IS KAWAII
@@ -90,25 +90,21 @@ class ChangeFont{
         // 単語ごとにラップ
         for (let i = 0; i < words.length; i++) {
             const word = words[i];
-            let lettersHTML = "";
+            let wordHTML = "";
 
             // 文字ごとにラップ
             for (const char of word) {
-                lettersHTML += `<span class="${this.letterClass}">${char}</span>`;
+                wordHTML += `<span class="${this.letterClass}">${char}</span>`;
             }
+            wordHTML += `<span class="${this.letterClass}">${this.space}</span>`;
 
-            newHTML += `<span class="${this.wordClass}">${lettersHTML}</span>`;
-
-            // 単語間スペースも span でラップ
-            if (i !== words.length - 1) {
-                newHTML += `<span class="${this.letterClass}">${this.space}</span>`;
-            }
+            newHTML += `<span class="${this.wordClass}">${wordHTML}</span>`;
         }
 
         container.innerHTML = newHTML;
     }
 
-    changeFont(fontName, delay = 50) {
+    change_font(fontName, delay = 50) {
         let index = 0;
         for (const letter of this.letters) {
             setTimeout(
