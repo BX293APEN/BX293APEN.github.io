@@ -104,24 +104,10 @@
                         <div class="container">
                             <div class="carousel-caption text-end letter-wrap">
                                 <h1 class = "font-shadow">
-                                    <span class="letter">K</span>
-                                    <span class="letter">A</span>
-                                    <span class="letter">W</span>
-                                    <span class="letter">A</span>
-                                    <span class="letter">I</span>
-                                    <span class="letter">S</span>
-                                    <span class="letter">O</span>
-                                    <span class="letter">U</span>
-                                    <span class="letter">&nbsp;</span>
-                                    <span class="letter">I</span>
-                                    <span class="letter">S</span>
-                                    <span class="letter">&nbsp;</span>
-                                    <span class="letter">K</span>
-                                    <span class="letter">A</span>
-                                    <span class="letter">W</span>
-                                    <span class="letter">A</span>
-                                    <span class="letter">I</span>
-                                    <span class="letter">I</span>
+                                    <div id = "letters">
+                                        KAWAISOU IS KAWAII
+                                    </div>
+                                    
                                 </h1>
                                 <p class = "font-shadow">
                                     Alice in Cradle の体験版をプレイしてデバッグをしてみましょう
@@ -353,6 +339,8 @@ flowchart TD
             new ChangeFont(
                 {
                     queryPlace  : ".letter-wrap", 
+                    range       : "letters",
+                    wordClass   : "word-wrap",
                     letterClass : "letter", 
                     font1       : "AicFont", 
                     font2       : "My_Inkfree",
