@@ -1,8 +1,8 @@
 class ChangeFont{
     constructor(
         {
-            queryPlace              = ".text-wrap", 
-            range                   = "letter-wrap",
+            hoverRegionQuery        = ".text-wrap", 
+            changeTarget            = "letter-wrap",
             wordClass               = "word-wrap",
             letterClass             = "letter", 
             font1                   = "Arial", 
@@ -10,8 +10,8 @@ class ChangeFont{
             space                   = "&ensp;"
         } = {}
     ) {
-        this.queryPlace             = queryPlace
-        this.range                  = range
+        this.queryPlace             = hoverRegionQuery
+        this.changeTarget           = changeTarget
         this.wordClass              = wordClass
         this.letterClass            = letterClass
         this.space                  = space
@@ -82,8 +82,8 @@ class ChangeFont{
                 </span>
             </div> 
         */
-        const container = document.getElementById(this.range);
-        const text = container.textContent.trim();
+        const target = document.getElementById(this.changeTarget);
+        const text = target.textContent.trim();
         const words = text.split(/\s+/); // 単語ごとに分割
         let newHTML = "";
 
@@ -101,7 +101,7 @@ class ChangeFont{
             newHTML += `<span class="${this.wordClass}">${wordHTML}</span>`;
         }
 
-        container.innerHTML = newHTML;
+        target.innerHTML = newHTML;
     }
 
     change_font(fontName, delay = 50) {
