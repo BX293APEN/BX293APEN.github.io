@@ -65,11 +65,11 @@ sudo nmcli connection add type [接続タイプ ethernet wifi 等]    \
 
 # 接続プロファイルを編集
 sudo nmcli connection modify [接続プロファイル名]               \
-    ipv4.method manual                                          \   # IPv4手動設定
+    ipv4.method manual                                        \     # IPv4手動設定
     ipv4.addresses [IPアドレス]/[ビットマスク]                  \
     ipv4.gateway [デフォルトゲートウェイ]                       \
-    ipv4.dns [DNSサーバのIPアドレス]                            \
-    ipv4.ignore-auto-dns yes                                    \   # DHCPサーバーから自動的に提供されるDNSサーバー情報を無視する
+    ipv4.dns [DNSサーバのIPアドレス]                           \
+    ipv4.ignore-auto-dns yes                                  \     # DHCPサーバーから自動的に提供されるDNSサーバー情報を無視する
     ipv6.method ignore                                              # IPv6 無効化
 
 sudo nmcli connection reload
