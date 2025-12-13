@@ -54,22 +54,23 @@
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">nmcli device # デバイス名(ネットワークインターフェース名)を確認
-sudo nmcli connection show # 接続プロファイル一覧を確認
+                                <pre><code class="language-bash">
+nmcli device                                                        # デバイス名(ネットワークインターフェース名)を確認
+sudo nmcli connection show                                          # 接続プロファイル一覧を確認
 
 # 新しい接続プロファイルを作成
-sudo nmcli connection add type [接続タイプ ethernet wifi 等] \
-    con-name [接続プロファイル名] \
+sudo nmcli connection add type [接続タイプ ethernet wifi 等]    \
+    con-name [接続プロファイル名]                               \
     ifname [デバイス名]
 
 # 接続プロファイルを編集
-sudo nmcli connection modify [接続プロファイル名] \
-    ipv4.method manual \                            # IPv4手動設定
-    ipv4.addresses [IPアドレス]/[ビットマスク] \
-    ipv4.gateway [デフォルトゲートウェイ] \
-    ipv4.dns [DNSサーバのIPアドレス] \
-    ipv4.ignore-auto-dns yes \                      # DHCPサーバーから自動的に提供されるDNSサーバー情報を無視する
-    ipv6.method ignore                              # IPv6 無効化
+sudo nmcli connection modify [接続プロファイル名]               \
+    ipv4.method manual                                          \   # IPv4手動設定
+    ipv4.addresses [IPアドレス]/[ビットマスク]                  \
+    ipv4.gateway [デフォルトゲートウェイ]                       \
+    ipv4.dns [DNSサーバのIPアドレス]                            \
+    ipv4.ignore-auto-dns yes                                    \   # DHCPサーバーから自動的に提供されるDNSサーバー情報を無視する
+    ipv6.method ignore                                              # IPv6 無効化
 
 sudo nmcli connection reload
 sudo nmcli connection up [接続プロファイル名]</code></pre>
@@ -158,7 +159,7 @@ sudo reboot</code></pre>
                                 <pre><code class="language-bash">sudo iptables -F FORWARD                                                                                                    # 既存のFORWARDチェーンのルールをすべて削除
 sudo iptables -t nat -F                                                                                                     # 既存のNATテーブルのルールをすべて削除
 
-sudo iptables -t nat -A POSTROUTING -o [外部インターフェース] -j MASQUERADE                                                     # 外部から出る全てのパケットの送信元IPをルータの[外部インターフェース]のIPに変換
+sudo iptables -t nat -A POSTROUTING -o [外部インターフェース] -j MASQUERADE                                                   # 外部から出る全てのパケットの送信元IPをルータの[外部インターフェース]のIPに変換
 sudo iptables -A FORWARD -i [外部インターフェース] -o [内部インターフェース] -m state --state RELATED,ESTABLISHED -j ACCEPT     # 外部から内部への応答パケットを許可
 sudo iptables -A FORWARD -i [内部インターフェース] -o [外部インターフェース] -j ACCEPT                                          # 内部から外部へのパケットをすべて許可
 
@@ -247,6 +248,9 @@ password=[NASのパスワード]</code></pre>
                                     </li>
                                     <li>
                                         <a href="#node-red">Node-RED</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nat">NAT設定</a>
                                     </li>
                                     <li>
                                         <a href="#nas">NASの接続</a>
