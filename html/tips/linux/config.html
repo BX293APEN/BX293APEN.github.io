@@ -115,6 +115,60 @@ sudo reboot</code></pre>
                         </article>
 
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="nat">
+                                NAT設定
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                IPテーブル設定に必要なパッケージをインストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install iptables-persistent</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                NATを許可する
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/sysctl.conf</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">net.ipv4.ip_forward=1</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo sysctl -p</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                IPテーブル設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo iptables -F FORWARD                                                                                                    # 既存のFORWARDチェーンのルールをすべて削除
+sudo iptables -t nat -F                                                                                                     # 既存のNATテーブルのルールをすべて削除
+
+sudo iptables -t nat -A POSTROUTING -o [外部インターフェース] -j MASQUERADE                                                     # 外部から出る全てのパケットの送信元IPをルータの[外部インターフェース]のIPに変換
+sudo iptables -A FORWARD -i [外部インターフェース] -o [内部インターフェース] -m state --state RELATED,ESTABLISHED -j ACCEPT     # 外部から内部への応答パケットを許可
+sudo iptables -A FORWARD -i [内部インターフェース] -o [外部インターフェース] -j ACCEPT                                          # 内部から外部へのパケットをすべて許可
+
+sudo netfilter-persistent save                                                                                              # ルールの恒久化</code></pre>
+                            </p>
+                        </article>
+
+
+
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id = "nas">
                                 NASの接続
                             </h3>
