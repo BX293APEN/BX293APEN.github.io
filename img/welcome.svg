@@ -10,7 +10,7 @@
         <animate 
             id='d0' attributeName='d' begin='0s;d0.end'
             dur='6000ms' fill='remove'
-            values='m0,45 h0 ; m0,45 h400 ; m0,45 h400 ; m0,45 h0' 
+            values='m0,45 h0 ; m0,45 h500 ; m0,45 h500 ; m0,45 h0' 
             keyTimes='0;0.66666666666667;0.83333333333333;1' 
         />
     </path>
