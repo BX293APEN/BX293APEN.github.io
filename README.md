@@ -5,7 +5,8 @@
     </a>
 </h1>
 
-<img style="width:50%" src="./img/welcome.svg" />
+<img style="width:50%" src="./img/welcome.svg" />  
+  
 <a href="https://bx293apen.github.io/">
     <img style="width:50%" src="https://raw.githubusercontent.com/BX293APEN/BX293APEN-IMAGE/main/assets/img.png" />
 </a>
