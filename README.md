@@ -5,6 +5,7 @@
     </a>
 </h1>
 
+![](./img/welcome.svg)  
 <a href="https://bx293apen.github.io/">
     <img style="width:50%" src="https://raw.githubusercontent.com/BX293APEN/BX293APEN-IMAGE/main/assets/img.png" />
 </a>
@@ -19,11 +20,9 @@
 > [Vercel](https://vercel.com/pens-projects-aef9706a)
 ---
 
-![](https://raw.githubusercontent.com/BX293APEN/BX293APEN/output/github-contribution-grid-snake.svg)
-
-
 
 <p align="right">
+    <img src="./img/PEN.ico" height="24" class="bi">
     &copy; 
     PEN
     &middot; 
