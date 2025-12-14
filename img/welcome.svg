@@ -1,7 +1,7 @@
 <svg 
     xmlns='http://www.w3.org/2000/svg'
     xmlns:xlink='http://www.w3.org/1999/xlink'
-    viewBox='0 0 300 30'
+    viewBox='0 0 200 30'
     style='background-color: #000000CC;'
     width='435px' height='50px'
 >
@@ -24,7 +24,7 @@
         letter-spacing='normal'
     >
         <textPath xlink:href='#path0'>
-            　Welcome to PENSite
+            Welcome to PENSite
         </textPath>
     </text>
 
