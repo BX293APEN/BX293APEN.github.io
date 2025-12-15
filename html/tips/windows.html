@@ -80,6 +80,32 @@ sfc /scannow</code></pre>
                             </p>
                         </article>
 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="firewall">
+                                ファイヤーウォールのポートを開ける
+                            </h3>
+                            <h4 class="pt-4 fw-bold">
+                                pingを通す
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">powershell -Command "Get-NetFirewallRule | Where-Object { $_.DisplayName -like '*エコー要求*' } | Enable-NetFirewallRule"</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 fw-bold">
+                                iperf3のルールを作成
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">powershell -Command "New-NetFirewallRule -DisplayName "iperf3 TCP" -Direction Inbound -Protocol TCP -LocalPort 5201 -Action Allow -Profile Any"
+powershell -Command "New-NetFirewallRule -DisplayName "iperf3 UDP" -Direction Inbound -Protocol UDP -LocalPort 5201 -Action Allow -Profile Any"</code></pre>
+                            </p>
+                        </article>
+
                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="regedit">
                                 コンテキストメニュー(右クリックメニュー)の変更
@@ -308,6 +334,9 @@ URL=https://...</code></pre>
                                     </li>
                                     <li>
                                         <a href="#recovimg">修復コマンド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#firewall">ファイヤーウォールのポートを開ける</a>
                                     </li>
                                     <li>
                                         <a href="#regedit">右クリックメニュー</a>
