@@ -149,8 +149,8 @@ sudo reboot</code></pre>
                                 </div>
                                 <pre><code class="language-bash">sudo sysctl -p</code></pre>
                             </p>
-                            <h4 class="pt-4 border-bottom fw-bold">
-                                IPテーブル設定
+                            <h4 class="pt-4 border-bottom fw-bold" id="iptables">
+                                IPテーブル設定 (iptables)
                             </h4>
                             <p>
                                 <div class="fw-bold">
@@ -164,6 +164,96 @@ sudo iptables -A FORWARD -i [外部インターフェース] -o [内部インタ
 sudo iptables -A FORWARD -i [内部インターフェース] -o [外部インターフェース] -j ACCEPT                                          # 内部から外部へのパケットをすべて許可
 
 sudo netfilter-persistent save                                                                                              # ルールの恒久化</code></pre>
+                            </p>
+                            <h5 class="pt-3 border-bottom fw-bold">
+                                MACアドレスの固定化
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/udev/rules.d/71-pen-net.rules</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="[固定したいMACアドレス]", NAME="[インターフェース名]"</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo udevadm control --reload
+sudo udevadm trigger</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="nftables">
+                                IPテーブル設定 (nftables)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install nftables
+sudo nano /etc/nftables.conf</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ (MAC制御の場合)
+                                </div>
+                                <pre><code class="language-bash">#!/usr/sbin/nft -f
+
+flush ruleset
+
+# table inet filter {
+#         chain input {
+#                 type filter hook input priority filter;
+#         }
+#         chain forward {
+#                 type filter hook forward priority filter;
+#         }
+#         chain output {
+#                 type filter hook output priority filter;
+#         }
+# }
+
+# ip link show でMACアドレスを確認
+define WAN_MAC  = "[外部MACアドレス]"
+define LAN_MAC  = "[内部MACアドレス]"
+define LAN_IP   = [プレフィックス付き内部ネットワークアドレス]
+
+table ip nat {
+    chain postrouting {
+        type nat hook postrouting priority 100;
+
+        # 内部MACから外部へ出る通信をMASQUERADE
+        ip saddr $LAN_IP masquerade
+    }
+}
+
+
+table ip filter {
+    chain forward {
+        type filter hook forward priority 0;
+
+        # 内部 → 外部：すべて許可
+        ether saddr $LAN_MAC accept
+
+        # 外部 → 内部：戻り通信のみ許可
+        ether saddr $WAN_MAC ct state established,related accept
+
+        # それ以外はすべて破棄
+        drop
+    }
+}</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable nftables
+sudo systemctl restart nftables</code></pre>
                             </p>
                         </article>
 
