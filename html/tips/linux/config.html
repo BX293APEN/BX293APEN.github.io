@@ -206,23 +206,7 @@ sudo nano /etc/nftables.conf</code></pre>
 
 flush ruleset
 
-#   table inet filter {
-#       chain input {
-#           type filter hook input priority filter;
-#       }
-#       chain forward {
-#           type filter hook forward priority filter;
-#       }
-#       chain output {
-#           type filter hook output priority filter;
-#       }
-#   }
-
-# ip link show でMACアドレスを確認
-define WAN_MAC  = "[外部MACアドレス]"
-define LAN_MAC  = "[内部MACアドレス]"
-
-define LAN_IP   = [プレフィックス付き内部ネットワークアドレス]
+define LAN_IP   = [内部ネットワークアドレス/プレフィックス]
 
 # table テーブルタイプ テーブル名 {}
 #       テーブルタイプ
@@ -231,28 +215,54 @@ define LAN_IP   = [プレフィックス付き内部ネットワークアドレ�
 #           inet  : IPv4 + IPv6
 #       テーブル名 : 任意
 
+table inet filter {
+
+    # ルータ自身への通信
+    chain input {
+        type filter hook input priority filter;
+
+        # 戻り通信 : 許可
+        ct state established,related accept
+
+        # ループバック : 許可
+        iifname "lo" accept
+
+        # TCP 許可 {SSH, HTTP}
+        tcp dport {22, 80} accept
+
+        # UDP 許可 {NTP, DHCP}
+        udp dport {123, 67} accept
+        
+        # 必要なポートを調査した後有効化
+        # drop
+    }
+    
+    # ルータ自身から外への通信
+    chain output {
+        type filter hook output priority filter;
+    }
+
+    chain forward {
+        # type filter hook forward priority filter;
+        type filter hook forward priority 0;
+
+        # 内部 → 外部：すべて許可
+        ip saddr $LAN_IP accept
+
+        # 外部 → 内部：戻り通信のみ許可
+        ct state established,related accept
+
+        # それ以外はすべて破棄
+        drop
+    }
+}
+
 table ip nat {
     chain postrouting {
         type nat hook postrouting priority 100;
 
         # 内部 → 外部 : MASQUERADE
         ip saddr $LAN_IP masquerade
-    }
-}
-
-
-table inet filter {
-    chain forward {
-        type filter hook forward priority 0;
-
-        # 内部 → 外部：すべて許可 (MACアドレス固定)
-        ether saddr $LAN_MAC accept
-
-        # 外部 → 内部：戻り通信のみ許可 (MACアドレス固定)
-        ether saddr $WAN_MAC ct state established,related accept
-
-        # それ以外はすべて破棄
-        drop
     }
 }</code></pre>
                             </p>
@@ -349,6 +359,12 @@ password=[NASのパスワード]</code></pre>
                                     </li>
                                     <li>
                                         <a href="#nat">NAT設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#iptables">IPテーブル設定 (iptables)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nftables">IPテーブル設定 (nftables)</a>
                                     </li>
                                     <li>
                                         <a href="#nas">NASの接続</a>
