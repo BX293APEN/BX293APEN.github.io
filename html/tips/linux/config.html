@@ -188,6 +188,22 @@ sudo netfilter-persistent save                                                  
 sudo udevadm trigger</code></pre>
                             </p>
 
+                            <h4 class="pt-4 border-bottom fw-bold" id="iptables_ipaddr">
+                                IPテーブル設定 (iptables IPアドレス指定)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo iptables -F FORWARD                                                                                                    # 既存のFORWARDチェーンのルールをすべて削除
+sudo iptables -t nat -F                                                                                                     # 既存のNATテーブルのルールをすべて削除
+
+sudo iptables -t nat -A POSTROUTING -s [内部ネットワークアドレス/プレフィックス] -j MASQUERADE                                  # 内部 → 外部 NAT
+sudo iptables -A FORWARD -d [内部ネットワークアドレス/プレフィックス] -m state --state RELATED,ESTABLISHED -j ACCEPT            # 外部 → 内部：戻り通信のみ許可
+sudo iptables -A FORWARD -s [内部ネットワークアドレス/プレフィックス] -j ACCEPT                                                 # 内部 → 外部：すべて許可
+
+sudo netfilter-persistent save                                                                                              # ルールの恒久化</code></pre>
+                            </p>
                             <h4 class="pt-4 border-bottom fw-bold" id="nftables">
                                 IPテーブル設定 (nftables)
                             </h4>
@@ -271,7 +287,8 @@ table ip nat {
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">sudo systemctl enable nftables
-sudo systemctl restart nftables</code></pre>
+sudo systemctl restart nftables
+sudo nft list ruleset</code></pre>
                             </p>
                         </article>
 
