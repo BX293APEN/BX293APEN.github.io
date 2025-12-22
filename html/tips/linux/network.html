@@ -250,6 +250,12 @@ table inet filter {
         # ループバック : 許可
         iifname "lo" accept
 
+        # ICMP (IPv4)
+        ip protocol icmp accept
+
+        # ICMPv6 (IPv6)
+        ip6 nexthdr icmpv6 accept
+
         # TCP 許可 {SSH, HTTP}
         tcp dport {22, 80} accept
 
