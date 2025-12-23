@@ -35,6 +35,43 @@
                             Linuxセットアップガイド
                         </h2>
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="update">
+                                更新方法
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt update                     # パッケージリスト更新
+sudo apt upgrade -y                 # 既存パッケージの更新
+sudo apt full-upgrade -y            # カーネル更新や依存関係の変更を伴うアップグレード
+sudo apt dist-upgrade -y            # full-upgrade の旧称
+sudo apt autoremove -y              # 不要パッケージ削除
+sudo apt autoremove --purge -y      # 不要パッケージを設定ファイルごと削除
+sudo apt purge [パッケージ名] -y     # 指定したパッケージを完全削除
+sudo rm -rf /var/lib/apt/lists/*    # ハッシュサムが適合しない場合
+sudo unattended-upgrade             # セキュリティアップデート
+sudo apt install gpg-agent          # gpg: failed to start agent '/usr/bin/gpg-agent': No such file or directory
+sudo do-release-upgrade             # OSのアップグレード</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="state">
+                                状態の確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">lsb_release -a                      # OSの確認
+uname -r                            # カーネルバージョンの確認
+df -h                               # ディスク容量の確認
+lsblk                               # ディスク・パーティション構成を一覧表示
+free -h                             # メモリ使用量の確認
+swapon --show                       # スワップの使用状況</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="hostname">
                                 ホスト名の変更
                             </h3>
@@ -273,6 +310,12 @@ sudo touch /forcefsck</code></pre>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#update">Linuxの更新</a>
+                                    </li>
+                                    <li>
+                                        <a href="#state">状態の確認</a>
                                     </li>
                                     <li>
                                         <a href="#hostname">ホスト名の変更</a>
