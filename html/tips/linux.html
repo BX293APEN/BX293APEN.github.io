@@ -95,6 +95,17 @@ cat /proc/net/arp                               # ARPテーブル
 cat /proc/net/softnet_stat                      # カーネルのパケット処理統計
 cat /proc/net/nf_conntrack                      # コネクション数</code></pre>
                             </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    仮想フォルダ(RAM上に構築されたフォルダ等)
+                                </div>
+                                <pre><code class="language-bash">/proc       # カーネル内部状態をファイルとして見せる
+/sys        # デバイス・カーネルオブジェクトの設定・状態
+/dev        # デバイスファイル
+/run        # 早期ブート用の揮発性ランタイムデータ
+/tmp        # 一時ファイル</code></pre>
+                            </p>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="hostname">
