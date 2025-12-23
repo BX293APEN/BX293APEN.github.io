@@ -63,12 +63,37 @@ sudo do-release-upgrade             # OSのアップグレード</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">lsb_release -a                      # OSの確認
-uname -r                            # カーネルバージョンの確認
-df -h                               # ディスク容量の確認
-lsblk                               # ディスク・パーティション構成を一覧表示
-free -h                             # メモリ使用量の確認
-swapon --show                       # スワップの使用状況</code></pre>
+                                <pre><code class="language-bash">lsb_release -a                                  # OSの確認
+uname -r                                        # カーネルバージョンの確認
+df -h                                           # ディスク容量の確認
+lsblk                                           # ディスク・パーティション構成を一覧表示
+free -h                                         # メモリ使用量の確認
+swapon --show                                   # スワップの使用状況
+ip link show                                    # インターフェースの状態確認
+ip r                                            # ルーティングテーブル
+ip -s link                                      # パケット統計(RX/TX bytes packets errors dropped carrier collsns)
+ss -s                                           # ソケット統計
+tc -s qdisc                                     # キュー制御 (遅延・ドロップ)
+
+/sys/class/net/[インターフェース名]/statistics    # [インターフェース名]の統計情報が入ったフォルダ
+# collisions     rx_crc_errors   rx_frame_errors   rx_over_errors     tx_carrier_errors  tx_fifo_errors
+# multicast      rx_dropped      rx_length_errors  rx_packets         tx_compressed      tx_heartbeat_errors
+# rx_bytes       rx_errors       rx_missed_errors  tx_aborted_errors  tx_dropped         tx_packets
+# rx_compressed  rx_fifo_errors  rx_nohandler      tx_bytes           tx_errors          tx_window_errors
+
+iw dev                                          # Wi-Fiインターフェース一覧
+iw dev [Wi-Fiインターフェース名] link             # 接続状態(RSSI、ビットレート)
+iw dev [Wi-Fiインターフェース名] station dump     # 接続中クライアントの詳細(MCS、RSSI、リトライ率)
+iw [Wi-Fiインターフェース名] survey dump          # チャネルの混雑状況(busy time / noise)
+iw reg get                                      # 電波地域確認
+
+ethtool -S [ethインターフェース名]                # NICの詳細統計
+cat /proc/loadavg                               # CPU負荷
+cat /proc/net/dev                               # 各ネットワークインターフェースの統計
+cat /proc/net/wireless                          # Wi-Fiの品質情報
+cat /proc/net/arp                               # ARPテーブル
+cat /proc/net/softnet_stat                      # カーネルのパケット処理統計
+cat /proc/net/nf_conntrack                      # コネクション数</code></pre>
                             </p>
                         </article>
                         <article class="blog-post">
