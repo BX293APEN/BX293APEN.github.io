@@ -83,7 +83,7 @@ sudo nmcli connection up [接続プロファイル名]</code></pre>
 
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="nat">
-                                NAT設定
+                                IPテーブル / NAT 設定
                             </h3>
                             <h4 class="pt-4 border-bottom fw-bold">
                                 IPテーブル設定に必要なパッケージをインストール
@@ -142,8 +142,7 @@ sudo iptables -t nat -F             # 既存のNATテーブルのルールをす
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">
-# ルール設定
+                                <pre><code class="language-bash"># ルール設定
 
 # 外部から出る全てのパケットの送信元IPをルータの[外部インターフェース]のIPに変換
 sudo iptables                                   \
@@ -378,7 +377,7 @@ sudo ufw allow [ポート番号A]:[ポート番号B]/tcp  # [ポート番号A]�
                                         <a href="#network">ネットワーク設定</a>
                                     </li>
                                     <li>
-                                        <a href="#nat">NAT設定</a>
+                                        <a href="#nat">IPテーブル / NAT 設定</a>
                                     </li>
                                     <li>
                                         <a href="#iptables">IPテーブル設定 (iptables)</a>
