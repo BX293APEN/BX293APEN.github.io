@@ -95,6 +95,26 @@ sudo nmcli connection up [接続プロファイル名]</code></pre>
                                 <pre><code class="language-bash">sudo apt install iptables-persistent</code></pre>
                             </p>
                             <h4 class="pt-4 border-bottom fw-bold">
+                                IPテーブルの状態を確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo iptables -Z    # パケットカウンタリセット
+sudo iptables -L -v # IPテーブルの状態を確認</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                IPテーブルのルールを削除
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo iptables -F FORWARD            # 既存のFORWARDチェーンのルールをすべて削除
+sudo iptables -t nat -F             # 既存のNATテーブルのルールをすべて削除</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
                                 NATを許可する
                             </h4>
                             <p>
@@ -122,10 +142,7 @@ sudo nmcli connection up [接続プロファイル名]</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash"># 既存ルールを削除
-sudo iptables -F FORWARD            # 既存のFORWARDチェーンのルールをすべて削除
-sudo iptables -t nat -F             # 既存のNATテーブルのルールをすべて削除
-
+                                <pre><code class="language-bash">
 # ルール設定
 
 # 外部から出る全てのパケットの送信元IPをルータの[外部インターフェース]のIPに変換
@@ -183,11 +200,7 @@ sudo udevadm trigger</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash"># 既存ルールを削除
-sudo iptables -F FORWARD                            # 既存のFORWARDチェーンのルールをすべて削除
-sudo iptables -t nat -F                             # 既存のNATテーブルのルールをすべて削除
-
-# ルール設定
+                                <pre><code class="language-bash"># ルール設定
 # 内部 → 外部 NAT
 sudo iptables                                   \
     -t nat                                      \
@@ -301,7 +314,54 @@ table ip nat {
                                 </div>
                                 <pre><code class="language-bash">sudo systemctl enable nftables
 sudo systemctl restart nftables
-sudo nft list ruleset</code></pre>
+sudo nft list ruleset               # 現在のルールを一覧表示</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "ufw">
+                                ファイアウォール設定
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                インストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install ufw
+sudo ufw enable</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                状態確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo ufw status
+sudo ufw status numbered    # ID付きで確認</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ルールを消す
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo ufw delete [ID]</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ポートを開ける
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo ufw allow [ポート番号]                     # [ポート番号]のポートを開ける
+sudo ufw allow [ポート番号]/udp                 # [ポート番号]のUDPポートを開ける
+sudo ufw allow [ポート番号]/tcp                 # [ポート番号]のTCPポートを開ける
+sudo ufw allow [ポート番号A]:[ポート番号B]/tcp  # [ポート番号A]～[ポート番号B]のTCPポートを開ける</code></pre>
                             </p>
                         </article>
 
@@ -328,6 +388,9 @@ sudo nft list ruleset</code></pre>
                                     </li>
                                     <li>
                                         <a href="#nftables">IPテーブル設定 (nftables)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ufw">ファイアウォール設定</a>
                                     </li>
                                 </ol>
                             </div>
