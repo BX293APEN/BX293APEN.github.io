@@ -79,6 +79,9 @@ class Model {
             "num" : {
                 "href" : "https://ja.numberempire.com/9018421", 
             },
+            "J-PlatPat" : {
+                "href" : "https://www.j-platpat.inpit.go.jp/t0100", 
+            },
         }
 
         this.bookmarkIndex = Object.keys(this.bookmarkData);
