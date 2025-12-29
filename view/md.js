@@ -16,9 +16,27 @@ class MarkDownParent {
             } 
             element.classList.add("table", "table-bordered");
         }
+
         for (const element of md.querySelectorAll("td")) {
             element.classList.add("text-nowrap");
         }
+
+        let h1Count = 0;
+        let h2Count = 0;
+        for (const element of md.querySelectorAll("h1, h2")) {
+            element.classList.add("border-bottom");
+            if (element.tagName.toLowerCase() === "h1") {
+                h1Count++;
+                h2Count = 0;
+                element.id = `h${h1Count}`;
+            
+            } 
+            else if (element.tagName.toLowerCase() === "h2") {
+                h2Count++;
+                element.id = `${h1Count}-${h2Count}`;
+            }
+        }
+
         hljs.highlightAll();
     }
 
@@ -96,5 +114,49 @@ class MarkDownMaker extends MarkDownParent {
                 error
             )
         );
+    }
+}
+
+class MarkDownTOC {
+    constructor(
+        id              = "toc",
+        mdid            = "md-text",
+    ) {
+        const style = document.createElement("style");
+        style.textContent = `
+            #toc a {
+                display: block;
+                padding: 4px 0;
+                text-decoration: none;
+            }
+        
+            #toc .toc-h1 {
+                font-weight: bold;
+                margin-left: 0;
+            }
+        
+            #toc .toc-h2 {
+                margin-left: 1rem;
+                font-size: 0.9em;
+            }
+        `
+        document.head.appendChild(style);
+        
+        const toc           = document.getElementById(id);
+        toc.innerHTML       = ""; 
+        const md            = document.getElementById(mdid);
+        for (const element of md.querySelectorAll("h1, h2")) { 
+            const tag = element.tagName.toLowerCase(); 
+            const aTag = document.createElement("a"); 
+            aTag.href = `#${element.id}`; 
+            aTag.textContent = element.textContent.trim(); 
+            if (tag === "h1") { 
+                aTag.classList.add("toc-h1"); 
+            } 
+            else if (tag === "h2") { 
+                aTag.classList.add("toc-h2"); 
+            } 
+            toc.appendChild(aTag); 
+        }
     }
 }
