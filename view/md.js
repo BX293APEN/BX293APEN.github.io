@@ -149,12 +149,12 @@ class MarkDownTOC {
             () => mdInstance.afterDecorateFlag === 1
         ).then(
             () => { 
-                this.buildTOC(id, mdid); 
+                this.build_toc(id, mdid); 
             }
         );
     } 
 
-    buildTOC(id, mdid) {
+    build_toc(id, mdid) {
         const style = document.createElement("style");
         style.textContent = `
             #toc a {
