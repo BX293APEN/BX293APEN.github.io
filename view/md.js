@@ -135,9 +135,9 @@ class MarkDownMaker extends MarkDownParent {
 
 class MarkDownTOC {
     constructor(
+        mdInstance,
         id              = "toc",
         mdid            = "md-text",
-        mdInstance
     ) {
         mdInstance.waitForFlag(
             () => mdInstance.afterDecorateFlag === 1
