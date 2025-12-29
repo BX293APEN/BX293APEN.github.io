@@ -18,9 +18,9 @@ class MarkDownLoader {
             response => response.text()
         ).then(
             data => { 
-                const mdHTML = marked.parse(data); 
-                document.getElementById(this.id).innerHTML = mdHTML; 
-                const tables = document.getElementById(this.id).querySelectorAll("table"); 
+                const mdHTML                                = marked.parse(data); 
+                document.getElementById(this.id).innerHTML  = mdHTML; 
+                const tables                                = document.getElementById(this.id).querySelectorAll("table"); 
                 for (const table of tables) { 
                     table.classList.add("table", "table-bordered"); 
                 } 
@@ -62,9 +62,11 @@ class MarkDownMaker {
                 const md                    = document.getElementById(this.id);
                 const mdHTML                = marked.parse(md.innerText);
                 md.innerHTML                = mdHTML; 
-                const tables                = md.querySelectorAll("table"); 
-                for (const table of tables) { 
-                    table.classList.add("table", "table-bordered"); 
+                for (const element of md.querySelectorAll("table")) { 
+                    element.classList.add("table", "table-bordered"); 
+                } 
+                for (const element of md.querySelectorAll("th")) { 
+                    element.classList.add("text-nowrap"); 
                 } 
                 hljs.highlightAll(); 
 
