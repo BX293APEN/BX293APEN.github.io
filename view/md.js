@@ -7,8 +7,13 @@ class MarkDownParent {
 
     decorate() {
         const md = document.getElementById(this.id);
-        md.classList.add("table-responsive");
         for (const element of md.querySelectorAll("table")) {
+            if (! element.parentElement.classList.contains('table-responsive')) { 
+                const divTag = document.createElement('div'); 
+                divTag.classList.add("table-responsive"); 
+                element.parentNode.insertBefore(divTag, element); 
+                divTag.appendChild(element);
+            } 
             element.classList.add("table", "table-bordered");
         }
         for (const element of md.querySelectorAll("td")) {
