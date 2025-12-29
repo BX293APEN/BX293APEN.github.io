@@ -29,7 +29,7 @@ class MarkDownParent {
             if (element.tagName.toLowerCase() === "h1") {
                 h1Count++;
                 h2Count = 0;
-                element.id = `h${h1Count}`;
+                element.id = `article${h1Count}`;
             
             } 
             else if (element.tagName.toLowerCase() === "h2") {
