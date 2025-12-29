@@ -11,7 +11,7 @@ class MarkDownParent {
         for (const element of md.querySelectorAll("table")) {
             element.classList.add("table", "table-bordered");
         }
-        for (const element of md.querySelectorAll("th")) {
+        for (const element of md.querySelectorAll("td")) {
             element.classList.add("text-nowrap");
         }
         hljs.highlightAll();
