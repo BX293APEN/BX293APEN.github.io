@@ -38,6 +38,7 @@ class MarkDownParent {
         }
 
         hljs.highlightAll();
+        this.afterDecorateFlag = 1;
     }
 
     jsLoad(src) {
@@ -50,6 +51,21 @@ class MarkDownParent {
                 document.head.appendChild(scriptTag);
             }
         );
+    }
+    waitForFlag(flagGetter, interval = 50) { 
+        return new Promise(
+            resolve => { 
+                const timer = setInterval(
+                    () => { 
+                        if (flagGetter()) { 
+                            clearInterval(timer); 
+                            resolve(); 
+                        } 
+                    }, 
+                    interval
+                ); 
+            }
+        ); 
     }
 }
 
@@ -121,7 +137,18 @@ class MarkDownTOC {
     constructor(
         id              = "toc",
         mdid            = "md-text",
+        mdInstance
     ) {
+        mdInstance.waitForFlag(
+            () => mdInstance.afterDecorateFlag === 1
+        ).then(
+            () => { 
+                this.buildTOC(id, mdid); 
+            }
+        );
+    } 
+
+    buildTOC(id, mdid) {
         const style = document.createElement("style");
         style.textContent = `
             #toc a {
@@ -129,12 +156,12 @@ class MarkDownTOC {
                 padding: 4px 0;
                 text-decoration: none;
             }
-        
+
             #toc .toc-h1 {
                 font-weight: bold;
                 margin-left: 0;
             }
-        
+
             #toc .toc-h2 {
                 margin-left: 1rem;
                 font-size: 0.9em;
