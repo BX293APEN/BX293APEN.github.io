@@ -22,7 +22,7 @@ class MarkDownLoader {
                 document.getElementById(this.id).innerHTML = mdHTML; 
                 const tables = document.getElementById(this.id).querySelectorAll("table"); 
                 for (const table of tables) { 
-                    table.classList.add("table-bordered"); 
+                    table.classList.add("table", "table-bordered"); 
                 } 
                 hljs.highlightAll(); 
             }
@@ -59,7 +59,7 @@ class MarkDownMaker {
             this.loadJS.map(src => this.jsLoad(src))
         ).then(
             () => { 
-                const md                    = document.getElementById(this.id)
+                const md                    = document.getElementById(this.id);
                 const mdHTML                = marked.parse(md.innerText);
                 md.innerHTML                = mdHTML; 
                 const tables                = md.querySelectorAll("table"); 
