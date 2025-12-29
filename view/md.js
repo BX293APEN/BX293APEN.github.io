@@ -7,6 +7,7 @@ class MarkDownParent {
 
     decorate() {
         const md = document.getElementById(this.id);
+        md.classList.add("table-responsive");
         for (const element of md.querySelectorAll("table")) {
             element.classList.add("table", "table-bordered");
         }
