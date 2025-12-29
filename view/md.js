@@ -20,9 +20,11 @@ class MarkDownLoader {
             data => { 
                 const mdHTML                                = marked.parse(data); 
                 document.getElementById(this.id).innerHTML  = mdHTML; 
-                const tables                                = document.getElementById(this.id).querySelectorAll("table"); 
-                for (const table of tables) { 
-                    table.classList.add("table", "table-bordered"); 
+                for (const element of md.querySelectorAll("table")) { 
+                    element.classList.add("table", "table-bordered"); 
+                } 
+                for (const element of md.querySelectorAll("th")) { 
+                    element.classList.add("text-nowrap"); 
                 } 
                 hljs.highlightAll(); 
             }
