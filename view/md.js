@@ -64,7 +64,7 @@ class MarkDownMaker {
                 md.innerHTML                = mdHTML; 
                 const tables                = md.querySelectorAll("table"); 
                 for (const table of tables) { 
-                    table.classList.add("table-bordered"); 
+                    table.classList.add("table", "table-bordered"); 
                 } 
                 hljs.highlightAll(); 
 
