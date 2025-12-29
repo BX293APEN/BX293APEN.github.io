@@ -1,8 +1,9 @@
 class MarkDownParent {
     constructor(
-        id              = "md-text"
+        id                      = "md-text"
     ) {
-        this.id         = id;
+        this.id                 = id;
+        this.afterDecorateFlag  = 0
     }
 
     decorate() {
@@ -75,12 +76,14 @@ class MarkDownLoader extends MarkDownParent {
     constructor(
         id              = "md-text",
         mdFile          = "/DLC/TA%E6%83%85%E5%A0%B1%E6%BC%94%E7%BF%92.md", 
-        loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"]
+        loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"],
+        option          = { gfm: true }
     ) {
         super(id);      // 最初に親コンストラクタを実行
 
         this.mdFile     = mdFile
         this.loadJS     = loadJS
+        this.option     = option
 
         // constructor の this に固定したい場合はアロー関数が必須 
         Promise.all(
@@ -93,7 +96,7 @@ class MarkDownLoader extends MarkDownParent {
             response => response.text()
         ).then(
             data => { 
-                const mdHTML                                = marked.parse(data); 
+                const mdHTML                                = marked.parse(data, this.option); 
                 document.getElementById(this.id).innerHTML  = mdHTML; 
                 this.decorate();
             }
@@ -109,18 +112,21 @@ class MarkDownLoader extends MarkDownParent {
 class MarkDownMaker extends MarkDownParent {
     constructor(
         id              = "md-text",
-        loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"]
+        loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"],
+        option          = { gfm: true }
     ) {
         super(id);      // 最初に親コンストラクタを実行
         
         this.loadJS     = loadJS
+        this.option     = option
+
         // constructor の this に固定したい場合はアロー関数が必須 
         Promise.all(
             this.loadJS.map(src => this.jsLoad(src))
         ).then(
             () => { 
                 const md                    = document.getElementById(this.id);
-                const mdHTML                = marked.parse(md.innerText);
+                const mdHTML                = marked.parse(md.innerText, this.option);
                 md.innerHTML                = mdHTML; 
                 this.decorate();
             }
