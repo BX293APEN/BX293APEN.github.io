@@ -172,6 +172,11 @@ class MarkDownTOC {
                 margin-left: 1rem;
                 font-size: 0.9em;
             }
+            
+            blockquote {
+                border-left: 5px solid #d1d9e0;
+                padding: 10px;
+            }
         `
         document.head.appendChild(style);
         
