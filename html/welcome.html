@@ -60,6 +60,7 @@
         <script src="/view/embeddedHTML.js"></script>
         <script src="/view/activenav.js"></script>
         <script src="/view/polygon.js"></script>
+        <script src="/view/adcheck.js"></script>
         <script>
             embedded_html("/template/styleConfig.html", "styleList");
             embedded_html("/template/header.html", "header-contents");
@@ -106,6 +107,14 @@
                     }
                 }
             );
+
+            const adChecker = new AdCheck("https://example-ads-domain.invalid/ads.js");
+            (
+                async () => { 
+                    await adChecker.run();
+                }
+            )();
+
             
             
         </script>
