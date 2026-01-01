@@ -68,7 +68,7 @@ class DownloadModel {
                 "imgType"   : "none",
                 "title"     : "VMware vCenter Converter",
                 "text"      : "&emsp;実機を仮想コンピュータにする",
-                "content"   : '<a href="https://github.com/BX293APEN/DLC/releases/download/Release/VMware-converter-en-5.1.0-1087880.exe"><figcaption class = "btn btn-bd-primary figure-caption text-end">ver. 5.1.0</figcaption></a><a href="https://github.com/BX293APEN/DLC/releases/download/ver.6.6/VMware-converter-en-6.6.0-23265344.exe"><figcaption class = "btn btn-bd-primary figure-caption text-end">ver. 6.6.0</figcaption></a>',
+                "content"   : '<a href="https://github.com/BX293APEN/DLC/releases/download/Release/VMware-converter-en-5.1.0-1087880.exe"><figcaption class = "btn btn-bd-primary figure-caption text-end">ver. 5.1.0</figcaption></a> <a href="https://github.com/BX293APEN/DLC/releases/download/ver.6.6/VMware-converter-en-6.6.0-23265344.exe"><figcaption class = "btn btn-bd-primary figure-caption text-end">ver. 6.6.0</figcaption></a>',
             },
         }
         this.dlIndex = Object.keys(this.dlData);
