@@ -132,7 +132,28 @@ chroot_list_enable=YES
 chroot_list_file=/etc/vsftpd/chroot_list
 
 # 書き込み許可をする。
-allow_writeable_chroot=YES</code></pre>
+allow_writeable_chroot=YES
+
+
+### FTPS設定(証明書 作成/取得後 設定) ###
+
+# TLS/SSLの使用
+ssl_enable=YES
+
+# SSLの無効化 TLSの有効化
+ssl_sslv2=NO
+ssl_sslv3=NO
+ssl_tlsv1=YES
+
+# 証明書設定
+rsa_cert_file=[公開鍵へのフルパス]
+rsa_private_key_file=[秘密鍵へのフルパス]
+
+# ログイン情報の暗号化
+force_local_logins_ssl=YES
+
+# データの暗号化
+force_local_data_ssl=YES</code></pre>
                             </p>
 
                             <h3 class="pt-4 border-bottom fw-bold">
