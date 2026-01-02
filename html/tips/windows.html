@@ -81,6 +81,62 @@ sfc /scannow</code></pre>
                         </article>
 
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="chkdsk">
+                                チェックディスク(chkdsk)
+                            </h3>
+                            <p>
+                                <strong>※ストレージに負荷がかかるため、物理的損傷が激しい場合は注意すること</strong>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">chkdsk [チェックするフォルダパス名] [オプション]</code></pre>
+                            </p>
+                            <div class = "table-responsive">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>[オプション]</th>
+                                        <th>役割</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/f</code></pre>
+                                        </td>
+                                        <td>
+                                            ファイル修復
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/r</code></pre>
+                                        </td>
+                                        <td>
+                                            不良セクタ修復
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/x</code></pre>
+                                        </td>
+                                        <td>
+                                            実行前にボリュームを強制アンマウント
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/v</code></pre>
+                                        </td>
+                                        <td>
+                                            詳細の表示
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </article>
+
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="firewall">
                                 ファイヤーウォールのポートを開ける
                             </h3>
@@ -310,7 +366,23 @@ URL=https://...</code></pre>
     select partition [番号]         # list partition            で取得した操作対象のディスクを選択
     delete partition override       # select partition [番号]   で選択したパーティションを強制削除
     assign letter=X                 # select partition [番号]   で選択したパーティションにドライブレターを割り当て
-    remove letter=X                 # select partition [番号]   で選択したパーティションのドライブレターを削除</code></pre>
+    remove letter=X                 # select partition [番号]   で選択したパーティションのドライブレターを削除
+    active                          # select partition [番号]   で選択したパーティションをOSを起動するパーティションに選択する(MBR / Legacy BIOSの場合のみ)</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="boot">
+                                ブートセクタ修復
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">bootsect /nt60 sys                  # 現在のシステムパーティションに Windows Vista 以降用のブートコード(NT60)を書き込む
+bootrec /fixmbr                     # MBRのブートコード部分を書き換える
+bootrec /fixboot                    # システムパーティション(通常はアクティブパーティション)のブートセクタを書き換える
+bootrec /rebuildbcd                 # Boot Configuration Data (Windows の起動に必要な設定を保持するデータベース) を再構築する</code></pre>
                             </p>
                         </article>
 
@@ -336,6 +408,9 @@ URL=https://...</code></pre>
                                         <a href="#recovimg">修復コマンド</a>
                                     </li>
                                     <li>
+                                        <a href="#chkdsk">チェックディスク(chkdsk)</a>
+                                    </li>
+                                    <li>
                                         <a href="#firewall">ファイヤーウォールのポートを開ける</a>
                                     </li>
                                     <li>
@@ -358,6 +433,9 @@ URL=https://...</code></pre>
                                     </li>
                                     <li>
                                         <a href="#diskpart">DiskPart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#boot">ブートセクタ修復</a>
                                     </li>
 
                                 </ol>
