@@ -36,6 +36,84 @@
                         </h1>
 
                         <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="cgi-http">
+                                Nginx (CGI)
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <strong>※注意</strong>
+                            </p>
+                            <div id = "md-text">
+- Python 3.12 以降では `cgi`  `cgitb` モジュールが削除されています  
+  **古い** CGIスクリプトは動作しないため、 **環境変数** と **stdin** を使ったフォーム処理に書き換える必要があります。
+
+                            </div>
+                                
+
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install nginx fcgiwrap</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/nginx/sites-available/[Project Name]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">server {
+    listen 80;
+    server_name radicon.lan;
+
+    location /cgi-bin/ {
+        gzip off;
+        alias [path]/cgi-bin/;
+        fastcgi_pass unix:/run/fcgiwrap.socket;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $request_filename;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/[Project Name] /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t # テスト</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                起動
+                            </h3>
+                            <p>
+                                &emsp;親ディレクトリにも実行権限<code>o+x</code>を与えること<br>
+                                &emsp;子ディレクトリには<code>-R</code>オプションで一括権限付与
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart nginx</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="django-http">
                                 Djangoを利用したWebサーバの構築 (nginx)
                             </h2>
@@ -365,6 +443,9 @@ sudo systemctl enable [Project Name].service</code></pre>
                                         <a href="#article_top">Top</a>
                                     </li>
                                     <li>
+                                        <a href="#cgi-http">Nginx (CGI)</a>
+                                    </li>
+                                    <li>
                                         <a href="#django-http">Djangoを利用したWebサーバの構築 (nginx)</a>
                                     </li>
     
@@ -389,6 +470,7 @@ sudo systemctl enable [Project Name].service</code></pre>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -397,6 +479,9 @@ sudo systemctl enable [Project Name].service</code></pre>
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
             new Pagination(4, serverModel.page, "pagination");
+            new MarkDownMaker(
+                id              = "md-text",
+            )
         </script>
     </footer>
 </html>

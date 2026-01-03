@@ -126,7 +126,7 @@ class MarkDownMaker extends MarkDownParent {
         ).then(
             () => { 
                 const md                    = document.getElementById(this.id);
-                const mdHTML                = marked.parse(md.innerText, this.option);
+                const mdHTML                = marked.parse(md.innerHTML, this.option);
                 md.innerHTML                = mdHTML; 
                 this.decorate();
             }
