@@ -323,6 +323,56 @@ dism /online /cleanup-image /restorehealth</code></pre>
 sudo touch /forcefsck</code></pre>
                             </p>
 
+                            <h4 class="pt-4 fw-bold">
+                                ファイルシステム修復
+                            </h4>
+
+                            <h5 class="pt-3 fw-bold">
+                                1. マウント状態の確認
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">lsblk -f</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    例
+                                </div>
+                                <pre><code class="language-bash">sdc
+├─sdc1      vfat   FAT32 bootfs     AAE0-77E1                               391M    23% /media/pi/bootfs
+└─sdc2      ext4   1.0   rootfs     ca2be9ef-61a4-4400-a5a1-dc17d7ea790d  101.4G     5% /media/pi/rootfs</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                2. アンマウント
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo umount -l /media/pi/bootfs
+sudo umount -l /media/pi/rootfs</code></pre>
+                            </p>
+                            <p>
+                                ※ lazy unmount：安全に切り離す
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                3. fsck でファイルシステム修復
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">
+sudo fsck.vfat -a /dev/sdc1         # boot パーティション修復 (FAT32)
+sudo fsck -fy /dev/sdc2             # root パーティションを修復 (ext4)
+                                    # -f : 強制チェック  
+                                    # -y : 全てyes</code></pre>
+                            </p>
+
                         </article>
 
                         <article class="blog-post">
