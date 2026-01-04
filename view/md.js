@@ -126,7 +126,7 @@ class MarkDownMaker extends MarkDownParent {
         ).then(
             () => { 
                 const md                    = document.getElementById(this.id);
-                const mdHTML                = marked.parse(md.innerHTML.replace(/&(gt|#62);/g, ">"), this.option);
+                const mdHTML                = marked.parse(this.md_format(md.innerHTML), this.option);
                 md.innerHTML                = mdHTML; 
                 this.decorate();
             }
@@ -136,6 +136,12 @@ class MarkDownMaker extends MarkDownParent {
                 error
             )
         );
+    }
+
+    md_format(mdText){
+        let value = mdText.replace(/^&(gt|#62); /gm, ">");
+        
+        return value
     }
 }
 
