@@ -102,6 +102,56 @@
                             </a>
                         </article>
 
+                        <article class="blog-post" id="pypi">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                PyPIへのアップロード
+                            </h2>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                必要なモジュールをインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">pip install twine build setuptools</code></pre>
+                            </p>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                pyproject.toml README.mdの作成
+                            </h3>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                PyPI アカウントの作成
+                            </h3>
+                            <p>
+                                <a href="https://pypi.org/account/register/">PyPI</a>
+                            </p>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                パッケージをビルド
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">python -m build</code></pre>
+                            </p>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                PyPI にアップロード
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">twine upload dist/*</code></pre>
+                            </p>
+                            <div id="md-text">
+**注意**  
+- PyPIの名前は世界で**一意**
+- 似ている名前も禁止
+                            </div>
+                            
+                        </article>
+
                         <article class="blog-post" id="pip">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 Troubleshooting pip-related issues
@@ -215,6 +265,7 @@ py -m pip install --upgrade pip --user</code></pre>
         <script src="/view/highlight.min.js"></script>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             
@@ -223,6 +274,9 @@ py -m pip install --upgrade pip --user</code></pre>
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["cTip", "asciiCodeTip", "opencvTip", "rn4020Tip"]);
+            new MarkDownMaker(
+                id              = "md-text",
+            )
         </script>
     </footer>
 </html>
