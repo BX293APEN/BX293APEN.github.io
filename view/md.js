@@ -126,7 +126,7 @@ class MarkDownMaker extends MarkDownParent {
         ).then(
             () => { 
                 const md                    = document.getElementById(this.id);
-                const mdHTML                = marked.parse(md.innerHTML, this.option);
+                const mdHTML                = marked.parse(md.innerHTML.replace(/&(gt|#62);/g, ">"), this.option);
                 md.innerHTML                = mdHTML; 
                 this.decorate();
             }
