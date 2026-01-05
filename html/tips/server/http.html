@@ -46,6 +46,9 @@
 ##### ※注意
 - Python 3.12 以降では `cgi`  `cgitb` モジュールが削除されています  
   **古い** CGIスクリプトは動作しないため、 **環境変数** と **stdin** を使ったフォーム処理に書き換える必要があります。
+  → **代替モジュール** `libcgipy` を作成しました
+
+> [`libcgipy`](https://pypi.org/project/libcgipy/)
 
                             </div>
 
@@ -54,7 +57,8 @@
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo apt install nginx fcgiwrap</code></pre> 
+                                <pre><code class="language-bash">sudo apt install nginx fcgiwrap
+pip install libcgipy    # Pythonスクリプトを動かす場合</code></pre> 
                             </p>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 設定ファイルの編集
@@ -435,9 +439,14 @@ sudo systemctl enable [Project Name].service</code></pre>
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4">
                                 <h4 class="fst-italic border-bottom">References</h4>
-                                <blockquote cite="https://github.com/BX293APEN/cgi-radicon">
-                                    <a href="https://github.com/BX293APEN/cgi-radicon">
-                                        サンプルCGIプログラム (Python 3.12以上用)
+                                <blockquote cite="https://github.com/BX293APEN/Python-CGI">
+                                    <a href="https://github.com/BX293APEN/Python-CGI">
+                                        libcgipyリポジトリ
+                                    </a>
+                                </blockquote>
+                                <blockquote cite="https://raw.githubusercontent.com/BX293APEN/Python-CGI/refs/heads/main/sample/http/html/cgi-bin/radicon.py">
+                                    <a href="https://raw.githubusercontent.com/BX293APEN/Python-CGI/refs/heads/main/sample/http/html/cgi-bin/radicon.py">
+                                        サンプルCGIコード
                                     </a>
                                 </blockquote>
                             </div>
