@@ -366,8 +366,7 @@ sudo umount -l /media/pi/rootfs</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">
-sudo fsck.vfat -a /dev/sdc1         # boot パーティション修復 (FAT32)
+                                <pre><code class="language-bash">sudo fsck.vfat -a /dev/sdc1         # boot パーティション修復 (FAT32)
 sudo fsck -fy /dev/sdc2             # root パーティションを修復 (ext4)
                                     # -f : 強制チェック  
                                     # -y : 全てyes</code></pre>
