@@ -372,6 +372,105 @@ sudo fsck -fy /dev/sdc2             # root パーティションを修復 (ext4)
                                     # -y : 全てyes</code></pre>
                             </p>
 
+                            <h4 class="pt-4 fw-bold">
+                                壊れたパッケージの修復
+                            </h4>
+                            <h5 class="pt-3 fw-bold">
+                                1. 再マウントフォルダを作成
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mkdir -p /Programs/mnt</code></pre>
+                            </p>
+                            <h5 class="pt-3 fw-bold">
+                                2. システム(ルート)パーティションをマウント
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mount /dev/sdc2 /Programs/mnt</code></pre>
+                            </p>
+                            <h5 class="pt-3 fw-bold">
+                                2. EFIパーティションをマウント(UEFI起動の場合)
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mount /dev/sdc1 /Programs/mnt/boot/efi</code></pre>
+                            </p>
+                            <h5 class="pt-3 fw-bold">
+                                3. 修理に必要な特殊ディレクトリを紐付ける(バインドマウント)
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">for i in /dev /dev/pts /proc /sys /run; do \
+    sudo mount -B $i /Programs/mnt$i; \
+done</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                4. ネットワークの解決
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo cp /Programs/mnt/etc/resolv.conf /Programs/mnt/etc/resolv.conf.bak
+sudo cp /etc/resolv.conf /Programs/mnt/etc/resolv.conf</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                5. chroot (正常なLinuxのカーネルを使い、破損Linuxを修復する)
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo chroot /Programs/mnt</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                6. ブートローダー(GRUB)の修復・再インストール
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">apt update
+grub-install /dev/sdc                               # パーティション指定はしないこと
+update-grub                                         # 設定ファイルを更新
+# apt install --reinstall linux-image-generic       # カーネル自体が怪しい場合は再インストール (インターネット接続が必要)
+# update-initramfs -u -k all                        # カーネルの再構成を強制的に行う</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                7. 設定の適用
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">exit
+cd /
+sudo umount -R /Programs/mnt</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                8. ブートローダー(GRUB)の修復・再インストール
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">grub-install /dev/sdc      # パーティション指定はしないこと</code></pre>
+                            </p>
+
                         </article>
 
                         <article class="blog-post">
