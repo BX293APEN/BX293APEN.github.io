@@ -221,6 +221,44 @@ powershell -Command "New-NetFirewallRule -DisplayName 'iperf3 UDP' -Direction In
                        </article>
 
                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="net-profile">
+                                ネットワークプロファイルの変更
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ネットワークプロファイルの初期化
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Managed" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Unmanaged" /f</code></pre>
+                            </p>
+                            <p>
+                                ※再起動推奨
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ネットワークプロファイル名の変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{UUID}" /v ProfileName /d "[設定したい名前]" /f</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ネットワークプロファイルの詳細説明の変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{UUID}" /v Description /d "[詳細説明]" /f</code></pre>
+                            </p>
+                        </article>
+
+                       <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="onedrive">
                                 OneDriveの削除
                             </h3>
