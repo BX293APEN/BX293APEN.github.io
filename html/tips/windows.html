@@ -245,7 +245,7 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signat
                                 <div class="fw-bold">
                                     管理者権限コマンドプロンプト
                                 </div>
-                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{UUID}" /v ProfileName /d "[設定したい名前]" /f</code></pre>
+                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{[UUID]}" /v ProfileName /d "[設定したい名前]" /f</code></pre>
                             </p>
                             <h4 class="pt-4 border-bottom fw-bold">
                                 ネットワークプロファイルの詳細説明の変更
@@ -254,7 +254,7 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signat
                                 <div class="fw-bold">
                                     管理者権限コマンドプロンプト
                                 </div>
-                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{UUID}" /v Description /d "[詳細説明]" /f</code></pre>
+                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{[UUID]}" /v Description /d "[詳細説明]" /f</code></pre>
                             </p>
                         </article>
 
@@ -453,6 +453,9 @@ bootrec /rebuildbcd                 # Boot Configuration Data (Windows の起動
                                     </li>
                                     <li>
                                         <a href="#regedit">右クリックメニュー</a>
+                                    </li>
+                                    <li>
+                                        <a href="#net-profile">ネットワークプロファイルの変更</a>
                                     </li>
                                     <li>
                                         <a href="#onedrive">OneDriveの削除 / 再インストール</a>
