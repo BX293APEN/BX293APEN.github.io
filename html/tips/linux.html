@@ -561,6 +561,7 @@ sudo umount -R /Programs/mnt</code></pre>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -569,6 +570,9 @@ sudo umount -R /Programs/mnt</code></pre>
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["windowsTip", "dockerTip", "serverTip"]);
             new Pagination(1, linuxModel.page, "pagination");
+            new MarkDownMaker(
+                id              = "md-text",
+            )
         </script>
     </footer>
 </html>
