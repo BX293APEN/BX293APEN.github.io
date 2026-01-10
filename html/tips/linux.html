@@ -337,13 +337,21 @@ sudo touch /forcefsck</code></pre>
                                 <pre><code class="language-bash">lsblk -f</code></pre>
                             </p>
                             <p>
-                                <div class="fw-bold">
-                                    例
-                                </div>
-                                <pre><code class="language-bash">sdc
-├─sdc1      vfat   FAT32 bootfs     AAE0-77E1                               391M    23% /media/pi/bootfs
-└─sdc2      ext4   1.0   rootfs     ca2be9ef-61a4-4400-a5a1-dc17d7ea790d  101.4G     5% /media/pi/rootfs</code></pre>
+                                <pre><code class="language-bash">[対象ストレージ]
+├─[FAT32形式のパーティション]       vfat   FAT32 bootfs     AAE0-77E1                               391M    23% [FAT32形式パーティションのマウントパス]
+└─[ext4形式のパーティション]        ext4   1.0   rootfs     ca2be9ef-61a4-4400-a5a1-dc17d7ea790d  101.4G     5% [ext4形式パーティションのマウントパス]</code></pre>
                             </p>
+                            <div id="md-text">
+- [対象ストレージ]
+    * sda
+    * sdb ...  
+
+- [パーティション]
+    * sda1
+    * sda2
+    * sdb1
+    * sdb2 ...
+                            </div>
 
                             <h5 class="pt-3 fw-bold">
                                 2. アンマウント
@@ -352,11 +360,11 @@ sudo touch /forcefsck</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo umount -l /media/pi/bootfs
-sudo umount -l /media/pi/rootfs</code></pre>
+                                <pre><code class="language-bash">sudo umount -l [FAT32形式パーティションのマウントパス]
+sudo umount -l [ext4形式パーティションのマウントパス]</code></pre>
                             </p>
                             <p>
-                                ※ lazy unmount：安全に切り離す
+                                ※ lazy unmount：論理的に切り離したことにする
                             </p>
 
                             <h5 class="pt-3 fw-bold">
@@ -366,10 +374,10 @@ sudo umount -l /media/pi/rootfs</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo fsck.vfat -a /dev/sdc1         # boot パーティション修復 (FAT32)
-sudo fsck -fy /dev/sdc2             # root パーティションを修復 (ext4)
-                                    # -f : 強制チェック  
-                                    # -y : 全てyes</code></pre>
+                                <pre><code class="language-bash">sudo fsck.vfat -a /dev/[FAT32形式のパーティション]          # boot パーティション修復 (FAT32)
+sudo fsck -fy /dev/[ext4形式のパーティション]               # root パーティションを修復 (ext4)
+                                                          # -f : 強制チェック  
+                                                          # -y : 全てyes</code></pre>
                             </p>
 
                             <h4 class="pt-4 fw-bold">
@@ -391,7 +399,7 @@ sudo fsck -fy /dev/sdc2             # root パーティションを修復 (ext4)
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo mount /dev/sdc2 /Programs/mnt</code></pre>
+                                <pre><code class="language-bash">sudo mount /dev/[ext4形式のパーティション] /Programs/mnt</code></pre>
                             </p>
                             <h5 class="pt-3 fw-bold">
                                 2. EFIパーティションをマウント(UEFI起動の場合)
@@ -400,7 +408,7 @@ sudo fsck -fy /dev/sdc2             # root パーティションを修復 (ext4)
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo mount /dev/sdc1 /Programs/mnt/boot/efi</code></pre>
+                                <pre><code class="language-bash">sudo mount /dev/[FAT32形式のパーティション] /Programs/mnt/boot/efi</code></pre>
                             </p>
                             <h5 class="pt-3 fw-bold">
                                 3. 修理に必要な特殊ディレクトリを紐付ける(バインドマウント)
@@ -443,10 +451,10 @@ sudo cp /etc/resolv.conf /Programs/mnt/etc/resolv.conf</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">apt update
-grub-install /dev/sdc                               # パーティション指定はしないこと
-update-grub                                         # 設定ファイルを更新
-# apt install --reinstall linux-image-generic       # カーネル自体が怪しい場合は再インストール (インターネット接続が必要)
-# update-initramfs -u -k all                        # カーネルの再構成を強制的に行う</code></pre>
+grub-install /dev/[対象ストレージ]                               # パーティション指定はしないこと
+update-grub                                                     # 設定ファイルを更新
+# apt install --reinstall linux-image-generic                   # カーネル自体が怪しい場合は再インストール (インターネット接続が必要)
+# update-initramfs -u -k all                                    # カーネルの再構成を強制的に行う</code></pre>
                             </p>
 
                             <h5 class="pt-3 fw-bold">
@@ -468,7 +476,7 @@ sudo umount -R /Programs/mnt</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">grub-install /dev/sdc      # パーティション指定はしないこと</code></pre>
+                                <pre><code class="language-bash">grub-install /dev/[対象ストレージ]      # パーティション指定はしないこと</code></pre>
                             </p>
 
                         </article>
