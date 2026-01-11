@@ -364,6 +364,26 @@ sudo ufw allow [ポート番号A]:[ポート番号B]/tcp  # [ポート番号A]�
                             </p>
                         </article>
 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="nettcp">
+                                TCPポートが開いているかを確認
+                            </h3>
+
+                            <p>
+                                <div class="fw-bold">
+                                    Windows
+                                </div>
+                                <pre><code class="language-bash">powershell -Command "Test-NetConnection -ComputerName [IPアドレス/ドメイン名] -port [ポート番号]"</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    Linux
+                                </div>
+                                <pre><code class="language-bash">sudo apt install netcat-openbsd
+nc -vz [IPアドレス/ドメイン名] [ポート番号]</code></pre>
+                            </p>
+                        </article>
+
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
@@ -390,6 +410,9 @@ sudo ufw allow [ポート番号A]:[ポート番号B]/tcp  # [ポート番号A]�
                                     </li>
                                     <li>
                                         <a href="#ufw">ファイアウォール設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nettcp">TCPポートが開いているかを確認</a>
                                     </li>
                                 </ol>
                             </div>

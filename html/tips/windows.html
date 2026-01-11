@@ -37,6 +37,18 @@
                             Windows機能集
                         </h2>
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="nettcp">
+                                TCPポートが開いているかを確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">powershell -Command "Test-NetConnection -ComputerName [IPアドレス/ドメイン名] -port [ポート番号]"</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="recovimg">
                                 修復コマンド
                             </h3>
@@ -441,6 +453,9 @@ bootrec /rebuildbcd                 # Boot Configuration Data (Windows の起動
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nettcp">TCPポートが開いているかを確認</a>
                                     </li>
                                     <li>
                                         <a href="#recovimg">修復コマンド</a>
