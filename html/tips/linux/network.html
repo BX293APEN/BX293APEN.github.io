@@ -380,7 +380,10 @@ sudo ufw allow [ポート番号A]:[ポート番号B]/tcp  # [ポート番号A]�
                                     Linux
                                 </div>
                                 <pre><code class="language-bash">sudo apt install netcat-openbsd
-nc -vz [IPアドレス/ドメイン名] [ポート番号]</code></pre>
+nc -vz [IPアドレス/ドメイン名] [ポート番号]
+
+ss -tupn    | grep [ポート番号]             # 自端末の指定ポートの状態を調べる
+ss -tulpn   | grep [ポート番号]             # 自端末の指定ポートがLISTENしているか調べる </code></pre>
                             </p>
                         </article>
 
