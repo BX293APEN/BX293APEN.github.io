@@ -73,7 +73,15 @@ ip link show                                    # インターフェースの状
 ip r                                            # ルーティングテーブル
 ip -s link                                      # パケット統計(RX/TX bytes packets errors dropped carrier collsns)
 ss -s                                           # ソケット統計
+ss -tupn    | grep [ポート番号]                  # 自端末の指定ポートの状態を調べる
+ss -tulpn   | grep [ポート番号]                  # 自端末の指定ポートがLISTENしているか調べる
 tc -s qdisc                                     # キュー制御 (遅延・ドロップ)
+
+# CPUのコア温度一覧取得 temp1_input, temp2_input...
+awk '{printf "%.2f\n", $1/1000}' /sys/class/hwmon/hwmon0/temp*_input
+
+# Core1の温度を取得
+awk '{printf "%.2f\n", $1/1000}' /sys/class/hwmon/hwmon0/temp1_input
 
 /sys/class/net/[インターフェース名]/statistics    # [インターフェース名]の統計情報が入ったフォルダ
 # collisions     rx_crc_errors   rx_frame_errors   rx_over_errors     tx_carrier_errors  tx_fifo_errors
