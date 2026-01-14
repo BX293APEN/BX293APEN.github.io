@@ -68,7 +68,7 @@ class MarkDownParent {
                 scriptTag.onload = () => {
                     scriptTag.dataset.loaded = "1";
                     document.head.appendChild(scriptTag);
-                    resolve();
+                    resolve;
                 };
                 scriptTag.onerror           = reject;
             }
