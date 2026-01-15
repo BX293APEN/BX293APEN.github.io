@@ -45,10 +45,32 @@ class MarkDownParent {
     jsLoad(src) {
         return new Promise(
             (resolve, reject) => {
-                let prescriptTag = document.querySelector(`script[src="${src}"]`);
+                let preScriptTag = document.querySelector(`script[src="${src}"]`);
 
-                if (prescriptTag && prescriptTag.dataset.loaded == "1") {
-                    resolve();
+                if (preScriptTag) {
+                    if(preScriptTag.dataset.loaded == "1"){
+                        resolve();
+                    }
+                    else{
+                        if (!("loaded" in preScriptTag.dataset)) {  // 直コード処理
+                            preScriptTag.dataset.loaded = "0";
+                        }
+
+                        
+                        preScriptTag.addEventListener(              // 読み込み終了まで待機
+                            "load",
+                            () => {
+                                preScriptTag.dataset.loaded = "1";
+                                resolve();
+                            }
+                        );
+
+                        preScriptTag.addEventListener(
+                            "error",
+                            reject
+                        );
+
+                    }
                 }
                 else{
                     const scriptTag             = document.createElement("script");
