@@ -26,13 +26,13 @@ class MarkDownParent {
         let h2Count = 0;
         for (const element of md.querySelectorAll("h1, h2")) {
             element.classList.add("border-bottom");
-            if (element.tagName.toLowerCase() === "h1") {
+            if (element.tagName.toLowerCase() == "h1") {
                 h1Count++;
                 h2Count = 0;
                 element.id = `article${h1Count}`;
             
             } 
-            else if (element.tagName.toLowerCase() === "h2") {
+            else if (element.tagName.toLowerCase() == "h2") {
                 h2Count++;
                 element.id = `${h1Count}-${h2Count}`;
             }
@@ -48,7 +48,7 @@ class MarkDownParent {
                 let prescriptTag = document.querySelector(`script[src="${src}"]`);
 
                 if (prescriptTag) {
-                    if (prescriptTag.dataset.loaded === "1") {
+                    if (prescriptTag.dataset.loaded == "1") {
                         resolve();
                     } 
                     else {
@@ -63,14 +63,12 @@ class MarkDownParent {
                     return;
                 }
                 const scriptTag             = document.createElement("script");
-                scriptTag.src               = src;
                 scriptTag.dataset.loaded    = "0";
-                scriptTag.onload = () => {
-                    scriptTag.dataset.loaded = "1";
-                    document.head.appendChild(scriptTag);
-                    resolve;
-                };
+                scriptTag.src               = src;
+                scriptTag.onload            = resolve;
                 scriptTag.onerror           = reject;
+                document.head.appendChild(scriptTag);
+                scriptTag.dataset.loaded    = "1";
             }
         );
     }
@@ -173,7 +171,7 @@ class MarkDownTOC {
         mdid            = "md-text",
     ) {
         mdInstance.waitForFlag(
-            () => mdInstance.afterDecorateFlag === 1
+            () => mdInstance.afterDecorateFlag == 1
         ).then(
             () => { 
                 this.build_toc(id, mdid); 
@@ -215,10 +213,10 @@ class MarkDownTOC {
             const aTag = document.createElement("a"); 
             aTag.href = `#${element.id}`; 
             aTag.textContent = element.textContent.trim(); 
-            if (tag === "h1") { 
+            if (tag == "h1") { 
                 aTag.classList.add("toc-h1"); 
             } 
-            else if (tag === "h2") { 
+            else if (tag == "h2") { 
                 aTag.classList.add("toc-h2"); 
             } 
             toc.appendChild(aTag); 
