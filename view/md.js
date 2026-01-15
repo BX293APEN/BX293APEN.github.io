@@ -148,10 +148,12 @@ class MarkDownLoader extends MarkDownParent {
                 return fetch(this.mdFile); 
             }
         ).then(
-            response => response.text()
+            response => {
+                console.log("ステータス:", response.status);
+                response.text()
+            }
         ).then(
             data => { 
-                console.log(data);
                 const mdHTML                                = marked.parse(data, this.option); 
                 document.getElementById(this.id).innerHTML  = mdHTML; 
                 this.decorate();
