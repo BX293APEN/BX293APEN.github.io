@@ -56,19 +56,27 @@ class MarkDownParent {
                             preScriptTag.dataset.loaded = "0";
                         }
 
-                        
-                        preScriptTag.addEventListener(              // 読み込み終了まで待機
-                            "load",
-                            () => {
-                                preScriptTag.dataset.loaded = "1";
-                                resolve();
-                            }
-                        );
+                        if (
+                            preScriptTag.readyState == "complete" || 
+                            preScriptTag.readyState == "loaded"
+                        ) { 
+                            preScriptTag.dataset.loaded = "1"; 
+                            resolve(); 
+                        }
+                        else{
+                            preScriptTag.addEventListener(          // 読み込み終了まで待機
+                                "load",
+                                () => {
+                                    preScriptTag.dataset.loaded = "1";
+                                    resolve();
+                                }
+                            );
 
-                        preScriptTag.addEventListener(
-                            "error",
-                            reject
-                        );
+                            preScriptTag.addEventListener(
+                                "error",
+                                reject
+                            );
+                        }
 
                     }
                 }
@@ -117,26 +125,13 @@ class MarkDownLoader extends MarkDownParent {
         mdFile          = "/DLC/TA%E6%83%85%E5%A0%B1%E6%BC%94%E7%BF%92.md", 
         loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"],
         option          = { gfm: true },
-        mdInstance      = null,
     ) {
         super(id);      // 最初に親コンストラクタを実行
 
         this.mdFile     = mdFile
         this.loadJS     = loadJS
         this.option     = option
-
-        if(mdInstance){
-            mdInstance.waitForFlag(
-                () => mdInstance.afterDecorateFlag == 1
-            ).then(
-                () => { 
-                    this.init(); 
-                }
-            );
-        }
-        else{
-            this.init(); 
-        }
+        this.init(); 
     }
 
     init(){
@@ -148,10 +143,7 @@ class MarkDownLoader extends MarkDownParent {
                 return fetch(this.mdFile); 
             }
         ).then(
-            response => {
-                console.log("ステータス:", response.status);
-                return response.text()
-            }
+            response => response.text()
         ).then(
             data => { 
                 const mdHTML                                = marked.parse(data, this.option); 
@@ -172,26 +164,14 @@ class MarkDownMaker extends MarkDownParent {
         id              = "md-text",
         loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"],
         option          = { gfm: true },
-        mdInstance      = null,
     ) {
         super(id);      // 最初に親コンストラクタを実行
         
         this.loadJS     = loadJS
         this.option     = option
-
-        if(mdInstance){
-            mdInstance.waitForFlag(
-                () => mdInstance.afterDecorateFlag == 1
-            ).then(
-                () => { 
-                    this.init(); 
-                }
-            );
-        }
-        else{
-            this.init(); 
-        }
+        this.init();
     }
+
     init(){
         // constructor の this に固定したい場合はアロー関数が必須 
         Promise.all(
