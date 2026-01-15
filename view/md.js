@@ -92,7 +92,7 @@ class MarkDownParent {
             }
         );
     }
-    waitForFlag(flagGetter, interval = 50) { 
+    waitForFlag(flagGetter, interval = 100) { 
         return new Promise(
             resolve => { 
                 const timer = setInterval(
