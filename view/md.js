@@ -57,8 +57,7 @@ class MarkDownParent {
                         }
 
                         if (
-                            preScriptTag.readyState == "complete" || 
-                            preScriptTag.readyState == "loaded"
+                            preScriptTag.readyState == "complete"
                         ) { 
                             preScriptTag.dataset.loaded = "1"; 
                             resolve(); 
@@ -66,12 +65,10 @@ class MarkDownParent {
                         else{
                             setTimeout(
                                 () => { 
-                                    if (preScriptTag.dataset.loaded != "1") { 
-                                        preScriptTag.dataset.loaded = "1"; 
-                                        resolve(); 
-                                    } 
+                                    preScriptTag.dataset.loaded = "1"; 
+                                    resolve(); 
                                 }, 
-                                100
+                                300
                             );
                         }
 
