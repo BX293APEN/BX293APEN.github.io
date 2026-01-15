@@ -62,21 +62,18 @@ class MarkDownParent {
                         ) { 
                             preScriptTag.dataset.loaded = "1"; 
                             resolve(); 
+                            return;
                         }
-                        else{
-                            preScriptTag.addEventListener(          // 読み込み終了まで待機
-                                "load",
-                                () => {
-                                    preScriptTag.dataset.loaded = "1";
-                                    resolve();
-                                }
-                            );
 
-                            preScriptTag.addEventListener(
-                                "error",
-                                reject
-                            );
-                        }
+                        setTimeout(
+                            () => { 
+                                if (preScriptTag.dataset.loaded != "1") { 
+                                    preScriptTag.dataset.loaded = "1"; 
+                                    resolve(); 
+                                } 
+                            }, 
+                            100
+                        );
 
                     }
                 }
