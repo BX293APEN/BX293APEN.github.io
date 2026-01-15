@@ -150,7 +150,7 @@ class MarkDownLoader extends MarkDownParent {
         ).then(
             response => {
                 console.log("ステータス:", response.status);
-                response.text()
+                return response.text()
             }
         ).then(
             data => { 
