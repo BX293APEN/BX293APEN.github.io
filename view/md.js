@@ -54,10 +54,7 @@ class MarkDownParent {
                     else {
                         prescriptTag.addEventListener(
                             "load", 
-                            resolve, 
-                            { 
-                                once: true 
-                            }
+                            resolve
                         );
                     }
                     return;
