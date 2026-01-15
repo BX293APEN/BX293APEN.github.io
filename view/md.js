@@ -92,7 +92,7 @@ class MarkDownParent {
             }
         );
     }
-    waitForFlag(flagGetter, interval = 100) { 
+    waitForFlag(flagGetter, interval = 50) { 
         return new Promise(
             resolve => { 
                 const timer = setInterval(
@@ -151,6 +151,7 @@ class MarkDownLoader extends MarkDownParent {
             response => response.text()
         ).then(
             data => { 
+                console.log(data);
                 const mdHTML                                = marked.parse(data, this.option); 
                 document.getElementById(this.id).innerHTML  = mdHTML; 
                 this.decorate();
