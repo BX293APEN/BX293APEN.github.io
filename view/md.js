@@ -116,7 +116,8 @@ class MarkDownLoader extends MarkDownParent {
         id              = "md-text",
         mdFile          = "/DLC/TA%E6%83%85%E5%A0%B1%E6%BC%94%E7%BF%92.md", 
         loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"],
-        option          = { gfm: true }
+        option          = { gfm: true },
+        mdInstance      = null,
     ) {
         super(id);      // 最初に親コンストラクタを実行
 
@@ -124,6 +125,21 @@ class MarkDownLoader extends MarkDownParent {
         this.loadJS     = loadJS
         this.option     = option
 
+        if(mdInstance){
+            mdInstance.waitForFlag(
+                () => mdInstance.afterDecorateFlag == 1
+            ).then(
+                () => { 
+                    this.init(); 
+                }
+            );
+        }
+        else{
+            this.init(); 
+        }
+    }
+
+    init(){
         // constructor の this に固定したい場合はアロー関数が必須 
         Promise.all(
             this.loadJS.map(src => this.jsLoad(src))
@@ -152,13 +168,28 @@ class MarkDownMaker extends MarkDownParent {
     constructor(
         id              = "md-text",
         loadJS          = ["/view/highlight.min.js", "/view/marked.min.js"],
-        option          = { gfm: true }
+        option          = { gfm: true },
+        mdInstance      = null,
     ) {
         super(id);      // 最初に親コンストラクタを実行
         
         this.loadJS     = loadJS
         this.option     = option
 
+        if(mdInstance){
+            mdInstance.waitForFlag(
+                () => mdInstance.afterDecorateFlag == 1
+            ).then(
+                () => { 
+                    this.init(); 
+                }
+            );
+        }
+        else{
+            this.init(); 
+        }
+    }
+    init(){
         // constructor の this に固定したい場合はアロー関数が必須 
         Promise.all(
             this.loadJS.map(src => this.jsLoad(src))
@@ -186,17 +217,19 @@ class MarkDownMaker extends MarkDownParent {
 
 class MarkDownTOC {
     constructor(
-        mdInstance,
+        mdInstance      = null,
         id              = "toc",
         mdid            = "md-text",
     ) {
-        mdInstance.waitForFlag(
-            () => mdInstance.afterDecorateFlag == 1
-        ).then(
-            () => { 
-                this.build_toc(id, mdid); 
-            }
-        );
+        if(mdInstance){
+            mdInstance.waitForFlag(
+                () => mdInstance.afterDecorateFlag == 1
+            ).then(
+                () => { 
+                    this.build_toc(id, mdid); 
+                }
+            );
+        }
     } 
 
     build_toc(id, mdid) {
