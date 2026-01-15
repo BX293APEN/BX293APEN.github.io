@@ -47,25 +47,26 @@ class MarkDownParent {
             (resolve, reject) => {
                 let prescriptTag = document.querySelector(`script[src="${src}"]`);
 
-                // if (prescriptTag) {
-                //     if (prescriptTag.dataset.loaded == "1") {
-                //         resolve();
-                //     } 
-                //     else {
-                //         prescriptTag.addEventListener(
-                //             "load", 
-                //             resolve
-                //         );
-                //     }
-                //     return;
-                // }
-                const scriptTag             = document.createElement("script");
-                scriptTag.dataset.loaded    = "0";
-                scriptTag.src               = src;
-                scriptTag.onload            = resolve;
-                scriptTag.onerror           = reject;
-                document.head.appendChild(scriptTag);
-                scriptTag.dataset.loaded    = "1";
+                if (prescriptTag && prescriptTag.dataset.loaded == "1") {
+                    resolve();
+                }
+                else{
+                    const scriptTag             = document.createElement("script");
+                    scriptTag.dataset.loaded    = "0";
+                    scriptTag.src               = src;
+                    scriptTag.addEventListener(
+                        "load", 
+                        () => { 
+                            scriptTag.dataset.loaded = "1"; 
+                            resolve(); 
+                        }
+                    );
+                    scriptTag.addEventListener(
+                        "error", 
+                        reject, 
+                    );
+                    document.head.appendChild(scriptTag);
+                }
             }
         );
     }
