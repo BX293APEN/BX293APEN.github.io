@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 130 130"
+     viewBox="0 0 130 115"
      width="130"
-     height="130">
+     height="115">
     
     <defs>
         <mask id="cutout">
-            <rect width="130" height="130" fill="#FFFFFF" />
+            <rect width="130" height="115" fill="#FFFFFF" />
             <path
                 d="
                     M 30 30
