@@ -11,19 +11,21 @@ const checkIfImageExists = (url) => {
 
 
 class GetWeather{
-    constructor(place, dispStr){
-        this.place = document.getElementById(place);
-        this.dispStr = document.getElementById(dispStr);
-        this.num = 0;
+    constructor(place, dispStr, model, time = 5000){
+        this.model      = model
+        this.place      = document.getElementById(place);
+        this.dispStr    = document.getElementById(dispStr);
+        this.num        = 0;
+        this.interval   = time
         this.changeImage();
         setInterval(
             this.changeImage.bind(this), 
-            20000
+            this.interval
         ); 
     }
     changeImage() {
-        let id = model.areaID[this.num]["id"];
-        this.area = model.areaID[this.num]["name"]
+        let id          = this.model.areaID[this.num]["id"];
+        this.area       = this.model.areaID[this.num]["name"]
         this.get_weather(id);
 
         this.num = (this.num + 1) % 47;

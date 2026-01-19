@@ -13,7 +13,7 @@
         <meta property="og:description" content="PENの実験室" />
         <meta name="theme-color" content="#FF0000" />
         
-        
+        <script src="/model/env.js"></script>
         <script src="/model/index/index.js"></script>
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
@@ -334,7 +334,6 @@ flowchart TD
         <script src="/view/activenav.js"></script>
         <script src="/view/device.js"></script>
         <script src="/view/fontchange.js"></script>
-        <script src="/model/env.js"></script>
         <script>
             new ChangeFont(
                 {
@@ -359,7 +358,8 @@ flowchart TD
                     "jjyCanvas" : "jjyCode"
                 }
             );
-            new GetWeather("weather", "weather-place");
+            const weather = new Weather();
+            new GetWeather("weather", "weather-place", weather, 10000);
             new MermaidUML(
                 {
                     "umlPlace"  : "drawUML", 
@@ -368,9 +368,9 @@ flowchart TD
                     "umlName"   : "uml"
                 }
             );
-            embedded_html(`${ioset.template}/styleConfig.html`, "styleList");
-            embedded_html(`${ioset.template}/header.html`, "header-contents");
-            embedded_html(`${ioset.template}/footer.html`, "footer-contents");
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("home"));
 
 
