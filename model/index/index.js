@@ -166,6 +166,15 @@ class Model extends LoadModel {
             "ラズパイ" : {
                 "href" : "/html/tips/linux/raspi.html",
             },
+            "Wine11.0" : {
+                "href" : "/html/tips/linux/config.html",
+            },
+            "node-red" : {
+                "href" : "/html/tips/linux/config.html",
+            },
+            "trim" : {
+                "href" : "/html/tips/linux/config.html",
+            },
             "daemon" : {
                 "href" : "/html/tips/linux/daemon.html",
             },

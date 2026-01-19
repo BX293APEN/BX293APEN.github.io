@@ -34,6 +34,32 @@
                         <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
                             Linuxセットアップガイド
                         </h2>
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="wine">
+                                Wine 11.0 インストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo dpkg --add-architecture i386                                               # 32bit アーキテクチャを有効化
+sudo mkdir -pm755 /etc/apt/keyrings
+wget -O \
+    - https://dl.winehq.org/wine-builds/winehq.key | \
+    sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key
+
+sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+sudo apt update
+sudo apt install --install-recommends winehq-stable
+
+wine --version                                                                  # バージョン確認
+
+sudo apt install p7zip-full                                                     # 7zip解凍用
+7z x [解凍したい7zipフォルダ]
+wine [Winsows実行ファイル].exe
+</code></pre>
+                            </p>
+                        </article> 
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="trim">
                                 トリム
@@ -141,6 +167,9 @@ password=[NASのパスワード]</code></pre>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#wine">Wine の使い方</a>
                                     </li>
                                     <li>
                                         <a href="#trim">トリム</a>
