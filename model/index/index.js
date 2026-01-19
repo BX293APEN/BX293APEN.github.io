@@ -221,7 +221,7 @@ class Model extends LoadModel {
             "Twitter" : { 
                 "href" : "https://x.com/BX293A_PEN"
             },
-            "X" : {
+            "X.com" : {
                 "href" : "https://x.com/BX293A_PEN"
             },
             "ポミュ" : { 
