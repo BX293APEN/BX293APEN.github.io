@@ -211,6 +211,9 @@ class Model extends LoadModel {
             "vnc" : {
                 "href" : "/html/tips/server/vnc.html",
             },
+            "iperf3" : {
+                "href" : "/html/tips/server/iperf3.html",
+            },
         }
 
         this.sitemapIndex = Object.keys(this.sitemap);
