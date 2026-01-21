@@ -15,7 +15,7 @@ class MarkDownParent {
                 element.parentNode.insertBefore(divTag, element); 
                 divTag.appendChild(element);
             } 
-            element.classList.add("table", "table-bordered");
+            element.classList.add("table", "table-bordered", "table-striped");
         }
 
         for (const element of md.querySelectorAll("td")) {

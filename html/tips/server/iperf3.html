@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/vnc.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="How to use iperf3 ?" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class ="container pt-3">
+            <main>
+                <div class = "row">
+                    <div id="md-text" class ="col-md-8 pt-4">
+# iperf3コマンド使い方
+  
+<br>
+  
+## 共通
+| オプション                | 説明 |
+| -                         | - |
+| -p          [n]           | サーバ : 待ち受けるポート<br>クライアント : 接続先ポートを指定<br>デフォルト : `5201` |
+| --port      [n]           | サーバなら待ち受けるポート<br>クライアント : 接続先ポートを指定<br>デフォルト : `5201` |
+| --cport     [n]           | クライアント側のポートを指定 |
+| -f          [`kmKM`]      | 出力される結果のbandwidthの単位を指定<br>`k` : Kbits/sec<br>`K` : KBytes/sec<br>`m` : Mbits/sec<br>`M` : MBytes/sec |
+| --format    [`kmKM`]      | 出力される結果のbandwidthの単位を指定<br>`k` : Kbits/sec<br>`K` : KBytes/sec<br>`m` : Mbits/sec<br>`M` : MBytes/sec |
+| -i          [n]           | [n]秒毎に**bandwidth** **jitter** **loss**の結果を出力<br>デフォルト : `1`<br>終了時の統計のみ : `0` |
+| --interval  [n]           | [n]秒毎に**bandwidth** **jitter** **loss**の結果を出力<br>デフォルト : `1`<br>終了時の統計のみ : `0` |
+| -F          [name]        | クライアント : 送るデータを設定<br>デフォルト : ランダムデータ<br>サーバ : どこに書き込むかを設定<br>デフォルト : 書き込まず受け取ったデータを廃棄 |
+| --file      [name]        | クライアント : 送るデータを設定<br>デフォルト : ランダムデータ<br>サーバ : どこに書き込むかを設定<br>デフォルト : 書き込まず受け取ったデータを廃棄 |
+| -B          [host]        | 使用する(待ち受ける)IPアドレスを指定<br>NICが複数ある場合に使用 |
+| --bind      [host]        | 使用する(待ち受ける)IPアドレスを指定<br>NICが複数ある場合に使用 |
+| -V                        | 詳細出力 |
+| --verbose                 | 詳細出力 |
+| -J                        | JSONで出力 |
+| --json                    | JSONで出力 |
+| --logfile   [file]        | 結果をファイルに出力 |
+| --d                       | デバッグ出力<br>主に開発者が使うことを想定 |
+| --debug                   | デバッグ出力<br>主に開発者が使うことを想定 |
+| -v                        | バージョンを出力 |
+| --version                 | バージョンを出力 |
+| -h                        | ヘルプを出力 |
+| --help                    | ヘルプを出力 |
+  
+<br>
+  
+## サーバ
+| オプション                | 説明 |
+| -                         | - |
+| -s                        | iperfサーバを起動 <br>一度に一つのコネクションしか許可しない |
+| --server                  | iperfサーバを起動 <br>一度に一つのコネクションしか許可しない |
+| -D                        | デーモンとしてバックグラウンドで動作 |
+| --daemon                  | デーモンとしてバックグラウンドで動作 |
+| -I          [file]        | pidをファイルに書き出す<br>サーバが停止したら削除<br>バックグラウンドで動作させるときに有用 |
+| --pidfile   [file]        | pidをファイルに書き出す<br>サーバが停止したら削除<br>バックグラウンドで動作させるときに有用 |
+| -1                        | クライアントと1回通信を行った後に終了する |
+| --one-off                 | クライアントと1回通信を行った後に終了する |  
+  
+<br>
+  
+## クライアント
+| オプション                | 説明 |
+| -                         | - |
+| -c          [host]        | iperfクライアントを起動し、[host]に対して接続 |
+| --client    [host]        | iperfクライアントを起動し、[host]に対して接続 |
+| --sctp                    | TCPではなくSCTPを使用 (Linux, FreeBSD, Solaris) |
+| -u                        | TCPではなくUDPを使用 |
+| --udp                     | TCPではなくUDPを使用 |
+| -b          [n[`K` `M`]]  | 帯域制限を掛ける<br>**TCP**デフォルト : 無制限<br>**UDP**デフォルト : 1Mbit/sec<br>※-pオプションによって並列実行している場合、それぞれのストリームに対して制限がかかる(合計ではない) |
+| --bandwidth [n[`K` `M`]]  | 帯域制限を掛ける<br>**TCP**デフォルト : 無制限<br>**UDP**デフォルト : 1Mbit/sec<br>※-pオプションによって並列実行している場合、それぞれのストリームに対して制限がかかる(合計ではない) |
+| -t        [n]             | [n]秒間通信<br>デフォルト : 10秒<br>※`-n` `-k`オプションと一緒に指定できない |
+| --time    [n]             | [n]秒間通信<br>デフォルト : 10秒<br>※`-n` `-k`オプションと一緒に指定できない |
+| -n        [n[`K` `M`]]    | [n]個のバッファを送信し終えるとiperfクライアントを終了<br>`-t` `-k`オプションと一緒に指定できない |
+| --num     [n[`K` `M`]]    | [n]個のバッファを送信し終えるとiperfクライアントを終了<br>`-t` `-k`オプションと一緒に指定できない |
+| -k           [n[`K` `M`]] | [n]個のブロック(パケット)を送信し終えるとクライアントを終了<br>`-t` `-n`オプションと一緒に指定できない |
+| --blockcount [n[`K` `M`]] | [n]個のブロック(パケット)を送信し終えるとクライアントを終了<br>`-t` `-n`オプションと一緒に指定できない |
+| -l        [n[`K` `M`]]    | 書き込むor読み込むバッファの長さを指定<br>iperfはlengthバイトの配列を何度も送信して通信の測定を行う<br>**TCP**デフォルト : 128KB<br>**UDP**デフォルト : 8KB |
+| --length  [n[`K` `M`]]    | 書き込むor読み込むバッファの長さを指定<br>iperfはlengthバイトの配列を何度も送信して通信の測定を行う<br>**TCP**デフォルト : 128KB<br>**UDP**デフォルト : 8KB |
+| -P            [n]         | [n]個のコネクションを同時に接続<br>デフォルト : 1つ |
+| --parallel    [n]         | [n]個のコネクションを同時に接続<br>デフォルト : 1つ |
+| -R                        | サーバが送信、クライアントが受信<br>デフォルト:サーバが受信、クライアントが送信 |
+| --reverse                 | サーバが送信、クライアントが受信<br>デフォルト:サーバが受信、クライアントが送信 |
+| -w        [n[`K` `M`]]    | ソケットのバッファサイズを指定<br>**TCP**<br>TCPのウィンドウサイズを設定する |
+| --window  [n[`K` `M`]]    | ソケットのバッファサイズを指定<br>**TCP**<br>TCPのウィンドウサイズを設定する |
+| -M        [n]             | TCPの最大セグメントサイズ(MSS)の設定を試みる<br>イーサネット : 通常1460バイト(MTU1500バイト) |
+| --set-mss [n]             | TCPの最大セグメントサイズ(MSS)の設定を試みる<br>イーサネット : 通常1460バイト(MTU1500バイト) |
+| -N                        | TCPのno delayオプションをつける<br>(telnetなどの対話的なアプリケーションと同様に)Nagleアルゴリズムを無効にする |
+| --no-delay                | TCPのno delayオプションをつける<br>(telnetなどの対話的なアプリケーションと同様に)Nagleアルゴリズムを無効にする |
+| -4                        | IPv4のみ使用 |
+| --version4                | IPv4のみ使用 |
+| -6                        | IPv6のみ使用 |
+| --version6                | IPv6のみ使用 |
+| -S                        | 送信パケットのTOSフィールドを指定する<br>※多くのルータはTOSフィールドを無視する<br>RFC1349に規定されているTOSフィールド番号(8進数)によって指定する |
+| --tos n                   | 送信パケットのTOSフィールドを指定する<br>※多くのルータはTOSフィールドを無視する<br>RFC1349に規定されているTOSフィールド番号(8進数)によって指定する |
+| -L            [n]         | IPv6フローラベルを設定する<br>(今はLinuxしかサポートしていない) |
+| --flowlabel   [n]         | IPv6フローラベルを設定する<br>(今はLinuxしかサポートしていない) |
+| -Z                        | データの送信にzero copyメソッドを使用<br>CPUの使用率を下げられる |
+| --zerocopy                | データの送信にzero copyメソッドを使用<br>CPUの使用率を下げられる |
+| -O            [n]         | 最初の[n]秒を切り捨てる<br>これによりTCPのスロースタート区間をスキップできる |
+| --omit        [n]         | 最初の[n]秒を切り捨てる<br>これによりTCPのスロースタート区間をスキップできる |
+| -T            [str]       | 出力行ごとにプレフィックスとして[str]をつける |
+| --title       [str]       | 出力行ごとにプレフィックスとして[str]をつける |
+| -C                 [algo] | TCPの輻輳制御アルゴリズムを指定<br>Linux : iperf3.0～<br>FreeBSD : iperf3.1～ |
+| --linux-congestion [algo] | TCPの輻輳制御アルゴリズムを指定<br>Linux : iperf3.0～<br>FreeBSD : iperf3.1～ |
+| --get-server-output       | 測定用の通信終了後、サーバの出力を取得<br>※サーバで-Jオプションが指定されている場合はJSON形式となる |
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <div id="md-source">
+&#62; [iperf3コマンド使い方、オプション一覧](https://qiita.com/yokoc1322/items/bfd8b6e69d6bdb3bb1c6)
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <div id = "toc"></div>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        
+        
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "appTip"]);
+            new Pagination(7, serverModel.page, "pagination");
+            
+            const mdInst        = new MarkDownMaker(
+                id              = "md-text",
+            )
+            
+            new MarkDownMaker(
+                id              = "md-source",
+            )
+
+            new MarkDownTOC(
+                mdInstance      = mdInst,
+                id              = "toc",
+                mdid            = "md-text",
+            )
+        </script>
+    </footer>
+</html>

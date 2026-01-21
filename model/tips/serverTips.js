@@ -24,7 +24,11 @@ class ServerModel{
             {
                 "page" : 6,
                 "href" : "/html/tips/server/vnc.html"
-            }
+            },
+            {
+                "page" : 7,
+                "href" : "/html/tips/server/iperf3.html"
+            },
         ]
     }
 }
