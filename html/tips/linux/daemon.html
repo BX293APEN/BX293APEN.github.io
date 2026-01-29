@@ -68,11 +68,12 @@ WantedBy=multi-user.target</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">sudo systemctl daemon-reload
-sudo systemctl enable サービス名.service    # 自動起動有効化
-sudo systemctl restart サービス名.service   # 起動
-sudo systemctl status サービス名.service    # 状態確認
-sudo systemctl stop サービス名.service      # 停止
-sudo systemctl disable サービス名.service   # 自動起動無効化</code></pre>
+sudo systemctl enable サービス名.service        # 自動起動有効化
+sudo systemctl restart サービス名.service       # 起動
+sudo systemctl status サービス名.service        # 状態確認
+sudo journalctl -u サービス名 -n [行数] -x      # ログ確認 -x : ヒントを表示
+sudo systemctl stop サービス名.service          # 停止
+sudo systemctl disable サービス名.service       # 自動起動無効化</code></pre>
                             </p>
 
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -106,11 +107,12 @@ WantedBy=default.target</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">systemctl --user daemon-reload
-systemctl --user enable サービス名.service    # 自動起動有効化
-systemctl --user restart サービス名.service   # 起動
-systemctl --user status サービス名.service    # 状態確認
-systemctl --user stop サービス名.service      # 停止
-systemctl --user disable サービス名.service   # 自動起動無効化</code></pre>
+systemctl --user enable サービス名.service      # 自動起動有効化
+systemctl --user restart サービス名.service     # 起動
+systemctl --user status サービス名.service      # 状態確認
+journalctl --user -u サービス名 -n [行数] -x    # ログ確認 -x : ヒントを表示
+systemctl --user stop サービス名.service        # 停止
+systemctl --user disable サービス名.service     # 自動起動無効化</code></pre>
                             </p>
                         </article>
 
