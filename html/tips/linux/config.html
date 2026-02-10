@@ -71,6 +71,17 @@ wine [Winsows実行ファイル].exe
                                 <pre><code class="language-bash">sudo fstrim -av</code></pre>
                             </p>
                         </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="keyboard">
+                                仮想キーボードを無効化
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false</code></pre>
+                            </p>
+                        </article>
 
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="low-code">
@@ -111,7 +122,7 @@ sudo reboot</code></pre>
                                 <pre><code class="language-bash">sudo apt install -y cifs-utils
 sudo mkdir -p [マウントポイントのフォルダのパス]
 sudo chmod 777 [マウントポイントのフォルダのパス]
-sudo mount -t cifs -o username=[NASのユーザー名],password=[NASのパスワード] //[NASのIPアドレス] [マウントポイントのフォルダのパス]      #テスト 上手くいかない場合はバージョン指定,ver=2.0
+sudo mount -t cifs -o username=[NASのユーザー名],password=[NASのパスワード] //[NASのIPアドレス]/[共有フォルダ] [マウントポイントのフォルダのパス]      #テスト 上手くいかない場合はバージョン指定,ver=2.0
 </code></pre>
                             </p>
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -149,7 +160,7 @@ password=[NASのパスワード]</code></pre>
                                 <div class="fw-bold">
                                     エディタ
                                 </div>
-                                <pre><code class="language-bash">//[NASのIPアドレス] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8,vers=2.0 0 0</code></pre>
+                                <pre><code class="language-bash">//[NASのIPアドレス]/[共有フォルダ] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8,uid=1000,gid=1000,cache=none,noserverino,vers=3.0 0 0</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
@@ -173,6 +184,9 @@ password=[NASのパスワード]</code></pre>
                                     </li>
                                     <li>
                                         <a href="#trim">トリム</a>
+                                    </li>
+                                    <li>
+                                        <a href="#keyboard">仮想キーボードを無効化</a>
                                     </li>
                                     <li>
                                         <a href="#node-red">Node-RED</a>
