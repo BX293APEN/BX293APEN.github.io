@@ -70,6 +70,12 @@ class DownloadModel {
                 "text"      : "&emsp;実機を仮想コンピュータにする",
                 "content"   : '<a href="https://github.com/BX293APEN/DLC/releases/download/Release/VMware-converter-en-5.1.0-1087880.exe"><figcaption class = "btn btn-bd-primary figure-caption text-end">ver. 5.1.0</figcaption></a> <a href="https://github.com/BX293APEN/DLC/releases/download/ver.6.6/VMware-converter-en-6.6.0-23265344.exe"><figcaption class = "btn btn-bd-primary figure-caption text-end">ver. 6.6.0</figcaption></a>',
             },
+            "7zip" : {
+                "imgType"   : "none",
+                "title"     : "7-Zip",
+                "text"      : "&emsp;7-Zipのインストールリンク",
+                "content"   : '<a href="https://www.7-zip.org/"><figcaption class = "btn btn-bd-primary figure-caption text-end">7-Zip</figcaption></a><br><br> <a href="https://7-zip.opensource.jp/"><figcaption class = "btn btn-bd-primary figure-caption text-end">7-Zip 日本語サイト</figcaption></a>',
+            },
         }
         this.dlIndex = Object.keys(this.dlData);
         this.dlIndex.sort();
