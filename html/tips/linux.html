@@ -265,14 +265,22 @@ break-system-packages = true</code></pre>
                                 SSH
                             </h3>
                             <h4 class="pt-4 border-bottom fw-bold">
+                                鍵作成 (エドワード曲線)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    Windows ターミナル
+                                </div>
+                                <pre><code class="language-bash">ssh-keygen -t ed25519 -C '""'</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
                                 公開鍵認証
                             </h4>
                             <p>
                                 <div class="fw-bold">
                                     Windows ターミナル
                                 </div>
-                                <pre><code class="language-bash">ssh-keygen -t ed25519 -C '""'
-cd %userprofile%/.ssh
+                                <pre><code class="language-bash">cd %userprofile%/.ssh
 scp id_ed25519.pub [リモート接続するユーザ名]@[リモート接続する端末のIPアドレス]:~/</code></pre>
                             </p>
                             <p>
@@ -280,11 +288,21 @@ scp id_ed25519.pub [リモート接続するユーザ名]@[リモート接続す
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">cd ~/
-mkdir .ssh
-mv id_ed25519.pub .ssh/authorized_keys
+mkdir -p .ssh
+cat id_ed25519.pub >> .ssh/authorized_keys
 chmod 700 .ssh
 cd .ssh
 chmod 600 authorized_keys</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                公開鍵認証 (コマンドを少なくした方法)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    Windows コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">type %userprofile%\.ssh\id_ed25519.pub | ssh [リモート接続するユーザ名]@[リモート接続する端末のIPアドレス] "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"</code></pre>
                             </p>
 
                             <h3 class="pt-4 border-bottom fw-bold" id="inputJA">
