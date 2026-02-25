@@ -34,6 +34,23 @@
                         <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
                             Linuxセットアップガイド
                         </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="ubuntu-desktop">
+                                Ubuntu デスクトップアイコンの変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">gsettings set org.gnome.shell.extensions.ding show-trash true               # デスクトップに ゴミ箱 を表示する
+gsettings set org.gnome.shell.extensions.ding show-home true                # デスクトップに ホームフォルダ を表示する
+gsettings set org.gnome.shell.extensions.ding show-volumes true             # デスクトップに マウント済みドライブ を表示する
+gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false     # ドックに マウント済みドライブ を表示しない
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false      # ドックに ゴミ箱 を表示しない
+gsettings set org.gnome.shell.extensions.dash-to-dock show-apps-at-top true # アプリ一覧 ボタンをドックの 一番上 又は 左端に表示する
+</code></pre>
+                            </p>
+                        </article> 
                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="wine">
                                 Wine 11.0 インストール
@@ -56,8 +73,7 @@ wine --version                                                                  
 
 sudo apt install p7zip-full                                                     # 7zip解凍用
 7z x [解凍したい7zipフォルダ]
-wine [Winsows実行ファイル].exe
-</code></pre>
+wine [Winsows実行ファイル].exe</code></pre>
                             </p>
                         </article> 
                         <article class="blog-post">
