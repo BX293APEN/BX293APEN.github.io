@@ -57,7 +57,25 @@ gsettings set org.gnome.desktop.interface cursor-theme "[カーソルテーマ�
 </code></pre>
                             </p>
                         </article> 
-                       <article class="blog-post">
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="cursor">
+                                マウスカーソルの変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /usr/share/icons/default/index.theme</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Icon Theme]
+Inherits=[カーソルテーマ名]</code></pre>
+                            </p>
+                        </article> 
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="wine">
                                 Wine 11.0 インストール
                             </h3>
@@ -228,6 +246,9 @@ password=[NASのパスワード]</code></pre>
                                     </li>
                                     <li>
                                         <a href="#ubuntu-desktop">Ubuntu デスクトップアイコンの変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cursor">マウスカーソルの変更</a>
                                     </li>
                                     <li>
                                         <a href="#wine">Wine の使い方</a>
