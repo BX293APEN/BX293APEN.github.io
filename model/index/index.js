@@ -166,7 +166,7 @@ class Model extends LoadModel {
             "ラズパイ" : {
                 "href" : "/html/tips/linux/raspi.html",
             },
-            "Wine11.0" : {
+            "WineUbuntu" : {
                 "href" : "/html/tips/linux/config.html",
             },
             "node-red" : {
@@ -226,6 +226,9 @@ class Model extends LoadModel {
             },
             "gemini" : {
                 "href" : "https://gemini.google.com/app?hl=ja", 
+            },
+            "claude" : {
+                "href" : "https://claude.ai/new", 
             },
             "Bluesky" : {
                 "href" : "https://bsky.app/profile/bx293apen.bsky.social"
