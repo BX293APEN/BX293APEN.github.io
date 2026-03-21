@@ -145,6 +145,86 @@ UUID=[ターゲットのUUID]     [ターゲットをマウントするフォル
                             </p>
                         </article>
 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "tar">
+                                tar圧縮・解凍
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                tar解凍
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">tar xvf [tar系ファイル名]</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                tar圧縮
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">tar cavf [フォルダ名].tar.(gz | bz2 | xz) [対象フォルダ]/</code></pre>
+                            </p>
+                        </article> 
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "zip">
+                                zip圧縮・解凍
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                zip解凍
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install unzip
+unzip [ファイル名].zip</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                zip圧縮
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install zip
+zip -r [ファイル名].zip [フォルダ/ファイル1] [フォルダ/ファイル2]</code></pre>
+                            </p>
+                        </article> 
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "7z">
+                                7z圧縮・解凍
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install -y p7zip-full</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                7z解凍
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">7z x [ファイル名].7z</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                7z圧縮
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">7z a -mx=9 [ファイル名].7z [フォルダ/ファイル1] [フォルダ/ファイル2]</code></pre>
+                            </p>
+                        </article> 
+
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
@@ -162,6 +242,15 @@ UUID=[ターゲットのUUID]     [ターゲットをマウントするフォル
                                     </li>
                                     <li>
                                         <a href="#umount">取り外し方法</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tar">tar圧縮・解凍</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zip">zip圧縮・解凍</a>
+                                    </li>
+                                    <li>
+                                        <a href="#7z">7z圧縮・解凍</a>
                                     </li>
                                 </ol>
                             </div>
