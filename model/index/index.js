@@ -178,6 +178,9 @@ class Model extends LoadModel {
             "daemon" : {
                 "href" : "/html/tips/linux/daemon.html",
             },
+            "cron" : {
+                "href" : "/html/tips/linux/daemon.html",
+            },
             "自動起動" : {
                 "href" : "/html/tips/linux/daemon.html",
             },
