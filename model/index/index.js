@@ -187,6 +187,9 @@ class Model extends LoadModel {
             "format" : {
                 "href" : "/html/tips/linux/format.html",
             },
+            "7ziptargz" : {
+                "href" : "/html/tips/linux/format.html",
+            },
             "wsl" : {
                 "href" : "/html/tips/windows/wsl.html",
             },
