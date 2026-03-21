@@ -116,6 +116,53 @@ systemctl --user disable サービス名.service     # 自動起動無効化</co
                             </p>
                         </article>
 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "cron">
+                                cronによる定期実行
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                エディタの変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">select-editor</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                crontabでcronを操作
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo crontab -u [ユーザ名] -e</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">#   分      時      日      月      曜日        [実行コマンド]
+    0       0       *       *       *           /usr/bin/apt update -y              # 毎日0:00にアップデート
+    */5     3-5     5,10,15 *       *           /usr/bin/apt upgrade -y             # 毎月5日、10日、15日の3時～5時台に5分間隔でアップグレード
+                                                                                    # ,     : 複数指定
+                                                                                    # -     : 範囲指定
+                                                                                    # [m]/[n] : mからn間隔で実行 (*/n : n間隔で実行)
+                                                                                    # 曜日  : 0～7で指定 (0と7は日曜日)
+</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの読み込み (上書きのため注意)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo crontab -u [ユーザ名] -l 2>/dev/null > [バックアップファイル]                  # 現在の設定をバックアップ
+sudo crontab -u [ユーザ名] [設定ファイル]</code></pre>
+                            </p>
+                        </article>
+
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
@@ -135,6 +182,9 @@ systemctl --user disable サービス名.service     # 自動起動無効化</co
                                     </li>
                                     <li>
                                         <a href="#daemon">デーモン化</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cron">cronによる定期実行</a>
                                     </li>
                                 </ol>
                             </div>
