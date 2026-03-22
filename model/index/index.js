@@ -175,6 +175,9 @@ class Model extends LoadModel {
             "trim" : {
                 "href" : "/html/tips/linux/config.html",
             },
+            "printer" : {
+                "href" : "/html/tips/linux/config.html",
+            },
             "daemon" : {
                 "href" : "/html/tips/linux/daemon.html",
             },
