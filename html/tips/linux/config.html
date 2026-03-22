@@ -237,6 +237,22 @@ password=[NASのパスワード]</code></pre>
                             </p>
                         </article>
 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="printer">
+                                プリンタの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install cups lpr printer-driver-gutenprint</code></pre>
+                            </p>
+                            <p>
+                                IPP Everywhere (ドライバレス)対応のプリンタ : 自動検出<br>
+                                IPP Everywhere (ドライバレス)非対応のプリンタ : <a href="http://localhost:631">CUPS管理画面</a>から手動設定<br>
+                            </p>
+                        </article>
+
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
@@ -293,6 +309,9 @@ password=[NASのパスワード]</code></pre>
                                     </li>
                                     <li>
                                         <a href="#terminal">デフォルトのターミナルエミュレータの設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#printer">プリンタの設定</a>
                                     </li>
                                 </ol>
                             </div>
