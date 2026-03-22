@@ -247,9 +247,24 @@ password=[NASのパスワード]</code></pre>
                                 </div>
                                 <pre><code class="language-bash">sudo apt install cups lpr printer-driver-gutenprint</code></pre>
                             </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                IPP Everywhere (ドライバレス)対応のプリンタ
+                            </h4>
                             <p>
-                                IPP Everywhere (ドライバレス)対応のプリンタ : 自動検出<br>
-                                IPP Everywhere (ドライバレス)非対応のプリンタ : <a href="http://localhost:631">CUPS管理画面</a>から手動設定<br>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">ipptool -tv ipp://[IPアドレス] get-printer-attributes.test | grep "printer-uri-supported"</code></pre>
+                            </p>
+                            <p>
+                                ターミナルに出力されたURIを<a href="http://localhost:631">CUPS管理画面</a>に設定(ドライバはIPP Everywhere)<br>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                IPP Everywhere (ドライバレス)非対応のプリンタ
+                            </h4>
+                            <p>
+                                <a href="http://localhost:631">CUPS管理画面</a>からURIとドライバを設定<br>
                             </p>
                         </article>
 
