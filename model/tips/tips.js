@@ -33,6 +33,14 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "svg"       : true
 
             },
+            "linuxTipMemo" : {
+                "href"      : "/html/tips/linux_memo.html",
+                "imgSrc"    : "/img/linux-auto.svg", 
+                "title"     : "Linux備忘録",
+                "text"      : "&emsp;Debian系以外のLinuxについて書かれています",
+                "svg"       : true
+
+            },
             "pythonTip" : {
                 "href"      : "/html/tips/python.html",
                 "imgSrc"    : "/img/Python-Dark.svg", 

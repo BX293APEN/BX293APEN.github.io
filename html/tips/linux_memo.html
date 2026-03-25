@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Linuxセットアップガイド" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/linux_memo.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="Arch Linux のセットアップ方法" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/ascii.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Arch Linux のセットアップ方法</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Arch Linux のセットアップ方法
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="keymaps">
+                                キー配列変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">ls /usr/share/kbd/keymaps/**/*.map.gz | grep jp  # 日本語キーボードに対応しているか確認
+loadkeys jp106</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="update">
+                                パッケージ更新
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">curl -o /etc/pacman.d/mirrorlist "https://archlinux.org/mirrorlist/?country=all&protocol=https&use_mirror_status=on"        # 使用可能なミラーサイトを取得
+sed -i '/## Japan/,/##/ s/^#Server/Server/' /etc/pacman.d/mirrorlist                                                        # 日本のミラーサイトを有効化
+sed -i '/## Worldwide/,/##/ s/^#Server/Server/' /etc/pacman.d/mirrorlist                                                    # World Wideのミラーサイトを有効化
+
+# 証明書キーの更新
+pacman-key --init
+pacman-key --populate archlinux
+pacman-key --refresh-keys
+
+pacman -Syy                                                                                                                 # パッケージデータベースの更新</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="partition">
+                                パーティションの作成とマウント設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">fdisk -l                                                                                                                    # 認識されているストレージの確認
+
+############ レガシーBIOS ##################
+fdisk /dev/[ルートにしたいストレージ]
+g                                                                                                                           # GPTパーティションテーブルの作成
+n                                                                                                                           # 新しいパーティションの作成
+p                                                                                                                           # プライマリパーティションの作成
+Enter                                                                                                                       # パーティション番号の指定(デフォルトでOK)
+Enter                                                                                                                       # 開始セクタの指定(デフォルトでOK)
++1M                                                                                                                         # 終了セクタの指定(1MB)
+Y                                                                                                                           # signatureの上書き
+t                                                                                                                           # パーティションのタイプ変更
+EF02                                                                                                                        # BIOS Boot Partitionに変更
+w                                                                                                                           # パーティションテーブルの保存と終了
+############################################
+
+############ UEFI ##########################
+fdisk /dev/[ルートにしたいストレージ]
+g                                                                                                                           # GPTパーティションテーブルの作成
+n                                                                                                                           # 新しいパーティションの作成
+p                                                                                                                           # プライマリパーティションの作成
+Enter                                                                                                                       # パーティション番号の指定(デフォルトでOK)
+Enter                                                                                                                       # 開始セクタの指定(デフォルトでOK)
++512M                                                                                                                       # 終了セクタの指定(512MB)
+Y                                                                                                                           # signatureの上書き
+t                                                                                                                           # パーティションのタイプ変更
+EF00                                                                                                                        # EFI System Partitionに変更
+w                                                                                                                           # パーティションテーブルの保存と終了
+############################################
+
+
+fdisk /dev/[ルートにしたいストレージ]
+n                                                                                                                           # 新しいパーティションの作成
+p                                                                                                                           # プライマリパーティションの作成
+Enter                                                                                                                       # パーティション番号の指定(デフォルトでOK)
+Enter                                                                                                                       # 開始セクタの指定(デフォルトでOK)
+Enter                                                                                                                       # 終了セクタの指定(デフォルトでOK)
+w                                                                                                                           # パーティションテーブルの保存と終了
+mkfs.ext4 /dev/[ルートにしたいパーティション]                                                                                  # ext4でフォーマット
+
+mount /dev/[ルートにしたいパーティション] /mnt
+
+
+############ UEFI ##########################
+mount --mkdir /dev/[ルートにしたいストレージの最初のパーティション] /mnt/boot
+############################################
+
+pacstrap /mnt base linux linux-firmware                                                                                     # ベースシステムのインストール
+
+echo KEYMAP=jp106 > /mnt/etc/vconsole.conf                                                                                  # コンソールのキー配列を日本語キーボードに設定
+genfstab -U /mnt >> /mnt/etc/fstab                                                                                          # fstabの生成
+arch-chroot /mnt                                                                                                            # 新しいシステムにchroot</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="init_setting">
+                                初期設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">timedatectl set-timezone Asia/Tokyo                                                                                         # タイムゾーンの設定
+
+pacman -Syu
+pacman -S grub efibootmgr sudo nano
+mkinitcpio -P                                                                                                               # initramfsの生成
+
+
+############ レガシーBIOS ##################
+grub-install --target=i386-pc /dev/[ルートにしたいストレージ]
+grub-mkconfig -o /boot/grub/grub.cfg
+############################################
+
+############ UEFI ##########################
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --removable
+grub-mkconfig -o /boot/grub/grub.cfg
+############################################
+
+
+# ホスト名設定
+hostnamectl set-hostname [新しいホスト名]
+echo 127.0.1.1       [新しいホスト名] >> /etc/hosts                                                                         # 127.0.1.1が確実に無い場合
+# sed -i '/^127\.0\.1\.1/ s/.*/127.0.1.1    [新しいホスト名]/; t; $ a 127.0.1.1    [新しいホスト名]' /etc/hosts               # 安全版
+
+echo LANG=ja_JP.UTF-8 > /etc/locale.conf
+
+passwd
+
+useradd -m pen
+passwd pen
+
+sudo mkdir -p /etc/profile.d
+echo 'export EDITOR=nano' | sudo tee /etc/profile.d/editor.sh</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="permission">
+                                権限変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">visudo</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ (コメントアウトを外す)
+                                </div>
+                                <pre><code class="language-bash">%wheel ALL=(ALL:ALL) ALL</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">gpasswd -a pen wheel</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="package">
+                                必要なパッケージをインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">pacman -S networkmanager noto-fonts noto-fonts-cjk noto-fonts-emoji man git
+pacman -S plasma kde-applications sddm chromium fcitx5 fcitx5-im fcitx5-mozc                                                # (全てEnter)
+
+systemctl enable sddm
+systemctl enable NetworkManager
+systemctl restart NetworkManager
+reboot</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="networkmanager">
+                                NetworkManagerをインストールし忘れて再起動してしまった場合
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/network/20-wired.network</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Match]
+Name=eth0
+
+[Network]
+DHCP=yes</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable --now systemd-networkd
+sudo systemctl enable --now systemd-resolved
+pacman -S networkmanager
+
+sudo systemctl stop systemd-networkd
+sudo systemctl disable systemd-networkd
+
+sudo nmtui
+systemctl enable NetworkManager
+systemctl restart NetworkManager</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "mozc">
+                                日本語入力
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir -p ~/.config/autostart
+cp /usr/share/applications/org.fcitx.Fcitx5.desktop ~/.config/autostart/
+sudo nano /etc/environment</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "swap">
+                                スワップサイズの変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mkswap -U clear --size 4G --file /swapfile
+sudo swapon /swapfile
+sudo nano /etc/fstab
+/swapfile none swap defaults 0 0</code></pre>
+                            </p>
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#keymaps">キー配列変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#update">パッケージ更新</a>
+                                    </li>
+                                    <li>
+                                        <a href="#partition">パーティションの作成とマウント設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#init_setting">初期設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#permission">権限変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#package">必要なパッケージをインストール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#networkmanager">NetworkManagerをインストールし忘れて再起動してしまった場合</a>
+                                    </li>
+                                    <li>
+                                        <a href="#mozc">日本語入力</a>
+                                    </li>
+                                    <li>
+                                        <a href="#swap">スワップサイズの変更</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "windowsTip", "vimTip", "serverTip"]);
+        </script>
+    </footer>
+</html>
