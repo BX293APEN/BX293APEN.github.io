@@ -124,6 +124,9 @@ class Model extends LoadModel {
             "about" : {
                 "href" : "/html/welcome.html",
             },
+            "arch" : {
+                "href" : "/html/tips/linux_memo.html",
+            },
             "bios" : {
                 "href" : "/html/tips/UEFI.html",
             },
