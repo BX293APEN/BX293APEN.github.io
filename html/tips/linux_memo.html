@@ -292,6 +292,24 @@ sudo nano /etc/fstab
 /swapfile none swap defaults 0 0</code></pre>
                             </p>
                         </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="vmware">
+                                VMWare用環境
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo pacman -Syu
+sudo pacman -S open-vm-tools xf86-video-vmware
+sudo pacman -S gtkmm3
+sudo systemctl enable --now vmtoolsd.service
+sudo systemctl enable --now vmware-vmblock-fuse.service
+sudo systemctl enable --now dkms.service
+/usr/bin/vmware-user-suid-wrapper</code></pre>
+                            </p>
+                        </article>
                     
                     </div>
                     <div class="col-md-4">
@@ -328,6 +346,9 @@ sudo nano /etc/fstab
                                     </li>
                                     <li>
                                         <a href="#swap">スワップサイズの変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#vmware">VMWare用環境</a>
                                     </li>
                                 </ol>
                             </div>
