@@ -173,7 +173,8 @@ useradd -m pen
 passwd pen
 
 sudo mkdir -p /etc/profile.d
-echo 'export EDITOR=nano' | sudo tee /etc/profile.d/editor.sh</code></pre>
+echo 'export EDITOR=nano' | sudo tee /etc/profile.d/editor.sh
+export EDITOR=nano</code></pre>
                             </p>
                         </article>
 
@@ -215,6 +216,8 @@ pacman -S plasma kde-applications sddm chromium fcitx5 fcitx5-im fcitx5-mozc    
 systemctl enable sddm
 systemctl enable NetworkManager
 systemctl restart NetworkManager
+
+exit
 reboot</code></pre>
                             </p>
                         </article>
