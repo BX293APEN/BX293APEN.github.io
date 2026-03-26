@@ -302,12 +302,10 @@ sudo nano /etc/fstab
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">sudo pacman -Syu
-sudo pacman -S open-vm-tools xf86-video-vmware
-sudo pacman -S gtkmm3
+sudo pacman -S open-vm-tools gtkmm3
 sudo systemctl enable --now vmtoolsd.service
-sudo systemctl enable --now vmware-vmblock-fuse.service
 sudo systemctl enable --now dkms.service
-/usr/bin/vmware-user-suid-wrapper</code></pre>
+# /usr/bin/vmware-user-suid-wrapper</code></pre>
                             </p>
                         </article>
                     
