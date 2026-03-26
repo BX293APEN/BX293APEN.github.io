@@ -77,7 +77,8 @@ pacman -Syy                                                                     
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">fdisk -l                                                                                                                    # 認識されているストレージの確認
+                                <pre><code class="language-bash">pacman -S util-linux
+fdisk -l                                                                                                                    # 認識されているストレージの確認
 
 ############ レガシーBIOS ##################
 fdisk /dev/[ルートにしたいストレージ]
@@ -86,10 +87,10 @@ n                                                                               
 p                                                                                                                           # プライマリパーティションの作成
 Enter                                                                                                                       # パーティション番号の指定(デフォルトでOK)
 Enter                                                                                                                       # 開始セクタの指定(デフォルトでOK)
-+1M                                                                                                                         # 終了セクタの指定(1MB)
++2M                                                                                                                         # 終了セクタの指定(1MB)
 Y                                                                                                                           # signatureの上書き
 t                                                                                                                           # パーティションのタイプ変更
-EF02                                                                                                                        # BIOS Boot Partitionに変更
+4                                                                                                                           # BIOS Boot Partitionに変更 (EF02)
 w                                                                                                                           # パーティションテーブルの保存と終了
 ############################################
 
@@ -103,7 +104,7 @@ Enter                                                                           
 +512M                                                                                                                       # 終了セクタの指定(512MB)
 Y                                                                                                                           # signatureの上書き
 t                                                                                                                           # パーティションのタイプ変更
-EF00                                                                                                                        # EFI System Partitionに変更
+1                                                                                                                           # EFI System Partitionに変更 (EF00)
 w                                                                                                                           # パーティションテーブルの保存と終了
 ############################################
 
