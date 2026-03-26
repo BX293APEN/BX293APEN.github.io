@@ -304,8 +304,39 @@ sudo nano /etc/fstab
                                 <pre><code class="language-bash">sudo pacman -Syu
 sudo pacman -S open-vm-tools gtkmm3
 sudo systemctl enable --now vmtoolsd.service
-sudo systemctl enable --now dkms.service
-# /usr/bin/vmware-user-suid-wrapper</code></pre>
+sudo systemctl enable --now vmware-vmblock-fuse.service</code></pre>
+                            </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                クリップボード共有・自動解像度変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir -p ~/.config/systemd/user
+nano ~/.config/systemd/user/vmware-user.service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=VMware User Agent
+After=graphical-session-pre.target
+
+[Service]
+ExecStart=/usr/bin/vmware-user-suid-wrapper
+Restart=on-failure
+
+[Install]
+WantedBy=default.target</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">systemctl --user daemon-reload
+systemctl --user enable --now vmware-user.service</code></pre>
                             </p>
                         </article>
                     
