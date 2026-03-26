@@ -261,7 +261,10 @@ systemctl restart NetworkManager</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">mkdir -p ~/.config/autostart
+                                <pre><code class="language-bash">sed -i 's/#ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/' /etc/locale.gen
+locale-gen
+
+mkdir -p ~/.config/autostart
 cp /usr/share/applications/org.fcitx.Fcitx5.desktop ~/.config/autostart/
 sudo nano /etc/environment</code></pre>
                             </p>
@@ -271,7 +274,8 @@ sudo nano /etc/environment</code></pre>
                                 </div>
                                 <pre><code class="language-bash">GTK_IM_MODULE=fcitx
 QT_IM_MODULE=fcitx
-XMODIFIERS=@im=fcitx</code></pre>
+XMODIFIERS=@im=fcitx
+SDL_IM_MODULE=fcitx</code></pre>
                             </p>
                         </article>
 
