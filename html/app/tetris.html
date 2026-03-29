@@ -1,205 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-  canvas { display: block; margin: 0 auto; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
-  .controls { display: flex; justify-content: center; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
-  button { font-size: 13px; padding: 6px 14px; }
-  .score-bar { display: flex; justify-content: center; gap: 24px; margin-bottom: 8px; font-size: 13px; color: var(--color-text-secondary); }
-  .score-bar span { font-weight: 500; color: var(--color-text-primary); }
-</style>
+        <meta property="og:title" content="Apps - とあるペンギンの実験室" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/app/index.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="テトリス" />
+        <meta name="theme-color" content="#FF0000" />
 
-<div class="score-bar">
-  スコア: <span id="score">0</span> &nbsp; ライン: <span id="lines">0</span> &nbsp; レベル: <span id="level">1</span>
-</div>
-<canvas id="c" width="300" height="600"></canvas>
-<div class="controls">
-  <button id="btnLeft">◀</button>
-  <button id="btnRot">↻</button>
-  <button id="btnRight">▶</button>
-  <button id="btnDown">▼</button>
-  <button id="btnDrop">⬇ DROP</button>
-  <button id="btnStart">▶ スタート</button>
-</div>
+        <script src="/model/index/index.js"></script>
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Apps</title>
+    </head>
+    <body>
+        <style>
+          canvas { display: block; margin: 0 auto; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); }
+          .controls { display: flex; justify-content: center; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+          button { font-size: 13px; padding: 6px 14px; }
+          .score-bar { display: flex; justify-content: center; gap: 24px; margin-bottom: 8px; font-size: 13px; color: var(--color-text-secondary); }
+          .score-bar span { font-weight: 500; color: var(--color-text-primary); }
+        </style>
 
-<script>
-const COLS = 10, ROWS = 20, SZ = 30;
-const COLORS = ['#378ADD','#E24B4A','#1D9E75','#EF9F27','#7F77DD','#D4537E','#5DCAA5'];
-const SHAPES = [
-  [[1,1,1,1]],
-  [[1,1],[1,1]],
-  [[0,1,0],[1,1,1]],
-  [[1,0,0],[1,1,1]],
-  [[0,0,1],[1,1,1]],
-  [[0,1,1],[1,1,0]],
-  [[1,1,0],[0,1,1]],
-];
+        <div class="score-bar">
+          スコア: <span id="score">0</span> &nbsp; ライン: <span id="lines">0</span> &nbsp; レベル: <span id="level">1</span>
+        </div>
+        <canvas id="c" width="300" height="600"></canvas>
+        <div class="controls">
+          <button id="btnLeft">◀</button>
+          <button id="btnRot">↻</button>
+          <button id="btnRight">▶</button>
+          <button id="btnDown">▼</button>
+          <button id="btnDrop">⬇ DROP</button>
+          <button id="btnStart">▶ スタート</button>
+        </div>
 
-const cv = document.getElementById('c');
-const ctx = cv.getContext('2d');
+        <script>
+        const COLS = 10, ROWS = 20, SZ = 30;
+        const COLORS = ['#378ADD','#E24B4A','#1D9E75','#EF9F27','#7F77DD','#D4537E','#5DCAA5'];
+        const SHAPES = [
+          [[1,1,1,1]],
+          [[1,1],[1,1]],
+          [[0,1,0],[1,1,1]],
+          [[1,0,0],[1,1,1]],
+          [[0,0,1],[1,1,1]],
+          [[0,1,1],[1,1,0]],
+          [[1,1,0],[0,1,1]],
+        ];
+        
+        const cv = document.getElementById('c');
+        const ctx = cv.getContext('2d');
+        
+        let board, piece, px, py, pc, score, lines, level, timer, running, paused;
+        
+        function newBoard() { return Array.from({length:ROWS}, ()=>new Array(COLS).fill(0)); }
+        
+        function newPiece() {
+          const i = Math.floor(Math.random() * SHAPES.length);
+          return { shape: SHAPES[i], color: COLORS[i] };
+        }
 
-let board, piece, px, py, pc, score, lines, level, timer, running, paused;
+        function rotate(s) {
+          return s[0].map((_,i) => s.map(r=>r[i]).reverse());
+        }
 
-function newBoard() { return Array.from({length:ROWS}, ()=>new Array(COLS).fill(0)); }
+        function fits(s, x, y) {
+          for (let r=0;r<s.length;r++) for (let c=0;c<s[r].length;c++) {
+            if (!s[r][c]) continue;
+            const nx=x+c, ny=y+r;
+            if (nx<0||nx>=COLS||ny>=ROWS) return false;
+            if (ny>=0 && board[ny][nx]) return false;
+          }
+          return true;
+        }
 
-function newPiece() {
-  const i = Math.floor(Math.random() * SHAPES.length);
-  return { shape: SHAPES[i], color: COLORS[i] };
-}
+        function place() {
+          for (let r=0;r<piece.shape.length;r++) for (let c=0;c<piece.shape[r].length;c++) {
+            if (piece.shape[r][c] && py+r >= 0) board[py+r][px+c] = piece.color;
+          }
+          clearLines();
+          piece = newPiece();
+          px = Math.floor((COLS - piece.shape[0].length) / 2);
+          py = -piece.shape.length;
+          if (!fits(piece.shape, px, py+1)) { endGame(); }
+        }
 
-function rotate(s) {
-  return s[0].map((_,i) => s.map(r=>r[i]).reverse());
-}
+        function clearLines() {
+          let cleared = 0;
+          for (let r=ROWS-1;r>=0;r--) {
+            if (board[r].every(c=>c)) { board.splice(r,1); board.unshift(new Array(COLS).fill(0)); cleared++; r++; }
+          }
+          if (cleared) {
+            lines += cleared;
+            score += [0,100,300,500,800][cleared] * level;
+            level = Math.floor(lines/10)+1;
+            document.getElementById('score').textContent = score;
+            document.getElementById('lines').textContent = lines;
+            document.getElementById('level').textContent = level;
+            clearInterval(timer);
+            timer = setInterval(tick, Math.max(80, 500 - level*40));
+          }
+        }
 
-function fits(s, x, y) {
-  for (let r=0;r<s.length;r++) for (let c=0;c<s[r].length;c++) {
-    if (!s[r][c]) continue;
-    const nx=x+c, ny=y+r;
-    if (nx<0||nx>=COLS||ny>=ROWS) return false;
-    if (ny>=0 && board[ny][nx]) return false;
-  }
-  return true;
-}
+        function drawBlock(x, y, color) {
+          ctx.fillStyle = color;
+          ctx.fillRect(x*SZ+1, y*SZ+1, SZ-2, SZ-2);
+          ctx.fillStyle = 'rgba(255,255,255,0.25)';
+          ctx.fillRect(x*SZ+1, y*SZ+1, SZ-2, 4);
+          ctx.fillStyle = 'rgba(0,0,0,0.15)';
+          ctx.fillRect(x*SZ+1, y*SZ+SZ-5, SZ-2, 4);
+        }
 
-function place() {
-  for (let r=0;r<piece.shape.length;r++) for (let c=0;c<piece.shape[r].length;c++) {
-    if (piece.shape[r][c] && py+r >= 0) board[py+r][px+c] = piece.color;
-  }
-  clearLines();
-  piece = newPiece();
-  px = Math.floor((COLS - piece.shape[0].length) / 2);
-  py = -piece.shape.length;
-  if (!fits(piece.shape, px, py+1)) { endGame(); }
-}
+        function drawGhost() {
+          let gy = py;
+          while (fits(piece.shape, px, gy+1)) gy++;
+          ctx.globalAlpha = 0.25;
+          for (let r=0;r<piece.shape.length;r++) for (let c=0;c<piece.shape[r].length;c++) {
+            if (piece.shape[r][c]) drawBlock(px+c, gy+r, piece.color);
+          }
+          ctx.globalAlpha = 1;
+        }
 
-function clearLines() {
-  let cleared = 0;
-  for (let r=ROWS-1;r>=0;r--) {
-    if (board[r].every(c=>c)) { board.splice(r,1); board.unshift(new Array(COLS).fill(0)); cleared++; r++; }
-  }
-  if (cleared) {
-    lines += cleared;
-    score += [0,100,300,500,800][cleared] * level;
-    level = Math.floor(lines/10)+1;
-    document.getElementById('score').textContent = score;
-    document.getElementById('lines').textContent = lines;
-    document.getElementById('level').textContent = level;
-    clearInterval(timer);
-    timer = setInterval(tick, Math.max(80, 500 - level*40));
-  }
-}
+        function draw() {
+          ctx.clearRect(0,0,cv.width,cv.height);
+          ctx.fillStyle = '#1a1a2e';
+          ctx.fillRect(0,0,cv.width,cv.height);
+        
+          ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+          ctx.lineWidth = 0.5;
+          for (let r=0;r<ROWS;r++) { ctx.beginPath(); ctx.moveTo(0,r*SZ); ctx.lineTo(COLS*SZ,r*SZ); ctx.stroke(); }
+          for (let c=0;c<=COLS;c++) { ctx.beginPath(); ctx.moveTo(c*SZ,0); ctx.lineTo(c*SZ,ROWS*SZ); ctx.stroke(); }
+        
+          for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
+            if (board[r][c]) drawBlock(c, r, board[r][c]);
+          }
+      
+          if (piece) {
+            drawGhost();
+            for (let r=0;r<piece.shape.length;r++) for (let c=0;c<piece.shape[r].length;c++) {
+              if (piece.shape[r][c] && py+r >= 0) drawBlock(px+c, py+r, piece.color);
+            }
+          }
+      
+          if (!running) {
+            ctx.fillStyle = 'rgba(26,26,46,0.75)';
+            ctx.fillRect(0, cv.height/2-50, cv.width, 100);
+            ctx.fillStyle = '#fff';
+            ctx.font = '500 20px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(score > 0 ? 'ゲームオーバー' : 'スタートを押してね', cv.width/2, cv.height/2-10);
+            if (score > 0) { ctx.font = '14px sans-serif'; ctx.fillStyle = '#aaa'; ctx.fillText('スコア: ' + score, cv.width/2, cv.height/2+20); }
+          }
+        }
 
-function drawBlock(x, y, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x*SZ+1, y*SZ+1, SZ-2, SZ-2);
-  ctx.fillStyle = 'rgba(255,255,255,0.25)';
-  ctx.fillRect(x*SZ+1, y*SZ+1, SZ-2, 4);
-  ctx.fillStyle = 'rgba(0,0,0,0.15)';
-  ctx.fillRect(x*SZ+1, y*SZ+SZ-5, SZ-2, 4);
-}
+        function tick() {
+          if (!running || paused) return;
+          if (fits(piece.shape, px, py+1)) { py++; }
+          else { place(); }
+          draw();
+        }
 
-function drawGhost() {
-  let gy = py;
-  while (fits(piece.shape, px, gy+1)) gy++;
-  ctx.globalAlpha = 0.25;
-  for (let r=0;r<piece.shape.length;r++) for (let c=0;c<piece.shape[r].length;c++) {
-    if (piece.shape[r][c]) drawBlock(px+c, gy+r, piece.color);
-  }
-  ctx.globalAlpha = 1;
-}
+        function startGame() {
+          board = newBoard(); score=0; lines=0; level=1; running=true; paused=false;
+          document.getElementById('score').textContent = 0;
+          document.getElementById('lines').textContent = 0;
+          document.getElementById('level').textContent = 1;
+          piece = newPiece();
+          px = Math.floor((COLS - piece.shape[0].length) / 2);
+          py = -piece.shape.length;
+          clearInterval(timer);
+          timer = setInterval(tick, 500);
+          document.getElementById('btnStart').textContent = '⏸ ポーズ';
+          draw();
+        }
 
-function draw() {
-  ctx.clearRect(0,0,cv.width,cv.height);
-  ctx.fillStyle = '#1a1a2e';
-  ctx.fillRect(0,0,cv.width,cv.height);
+        function endGame() {
+          running = false;
+          clearInterval(timer);
+          document.getElementById('btnStart').textContent = '▶ もう一回';
+          draw();
+        }
 
-  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-  ctx.lineWidth = 0.5;
-  for (let r=0;r<ROWS;r++) { ctx.beginPath(); ctx.moveTo(0,r*SZ); ctx.lineTo(COLS*SZ,r*SZ); ctx.stroke(); }
-  for (let c=0;c<=COLS;c++) { ctx.beginPath(); ctx.moveTo(c*SZ,0); ctx.lineTo(c*SZ,ROWS*SZ); ctx.stroke(); }
+        document.getElementById('btnStart').addEventListener('click', () => {
+          if (!running) { startGame(); return; }
+          paused = !paused;
+          document.getElementById('btnStart').textContent = paused ? '▶ 再開' : '⏸ ポーズ';
+        });
+        document.getElementById('btnLeft').addEventListener('click', ()=>{ if(running&&!paused&&fits(piece.shape,px-1,py)){px--;draw();} });
+        document.getElementById('btnRight').addEventListener('click', ()=>{ if(running&&!paused&&fits(piece.shape,px+1,py)){px++;draw();} });
+        document.getElementById('btnRot').addEventListener('click', ()=>{
+          if(!running||paused) return;
+          const r=rotate(piece.shape);
+          if(fits(r,px,py)){piece.shape=r;draw();}
+          else if(fits(r,px+1,py)){piece.shape=r;px++;draw();}
+          else if(fits(r,px-1,py)){piece.shape=r;px--;draw();}
+        });
+        document.getElementById('btnDown').addEventListener('click', ()=>{ if(running&&!paused){if(fits(piece.shape,px,py+1)){py++;}else{place();} draw();} });
+        document.getElementById('btnDrop').addEventListener('click', ()=>{
+          if(!running||paused) return;
+          while(fits(piece.shape,px,py+1)) py++;
+          place(); draw();
+        });
 
-  for (let r=0;r<ROWS;r++) for (let c=0;c<COLS;c++) {
-    if (board[r][c]) drawBlock(c, r, board[r][c]);
-  }
+        document.addEventListener('keydown', e=>{
+          if(!running||paused) return;
+          if(e.key==='ArrowLeft'&&fits(piece.shape,px-1,py)){px--;draw();}
+          if(e.key==='ArrowRight'&&fits(piece.shape,px+1,py)){px++;draw();}
+          if(e.key==='ArrowDown'){if(fits(piece.shape,px,py+1))py++;else place();draw();}
+          if(e.key==='ArrowUp'){
+            const r=rotate(piece.shape);
+            if(fits(r,px,py)){piece.shape=r;draw();}
+            else if(fits(r,px+1,py)){piece.shape=r;px++;draw();}
+            else if(fits(r,px-1,py)){piece.shape=r;px--;draw();}
+          }
+          if(e.key===' '){e.preventDefault();while(fits(piece.shape,px,py+1))py++;place();draw();}
+        });
 
-  if (piece) {
-    drawGhost();
-    for (let r=0;r<piece.shape.length;r++) for (let c=0;c<piece.shape[r].length;c++) {
-      if (piece.shape[r][c] && py+r >= 0) drawBlock(px+c, py+r, piece.color);
-    }
-  }
-
-  if (!running) {
-    ctx.fillStyle = 'rgba(26,26,46,0.75)';
-    ctx.fillRect(0, cv.height/2-50, cv.width, 100);
-    ctx.fillStyle = '#fff';
-    ctx.font = '500 20px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(score > 0 ? 'ゲームオーバー' : 'スタートを押してね', cv.width/2, cv.height/2-10);
-    if (score > 0) { ctx.font = '14px sans-serif'; ctx.fillStyle = '#aaa'; ctx.fillText('スコア: ' + score, cv.width/2, cv.height/2+20); }
-  }
-}
-
-function tick() {
-  if (!running || paused) return;
-  if (fits(piece.shape, px, py+1)) { py++; }
-  else { place(); }
-  draw();
-}
-
-function startGame() {
-  board = newBoard(); score=0; lines=0; level=1; running=true; paused=false;
-  document.getElementById('score').textContent = 0;
-  document.getElementById('lines').textContent = 0;
-  document.getElementById('level').textContent = 1;
-  piece = newPiece();
-  px = Math.floor((COLS - piece.shape[0].length) / 2);
-  py = -piece.shape.length;
-  clearInterval(timer);
-  timer = setInterval(tick, 500);
-  document.getElementById('btnStart').textContent = '⏸ ポーズ';
-  draw();
-}
-
-function endGame() {
-  running = false;
-  clearInterval(timer);
-  document.getElementById('btnStart').textContent = '▶ もう一回';
-  draw();
-}
-
-document.getElementById('btnStart').addEventListener('click', () => {
-  if (!running) { startGame(); return; }
-  paused = !paused;
-  document.getElementById('btnStart').textContent = paused ? '▶ 再開' : '⏸ ポーズ';
-});
-document.getElementById('btnLeft').addEventListener('click', ()=>{ if(running&&!paused&&fits(piece.shape,px-1,py)){px--;draw();} });
-document.getElementById('btnRight').addEventListener('click', ()=>{ if(running&&!paused&&fits(piece.shape,px+1,py)){px++;draw();} });
-document.getElementById('btnRot').addEventListener('click', ()=>{
-  if(!running||paused) return;
-  const r=rotate(piece.shape);
-  if(fits(r,px,py)){piece.shape=r;draw();}
-  else if(fits(r,px+1,py)){piece.shape=r;px++;draw();}
-  else if(fits(r,px-1,py)){piece.shape=r;px--;draw();}
-});
-document.getElementById('btnDown').addEventListener('click', ()=>{ if(running&&!paused){if(fits(piece.shape,px,py+1)){py++;}else{place();} draw();} });
-document.getElementById('btnDrop').addEventListener('click', ()=>{
-  if(!running||paused) return;
-  while(fits(piece.shape,px,py+1)) py++;
-  place(); draw();
-});
-
-document.addEventListener('keydown', e=>{
-  if(!running||paused) return;
-  if(e.key==='ArrowLeft'&&fits(piece.shape,px-1,py)){px--;draw();}
-  if(e.key==='ArrowRight'&&fits(piece.shape,px+1,py)){px++;draw();}
-  if(e.key==='ArrowDown'){if(fits(piece.shape,px,py+1))py++;else place();draw();}
-  if(e.key==='ArrowUp'){
-    const r=rotate(piece.shape);
-    if(fits(r,px,py)){piece.shape=r;draw();}
-    else if(fits(r,px+1,py)){piece.shape=r;px++;draw();}
-    else if(fits(r,px-1,py)){piece.shape=r;px--;draw();}
-  }
-  if(e.key===' '){e.preventDefault();while(fits(piece.shape,px,py+1))py++;place();draw();}
-});
-
-board = newBoard(); draw();
-</script>
+        board = newBoard(); draw();
+        </script>
+    </body>
+</html>
