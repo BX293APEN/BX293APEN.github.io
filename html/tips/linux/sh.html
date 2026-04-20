@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Linuxセットアップガイド" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/linux/sh.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="便利コマンド" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                便利コマンド
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold" id = "link">
+                                シンボリックリンク(ショートカット)の作成
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">ln -sfn [元ファイルパス] [リンク先パス]</code></pre>
+                            </p>
+                            <p>
+                                ※相対パスリンク : <code>[元ファイルパス]</code>が<code>[リンク先のパス]</code>を基準にした相対パスであるリンク
+                            </p>
+
+                            
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#link">シンボリックリンク(ショートカット)の作成</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["pythonTip", "rn4020Tip", "teratermTip"]);
+            new Pagination(7, linuxModel.page, "pagination");
+        </script>
+    </footer>
+</html>
