@@ -227,7 +227,17 @@ newgrp docker</code></pre>
                                                 <pre><code class="language-bash">docker compose logs [コンテナ名]</code></pre>
                                             </td>
                                             <td>
-                                                ログの確認
+                                                ログの確認 <br>
+                                                <code>-n [行数]</code> : 最後の[行数]表示
+                                                <code>-f</code> : 追従
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose logs -n 10 -f [コンテナ名]</code></pre>
+                                            </td>
+                                            <td>
+                                                最後の10行表示した後、ログを追従する
                                             </td>
                                         </tr>
                                         <tr>
