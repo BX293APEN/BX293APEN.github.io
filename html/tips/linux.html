@@ -67,6 +67,8 @@ sudo do-release-upgrade             # OSのアップグレード</code></pre>
 uname -r                                        # カーネルバージョンの確認
 df -h                                           # ディスク容量の確認
 lsblk                                           # ディスク・パーティション構成を一覧表示
+lsblk -po NAME,SIZE,LABEL,MOUNTPOINT | head -n1 && lsblk -po NAME,SIZE,LABEL,MOUNTPOINT,UUID,FSTYPE | grep -E '^(/dev/sd|/dev/nvme)|^├─|^└─'
+
 free -h                                         # メモリ使用量の確認
 swapon --show                                   # スワップの使用状況
 ip link show                                    # インターフェースの状態確認
