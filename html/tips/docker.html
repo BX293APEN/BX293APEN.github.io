@@ -242,6 +242,14 @@ newgrp docker</code></pre>
                                         </tr>
                                         <tr>
                                             <td>
+                                                <pre><code class="language-bash">docker compose logs -f [コンテナ名] | grep --line-buffered "[検索する言葉]"</code></pre>
+                                            </td>
+                                            <td>
+                                                ログを追従しながらリアルタイムで[検索する言葉]を含む行を表示する
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <pre><code class="language-bash">docker system prune -a</code></pre>
                                             </td>
                                             <td>
