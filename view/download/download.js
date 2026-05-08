@@ -31,7 +31,7 @@ class DownloadView{
                 aDLTag.href                 = model.dlData[article]["href"];
                 let figcaptionTag           = document.createElement("figcaption");
                 figcaptionTag.classList.add("btn", "btn-bd-primary", "figure-caption", "text-end");
-                figcaptionTag.innerHTML     = "Download";
+                figcaptionTag.innerHTML     = model.dlData[article]["dltext"] ? model.dlData[article]["dltext"] : "Download";
                 aDLTag.appendChild(figcaptionTag);
 
                 figureTag.appendChild(aTag);

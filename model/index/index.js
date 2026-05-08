@@ -125,7 +125,19 @@ class Model extends LoadModel {
                 "href" : "/html/welcome.html",
             },
             "arch" : {
-                "href" : "/html/tips/linux_memo.html",
+                "href" : "/html/tips/linuxMemo.html",
+            },
+            "gentoo" : {
+                "href" : "/html/tips/linuxMemo/repo.html",
+            },
+            "yocto" : {
+                "href" : "/html/tips/linuxMemo/repo.html",
+            },
+            "openwrt" : {
+                "href" : "/html/tips/linuxMemo/repo.html",
+            },
+            "lfs" : {
+                "href" : "/html/tips/linuxMemo/repo.html",
             },
             "bios" : {
                 "href" : "/html/tips/UEFI.html",

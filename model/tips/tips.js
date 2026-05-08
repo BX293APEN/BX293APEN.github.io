@@ -34,7 +34,7 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
 
             },
             "linuxTipMemo" : {
-                "href"      : "/html/tips/linux_memo.html",
+                "href"      : "/html/tips/linuxMemo.html",
                 "imgSrc"    : "/img/linux-auto.svg", 
                 "title"     : "Linux備忘録",
                 "text"      : "&emsp;Debian系以外のLinuxについて書かれています",
