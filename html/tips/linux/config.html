@@ -102,6 +102,51 @@ sudo apt install p7zip-full                                                     
 wine [Winsows実行ファイル].exe</code></pre>
                             </p>
                         </article> 
+                        
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="discord">
+                                Discordの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano ~/.config/discord/settings.json</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-json">{
+  "SKIP_HOST_UPDATE": true,
+  "BACKGROUND_COLOR": "#f3f3f4",
+  "offloadAdmControls": true,
+  "chromiumSwitches": {},
+  "IS_MAXIMIZED": false,
+  "IS_MINIMIZED": false,
+  "WINDOW_BOUNDS": {
+    "x": 174,
+    "y": 55,
+    "width": 1573,
+    "height": 904
+  },
+  "MINIMIZE_TO_TRAY": false,
+  "enableLibOpenH264Electron": true,
+  "openH264Enabled": true
+}</code></pre>
+                            </p>
+                            <p>
+                                <code>"SKIP_HOST_UPDATE": true,</code> を追加
+                            </p>
+
+                            <div class = "text-end">
+                                <a href="https://raw.githubusercontent.com/BX293APEN/useful_script/refs/heads/main/bash/manual_update.sh" class="btn btn-bd-primary">
+                                    手動アップデートスクリプト
+                                </a>
+                            </div>
+                        </article> 
+
+
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="trim">
                                 トリム
@@ -306,6 +351,9 @@ password=[NASのパスワード]</code></pre>
                                     </li>
                                     <li>
                                         <a href="#wine">Wine の使い方</a>
+                                    </li>
+                                    <li>
+                                        <a href="#discord">Discordの設定</a>
                                     </li>
                                     <li>
                                         <a href="#trim">トリム</a>
