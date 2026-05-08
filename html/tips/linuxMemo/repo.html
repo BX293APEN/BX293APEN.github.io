@@ -71,7 +71,7 @@
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "windowsTip", "vimTip", "serverTip"]);
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "serverTip", "dockerTip"]);
             new Pagination(2, linuxMemoModel.page, "pagination");
             new DownloadView(linuxMemoModel, "article_top", "toc");
         </script>
