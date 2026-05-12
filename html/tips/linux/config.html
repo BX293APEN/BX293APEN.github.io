@@ -271,14 +271,56 @@ password=[NASのパスワード]</code></pre>
                                 ユーザディレクトリが英語に戻る<br>
                                 ※中身を移動してから、不要になった日本語のユーザディレクトリを削除すること
                             </p>
-                            <h3 class="pt-4 border-bottom fw-bold" id="terminal">
-                                デフォルトのターミナルエミュレータの設定
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="default">
+                                デフォルトの設定を変更
                             </h3>
+
+                            <h4 class="pt-4 fw-bold">
+                                デフォルトのターミナルエミュレータの設定
+                            </h4>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">sudo update-alternatives --config x-terminal-emulator</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 fw-bold">
+                                デフォルトのエディタの設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo update-alternatives --config editor            # システム全体
+export EDITOR=nano                                  # 環境変数として適用 .bashrcに書き込むことでそのユーザのみ最優先される</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="sudoers">
+                                ユーザ権限の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo visudo</code></pre>
+                            </p>
+                            <p>
+                                デフォルト : <code>update-alternatives --config editor</code>で設定したエディタが適用される
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">su -
+visudo</code></pre>
+                            </p>
+                            <p>
+                                デフォルト : root の<code>EDITOR</code>変数が最優先される
                             </p>
                         </article>
 
@@ -371,7 +413,10 @@ password=[NASのパスワード]</code></pre>
                                         <a href="#user-dir">ユーザディレクトリの設定</a>
                                     </li>
                                     <li>
-                                        <a href="#terminal">デフォルトのターミナルエミュレータの設定</a>
+                                        <a href="#default">デフォルトの設定を変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sudoers">ユーザ権限の変更</a>
                                     </li>
                                     <li>
                                         <a href="#printer">プリンタの設定</a>
