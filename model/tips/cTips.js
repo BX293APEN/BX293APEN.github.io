@@ -198,6 +198,10 @@ class CPPModel{
             },
             {
                 "page" : 2,
+                "href" : "/html/tips/c-lang/EMBEDDED_C.html"
+            },
+            {
+                "page" : 3,
                 "href" : "/html/tips/c-lang/msquic.html"
             }
         ]
