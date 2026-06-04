@@ -1,5 +1,6 @@
 # C/C++ Notes (Additional)
 
+<!--
 ---
 
 ## 目次
@@ -24,6 +25,7 @@
 18. [RP2040 固有 — `__attribute__((aligned(4)))` の意味](#rp2040-固有--__attribute__aligned4-の意味)
 
 ---
+-->
 
 ## 整数型と符号なし整数のオーバーフロー
 
