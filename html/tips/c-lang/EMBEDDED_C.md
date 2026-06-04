@@ -1,4 +1,4 @@
-# 組み込み C 実践メモ — 一般編 + RP2040 (Raspberry Pi Pico W) 編
+# C/C++ Notes (Additional)
 
 ---
 
