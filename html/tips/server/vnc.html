@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/vnc.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="ディスプレイを付けない場合のTigerVNCの設定方法について" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            サーバの構築手順
+                        </h1>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="vnc">
+                                xfce4 + TigerVNCサーバの構築(ディスプレイが無い場合)
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                TigerVNCのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install -y tigervnc-standalone-server tigervnc-common tigervnc-tools xfce4 xfce4-goodies dbus-x11 firefox-esr</code></pre> 
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                パスワード設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">vncpasswd</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir -p ~/.config/tigervnc
+nano ~/.config/tigervnc/xstartup</code></pre> 
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">#!/bin/sh
+
+export XMODIFIERS="@im=fcitx"
+export GTK_IM_MODULE=fcitx5
+export QT_IM_MODULE=fcitx
+export SDL_IM_MODULE=fcitx
+export DISPLAY=:1
+
+xsetroot -solid grey
+xhost +SI:localuser:$(whoami)
+
+# スタートアップアプリの追加
+# xfce4-terminal &
+
+exec startxfce4</code></pre> 
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">chmod +x ~/.config/tigervnc/xstartup</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                起動設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/system/tigervnc@:1.service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=TigerVNC Server for %i
+After=network.target
+
+[Service]
+Type=forking
+User=[ユーザ名]
+Group=[ユーザ名]
+WorkingDirectory=/home/[ユーザ名]
+
+ExecStart=/usr/bin/vncserver %i -localhost no
+ExecStop=/usr/bin/vncserver -kill %i
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target</code></pre> 
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl enable tigervnc@:1.service
+sudo systemctl restart tigervnc@:1.service</code></pre>
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#vnc">VNCサーバの構築</a>
+                                    </li>
+    
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "appTip"]);
+            new Pagination(6, serverModel.page, "pagination");
+        </script>
+    </footer>
+</html>

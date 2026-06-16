@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="RN4020" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/RN4020.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/RN4020_design.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="BLEモジュールについて" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>RN4020</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                            Bluetooth Low Energyモジュール
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                RN4020使い方ガイド
+                            </h3>
+                            <img src = "/img/RN4020.png" width="100%">
+                            <p class="text-center fw-bold">
+                                ピンアサイン
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">ピン機能</th>
+                                        <th scope="col">接続(起動時)</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            WAKE_SW 
+                                        </td>
+                                        <td>
+                                            HIGH 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            CMD/MLDP
+                                        </td>
+                                        <td>
+                                            LOW
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            WAKE_HW
+                                        </td>
+                                        <td>
+                                            HIGH 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            UART TX 
+                                        </td>
+                                        <td>
+                                            RX
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            UART RX 
+                                        </td>
+                                        <td>
+                                            TX
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <hr>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold"> 基本コマンド</h4>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">コマンド</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">SF,1</code></pre>
+                                        </td>
+                                        <td>
+                                            工場出荷時の既定値
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">SF,2</code></pre>
+                                        </td>
+                                        <td>
+                                            完全工場出荷時の既定値
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">SN,[名前]</code></pre>
+                                        </td>
+                                        <td nowrap>
+                                            デバイスの名前を[名前]に変更
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">SR,[機能設定]</code></pre>
+                                        </td>
+                                        <td>
+                                            有効化/無効化する機能を設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">SS,[サービス設定]</code></pre>
+                                        </td>
+                                        <td>
+                                            サービスを設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">PS,[UUID]</code></pre>
+                                        </td>
+                                        <td>
+                                            UUIDを設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">PC,[プライベートキャラスタリック値],1A,FF</code></pre>
+                                        </td>
+                                        <td nowrap>
+                                            プライベートキャラスタリック値を設定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">D</code></pre>
+                                        </td>
+                                        <td>
+                                            デバイス情報を確認
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">R,1</code></pre>
+                                        </td>
+                                        <td>
+                                            再起動
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">LS</code></pre>
+                                        </td>
+                                        <td nowrap>
+                                            BLEデバイスのUUIDとハンドル値の対応を確認<br>
+                                            ※ペリフェラルのみ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">H</code></pre>
+                                        </td>
+                                        <td>
+                                            <a href="https://ww1.microchip.com/downloads/jp/DeviceDoc/70005191A_JP.pdf">
+                                                ヘルプ
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold"> セントラルコマンド</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">コマンド</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">F</code></pre>
+                                        </td>
+                                        <td nowrap>
+                                            ペリフェラルデバイスを検索<br>
+                                            ※<code class="language-bash bg-body-tertiary">X</code>で終了
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">X</code></pre>
+                                        </td>
+                                        <td>
+                                            デバイスの検索を終了する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">E,0,[BTA]</code></pre>
+                                        </td>
+                                        <td nowrap>
+                                            [BTA](ボンディング済みMACアドレス)のペリフェラルBLEデバイスに接続
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold"> 接続中コマンド</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped-columns table-bordered">
+                                    <tr>
+                                        <th scope="col">コマンド</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">K</code></pre>
+                                            </td>
+                                            <td>
+                                                接続解除
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">M</code></pre>
+                                            </td>
+                                            <td>
+                                                通信強度
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">LC</code></pre>
+                                            </td>
+                                            <td nowrap>
+                                                接続したBLEデバイスのUUIDとハンドル値の対応を確認<br>
+                                                ※セントラルのみ
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">CHW,[ハンドル値],[転送データ]</code></pre>
+                                            </td>
+                                            <td nowrap>
+                                                接続したBLEデバイスの[ハンドル値]に[転送データ]を送る<br>
+                                                ※セントラルのみ
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">SHR,[ハンドル値]</code></pre>
+                                            </td>
+                                            <td nowrap>
+                                                [ハンドル値]に送られてきたデータを読み出す<br>
+                                                ※ペリフェラルのみ
+                                            </td>
+                                        </tr>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script>
+            hljs.highlightAll();
+            
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "pythonTip", "vimTip", "cTip"]);
+        </script>
+    </footer>
+</html>

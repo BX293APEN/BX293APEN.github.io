@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="How to use Docker?" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/docker.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="Dockerについて" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>How to use Docker?</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id = "article_top">
+                            Dockerの使い方ガイド
+                        </h1>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "docker">
+                                概要
+                            </h3>
+                            <h4 class="pt-2 mt-2 fw-bold">
+                                Docker (ドッカー)
+                            </h4>
+                            <ul>
+                                <li>
+                                    コンテナ仮想化技術を利用したオープンプラットフォーム
+                                </li>
+                                <li>
+                                    アプリケーションの開発、デプロイ、実行を効率化出来る
+                                </li>
+                            </ul>
+
+                            <h5 class="pt-3 mt-3 fw-bold">
+                                メリット
+                            </h5>
+                            <ul>
+                                <li>
+                                    仮想環境であるため、隔離されており、実機に影響を及ぼしにくい
+                                </li>
+                                <li>
+                                    VMよりも軽量
+                                </li>
+                                <li>
+                                    起動や動作が速い
+                                </li>
+                                <li>
+                                    開発環境の共有や移行が容易
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "docker">
+                                Dockerのインストール
+                            </h3>
+                            <h4 class="pt-2 mt-2 fw-bold">
+                                Windows
+                            </h4>
+                            <a href ="https://www.docker.com/get-started/"> 
+                                <img src="/img/Docker.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://www.docker.com/get-started/"> 
+                                <b>Download</b>
+                            </a>
+
+                            <h4 class="pt-4 mt-4 fw-bold">
+                                Linux
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y docker-ce containerd.io docker-buildx-plugin docker-ce-cli docker-ce-rootless-extras docker-compose-plugin
+sudo systemctl enable docker
+sudo systemctl restart docker
+sudo docker run hello-world # 確認
+sudo usermod -aG docker $USER
+newgrp docker</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "config">
+                                Dockerで利用するファイル
+                            </h3>
+                            <p>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-fixed">
+                                        <tr>
+                                            <th scope="col">ファイル</th>
+                                            <th scope="col">内容</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker-compose.yml</code></pre>
+                                            </td>
+                                            <td>
+                                                複数コンテナの一括定義・連携
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">Dockerfile</code></pre>
+                                            </td>
+                                            <td class ="text-nowrap">
+                                                <ul>
+                                                    <li>
+                                                        ベースイメージの指定
+                                                    </li>
+                                                    <li>
+                                                        ポート指定 (情報提供のみで、実際のポートマッピングは<b>docker-compose.yml</b>で行う)
+                                                    </li>
+                                                    <li>
+                                                        必要なソフトウェアのインストール
+                                                    </li>
+                                                    <li>
+                                                        起動時に実行するコマンド等を指定
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        
+                                    </table>
+                                </div>
+                                
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "cmd">
+                                基本コマンド
+                            </h3>
+                            <p>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-fixed">
+                                        <tr>
+                                            <th scope="col">コマンド</th>
+                                            <th scope="col">説明</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose up --build -d</code></pre>
+                                            </td>
+                                            <td class ="text-nowrap">
+                                                Dockerfileに基づいてサービス用のDockerイメージを更新し、<br>
+                                                バックグラウンドで全てのサービスを起動
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose up -d</code></pre>
+                                            </td>
+                                            <td>
+                                                バックグラウンドで全てのサービスを起動
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose up</code></pre>
+                                            </td>
+                                            <td>
+                                                全てのサービスをフォアグラウンドで起動し、ログを表示
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose build</code></pre>
+                                            </td>
+                                            <td>
+                                                Dockerfileに基づいてサービス用のDockerイメージをビルド
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose exec [コンテナ名] [コマンド]</code></pre>
+                                            </td>
+                                            <td>
+                                                既に実行中のコンテナ内で、新しいコマンドを実行する
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose run [コンテナ名] [コマンド]</code></pre>
+                                            </td>
+                                            <td>
+                                                一度限りのコマンドを実行
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose down</code></pre>
+                                            </td>
+                                            <td>
+                                                完全にコンテナを終了させる
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose stop</code></pre>
+                                            </td>
+                                            <td>
+                                                コンテナをサスペンドする
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose logs [コンテナ名]</code></pre>
+                                            </td>
+                                            <td>
+                                                ログの確認 <br>
+                                                <code>-n [行数]</code> : 最後の[行数]表示 <br>
+                                                <code>-f</code> : 追従
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose logs -n 10 -f [コンテナ名]</code></pre>
+                                            </td>
+                                            <td>
+                                                最後の10行表示した後、ログを追従する
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker compose logs -f [コンテナ名] | grep --line-buffered "[検索する言葉]"</code></pre>
+                                            </td>
+                                            <td>
+                                                ログを追従しながらリアルタイムで[検索する言葉]を含む行を表示する
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><code class="language-bash">docker system prune -a</code></pre>
+                                            </td>
+                                            <td>
+                                                不要になったイメージを削除
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "sample">
+                                サンプル
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    .env
+                                </div>
+                                <pre><code class="language-bash"># docker-compose.yml内で利用する環境変数の設定
+COMPOSE_PROJECT_NAME=project1           # プロジェクト名(全て小文字)
+CONTAINER_NAME=Docker_Linux
+
+Dockerfile_DIR=.
+Dockerfile=Dockerfile
+
+VOLUME=./linux_data
+
+TIME_ZONE=Asia/Tokyo
+LANG=ja_JP.UTF8
+
+NETWORK_NAME=ethd
+IP_SUBNET_ADDR=192.168.10.0
+IP_PREFIX=24
+IP_GATEWAY_ADDR=192.168.10.1
+
+USER_NAME=PEN
+PASSWORD=password
+
+ENTRY_DIR=Programs
+ENTRY_POINT=start.sh
+
+WS=WS</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    docker-compose.yml
+                                </div>
+                                <pre><code class="language-yaml"># YAMLはスペース2つ
+# name: project1                            # プロジェクト名(全て小文字)
+services:                                   # 作成したいコンテナを列挙
+  linux:                                    # 作成するコンテナの名前(docker composeで管理する名前)
+    env_file: .env
+    
+    container_name: ${CONTAINER_NAME}       # 外部から見た時の名前
+    
+    # IPアドレスの確認 
+    # docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" [${CONTAINER_NAME}の値]
+
+    hostname: ${CONTAINER_NAME}             # ホスト名
+
+    build: 
+      context: ${Dockerfile_DIR}
+      dockerfile: ${Dockerfile}             # Dockerfileへの相対パス
+      args:                                 # Dockerfile内の環境変数を設定
+        WS:           ${WS}
+        USER_NAME:    ${USER_NAME}
+        PASSWORD:     ${PASSWORD}
+        ENTRY_DIR:    ${ENTRY_DIR}
+        ENTRY_POINT:  ${ENTRY_POINT}
+        LANG:         ${LANG}
+    
+    # image: ubuntu:25.10                   # Dockerfileが無い場合
+
+    volumes:                                # マウント
+      - ${VOLUME}:/home/${USER_NAME}/${WS}  # ホストディレクトリ: コンテナ内ディレクトリ
+
+    restart: no                             # unless-stopped always ...
+
+    environment:                            # コンテナ内の環境変数を設定
+      - TZ=${TIME_ZONE}
+      - LANG=${LANG}
+    
+    ports:                                  # ポートを接続
+      - "3000:3000"                         # ホストマシンのポート番号:コンテナのポート番号
+    
+    # depends_on:                           # コンテナ間の依存関係を定義
+    #   - db                                # 先にdbコンテナが動いていることを確認する
+
+    command:                                # サービスコンテナが起動したときに実行するコマンド
+      - /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
+    
+    networks:
+      - docker_eth
+
+networks:
+  default:
+    external: true
+    name: bridge
+
+  docker_eth:
+    name: ${NETWORK_NAME}
+    driver: bridge
+    ipam:
+      driver: default
+      config:                               # 物理ネットワークに直接接続したい場合は実環境に合わせる
+        - subnet: ${IP_SUBNET_ADDR}/${IP_PREFIX}
+          gateway: ${IP_GATEWAY_ADDR}</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    Dockerfile
+                                </div>
+                                <pre><code class="language-bash"># FROM [イメージ] [タグ]
+# Docker Hub (https://hub.docker.com/) 参照
+FROM ubuntu:25.10
+
+# 環境変数を docker-compose.yml から受け取る
+ARG WS
+ARG USER_NAME
+ARG PASSWORD
+ARG ENTRY_DIR
+ARG ENTRY_POINT
+ARG LANG
+
+# 環境変数を設定
+# 1000以上推奨
+ENV USER_ID=1001
+ENV GROUP_ID=1001
+
+# RUN 命令はなるべく1つにまとめる
+# コマンドが長くなる場合は \ で改行すること
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y \
+    sudo nano iproute2 iputils-ping language-pack-ja && \
+    useradd -m -s /bin/bash -u ${USER_ID} ${USER_NAME} && \
+    usermod -aG sudo ${USER_NAME} && \
+    echo "root:${PASSWORD}" | chpasswd && \
+    echo "${USER_NAME}:${PASSWORD}" | chpasswd && \
+    mkdir -p /home/${USER_NAME}/${ENTRY_DIR} && \
+    update-locale LANG=${LANG}
+
+COPY ${ENTRY_POINT} /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
+RUN chmod +x /home/${USER_NAME}/${ENTRY_DIR}/${ENTRY_POINT}
+
+USER ${USER_NAME}
+WORKDIR /home/${USER_NAME}/${WS}
+
+# 起動したら実行するコマンド
+# 環境変数は使えないので注意
+# ENTRYPOINT ["/Programs/start.sh"] 
+
+# 起動したら実行するコマンド
+# CMD ["/bin/bash", "-c", "while true; do sleep 1000; done"]
+# 無限ループでbashを起動し続ける</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    start.sh
+                                </div>
+                                <pre><code class="language-bash">#!/usr/bin/env bash
+while true; do
+    sleep 1000 
+done</code></pre>
+                            </p>
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://github.com/hisuie08/backup-tool-docker">
+                                    <a href="https://github.com/hisuie08/backup-tool-docker">
+                                        NashiroAoi (backup-tool-docker)
+                                    </a>
+                                </blockquote>
+                                <blockquote cite="https://docs.docker.jp/engine/reference/commandline/inspect.html">
+                                    <a href="https://docs.docker.jp/engine/reference/commandline/inspect.html">
+                                        docker inspect
+                                    </a>
+                                </blockquote>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#docker">概要</a>
+                                    </li>
+                                    <li>
+                                        <a href="#config">Dockerで利用するファイル</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cmd">基本コマンド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sample">サンプル</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "windowsTip", "vimTip", "serverTip"]);
+        </script>
+    </footer>
+</html>

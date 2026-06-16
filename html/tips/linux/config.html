@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Linuxセットアップガイド" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/linux/config.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="Linuxのセットアップ作業について" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="ubuntu-desktop">
+                                Ubuntu デスクトップアイコンの変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install gnome-tweaks gnome-shell-extension-manager                 # デスクトップアイコンの設定やテーマの変更を行うためのツール
+
+gsettings set org.gnome.shell.extensions.ding show-trash true               # デスクトップに ゴミ箱 を表示する
+gsettings set org.gnome.shell.extensions.ding show-home true                # デスクトップに ホームフォルダ を表示する
+gsettings set org.gnome.shell.extensions.ding show-volumes true             # デスクトップに マウント済みドライブ を表示する
+gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false     # ドックに マウント済みドライブ を表示しない
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash false      # ドックに ゴミ箱 を表示しない
+gsettings set org.gnome.shell.extensions.dash-to-dock show-apps-at-top true # アプリ一覧 ボタンをドックの 一番上 又は 左端に表示する
+
+gsettings get org.gnome.desktop.interface icon-theme                        # 現在のアイコンのテーマを確認
+gsettings set org.gnome.desktop.interface icon-theme "[アイコン名]"          # アイコンのテーマを変更する
+
+gsettings get org.gnome.desktop.interface cursor-theme                      # 現在のカーソルのテーマを確認
+gsettings set org.gnome.desktop.interface cursor-theme "[カーソルテーマ名]"  # カーソルのテーマを変更する
+</code></pre>
+                            </p>
+                        </article> 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="cursor">
+                                システムのマウスカーソルを変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /usr/share/icons/default/index.theme</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Icon Theme]
+Inherits=[カーソルテーマ名]</code></pre>
+                            </p>
+                        </article> 
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="wine">
+                                Wine 11.0 インストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo dpkg --add-architecture i386                                               # 32bit アーキテクチャを有効化
+sudo mkdir -pm755 /etc/apt/keyrings
+wget -O \
+    - https://dl.winehq.org/wine-builds/winehq.key | \
+    sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key
+
+sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+sudo apt update
+sudo apt install --install-recommends winehq-stable
+
+wine --version                                                                  # バージョン確認
+
+sudo apt install p7zip-full                                                     # 7zip解凍用
+7z x [解凍したい7zipフォルダ]
+wine [Winsows実行ファイル].exe</code></pre>
+                            </p>
+                        </article> 
+                        
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="discord">
+                                Discordの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano ~/.config/discord/settings.json</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-json">{
+  "SKIP_HOST_UPDATE": true,
+  "BACKGROUND_COLOR": "#f3f3f4",
+  "offloadAdmControls": true,
+  "chromiumSwitches": {},
+  "IS_MAXIMIZED": false,
+  "IS_MINIMIZED": false,
+  "WINDOW_BOUNDS": {
+    "x": 174,
+    "y": 55,
+    "width": 1573,
+    "height": 904
+  },
+  "MINIMIZE_TO_TRAY": false,
+  "enableLibOpenH264Electron": true,
+  "openH264Enabled": true
+}</code></pre>
+                            </p>
+                            <p>
+                                <code>"SKIP_HOST_UPDATE": true,</code> を追加
+                            </p>
+
+                            <div class = "text-end">
+                                <a href="https://raw.githubusercontent.com/BX293APEN/useful_script/refs/heads/main/bash/manual_update.sh" class="btn btn-bd-primary">
+                                    手動アップデートスクリプト
+                                </a>
+                            </div>
+                        </article> 
+
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="trim">
+                                トリム
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo fstrim -av</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="keyboard">
+                                仮想キーボードを無効化
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="low-code">
+                                ローコード開発
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold" id="node-red">
+                                Node-RED
+                            </h4>
+                            <p>
+                                &emsp;フローベースの<b>ローコード</b>ビジュアルプログラミングツール。処理がNode単位に分割されており、WebブラウザからNodeを編集し、ワイヤー(線)を結びつけることにより、フローを作成していく。<br>
+                                &emsp;ハードウェアデバイスやAPI、クラウドサービス等も操作可能であるため、IoTアプリ開発に使える。
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">bash &lt;(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+# 基本デフォルト推奨(全て y or Enter)
+
+sudo node-red-pi --max-old-space-size=256 # Ctrl + Cで処理を一度止める
+sudo systemctl enable nodered.service
+sudo reboot</code></pre>
+                            </p>
+                            <p>
+                                http://localhost:1880 をブラウザで開いて開始
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "nas">
+                                NASの接続
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                接続確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install -y cifs-utils
+sudo mkdir -p [マウントポイントのフォルダのパス]
+sudo chmod 777 [マウントポイントのフォルダのパス]
+sudo mount -t cifs -o username=[NASのユーザー名],password=[NASのパスワード] //[NASのIPアドレス]/[共有フォルダ] [マウントポイントのフォルダのパス]      #テスト 上手くいかない場合はバージョン指定,ver=2.0
+</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                自動マウント
+                            </h4>
+                            
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                アカウント登録
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/samba/credentials</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">username=[NASのユーザー名]
+password=[NASのパスワード]</code></pre>
+                            </p>
+
+                            <h5 class="pt-4 border-bottom fw-bold">
+                                マウントポイント登録
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/fstab</code></pre>
+                            </p>
+                            
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">//[NASのIPアドレス]/[共有フォルダ] [マウントポイントのフォルダのパス] cifs credentials=/etc/samba/credentials,iocharset=utf8,uid=1000,gid=1000,cache=none,noserverino,vers=3.0 0 0</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mount -a # エラーチェック</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="user-dir">
+                                ユーザディレクトリの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">LANG=C xdg-user-dirs-update --force</code></pre>
+                            </p>
+                            <p>
+                                ユーザディレクトリが英語に戻る<br>
+                                ※中身を移動してから、不要になった日本語のユーザディレクトリを削除すること
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="default">
+                                デフォルトの設定を変更
+                            </h3>
+
+                            <h4 class="pt-4 fw-bold">
+                                デフォルトのターミナルエミュレータの設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo update-alternatives --config x-terminal-emulator</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 fw-bold">
+                                デフォルトのエディタの設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo update-alternatives --config editor            # システム全体
+export EDITOR=nano                                  # 環境変数として適用 .bashrcに書き込むことでそのユーザのみ最優先される</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="sudoers">
+                                ユーザ権限の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo visudo</code></pre>
+                            </p>
+                            <p>
+                                デフォルト : <code>update-alternatives --config editor</code>で設定したエディタが適用される
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">su -
+visudo</code></pre>
+                            </p>
+                            <p>
+                                デフォルト : root の<code>EDITOR</code>変数が最優先される
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="printer">
+                                プリンタの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install cups lpr printer-driver-gutenprint</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                IPP Everywhere (ドライバレス)対応のプリンタ
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">ipptool -tv ipp://[IPアドレス] get-printer-attributes.test | grep "printer-uri-supported"</code></pre>
+                            </p>
+                            <p>
+                                ターミナルに出力されたURIを<a href="http://localhost:631">CUPS管理画面</a>に設定(ドライバはIPP Everywhere)<br>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                IPP Everywhere (ドライバレス)非対応のプリンタ
+                            </h4>
+                            <p>
+                                <a href="http://localhost:631">CUPS管理画面</a>からURIとドライバを設定<br>
+                            </p>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://linux-jp.org/?p=22406">
+                                    <a href="https://linux-jp.org/?p=22406">
+                                        Ubuntu 25.10 Questing Quokka をインストール後に行うべきこと
+                                    </a>
+                                </blockquote>
+
+                                <blockquote cite="https://www.gnome-look.org/browse/">
+                                    <a href="https://www.gnome-look.org/browse/">
+                                        GNOMEテーマ・アイコン・カーソルのダウンロード
+                                    </a>
+                                </blockquote>
+
+                                <blockquote cite="https://qiita.com/sdinoue/items/bdb5b083f380a8a0cf18">
+                                    <a href="https://qiita.com/sdinoue/items/bdb5b083f380a8a0cf18">
+                                        Linux で exe を実行する wine
+                                    </a>
+                                </blockquote>
+                            </div>
+
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ubuntu-desktop">Ubuntu デスクトップアイコンの変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cursor">マウスカーソルの変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#wine">Wine の使い方</a>
+                                    </li>
+                                    <li>
+                                        <a href="#discord">Discordの設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#trim">トリム</a>
+                                    </li>
+                                    <li>
+                                        <a href="#keyboard">仮想キーボードを無効化</a>
+                                    </li>
+                                    <li>
+                                        <a href="#node-red">Node-RED</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nas">NASの接続</a>
+                                    </li>
+                                    <li>
+                                        <a href="#user-dir">ユーザディレクトリの設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#default">デフォルトの設定を変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sudoers">ユーザ権限の変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#printer">プリンタの設定</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["vimTip", "githubTip", "serverTip"]);
+            new Pagination(3, linuxModel.page, "pagination");
+        </script>
+    </footer>
+</html>

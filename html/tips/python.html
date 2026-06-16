@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Pythonの環境構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/python.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="Pythonについて" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Pythonの環境構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Pythonの環境構築
+                        </h1>
+                        <article class="blog-post" id="install">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                インストール方法
+                            </h2>
+                            <p>
+                                ※Pythonのパスは通すこと
+                            </p>
+                            <a href ="https://www.python.org/"> 
+                                <img src="/img/Python-Dark.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://www.python.org/"> 
+                                <b>Install</b>
+                            </a>
+                        </article>
+
+                        <article class="blog-post" id="module">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                モジュールのインストール
+                            </h2>
+                            <p>
+                                &emsp;モジュールは<code>pip</code>等を使うことでインストール可能である。<br>
+                                ※<b>管理者権限</b>で動作させること(権限問題が発生しにくくなる)<br>
+                                ※Linuxの場合は<a href="/html/tips/linux.html#python">設定</a>するとpipでインストールが可能になる。
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="cuda">
+                                GPUを利用したモジュール
+                            </h3>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                NVIDIA CUDA Toolkit
+                            </h4>
+                            <a href ="https://developer.nvidia.com/cuda-downloads"> 
+                                <img src="/img/nvidia.png" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://developer.nvidia.com/cuda-downloads"> 
+                                <b>Install</b>
+                            </a>
+
+                            <h5 class="pt-4 mt-2 fw-bold">
+                                CUDAのバージョン確認
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">nvcc -V</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                Cupy Install
+                            </h4>
+                            <img src="/img/cupy.png" width = "100" />
+                            <pre><code class="language-bash">pip install cupy-cuda13x</code></pre>
+                            
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                PyTorch Install
+                            </h4>
+                            <a href ="https://pytorch.org/get-started/locally/"> 
+                                <img src="/img/PyTorch-Dark.svg" width = "100"/>
+                            </a>
+                            <br>
+                            <a href ="https://pytorch.org/get-started/locally/"> 
+                                <b>Install</b>
+                            </a>
+                        </article>
+
+                        <article class="blog-post" id="pypi">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                PyPIへのアップロード
+                            </h2>
+                            <h4 class="pt-4 mt-4 fw-bold">
+                                1. 必要なモジュールをインストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">pip install twine build setuptools</code></pre>
+                            </p>
+                            <h4 class="pt-4 mt-4 fw-bold">
+                                2. pyproject.toml README.mdの作成
+                            </h4>
+
+                            <h4 class="pt-4 mt-4 fw-bold">
+                                3. PyPI アカウントの作成
+                            </h4>
+                            <p>
+                                <a href="https://pypi.org/account/register/">PyPI</a>
+                            </p>
+
+                            <h4 class="pt-4 mt-4 fw-bold">
+                                4. パッケージをビルド
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">python -m build</code></pre>
+                            </p>
+                            <h4 class="pt-4 mt-4 fw-bold">
+                                5. PyPI にアップロード
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">twine upload dist/*</code></pre>
+                            </p>
+                            <div id="md-text">
+**注意**  
+- PyPIの名前は世界で**一意**
+- 似ている名前も禁止
+                            </div>
+                            
+                        </article>
+
+                        <article class="blog-post" id="pip">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                Troubleshooting pip-related issues
+                            </h2>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                インストールされているパッケージ一覧の出力
+                            </h3>
+                            <pre><code class="language-bash">pip freeze > requirements.txt</code></pre>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                パッケージの一括インストール (管理者権限で実行を推奨)
+                            </h3>
+                            <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                            <p>
+                                ※途中で失敗すると全て取り消しになるため注意
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                パッケージを自動インストール (管理者権限で実行を推奨)
+                            </h3>
+                            <pre><code class="language-python">import subprocess, sys
+
+def install_package(path):
+    with open(path, "r", encoding="UTF-8") as f: # エンコーディングを指定
+        packages = f.read().split("\n")
+
+    for package in packages:
+        package = package.strip()
+        if not package or package.startswith("#"): # 空行やコメント行をスキップ
+            continue
+
+        print(f"インストールを試行中: {package}")
+        try:
+            subprocess.check_call(["pip", "install", package])
+            print(f"正常にインストールされました: {package}")
+        except subprocess.CalledProcessError as e:
+            print(f"--- インストールに失敗しました: {package} ---")
+            print(f"エラー: {e}")
+            print("--- このパッケージはスキップします ---")
+        print()
+
+if __name__ == "__main__":
+    argv = sys.argv
+    file = "requirements.txt"
+    try:
+        file = argv[1]
+    finally:
+        install_package(file)</code></pre>
+                            <p>
+                                ※一つずつインストールするため、失敗したパッケージのみ確認すれば良い
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                pipが破損した場合
+                            </h3>
+                            <pre><code class="language-bash">mkdir %userprofile%\python # フォルダ作成(初回のみ)
+curl -sSL https://bootstrap.pypa.io/get-pip.py -o %userprofile%\python\get-pip.py
+python %userprofile%\python\get-pip.py
+py -m pip install --upgrade pip --user</code></pre>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                pipパッケージの更新
+                            </h3>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                pip-reviewのインストール
+                            </h4>
+                            <pre><code class="language-bash">pip install pip-review</code></pre>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                パッケージのアップデート
+                            </h4>
+                            <pre><code class="language-bash">pip-review --auto</code></pre>
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#install">Pythonのインストール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#module">モジュールのインストール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pypi">PyPIへのアップロード</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cuda">GPUを利用したモジュール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pip">pipのトラブルシューティング</a>
+                                    </li>
+
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "asciiCodeTip", "opencvTip", "rn4020Tip"]);
+            new MarkDownMaker(
+                id              = "md-text",
+            )
+        </script>
+    </footer>
+</html>

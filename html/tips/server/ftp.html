@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/ftp.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="FTPサーバ / NAS(SMB) の設定方法について" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            サーバの構築手順
+                        </h1>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="ftp">
+                                vsftpdを利用したFTPサーバの構築方法
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install vsftpd</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/vsftpd.conf</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash"># /etc/vsftpd.conf
+# アノニマス(匿名)ユーザを許可する。
+anonymous_enable=YES
+
+# ローカルユーザアカウントによるログインを許可する。
+local_enable=YES
+
+# ファイルに変更を加える FTP コマンドの使用を、許可するかどうかを指定する。
+write_enable=YES
+
+# (システム規定値)∩ (~(umask値))をする。
+# 今回はシステム規定値 : 777, umask値 : 022なので、755を適用する。
+local_umask=022
+
+# ディレクトリメッセージを表示する。
+dirmessage_enable=YES
+
+# ログの取得を行う。
+xferlog_enable=YES
+
+# ftp_data_portで指定するポートを使用する。
+connect_from_port_20=YES
+
+# 取得するログの形式を指定する。(今回はデフォルト)
+xferlog_std_format=YES
+
+# IPv4有効化。
+listen=YES
+
+# IPv6無効化。
+listen_ipv6=NO
+
+# サービス名指定する。
+pam_service_name=vsftpd
+
+# denyファイル（/etc/hosts.allow, /etc/hosts.deny)を利用しない。
+tcp_wrappers=NO
+
+# userlist_fileを使用しない。
+userlist_enable=NO
+
+# パッシブモードの接続を許可する。
+# ※パッシブモード : データ転送用・制御用の線の両方をクライアント側から接続する方式
+pasv_enable=YES
+
+# FTPサーバのIPアドレスを指定する。
+pasv_address=192.168.10.97
+
+# データ転送用ポートを指定する。
+pasv_min_port=60001
+pasv_max_port=60010             
+
+# 「.」から始まるファイルを含めた一覧を返す。
+force_dot_files=YES
+
+# ファイル (ディレクトリ) のタイムスタンプ表示をローカルタイムで行う。
+use_localtime=YES
+
+# アクセスするユーザの設定ファイルの場所を指定する。
+user_config_dir=/etc/vsftpd/user_conf
+
+# ユーザはログインディレクトリの外側にアクセスできなくなる。
+chroot_local_user=NO
+
+# 指定ファイルに記載されたユーザをchroot_local_userの設定に基づいて制御する。
+chroot_list_enable=YES
+
+# chroot_list_enableがYESの場合に参照するファイルを指定する。
+chroot_list_file=/etc/vsftpd/chroot_list
+
+# 書き込み許可をする。
+allow_writeable_chroot=YES
+
+
+### FTPS設定(証明書 作成/取得後 設定) ###
+
+# TLS/SSLの使用
+ssl_enable=YES
+
+# SSLの無効化 TLSの有効化
+ssl_sslv2=NO
+ssl_sslv3=NO
+ssl_tlsv1=YES
+
+# 証明書設定
+rsa_cert_file=[公開鍵へのフルパス]
+rsa_private_key_file=[秘密鍵へのフルパス]
+
+# ログイン情報の暗号化
+force_local_logins_ssl=YES
+
+# データの暗号化
+force_local_data_ssl=YES</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <h4 class="pt-2 border-bottom fw-bold">
+                                アクセスするユーザの設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir -p [path]/ftp                     # FTPで使うフォルダを作成する。
+sudo chmod 777 [path]/ftp               # 権限を変更する。(読み書き実行出来るようにする。)
+sudo mkdir -p /etc/vsftpd
+sudo nano /etc/vsftpd/chroot_list       # アクセスするユーザのリストを作成する。</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[ユーザ名]</code></pre>
+                            </p>
+                            <h4 class="pt-2 border-bottom fw-bold">
+                                アクセスするフォルダの設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir /etc/vsftpd/user_conf
+sudo nano /etc/vsftpd/user_conf/[ユーザ名]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">local_root=[path]/ftp</code></pre>
+                            </p>
+                            <h4 class="pt-2 border-bottom fw-bold">
+                                FTPサーバを起動する。
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable vsftpd
+sudo systemctl restart vsftpd</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="smb">
+                                SMBを利用したネットワークストレージの構築
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install samba smbclient cifs-utils mdadm wsdd</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                共有フォルダ作成
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir [path]/share 
+sudo chmod 777 [path]/share</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                ユーザ登録
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo useradd -M [NAS用ユーザ名]
+sudo smbpasswd -a [NAS用ユーザ名]</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/samba/smb.conf</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">#======================= Global Settings =======================
+[global]
+    workgroup               = WORKGROUP
+    unix charset            = UTF-8
+    dos charset             = CP932
+    interfaces              = 127.0.0.0/8 192.168.10.0/24   # 自環境に合わせる
+    log file                = /var/log/samba/log.%m
+    max log size            = 1000K
+    logging                 = file
+    panic action            = /usr/share/samba/panic-action %d
+    server role             = standalone server
+    obey pam restrictions   = yes
+    unix password sync      = yes
+    passwd program          = /usr/bin/passwd %u
+    passwd chat             = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+    pam password change     = yes
+    map to guest            = bad user
+    usershare allow guests  = yes
+
+#======================= Share Definitions =======================
+
+;[homes]
+;   comment         = Home Directories
+;   browseable      = no
+;   read only       = no
+;   create mask     = 0770
+;   directory mask  = 0770
+;   valid users     = %S
+
+;[netlogon]
+;   comment         = Network Logon Service
+;   path            = /home/samba/netlogon
+;   guest ok        = yes
+;   read only       = yes
+
+;[profiles]
+;   comment         = Users profiles
+;   path            = /home/samba/profiles
+;   guest ok        = no
+;   browseable      = no
+;   create mask     = 0600
+;   directory mask  = 0700
+
+[printers]
+    comment         = All Printers
+    browseable      = no
+    path            = /var/tmp
+    printable       = yes
+    guest ok        = no
+    read only       = yes
+    create mask     = 0700
+
+[print$]
+    comment         = Printer Drivers
+    path            = /var/lib/samba/printers
+    browseable      = yes
+    read only       = yes
+    guest ok        = no
+
+[share]
+    comment         = 共有フォルダ
+    path            = [path]/share 
+    writable        = yes
+    valid users     = [NAS用ユーザ名]
+    create mode     = 0770
+    directory mode  = 0770</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">testparm</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の適用
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart smbd
+sudo systemctl restart nmbd
+sudo systemctl restart wsdd</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                自動起動設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl enable smbd
+sudo systemctl enable nmbd
+sudo systemctl enable wsdd</code></pre>
+                            </p>
+                        </article>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ftp">FTPサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#smb">ネットワーク共有ストレージの構築</a>
+                                    </li>
+    
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["githubTip", "teratermTip", "rn4020Tip"]);
+            new Pagination(3, serverModel.page, "pagination");
+        </script>
+    </footer>
+</html>

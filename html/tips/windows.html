@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Windows便利機能集" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/windows.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="Windows PCに搭載されている便利機能について" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/windowsTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/bootstrap-treeview.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Windows便利機能集</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Windows機能集
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="nettcp">
+                                TCPポートが開いているかを確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">powershell -Command "Test-NetConnection -ComputerName [IPアドレス/ドメイン名] -port [ポート番号]"</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="recovimg">
+                                修復コマンド
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">dism /online /cleanup-image /restorehealth
+sfc /scannow</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                DISM エラー : 0x800f0915 対策 (WIMファイルからの復元)
+                            </h3>
+                            <h4 class="pt-4 fw-bold">
+                                復元するWindowsと完璧に同じバージョンのイメージを取得
+                            </h4>
+                            <p>
+                                <a href="https://uupdump.net/known.php">UUP dump</a>
+                            </p>
+                            <p>
+                                ISOファイルをマウントし、<code>install.wim</code>ファイルを通常フォルダにコピーすること
+                            </p>
+                            <h4 class="pt-4 fw-bold">
+                                コピーしたWIMファイルの情報を取得
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">dism /get-wiminfo /wimfile:"[path]\install.wim"</code></pre>
+                            </p>
+                            <h4 class="pt-4 fw-bold">
+                                コピーしたWIMファイルからWindowsイメージを修復
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">dism /online /cleanup-image /restorehealth /source:wim:"[path]\install.wim":[index] /limitaccess</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="chkdsk">
+                                チェックディスク(chkdsk)
+                            </h3>
+                            <p>
+                                <strong>※ストレージに負荷がかかるため、物理的損傷が激しい場合は注意すること</strong>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">chkdsk [チェックするフォルダパス名] [オプション]</code></pre>
+                            </p>
+                            <div class = "table-responsive">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>[オプション]</th>
+                                        <th>役割</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/f</code></pre>
+                                        </td>
+                                        <td>
+                                            ファイル修復
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/r</code></pre>
+                                        </td>
+                                        <td>
+                                            不良セクタ修復
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/x</code></pre>
+                                        </td>
+                                        <td>
+                                            実行前にボリュームを強制アンマウント
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <pre><code class="language-bash">/v</code></pre>
+                                        </td>
+                                        <td>
+                                            詳細の表示
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="firewall">
+                                ファイヤーウォールのポートを開ける
+                            </h3>
+                            <h4 class="pt-4 fw-bold">
+                                pingを通す
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">powershell -Command "Get-NetFirewallRule | Where-Object { $_.DisplayName -like '*エコー要求*' } | Enable-NetFirewallRule"</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 fw-bold">
+                                iperf3のルールを作成
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">powershell -Command "New-NetFirewallRule -DisplayName 'iperf3 TCP' -Direction Inbound -Protocol TCP -LocalPort 5201 -Action Allow -Profile Any"
+powershell -Command "New-NetFirewallRule -DisplayName 'iperf3 UDP' -Direction Inbound -Protocol UDP -LocalPort 5201 -Action Allow -Profile Any"</code></pre>
+                            </p>
+                        </article>
+
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="regedit">
+                                コンテキストメニュー(右クリックメニュー)の変更
+                            </h3>
+                            <p>
+                                &emsp;コンテキストメニューの編集は、管理者権限でレジストリを操作する必要があります。レジストリエディタでの誤操作は、最悪の場合、WindowsOSの再インストールを伴う大規模なデータ破損を招く恐れがあります。この項の情報をもとに行われたあらゆる操作において、執筆者は一切の責任を負いません。レジストリ操作は、すべて自己責任で行ってください。(Microsoftサポートも対象外となります)
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                Windows 11のコンテキストメニューをWindows 10仕様に戻す
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve</code></pre>
+                            </p>
+                            <figure class="figure">
+                                <img src="/img/Windows/Win10.png" class="figure-img img-fluid rounded" alt="Win10コンテキストメニュー">
+                                <figcaption class="figure-caption text-end">Windows 10仕様のコンテキストメニュー</figcaption>
+                            </figure><br>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                コンテキストメニューを編集
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                基本構造
+                            </h5>
+                            <div id="context-tree"></div>
+
+                            <h5 class="pt-4 fw-bold">
+                                レジストリエディタの編集箇所と変更位置
+                            </h5>
+                            <div id="context-key"></div>
+
+                            <h5 class="pt-4 fw-bold">
+                                レジストリファイル(拡張子 : .reg) サンプル
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background\shell]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background\shell\000 cmd.exe]
+"icon"="C:\\Windows\\System32\\cmd.exe"
+"position"="top"
+"MUIVerb"="コマンドプロンプト"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\LibraryFolder\background\shell\000 cmd.exe\command]
+@="cmd"</code></pre>
+                            </p>
+                       </article>
+
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="net-profile">
+                                ネットワークプロファイルの変更
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ネットワークプロファイルの初期化
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Managed" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Unmanaged" /f</code></pre>
+                            </p>
+                            <p>
+                                ※再起動推奨
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ネットワークプロファイル名の変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{[UUID]}" /v ProfileName /d "[設定したい名前]" /f</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ネットワークプロファイルの詳細説明の変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{[UUID]}" /v Description /d "[詳細説明]" /f</code></pre>
+                            </p>
+                        </article>
+
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="onedrive">
+                                OneDriveの削除
+                            </h3>
+                            
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSyncNGSC" /t REG_DWORD /d "1" /f
+taskkill /f /im OneDrive.exe
+%SystemRoot%\SysWOW64\OneDriveSetup.exe /uninstall</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                OneDriveの再インストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v "DisableFileSyncNGSC" /t REG_DWORD /d "0" /f</code></pre>
+                            </p>
+                            <a href="https://www.microsoft.com/ja-jp/microsoft-365/onedrive/download" class="btn btn-bd-primary">
+                                OneDriveのダウンロード
+                            </a>
+                       </article>
+                       <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="feature">
+                                Windowsの機能の有効化または無効化
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">optionalfeatures</code></pre>
+                            </p>
+                            <figure class="figure">
+                                <img src="/img/Windows/optionalfeatures.png" class="figure-img img-fluid rounded" alt="オプション機能">
+                                <figcaption class="figure-caption text-end">Windowsの機能の有効化または無効化</figcaption>
+                            </figure><br>
+                            <p>
+                                &emsp;有効化したい機能にチェックを入れる (無効化したい機能はチェックを外す)。
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="re">
+                                Windows RE 確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reagentc /info</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Windows RE 有効化
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reagentc /enable</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Windows RE で使用するWIMファイルの場所を指定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">reagentc /setreimage /path R:\Recovery\WindowsRE</code></pre>
+                            </p>
+                            <p>
+                                ※ winre.wim が R:\Recovery\WindowsRE\winre.wim にある場合
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="re">
+                                接続されているUSB機器の確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    PowerShell
+                                </div>
+                                <pre><code class="language-bash">Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="sc">
+                                ショートカットキー
+                            </h3>
+                            <p>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-fixed table-striped">
+                                        <tr>
+                                            <th scope="col">ショートカット</th>
+                                            <th scope="col">ショートカットキー</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                グラフィックキャッシュの初期化
+                                            </td>
+                                            <td>
+                                                <code>Win</code> + <code>Shift</code> + <code>Ctrl</code> + <code>B</code>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="file">
+                                ファイルの作成
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                インターネットショートカットファイル (拡張子 : .url)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[InternetShortcut]
+URL=https://...</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="diskpart">
+                                DiskPart
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">diskpart
+    list disk                       # 接続されているディスク一覧を表示
+    select disk [番号]              # list disk                 で取得した操作対象のディスクを選択
+    list partition                  # select disk [番号]        で 選択したディスクのパーティション一覧を表示
+    select partition [番号]         # list partition            で取得した操作対象のディスクを選択
+    delete partition override       # select partition [番号]   で選択したパーティションを強制削除
+    assign letter=X                 # select partition [番号]   で選択したパーティションにドライブレターを割り当て
+    remove letter=X                 # select partition [番号]   で選択したパーティションのドライブレターを削除
+    active                          # select partition [番号]   で選択したパーティションをOSを起動するパーティションに選択する(MBR / Legacy BIOSの場合のみ)</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="boot">
+                                ブートセクタ修復
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">bootsect /nt60 sys                  # 現在のシステムパーティションに Windows Vista 以降用のブートコード(NT60)を書き込む
+bootrec /fixmbr                     # MBRのブートコード部分を書き換える
+bootrec /fixboot                    # システムパーティション(通常はアクティブパーティション)のブートセクタを書き換える
+bootrec /rebuildbcd                 # Boot Configuration Data (Windows の起動に必要な設定を保持するデータベース) を再構築する</code></pre>
+                            </p>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://qiita.com/NumLocker/items/f8016f1aed7207b850fb">
+                                    <a href="https://qiita.com/NumLocker/items/f8016f1aed7207b850fb">
+                                        あなただけの右クリックで、ストレスフリーな開発を。
+                                    </a>
+                                </blockquote>
+                            </div>
+
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#nettcp">TCPポートが開いているかを確認</a>
+                                    </li>
+                                    <li>
+                                        <a href="#recovimg">修復コマンド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#chkdsk">チェックディスク(chkdsk)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#firewall">ファイヤーウォールのポートを開ける</a>
+                                    </li>
+                                    <li>
+                                        <a href="#regedit">右クリックメニュー</a>
+                                    </li>
+                                    <li>
+                                        <a href="#net-profile">ネットワークプロファイルの変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#onedrive">OneDriveの削除 / 再インストール</a>
+                                    </li>
+                                    <li>
+                                        <a href="#feature">オプション機能の有効化 / 無効化</a>
+                                    </li>
+                                    <li>
+                                        <a href="#re">Windows RE</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sc">ショートカットキー</a>
+                                    </li>
+                                    <li>
+                                        <a href="#file">特殊ファイルの生成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#diskpart">DiskPart</a>
+                                    </li>
+                                    <li>
+                                        <a href="#boot">ブートセクタ修復</a>
+                                    </li>
+
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/view/bootstrap-treeview.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["pythonTip", "cTip", "visualstudioTip"]);
+
+            $('#context-tree').treeview({
+                data: windowsTipsModel.treeData,
+                showTags: true,
+                expandIcon: 'glyphicon glyphicon-plus',  // 展開アイコン
+                collapseIcon: 'glyphicon glyphicon-minus', // 折りたたみアイコン
+                showBorder: false,
+                levels: 2
+            });
+
+            // ノードクリック時に開閉
+            $('#context-tree').on('nodeSelected', function(event, data) {
+                $('#context-tree').treeview('toggleNodeExpanded', [data.nodeId, { silent: false }]);
+            });
+
+            createTable("context-key", windowsTipsModel.regeditData, true);
+            new Pagination(1, windowsTipsModel.page, "pagination");
+        </script>
+    </footer>
+</html>

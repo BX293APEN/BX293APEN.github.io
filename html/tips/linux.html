@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Linuxセットアップガイド" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/linux.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="Linuxのセットアップ作業について" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="update">
+                                更新方法
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt update                     # パッケージリスト更新
+sudo apt upgrade -y                 # 既存パッケージの更新
+sudo apt full-upgrade -y            # カーネル更新や依存関係の変更を伴うアップグレード
+sudo apt dist-upgrade -y            # full-upgrade の旧称
+sudo apt autoremove -y              # 不要パッケージ削除
+sudo apt autoremove --purge -y      # 不要パッケージを設定ファイルごと削除
+sudo apt purge [パッケージ名] -y     # 指定したパッケージを完全削除
+sudo rm -rf /var/lib/apt/lists/*    # ハッシュサムが適合しない場合
+sudo unattended-upgrade             # セキュリティアップデート
+sudo apt install gpg-agent          # gpg: failed to start agent '/usr/bin/gpg-agent': No such file or directory
+sudo do-release-upgrade             # OSのアップグレード</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="state">
+                                状態の確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">lsb_release -a                                  # OSの確認
+uname -r                                        # カーネルバージョンの確認
+df -h                                           # ディスク容量の確認
+lsblk                                           # ディスク・パーティション構成を一覧表示
+lsblk -po NAME,SIZE,LABEL,MOUNTPOINT | head -n1 && lsblk -po NAME,SIZE,LABEL,MOUNTPOINT,UUID,FSTYPE | grep -E '^(/dev/sd|/dev/nvme)|^├─|^└─'
+
+free -h                                         # メモリ使用量の確認
+swapon --show                                   # スワップの使用状況
+ip link show                                    # インターフェースの状態確認
+ip r                                            # ルーティングテーブル
+ip -s link                                      # パケット統計(RX/TX bytes packets errors dropped carrier collsns)
+ss -s                                           # ソケット統計
+ss -tupn    | grep [ポート番号]                  # 自端末の指定ポートの状態を調べる
+ss -tulpn   | grep [ポート番号]                  # 自端末の指定ポートがLISTENしているか調べる
+tc -s qdisc                                     # キュー制御 (遅延・ドロップ)
+
+# CPU名取得
+awk -F: '/model name/ {print $2; exit}' /proc/cpuinfo | sed 's/^ //'
+
+# コア0のCPU周波数取得
+awk '{print $1/1000000}' /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+echo "scale=2; $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq) / 1000000" | bc -l
+
+# CPU平均周波 [GHz]
+awk '{sum+=$1; n++} END {if(n>0) print sum/n/1000000}' /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq
+
+# Windows用
+Get-CimInstance Win32_Processor | Select-Object -ExpandProperty CurrentClockSpeed
+
+# ※ hwmon0にデータがある場合
+# CPUのコア温度一覧取得
+awk '{printf "%.2f\n", $1/1000}' /sys/class/hwmon/hwmon0/temp*_input
+
+# ※ hwmon0にデータがある場合
+# Core1の温度を取得
+awk '{printf "%.2f\n", $1/1000}' /sys/class/hwmon/hwmon0/temp1_input
+
+# ※ hwmon0にデータがある場合
+/sys/class/hwmon/hwmon0
+# device      temp1_crit_alarm  temp2_crit_alarm  temp3_crit_alarm  temp4_crit_alarm  temp5_crit_alarm
+# name        temp1_input       temp2_input       temp3_input       temp4_input       temp5_input
+# power       temp1_label       temp2_label       temp3_label       temp4_label       temp5_label
+# subsystem   temp1_max         temp2_max         temp3_max         temp4_max         temp5_max
+# temp1_crit  temp2_crit        temp3_crit        temp4_crit        temp5_crit        uevent
+
+
+/sys/class/net/[インターフェース名]/statistics    # [インターフェース名]の統計情報が入ったフォルダ
+# collisions     rx_crc_errors   rx_frame_errors   rx_over_errors     tx_carrier_errors  tx_fifo_errors
+# multicast      rx_dropped      rx_length_errors  rx_packets         tx_compressed      tx_heartbeat_errors
+# rx_bytes       rx_errors       rx_missed_errors  tx_aborted_errors  tx_dropped         tx_packets
+# rx_compressed  rx_fifo_errors  rx_nohandler      tx_bytes           tx_errors          tx_window_errors
+
+iw dev                                          # Wi-Fiインターフェース一覧
+iw dev [Wi-Fiインターフェース名] link             # 接続状態(RSSI、ビットレート)
+iw dev [Wi-Fiインターフェース名] station dump     # 接続中クライアントの詳細(MCS、RSSI、リトライ率)
+iw [Wi-Fiインターフェース名] survey dump          # チャネルの混雑状況(busy time / noise)
+iw reg get                                      # 電波地域確認
+
+ethtool -S [ethインターフェース名]                # NICの詳細統計
+cat /proc/cpuinfo                               # CPUの情報
+cat /proc/loadavg                               # CPU負荷
+cat /proc/net/dev                               # 各ネットワークインターフェースの統計
+cat /proc/net/wireless                          # Wi-Fiの品質情報
+cat /proc/net/arp                               # ARPテーブル
+cat /proc/net/softnet_stat                      # カーネルのパケット処理統計
+cat /proc/net/nf_conntrack                      # コネクション数</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    仮想フォルダ(RAM上に構築されたフォルダ等)
+                                </div>
+                                <pre><code class="language-bash">/proc       # カーネル内部状態をファイルとして見せる
+/sys        # デバイス・カーネルオブジェクトの設定・状態
+/dev        # デバイスファイル
+/run        # 早期ブート用の揮発性ランタイムデータ
+/tmp        # 一時ファイル</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="hostname">
+                                ホスト名の変更
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                現在のホスト名を確認
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">hostnamectl status</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                新しいホスト名を設定する
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo hostnamectl set-hostname [新しいホスト名]
+sudo nano /etc/hosts</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">127.0.0.1       localhost
+::1             localhost ip6-localhost ip6-loopback
+ff02::1         ip6-allnodes
+ff02::2         ip6-allrouters
+
+127.0.1.1       [新しいホスト名]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo reboot # 再起動して適用</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "env">
+                                環境変数の設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/profile</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ(追記)
+                                </div>
+                                <pre><code class="language-bash">export [環境変数名]="[値]"</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo reboot # 環境変数を適用させる</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "bit">
+                                ビット数確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">getconf LONG_BIT</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Bash
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold" id="alias">
+                                Aliasの設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano ~/.bashrc</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">alias addcmd="nano ~/.bashrc"
+alias linux_update="sudo apt update&&sudo apt upgrade -y&&sudo apt autoremove -y"
+
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="python">
+                                Python
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                pip --break-system-packages問題
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano ~/.config/pip/pip.conf
+nano ~/.pip/pip.conf    # Legacy</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[global]
+break-system-packages = true</code></pre>
+                            </p>
+                            
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="ssh">
+                                SSH
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                鍵作成 (エドワード曲線)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    Windows ターミナル
+                                </div>
+                                <pre><code class="language-bash">ssh-keygen -t ed25519 -C '""'</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                公開鍵認証
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    Windows ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd %userprofile%/.ssh
+scp id_ed25519.pub [リモート接続するユーザ名]@[リモート接続する端末のIPアドレス]:~/</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd ~/
+mkdir -p .ssh
+cat id_ed25519.pub >> .ssh/authorized_keys
+chmod 700 .ssh
+cd .ssh
+chmod 600 authorized_keys</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                公開鍵認証 (コマンドを少なくした方法)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    Windows コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">type %userprofile%\.ssh\id_ed25519.pub | ssh [リモート接続するユーザ名]@[リモート接続する端末のIPアドレス] "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold" id="inputJA">
+                                日本語入力
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                mozcのインストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt -y install fcitx5 fcitx5-mozc</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                フォントのインストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt -y install fonts-noto fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold" id ="time">
+                                時刻設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/timesyncd.conf</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">NTP=ntp.nict.jp</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart systemd-timesyncd.service
+date # 確認</code></pre>
+                            </p>
+
+
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id ="recovimg">
+                                修復コマンド
+                            </h3>
+
+                            <p>
+                                <div class="fw-bold">
+                                    Windows
+                                </div>
+                                <pre><code class="language-bash">sfc /scannow
+dism /online /cleanup-image /restorehealth</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    Linux
+                                </div>
+                                <pre><code class="language-bash">sudo debsums -s
+sudo touch /forcefsck</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 fw-bold">
+                                ファイルシステム修復
+                            </h4>
+
+                            <h5 class="pt-3 fw-bold">
+                                1. マウント状態の確認
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">lsblk -f</code></pre>
+                            </p>
+                            <p>
+                                <pre><code class="language-bash">[対象ストレージ]
+├─[FAT32形式のパーティション]       vfat   FAT32 bootfs     AAE0-77E1                               391M    23% [FAT32形式パーティションのマウントパス]
+└─[ext4形式のパーティション]        ext4   1.0   rootfs     ca2be9ef-61a4-4400-a5a1-dc17d7ea790d  101.4G     5% [ext4形式パーティションのマウントパス]</code></pre>
+                            </p>
+                            <div id="md-text">
+##### [対象ストレージ]
+* sda
+* sdb ...  
+
+##### [パーティション]
+* sda1
+* sda2
+* sdb1
+* sdb2 ...
+                            </div>
+
+                            <h5 class="pt-3 fw-bold">
+                                2. アンマウント
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo umount -l [FAT32形式パーティションのマウントパス]
+sudo umount -l [ext4形式パーティションのマウントパス]</code></pre>
+                            </p>
+                            <p>
+                                ※ lazy unmount：論理的に切り離したことにする
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                3. fsck でファイルシステム修復
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo fsck.vfat -a /dev/[FAT32形式のパーティション]          # boot パーティション修復 (FAT32)
+sudo fsck -fy /dev/[ext4形式のパーティション]               # root パーティションを修復 (ext4)
+                                                          # -f : 強制チェック  
+                                                          # -y : 全てyes</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 fw-bold">
+                                壊れたパッケージの修復
+                            </h4>
+                            <h5 class="pt-3 fw-bold">
+                                1. 再マウントフォルダを作成
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mkdir -p /Programs/mnt</code></pre>
+                            </p>
+                            <h5 class="pt-3 fw-bold">
+                                2. システム(ルート)パーティションをマウント
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mount /dev/[ext4形式のパーティション] /Programs/mnt</code></pre>
+                            </p>
+                            <h5 class="pt-3 fw-bold">
+                                2. EFIパーティションをマウント(UEFI起動の場合)
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo mount /dev/[FAT32形式のパーティション] /Programs/mnt/boot/efi</code></pre>
+                            </p>
+                            <h5 class="pt-3 fw-bold">
+                                3. 修理に必要な特殊ディレクトリを紐付ける(バインドマウント)
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">for i in /dev /dev/pts /proc /sys /run; do \
+    sudo mount -B $i /Programs/mnt$i; \
+done</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                4. ネットワークの解決
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo cp /Programs/mnt/etc/resolv.conf /Programs/mnt/etc/resolv.conf.bak
+sudo cp /etc/resolv.conf /Programs/mnt/etc/resolv.conf</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                5. chroot (正常なLinuxのカーネルを使い、破損Linuxを修復する)
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo chroot /Programs/mnt</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                6. ブートローダー(GRUB)の修復・再インストール
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">apt update
+grub-install /dev/[対象ストレージ]                               # パーティション指定はしないこと
+update-grub                                                     # 設定ファイルを更新
+# apt install --reinstall linux-image-generic                   # カーネル自体が怪しい場合は再インストール (インターネット接続が必要)
+# update-initramfs -u -k all                                    # カーネルの再構成を強制的に行う</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                7. 設定の適用
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">exit
+cd /
+sudo umount -R /Programs/mnt</code></pre>
+                            </p>
+
+                            <h5 class="pt-3 fw-bold">
+                                8. ブートローダー(GRUB)の修復・再インストール
+                            </h5>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">grub-install /dev/[対象ストレージ]      # パーティション指定はしないこと</code></pre>
+                            </p>
+
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="logclear">
+                                ログクリア
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo logrotate -f /etc/logrotate.conf</code></pre>
+                            </p>
+                        </article>
+
+                        
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#update">Linuxの更新</a>
+                                    </li>
+                                    <li>
+                                        <a href="#state">状態の確認</a>
+                                    </li>
+                                    <li>
+                                        <a href="#hostname">ホスト名の変更</a>
+                                    </li>
+                                    <li>
+                                        <a href="#env">環境変数の設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#bit">ビット数確認</a>
+                                    </li>
+                                    <li>
+                                        <a href="#alias">Aliasの設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#python">Python</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ssh">SSH</a>
+                                    </li>
+                                    <li>
+                                        <a href="#inputJA">日本語入力</a>
+                                    </li>
+                                    <li>
+                                        <a href="#time">時刻設定</a>
+                                    </li>
+                                    <li>
+                                        <a href="#recovimg">修復コマンド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#logclear">ログクリア</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "dockerTip", "serverTip"]);
+            new Pagination(1, linuxModel.page, "pagination");
+            new MarkDownMaker(
+                id              = "md-text",
+            )
+        </script>
+    </footer>
+</html>

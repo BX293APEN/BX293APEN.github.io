@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="LANケーブルの作成方法 / EMQXについて" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            サーバの構築手順
+                        </h1>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="lan">
+                                LANケーブルの作成ポイント
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                芯線の配線
+                            </h3>
+                            <figure class="figure">
+                                <img src="/img/server/LAN.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">芯線の配線</figcaption>
+                            </figure><br>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                詳細
+                            </h4>
+                            <figure class="figure px-4">
+                                <img src="/img/server/LAN-T.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">上面図</figcaption>
+                            </figure>
+
+                            <figure class="figure ps-4">
+                                <img src="/img/server/LAN-F.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">正面図</figcaption>
+                            </figure><br>
+                            
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ポイント
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                ロードバー型コネクタ
+                            </h5>
+                            <ul>
+                                <li>
+                                    ラジオペンチで芯線を1本ずつ芯線を引き出すこと
+                                </li>
+                                <li>
+                                    芯線を引き出したらなるべく短く切ること
+                                </li>
+                                <li>
+                                    ロードバーは奥まできちんとはめ込むこと
+                                </li>
+                            </ul>
+                            <h5 class="pt-4 fw-bold">
+                                貫通型コネクタ
+                            </h5>
+                            <ul>
+                                <li>
+                                    挿入前にニッパで先端を揃えると入れやすくなる
+                                </li>
+                                <li>
+                                    芯線の並び方が間違っていないことを再度確認すること (コネクタ内部で順番が変わることあり)
+                                </li>
+                                <li>
+                                    加締めるまで何度でも修正可能であるため、きちんと確認すること
+                                </li>
+                            </ul>
+
+                            <h5 class="pt-4 fw-bold">
+                                6Aケーブル
+                            </h5>
+                            <ul>
+                                <li>
+                                    仕切り板は根元で切ること
+                                </li>
+                                <li>
+                                    ねじれている箇所はきちんとまっすぐにすること(上下に波を打たせるようにするとまっすぐになりやすい)
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="self-signed_cert">
+                                自己CA証明書のインストール(Linux)
+                            </h2>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install -y ca-certificates
+sudo cp [自己CA証明書のパス] /usr/local/share/ca-certificates
+sudo update-ca-certificates</code></pre>
+                            </p>
+                            
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="mqtt">
+                                MQTTブローカ
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install -y curl default-jdk rebar3 build-essential git libcurl4-openssl-dev libkrb5-dev libsasl2-dev jq libssl-dev automake autoconf libncurses5-dev gcc
+rebar3 update
+rebar3 upgrade</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                unixODBCのインストール
+                            </h3>
+                            <p>
+                                <a href="https://www.unixodbc.org/">公式サイト</a>からダウンロード
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">wget https://www.unixodbc.org/unixODBC-2.3.12.tar.gz
+wget https://bx293apen.github.io/html/download/content/unixODBC-2.3.12.tar.gz # バージョン確認済みのモノ
+tar -xzf unixODBC-2.3.12.tar.gz
+cd unixODBC-2.3.12
+./configure 
+make
+sudo make install
+sudo apt install unixodbc unixodbc-dev</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Erlangインストール(OTP 27.1以上推奨)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">wget https://github.com/erlang/otp/releases/download/OTP-27.2.3/otp_src_27.2.3.tar.gz
+tar -xzf otp_src_27.2.3.tar.gz
+cd otp_src_27.2.3
+./configure --prefix=/usr --enable-kernel-poll --enable-dirty-schedulers --enable-jit --enable-odbc --with-ssl
+make
+# sudo apt remove --purge erlang # 違うバージョンのerlangを消す
+# sudo apt autoremove
+sudo make install
+# sudo apt install erlang erlang-dev</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                ErlangでunixODBCを使えるようにする
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">erl
+application:load(odbc).
+application:start(odbc).
+q().
+odbcinst -j # インストール確認</code></pre>
+                            </p>
+
+                            <!--
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Erlangインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
+
+sudo reboot
+
+asdf plugin add erlang
+asdf plugin add elixir
+
+asdf install erlang 27.3.4
+asdf install elixir 1.18.3
+
+asdf global erlang 27.3.4
+asdf global elixir 1.18.3
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+1
+sudo reboot</code></pre>
+                            </p>
+                            -->
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                EMQX(ブローカー)をリポジトリからクローンし、インストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">git clone https://github.com/BX293APEN/emqx.git
+cd emqx
+export BUILD_WITH_QUIC=1
+make
+cd _build/emqx-enterprise/rel/emqx
+sudo chmod -R 777 data/*
+./bin/emqx start # 起動</code></pre>
+                            </p>
+
+                            <figure class="figure w-75">
+                                <img src="/img/server/EMQX.png" class="figure-img img-fluid rounded" alt="EMQX起動">
+                                <figcaption class="figure-caption text-end">
+                                    <a 
+                                        href ="http://localhost:18083" 
+                                        class="btn btn-bd-primary"
+                                    >
+                                        起動確認
+                                    </a>
+                                </figcaption>
+                            </figure><br>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                環境変数の設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/profile</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ(追記)
+                                </div>
+                                <pre><code class="language-bash">EMQX_DIR="/[DLパス]/emqx/_build/emqx-enterprise/rel/emqx"
+export EMQX_DIR</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo reboot</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                ブローカーの設定(QUIC有効化)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd ${EMQX_DIR}
+nano etc/base.hocon # 設定ファイル</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ(追記)
+                                </div>
+                                <pre><code class="language-bash">listeners.quic.default {
+    enabled = true
+    bind = "0.0.0.0:19080"
+    max_connections = 1024000
+    ssl_options {
+        keyfile = "/[TLSの秘密鍵があるパス]/private.key"
+        certfile = "/[TLS証明書があるパス]/certificate.crt"
+        # keypassword = "your_key_password" # 秘密鍵にパスワードがある場合
+        versions = [tlsv1.3]
+        verify = verify_none
+        ciphers = "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256"
+    }
+}</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd ${EMQX_DIR}
+./bin/emqx ctl listeners # 開いているポートを確認
+sudo netstat -tunlp | grep 19080 # ポートの状態を確認</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                自動起動化
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/system/emqx.service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=EMQX MQTT Broker
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/[DLパス]/emqx/_build/emqx-enterprise/rel/emqx/bin/emqx start
+Restart=always
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl enable emqx.service
+sudo systemctl restart emqx.service</code></pre>
+                            </p>
+                            
+                        </article>
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://qiita.com/S_Katz/items/a82554447491fb8079f0">
+                                    <a href="https://qiita.com/S_Katz/items/a82554447491fb8079f0">
+                                        busyboxの使い方
+                                    </a>
+                                </blockquote>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#lan">LANケーブルの作成ポイント</a>
+                                    </li>
+                                    <li>
+                                        <a href="#self-signed_cert">自己CA証明書のインストール(Linux)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#mqtt">MQTTブローカ</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "UEFITip"]);
+            new Pagination(1, serverModel.page, "pagination");
+        </script>
+    </footer>
+</html>
