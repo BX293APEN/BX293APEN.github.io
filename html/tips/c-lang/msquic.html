@@ -945,6 +945,7 @@ int main() {
     );
 
     // クライアントが1ストリーム分のデータを送り切った(FIN送信)タイミングで呼ばれる。
+    // quic_echo_server.py の quic_server() に相当する処理。
     server.onStreamFinished = [](QUICStart &self, HQUIC Stream) {
         std::string received;
         self.get_recv_data(received);
