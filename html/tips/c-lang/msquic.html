@@ -354,453 +354,390 @@ cmake --build build</code></pre>
 
 #if __has_include(&lt;msquic.h&gt;)
     #include &lt;msquic.h&gt;
-    class QUICStart {
-      protected:
-        QUIC_API_TABLE *MsQuic;
-        QUIC_STATUS status;
-        HQUIC Listener = NULL;
-        HQUIC Configuration = NULL;
-        HQUIC Registration = NULL;
-        HQUIC QUICConnection = NULL;
-        QUIC_SETTINGS Settings = {0};
-        QUIC_ADDR Address = {0};
-        QUIC_BUFFER AlpnBuffer;
-        QUIC_REGISTRATION_CONFIG RegistrationConfig; // 登録設定
-        QUIC_CERTIFICATE_FILE CertificateConfig;     // 証明書と秘密鍵の設定
-        QUIC_CREDENTIAL_CONFIG CredConfig;
-        QUIC_BUFFER *Buffer;
-        bool isServer = true;
-        std::string ipv4;
-        int port;
-        std::vector&lt;uint8_t> recvData;
-        std::string sendData = "";
-        bool debug = false;
-        bool retry = false;
-        std::string alpn;
+    class QUICStart{
+        protected:
+            QUIC_API_TABLE* MsQuic;
+            QUIC_STATUS status;
+            HQUIC Listener                                  = NULL;
+            HQUIC Configuration                             = NULL;
+            HQUIC Registration                              = NULL;
+            HQUIC QUICConnection                            = NULL;
+            QUIC_SETTINGS Settings                          = {0};
+            QUIC_ADDR Address                               = {0};
+            QUIC_BUFFER AlpnBuffer;
+            QUIC_REGISTRATION_CONFIG RegistrationConfig;            // 登録設定
+            QUIC_CERTIFICATE_FILE CertificateConfig;                // 証明書と秘密鍵の設定
+            QUIC_CREDENTIAL_CONFIG CredConfig;
+            QUIC_BUFFER* Buffer;
+            bool isServer                                   = true;
+            std::string ipv4;
+            int port;
+            std::vector&lt;uint8_t&gt; recvData;
+            std::string sendData                            = "";
+            bool debug                                      = false;
+            bool retry                                      = false;
+            std::string alpn;
 
-        _IRQL_requires_max_(DISPATCH_LEVEL) 
-                _Function_class_(QUIC_LISTENER_CALLBACK) 
-                static QUIC_STATUS QUIC_API ListenerCallback( // ListenerCallback関数
-                    _In_ HQUIC Listener,
-                    _In_opt_ void* Context,
-                    _Inout_ QUIC_LISTENER_EVENT* Event
-                ) {
-            QUICStart *self = reinterpret_cast&lt;QUICStart *>(Context);
-            switch (
-                Event->Type) { // イベントを重複定義しないよう switch case文を使う
-            case QUIC_LISTENER_EVENT_NEW_CONNECTION:
-                if (self->debug) printf("[ListenerCallback] NEW_CONNECTION\n");
-                self->QUICConnection = Event->NEW_CONNECTION.Connection;
-                self->MsQuic->SetCallbackHandler(
-                    self->QUICConnection, (void *)QUICStart::ConnectionCallback,
-                    self
-                );
-                self->status = self->MsQuic->ConnectionSetConfiguration(
-                    self->QUICConnection, self->Configuration
-                );
-                if (QUIC_FAILED(self->status)) {
-                    printf(
-                        "[FAILED] ConnectionSetConfiguration: 0x%x\n", self->status
-                    );
-                    self->MsQuic->ConnectionClose(self->QUICConnection);
+            _IRQL_requires_max_(DISPATCH_LEVEL) 
+            _Function_class_(QUIC_LISTENER_CALLBACK) 
+            static QUIC_STATUS QUIC_API ListenerCallback( // ListenerCallback関数
+                _In_ HQUIC Listener,
+                _In_opt_ void* Context,
+                _Inout_ QUIC_LISTENER_EVENT* Event
+            ) {
+                QUICStart* self = reinterpret_cast&lt;QUICStart*&gt;(Context);
+                switch (Event-&gt;Type) { // イベントを重複定義しないよう switch case文を使う
+                    case QUIC_LISTENER_EVENT_NEW_CONNECTION:
+                        if (self-&gt;debug) printf("[ListenerCallback] NEW_CONNECTION\n");
+                        self-&gt;QUICConnection = Event-&gt;NEW_CONNECTION.Connection;
+                        self-&gt;MsQuic-&gt;SetCallbackHandler(self-&gt;QUICConnection, (void*)QUICStart::ConnectionCallback, self);
+                        self-&gt;status = self-&gt;MsQuic-&gt;ConnectionSetConfiguration(self-&gt;QUICConnection, self-&gt;Configuration);
+                        if (QUIC_FAILED(self-&gt;status)) {
+                            printf("[FAILED] ConnectionSetConfiguration: 0x%x\n", self-&gt;status);
+                            self-&gt;MsQuic-&gt;ConnectionClose(self-&gt;QUICConnection);
+                        }
+                        break;
+
+                    default:
+                        if (self-&gt;debug) printf("[ListenerCallback] Listener event type: 0x%X\n", Event-&gt;Type);
+                        break;
                 }
-                break;
-
-            default:
-                if (self->debug)
-                    printf(
-                        "[ListenerCallback] Listener event type: 0x%X\n",
-                        Event->Type
-                    );
-                break;
+                return QUIC_STATUS_SUCCESS;
             }
-            return QUIC_STATUS_SUCCESS;
-        }
 
+            
+            _IRQL_requires_max_(DISPATCH_LEVEL)
+            _Function_class_(QUIC_CONNECTION_CALLBACK)
+            static QUIC_STATUS QUIC_API ConnectionCallback( // ConnectionCallback関数
+                _In_ HQUIC Connection,
+                _In_opt_ void* Context,
+                _Inout_ QUIC_CONNECTION_EVENT* Event
+            ) {
+                HQUIC Stream;
+                QUICStart* self = reinterpret_cast&lt;QUICStart*&gt;(Context);
+                switch (Event-&gt;Type) {
+                    case QUIC_CONNECTION_EVENT_CONNECTED:
+                        if (self-&gt;debug) printf("[ConnectionCallback] QUIC_CONNECTION_EVENT_CONNECTED\n");
+                        if(!self-&gt;isServer){
+                            self-&gt;status = self-&gt;MsQuic-&gt;StreamOpen(// ストリームを作成
+                                Connection,
+                                QUIC_STREAM_OPEN_FLAG_NONE,
+                                (QUIC_STREAM_CALLBACK_HANDLER)QUICStart::StreamCallback,
+                                Context,
+                                &Stream
+                            );
+                            if (QUIC_SUCCEEDED(self-&gt;status)) {
+                                self-&gt;MsQuic-&gt;StreamStart(Stream, QUIC_STREAM_START_FLAG_IMMEDIATE);
+                            
+                            } else {
+                                printf("[FAILED] StreamOpen : 0x%x\n", self-&gt;status);
+                                // ストリーム作成失敗時に Connection を閉じる処理を追加しても良い
+                                self-&gt;MsQuic-&gt;ConnectionShutdown(Connection, QUIC_CONNECTION_SHUTDOWN_FLAG_NONE, 0);
+                            }
+                        }
+                        break;
+                    case QUIC_CONNECTION_EVENT_SHUTDOWN_INITIATED_BY_TRANSPORT:
+                        if (self-&gt;debug) printf("[ConnectionCallback] QUIC_CONNECTION_EVENT_SHUTDOWN_INITIATED_BY_TRANSPORT\n");
+                        self-&gt;MsQuic-&gt;ConnectionClose(Connection);
+                        break;
+                    case QUIC_CONNECTION_EVENT_SHUTDOWN_COMPLETE:
+                        if (self-&gt;debug) printf("[ConnectionCallback] QUIC_CONNECTION_EVENT_SHUTDOWN_COMPLETE\n");
+                        self-&gt;MsQuic-&gt;ConnectionClose(Connection);
+                        break;
+                    case QUIC_CONNECTION_EVENT_PEER_STREAM_STARTED:
+                        if (self-&gt;debug) printf("[ConnectionCallback] QUIC_CONNECTION_EVENT_PEER_STREAM_STARTED\n");
+                        if(self-&gt;isServer){
+                            Stream = Event-&gt;PEER_STREAM_STARTED.Stream;
+                            self-&gt;MsQuic-&gt;SetCallbackHandler(Stream, (void*)QUICStart::StreamCallback, self);
+                            self-&gt;MsQuic-&gt;StreamReceiveSetEnabled(Stream, TRUE);
+                        }
+                        break;
+                    
+                    case QUIC_CONNECTION_EVENT_PEER_NEEDS_STREAMS:
+                        if (self-&gt;debug) printf("[ConnectionCallback] QUIC_CONNECTION_EVENT_PEER_NEEDS_STREAMS\n");
+                        break;
+                    
+                    default:
+                        if (self-&gt;debug) printf("[ConnectionCallback] Connection event type: 0x%X\n", Event-&gt;Type);
+                        break;
+                }
+                return QUIC_STATUS_SUCCESS;
+            }
 
-        _IRQL_requires_max_(DISPATCH_LEVEL)
-                _Function_class_(QUIC_CONNECTION_CALLBACK)
-                static QUIC_STATUS QUIC_API ConnectionCallback( // ConnectionCallback関数
-                    _In_ HQUIC Connection,
-                    _In_opt_ void* Context,
-                    _Inout_ QUIC_CONNECTION_EVENT* Event
-                ) {
-            HQUIC Stream;
-            QUICStart *self = reinterpret_cast&lt;QUICStart *>(Context);
-            switch (Event->Type) {
-            case QUIC_CONNECTION_EVENT_CONNECTED:
-                if (self->debug)
-                    printf(
-                        "[ConnectionCallback] QUIC_CONNECTION_EVENT_CONNECTED\n"
+            _IRQL_requires_max_(DISPATCH_LEVEL)
+            _Function_class_(QUIC_STREAM_CALLBACK)
+            static QUIC_STATUS QUIC_API StreamCallback( // StreamCallback関数
+                _In_ HQUIC Stream,
+                _In_opt_ void* Context,
+                _Inout_ QUIC_STREAM_EVENT* Event
+            ) {
+                size_t msgLen;
+                uint8_t* message; 
+                QUICStart* self = reinterpret_cast&lt;QUICStart*&gt;(Context);
+                switch (Event-&gt;Type) {
+                    case QUIC_STREAM_EVENT_START_COMPLETE:
+                        if (self-&gt;debug) printf("[StreamCallback] QUIC_STREAM_EVENT_START_COMPLETE\n");
+                        if (self-&gt;sendData != ""){
+                            msgLen                      = self-&gt;sendData.length();
+                            message                     = (uint8_t*)malloc(msgLen + 1);
+                            if (!message) {
+                                printf("[FAILED] malloc\n");
+                                return QUIC_STATUS_OUT_OF_MEMORY;
+                            }
+                            memcpy(message, self-&gt;sendData.c_str(), msgLen + 1);
+                            self-&gt;Buffer                = (QUIC_BUFFER*)malloc(sizeof(QUIC_BUFFER));
+                            if (!self-&gt;Buffer) {
+                                printf("[FAILED] malloc\n");
+                                free(message);
+                                return QUIC_STATUS_OUT_OF_MEMORY;
+                            }
+                            self-&gt;Buffer-&gt;Buffer        = (uint8_t*)message;
+                            self-&gt;Buffer-&gt;Length        = (uint32_t)msgLen;
+                            self-&gt;MsQuic-&gt;StreamSend(
+                                Stream, 
+                                self-&gt;Buffer, 
+                                1, 
+                                QUIC_SEND_FLAG_START | QUIC_SEND_FLAG_FIN, 
+                                self-&gt;Buffer
+                            );
+                            //MsQuic-&gt;StreamSend(Stream, NULL, 0, QUIC_SEND_FLAG_FIN, NULL);
+                            if (self-&gt;debug) printf("[StreamCallback] StreamSend : %s\n", self-&gt;sendData.c_str());
+                        }
+                        break;
+
+                    case QUIC_STREAM_EVENT_SEND_COMPLETE:
+                        if (self-&gt;debug) printf("[StreamCallback] QUIC_STREAM_EVENT_SEND_COMPLETE\n");
+                        self-&gt;Buffer = (QUIC_BUFFER*)Event-&gt;SEND_COMPLETE.ClientContext;
+                        if (self-&gt;Buffer) {
+                            free(self-&gt;Buffer-&gt;Buffer); // message の解放
+                            free(self-&gt;Buffer);         // Buffer の解放
+                        }
+                        break;
+
+                    case QUIC_STREAM_EVENT_RECEIVE:
+                        if (self-&gt;debug) printf("[StreamCallback] QUIC_STREAM_EVENT_RECEIVE\n");
+                        for (uint32_t i = 0; i &lt; Event-&gt;RECEIVE.BufferCount; ++i) {
+                            message             = static_cast&lt;uint8_t*&gt;(Event-&gt;RECEIVE.Buffers[i].Buffer);
+                            msgLen              = static_cast&lt;size_t&gt;(Event-&gt;RECEIVE.Buffers[i].Length);
+
+                            self-&gt;recvData.insert(self-&gt;recvData.end(), message, message + msgLen);
+                        }
+                        self-&gt;MsQuic-&gt;StreamReceiveComplete(Stream, Event-&gt;RECEIVE.TotalBufferLength);
+                        break;
+
+                    case QUIC_STREAM_EVENT_PEER_SEND_SHUTDOWN:
+                        if (self-&gt;debug) printf("[StreamCallback] QUIC_STREAM_EVENT_PEER_SEND_SHUTDOWN\n");
+                        self-&gt;MsQuic-&gt;StreamShutdown(Stream, QUIC_STREAM_SHUTDOWN_FLAG_NONE, 0);
+                        break;
+                    case QUIC_STREAM_EVENT_SHUTDOWN_COMPLETE:
+                        if (self-&gt;debug) printf("[StreamCallback] QUIC_STREAM_EVENT_SHUTDOWN_COMPLETE\n");
+                        self-&gt;MsQuic-&gt;StreamClose(Stream);
+                        break;
+                    
+                    
+                    default:
+                        if (self-&gt;debug) printf("[StreamCallback] Stream event type: 0x%X\n", Event-&gt;Type);
+                        break;
+                }
+                return QUIC_STATUS_SUCCESS;
+            }
+        
+        public:
+            QUICStart(
+                std::string serverIPv4                          = "127.0.0.1",
+                int serverPort                                  = 9999,
+                std::string appName                             = "QUICApplication",
+                std::string alpn                                = "echo", 
+                bool isServer                                   = true,
+                std::string certFile                            = "certificate.crt",
+                std::string keyFile                             = "private.key", 
+                int streamCount                                 = 5,
+                bool debug                                      = false
+            ) { 
+                this-&gt;ipv4                                      = serverIPv4;
+                this-&gt;port                                      = serverPort;
+                this-&gt;isServer                                  = isServer;
+                this-&gt;debug                                     = debug;
+                this-&gt;RegistrationConfig.ExecutionProfile       = QUIC_EXECUTION_PROFILE_LOW_LATENCY;
+                this-&gt;RegistrationConfig.AppName                = appName.c_str();
+                this-&gt;alpn                                      = alpn;
+
+                this-&gt;AlpnBuffer.Buffer                         = (uint8_t*)this-&gt;alpn.c_str();
+                this-&gt;AlpnBuffer.Length                         = (uint32_t)strlen(this-&gt;alpn.c_str());
+
+                this-&gt;Settings.IsSet.PeerBidiStreamCount        = TRUE;
+                this-&gt;Settings.PeerBidiStreamCount              = streamCount; // 双方向ストリーム数
+                this-&gt;Settings.IsSet.PeerUnidiStreamCount       = TRUE;
+                this-&gt;Settings.PeerUnidiStreamCount             = 0;
+
+                // 接続のセキュリティ設定
+                memset(&this-&gt;CredConfig, 0, sizeof(this-&gt;CredConfig));
+                if(this-&gt;isServer){
+                    this-&gt;CertificateConfig.CertificateFile     = certFile.c_str();
+                    this-&gt;CertificateConfig.PrivateKeyFile      = keyFile.c_str();
+                    this-&gt;CredConfig.Flags                      = QUIC_CREDENTIAL_FLAG_NONE;
+                    this-&gt;CredConfig.Type                       = QUIC_CREDENTIAL_TYPE_CERTIFICATE_FILE;
+                    this-&gt;CredConfig.CertificateFile            = &this-&gt;CertificateConfig;
+                }
+                else{
+                    this-&gt;CredConfig.Flags                      = (
+                        QUIC_CREDENTIAL_FLAG_CLIENT | 
+                        QUIC_CREDENTIAL_FLAG_NO_CERTIFICATE_VALIDATION
                     );
-                if (!self->isServer) {
-                    self->status = self->MsQuic->StreamOpen(// ストリームを作成
-                                    Connection,
-                                    QUIC_STREAM_OPEN_FLAG_NONE,
-                                    (QUIC_STREAM_CALLBACK_HANDLER)QUICStart::StreamCallback,
-                                    Context,
-                                    &Stream
-                                );
-                    if (QUIC_SUCCEEDED(self->status)) {
-                        self->MsQuic->StreamStart(
-                            Stream, QUIC_STREAM_START_FLAG_IMMEDIATE
-                        );
+
+                }
+
+                QuicAddrSetFamily(&this-&gt;Address, QUIC_ADDRESS_FAMILY_INET);
+                QuicAddrSetPort(&this-&gt;Address, this-&gt;port);
+                this-&gt;Address.Ipv4.sin_addr.s_addr              = inet_addr(this-&gt;ipv4.c_str()); // IPアドレスを直接設定
+            }
+
+            int connection_start(){
+                if (!this-&gt;retry) {
+                    this-&gt;status        = MsQuicOpenVersion(QUIC_API_VERSION_2, (const void**)&this-&gt;MsQuic);
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] MsQuicOpen : 0x%x\n", this-&gt;status);
+                        return 1;
                     }
-                    else {
-                        printf("[FAILED] StreamOpen : 0x%x\n", self->status);
-                        // ストリーム作成失敗時に Connection を閉じる処理を追加しても良い
-                        self->MsQuic->ConnectionShutdown(
-                            Connection, QUIC_CONNECTION_SHUTDOWN_FLAG_NONE, 0
-                        );
+
+                    this-&gt;status        = this-&gt;MsQuic-&gt;RegistrationOpen(&this-&gt;RegistrationConfig, &this-&gt;Registration);
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] RegistrationOpen : 0x%x\n", this-&gt;status);
+                        this-&gt;clear();
+                        return 1;
+                    }
+
+                    this-&gt;status        = this-&gt;MsQuic-&gt;ConfigurationOpen(
+                        this-&gt;Registration,
+                        &this-&gt;AlpnBuffer,
+                        1, // BufferCount
+                        &this-&gt;Settings,
+                        sizeof(this-&gt;Settings),
+                        NULL,
+                        &this-&gt;Configuration
+                    );
+
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] ConfigurationOpen : 0x%x\n", this-&gt;status);
+                        this-&gt;MsQuic-&gt;RegistrationClose(this-&gt;Registration);
+                        this-&gt;clear();
+                        return 1;
+                    }
+
+                    this-&gt;status        = this-&gt;MsQuic-&gt;ConfigurationLoadCredential(
+                        this-&gt;Configuration, 
+                        &this-&gt;CredConfig
+                    );
+
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] ConfigurationLoadCredential : 0x%x\n", this-&gt;status);
+                        this-&gt;clear();
+                        return 1;
                     }
                 }
-                break;
-            case QUIC_CONNECTION_EVENT_SHUTDOWN_INITIATED_BY_TRANSPORT:
-                if (self->debug)
-                    printf(
-                        "[ConnectionCallback] "
-                        "QUIC_CONNECTION_EVENT_SHUTDOWN_INITIATED_BY_TRANSPORT\n"
+                if(this-&gt;isServer){
+                    this-&gt;status    = this-&gt;MsQuic-&gt;ListenerOpen(
+                        this-&gt;Registration, 
+                        this-&gt;ListenerCallback, 
+                        this, 
+                        &this-&gt;Listener
                     );
-                self->MsQuic->ConnectionClose(Connection);
-                break;
-            case QUIC_CONNECTION_EVENT_SHUTDOWN_COMPLETE:
-                if (self->debug)
-                    printf(
-                        "[ConnectionCallback] "
-                        "QUIC_CONNECTION_EVENT_SHUTDOWN_COMPLETE\n"
+
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] ListenerOpen : 0x%x\n", this-&gt;status);
+                        this-&gt;clear();
+                        return 1;
+                    }
+                    
+                    this-&gt;status    = this-&gt;MsQuic-&gt;ListenerStart(
+                        this-&gt;Listener, 
+                        &this-&gt;AlpnBuffer, 
+                        1, 
+                        &this-&gt;Address
                     );
-                self->MsQuic->ConnectionClose(Connection);
-                break;
-            case QUIC_CONNECTION_EVENT_PEER_STREAM_STARTED:
-                if (self->debug)
-                    printf(
-                        "[ConnectionCallback] "
-                        "QUIC_CONNECTION_EVENT_PEER_STREAM_STARTED\n"
-                    );
-                if (self->isServer) {
-                    Stream = Event->PEER_STREAM_STARTED.Stream;
-                    self->MsQuic->SetCallbackHandler(
-                        Stream, (void *)QUICStart::StreamCallback, self
-                    );
-                    self->MsQuic->StreamReceiveSetEnabled(Stream, TRUE);
-                    self->send_pending_data(Stream);
+
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] ListenerStart : 0x%x\n", this-&gt;status);
+                        this-&gt;clear();
+                        return 1;
+                    }
+                
                 }
-                break;
-
-            case QUIC_CONNECTION_EVENT_PEER_NEEDS_STREAMS:
-                if (self->debug)
-                    printf(
-                        "[ConnectionCallback] "
-                        "QUIC_CONNECTION_EVENT_PEER_NEEDS_STREAMS\n"
+                else{
+                    this-&gt;status    = this-&gt;MsQuic-&gt;ConnectionOpen(
+                        this-&gt;Registration, 
+                        this-&gt;ConnectionCallback, 
+                        this, 
+                        &this-&gt;QUICConnection
                     );
-                break;
 
-            default:
-                if (self->debug)
-                    printf(
-                        "[ConnectionCallback] Connection event type: 0x%X\n",
-                        Event->Type
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] ConnectionOpen : 0x%x\n", this-&gt;status);
+                        this-&gt;clear();
+                        return 1;
+                    }
+                
+                    // 接続を開始
+                    this-&gt;status    = this-&gt;MsQuic-&gt;ConnectionStart(
+                        this-&gt;QUICConnection, 
+                        this-&gt;Configuration, 
+                        QUIC_ADDRESS_FAMILY_UNSPEC, 
+                        this-&gt;ipv4.c_str(), 
+                        this-&gt;port
                     );
-                break;
-            }
-            return QUIC_STATUS_SUCCESS;
-        }
 
-        _IRQL_requires_max_(DISPATCH_LEVEL)
-                _Function_class_(QUIC_STREAM_CALLBACK)
-                static QUIC_STATUS QUIC_API StreamCallback( // StreamCallback関数
-                    _In_ HQUIC Stream,
-                    _In_opt_ void* Context,
-                    _Inout_ QUIC_STREAM_EVENT* Event
-                ) {
-            size_t msgLen;
-            uint8_t *message;
-            QUICStart *self = reinterpret_cast&lt;QUICStart *>(Context);
-            switch (Event->Type) {
-            case QUIC_STREAM_EVENT_START_COMPLETE:
-                if (self->debug)
-                    printf("[StreamCallback] QUIC_STREAM_EVENT_START_COMPLETE\n");
-                self->send_pending_data(Stream);
-                break;
-
-            case QUIC_STREAM_EVENT_SEND_COMPLETE:
-                if (self->debug)
-                    printf("[StreamCallback] QUIC_STREAM_EVENT_SEND_COMPLETE\n");
-                self->Buffer = (QUIC_BUFFER *)Event->SEND_COMPLETE.ClientContext;
-                if (self->Buffer) {
-                    free(self->Buffer->Buffer); // message の解放
-                    free(self->Buffer);         // Buffer の解放
+                    if (QUIC_FAILED(this-&gt;status)) {
+                        printf("[FAILED] ConnectionStart : 0x%x\n", this-&gt;status);
+                        this-&gt;clear();
+                        return 1;
+                    }
                 }
-                break;
-
-            case QUIC_STREAM_EVENT_RECEIVE:
-                if (self->debug)
-                    printf("[StreamCallback] QUIC_STREAM_EVENT_RECEIVE\n");
-                for (uint32_t i = 0; i &lt; Event->RECEIVE.BufferCount; ++i) {
-                    message =
-                        static_cast&lt;uint8_t *>(Event->RECEIVE.Buffers[i].Buffer);
-                    msgLen = static_cast&lt;size_t>(Event->RECEIVE.Buffers[i].Length);
-
-                    self->recvData.insert(
-                        self->recvData.end(), message, message + msgLen
-                    );
-                }
-                self->MsQuic->StreamReceiveComplete(
-                    Stream, Event->RECEIVE.TotalBufferLength
-                );
-                break;
-
-            case QUIC_STREAM_EVENT_PEER_SEND_SHUTDOWN:
-                if (self->debug)
-                    printf(
-                        "[StreamCallback] QUIC_STREAM_EVENT_PEER_SEND_SHUTDOWN\n"
-                    );
-                self->MsQuic->StreamShutdown(
-                    Stream, QUIC_STREAM_SHUTDOWN_FLAG_NONE, 0
-                );
-                break;
-            case QUIC_STREAM_EVENT_SHUTDOWN_COMPLETE:
-                if (self->debug)
-                    printf(
-                        "[StreamCallback] QUIC_STREAM_EVENT_SHUTDOWN_COMPLETE\n"
-                    );
-                self->MsQuic->StreamClose(Stream);
-                break;
-
-
-            default:
-                if (self->debug)
-                    printf(
-                        "[StreamCallback] Stream event type: 0x%X\n", Event->Type
-                    );
-                break;
-            }
-            return QUIC_STATUS_SUCCESS;
-        }
-
-        void send_pending_data(
-            HQUIC Stream
-        ) { // send_data_setでセットされたデータをStreamへ送信(サーバ/クライアント共通)
-            if (this->sendData != "") {
-                size_t msgLen = this->sendData.length();
-                uint8_t *message = (uint8_t *)malloc(msgLen + 1);
-                if (!message) {
-                    printf("[FAILED] malloc\n");
-                    return;
-                }
-                memcpy(message, this->sendData.c_str(), msgLen + 1);
-                this->Buffer = (QUIC_BUFFER *)malloc(sizeof(QUIC_BUFFER));
-                if (!this->Buffer) {
-                    printf("[FAILED] malloc\n");
-                    free(message);
-                    return;
-                }
-                this->Buffer->Buffer = (uint8_t *)message;
-                this->Buffer->Length = (uint32_t)msgLen;
-                this->MsQuic->StreamSend(
-                    Stream, this->Buffer, 1,
-                    QUIC_SEND_FLAG_START | QUIC_SEND_FLAG_FIN, this->Buffer
-                );
-                if (this->debug)
-                    printf(
-                        "[StreamCallback] StreamSend : %s\n", this->sendData.c_str()
-                    );
-            }
-        }
-
-      public:
-        QUICStart(
-            std::string serverIPv4 = "127.0.0.1",
-            int serverPort = 9999,
-            std::string appName = "QUICApplication",
-            std::string alpn = "echo",
-            bool isServer = true,
-            std::string certFile = "certificate.crt",
-            std::string keyFile = "private.key",
-            int streamCount = 5,
-            bool debug = false
-        ) {
-            this->ipv4 = serverIPv4;
-            this->port = serverPort;
-            this->isServer = isServer;
-            this->debug = debug;
-            this->RegistrationConfig.ExecutionProfile =
-                QUIC_EXECUTION_PROFILE_LOW_LATENCY;
-            this->RegistrationConfig.AppName = appName.c_str();
-            this->alpn = alpn;
-
-            this->AlpnBuffer.Buffer = (uint8_t *)this->alpn.c_str();
-            this->AlpnBuffer.Length = (uint32_t)strlen(this->alpn.c_str());
-
-            this->Settings.IsSet.PeerBidiStreamCount = TRUE;
-            this->Settings.PeerBidiStreamCount = streamCount; // 双方向ストリーム数
-            this->Settings.IsSet.PeerUnidiStreamCount = TRUE;
-            this->Settings.PeerUnidiStreamCount = 0;
-
-            // 接続のセキュリティ設定
-            memset(&this->CredConfig, 0, sizeof(this->CredConfig));
-            if (this->isServer) {
-                this->CertificateConfig.CertificateFile = certFile.c_str();
-                this->CertificateConfig.PrivateKeyFile = keyFile.c_str();
-                this->CredConfig.Flags = QUIC_CREDENTIAL_FLAG_NONE;
-                this->CredConfig.Type = QUIC_CREDENTIAL_TYPE_CERTIFICATE_FILE;
-                this->CredConfig.CertificateFile = &this->CertificateConfig;
-            }
-            else {
-                this->CredConfig.Flags =
-                    (QUIC_CREDENTIAL_FLAG_CLIENT |
-                     QUIC_CREDENTIAL_FLAG_NO_CERTIFICATE_VALIDATION);
+                if(this-&gt;debug) printf("[CONNECTED] %s : %d\n", this-&gt;ipv4.c_str(), this-&gt;port);
+                return 0;
             }
 
-            QuicAddrSetFamily(&this->Address, QUIC_ADDRESS_FAMILY_INET);
-            QuicAddrSetPort(&this->Address, this->port);
-            this->Address.Ipv4.sin_addr.s_addr =
-                inet_addr(this->ipv4.c_str()); // IPアドレスを直接設定
-        }
-
-        int connection_start() {
-            if (!this->retry) {
-                this->status = MsQuicOpenVersion(
-                    QUIC_API_VERSION_2, (const void **)&this->MsQuic
-                );
-                if (QUIC_FAILED(this->status)) {
-                    printf("[FAILED] MsQuicOpen : 0x%x\n", this->status);
-                    return 1;
-                }
-
-                this->status = this->MsQuic->RegistrationOpen(
-                    &this->RegistrationConfig, &this->Registration
-                );
-                if (QUIC_FAILED(this->status)) {
-                    printf("[FAILED] RegistrationOpen : 0x%x\n", this->status);
-                    this->clear();
-                    return 1;
-                }
-
-                this->status = this->MsQuic->ConfigurationOpen(
-                    this->Registration, &this->AlpnBuffer,
-                    1, // BufferCount
-                    &this->Settings, sizeof(this->Settings), NULL,
-                    &this->Configuration
-                );
-
-                if (QUIC_FAILED(this->status)) {
-                    printf("[FAILED] ConfigurationOpen : 0x%x\n", this->status);
-                    this->MsQuic->RegistrationClose(this->Registration);
-                    this->clear();
-                    return 1;
-                }
-
-                this->status = this->MsQuic->ConfigurationLoadCredential(
-                    this->Configuration, &this->CredConfig
-                );
-
-                if (QUIC_FAILED(this->status)) {
-                    printf(
-                        "[FAILED] ConfigurationLoadCredential : 0x%x\n",
-                        this->status
-                    );
-                    this->clear();
-                    return 1;
-                }
+            ~QUICStart(){
+                this-&gt;clear();
             }
-            if (this->isServer) {
-                this->status = this->MsQuic->ListenerOpen(
-                    this->Registration, this->ListenerCallback, this,
-                    &this->Listener
-                );
 
-                if (QUIC_FAILED(this->status)) {
-                    printf("[FAILED] ListenerOpen : 0x%x\n", this->status);
-                    this->clear();
-                    return 1;
-                }
-
-                this->status = this->MsQuic->ListenerStart(
-                    this->Listener, &this->AlpnBuffer, 1, &this->Address
-                );
-
-                if (QUIC_FAILED(this->status)) {
-                    printf("[FAILED] ListenerStart : 0x%x\n", this->status);
-                    this->clear();
-                    return 1;
-                }
+            void send_data_set(std::string sendData = "Hello QUIC World!!"){
+                this-&gt;sendData = sendData;
             }
-            else {
-                this->status = this->MsQuic->ConnectionOpen(
-                    this->Registration, this->ConnectionCallback, this,
-                    &this->QUICConnection
-                );
 
-                if (QUIC_FAILED(this->status)) {
-                    printf("[FAILED] ConnectionOpen : 0x%x\n", this->status);
-                    this->clear();
-                    return 1;
-                }
-
-                // 接続を開始
-                this->status = this->MsQuic->ConnectionStart(
-                    this->QUICConnection, this->Configuration,
-                    QUIC_ADDRESS_FAMILY_UNSPEC, this->ipv4.c_str(), this->port
-                );
-
-                if (QUIC_FAILED(this->status)) {
-                    printf("[FAILED] ConnectionStart : 0x%x\n", this->status);
-                    this->clear();
-                    return 1;
-                }
+            void disp_recv_data(){
+                std::string data(this-&gt;recvData.begin(), this-&gt;recvData.end());
+                printf("[RECV] %s\n", data.c_str());
+                this-&gt;recvData.clear();
             }
-            if (this->debug)
-                printf("[CONNECTED] %s : %d\n", this->ipv4.c_str(), this->port);
-            return 0;
-        }
 
-        ~QUICStart() { this->clear(); }
-
-        void send_data_set(std::string sendData = "Hello QUIC World!!") {
-            this->sendData = sendData;
-        }
-
-        void get_recv_data(std::string &buffer) {
-            buffer.assign(this->recvData.begin(), this->recvData.end());
-            this->recvData.clear();
-        }
-
-        void get_recv_data(char *buffer, size_t bufferLen) {
-            if (buffer != nullptr && bufferLen > 0) {
-                size_t copyLen = std::min(bufferLen, this->recvData.size());
-                memcpy(buffer, this->recvData.data(), copyLen);
-                if (copyLen &lt; bufferLen) buffer[copyLen] = '\0';
-            }
-            this->recvData.clear();
-        }
-
-        void clear(bool retry = false) {
-            this->retry = retry;
-            this->recvData.clear();
-            if (this->Listener != NULL) {
-                this->MsQuic->ListenerClose(this->Listener);
-                this->Listener = NULL;
-            }
-            if (this->QUICConnection != NULL) {
-                this->MsQuic->ConnectionClose(this->QUICConnection);
-                this->QUICConnection = NULL;
-            }
-            if (!this->retry) {
-                if (this->Configuration != NULL) {
-                    this->MsQuic->ConfigurationClose(this->Configuration);
-                    this->Configuration = NULL;
+            void clear(bool retry = false){
+                this-&gt;retry = retry;
+                this-&gt;recvData.clear();
+                if (this-&gt;Listener != NULL) {
+                    this-&gt;MsQuic-&gt;ListenerClose(this-&gt;Listener);
+                    this-&gt;Listener = NULL;
                 }
-                if (this->Registration != NULL) {
-                    this->MsQuic->RegistrationClose(this->Registration);
-                    this->Registration = NULL;
+                if (this-&gt;QUICConnection    != NULL) {
+                    this-&gt;MsQuic-&gt;ConnectionClose(this-&gt;QUICConnection);
+                    this-&gt;QUICConnection    = NULL;
                 }
-                if (this->MsQuic != NULL) {
-                    MsQuicClose(this->MsQuic);
-                    this->MsQuic = NULL;
+                if (!this-&gt;retry) {
+                    if (this-&gt;Configuration     != NULL) {
+                        this-&gt;MsQuic-&gt;ConfigurationClose(this-&gt;Configuration);
+                        this-&gt;Configuration     = NULL;
+                    }
+                    if (this-&gt;Registration      != NULL) {
+                        this-&gt;MsQuic-&gt;RegistrationClose(this-&gt;Registration);
+                        this-&gt;Registration      = NULL;
+                    }
+                    if (this-&gt;MsQuic            != NULL) {
+                        MsQuicClose(this-&gt;MsQuic);
+                        this-&gt;MsQuic            = NULL;
+                    }
                 }
+                
             }
-        }
+
     };
 #endif</code></pre>
                             </p>
