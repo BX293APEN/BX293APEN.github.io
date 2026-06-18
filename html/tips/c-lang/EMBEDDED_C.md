@@ -350,6 +350,155 @@ printf("%s\n", __DATE__);    // "Jun  4 2026"
 printf("%s\n", __TIME__);    // "12:34:56"
 ```
 
+### `__VA_OPT__` — 可変引数ありなしを切り替える (C23 / GCC 拡張)
+
+`##__VA_ARGS__` は GCC 拡張で標準 C ではなかった。
+C23 以降では `__VA_OPT__` が標準として使える。
+
+```c
+// ##__VA_ARGS__ (GCC 拡張) — 引数がゼロのとき直前のカンマを消す
+#define LOG_OLD(fmt, ...)  printf(fmt "\n", ##__VA_ARGS__)
+
+// __VA_OPT__(x) — 可変引数が 1 つ以上あるとき x に展開、なければ空になる
+#define LOG(fmt, ...)  printf(fmt "\n" __VA_OPT__(,) __VA_ARGS__)
+
+LOG("hello");           // → printf("hello\n")          引数なし → カンマなし
+LOG("x=%d", x);        // → printf("x=%d\n", x)        引数あり → カンマあり
+
+// パターン: 引数があるときだけセパレータを挟む
+#define JOIN(sep, ...)  __VA_OPT__(sep) __VA_ARGS__
+```
+
+> `__VA_OPT__` は C23 と GCC 8+ / Clang 6+ で使える。
+> RP2040 (pico-sdk) は GCC を使うので `##__VA_ARGS__` でも動くが、
+> 移植性を重視するなら `__VA_OPT__` を選ぶ。
+
+### `__COUNTER__` — 展開のたびに増える連番
+
+`__LINE__` は行番号なので同じ行に複数回使うと衝突する。
+`__COUNTER__` はプリプロセッサが展開するたびに 0, 1, 2 … と増える。
+
+```c
+// ユニークな変数名を生成したいとき
+#define CONCAT_(a, b)  a##b
+#define CONCAT(a, b)   CONCAT_(a, b)          // 二重展開 (後述) が必要
+#define UNIQUE_VAR     CONCAT(tmp_, __COUNTER__)
+
+int UNIQUE_VAR = 1;   // → int tmp_0 = 1;
+int UNIQUE_VAR = 2;   // → int tmp_1 = 2;
+
+// 静的アサートに一意なラベルをつける
+#define STATIC_ASSERT(cond) \
+    typedef char CONCAT(sa_, __COUNTER__)[(cond) ? 1 : -1]
+```
+
+### 二重展開イディオム — `#` / `##` は展開前に適用される
+
+`#` (文字列化) と `##` (トークン連結) はマクロ引数が**展開される前**に適用される。
+マクロを渡すと名前がそのまま文字列になってしまうため、ラッパを一枚かませる。
+
+```c
+#define STRINGIFY_INNER(x)  #x
+#define STRINGIFY(x)        STRINGIFY_INNER(x)   // ← 一度展開してから文字列化
+
+#define VERSION  42
+
+STRINGIFY_INNER(VERSION)   // → "VERSION"   ❌ マクロ名がそのまま文字列になる
+STRINGIFY(VERSION)         // → "42"        ✅ 先に 42 に展開されてから文字列化
+
+// ## も同様
+#define CONCAT_INNER(a, b)  a##b
+#define CONCAT(a, b)        CONCAT_INNER(a, b)   // ← ラッパ経由で二重展開
+
+#define PREFIX  foo
+CONCAT_INNER(PREFIX, _bar)  // → PREFIX_bar  ❌
+CONCAT(PREFIX, _bar)        // → foo_bar     ✅
+```
+
+### `#error` / `#warning` — コンパイル時メッセージ
+
+```c
+// コンパイルを強制停止してエラーを出す
+#if !defined(TARGET_BOARD)
+  #error "TARGET_BOARD を定義してください (例: -DTARGET_BOARD=PICO_W)"
+#endif
+
+// 警告だけ出してコンパイルは続ける (GCC 拡張、C23 で標準化)
+#if defined(LEGACY_API)
+  #warning "LEGACY_API は非推奨です。NEW_API に移行してください。"
+#endif
+
+// バージョンチェックの例
+#if __STDC_VERSION__ < 199901L
+  #error "C99 以降が必要です"
+#endif
+```
+
+### `_Pragma` — 文字列でプラグマを書く (C99)
+
+`#pragma` はマクロの中に書けない。`_Pragma("...")` を使うとマクロ内からプラグマを発行できる。
+
+```c
+// 通常のプラグマ (マクロ内では使えない)
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
+// _Pragma ならマクロ内で使える
+#define SUPPRESS_UNUSED \
+    _Pragma("GCC diagnostic ignored \"-Wunused-variable\"")
+
+// よくある使い方: サードパーティヘッダの警告を一時的に抑制
+#define INCLUDE_EXTERNAL(header)                              \
+    _Pragma("GCC diagnostic push")                           \
+    _Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")  \
+    _Pragma("GCC diagnostic ignored \"-Wcast-qual\"")        \
+    _Pragma(#header)   /* ← STRINGIFY して include */        \
+    _Pragma("GCC diagnostic pop")
+```
+
+### `_Static_assert` — コンパイル時アサート (C11)
+
+実行時ではなくコンパイル時に条件を検査する。
+ハードウェア依存の構造体サイズや型幅の確認に便利。
+
+```c
+#include <assert.h>   // static_assert マクロ (C11 の _Static_assert のラッパ)
+
+// 構造体がちょうど 4 バイトか確認 (レジスタマップなど)
+typedef struct {
+    uint8_t  status;
+    uint8_t  mode;
+    uint16_t value;
+} RegMap;
+_Static_assert(sizeof(RegMap) == 4, "RegMap は 4 バイトである必要があります");
+
+// uint32_t が本当に 4 バイトか確認
+_Static_assert(sizeof(uint32_t) == 4, "uint32_t のサイズが想定と異なります");
+
+// C11 以降なら static_assert(...) とも書ける (エイリアス)
+static_assert(sizeof(void *) == 4, "このコードは 32 bit 環境専用です");
+```
+
+> 条件が偽だとコンパイルエラーになり、メッセージが表示される。
+> `assert()` (実行時) と違い、ROM もフラッシュも消費しない。
+
+### `#pragma once` — インクルードガードの簡略版
+
+```c
+// 従来のインクルードガード
+#ifndef MY_HEADER_H
+#define MY_HEADER_H
+// ...
+#endif
+
+// #pragma once — 同じ効果をより短く書ける (GCC / Clang / MSVC で広くサポート)
+#pragma once
+// ...
+```
+
+> 厳密には標準 C ではないが、主要コンパイラはすべてサポートしており
+> 組み込み開発でも事実上の標準として使われている。
+> シンボル名の衝突を気にしなくてよいのが利点。
+
 ---
 
 ## 可変引数関数 — `va_list` / `vsnprintf` の仕組み
@@ -576,6 +725,197 @@ void good(const char *fmt, ...) {
     va_end(ap2);
     va_end(ap);
 }
+```
+
+### 自作フォーマット関数の作り方 — 実践パターン集
+
+#### パターン 1: 文字列を固定バッファに書式化して保存
+
+`vsnprintf` の戻り値は「切り捨てなければ何文字書くか」なので、
+切り捨ての検出にも使える。
+
+```c
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+
+#define MSG_SIZE 128
+
+typedef struct {
+    char text[MSG_SIZE];   // 書式化済み文字列をここに保存
+    int  truncated;        // 切り捨てが起きたか
+} Message;
+
+// 書式化して msg->text に保存する。戻り値: 実際に書いた文字数
+int msg_format(Message *msg, const char *fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    int n = vsnprintf(msg->text, sizeof(msg->text), fmt, ap);
+    va_end(ap);
+
+    msg->truncated = (n >= (int)sizeof(msg->text));
+    return (n < (int)sizeof(msg->text)) ? n : (int)sizeof(msg->text) - 1;
+}
+
+// 使い方
+Message m;
+msg_format(&m, "temp=%d, humidity=%d%%", 25, 60);
+// → m.text == "temp=25, humidity=60%"  m.truncated == 0
+
+uart_puts(m.text);          // 出力
+log_store(&m);              // そのまま別関数に渡してもよい
+```
+
+#### パターン 2: リングバッファにログを蓄積する
+
+割り込みが頻発する組み込みでは「書式化してすぐ UART 送信」が間に合わないことがある。
+書式化済み文字列をリングバッファに積んでおき、メインループで順次送信する。
+
+```c
+#define LOG_LINES    16      // 保持するログ行数 (2 のべき乗にしておくと % が速い)
+#define LOG_LINE_LEN 80      // 1 行の最大文字数
+
+typedef struct {
+    char     lines[LOG_LINES][LOG_LINE_LEN];   // 書式化済み行を格納
+    uint16_t head;   // 次に書き込む位置
+    uint16_t count;  // 現在の蓄積行数
+} LogRing;
+
+static LogRing g_log;
+
+// 書式化して g_log に追記。古い行は上書きされる (リングバッファ)
+void log_push(const char *fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(g_log.lines[g_log.head], LOG_LINE_LEN, fmt, ap);
+    va_end(ap);
+
+    g_log.head = (g_log.head + 1) % LOG_LINES;   // 次の書き込み位置へ
+    if (g_log.count < LOG_LINES) g_log.count++;   // 満杯になったら上書きモード
+}
+
+// メインループから呼ぶ: 蓄積した行を順番に UART に出す
+void log_flush(void) {
+    // 一番古い行から取り出す
+    uint16_t tail = (g_log.head - g_log.count + LOG_LINES) % LOG_LINES;
+    for (uint16_t i = 0; i < g_log.count; i++) {
+        uart_puts(g_log.lines[(tail + i) % LOG_LINES]);
+        uart_puts("\n");
+    }
+    g_log.count = 0;
+    g_log.head  = 0;
+}
+
+// 使い方
+// 割り込みハンドラや深い関数内からでも安全に呼べる
+log_push("tick=%lu, adc=%d", tick, adc_val);
+log_push("error: code=%d", err);
+
+// メインループで一括送信
+log_flush();
+```
+
+#### パターン 3: ログレベル + `__FILE__`/`__LINE__` 自動付加
+
+関数から `__FILE__` / `__LINE__` は取れない。マクロでラップして自動付加する。
+書式化した行はリングバッファに保存し、後から取り出せる。
+
+```c
+typedef enum { LOG_DEBUG=0, LOG_INFO, LOG_WARN, LOG_ERROR } log_level_t;
+
+static log_level_t g_log_level = LOG_INFO;
+
+static const char * const level_str[] = {
+    [LOG_DEBUG] = "DBG", [LOG_INFO] = "INF",
+    [LOG_WARN]  = "WRN", [LOG_ERROR] = "ERR",
+};
+
+// 関数本体: level/file/line を固定引数で受け取り、書式化してリングバッファへ
+void _log_impl(log_level_t level, const char *file, int line,
+               const char *fmt, ...)
+    __attribute__((format(printf, 4, 5)));  // GCC/Clang に printf 型チェックさせる
+
+void _log_impl(log_level_t level, const char *file, int line,
+               const char *fmt, ...) {
+    if (level < g_log_level) return;
+
+    // ① ユーザーメッセージを一時バッファに書式化
+    char msg[64];
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(msg, sizeof(msg), fmt, ap);
+    va_end(ap);
+
+    // ② プレフィックスと合成してリングバッファの 1 行に保存
+    //    snprintf で 2 つの文字列を 1 行にまとめる
+    snprintf(g_log.lines[g_log.head], LOG_LINE_LEN,
+             "[%s %s:%d] %s", level_str[level], file, line, msg);
+
+    g_log.head = (g_log.head + 1) % LOG_LINES;
+    if (g_log.count < LOG_LINES) g_log.count++;
+}
+
+// マクロ: __FILE__, __LINE__, ##__VA_ARGS__ を自動展開
+#define LOG_D(fmt, ...)  _log_impl(LOG_DEBUG, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_I(fmt, ...)  _log_impl(LOG_INFO,  __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_W(fmt, ...)  _log_impl(LOG_WARN,  __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_E(fmt, ...)  _log_impl(LOG_ERROR, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+
+// 呼び出し
+LOG_I("起動完了");
+LOG_E("センサ失敗: err=%d", err);
+// リングバッファに "[INF main.c:42] 起動完了" の形で蓄積される
+
+// 後からまとめて取り出す
+log_flush();
+```
+
+> **`__attribute__((format(printf, 4, 5)))` の数字の意味**
+> `4` = `fmt` が第 4 引数 (level, file, line, **fmt**)
+> `5` = 可変引数が第 5 引数から始まる
+> これをつけると `LOG_E("val=%d", 3.14f)` のような型ミスをコンパイラが警告する。
+
+#### パターン 4: バッファを外から渡す (呼び出し側が保存先を持つ)
+
+リングバッファを持たず、保存先バッファを呼び出し側が渡すスタイル。
+複数の場所で独立したバッファを使いたいときに向く。
+
+```c
+// 書式化した結果を dst に書いて文字数を返す
+// 戻り値が dst_size 以上なら切り捨てが起きている
+int str_format(char *dst, size_t dst_size, const char *fmt, ...)
+    __attribute__((format(printf, 3, 4)));  // fmt が第 3 引数、可変が第 4 から
+
+int str_format(char *dst, size_t dst_size, const char *fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    int n = vsnprintf(dst, dst_size, fmt, ap);
+    va_end(ap);
+    return n;
+}
+
+// 使い方: 保存先は呼び出し側が用意する
+char topic[64];
+str_format(topic, sizeof(topic), "device/%s/sensor/temp", device_id);
+// → topic == "device/abc123/sensor/temp"
+
+char payload[128];
+str_format(payload, sizeof(payload), "{\"temp\":%d,\"hum\":%d}", temp, hum);
+// → payload == {"temp":25,"hum":60}
+
+mqtt_publish(topic, payload);   // 両方のバッファをそのまま渡せる
+```
+
+#### まとめ: 自作フォーマット関数の定石
+
+```
+① vsnprintf でバッファに書式化する (sprintf は NG — 長さチェックなし)
+② 書式化結果はバッファに保存 → 後から出力・転送・ログ蓄積が可能になる
+③ 2 段階書式化 (msg → 行バッファ) で prefix と本文を安全に合成できる
+④ リングバッファに積むと割り込み中でも即 UART 送信せずに済む
+⑤ __FILE__, __LINE__ は関数では取れない → マクロでラップして渡す
+⑥ __attribute__((format(printf, m, n))) で型チェックを有効にする
+⑦ str_format のように dst を外から渡すと呼び出し側が保存先を自由に選べる
 ```
 
 ---
@@ -1037,14 +1377,41 @@ void uart_init(void) { ... }          // こちらだけ外部公開
 
 ```c
 uint32_t get_call_count(void) {
-    static uint32_t count = 0;  // 初回のみ 0 で初期化、以降は値を保持
-    return ++count;
+    static uint32_t count = 1;  // 初回のみ 1 で初期化、以降は値を保持
+    return count++;
 }
 ```
 
 通常のローカル変数はスタックに積まれ関数を抜けると消えるが、
 `static` をつけると **`.bss` / `.data` (静的領域) に配置され、プログラム終了まで生き続ける**。
 初期化式は最初の一度しか実行されない。
+
+#### `static` 変数のデフォルト初期値は **0**
+
+初期化式を省略した `static` 変数は、C 規格により **必ずゼロで初期化される**。
+
+```c
+static uint32_t count;       // = 0  (省略 → 自動的にゼロ)
+static uint32_t count = 0;   // = 0  (明示。上と同じ意味)
+static uint32_t count = 1;   // = 1  (明示的に 1 で初期化したい場合はこう書く)
+```
+
+これはグローバル変数でも同様。どちらも静的領域に置かれるため同じルールが適用される。
+
+```c
+uint32_t g_count;           // グローバル変数 → static と同様に 0 で初期化される
+static uint32_t s_count;    // ファイルスコープ static → 同じく 0
+```
+
+> **仕組み**: ゼロ初期化変数は `.bss` セクションに配置され、起動時にランタイム (crt0 など) が
+> まとめてゼロクリアする。初期値を持つ変数は `.data` セクションに置かれ、
+> フラッシュから SRAM へコピーされる。
+>
+> | 書き方 | セクション | 初期値 |
+> |---|---|---|
+> | `static T x;` | `.bss` | 0 (自動ゼロクリア) |
+> | `static T x = 0;` | `.bss` | 0 (同上・明示版) |
+> | `static T x = 1;` | `.data` | 1 (フラッシュからコピー) |
 
 ```c
 // 典型例: 前回の ADC 値を保持してノイズフィルタ
