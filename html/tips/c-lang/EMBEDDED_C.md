@@ -1041,7 +1041,10 @@ asm volatile ("dsb" ::: "memory");       // ✅
 ## CASLⅡ — レジスタ・命令対比
 
 > 「第 1 引数」「第 2 引数」のような割り当ては **CPU の命令セットには存在しない**。`%rdi` も `%rax` もハードウェア的にはただの汎用レジスタで、「引数用」という意味は一切持たない。
-> これは OS / コンパイラ間で事前に合意された **呼び出し規約 (calling convention) = ABI (Application Binary Interface)** によるソフトウェア上の取り決めであり、Linux (System V AMD64 ABI) と Windows (Microsoft x64 calling convention) で別々に定義されているため、表の Linux 列と Windows 列で引数の並びが異なる。
+> これは OS / コンパイラ間で事前に合意された **呼び出し規約 (calling convention) = ABI (Application Binary Interface)** によるソフトウェア上の取り決め:
+> - x86-64 Windows : Microsoft x64 calling convention (Windows用レジスタ使用規約)
+> - x86-64 Linux : System V AMD64 ABI (Linux用レジスタ使用規約)
+>
 > コンパイラがこの規約通りにコードを生成するからこそ、別々にコンパイル・アセンブルされた関数同士が正しく値を受け渡しできる。
 
 ### レジスタ・フラグ比較
@@ -1067,30 +1070,41 @@ asm volatile ("dsb" ::: "memory");       // ✅
 
 ### x86-64 汎用レジスタ一覧
 
-| レジスタ | 32 bit | 16 bit | 8 bit (下位) | 役割 / 慣例 (Linux) | 役割 / 慣例 (Windows) | 呼び出し保存 (Linux) | 呼び出し保存 (Windows) |
-|---|---|---|---|---|---|---|---|
-| `%rax` | `%eax` | `%ax` | `%al` | 戻り値 / アキュムレータ | 戻り値 / アキュムレータ | ❌ caller-saved | ❌ caller-saved |
-| `%rbx` | `%ebx` | `%bx` | `%bl` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved |
-| `%rcx` | `%ecx` | `%cx` | `%cl` | 第 4 引数 / ループカウンタ | 第 1 引数 | ❌ caller-saved | ❌ caller-saved |
-| `%rdx` | `%edx` | `%dx` | `%dl` | 第 3 引数 / 128 bit 戻り値の上位 | 第 2 引数 | ❌ caller-saved | ❌ caller-saved |
-| `%rsi` | `%esi` | `%si` | `%sil` | 第 2 引数 / ソースインデックス (文字列操作) | 汎用 (非引数) / ソースインデックス (文字列操作) | ❌ caller-saved | ✅ callee-saved |
-| `%rdi` | `%edi` | `%di` | `%dil` | 第 1 引数 / デスティネーションインデックス (文字列操作) | 汎用 (非引数) / デスティネーションインデックス (文字列操作) | ❌ caller-saved | ✅ callee-saved |
-| `%rbp` | `%ebp` | `%bp` | `%bpl` | ベースポインタ (フレームポインタ) | ベースポインタ (フレームポインタ) | ✅ callee-saved | ✅ callee-saved |
-| `%rsp` | `%esp` | `%sp` | `%spl` | **スタックポインタ** (直接操作は原則禁止) | **スタックポインタ** (直接操作は原則禁止) | ✅ callee-saved | ✅ callee-saved |
-| `%r8` | `%r8d` | `%r8w` | `%r8b` | 第 5 引数 | 第 3 引数 | ❌ caller-saved | ❌ caller-saved |
-| `%r9` | `%r9d` | `%r9w` | `%r9b` | 第 6 引数 | 第 4 引数 | ❌ caller-saved | ❌ caller-saved |
-| `%r10` | `%r10d` | `%r10w` | `%r10b` | syscall で第 4 引数 (Linux カーネル) / 汎用 | 汎用 | ❌ caller-saved | ❌ caller-saved |
-| `%r11` | `%r11d` | `%r11w` | `%r11b` | 汎用 / syscall がフラグ保存に使用 | 汎用 | ❌ caller-saved | ❌ caller-saved |
-| `%r12` | `%r12d` | `%r12w` | `%r12b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved |
-| `%r13` | `%r13d` | `%r13w` | `%r13b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved |
-| `%r14` | `%r14d` | `%r14w` | `%r14b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved |
-| `%r15` | `%r15d` | `%r15w` | `%r15b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved |
-| `%rip` | — | — | — | **命令ポインタ** (直接書き込み不可 / `jmp`/`call`/`ret` で変化) | **命令ポインタ** (直接書き込み不可 / `jmp`/`call`/`ret` で変化) | — | — |
+| レジスタ | 32 bit | 16 bit | 8 bit (下位) | 役割 / 慣例 (Linux) | 役割 / 慣例 (Windows) | 呼び出し保存 (Linux) | 呼び出し保存 (Windows) | 自由に読み書き可能 | 無条件に自由 |
+|---|---|---|---|---|---|---|---|---|---|
+| `%rax` | `%eax` | `%ax` | `%al` | 戻り値 / アキュムレータ | 戻り値 / アキュムレータ | ❌ caller-saved | ❌ caller-saved | ❌ | ❌ |
+| `%rbx` | `%ebx` | `%bx` | `%bl` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved | ✅ | ❌ |
+| `%rcx` | `%ecx` | `%cx` | `%cl` | 第 4 引数 / ループカウンタ、シフト演算の回数指定 (`CL`) | 第 1 引数 / ループカウンタ、シフト演算の回数指定 (`CL`) | ❌ caller-saved | ❌ caller-saved | ❌ | ❌ |
+| `%rdx` | `%edx` | `%dx` | `%dl` | 第 3 引数 / 128 bit 戻り値の上位、掛け算・割り算の補助、I/O ポートのアドレス指定 (`DX`) | 第 2 引数 / 掛け算・割り算の補助、I/O ポートのアドレス指定 (`DX`) | ❌ caller-saved | ❌ caller-saved | ❌ | ❌ |
+| `%rsi` | `%esi` | `%si` | `%sil` | 第 2 引数 / ソースインデックス (文字列操作) | 汎用 (非引数) / ソースインデックス (文字列操作) | ❌ caller-saved | ✅ callee-saved | ❌ | ❌ |
+| `%rdi` | `%edi` | `%di` | `%dil` | 第 1 引数 / デスティネーションインデックス (文字列操作) | 汎用 (非引数) / デスティネーションインデックス (文字列操作) | ❌ caller-saved | ✅ callee-saved | ❌ | ❌ |
+| `%rbp` | `%ebp` | `%bp` | `%bpl` | ベースポインタ (フレームポインタ) | ベースポインタ (フレームポインタ) | ✅ callee-saved | ✅ callee-saved | ✅ | ❌ |
+| `%rsp` | `%esp` | `%sp` | `%spl` | **スタックポインタ** (直接操作は原則禁止) | **スタックポインタ** (直接操作は原則禁止) | ✅ callee-saved | ✅ callee-saved | ❌ | ❌ |
+| `%r8` | `%r8d` | `%r8w` | `%r8b` | 第 5 引数 | 第 3 引数 | ❌ caller-saved | ❌ caller-saved | ✅ | ✅ |
+| `%r9` | `%r9d` | `%r9w` | `%r9b` | 第 6 引数 | 第 4 引数 | ❌ caller-saved | ❌ caller-saved | ✅ | ✅ |
+| `%r10` | `%r10d` | `%r10w` | `%r10b` | syscall で第 4 引数 (Linux カーネル) / 汎用 | 汎用 | ❌ caller-saved | ❌ caller-saved | ✅ | ✅ |
+| `%r11` | `%r11d` | `%r11w` | `%r11b` | 汎用 / syscall がフラグ保存に使用 | 汎用 | ❌ caller-saved | ❌ caller-saved | ❌ | ❌ |
+| `%r12` | `%r12d` | `%r12w` | `%r12b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved | ✅ | ❌ |
+| `%r13` | `%r13d` | `%r13w` | `%r13b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved | ✅ | ❌ |
+| `%r14` | `%r14d` | `%r14w` | `%r14b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved | ✅ | ❌ |
+| `%r15` | `%r15d` | `%r15w` | `%r15b` | 汎用 (用途自由) | 汎用 (用途自由) | ✅ callee-saved | ✅ callee-saved | ✅ | ❌ |
+| `%rip` | — | — | — | **命令ポインタ** (直接書き込み不可 / `jmp`/`call`/`ret` で変化) | **命令ポインタ** (直接書き込み不可 / `jmp`/`call`/`ret` で変化) | — | — | ❌ | ❌ |
 
 > **caller-saved** = 呼び出し元が保存する責任 (関数呼び出し後に値が壊れていると思え)
 > **callee-saved** = 呼び出された関数が保存・復元する責任 (関数呼び出し後も値が保たれる)
 >
 > `%rsi` / `%rdi` は Linux では引数レジスタのため caller-saved、Windows では非引数の汎用レジスタとして callee-saved という違いがある。
+>
+> **「自由に読み書き可能」** = 命令セットレベルで暗黙の用途を持たないレジスタ (`ENTER`/`LEAVE` (`%rbp`) のようなほぼ使われないレガシー命令は対象外)。
+> - `%rax` ❌: `MUL`/`DIV`/`CDQ` 系の暗黙オペランド
+> - `%rcx` ❌: `LOOP`/`REP` の暗黙カウンタ、可変シフトの回数指定 (`CL`)、加えて `SYSCALL` 命令が戻り先 `RIP` を退避
+> - `%rdx` ❌: `MUL`/`DIV` の上位ビット、`IN`/`OUT` のポート番号指定
+> - `%rsi` / `%rdi` ❌: 文字列命令 (`MOVS`/`CMPS`/`STOS` 等) の暗黙ポインタ
+> - `%rsp` ❌: `PUSH`/`POP`/`CALL`/`RET`/`INT` などスタック操作命令が暗黙に使用
+> - `%r11` ❌: `SYSCALL`/`SYSRET` 命令が `RFLAGS` の退避に使用
+> - `%r10` ✅: Linux の syscall 呼び出し規約で第 4 引数に使われるが、これは `SYSCALL` が `%rcx`/`%r11` を破壊するためカーネルがソフトウェア的に代用しているだけで、ハードウェアによる強制ではない
+>
+> **「無条件に自由」** = 自由に読み書き可能 ✅ かつ caller-saved (両OS) ✅ の積。命令的にもABI的にも一切の制約がなく、保存も復元も不要 (`%r8` `%r9` `%r10` のみ)。
 >
 > `%eax` など 32 bit 副レジスタへの書き込みは上位 32 bit を自動ゼロクリアする。
 > `%ax` `%al` など 16/8 bit への書き込みは上位ビットを変更しない点に注意。
