@@ -225,6 +225,32 @@ py -m pip install --upgrade pip --user</code></pre>
                             </h4>
                             <pre><code class="language-bash">pip-review --auto</code></pre>
                         </article>
+
+                        <article class="blog-post" id="obj">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                Pythonオブジェクト
+                            </h2>
+                            <pre><code class="language-python">if __name__ == "__main__":
+    print(f"""オブジェクト表
+| type | Method Resolution Order ( __mro__属性 ) |
+| --- | --- |"""
+    )
+
+    obj = [object, type(None), int, bool, str, list]
+    for o in obj:
+        print(f"| {o.__name__} | {o.__mro__} |")
+</code></pre>
+                            <div id="md-obj">
+| type | Method Resolution Order ( __mro__属性 ) |
+| --- | --- |
+| object | (&ltclass 'object'&gt,) |
+| NoneType | (&ltclass 'NoneType'&gt, &ltclass 'object'&gt) |
+| int | (&ltclass 'int'&gt, &ltclass 'object'&gt) |
+| bool | (&ltclass 'bool'&gt, &ltclass 'int'&gt, &ltclass 'object'&gt) |
+| str | (&ltclass 'str'&gt, &ltclass 'object'&gt) |
+| list | (&ltclass 'list'&gt, &ltclass 'object'&gt) |
+                            </div>
+                        </article>
                     
                     </div>
                     <div class="col-md-4">
@@ -249,6 +275,9 @@ py -m pip install --upgrade pip --user</code></pre>
                                     </li>
                                     <li>
                                         <a href="#pip">pipのトラブルシューティング</a>
+                                    </li>
+                                    <li>
+                                        <a href="#obj">Pythonオブジェクト</a>
                                     </li>
 
                                 </ol>
@@ -279,6 +308,9 @@ py -m pip install --upgrade pip --user</code></pre>
             new TipsView(tipsModel, "tips", "tips", ["cTip", "asciiCodeTip", "opencvTip", "rn4020Tip"]);
             new MarkDownMaker(
                 id              = "md-text",
+            )
+            new MarkDownMaker(
+                id              = "md-obj",
             )
         </script>
     </footer>
