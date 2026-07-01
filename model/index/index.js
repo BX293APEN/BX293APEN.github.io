@@ -342,7 +342,7 @@ class Model extends LoadModel {
                 "href" : "https://www.j-platpat.inpit.go.jp/t0100", 
             },
             "モンスト" : {
-                "href" : "https://webshop.monster-strike.com/auth/instruction", 
+                "href" : "https://webshop.monster-strike.com/serial-code", 
             },
             
         }
