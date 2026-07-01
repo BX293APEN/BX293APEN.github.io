@@ -326,6 +326,9 @@ class Model extends LoadModel {
             '回線速度測定' : {
                 "href" : "https://fast.com/ja/#", 
             },
+            'speedtest' : {
+                "href" : "https://www.speedtest.net/ja", 
+            },
             'Yahoo finance' : {
                 "href" : "https://finance.yahoo.com/", 
             },
@@ -337,6 +340,9 @@ class Model extends LoadModel {
             },
             "J-PlatPat" : {
                 "href" : "https://www.j-platpat.inpit.go.jp/t0100", 
+            },
+            "モンスト" : {
+                "href" : "https://webshop.monster-strike.com/auth/instruction", 
             },
             
         }
