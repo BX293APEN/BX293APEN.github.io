@@ -75,6 +75,8 @@ ip link show                                    # インターフェースの状
 ip r                                            # ルーティングテーブル
 ip -s link                                      # パケット統計(RX/TX bytes packets errors dropped carrier collsns)
 ss -s                                           # ソケット統計
+ss -tulpn | awk '/LISTEN/ {print $5}' | awk -F: '{print $NF}' | sort -nu
+
 ss -tupn    | grep [ポート番号]                  # 自端末の指定ポートの状態を調べる
 ss -tulpn   | grep [ポート番号]                  # 自端末の指定ポートがLISTENしているか調べる
 tc -s qdisc                                     # キュー制御 (遅延・ドロップ)
