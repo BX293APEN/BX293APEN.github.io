@@ -334,7 +334,7 @@ services:
     # | container_name | コンテナ名 | 外部から見た時の名前 |
     # | hostname | ホスト名 | - |
     # | build | Dockerfileの設定 | - |
-    # | image | 使用するコンテナイメージ | - |
+    # | image | 使用するコンテナイメージ | Dockerfileが無い場合指定 |
     # | volumes | マウントするフォルダ設定(データを永続化) | ホストディレクトリ: コンテナ内ディレクトリ |
     # | restart | コンテナの起動設定 | no unless-stopped always ... |
     # | environment | コンテナ内の環境変数を設定 | Python の `os.environ.get` 等でも取得可能 |
@@ -372,7 +372,7 @@ services:
         ENTRY_POINT:  ${ENTRY_POINT}
         LANG:         ${LANG}
     
-    # image: ubuntu:25.10                   # Dockerfileが無い場合
+    # image: ubuntu:25.10
 
     volumes:
       - ${VOLUME}:/home/${USER_NAME}/${WS}
