@@ -250,6 +250,14 @@ newgrp docker</code></pre>
                                         </tr>
                                         <tr>
                                             <td>
+                                                <pre><code class="language-bash">docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" [compose.yml内に書かれた container_name の値]</code></pre>
+                                            </td>
+                                            <td>
+                                                コンテナのIPアドレスを確認
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
                                                 <pre><code class="language-bash">docker system prune -a</code></pre>
                                             </td>
                                             <td>
@@ -269,7 +277,7 @@ newgrp docker</code></pre>
                                 <div class="fw-bold">
                                     .env
                                 </div>
-                                <pre><code class="language-bash"># docker-compose.yml内で利用する環境変数の設定
+                                <pre><code class="language-bash"># compose.yml内で利用する環境変数の設定
 COMPOSE_PROJECT_NAME=project1           # プロジェクト名(全て小文字)
 CONTAINER_NAME=Docker_Linux
 
@@ -296,7 +304,7 @@ WS=WS</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
-                                    docker-compose.yml
+                                    compose.yml
                                 </div>
                                 <pre><code class="language-yaml"># YAMLはスペース2つ
 # name: project1                            # プロジェクト名(全て小文字)
