@@ -295,6 +295,8 @@ IP_SUBNET_ADDR=192.168.10.0
 IP_PREFIX=24
 IP_GATEWAY_ADDR=192.168.10.1
 
+PORT=3000
+
 USER_NAME=PEN
 PASSWORD=password
 
@@ -315,10 +317,6 @@ WS=WS</code></pre>
 # | name | プロジェクト名 | 全て小文字 |
 # | services | 作成したいサービスを列挙 | YAMLはスペース2つ |
 # | nginx / db | 作成するサービスの名前 | docker composeで管理する際に必要 |
-#
-# # 起動手順
-# 1. `docker compose up --build -d`
-# 2. localhost:${PORT}にアクセス
 #
 # ==========================================
 
@@ -384,7 +382,7 @@ services:
       - LANG=${LANG}
     
     ports:
-      - "3000:3000"
+      - "${PORT}:3000"
     
     # depends_on:
       # ==========================================
