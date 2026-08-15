@@ -88,7 +88,7 @@
                                         <td >0</td><td >1</td><td >1</td><td >1</td>
                                     </tr>
                                     <tr style="border-top: 3px solid #212529;">
-                                        <td rowspan="14">データリンク層<br>(Ethernetヘッダ)</td>
+                                        <td rowspan="12">データリンク層<br>(Ethernetヘッダ)</td>
                                         <td colspan="8">宛先MACアドレス 48[bit]</td>
                                     </tr>
                                     <tr>
@@ -125,10 +125,13 @@
                                         <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8">タイプ (EtherType) 16[bit]</td>
+                                        <td rowspan="2" style="border-top: 2px dashed #ccc;">タイプ (EtherType) : 16[bit]<br>IPv4 : 0x0800</td>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
+                                        <td >1</td><td >0</td><td >0</td><td >0</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;">0x0800 : IPv4</td>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
                                     </tr>
                                     <tr style="border-top: 3px solid #212529;">
                                         <td>バージョン情報 : 4[bit]</td>
