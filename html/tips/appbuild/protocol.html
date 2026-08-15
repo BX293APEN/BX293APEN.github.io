@@ -40,7 +40,7 @@
                             </h3>
                             <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap" style="border: #212529;">
-                                    <tr>
+                                    <tr class="text-center">
                                         <th>層</th>
                                         <th>1</th>
                                         <th>2</th>
@@ -160,8 +160,8 @@
                                         <td colspan="5">フラグメントオフセット 13[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3" style="border-right:0px none;"></td>
-                                        <td colspan="5" style="border-top: 2px dashed #ccc; border-left:0px none;">パケット分割時の順序</td>
+                                        <td colspan="3" style="border-right:0px none;" class="text-end">ネットワーク機器がパケット</td>
+                                        <td colspan="5" style="border-top: 2px dashed #ccc; border-left:0px none;" class="text-start">分割した際の順序 (8[Byte]単位で分割)</td>
                                     </tr>
                                     <tr>
                                         <td colspan="8">生存時間 (TTL) 8[bit]</td>
@@ -227,25 +227,25 @@
                                         <td colspan="8">シーケンス番号 32[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">アプリケーションがデータを分割した際のデータの位置</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">1[Byte]単位で分割</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">データの順序保証と再送制御</td>
                                     </tr>
                                     <tr>
                                         <td colspan="8">確認応答番号 32[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">次に何Byte目のデータを送ってほしいか</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">送達確認</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">一定時間 確認応答番号(ACK)が返ってこない場合、データが途中で紛失したと判断して再送</td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">データオフセット 4[bit]</td>
@@ -258,7 +258,7 @@
                                         <td colspan="8">ウィンドウサイズ 16[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">一度に受け取れる未確認データの最大Byte数</td>
                                     </tr>
                                     <tr>
                                         <td colspan="8">チェックサム 16[bit]</td>
@@ -270,7 +270,7 @@
                                         <td colspan="8">緊急ポインタ 16[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">コードビットのURGフラグが1の場合有効</td>
                                     </tr>
                                     <tr>
                                         <td rowspan="2" style="border-top: 2px dashed #ccc;">TCPオプション</td>
@@ -280,13 +280,13 @@
                                         <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 4[Byte]境界に満たない端数は0埋めして揃える</td>
                                     </tr>
                                     <tr style="border-top: 3px solid #212529;">
-                                        <td rowspan="2">アプリケーション層 <br>最小値 : 46[Byte] - (ネットワーク層 + トランスポート層) <br> 最大値MTU : 1500[Byte] - (ネットワーク層 + トランスポート層)</td>
+                                        <td rowspan="2">アプリケーション層 <br>最小値 <br> 46[Byte] - (ネットワーク層 + トランスポート層) <br><br> 最大値MTU <br> 1500[Byte] - (ネットワーク層 + トランスポート層)</td>
                                         <td colspan="8">
                                             <strong>ペイロード (データ本体)</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 最小値に足りない場合0埋め</td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング <br>最小値に足りない場合0埋め</td>
                                     </tr>
                                     <tr style="border-top: 3px solid #212529;">
                                         <td rowspan="4">データリンク層<br>(トレーラ)</td>
