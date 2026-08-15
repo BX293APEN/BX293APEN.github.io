@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="アプリ作成メモ" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/appbuild/protocol.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="アプリ作成メモ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/appbuildTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>アプリ作成メモ</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="pt-3 ps-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            アプリケーション
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="install">
+                                プロトコルについて
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap" style="border: #212529;">
+                                    <tr>
+                                        <th>層</th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                        <th>4</th>
+                                        <th>5</th>
+                                        <th>6</th>
+                                        <th>7</th>
+                                        <th>8</th>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="7">
+                                            物理層<br>
+                                        </td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 2px dashed #ccc;">SFD</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >1</td><td >1</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="14">データリンク層<br>(Ethernetヘッダ)</td>
+                                        <td colspan="8">宛先MACアドレス 48[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">XX:XX:XX:XX:XX:XX</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">送信元MACアドレス 48[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">YY:YY:YY:YY:YY:YY</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">タイプ (EtherType) 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">0x0800 : IPv4</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td>バージョン情報 : 4[bit]</td>
+                                        <td >0</td><td >1</td><td >0</td><td >0</td>
+                                        <td colspan="4">IHL / ヘッダ長 4[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="8" style="border-top: 2px dashed #ccc;">ネットワーク層<br>(IPv4)</td>
+                                        <td colspan="8">サービスタイプ 8[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">全長 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ネットワーク層 + トランスポート層 + ペイロード</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">識別子 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パケット分割前のシリアル番号</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">フラグ 3[bit]</td>
+                                        <td colspan="5">フラグメントオフセット 13[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right:0px none;"></td>
+                                        <td colspan="5" style="border-top: 2px dashed #ccc; border-left:0px none;">パケット分割時の順序</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">生存時間 (TTL) 8[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 2px dashed #ccc;">プロトコル番号 8[bit] (TCP)</td>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
+                                        <td >0</td><td >1</td><td >1</td><td >0</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="10" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8">チェックサム 16[bit]  1の補数和 交換法則・結合法則成立 ※オーバーフロー時 最下位に足し戻す</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">IPヘッダ内の値のみ16[bit]ずつ区切り全て加算後、全桁1になれば正常</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">送信元IPアドレス 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">XXX.XXX.XXX.XXX : xxxx&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;xxxx</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ビッグエンディアンで格納すること</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">192.0.2.2 : 1100&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0010&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0010</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">宛先IPアドレス 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">YYY.YYY.YYY.YYY : yyyy&nbsp;yyyy&nbsp;&nbsp;&nbsp;&nbsp;yyyy&nbsp;yyyy&nbsp;&nbsp;&nbsp;&nbsp;yyyy&nbsp;yyyy&nbsp;&nbsp;&nbsp;&nbsp;yyyy&nbsp;yyyy</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ビッグエンディアンで格納すること</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">192.0.2.3 : 1100&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0010&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0011</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" style="border-top: 2px dashed #ccc;">IPヘッダオプション</td>
+                                        <td colspan="8">オプション 可変長 (最大40[Byte]) ※IHL(ヘッダ長)が5より大きい場合のみ存在</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング  4[Byte]境界に満たない端数は0埋めして揃える</td>
+                                    </tr>
+
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="20">トランスポート層<br>(TCP)</td>
+                                        <td colspan="8">送信元ポート番号 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">1～65535 (0 : エニーポート)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">宛先ポート番号 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">1～65535 (0 : エニーポート)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">シーケンス番号 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">確認応答番号 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">データオフセット 4[bit]</td>
+                                        <td colspan="4">予約領域 4[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">コードビット 8[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">ウィンドウサイズ 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">チェックサム 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">緊急ポインタ 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" style="border-top: 2px dashed #ccc;">TCPオプション</td>
+                                        <td colspan="8">オプション 可変長 (最大40[Byte]) ※データオフセットが5より大きい場合のみ存在</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 4[Byte]境界に満たない端数は0埋めして揃える</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="2">アプリケーション層 <br>最小 46[Byte]</td>
+                                        <td colspan="8">
+                                            <strong>ペイロード (データ本体)</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 0埋め</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="4">データリンク層<br>(トレーラ)</td>
+                                        <td colspan="8">FCS (フレームチェックシーケンス) 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">CRC-32によるフレーム全体の誤り検出符号</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4 text-nowrap">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <div id = "toc"></div>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
+            new Pagination(3, appBuildModel.page, "pagination");
+        </script>
+    </footer>
+</html>
+
+

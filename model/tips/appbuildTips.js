@@ -9,6 +9,10 @@ class APPBuildModel{
                 "page" : 2,
                 "href" : "/html/tips/appbuild/blender.html"
             },
+            {
+                "page" : 3,
+                "href" : "/html/tips/appbuild/protocol.html"
+            },
         ]
     }
 }
