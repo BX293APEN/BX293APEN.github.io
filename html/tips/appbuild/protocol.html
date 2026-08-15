@@ -261,10 +261,10 @@
                                         <td colspan="8" style="border-top: 2px dashed #ccc;">一度に受け取れる未確認データの最大Byte数</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8">チェックサム 16[bit]</td>
+                                        <td colspan="8">チェックサム 16[bit] 1の補数和 交換法則・結合法則成立 ※オーバーフロー時 最下位に足し戻す データを16[bit]ずつに区切る</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">送信元IPアドレス 宛先IPアドレス 擬似ヘッダ用予約領域(0x00 (8[bit])) プロトコル番号 TCPセグメント長(TCPヘッダサイズ + ペイロードサイズ) TCPヘッダ ペイロード</td>
                                     </tr>
                                     <tr>
                                         <td colspan="8">緊急ポインタ 16[bit]</td>
@@ -296,10 +296,10 @@
                                         <td colspan="8" style="border-top: 2px dashed #ccc;">CRC-32によるフレーム全体の誤り検出符号</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">生成多項式(0x04C11DB7等)とXOR演算によるビット計算を実行</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">通信ノイズによるビット化けを防ぐため、計算の前後でビット反転処理を適用</td>
                                     </tr>
                                 </table>
                             </div>
