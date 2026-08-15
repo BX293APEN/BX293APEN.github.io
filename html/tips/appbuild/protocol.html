@@ -35,7 +35,7 @@
                             アプリケーション
                         </h2>
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="install">
+                            <h3 class="pt-4 border-bottom fw-bold" id="protocol">
                                 プロトコルについて
                             </h3>
                             <div class="table-responsive">
@@ -54,6 +54,7 @@
                                     <tr style="border-top: 3px solid #212529;">
                                         <td rowspan="7">
                                             物理層<br>
+                                            8[Byte]
                                         </td>
                                         <td >0</td><td >1</td><td >0</td><td >1</td>
                                         <td >0</td><td >1</td><td >0</td><td >1</td>
@@ -88,7 +89,7 @@
                                         <td >0</td><td >1</td><td >1</td><td >1</td>
                                     </tr>
                                     <tr style="border-top: 3px solid #212529;">
-                                        <td rowspan="12">データリンク層<br>(Ethernetヘッダ)</td>
+                                        <td rowspan="12">データリンク層<br>(Ethernetヘッダ)<br>14[Byte]</td>
                                         <td colspan="8">宛先MACアドレス 48[bit]</td>
                                     </tr>
                                     <tr>
@@ -139,7 +140,7 @@
                                         <td colspan="4">IHL / ヘッダ長 4[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="8" style="border-top: 2px dashed #ccc;">ネットワーク層<br>(IPv4)</td>
+                                        <td rowspan="8" style="border-top: 2px dashed #ccc;">ネットワーク層<br>(IPv4)<br>20[Byte]～60[Byte]</td>
                                         <td colspan="8">サービスタイプ 8[bit]</td>
                                     </tr>
                                     <tr>
@@ -210,7 +211,7 @@
                                     </tr>
 
                                     <tr style="border-top: 3px solid #212529;">
-                                        <td rowspan="20">トランスポート層<br>(TCP)</td>
+                                        <td rowspan="20">トランスポート層<br>(TCP)<br> 20[Byte]～60[Byte]</td>
                                         <td colspan="8">送信元ポート番号 16[bit]</td>
                                     </tr>
                                     <tr>
@@ -279,13 +280,13 @@
                                         <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 4[Byte]境界に満たない端数は0埋めして揃える</td>
                                     </tr>
                                     <tr style="border-top: 3px solid #212529;">
-                                        <td rowspan="2">アプリケーション層 <br>最小 46[Byte]</td>
+                                        <td rowspan="2">アプリケーション層 <br>最小値 : 46[Byte] - (ネットワーク層 + トランスポート層) <br> 最大値MTU : 1500[Byte] - (ネットワーク層 + トランスポート層)</td>
                                         <td colspan="8">
                                             <strong>ペイロード (データ本体)</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 0埋め</td>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 最小値に足りない場合0埋め</td>
                                     </tr>
                                     <tr style="border-top: 3px solid #212529;">
                                         <td rowspan="4">データリンク層<br>(トレーラ)</td>
