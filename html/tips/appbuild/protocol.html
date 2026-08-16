@@ -304,12 +304,79 @@
                                 </table>
                             </div>
                         </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="http">
+                                HTTP
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                リクエストヘッダ
+                            </h4>
+                            <p>
+                                <pre><code class="language-html">[method] [URI] HTTP/[プロトコルバージョン]
+Authorization: [認証方式] [アクセストークン / BASE64に変換した値]
+Referer: [リンク元のURL]
+User-Agent: [ブラウザの名称/バージョン情報]
+Host: [接続先サーバのURI:ポート番号]
+Cookie: [クライアントがサーバに提示するCookie]
+Content-Type: [ファイル内容/ファイルの種類]; charset=UTF-8
+X-Forwarded-For: [実際の送信元ホストのIPアドレス]
+Connection: [ネットワークの接続状態の制御 (keep-alive 等)]
+Accept: [クライアントが受信可能なファイルの種類 (MIMEタイプ text/html,application/xml,*/* 等)]
+Accept-Language: ja-JP,ja;q=[ja優先度],en-US;q=[en-US優先度],en;q=[en優先度]
+Accept-Encoding: [クライアントが対応しているデータの圧縮形式(コンマ区切り)]
+Upgrade-Insecure-Requests: [HTTPSへのアップグレード要求]
+If-Modified-Since: [キャッシュ検証用日時 (ddd, dd MMM yyyy HH:mm:ss GMT)]
+If-None-Match: [キャッシュが最新か検証するためにサーバーへ提示するコンテンツの識別子 (ETag値) ]
+Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(キャッシュ禁止) / public / private 等)], max-age=[有効期間秒数], [must-revalidate (期限切れなら絶対に確認 通信不可ならエラーを出す)]
+</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                レスポンスヘッダ
+                            </h4>
+                            <p>
+                                <pre><code class="language-html">HTTP/[プロトコルバージョン] [ステータスコード] &lt;ステータスコードの説明(任意文字列可能 HTTP/2以降廃止)&gt;
+Date: [レスポンスを生成した日時 (ddd, dd MMM yyyy HH:mm:ss GMT)]
+Content-Type: [ファイル内容/ファイルの種類]; charset=UTF-8
+Content-Length: [レスポンスボディのサイズ(Byte数)]
+Transfer-Encoding: [レスポンスボディの転送方式 (chunked 等)]
+Connection: [ネットワークの接続状態の制御 (keep-alive 等)]
+Server: [レスポンスを処理したWebサーバーの種類 (nginx 等)]
+Location: [リダイレクト先のURI]
+X-Frame-Options: [ページを &lt;frame&gt; / &lt;iframe&gt; / &lt;object&gt;等で表示する際の制御 (DENY / SAMEORIGIN 等)]
+X-XSS-Protection: [1 : ブラウザのXSSフィルターの有効化]; mode=[動作指定(block 等)]
+X-Content-Type-Options: [nosniff : MIMEタイプの推測禁止&レスポンスヘッダのContent-Type指定を常に優先させる]
+ETag: [レスポンス内容を識別するための識別子 (ETag値)]
+Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(キャッシュ禁止) / public / private 等)], max-age=[有効期間秒数], [must-revalidate (期限切れなら絶対に確認 通信不可ならエラーを出す)]
+Set-Cookie:  [クライアントに保存させるCookie名]=[Cookieの値]; [属性 (domain / path / expires / HttpOnly / Secure 等)]=[値]; [属性]=[値]; [属性];
+X-Runtime: [サーバー側でリクエスト処理に要した時間[秒]]
+Strict-Transport-Security: max-age=[HTTPS接続を強制する有効期間秒数]
+X-Request-Id: [リクエストを一意に識別するためのID]
+Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシー違反を監視・報告するための指定 (default-src / script-src / report-uri / report-to 等)]
+(空行 : \r\n)
+&lt;!DOCTYPE html&gt;
+    &lt;html lang="ja"&gt;
+        &lt;head&gt;
+</code></pre>
+                            </p>
+                        </article>
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
-                            <div class="p-4 text-nowrap">
+                            <div class="p-4">
                                 <h4 class="fst-italic border-bottom">Table of Contents</h4>
-                                <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#protocol">プロトコルについて</a>
+                                    </li>
+                                    <li>
+                                        <a href="#http">HTTP</a>
+                                    </li>
+                                </ol>
                             </div>
                             <div id="tips"></div>
                         </div>
