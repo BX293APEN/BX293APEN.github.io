@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="ようこそ - とあるペンギンの実験室" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/about/security/index.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="とあるペンギンの実験室へようこそ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>情報セキュリティについて</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                セキュリティ
+                            </h2>
+                            <ul>
+                                <li>
+                                    安全
+                                </li>
+                                <li>
+                                    守らなければならない大切なモノが危害や損害を受けない正常な状態
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="border-bottom fw-bold">
+                                情報セキュリティ
+                            </h2>
+                            <p>
+                                以下の項目を維持すること
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">項目</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            機密性 [C]
+                                        </td>
+                                        <td>
+                                            アクセス権限
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            完全性 [I]
+                                        </td>
+                                        <td>
+                                            情報が正確・改竄されていない
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            可用性 [A]
+                                        </td>
+                                        <td>
+                                            必要な時使える
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            真正性
+                                        </td>
+                                        <td>
+                                            利用者・プロセス・システム・情報が本物であると証明
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            責任追跡性
+                                        </td>
+                                        <td>
+                                            ログの記録
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            否認防止
+                                        </td>
+                                        <td>
+                                            事後に「やっていない」と言えなくする (タイムスタンプ, 電子署名等)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            信頼性
+                                        </td>
+                                        <td>
+                                            意図した通りに矛盾なく動作
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                不正の発生原因
+                            </h2>
+                            <!--
+flowchart RL
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    B(["正当化(理由)"]) === C(["機会(環境)"])
+    C === A(["動機(事情)"])
+    A === B
+                            -->
+                            <img src="/img/about/ftri.svg" width = "100%"/>
+                            <figcaption class="figure-caption text-end">不正のトライアングル</figcaption>
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
+        </script>
+    </footer>
+    
+</html>
