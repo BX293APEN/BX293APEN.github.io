@@ -30,8 +30,8 @@
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
-                        <article class="blog-post">
-                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 セキュリティ
                             </h2>
                             <ul>
@@ -43,8 +43,8 @@
                                 </li>
                             </ul>
                         </article>
-                        <article class="blog-post">
-                            <h2 class="border-bottom fw-bold" id="security">
+                        <article class="blog-post" id="security">
+                            <h2 class="border-bottom fw-bold">
                                 情報セキュリティ
                             </h2>
                             <p>
@@ -143,6 +143,81 @@ flowchart RL
                             -->
                             <img src="/img/about/ftri.svg" width = "100%"/>
                             <figcaption class="figure-caption text-end">不正のトライアングル</figcaption>
+
+                            <h3 class="pt-4 fw-bold">
+                                サイバーキルチェーン (攻撃の手順)
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">段階</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            1. 偵察
+                                        </td>
+                                        <td>
+                                            インターネットなどから組織や人物を調査し、対象組織に関する情報を取得する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            2. 武器化
+                                        </td>
+                                        <td>
+                                            エクスプロイトやマルウェアを作成する 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            3. デリバリ
+                                        </td>
+                                        <td>
+                                            なりすましメール (マルウェアを添付) を送付する<br>
+                                            なりすましメール (マルウェア設置サイトに誘導) を送付し、ユーザにクリックするように誘導する 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            4. エクスプロイト
+                                        </td>
+                                        <td>
+                                            ユーザにマルウェア添付ファイルを実行させる<br>
+                                            ユーザをマルウェア設置サイトに誘導し、脆弱性を使用したエクスプロイトコードを実行させる 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            5. インストール
+                                        </td>
+                                        <td>
+                                            エクスプロイトの成功により、標的がマルウェアに感染する 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            6. C&C
+                                        </td>
+                                        <td>
+                                            マルウェアとC&Cサーバを通信させて、感染PC を遠隔操作する<br>
+                                            新たなマルウェアやツールのダウンロード等により、感染拡大や内部情報の探索を試みる 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            7. 目的の実行
+                                        </td>
+                                        <td>
+                                            探し出した内部情報を、加工 (圧縮や暗号化等) した後、情報を持ち出す
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                <div class="text-end">
+                                    <a href="https://www.jpcert.or.jp/research/APT-loganalysis_Report_20151117.pdf">高度サイバー攻撃への対処におけるログの活用と分析方法</a> より
+                                </div>
+                            </div>
                         </article>
                         <article class="blog-post" id="service">
                             <h2 class="border-bottom fw-bold">
@@ -685,8 +760,8 @@ flowchart RL
 
                             </div>
                         </article>
-                        <article class="blog-post">
-                            <h2 class="border-bottom fw-bold" id="CRYPTREC">
+                        <article class="blog-post" id="CRYPTREC">
+                            <h2 class="border-bottom fw-bold">
                                 CRYPTREC暗号リスト
                             </h2>
                             <div id="md-list">
