@@ -306,6 +306,122 @@
                         </article>
 
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="switch">
+                                スイッチについて
+                            </h3>
+                            <p>
+                                スイッチ(スイッチングハブ)とはASIC(特定用途向け集積回路 : Application Specific Integrated Circuit)を搭載し、必要な相手にだけデータを送るネットワーク(LAN内)のL2中継機器である。<br>
+                                ASICを搭載しているためソフトウェア処理のブリッジよりも高速にフレームを振り分けることが可能である。
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold" id="frame">
+                                フレーム転送方式
+                            </h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">フレーム転送方式</th>
+                                        <th scope="col">正式名称</th>
+                                        <th scope="col">速度</th>
+                                        <th scope="col">信頼性</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ストアアンドフォワード
+                                        </td>
+                                        <td>
+                                            1. フレーム全て読み込み<br>
+                                            2. CRCチェック<br>
+                                            3. 転送
+                                        </td>
+                                        <td>
+                                            遅い
+                                        </td>
+                                        <td>
+                                            高い
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            カットアンドスルー方式
+                                        </td>
+                                        <td>
+                                            1. フレームの先頭 6 [Byte] (送信先MACアドレス)読み込み<br>
+                                            2. 転送
+                                        </td>
+                                        <td>
+                                            速い
+                                        </td>
+                                        <td>
+                                            低い<br>
+                                            エラーフレームも転送される
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            フラグメントフリー方式
+                                        </td>
+                                        <td>
+                                            1. フレームの先頭 64 [Byte]読み込み<br>
+                                            2. Runtフレーム(衝突により壊れたフレーム)除外<br>
+                                            3. 転送
+                                        </td>
+                                        <td>
+                                            中<br>
+                                            Runtフレーム除外可能
+                                        </td>
+                                        <td>
+                                            中<br>
+                                            Runtフレーム以外のチェックは行わない
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <h4 class="pt-4 border-bottom fw-bold" id="vlan">
+                                VLAN
+                            </h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">VLAN</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ポートベースVLAN
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            アドレスベースVLAN
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ポリシーベースVLAN
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            タグVLAN
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </article>
+
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="http">
                                 HTTP
                             </h3>
@@ -372,6 +488,15 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                     </li>
                                     <li>
                                         <a href="#protocol">プロトコルについて</a>
+                                    </li>
+                                    <li>
+                                        <a href="#switch">スイッチについて</a>
+                                    </li>
+                                    <li>
+                                        <a href="#frame">フレーム転送方式</a>
+                                    </li>
+                                    <li>
+                                        <a href="#vlan">VLAN</a>
                                     </li>
                                     <li>
                                         <a href="#http">HTTP</a>
