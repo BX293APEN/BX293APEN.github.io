@@ -254,10 +254,10 @@ flowchart RL
                                         <td>
                                             Cisco Systems, Inc.
                                         </td>
-                                        <td>
+                                        <td class = "text-nowrap">
                                             シスコシステムズ
                                         </td>
-                                        <td>
+                                        <td class = "text-nowrap">
                                             米国に本社を置くネットワーク機器・セキュリティ製品大手ベンダー<br>
                                             ルータやファイアウォール製品などを提供する
                                         </td>
@@ -369,7 +369,8 @@ flowchart RL
                                             Common Vulnerabilities and Exposures
                                         </td>
                                         <td>
-                                            共通脆弱性識別子
+                                            共通脆弱性識別子<br>
+                                            (製品に含まれる脆弱性を識別するための識別子)
                                         </td>
                                         <td>
                                             米国MITRE社が管理する、個々の脆弱性に一意の識別番号(CVE-ID)を付与し、共通の名称で参照できるようにする仕組み
@@ -412,11 +413,22 @@ flowchart RL
                                             Common Vulnerability Scoring System
                                         </td>
                                         <td>
-                                            共通脆弱性評価システム
+                                            共通脆弱性評価システム<br>
+                                            (脆弱性の深刻度を評価するための識別子)
                                         </td>
                                         <td>
                                             FIRSTが策定する、脆弱性の深刻度を0.0～10.0のスコアで定量的・共通的に評価するための基準<br>
-                                            ベースメトリックなど複数の評価軸を持つ
+
+                                            <div id="md-cvss">
+- 基本評価基準 (Base Metrics)
+- 現状評価基準 (Temporal Metrics)
+  - 攻撃コードの成熟度 (Exploitability)
+  - 利用可能な対策のレベル (Remediation Level)
+  - 脆弱性情報の信頼性 (Report Confidence)
+- 環境評価基準 (Environmental Metrics)
+  - 二次被害の可能性 (Collateral Damage Potential)
+  - 影響を受ける対象システムの範囲 (Target Distribution)
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -699,7 +711,8 @@ flowchart RL
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">
-                                            └ CCE
+                                            └ CCE<br>
+                                            (セキュリティ設定を識別するための識別子)
                                         </td>
                                         <td>
                                             Common Configuration Enumeration
@@ -714,7 +727,8 @@ flowchart RL
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">
-                                            └ CPE
+                                            └ CPE<br>
+                                            (製品を識別するための識別子)
                                         </td>
                                         <td>
                                             Common Platform Enumeration
@@ -1341,6 +1355,9 @@ flowchart RL
             )
             new MarkDownMaker(
                 id              = "md-cyber-attack",
+            )
+            new MarkDownMaker(
+                id              = "md-cvss",
             )
         </script>
     </footer>
