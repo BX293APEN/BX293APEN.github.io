@@ -119,6 +119,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "title"     : "アプリのビルド",
                 "text"      : "&emsp;オープンソースアプリを書き換え、独自のアプリケーションを作成してみましょう",
                 "svg"       : true
+            },
+            "securityTip" : {
+                "href"      : "/html/about/security/index.html",
+                "imgSrc"    : "/img/ipa.svg", 
+                "title"     : "セキュリティガイド",
+                "text"      : "&emsp;セキュリティを高める工夫を知ることは重要です",
+                "svg"       : true
             }
 
         }
