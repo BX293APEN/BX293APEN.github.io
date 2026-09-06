@@ -116,6 +116,21 @@
                                 </table>
 
                             </div>
+
+                            <h3 class="border-bottom fw-bold">
+                                情報セキュリティに関する計画
+                            </h3>
+                            <div id="md-plan">
+
+| 名称 | 内容 |
+| --- | --- |
+| **事業継続計画 (BCP)** | 大規模災害やシステム障害などの緊急事態が発生した場合でも、重要業務を中断させない、または中断しても<br>目標復旧時間内に再開できるようにするための、組織全体を対象とした包括的な計画<br>方針・体制・優先業務・復旧手順などを事前に定めておく |
+| **緊急時対応計画 <br>(コンティンジェンシープラン)** | 火災・システム障害・情報漏えいなど、特定の緊急事態が発生した際の初動対応を目的とした計画<br>個別の事象に焦点を当て、発見から初期対応・状況把握・復旧までの具体的な対応手順・連絡体制・代替策を定める<br>BCPが組織全体を対象とする包括的な計画であるのに対し、局所的なリスクに特化している点が異なる |
+| 復旧計画 | 被災・障害等によって停止したシステムや業務を、目標復旧時点(RPO)・目標復旧時間(RTO)に基づいて<br>元の状態まで回復させるための具体的な手順を定めた計画<br>代替設備への切替え、バックアップからのデータ復元などの技術的な復旧手順が中心となる |
+| 障害計画 | システムやネットワークに障害が発生した場合を想定し、影響範囲の特定・切り分け・応急対応・恒久対策までの<br>一連の対応手順や体制をあらかじめ定めておく計画 |
+| **リスクマネジメント** | <ul><li>P : **リスクアセスメント**</li><li>D : リスク対応</li><li>C : モニタリング</li><li>A : 改善</li></ul>のPDCAサイクルを継続的に回すことで、組織のリスクを許容可能な水準まで低減・維持・管理する活動 |  
+
+                        </div>
                         </article>
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="ftri">
@@ -1440,6 +1455,9 @@ flowchart RL
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("about"));
             new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "serverTip", "appTip"]);
+            new MarkDownMaker(
+                id              = "md-plan",
+            )
             new MarkDownMaker(
                 id              = "md-list",
             )
