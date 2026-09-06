@@ -477,6 +477,36 @@ flowchart RL
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">
+                                            IEC
+                                        </td>
+                                        <td>
+                                            International Electrotechnical Commission
+                                        </td>
+                                        <td>
+                                            国際電気標準会議
+                                        </td>
+                                        <td>
+                                            スイス・ジュネーブに本部を置く電気・電子技術分野の国際標準化団体<br>
+                                            ISOと合同でISO/IEC JTC 1(情報技術に関する合同技術委員会)を運営し、情報セキュリティ規格などを共同で策定する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ISO
+                                        </td>
+                                        <td>
+                                            International Organization for Standardization
+                                        </td>
+                                        <td>
+                                            国際標準化機構
+                                        </td>
+                                        <td>
+                                            スイス・ジュネーブに本部を置く非政府の国際標準化団体<br>
+                                            ISO/IEC 27000シリーズなど、工業・品質・情報セキュリティ分野の国際規格を策定する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
                                             IEEE
                                         </td>
                                         <td>
@@ -899,6 +929,22 @@ flowchart RL
                                 <div class="col"><pre><code class="language-bash">CBC-MAC</code></pre></div>
                                 <div class="col"><pre><code class="language-bash">RSAES-PKCS1-v1_5</code></pre></div>
                                 <div class="col"><pre><code class="language-bash">SHA-1</code></pre></div>
+                            </div>
+
+                        </article>
+                        <article class="blog-post" id="framework">
+                            <h2 class="border-bottom fw-bold">
+                                フレームワーク・仕様
+                            </h2>
+                            <div id="md-framework">
+
+| 名称 | 正式名称 | 日本語名 | 内容 |
+| --- | --- | --- | --- |
+| STIX | Structured Threat <br>Information eXpression | 構造化脅威情報表現 | サイバー攻撃者の手口や被害の兆候(脅威インテリジェンス)を、<br>構造化されたデータ形式で記述するための言語・仕様<br>現行版は STIX 2.1(JSON ベース) |
+| TAXII | Trusted Automated Exchange of <br>Intelligence Information | 検知指標情報自動交換手順 | STIX で記述された脅威情報を、組織間で HTTPS を経由して<br>自動的に交換するためのプロトコル<br>STIX とセットで用いられる |
+| XCCDF | eXtensible Configuration Checklist <br>Description Format | セキュリティ設定チェックリスト記述形式 | OS やアプリケーションのセキュリティ設定チェックリスト・ベンチマークを <br>XML で構造化して記述するためのフォーマット |
+| OVAL | Open Vulnerability and <br>Assessment Language | セキュリティ検査言語 | システムの脆弱性・設定・パッチ適用状況などの状態を<br>機械的に検査するための共通言語 |  
+
                             </div>
 
                         </article>
@@ -1329,6 +1375,9 @@ flowchart RL
                                         <a href="#CRYPTREC">CRYPTREC暗号リスト</a>
                                     </li>
                                     <li>
+                                        <a href="#framework">フレームワーク・仕様</a>
+                                    </li>
+                                    <li>
                                         <a href="#cyber-attack">サイバー攻撃</a>
                                     </li>
                                     <li>
@@ -1377,6 +1426,9 @@ flowchart RL
             new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
             new MarkDownMaker(
                 id              = "md-list",
+            )
+            new MarkDownMaker(
+                id              = "md-framework",
             )
             new MarkDownMaker(
                 id              = "md-attacker",
