@@ -1,18 +1,6 @@
 JIPDEC
 
-サンプリング
-
-k-匿名化
-
-ISMAP
-
 COSO
-
-COSOフレームワーク
-
-COBIT
-
-ITガバナンス
 
 CSF
 
@@ -22,13 +10,35 @@ FIDO
 
 FIPS
 
-NIST サイバーセキュリティフレームワーク
+ISMAP
 
 ISAE
 
 IFAC
 
 SSAE
+
+COBIT
+
+
+サンプリング
+
+k-匿名化
+
+
+
+
+
+NIST サイバーセキュリティフレームワーク
+
+COSOフレームワーク
+
+
+
+ITガバナンス
+
+
+
 
 
 オプトイン/オプトアウト
