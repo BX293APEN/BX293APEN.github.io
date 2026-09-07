@@ -15,6 +15,7 @@
 
         <script src="/model/tips/tips.js"></script>
         <script src="/model/index/index.js"></script>
+        <script src="/model/about/securityTips.js"></script>
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
@@ -1770,7 +1771,9 @@ flowchart RL
             </main>
         </div>
     </body>
-    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
         <script src="/view/bootstrap.bundle.min.js"></script>
         <script src="/view/search.js"></script>
         <script src="/view/embeddedHTML.js"></script>
@@ -1778,6 +1781,7 @@ flowchart RL
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/md.js"></script>
+        <script src="/view/pagination.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -1808,7 +1812,7 @@ flowchart RL
                     id              = mdID,
                 )
             }
-            
+            new Pagination(1, securityModel.page, "pagination");
         </script>
     </footer>
     
