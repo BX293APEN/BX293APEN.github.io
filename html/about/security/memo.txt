@@ -1,0 +1,62 @@
+PDCA
+KPT
+CMMI
+リファクタリング
+リバースエンジニアリング (逆コンパイル コールグラフ 知的財産権の侵害への注意)
+SOA
+
+ITSMS
+
+システム保守
+是正保守
+定期保守
+日常点検
+予防保守
+事後保守
+オンサイト保守
+遠隔保守
+
+ソフトウェア品質
+SQuaRE
+
+製品品質モデル
+
+利用時の品質モデル
+
+
+仮想技術
+VM
+コンテナ
+
+セキュリティ・バイ・デザイン
+
+セキュリティツール
+Snort
+SonarQube
+OWASP ZAP
+
+コピーガード
+DRM
+アクティベーション
+
+MTBF
+MTTR
+
+稼働率 =MTBF/(MTBF+MTTR)
+
+故障率=1-稼働率
+
+単位時間内故障数 = 1/MTBF
+
+レースコンディション
+
+
+ECMAScript
+JavaScript
+TypeScript
+DOM
+
+Saltzer & Schroeder 8原則
+
+SEI CERT Top10 Secure Coding Practices
+
