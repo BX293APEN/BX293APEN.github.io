@@ -1297,6 +1297,8 @@ flowchart RL
 
 | 名称 | 正式名称 | 日本語名 | 内容 |
 | --- | --- | --- | --- |
+| PDCA | Plan-Do-Check-Act | 計画・実行・評価・改善 | 業務プロセスを継続的に改善するためのマネジメント手法<br>「Plan(計画)→ Do(実行)→ Check(評価)→ Act(改善)」の<br>4段階を繰り返すサイクル |
+| KPT | Keep-Problem-Try | 継続・課題・改善 | チームの振り返り(レトロスペクティブ)に用いられるフレームワーク<br>「Keep(継続すること)」「Problem(問題点)」「Try(次に試すこと)」の<br>3つの観点で振り返りを行う |
 | STIX | Structured Threat <br>Information eXpression | 構造化脅威情報表現 | サイバー攻撃者の手口や被害の兆候(脅威インテリジェンス)を、<br>構造化されたデータ形式で記述するための言語・仕様<br>現行版は STIX 2.1(JSON ベース) |
 | TAXII | Trusted Automated Exchange of <br>Intelligence Information | 検知指標情報自動交換手順 | STIX で記述された脅威情報を、組織間で HTTPS を経由して<br>自動的に交換するためのプロトコル<br>STIX とセットで用いられる |
 | XCCDF | eXtensible Configuration Checklist <br>Description Format | セキュリティ設定チェックリスト記述形式 | OS やアプリケーションのセキュリティ設定チェックリスト・ベンチマークを <br>XML で構造化して記述するためのフォーマット |
@@ -1768,9 +1770,9 @@ flowchart RL
 
 | 用語 | 正式名称(英語) | 日本語 | 意味 |
 |---|---|---|---|
-| MTBF | Mean Time Between Failures | 平均故障間隔 | 故障してから次に故障するまでの平均時間(稼働時間の平均) |
+| MTBF | Mean Time Between Failures | 平均故障間隔 | 故障してから次に故障するまでの平均時間<br>稼働時間の平均 |
 | MTTR | Mean Time To Repair | 平均修復時間 | 故障してから修理が完了するまでの平均時間 |
-| MTTF | Mean Time To Failure | 平均故障時間 | 稼働開始から故障するまでの平均時間(修理不可能な部品向け) |
+| MTTF | Mean Time To Failure | 平均故障時間 | 稼働開始から故障するまでの平均時間<br>修理不可能な部品向け |
 | 稼働率 | Availability | 可用性・アベイラビリティ | システムが正常に稼働している時間の割合<br>\[\begin{flalign}& \frac{\textbf{MTBF}}{\textbf{MTBF} + \textbf{MTTR}} &\end{flalign}\] |
 | 不稼働率 | Unavailability | 非稼働率 | 稼働率の逆<br>停止している時間の割合<br>\[\begin{flalign}& 1 - \text{稼働率} = \frac{\textbf{MTTR}}{\textbf{MTBF} + \textbf{MTTR}} &\end{flalign}\] |
 | 故障率 | Failure Rate（λ） | 故障率 | 単位時間あたりに故障が発生する割合<br>\[\begin{flalign}& \frac{1}{\textbf{MTBF}} &\end{flalign}\] |
@@ -1791,6 +1793,9 @@ flowchart RL
                                     </li>
                                     <li>
                                         <a href="#security">情報セキュリティ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-plan">情報セキュリティに関する計画</a>
                                     </li>
                                     <li>
                                         <a href="#ftri">不正の発生原因</a>
