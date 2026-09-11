@@ -1525,6 +1525,48 @@ flowchart RL
 
                             </div>
                             
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                セキュリティ・バイ・デザイン
+                            </h3>
+                            <p>
+                                システムの企画・設計段階からセキュリティ対策を組み込み、後付けではなく作り込みによって安全性を確保する考え方。
+                            </p>
+                            <div id="md-sec-des">
+
+<br>
+
+#### 設計原則 :  **Saltzer & Schroeder の8原則**
+
+| 原則 | 概要 |
+|---|---|
+| 効率的なメカニズム(Economy of Mechanism) | 設計はできる限り単純・小規模にし、検証しやすくする |
+| フェールセーフなデフォルト(Fail-safe Defaults) | 許可を明示したものだけにアクセスを許し、既定はすべて拒否とする |
+| 完全な仲介(Complete Mediation) | すべてのアクセスに対して、そのつど権限チェックを行う |
+| オープンな設計(Open Design) | 設計を秘密にすることに安全性を依存しない(鍵やパスワードなど秘密情報自体の保護には依存してよい) |
+| 権限の分離(Separation of Privilege) | 重要な操作は複数の条件・複数の主体の合意がないと実行できないようにする |
+| 最小権限(Least Privilege) | 各主体には、業務遂行に必要最小限の権限のみを与える |
+| 共通メカニズムの最小化(Least Common Mechanism) | 複数の利用者が共有する機構・資源は最小限にとどめ、相互の影響を抑える |
+| 心理的受容性(Psychological Acceptability) | 利用者が抵抗なく使える、直感的で分かりやすい保護機構にする |  
+  
+<br>  
+  
+#### 実装原則 : **SEI CERT Top 10 Secure Coding Practices**
+
+| 実践項目 | 概要 |
+|---|---|
+| 1. 入力を検証する<br>(Validate Input) | 信頼できないすべてのデータソースからの入力を検証する |
+| 2. 他システムに渡すデータを無害化(サニタイズ)する<br>(Sanitize Data Sent to Other Systems) | シェルやDBなど外部コンポーネントへ渡す前にデータを無害化し、インジェクションを防ぐ |
+| 3. コンパイラの警告に注意する<br>(Heed Compiler Warnings) | 警告レベルを高く設定し、出た警告はコードを修正して解消する |
+| 4. セキュリティポリシー実現のための実装と設計を行う<br>(Architect and Design for Security Policies) | 必要な権限ごとにサブシステムを分けるなど、方針を反映した設計を行う |
+| 5. シンプルを維持する<br>(Keep It Simple) | 設計・実装をできるだけ単純・小規模にし、誤りの混入を減らす |
+| 6. デフォルトで拒否する<br>(Default Deny) | 許可を根拠にアクセスを認め、既定はすべて拒否とする |
+| 7. 最小権限の原則を守る<br>(Adhere to the Principle of Least Privilege) | 各プロセスに必要最小限の権限のみを持たせる |
+| 8. 多層防御を行う<br>(Practice Defense in Depth) | 複数の防御層を組み合わせ、一つが破られても被害を限定する |
+| 9. 効果的な品質保証テクニックを使用する<br>(Use Effective Quality Assurance Techniques) | ペネトレーションテスト、ファジング、コードレビュー等で脆弱性を洗い出す |
+| 10. セキュアコーディング標準を採用する<br>(Adopt a Secure Coding Standard) | 対象言語・プラットフォーム向けのセキュアコーディング標準を策定・適用する |  
+
+<br>
+                            </div>
                         </article>
                         <article class="blog-post" id="drm">
                             <h2 class="pt-3 border-bottom fw-bold">
@@ -1761,6 +1803,9 @@ flowchart RL
                                         <a href="#md-cyber-attack">サイバー攻撃一覧</a>
                                     </li>
                                     <li>
+                                        <a href="#md-sec-des">セキュリティ・バイ・デザイン</a>
+                                    </li>
+                                    <li>
                                         <a href="#drm">障害対策の手法</a>
                                     </li>
                                     <li>
@@ -1811,6 +1856,7 @@ flowchart RL
                 "md-weakness-check", 
                 "md-risk-treatment", 
                 "md-risk-level", 
+                "md-sec-des", 
             ];
 
             for (const mdID of mdLists) {

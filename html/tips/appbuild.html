@@ -241,6 +241,23 @@ flowchart LR
 | DevOps | ・開発(Development)と運用(Operations)が連携し、<br>CI/CDなどにより開発から運用までを<br>迅速かつ継続的に行う考え方・体制 <br> ・自動化された<ul><li>ビルド</li><li>テスト</li><li>デプロイ</li></ul>のパイプラインを活用 | リリース頻度と品質を両立できる | 組織文化・体制の変革が必要<br>導入コストがかかる |  
 
                             </div>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                システム保守
+                            </h4>
+                            <div id="md-maintenance">
+
+| 保守区分 | 概要 |
+|---|---|
+| 是正保守 | 障害の発生後、原因を特定し不具合を修正する保守 |
+| 予防保守 | 障害が発生する前に、劣化や異常の兆候を検知・対処し未然に防ぐ保守 |
+| 事後保守 | 故障が発生してから対応する、受動的な保守(予防保守と対をなす考え方) |
+| 定期保守 | あらかじめ定めたスケジュールに従い、周期的に点検・部品交換等を行う保守 |
+| 日常点検 | 日々の運用の中でルーチンとして行う、異常の有無を確認する点検 |
+| オンサイト保守 | 保守員が現地(設置場所)に赴いて機器やシステムに対応する保守 |
+| 遠隔保守 | ネットワークを経由し、現地に赴かずに遠隔から診断・復旧などを行う保守 |  
+
+                            </div>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="cloud">
@@ -793,6 +810,9 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <a href="#md-soft-dev-model">開発モデル</a>
                                     </li>
                                     <li>
+                                        <a href="#md-maintenance">システム保守</a>
+                                    </li>
+                                    <li>
                                         <a href="#protocol">プロトコルについて</a>
                                     </li>
                                     <li>
@@ -839,6 +859,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
             const mdLists = [
                 "md-slcp", 
                 "md-soft-dev-model", 
+                "md-maintenance",
             ];
 
             for (const mdID of mdLists) {
