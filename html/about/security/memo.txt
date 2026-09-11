@@ -1,19 +1,12 @@
 PDCA
 KPT
+
 CMMI
 リファクタリング
 SOA
 
 ITSMS
 
-システム保守
-是正保守
-定期保守
-日常点検
-予防保守
-事後保守
-オンサイト保守
-遠隔保守
 
 ソフトウェア品質
 SQuaRE
@@ -22,8 +15,6 @@ SQuaRE
 
 利用時の品質モデル
 
-
-セキュリティ・バイ・デザイン
 
 
 コピーガード
@@ -40,14 +31,3 @@ MTTR
 単位時間内故障数 = 1/MTBF
 
 レースコンディション
-
-
-ECMAScript
-JavaScript
-TypeScript
-DOM
-
-Saltzer & Schroeder 8原則
-
-SEI CERT Top10 Secure Coding Practices
-

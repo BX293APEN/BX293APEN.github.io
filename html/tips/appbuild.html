@@ -793,6 +793,36 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
         &lt;head&gt;
 </code></pre>
                             </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                HTML
+                            </h4>
+
+| 用語 | 説明 |
+|---|---|
+| HTML | Webページの構造を記述するマークアップ言語<br>要素(タグ)によって<ul><li>見出し</li><li>段落</li><li>リンク</li><li>フォーム</li></ul>などを表現する |
+| CSS | HTML要素の見た目(色・レイアウト・フォント等)<br>を指定するスタイルシート言語 |
+| DOM | HTMLやXML文書をツリー構造のオブジェクトとして表現するAPI・仕様<br>JavaScriptからページの内容や構造を動的に操作できる |
+| ECMAScript | JavaScriptの言語仕様を定めた標準規格<br>文法や基本的な機能(変数、関数、クラス等)を規定する |
+| JavaScript | ECMAScriptを実装したプログラミング言語<br>ブラウザ上で動作し、DOM操作やイベント処理により動的なWebページを実現する |
+| TypeScript | JavaScriptに静的型付けの機能を追加した言語<br>コンパイルによりJavaScriptに変換されて実行される |
+| JSON | JavaScriptのオブジェクト表記法をベースにしたデータ交換フォーマット<br>テキストベースで軽量なため、API通信等で広く使われる |
+| Ajax | ページ全体を再読み込みせずに、JavaScriptから非同期でサーバーとデータをやり取りする手法。 |
+| XMLHttpRequest (XHR) | JavaScriptから非同期通信を行うための旧来のAPI<br>Ajaxの実現に用いられてきた |
+| Fetch API | ブラウザがサーバーとHTTP通信を行うためのJavaScript標準API<br>従来のXMLHttpRequestに代わる方式 |
+| Cookie | サーバーがブラウザに保存させる小さなデータ<br>セッション管理やログイン状態の保持に利用されるが、盗用により成りすまし等の脅威にもなる |
+| Session | サーバー側で一連のユーザー操作をひとまとまりとして管理する仕組み<br>Cookie等にセッションIDを持たせて識別することが多い |
+| Web Storage <br>localStorage <br> sessionStorage | ブラウザ内にキーと値の形式でデータを保存するJavaScript API<br>Cookieと異なりサーバーへ自動送信されない |
+| Same-Origin Policy <br>(SOP) | 異なるオリジン(スキーム・ホスト・ポートの組)間での<br>リソースアクセスを制限するブラウザの基本的なセキュリティ機構 |
+| CORS <br> (Cross-Origin Resource Sharing) | Same-Origin Policyを緩和し、許可されたオリジン間の通信を可能にする仕組み |
+| iframe | 別のHTML文書を現在のページ内に埋め込むためのHTML要素<br>クリックジャッキング等の攻撃にも利用され得る |
+| WebSocket | サーバーとブラウザ間で双方向・リアルタイムの通信を行うためのプロトコル・API |
+| SPA <br>(Single Page Application) | 初回読み込み後、JavaScriptによる画面遷移・再描画のみで動作するWebアプリケーションの形態 |
+| SSR <br>(Server-Side Rendering) <br><br> CSR <br>(Client-Side Rendering) | サーバー側でHTMLを生成する方式と、ブラウザ側のJavaScriptで生成する方式 |
+| Node.js | ブラウザ外でJavaScriptを実行するためのランタイム環境<br>サーバーサイド開発等にも用いられる |
+| npm | JavaScript/Node.jsのパッケージを管理・配布するためのパッケージマネージャー |
+| Web Components | Custom Elements・Shadow DOM・Templateから成る、再利用可能なUI部品を作成するための標準技術群 |
+
+
                         </article>
                     </div>
                     <div class="col-md-4">
