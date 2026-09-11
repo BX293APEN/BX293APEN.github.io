@@ -1,11 +1,7 @@
-PDCA
-KPT
 
 CMMI
 リファクタリング
 SOA
-
-ITSMS
 
 
 ソフトウェア品質
@@ -15,7 +11,7 @@ SQuaRE
 
 利用時の品質モデル
 
-
+ITSMS
 
 コピーガード
 DRM
