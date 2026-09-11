@@ -459,7 +459,7 @@ flowchart RL
                                             トレッドウェイ委員会支援組織委員会
                                         </td>
                                         <td>
-                                            内部統制やリスクマネジメントに関するフレームワーク（COSOキューブ等）を策定する米国の民間団体
+                                            内部統制やリスクマネジメントに関するフレームワーク(COSOキューブ等)を策定する米国の民間団体
                                         </td>
                                     </tr>
                                     <tr>
@@ -686,7 +686,7 @@ flowchart RL
                                             連邦情報処理標準
                                         </td>
                                         <td>
-                                            米国政府機関が調達・使用する情報システムのために策定する技術標準（暗号モジュール認証等）
+                                            米国政府機関が調達・使用する情報システムのために策定する技術標準(暗号モジュール認証等)
                                         </td>
                                     </tr>
                                     <tr>
@@ -947,7 +947,7 @@ flowchart RL
                                             国際保証業務基準
                                         </td>
                                         <td>
-                                            IAASBが策定する保証業務全般に関する国際基準（受託業務の内部統制報告書ISAE3402等）
+                                            IAASBが策定する保証業務全般に関する国際基準(受託業務の内部統制報告書ISAE3402等)
                                         </td>
                                     </tr>
                                     <tr>
@@ -961,7 +961,7 @@ flowchart RL
                                             証明業務基準書
                                         </td>
                                         <td>
-                                            米国AICPAが策定する証明業務に関する基準（SOC報告書の基礎となるSSAE18等）
+                                            米国AICPAが策定する証明業務に関する基準(SOC報告書の基礎となるSSAE18等)
                                         </td>
                                     </tr>
                                     <tr>
@@ -975,7 +975,7 @@ flowchart RL
                                             一般財団法人日本情報経済社会推進協会
                                         </td>
                                         <td>
-                                            個人情報保護（プライバシーマーク）や情報セキュリティ関連の認証・普及啓発を行う日本の団体
+                                            個人情報保護(プライバシーマーク)や情報セキュリティ関連の認証・普及啓発を行う日本の団体
                                         </td>
                                     </tr>
                                     <tr>
@@ -1759,6 +1759,25 @@ flowchart RL
 
                                 </table>
                             </div>
+
+                            <h2 class="pt-3 border-bottom fw-bold">
+                                稼働率計算等
+                            </h2>
+
+                            <div id="md-mt">
+
+| 用語 | 正式名称(英語) | 日本語 | 意味 |
+|---|---|---|---|
+| MTBF | Mean Time Between Failures | 平均故障間隔 | 故障してから次に故障するまでの平均時間(稼働時間の平均) |
+| MTTR | Mean Time To Repair | 平均修復時間 | 故障してから修理が完了するまでの平均時間 |
+| MTTF | Mean Time To Failure | 平均故障時間 | 稼働開始から故障するまでの平均時間(修理不可能な部品向け) |
+| 稼働率 | Availability | 可用性・アベイラビリティ | システムが正常に稼働している時間の割合<br>\[\begin{flalign}& \frac{\textbf{MTBF}}{\textbf{MTBF} + \textbf{MTTR}} &\end{flalign}\] |
+| 不稼働率 | Unavailability | 非稼働率 | 稼働率の逆<br>停止している時間の割合<br>\[\begin{flalign}& 1 - \text{稼働率} = \frac{\textbf{MTTR}}{\textbf{MTBF} + \textbf{MTTR}} &\end{flalign}\] |
+| 故障率 | Failure Rate（λ） | 故障率 | 単位時間あたりに故障が発生する割合<br>\[\begin{flalign}& \frac{1}{\textbf{MTBF}} &\end{flalign}\] |
+
+
+                            </div>
+
                         </article>
                     
                     </div>
@@ -1810,6 +1829,9 @@ flowchart RL
                                         <a href="#drm">障害対策の手法</a>
                                     </li>
                                     <li>
+                                        <a href="#md-mt">稼働率計算等</a>
+                                    </li>
+                                    <li>
                                         <a href="#pagination">ページ切り替え</a>
                                     </li>
                                 </ol>
@@ -1834,6 +1856,7 @@ flowchart RL
         <script src="/view/tips/tips.js"></script>
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
+        <script src="/view/tex.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -1858,6 +1881,7 @@ flowchart RL
                 "md-risk-treatment", 
                 "md-risk-level", 
                 "md-sec-des", 
+                "md-mt", 
             ];
 
             for (const mdID of mdLists) {

@@ -21,13 +21,5 @@ SQuaRE
 DRM
 アクティベーション
 
-MTBF
-MTTR
-
-稼働率 =MTBF/(MTBF+MTTR)
-
-故障率=1-稼働率
-
-単位時間内故障数 = 1/MTBF
 
 レースコンディション
