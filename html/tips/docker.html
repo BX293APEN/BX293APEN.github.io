@@ -26,20 +26,29 @@
     </head>
     <body>
         <div id="header-contents"></div>
-        <div class="container pt-3">
+        <div class="pt-4 ps-4">
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
                         <h1 class="pt-4 mt-4 border-bottom fw-bold" id = "article_top">
-                            Dockerの使い方ガイド
+                            仮想化技術
                         </h1>
+                        <div id="md-vm">
+
+| 仮想化技術 | 製品例 | 説明                                                                                                                                                                      | 起動速度                                    | サイズ | セキュリティ | メリット | デメリット |
+|---|---|---                                                                                                                                                                                    |---                                         |---|---|---|---|
+| VM <br>ハイパーバイザー型  | VMware ESXi<br>Microsoft Hyper-V<br>KVM<br>Xen | ベアメタル上で直接動作するハイパーバイザーが、<br>ハードウェアをエミュレートして各VMに独立した<br>ゲストOSを持たせる方式    | 遅い <br>(数十秒〜数分)                       | 大きい <br>(数GB〜数十GB)  | 高い <br>(カーネルレベルで完全分離)  | <ul><li>異なるOSを同時実行可能</li><li>強い隔離性</li><li>本番サーバー向け</li></ul> | <ul><li>リソース消費が大きい</li><li>起動が遅い</li><li>管理コストが高い</li></ul> |
+| VM <br>ホスト型  | VMware Workstation<br>VirtualBox<br>Parallels Desktop | ホストOS上でアプリケーションとして動作する<br>ハイパーバイザーがVMを実行する方式                                           | 遅い <br>(数十秒〜数分)                       | 大きい <br>(数GB〜数十GB)  | 中〜高 <br>(ホストOS依存の分、Type1よりやや弱い)  |  <ul><li>導入が容易</li><li>個人PCでの検証・学習に向く</li></ul> | <ul><li>ホストOSの負荷が重い</li><li>本番運用にはあまり向かない</li></ul> |
+| コンテナ | Docker<br>Podman | ホストOSのカーネルを共有しつつ、<ul><li>namespace</li><li>cgroups</li></ul>でプロセスやファイルシステムを隔離する軽量な<br>実行環境                                     | 速い <br>(数百ミリ秒〜数秒)                   | 小さい <br>(数十MB〜数百MB程度)  | 中程度 <br>(カーネル共有のため境界はVMより弱い)  |  <ul><li>軽量・高速起動</li><li>環境の可搬性が高い</li><li>CI/CDと相性が良い</li></ul> | <ul><li>カーネルを共有するためVMより隔離性が弱い</li><li>異なるOS種別は実行不可</li></ul> |
+| コンテナオーケストレーション | Kubernetes<br>Docker Swarm<br>Nomad | 複数のコンテナの<ul><li>配置</li><li>スケーリング</li><li>障害復旧</li></ul>などを自動管理する仕組み                             | 速い <br>(既存コンテナの起動速度に準ずる)         | コンテナ本体＋管理コンポーネント分 | コンテナと同程度 <br>(ネットワークポリシー等で強化可能)  |  <ul><li>大規模なコンテナ運用を自動化できる</li><li>スケーラビリティが高い</li></ul> | <ul><li>学習コストが高い</li><li>構成が複雑になりやすい</li></ul> |
+| セキュアコンテナ <br>microVM型  | Kata Containers<br>Firecracker | コンテナのインターフェースを保ちつつ、内部では<br>軽量VMでワークロードを実行し隔離性を強化<br>する方式                                 | 中程度 <br>(コンテナより遅く、通常のVMより速い)  | 小〜中 <br>(軽量VMのため通常のVMより小さい)  | 高い <br>(VM相当のカーネル分離)  |  <ul><li>コンテナの俊敏性とVM並みの隔離性を両立</li></ul> | <ul><li>通常のコンテナよりオーバーヘッドがある</li></ul> |
+| サンドボックス型コンテナ | gVisor | ユーザー空間でLinuxカーネルの機能を再実装し、<br>コンテナのシステムコールを仲介・制限することで<br>隔離性を高める方式                                                 | 速い <br>(コンテナに近い)                         | 小さい <br>(コンテナに近い)  | 中〜高 <br>(カーネル機能の再実装により攻撃面を縮小)  |  <ul><li>既存コンテナ環境に組み込みやすくセキュリティを強化できる</li></ul> | <ul><li>一部のシステムコールで性能低下や非互換が発生する場合がある</li></ul> |
+
+                        </div>
                         <article class="blog-post">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "docker">
-                                概要
-                            </h3>
-                            <h4 class="pt-2 mt-2 fw-bold">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id = "container">
                                 Docker (ドッカー)
-                            </h4>
+                            </h2>
                             <ul>
                                 <li>
                                     コンテナ仮想化技術を利用したオープンプラットフォーム
@@ -49,9 +58,9 @@
                                 </li>
                             </ul>
 
-                            <h5 class="pt-3 mt-3 fw-bold">
+                            <h3 class="pt-3 mt-3 fw-bold">
                                 メリット
-                            </h5>
+                            </h3>
                             <ul>
                                 <li>
                                     仮想環境であるため、隔離されており、実機に影響を及ぼしにくい
@@ -68,12 +77,12 @@
                             </ul>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "docker">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id = "docker">
                                 Dockerのインストール
-                            </h3>
-                            <h4 class="pt-2 mt-2 fw-bold">
+                            </h2>
+                            <h3 class="pt-2 mt-2 fw-bold">
                                 Windows
-                            </h4>
+                            </h3>
                             <a href ="https://www.docker.com/get-started/"> 
                                 <img src="/img/Docker.svg" width = "100"/>
                             </a>
@@ -82,9 +91,9 @@
                                 <b>Download</b>
                             </a>
 
-                            <h4 class="pt-4 mt-4 fw-bold">
+                            <h3 class="pt-4 mt-4 fw-bold">
                                 Linux
-                            </h4>
+                            </h3>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
@@ -101,9 +110,9 @@ newgrp docker</code></pre>
                             </p>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "config">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id = "config">
                                 Dockerで利用するファイル
-                            </h3>
+                            </h2>
                             <p>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-fixed">
@@ -148,9 +157,9 @@ docker-compose.yml</code></pre>
                             </p>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "cmd">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id = "cmd">
                                 基本コマンド
-                            </h3>
+                            </h2>
                             <p>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-fixed">
@@ -271,9 +280,9 @@ docker-compose.yml</code></pre>
                             </p>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id = "sample">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id = "sample">
                                 サンプル
-                            </h3>
+                            </h2>
                             <p>
                                 <div class="fw-bold">
                                     .env
@@ -478,7 +487,7 @@ done</code></pre>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4">
-                                <h4 class="fst-italic border-bottom">References</h4>
+                                <h3 class="fst-italic border-bottom">References</h3>
                                 <blockquote cite="https://github.com/hisuie08/backup-tool-docker">
                                     <a href="https://github.com/hisuie08/backup-tool-docker">
                                         NashiroAoi (backup-tool-docker)
@@ -491,13 +500,16 @@ done</code></pre>
                                 </blockquote>
                             </div>
                             <div class="p-4">
-                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <h3 class="fst-italic border-bottom">Table of Contents</h3>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
                                     </li>
                                     <li>
-                                        <a href="#docker">概要</a>
+                                        <a href="#container">概要</a>
+                                    </li>
+                                    <li>
+                                        <a href="#docker">Dockerのインストール</a>
                                     </li>
                                     <li>
                                         <a href="#config">Dockerで利用するファイル</a>
@@ -527,13 +539,24 @@ done</code></pre>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/createTable.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "windowsTip", "vimTip", "serverTip"]);
+            new TipsView(tipsModel, "tips", "tips", ["linuxTip", "windowsTip", "securityTip", "serverTip"]);
+
+            const mdLists = [
+                "md-vm", 
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
         </script>
     </footer>
 </html>
