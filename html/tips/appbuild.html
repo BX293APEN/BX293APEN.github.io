@@ -277,6 +277,8 @@ flowchart LR
                                 要件定義・システム設計
                             </p>
 
+                            <div id="md-model-product">
+
 | 品質特性 | 副特性 | 概要 |
 |---|---|---|
 | 機能適合性    | <ul><li>機能完全性</li><li>機能正確性</li><li>機能適切性</li></ul> | 明示的・暗黙的なニーズを満たす機能が提供されている度合い |
@@ -288,9 +290,12 @@ flowchart LR
 | 保守性        | <ul><li>モジュール性</li><li>再利用性</li><li>解析性</li><li>修正性</li><li>試験性</li></ul> | 保守作業に必要な努力の度合い |
 | 移植性        | <ul><li>適応性</li><li>設置性</li><li>置換性</li></ul> | 異なる環境(ハードウェア・ソフトウェア)へ移行してもそのまま動作する度合い |  
 
+                            </div>
                             <h5 class="pt-4 fw-bold">
                                 利用時の品質モデル
                             </h5>
+
+                            <div id="md-model-use">
 
 | 品質特性 | 副特性 | 概要 |
 |---|---|---|
@@ -301,7 +306,7 @@ flowchart LR
 | 利用状況網羅性    | <ul><li>利用状況完全性</li><li>柔軟性</li></ul> | 有効性・効率性・リスク回避性・満足性を伴って製品又はシステムが使用できる度合い |
 
 
-
+                            </div>
                             <h4 class="pt-4 border-bottom fw-bold">
                                 システム保守
                             </h4>
@@ -952,6 +957,8 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                 "md-soft-dev-model", 
                 "md-maintenance",
                 "md-html",
+                "md-model-product",
+                "md-model-use",
             ];
 
             for (const mdID of mdLists) {
