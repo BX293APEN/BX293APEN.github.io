@@ -7,10 +7,14 @@ class APPBuildModel{
             },
             {
                 "page" : 2,
+                "href" : "/html/tips/appbuild/appsec.html"
+            },
+            {
+                "page" : 5,
                 "href" : "/html/tips/appbuild/chromium.html"
             },
             {
-                "page" : 3,
+                "page" : 6,
                 "href" : "/html/tips/appbuild/blender.html"
             },
         ]

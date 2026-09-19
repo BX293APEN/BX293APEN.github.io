@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="アプリ作成メモ" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/appbuild/appsec.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="アプリ作成メモ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/appbuildTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>アプリ作成メモ</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="pt-4 mt-4 blog-post" id="article_top">
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                バグ・脆弱性
+                            </h2>
+                            <div id="md-bug">
+
+| 事象名 | 概要 | 主な原因 | セキュリティ上の影響 | 主な対策 |
+|---|---|---|---|---|
+| バッファオーバーフロー | 確保した領域を超えてデータを書き込む | 境界チェック不足                                                                                                  | <ul><li>任意コード実行</li><li>クラッシュ</li></ul>                        | <ul><li>境界チェック</li><li>安全な関数の使用</li><li>ASLR/DEP</li></ul> |
+| スタックオーバーフロー | スタック領域の確保サイズを超えて使用する | <ul><li>再帰呼び出しの終了条件不備</li><li>巨大なローカル変数</li><li>スタック上でのバッファオーバーフロー</li></ul> | <ul><li>リターンアドレス改ざんによる任意コード実行</li><li>サービス停止</li></ul>   | <ul><li>再帰の深さ制限</li><li>スタック保護(カナリア)</li><li>境界チェック</li></ul> |
+| ヒープオーバーフロー | ヒープ領域上のバッファ境界を超えて書き込む | <ul><li>動的確保サイズの計算誤り</li><li>境界チェック不足</li></ul>                                               | ヒープ管理情報の破壊による任意コード実行                                  | <ul><li>境界チェック</li><li>ヒープ保護機構</li></ul> |
+| Use-After-Free<br>(解放後使用) | 解放済みメモリ領域への参照・書き込みを行う | 解放後にポインタを初期化していない<br>(ダングリングポインタ)                                            | <ul><li>任意コード実行</li><li>情報漏えい</li></ul>                                   | <ul><li>解放後のポインタをNULL化</li><li>スマートポインタの利用</li></ul> |
+| 二重解放<br>(Double Free) | 同一メモリ領域を2回解放する | <ul><li>解放処理の重複</li><li>エラー処理の不備</li></ul>                                                               | <ul><li>ヒープ破壊</li><li>任意コード実行</li></ul>                       | <ul><li>解放後のポインタをNULL化</li><li>所有権管理の徹底</li></ul> |
+| ヌルポインタアクセス<br>(NULLポインタ参照外し) | NULLを指すポインタを参照する | 戻り値・確保結果の未チェック                                                                          | <ul><li>サービス停止(クラッシュ)</li><li>DoS </li></ul>                   | <ul><li>NULLチェックの徹底</li><li>Optional型等の活用</li></ul> |
+| ダングリングポインタ | 解放済み・無効な領域を指し続けるポインタ | <ul><li>解放後の初期化漏れ</li><li>スコープ外変数へのポインタ保持</li></ul>                                             | <ul><li>Use-After-Freeの誘発</li><li>不正な動作</li></ul>             | <ul><li>解放後のNULL代入</li><li>スコープ管理の徹底</li></ul> |
+| 未初期化変数の使用 | 初期化前の変数値を読み取る | 変数の初期化漏れ                                                                                                                    | <ul><li>不定動作</li><li>情報漏洩(メモリ内容の漏洩)</li></ul>         | <ul><li>変数の宣言時初期化</li><li>静的解析</li></ul> |
+| 整数オーバーフロー<br>アンダーフロー | 数値型の表現範囲を超えた演算結果になる | サイズ計算等での桁あふれチェック不足                                                                      | バッファサイズ誤計算経由でのオーバーフロー誘発                            | <ul><li>オーバーフロー検知</li><li>安全な整数演算ライブラリ</li></ul> |
+| オフバイワンエラー | ループや配列の境界を1つ誤る | ループ条件<br>添字の誤り(&lt;と&lt;=の混同等)                                                                                          | <ul><li>境界外アクセス</li><li>バッファオーバーフロー</li></ul>               | <ul><li>境界条件のレビュー</li><li>テスト強化</li></ul> |
+| メモリリーク | 不要になったメモリが解放されず蓄積する | 解放処理の記述漏れ                                                                                                                | メモリ枯渇によるサービス停止(DoS)                                 | <ul><li>確保と解放の対応管理</li><li>ガベージコレクション</li><li>静的解析</li></ul> |
+| レースコンディション | 複数スレッド/プロセスの実行順序により結果が変わる | 共有資源への排他制御不足                                                                                       | <ul><li>データ不整合</li><li>権限昇格</li><li>二重処理</li></ul> | <ul><li>排他制御(ロック、セマフォ)</li><li>アトミック操作</li></ul> |
+| TOCTOU<br>(Time-of-Check to Time-of-Use) | チェック時点と使用時点の間に状態が変化する | チェックと使用の間に処理の隙間(間隙)がある                                                        | <ul><li>権限のないファイルへのアクセス</li><li>シンボリックリンク攻撃</li></ul> | <ul><li>アトミックなチェック＆使用</li><li>ファイルロック</li></ul> |
+| デッドロック | 複数の処理が互いにロック解放を待ち続け停止する | ロック取得順序の不統一                                                                                                    | サービス停止(可用性低下) | <ul><li>ロック取得順序の統一</li><li>タイムアウト設定</li></ul> |  
+
+                            </div>
+                            
+                        </article>
+                    
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-bug">バグ・脆弱性</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
+            new Pagination(2, appBuildModel.page, "pagination");
+
+            const mdLists = [
+                "md-bug", 
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>
