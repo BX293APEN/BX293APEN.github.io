@@ -250,6 +250,214 @@
 
                             </div>
 
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                企業会計
+                            </h2>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                財務三表の基本構造
+                            </h3>
+                            
+                            <ul>
+                                <li>
+                                    <b>貸借対照表(B/S)</b> : ある時点の財政状態<br>
+                                </li>
+                                <li>
+                                    <b>損益計算書(P/L)</b> : 一定期間の経営成績(収益と費用の差 = 利益)
+                                </li>
+                                <li>
+                                    <b>キャッシュフロー計算書(C/F)</b> : 一定期間の資金の増減
+                                </li>
+                            </ul>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                資産 (Assets)
+                            </h3>
+                            <p>
+                                \[\begin{flalign}
+                                & 資産 = 負債(他人の金) + 純資産(自分の金) \\
+                                & = 流動資産 + 有形固定資産 + 無形固定資産 + 固定資産(投資その他) + 繰延資産 &
+                                \end{flalign}\] 
+                            </p>
+                            <div id="md-assets">
+
+| 分類 | 内容 | 具体例 |
+|---|---|---|
+| 流動資産 | 1年以内に現金化される資産(正常営業循環基準・1年基準) | <ul><li>現金預金</li><li>売掛金</li><li>棚卸資産</li><li>有価証券</li></ul> |
+| 有形固定資産 | 長期使用する形のある資産 | <ul><li>建物</li><li>機械</li><li>土地</li><li>車両</li></ul> |
+| 無形固定資産 | 長期使用する形のない資産 | <ul><li>ソフトウェア</li><li>特許権</li><li>のれん</li></ul> |
+| 固定資産(投資その他) | 投資目的・長期保有の資産 | <ul><li>投資有価証券</li><li>長期貸付金</li></ul> |
+| 繰延資産 | 支出効果が将来に及ぶため資産計上したもの | <ul><li>開業費</li><li>開発費</li></ul> |
+
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                負債 (Liabilities)
+                            </h3>
+                            <p>
+                                \[\begin{flalign}& 負債 = 流動負債 + 固定負債 &\end{flalign}\] 
+                            </p>
+                            <div id="md-liabilities">
+
+| 分類 | 内容 | 具体例 |
+|---|---|---|
+| 流動負債 | 1年以内に返済期限が来る負債 | <ul><li>買掛金</li><li>短期借入金</li><li>未払金</li></ul> |
+| 固定負債 | 返済期限が1年を超える負債 | <ul><li>社債</li><li>長期借入金</li><li>退職給付引当金</li></ul> |
+
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                純資産 (Net Assets)
+                            </h3>
+                            <p>
+                                \[\begin{flalign}& 純資産 = 資本金 + 資本剰余金 + 利益剰余金 - 自己株式 + 評価・換算差額金 + 新株予約権 + 非支配株主持分 &\end{flalign}\] 
+                            </p>
+                            <div id="md-net-assets">
+
+| 区分 | 内容 |
+|---|---|
+| 資本金 | 株主からの出資額<br>法定資本 |
+| 資本剰余金 | 資本取引から生じた剰余金<br>資本準備金等 |
+| 利益剰余金 | 利益の内部留保<br><ul><li>利益準備金</li><li>繰越利益剰余金</li></ul> |
+| 評価・換算差額金 | 時価変動差額 |
+| 株主資本 | 純資産のうち株主に帰属する部分<br>資本金 + 資本剰余金 + 利益剰余金 - 自己株式(株主への払い戻しとして計算) |
+| 自己資本 | 返済する必要がないお金<br>純資産 - (新株予約権 + 非支配株主持分) = 株主資本 + (評価・換算差額金) |
+
+
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                損益計算書(P/L)の利益段階
+                            </h3>
+
+                            <div id="md-pl">
+
+| 利益区分 | 計算式 |
+|---|---|
+| 売上総利益(粗利) | \[\begin{flalign}& 売上高 - 売上原価 &\end{flalign}\] |
+| 営業利益 | \[\begin{flalign}& 売上総利益 - 販売費及び一般管理費 &\end{flalign}\] |
+| 経常利益 | \[\begin{flalign}& 営業利益 + 営業外収益 - 営業外費用 &\end{flalign}\] |
+| 税引前当期純利益 | \[\begin{flalign}& 経常利益 + 特別利益 - 特別損失 &\end{flalign}\] |
+| 当期純利益 | \[\begin{flalign}& 税引前当期純利益 - 法人税等 &\end{flalign}\] |
+
+                            </div>
+
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                安全性分析 (短期・長期の支払能力)
+                            </h3>
+
+                            <div id="md-safety">
+
+| 指標 | 計算式 | 目安 |
+|---|---|---|
+| 流動比率 | \[\begin{flalign}& \dfrac{流動資産}{流動負債} \times 100 &\end{flalign}\] | 200%以上が望ましい |
+| 当座比率 | \[\begin{flalign}& \dfrac{当座資産(現預金+売掛金+有価証券等)}{流動負債} \times 100 &\end{flalign}\] | 100%以上が望ましい |
+| 自己資本比率 | \[\begin{flalign}& \dfrac{自己資本}{総資産} \times 100 &\end{flalign}\] | 高いほど安全 |
+| 負債比率 | \[\begin{flalign}& \dfrac{負債}{自己資本} \times 100 &\end{flalign}\] | 低いほど安全 |
+| 固定比率 | \[\begin{flalign}& \dfrac{固定資産}{自己資本} \times 100 &\end{flalign}\] | 100%以下が望ましい |
+| 固定長期適合率 | \[\begin{flalign}& \dfrac{固定資産}{自己資本 + 固定負債} \times 100 &\end{flalign}\] | 100%以下が望ましい |
+
+                            </div>
+                            <ul>
+                                <li>
+                                    ※固定資産 : 長期保有前提のため、短期の流動負債ではなく自己資本(+固定負債)でまかなうのが健全とされる
+                                </li>
+                            </ul>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                収益性分析
+                            </h3>
+
+                            <div id="md-return">
+
+
+| 指標 | 正式名称 | 日本語名 | 計算式 | 意味 |
+|---|---|---|---|---|
+| ROI | Return On Investment | 投資利益率 | \[\begin{flalign}& \dfrac{利益}{投資額} \times 100 &\end{flalign}\] | 投じた資金に対する利益の割合<br>対象範囲が柔軟 (会社全体にも個別施策にも使う)<br>プロジェクト単位や広告等、対象を限定して使うことが多い |
+| ROE | Return On Equity | 自己資本利益率 | \[\begin{flalign}& \dfrac{当期純利益}{自己資本} \times 100 \\ \\ & = 売上高純利益率 \times 総資産回転率 \times 財務レバレッジ &\end{flalign}\] | 株主が出した資本でどれだけ利益を稼いだか<br>財務諸表全体の指標として使われる |
+| ROA | Return On Assets | 総資産利益率 | \[\begin{flalign}& \dfrac{当期純利益}{総資産} \times 100 &\end{flalign}\] | 負債も含めた総資産全体の運用効率<br>財務諸表全体の指標として使われる |
+| ROAS | Return On Advertising Spend | 広告費用対効果 | \[\begin{flalign}& \dfrac{広告経由の売上}{広告費} \times 100 &\end{flalign}\] | 投じた広告費に対する売上の割合(利益ではなく売上ベースな点に注意) |  
+
+<br>
+<br>
+
+| 指標 | 計算式 | 意味 |
+|---|---|---|
+| 売上高総利益率 | \[\begin{flalign}& \dfrac{売上総利益}{売上高} \times 100 &\end{flalign}\] | 粗利率 |
+| 売上高営業利益率 | \[\begin{flalign}& \dfrac{営業利益}{売上高} \times 100 &\end{flalign}\] | 本業の稼ぐ力 |
+| 売上高経常利益率 | \[\begin{flalign}& \dfrac{経常利益}{売上高} \times 100 &\end{flalign}\] | 財務活動込みの収益力 |  
+
+
+                            </div>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                効率性分析 (回転率)
+                            </h3>
+
+                            <div id="md-efficiency">
+
+| 指標 | 計算式 | 意味 |
+|---|---|---|
+| 総資産回転率 | \[\begin{flalign}& \dfrac{売上高}{総資産} &\end{flalign}\] [回] | 資産の稼働効率 |
+| 棚卸資産回転率 | \[\begin{flalign}& \dfrac{売上高(または売上原価)}{棚卸資産} &\end{flalign}\] [回] | 在庫効率(高いほど良い) |
+| 売上債権回転率 | \[\begin{flalign}& \dfrac{売上高}{売上債権(売掛金等)} &\end{flalign}\] [回] | 債権回収の速さ |
+| 売上債権回転期間 | \[\begin{flalign}& \dfrac{売上債権}{売上高} \times 365 &\end{flalign}\] [日] | 回収にかかる日数 |
+
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                成長性分析
+                            </h3>
+                            <div id="md-growth"></div>
+
+| 指標 | 計算式 |
+|---|---|
+| 売上高成長率 | \[\begin{flalign}& \dfrac{当期売上高 - 前期売上高}{前期売上高} \times 100 &\end{flalign}\] |
+| 経常利益成長率 | \[\begin{flalign}& \dfrac{当期経常利益 - 前期経常利益}{前期経常利益} \times 100 &\end{flalign}\] |
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                損益分岐点分析 (CVP分析)
+                            </h3>
+                            <div id="md-cvp"></div>
+
+
+| 用語 | 計算式 |
+|---|---|
+| 変動費率 | \[\begin{flalign}& \dfrac{変動費}{売上高} &\end{flalign}\] |
+| 限界利益(貢献利益) | \[\begin{flalign}& 売上高 - 変動費 &\end{flalign}\] |
+| 限界利益率 | \[\begin{flalign}& \dfrac{限界利益}{売上高} = 1 - 変動費率 &\end{flalign}\] |
+| 損益分岐点売上高 | \[\begin{flalign}& \dfrac{固定費}{1 - 変動費率} = \dfrac{固定費}{限界利益率} &\end{flalign}\] <br><br> 損益分岐点より下がると赤字、上がると黒字 |
+| 安全余裕率 | \[\begin{flalign}& \dfrac{売上高 - 損益分岐点売上高}{売上高} \times 100 &\end{flalign}\] <br><br> 高いほど不況に強い |
+| 目標利益達成売上高 | \[\begin{flalign}& \dfrac{固定費 + 目標利益}{限界利益率} &\end{flalign}\] |
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                キャッシュフロー計算書 (C/F)
+                            </h3>
+                            <div id="md-cf">
+
+| 区分 | 内容 |
+|---|---|
+| 営業活動によるC/F | 本業での現金の増減(プラスが健全) |
+| 投資活動によるC/F | 設備投資・有価証券売買等 (通常マイナス) |
+| 財務活動によるC/F | 借入・返済・配当等の資金調達関連 |
+| フリーキャッシュフロー (FCF) | \[\begin{flalign}& 営業活動によるC/F + 投資活動によるC/F &\end{flalign}\] |
+
+                            </div>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                投資指標
+                            </h3>
+                            <div id="md-investment">
+
+| 指標 | 計算式 | 意味 |
+|---|---|---|
+| EPS(1株当たり利益) | \[\begin{flalign}& \dfrac{当期純利益}{発行済株式数} &\end{flalign}\] | 1株が稼ぐ利益 |
+| BPS(1株当たり純資産) | \[\begin{flalign}& \dfrac{純資産}{発行済株式数} &\end{flalign}\] | 1株当たりの解散価値 |
+| PER(株価収益率) | \[\begin{flalign}& \dfrac{株価}{EPS} &\end{flalign}\] (倍) | 利益に対する株価の割高・割安<br>PERが低い : 利益に対し割安 |
+| PBR(株価純資産倍率) | \[\begin{flalign}& \dfrac{株価}{BPS} &\end{flalign}\] (倍) | 純資産に対する株価の割高・割安。1倍が解散価値の目安<br>PBRが低い : 資産に対し割安 |
+| 配当利回り | \[\begin{flalign}& \dfrac{1株当たり配当金}{株価} \times 100 &\end{flalign}\] | 投資額に対する配当収入の割合 |
+| 配当性向 | \[\begin{flalign}& \dfrac{配当金総額}{当期純利益} \times 100 &\end{flalign}\] | 利益のうち配当に回す割合 |
+
+                            </div>
+
                         </article>
 
                         <article class="blog-post">
@@ -398,6 +606,9 @@
                                         <a href="#md-company">企業・運営</a>
                                     </li>
                                     <li>
+                                        <a href="#md-assets">企業会計</a>
+                                    </li>
+                                    <li>
                                         <a href="#md-copy-protect">不正コピー防止技術</a>
                                     </li>
                                     <li>
@@ -431,6 +642,7 @@
         <script src="/view/tips/tips.js"></script>
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
+        <script src="/view/tex.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -454,6 +666,17 @@
                 "md-license",
                 "md-license-oss",
                 "md-isoiec",
+                "md-assets",
+                "md-liabilities",
+                "md-net-assets",
+                "md-pl",
+                "md-safety",
+                "md-return",
+                "md-efficiency",
+                "md-growth",
+                "md-cvp",
+                "md-cf",
+                "md-investment",
 
             ];
 
