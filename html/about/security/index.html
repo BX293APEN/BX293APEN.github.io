@@ -1617,19 +1617,35 @@ flowchart RL
                                     </tr>
                                     <tr>
                                         <td>
-                                            Fault Tolerant
+                                            <strong>Fault Tolerant</strong>
                                         </td>
                                         <td>
-                                            フォールト トレラント
+                                            <strong>フォールト トレラント</strong>
                                         </td>
                                         <td>
-                                            手法
+                                            考え方
                                         </td>
                                         <td>
                                             障害発生時、機能を縮小せずに継続させる<br>
                                             <strong>多重化</strong>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            Fault Masking
+                                        </td>
+                                        <td>
+                                            フォールト マスキング
+                                        </td>
+                                        <td>
+                                            手法
+                                        </td>
+                                        <td>
+                                            障害の影響を他に与えないようにする
+                                            <strong>フォールト トレラント</strong>を実現するための手法
+                                        </td>
+                                    </tr>
+                                    
                                     <tr>
                                         <td>
                                             Fault Avoidance
@@ -1643,20 +1659,6 @@ flowchart RL
                                         <td>
                                             事前対策により、障害を回避する<br>
                                             高級な部品にする等...
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Fault Masking
-                                        </td>
-                                        <td>
-                                            フォールト マスキング
-                                        </td>
-                                        <td>
-                                            考え方
-                                        </td>
-                                        <td>
-                                            障害の影響を他に与えないようにする
                                         </td>
                                     </tr>
 
@@ -1717,10 +1719,10 @@ flowchart RL
                                     </tr>
                                     <tr>
                                         <td>
-                                            Fail Soft
+                                            <strong>Fail Soft</strong>
                                         </td>
                                         <td>
-                                            フェイル ソフト
+                                            <strong>フェイル ソフト</strong>
                                         </td>
                                         <td>
                                             考え方
@@ -1784,7 +1786,8 @@ flowchart RL
                                         <td>
                                             障害発生時、機能や性能を落として稼働させること<br>
                                             異常個所を<strong>切り離し</strong>、予備の機材を使用すること等<br>
-                                            <strong>縮退運転</strong>
+                                            <strong>縮退運転</strong><br>
+                                            <strong>フェイル ソフト</strong>を実現するための手法
                                         </td>
                                     </tr>
 
