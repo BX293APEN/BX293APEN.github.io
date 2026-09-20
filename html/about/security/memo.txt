@@ -1,2 +1,28 @@
+ETSI
+
+
 CIDR表記
+IPアドレスクラス
+
+プロトコル番号
+well known port
+
+TFTP FTP
+
+CSMA/CD
+CSMA/CA
+
+スパニングツリー
+
+
 アドウェア
+
+MPLS PPP PPPoE PPTP
+
+CORBA
+
+SORP
+WSDL
+UDDI
+Ajax
+WebDAV
