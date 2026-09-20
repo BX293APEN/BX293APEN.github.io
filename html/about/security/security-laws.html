@@ -464,6 +464,21 @@
 
                             </div>
 
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                不確実性下の意思決定基準
+                            </h3>
+                            <div id="md-dec">
+
+| 基準名 | 英語名 | 別名 | 考え方・判断基準 |
+|---|---|---|---|
+| マクシマックス基準 | Maximax criterion | 楽観主義基準                         | 各案の「最大利得」の中から、最も大きいものを選ぶ<br>強気・楽観的な意思決定者向け<br>強気(best of best) |
+| マクシミン基準 | Maximin criterion | ワルドの基準・悲観主義基準               | 各案の「最小利得」の中から、最も大きいものを選ぶ<br>最悪の事態を想定した安全志向の基準<br>弱気(best of worst) |
+| ミニマックス・リグレット基準 | Minimax regret criterion | サベージの基準      | 各状況で「選ばなかったことによる後悔(機会損失)」を求め、その最大後悔が最も小さい案を選ぶ |
+| ハーヴィッツ基準 | Hurwicz criterion | 楽観係数基準                           | \[\begin{flalign}& 楽観度 = \alpha (0 \le \alpha \le 1) &\end{flalign}\] <br><br>を用いて<br>\[\begin{flalign}& \alpha \times 最大利得 + (1-\alpha) \times 最小利得 &\end{flalign}\]<br><br>が最大の案を選ぶ(マクシマックスとマクシミンの折衷) |
+| ラプラス基準 | Laplace criterion | 等確率基準・理由不十分の原則               | 各状況が同じ確率で起こると仮定し、<br> \[\begin{flalign}& 期待値 = \left( \dfrac{1}{n}\sum_{j=1}^{n} a_{ij} \right) &\end{flalign}\]<br><br>が最大の案を選ぶ |
+| 期待値基準 | Expected value criterion | —                                 | 各状況の発生確率が既知の場合に、<br> \[\begin{flalign}& 期待利得 = \left( \sum_j p_j \times a_{ij} \right) &\end{flalign}\]<br><br> が最大の案を選ぶ |
+
+                            </div>
                         </article>
 
                         <article class="blog-post">
@@ -683,6 +698,7 @@
                 "md-cvp",
                 "md-cf",
                 "md-investment",
+                "md-dec",
 
             ];
 
