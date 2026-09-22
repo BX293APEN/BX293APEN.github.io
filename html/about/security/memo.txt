@@ -22,3 +22,5 @@ WSDL
 UDDI
 Ajax
 WebDAV
+
+PQC
