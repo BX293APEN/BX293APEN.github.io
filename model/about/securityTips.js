@@ -9,6 +9,10 @@ class SecurityModel{
                 "page" : 2,
                 "href" : "/html/about/security/security-laws.html"
             },
+            {
+                "page" : 3,
+                "href" : "/html/about/security/security.html"
+            },
         ]
     }
 }

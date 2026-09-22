@@ -20,8 +20,8 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
             "rn4020Tip" : {
                 "href"      : "/html/tips/RN4020.html",
                 "imgSrc"    : "/img/RN4020_design.jpg", 
-                "title"     : "RN4020の簡易マニュアル",
-                "text"      : "&emsp;RN4020は、マイクロチップ社によって開発されたBluetooth Low Energy(BLE)通信モジュールです",
+                "title"     : "データシート",
+                "text"      : "&emsp;電子回路の設計を行う際はデータシートを読みましょう",
                 "svg"       : false
 
             },
