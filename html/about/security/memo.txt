@@ -9,11 +9,6 @@ well known port
 
 TFTP FTP
 
-CSMA/CD
-CSMA/CA
-
-スパニングツリー
-
 
 アドウェア
 
