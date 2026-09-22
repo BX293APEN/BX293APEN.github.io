@@ -11,6 +11,7 @@ TFTP FTP
 
 
 アドウェア
+誕生日攻撃
 
 MPLS PPP PPPoE PPTP
 
