@@ -68,7 +68,7 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "href"      : "/html/tips/ascii-code.html",
                 "imgSrc"    : "/img/bin.svg", 
                 "title"     : "文字コード",
-                "text"      : "&emsp;ASCIIコード表<br>正規表現...",
+                "text"      : "&emsp;ASCIIコード表<br>&emsp;正規表現...",
                 "svg"       : true
             },
             "opencvTip" :{
