@@ -2,7 +2,7 @@
 
 ## Docker × Nginx × DB
 
-- Docker のセットアップ  
+- コンテナ のセットアップ  
 
 ```bash
 git clone https://github.com/BX293APEN/Nginx-Docker.git
