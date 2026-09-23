@@ -524,7 +524,7 @@ flowchart LR
                                         <td colspan="8">生存時間 (TTL) 8[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top: 2px dashed #ccc;">プロトコル番号 8[bit] (TCP)</td>
+                                        <td style="border-top: 2px dashed #ccc;"><a href="#md-protocol">プロトコル番号</a> 8[bit] (TCP)</td>
                                         <td >0</td><td >0</td><td >0</td><td >0</td>
                                         <td >0</td><td >1</td><td >1</td><td >0</td>
                                     </tr>
@@ -660,6 +660,43 @@ flowchart LR
                                     </tr>
                                 </table>
                             </div>
+
+                            <h4 class="pt-4 fw-bold">
+                                プロトコル番号
+                            </h4>
+
+                            <div id = "md-protocol">
+
+| 番号 | プロトコル名 | 説明 |
+|---|---|---|
+| 1 | ICMP | Internet Control Message Protocol (IPv4用の制御・エラー通知)  |
+| 2 | IGMP | Internet Group Management Protocol (マルチキャストグループ管理)  |
+| 6 | TCP | Transmission Control Protocol |
+| 8 | EGP | Exterior Gateway Protocol |
+| 9 | IGP | (Cisco独自) Interior Gateway Protocol |
+| 17 | UDP | User Datagram Protocol |
+| 41 | IPv6 | IPv6をIPv4上にカプセル化 (6to4等)  |
+| 43 | IPv6-Route | IPv6 Routing Header |
+| 44 | IPv6-Frag | IPv6 Fragment Header |
+| 46 | RSVP | Resource Reservation Protocol |
+| 47 | GRE | Generic Routing Encapsulation |
+| 50 | ESP | Encapsulating Security Payload (IPsec)  |
+| 51 | AH | Authentication Header (IPsec)  |
+| 58 | ICMPv6 | IPv6用のICMP |
+| 59 | IPv6-NoNxt | IPv6 No Next Header |
+| 60 | IPv6-Opts | IPv6 Destination Options Header |
+| 88 | EIGRP | Enhanced Interior Gateway Routing Protocol |
+| 89 | OSPF | Open Shortest Path First |
+| 94 | IPIP | IP-within-IP Encapsulation |
+| 103 | PIM | Protocol Independent Multicast |
+| 112 | VRRP | Virtual Router Redundancy Protocol |
+| 115 | L2TP | Layer 2 Tunneling Protocol |
+| 132 | SCTP | Stream Control Transmission Protocol |
+| 136 | UDPLite | Lightweight User Datagram Protocol |
+| 137 | MPLS-in-IP | MPLS-in-IP |
+
+                            </div>
+
                         </article>
 
                         <article class="blog-post">
@@ -918,6 +955,9 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <a href="#protocol">プロトコルについて</a>
                                     </li>
                                     <li>
+                                        <a href="#md-protocol">プロトコル番号</a>
+                                    </li>
+                                    <li>
                                         <a href="#switch">スイッチについて</a>
                                     </li>
                                     <li>
@@ -965,6 +1005,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                 "md-html",
                 "md-model-product",
                 "md-model-use",
+                "md-protocol",
             ];
 
             for (const mdID of mdLists) {
