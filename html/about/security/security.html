@@ -524,7 +524,7 @@
 | クリックジャッキング | - | 透明なiframe等で誤クリックを誘発し、意図しない操作をさせる | 個人クラッカー | <ul><li>X-Frame-Options</li><li>CSP(frame-ancestors)</li></ul> |
 | サーバサイドリクエストフォージェリ<br>(SSRF) | SSRFmap | サーバに任意の内部/外部リクエストを発行させ、内部資源へアクセスする | <ul><li>個人クラッカー</li><li>APT攻撃者</li></ul> | <ul><li>URLホワイトリスト化</li><li>内部ネットワーク分離</li><li>メタデータAPI保護</li></ul> |
 | ファイルインクルード攻撃<br>(LFI/RFI) | - | 外部/ローカルの不正ファイルを読み込ませ、コード実行等を行う | 個人クラッカー | <ul><li>入力検証</li><li>includeパスの固定化</li></ul> |
-| バッファオーバーフロー | <ul><li>Metasploit<br>(exploitモジュール)</li></ul> | 想定を超えるデータを送り込み、<br>メモリ領域を破壊し任意コード実行につなげる | <ul><li>個人クラッカー</li><li>国家関与主体</li></ul> | <ul><li>境界チェック</li><li>ASLR</li><li>DEP/NX</li><li>静的解析</li></ul> |
+| <a href="/html/tips/appbuild/appsec.html">バッファオーバーフロー</a><br>(BOF) | <ul><li>Metasploit<br>(exploitモジュール)</li></ul> | 想定を超えるデータを送り込み、<br>メモリ領域を破壊し任意コード実行につなげる | <ul><li>個人クラッカー</li><li>国家関与主体</li></ul> | <ul><li>境界チェック</li><li>ASLR</li><li>DEP/NX</li><li>静的解析</li></ul> |
 | ゼロデイ攻撃 | <ul><li>EternalBlue<br>(WannaCryに悪用された<br>NSA製ゼロデイ)</li><li>Stuxnet</li></ul> | 未公開・未修正の脆弱性を悪用する | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>多層防御</li><li>EDR</li><li>脅威インテリジェンス</li><li>迅速なパッチ適用体制</li></ul> |
 | 権限昇格 | <ul><li>Metasploit</li><li>PowerSploit</li></ul> | 一般権限から管理者権限等へ不正に昇格する | <ul><li>内部関係者</li><li>個人クラッカー</li></ul> | <ul><li>最小権限の原則</li><li>パッチ管理</li><li>監査ログ</li></ul> |  
 
