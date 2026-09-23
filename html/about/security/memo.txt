@@ -7,8 +7,3 @@ WSDL
 UDDI
 Ajax
 WebDAV
-
-
-意味　代表例
-ステートフルAPI
-ステートレスAPI 
