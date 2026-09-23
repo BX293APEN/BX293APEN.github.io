@@ -5,17 +5,18 @@
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta property="og:title" content="Blenderの使い方" />
-        <meta property="og:url" content="https://bx293apen.github.io/html/tips/appbuild/blender.html" />
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/db.html" />
         <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="とあるペンギンの実験室" />
-        <meta property="og:description" content="Blenderの使い方の紹介" />
+        <meta property="og:description" content="データベースサーバ" />
         <meta name="theme-color" content="#FF0000" />
 
+        
         <script src="/model/tips/tips.js"></script>
         <script src="/model/index/index.js"></script>
-        <script src="/model/tips/appbuildTips.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
@@ -23,11 +24,11 @@
             <div class="loading"></div>
         </div>
         <script src="/view/loading.js"></script>
-        <title>Blenderの使い方</title>
+        <title>データベースサーバ</title>
     </head>
     <body>
         <div id="header-contents"></div>
-        <div class="container pt-3">
+        <div class ="container pt-3">
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
@@ -43,7 +44,7 @@
                             <div class="p-4">
                                 <h4 class="fst-italic border-bottom">References</h4>
                                 <div id="md-source">
-&#62; [ソース](/html/tips/appbuild/blender.md)  
+&#62; [ソース](/html/tips/server/sql.md)  
                                 </div>
                             </div>
                             <div id="tips"></div>
@@ -71,9 +72,11 @@
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
+            new Pagination(9, serverModel.page, "pagination");
             const mdInst        = new MarkDownLoader(
                 id              = "md-text",
-                mdFile          = "/html/tips/appbuild/blender.md",
+                mdFile          = "/html/tips/server/sql.md",
             )
             
             new MarkDownMaker(
@@ -85,8 +88,6 @@
                 id              = "toc",
                 mdid            = "md-text",
             )
-            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
-            new Pagination(6, appBuildModel.page, "pagination");
         </script>
     </footer>
 </html>
