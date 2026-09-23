@@ -439,23 +439,23 @@
 
 | 攻撃手法 | 代表例 | 内容 | 攻撃者 | 対策サービス・方法 |
 |---|---|---|---|---|
-| コンピュータウイルス | <ul><li>Stoned</li><li>CIH(Chernobyl)</li></ul> | 他のプログラムに寄生し、実行時に自己増殖・破壊活動を行う | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>アンチウイルスソフト</li><li>パターンファイル更新</li></ul> |
+| コンピュータウイルス | <ul><li>Stoned</li><li>CIH<br>(Chernobyl)</li></ul> | 他のプログラムに寄生し、実行時に自己増殖・破壊活動を行う | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>アンチウイルスソフト</li><li>パターンファイル更新</li></ul> |
 | ワーム | <ul><li>Mirai</li><li>Conficker</li></ul> | 単独で自己増殖し、ネットワーク経由で拡散する | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>パッチ適用</li><li>ネットワークセグメンテーション</li><li>IDS/IPS</li></ul> |
-| トロイの木馬 | <ul><li>Emotet</li><li>Zeus(Zbot)</li></ul> | 正常なプログラムを装って侵入し、バックドア等の不正動作を行う | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>アンチウイルス</li><li>EDR</li><li>アプリケーション許可リスト</li></ul> |
-| ランサムウェア | <ul><li>WannaCry</li><li>LockBit</li><li>Petya/NotPetya</li></ul> | データを暗号化し、復号と引き換えに金銭を要求する<br>(WannaCryはワームのように自己増殖する機能も併せ持つ) | <ul><li>犯罪組織</li><li>RaaS(サービスとしてのランサムウェア)提供者</li></ul> | <ul><li>バックアップ</li><li>EDR</li><li>パッチ管理</li><li>メールフィルタリング</li></ul> |
+| トロイの木馬 | <ul><li>Emotet</li><li>Zeus<br>(Zbot)</li></ul> | 正常なプログラムを装って侵入し、バックドア等の不正動作を行う | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>アンチウイルス</li><li>EDR</li><li>アプリケーション許可リスト</li></ul> |
+| ランサムウェア | <ul><li>WannaCry</li><li>LockBit</li><li>Petya<br>NotPetya</li></ul> | データを暗号化し、復号と引き換えに金銭を要求する<br>(WannaCryはワームのように自己増殖する機能も併せ持つ) | <ul><li>犯罪組織</li><li>RaaS(サービスとしてのランサムウェア)提供者</li></ul> | <ul><li>バックアップ</li><li>EDR</li><li>パッチ管理</li><li>メールフィルタリング</li></ul> |
 | スパイウェア | <ul><li>Pegasus</li><li>FinFisher</li></ul> | 利用者の情報を秘密裏に収集し外部送信する | <ul><li>犯罪組織</li><li>個人クラッカー</li></ul> | <ul><li>アンチスパイウェア</li><li>EDR</li><li>通信監視</li></ul> |
 | キーロガー | Ardamax Keylogger 等 | キーボード入力を記録し、ID/パスワード等を窃取する | <ul><li>犯罪組織</li><li>内部関係者</li></ul> | <ul><li>アンチウイルス</li><li>多要素認証</li><li>仮想キーボード</li></ul> |
 | ルートキット | <ul><li>ZeroAccess</li><li>Stuxnet(一部機能)</li></ul> | OSの深部に潜伏し、自身や他マルウェアの存在を隠蔽する | <ul><li>国家関与主体</li><li>APT攻撃者</li></ul> | <ul><li>整合性検証ツール</li><li>セキュアブート</li><li>EDR</li></ul> |
-| ボットネット | <ul><li>Mirai(DDoS攻撃基盤としても悪用)</li><li>Emotet</li></ul> | 多数の感染端末(ボット)を遠隔操作し、DDoSやスパム送信等に利用する | ボットハーダー | <ul><li>C2通信の遮断</li><li>EDR</li><li>ネットワーク監視</li></ul> |
+| ボットネット | <ul><li>Mirai<br>(DDoS攻撃基盤としても悪用)</li><li>Emotet</li></ul> | 多数の感染端末(ボット)を遠隔操作し、DDoSやスパム送信等に利用する | ボットハーダー | <ul><li>C2通信の遮断</li><li>EDR</li><li>ネットワーク監視</li></ul> |
 | クリプトジャッキング | <ul><li>Coinhive(旧)</li><li>Smominru</li></ul> | 利用者に気付かれず端末リソースを暗号資産のマイニングに利用する | 犯罪組織 | <ul><li>ブラウザ拡張のブロック</li><li>EDR</li><li>CPU使用率監視</li></ul> |
 | ファイルレスマルウェア | <ul><li>Poweliks</li><li>Kovter</li></ul> | 実行ファイルを使わず、メモリ上やスクリプトのみで動作する | <ul><li>APT攻撃者</li><li>犯罪組織</li></ul> | <ul><li>EDR</li><li>PowerShellログ監視</li><li>メモリ解析</li></ul> |
 | バックドア | <ul><li>PlugX</li><li>Cobalt Strike Beacon</li></ul> | 不正アクセスのために設置される、<br>正規の認証を回避して侵入・再侵入するための裏口 | <ul><li>個人クラッカー</li><li>APT攻撃者</li></ul> | <ul><li>EDR</li><li>整合性監視</li><li>不要な待受ポートの遮断</li></ul> |
 | 遠隔操作ツール(RAT)の悪用<br>(Remote Access Trojan) | <ul><li>PoisonIvy</li><li>njRAT</li><li>DarkComet</li><li>Remcos</li></ul> | 感染端末を外部から自由に操作できる機能(ファイル操作、画面キャプチャ、マイク/カメラ操作、キーロギング等)を持つツールを不正に仕込み、端末を遠隔から乗っ取る | <ul><li>個人クラッカー</li><li>APT攻撃者</li></ul> | <ul><li>EDR</li><li>C2通信の検知・遮断</li><li>権限分離</li><li>不審な常駐プロセスの監視</li></ul> |
-| C&Cサーバ<br>(Command and Control Server) | <ul><li>Cobalt Strike(Team Server)</li><li>Mirai C2(DDoS攻撃の指令に使用)</li></ul> | ボットネットやバックドア、RAT等に対して外部から攻撃指令を送信したり、窃取した情報を集約したりする、攻撃者側が運用する管理サーバ<br>感染端末はこのサーバと定期的に通信(ビーコン)し、指示を受け取る | <ul><li>ボットハーダー</li><li>APT攻撃者</li></ul> | <ul><li>C2通信の検知・遮断(NDR/EDR)</li><li>DNSシンクホール</li><li>通信先レピュテーションチェック</li><li>アウトバウンド通信の監視</li></ul> |
-| アドウェア | <ul><li>Fireball</li><li>Gator(Claria)</li></ul> | 利用者の同意なく広告を表示させたり、<br>閲覧情報を収集して広告配信に利用したりするソフトウェア | 犯罪組織 | <ul><li>アンチウイルス</li><li>ブラウザ拡張の管理</li></ul> |
-| 暴露ウイルス | Antinny(Winny経由で拡散し、国内で多数の情報漏えい事件を引き起こした) | 感染端末内のファイルや個人情報等をネットワーク上に暴露(公開)することで、<br>被害を与えるウイルス | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>アンチウイルス</li><li>機密ファイルの暗号化</li><li>アクセス権管理</li></ul> |
+| C&Cサーバ<br>(Command and <br>Control Server) | <ul><li>Cobalt Strike<br>(Team Server)</li><li>Mirai C2<br>(DDoS攻撃の指令に使用)</li></ul> | ボットネットやバックドア、RAT等に対して外部から攻撃指令を送信したり、窃取した情報を集約したりする、攻撃者側が運用する管理サーバ<br>感染端末はこのサーバと定期的に通信(ビーコン)し、指示を受け取る | <ul><li>ボットハーダー</li><li>APT攻撃者</li></ul> | <ul><li>C2通信の検知・遮断(NDR/EDR)</li><li>DNSシンクホール</li><li>通信先レピュテーションチェック</li><li>アウトバウンド通信の監視</li></ul> |
+| アドウェア | <ul><li>Fireball</li><li>Gator<br>(Claria)</li></ul> | 利用者の同意なく広告を表示させたり、<br>閲覧情報を収集して広告配信に利用したりするソフトウェア | 犯罪組織 | <ul><li>アンチウイルス</li><li>ブラウザ拡張の管理</li></ul> |
+| 暴露ウイルス | <ul><li>Antinny<br>(Winny経由で拡散し、<br>国内で多数の情報漏洩事件を<br>引き起こした)</li></ul> | 感染端末内のファイルや個人情報等をネットワーク上に暴露(公開)することで、<br>被害を与えるウイルス | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>アンチウイルス</li><li>機密ファイルの暗号化</li><li>アクセス権管理</li></ul> |
 | ダウンローダ | <ul><li>Emotet</li><li>Ursnif</li></ul> | 単体では有害な動作を行わず、<br>感染後に外部からさらに別のマルウェア本体をダウンロード・実行させる中継役のマルウェア | 犯罪組織 | <ul><li>メールフィルタリング</li><li>EDR</li><li>通信先レピュテーションチェック</li></ul> |
-| マクロウイルス | <ul><li>Emotet(文書マクロ経由)</li><li>Melissa</li></ul> | Office文書等のマクロ機能を悪用し、<br>文書を開いた際に自動実行されて感染するウイルス | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>マクロの自動実行無効化</li><li>アンチウイルス</li><li>添付ファイルのサンドボックス検査</li></ul> |
+| マクロウイルス | <ul><li>Emotet<br>(文書マクロ経由)</li><li>Melissa</li></ul> | Office文書等のマクロ機能を悪用し、<br>文書を開いた際に自動実行されて感染するウイルス | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>マクロの自動実行無効化</li><li>アンチウイルス</li><li>添付ファイルのサンドボックス検査</li></ul> |
 | エクスプロイトキット | <ul><li>Angler Exploit Kit</li><li>RIG Exploit Kit</li></ul> | 既知の脆弱性を悪用する攻撃コード(エクスプロイト)を複数まとめ、<br>Webサイト経由で対象の脆弱性を自動的に悪用するツール群 | 犯罪組織 | <ul><li>パッチ管理</li><li>Webフィルタリング</li><li>ブラウザ・プラグインの更新</li></ul> |
 | ポリモーフィック型マルウェア | <ul><li>Storm Worm</li><li>VirLock</li></ul> | 感染のたびにコード自体を自己変異させ、<br>シグネチャベースの検知(パターンマッチング法)を回避するマルウェア | <ul><li>犯罪組織</li><li>APT攻撃者</li></ul> | <ul><li>ビヘイビア法</li><li>EDR</li><li>ヒューリスティック検知</li></ul> |
 | RLO偽装<br>(Right-to-Left Override) | - | Unicodeの制御文字(RLO)を悪用してファイル名の表示順を反転させ、<br>拡張子を偽装する手口<br>(例:実体は「gnp.exe」だが表示上は「exe.png」に見せかける)<br>特定のマルウェアファミリーを指す名称ではなく、様々なマルウェアの配布で使われる偽装手口 | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>ファイル名の実体確認</li><li>拡張子偽装検知機能</li><li>添付ファイルの実行制限</li></ul> |  
@@ -472,7 +472,7 @@
 | リバースブルートフォース攻撃 | Hydra(逆方向オプション) | 固定パスワードに対し多数のIDを試行する | 個人クラッカー | <ul><li>アカウントロック</li><li>ログイン試行監視</li></ul> |
 | レインボーテーブル攻撃 | <ul><li>Ophcrack</li><li>RainbowCrack</li></ul> | 事前計算したハッシュ値表を用いてパスワードを高速に割り出す | 個人クラッカー | <ul><li>ソルト付与</li><li>ストレッチング(bcrypt/Argon2等)</li></ul> |
 | パスザハッシュ攻撃 | Mimikatz | パスワード自体でなくハッシュ値を用いて認証を突破する | <ul><li>APT攻撃者</li><li>内部関係者</li></ul> | <ul><li>資格情報の分離管理</li><li>特権アクセス管理(PAM)</li></ul> |
-| Kerberoasting | <ul><li>Rubeus</li><li>Impacket(GetUserSPNs)</li></ul> | Kerberosチケットを取得し、<br>オフラインでサービスアカウントのパスワードを解析する | APT攻撃者 | <ul><li>強固なサービスアカウントパスワード</li><li>監査ログ</li></ul> |
+| Kerberoasting | <ul><li>Rubeus</li><li>Impacket<br>(GetUserSPNs)</li></ul> | Kerberosチケットを取得し、<br>オフラインでサービスアカウントのパスワードを解析する | APT攻撃者 | <ul><li>強固なサービスアカウントパスワード</li><li>監査ログ</li></ul> |
 | ゴールデンチケット攻撃 | Mimikatz | Kerberosの認証基盤(KDC)を侵害し、任意の認証チケットを偽造する | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>krbtgtアカウントの定期的な鍵更新</li><li>特権アクセス監視</li></ul> |
 | 誕生日攻撃 | - | 「誕生日のパラドックス」の考え方を応用し、<br>比較的少ない試行回数でハッシュ値の衝突<br>(異なる入力から同じハッシュ値が生成されること)を発見する攻撃 | <ul><li>個人クラッカー</li><li>研究者</li></ul> | <ul><li>十分な長さのハッシュ値(SHA-256以上等)の採用</li><li>衝突耐性の高いハッシュ関数の利用</li></ul> |  
 
@@ -482,11 +482,11 @@
 
 | 攻撃手法 | 代表例 | 内容 | 攻撃者 | 対策サービス・方法 |
 |---|---|---|---|---|
-| サプライチェーン攻撃 | <ul><li>SolarWinds事件(Sunburst)</li><li>Kaseya VSA攻撃</li></ul> | 取引先やソフトウェア供給元を経由して標的組織へ侵入する | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>委託先のセキュリティ評価</li><li>SBOM管理</li><li>コード署名検証</li></ul> |
+| サプライチェーン攻撃 | <ul><li>SolarWinds事件<br>(Sunburst)</li><li>Kaseya VSA攻撃</li></ul> | 取引先やソフトウェア供給元を経由して標的組織へ侵入する | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>委託先のセキュリティ評価</li><li>SBOM管理</li><li>コード署名検証</li></ul> |
 | 水飲み場型攻撃 | Elderwoodキャンペーン | 標的がよく訪れるWebサイトを改ざんし、マルウェアに感染させる | APT攻撃者 | <ul><li>Webサイトの脆弱性診断</li><li>EDR</li><li>Webフィルタリング</li></ul> |
 | ドライブバイダウンロード | Angler Exploit Kit | Webサイト閲覧のみでマルウェアを自動的にダウンロード・実行させる | <ul><li>犯罪組織</li><li>APT攻撃者</li></ul> | <ul><li>ブラウザ・プラグインの更新</li><li>EDR</li><li>サンドボックス</li><li>URLフィルタリング</li></ul> |
-| APT(標的型攻撃) | <ul><li>APT10</li><li>APT28(Fancy Bear)</li></ul> | 特定組織を長期・持続的に侵害し、機密情報の窃取等を行う | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>多層防御</li><li>EDR/XDR</li><li>脅威インテリジェンス</li><li>SOC運用</li></ul> |
-| ソフトウェアサプライチェーン改ざん | <ul><li>SolarWinds事件(Sunburst)</li><li>CCleaner改ざん事件</li></ul> | ビルドプロセスや配布パッケージに不正コードを混入させる | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>コード署名</li><li>ハッシュ検証</li><li>CI/CDパイプラインの保護</li></ul> |  
+| APT(標的型攻撃) | <ul><li>APT10</li><li>APT28<br>(Fancy Bear)</li></ul> | 特定組織を長期・持続的に侵害し、機密情報の窃取等を行う | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>多層防御</li><li>EDR/XDR</li><li>脅威インテリジェンス</li><li>SOC運用</li></ul> |
+| ソフトウェアサプライチェーン改竄 | <ul><li>SolarWinds事件<br>(Sunburst)</li><li>CCleaner改竄事件</li></ul> | ビルドプロセスや配布パッケージに不正コードを混入させる | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>コード署名</li><li>ハッシュ検証</li><li>CI/CDパイプラインの保護</li></ul> |  
 
 <br>
 
@@ -499,12 +499,12 @@
 | ホエーリング | - | 経営層・幹部を標的にしたスピアフィッシング | <ul><li>犯罪組織</li><li>APT攻撃者</li></ul> | <ul><li>幹部向けセキュリティ教育</li><li>多要素認証</li></ul> |
 | ビジネスメール詐欺<br>(BEC) | Mattel社CEO詐欺事件 | 取引先や経営者になりすまし、送金や情報提供を指示する | <ul><li>詐欺犯</li><li>犯罪組織</li></ul> | <ul><li>振込プロセスの二重確認</li><li>送信ドメイン認証</li><li>教育</li></ul> |
 | ビッシング | - | 電話を使い、金融機関等を装って情報を聞き出す | 詐欺犯 | <ul><li>利用者教育</li><li>コールバック確認の徹底</li></ul> |
-| スミッシング | 宅配便偽装SMS(不在通知詐欺) | SMSを使ったフィッシング | <ul><li>詐欺犯</li><li>犯罪組織</li></ul> | <ul><li>キャリアのSMSフィルタリング</li><li>利用者教育</li></ul> |
+| スミッシング | <ul><li>宅配便偽装SMS<br>(不在通知詐欺)</li></ul> | SMSを使ったフィッシング | <ul><li>詐欺犯</li><li>犯罪組織</li></ul> | <ul><li>キャリアのSMSフィルタリング</li><li>利用者教育</li></ul> |
 | プリテキスティング | - | 偽の状況設定(口実)で信頼させ、情報を引き出す | <ul><li>詐欺犯</li><li>内部関係者</li></ul> | <ul><li>本人確認手続きの厳格化</li><li>教育</li></ul> |
 | ベイティング | <ul><li>USB Killer</li><li>Stuxnet(USB経由の初期感染)</li></ul> | USBメモリ等の「餌」を置き、興味本位で使わせて感染させる | <ul><li>個人クラッカー</li><li>内部関係者</li></ul> | <ul><li>外部デバイス利用制限</li><li>エンドポイント保護</li></ul> |
 | テールゲーティング<br>(共連れ) | - | 認証済み者の後に続いて物理的に入退室し不正侵入する | <ul><li>内部関係者</li><li>産業スパイ</li></ul> | <ul><li>入退室管理(ICカード+目視確認)</li><li>教育</li></ul> |
 | ショルダーハッキング | - | 背後や周囲から画面・入力を盗み見て情報を取得する | <ul><li>内部関係者</li><li>第三者</li></ul> | <ul><li>のぞき見防止フィルタ</li><li>パスワード入力時の周囲確認</li></ul> |
-| スケアウェア | System Tool(偽セキュリティソフト) | 偽の警告表示で不安を煽り、偽セキュリティソフト購入等をさせる | 詐欺犯 | <ul><li>ポップアップブロック</li><li>利用者教育</li></ul> |
+| スケアウェア | <ul><li>System Tool<br>(偽セキュリティソフト)</li></ul> | 偽の警告表示で不安を煽り、偽セキュリティソフト購入等をさせる | 詐欺犯 | <ul><li>ポップアップブロック</li><li>利用者教育</li></ul> |
 | SEOポイズニング | Gootloaderキャンペーン | 検索エンジンの検索結果上位に悪意あるサイトを不正に表示させ、<br>閲覧者を誘導してマルウェア感染や情報詐取を狙う手口 | <ul><li>犯罪組織</li><li>詐欺犯</li></ul> | <ul><li>Webフィルタリング</li><li>URLレピュテーションチェック</li><li>利用者教育</li></ul> |  
 
 <br>
@@ -514,7 +514,7 @@
 | 攻撃手法 | 代表例 | 内容 | 攻撃者 | 対策サービス・方法 |
 |---|---|---|---|---|
 | SQLインジェクション | sqlmap | 入力値にSQL文を混入させ、DBの不正参照・改ざん・破壊を行う | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>WAF</li><li>プレースホルダ(バインド機構)</li><li>入力値検証</li></ul> |
-| クロスサイトスクリプティング<br>(XSS) | BeEF(Browser Exploitation Framework) | Webサイトに悪意あるスクリプトを注入し、<br>閲覧者のブラウザで実行させる | 個人クラッカー | <ul><li>WAF</li><li>出力エスケープ</li><li>CSP(Content Security Policy)</li></ul> |
+| クロスサイトスクリプティング<br>(XSS) | BeEF<br>(Browser Exploitation <br>Framework) | Webサイトに悪意あるスクリプトを注入し、<br>閲覧者のブラウザで実行させる | 個人クラッカー | <ul><li>WAF</li><li>出力エスケープ</li><li>CSP(Content Security Policy)</li></ul> |
 | クロスサイトリクエストフォージェリ<br>(CSRF) | - | 利用者の意図しないリクエストを正規セッションで送信させる | 個人クラッカー | <ul><li>CSRFトークン</li><li>SameSite Cookie</li><li>Referer/Origin検証</li></ul> |
 | XML外部実体参照<br>(XXE) | - | XMLの外部実体参照機能を悪用し、内部ファイル読取やSSRFを行う | 個人クラッカー | <ul><li>外部実体参照の無効化</li><li>入力検証</li><li>ライブラリ更新</li></ul> |
 | OSコマンドインジェクション | Commix | 入力値経由でOSコマンドを実行させる | 個人クラッカー | <ul><li>WAF</li><li>入力値検証</li><li>シェル呼び出しの回避</li></ul> |
@@ -522,8 +522,8 @@
 | クリックジャッキング | - | 透明なiframe等で誤クリックを誘発し、意図しない操作をさせる | 個人クラッカー | <ul><li>X-Frame-Options</li><li>CSP(frame-ancestors)</li></ul> |
 | サーバサイドリクエストフォージェリ<br>(SSRF) | SSRFmap | サーバに任意の内部/外部リクエストを発行させ、内部資源へアクセスする | <ul><li>個人クラッカー</li><li>APT攻撃者</li></ul> | <ul><li>URLホワイトリスト化</li><li>内部ネットワーク分離</li><li>メタデータAPI保護</li></ul> |
 | ファイルインクルード攻撃<br>(LFI/RFI) | - | 外部/ローカルの不正ファイルを読み込ませ、コード実行等を行う | 個人クラッカー | <ul><li>入力検証</li><li>includeパスの固定化</li></ul> |
-| バッファオーバーフロー | Metasploit(exploitモジュール) | 想定を超えるデータを送り込み、<br>メモリ領域を破壊し任意コード実行につなげる | <ul><li>個人クラッカー</li><li>国家関与主体</li></ul> | <ul><li>境界チェック</li><li>ASLR</li><li>DEP/NX</li><li>静的解析</li></ul> |
-| ゼロデイ攻撃 | <ul><li>EternalBlue(WannaCryに悪用されたNSA製ゼロデイ)</li><li>Stuxnet</li></ul> | 未公開・未修正の脆弱性を悪用する | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>多層防御</li><li>EDR</li><li>脅威インテリジェンス</li><li>迅速なパッチ適用体制</li></ul> |
+| バッファオーバーフロー | <ul><li>Metasploit<br>(exploitモジュール)</li></ul> | 想定を超えるデータを送り込み、<br>メモリ領域を破壊し任意コード実行につなげる | <ul><li>個人クラッカー</li><li>国家関与主体</li></ul> | <ul><li>境界チェック</li><li>ASLR</li><li>DEP/NX</li><li>静的解析</li></ul> |
+| ゼロデイ攻撃 | <ul><li>EternalBlue<br>(WannaCryに悪用された<br>NSA製ゼロデイ)</li><li>Stuxnet</li></ul> | 未公開・未修正の脆弱性を悪用する | <ul><li>APT攻撃者</li><li>国家関与主体</li></ul> | <ul><li>多層防御</li><li>EDR</li><li>脅威インテリジェンス</li><li>迅速なパッチ適用体制</li></ul> |
 | 権限昇格 | <ul><li>Metasploit</li><li>PowerSploit</li></ul> | 一般権限から管理者権限等へ不正に昇格する | <ul><li>内部関係者</li><li>個人クラッカー</li></ul> | <ul><li>最小権限の原則</li><li>パッチ管理</li><li>監査ログ</li></ul> |  
 
 <br>
@@ -533,7 +533,7 @@
 | 攻撃手法 | 代表例 | 内容 | 攻撃者 | 対策サービス・方法 |
 |---|---|---|---|---|
 | DoS攻撃 | <ul><li>LOIC<br>(Low Orbit Ion Cannon)</li></ul> | 大量のリクエストやパケットを送りつけ、サービスを停止・遅延させる | <ul><li>個人クラッカー</li><li>ハクティビスト</li></ul> | <ul><li>IDS/IPS</li><li>レートリミット</li><li>帯域制御</li></ul> |
-| DDoS攻撃 | <ul><li>Mirai(2016年、DNSサービスDynへの<br>大規模DDoS攻撃に使用)</li></ul> | ボットネットなど複数の踏み台から一斉にDoS攻撃を行う | <ul><li>ボットハーダー</li><li>犯罪組織</li></ul> | <ul><li>DDoS対策サービス(Cloudflare等)</li><li>CDN</li><li>Anycast</li><li>スクラビングセンター</li></ul> |
+| DDoS攻撃 | <ul><li>Mirai<br>(2016年、DNSサービスDynへの<br>大規模DDoS攻撃に使用)</li></ul> | ボットネットなど複数の踏み台から一斉にDoS攻撃を行う | <ul><li>ボットハーダー</li><li>犯罪組織</li></ul> | <ul><li>DDoS対策サービス(Cloudflare等)</li><li>CDN</li><li>Anycast</li><li>スクラビングセンター</li></ul> |
 | SYN Flood攻撃 | hping3 | TCPコネクション確立時のSYNパケットを大量送信し、リソースを枯渇させる | <ul><li>個人クラッカー</li><li>ボットハーダー</li></ul> | <ul><li>SYN Cookie</li><li>ファイアウォール</li><li>IPS</li></ul> |
 | DNSリフレクション攻撃<br>DNS増幅攻撃 | - | 送信元を偽装したDNSクエリを踏み台サーバに送り、<br>応答を標的に集中させる | ボットハーダー | <ul><li>オープンリゾルバの閉鎖</li><li>レート制限</li><li>BCP38(送信元IP検証)</li></ul> |
 | NTPリフレクション攻撃 | - | NTPサーバのmonlist機能等を悪用した増幅型DDoS | ボットハーダー | <ul><li>NTPサーバの設定見直し</li><li>ファイアウォール</li></ul> |
