@@ -107,6 +107,39 @@
 
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ネットワーク接続方式
+                            </h2>
+                            <div id = "md-net">
+
+| 通信サービス・方式 | 規格 | 伝送媒体 | 特徴 |
+|---|---|---|---|
+| 無線LAN(Wi-Fi) | IEEE 802.11<ul><li>Wi-Fi 4：IEEE 802.11n</li><li>Wi-Fi 5：IEEE 802.11ac</li><li>Wi-Fi 6/6E：IEEE 802.11ax</li><li>Wi-Fi 7：IEEE 802.11be</li><li>Wi-Fi 8：IEEE 802.11bn(策定中)</li></ul> | 電波(2.4GHz/5GHz/6GHz帯) | <ul><li>構内で使用する無線LAN規格</li><li>CSMA/CA方式でアクセス制御</li><li>隠れ端末問題対策としてRTS/CTS方式を使用</li></ul> |
+| 公衆無線LAN | IEEE 802.11 | 電波 | <ul><li>駅・店舗等で提供される無線LANサービス</li><li>不特定多数の利用者が接続</li><li>盗聴対策としてVPN利用等のセキュリティ対策が必要</li></ul> |
+| 近距離無線通信 | IEEE 802.15<ul><li>Zigbee</li></ul> | 電波 | <ul><li>低速・低消費電力のPAN(Personal Area Network)規格</li><li>センサネットワークやIoT機器で利用</li></ul> |
+| WiMAX | IEEE 802.16 | 電波 | <ul><li>広帯域無線アクセス規格</li><li>広いエリアをカバーする無線通信</li></ul> |
+| モバイル回線 | 3G / 4G(LTE) / 5G 等 | 電波 | <ul><li>携帯電話網を利用したデータ通信</li><li>広域をカバーし移動中も利用可能</li></ul> |
+| 電話回線 | アナログ電話網(PSTN) | 銅線(メタリック) | <ul><li>音声伝送用に設計された回線</li><li>モデムを用いることでデータ通信にも流用可能</li></ul> |
+| ADSL | - | 電話回線(銅線) | <ul><li>Asymmetric Digital Subscriber Line</li><li>既存の電話回線を利用</li><li>上り・下りで速度が非対称</li></ul> |
+| 専用回線 | - | 銅線 / 光ファイバ | <ul><li>2地点間を1対1で接続する回線</li><li>回線を占有するため高品質・高セキュリティ</li><li>帯域幅は固定で他者と共有しない</li></ul> |
+| フレームリレー | ITU-T勧告 | 銅線 / 光ファイバ | <ul><li>パケット交換技術の一種</li><li>可変長フレーム単位で伝送</li><li>誤り訂正処理を簡略化し高速化を実現</li></ul> |
+| ATM / SONET・SDH | ITU-T勧告 | 光ファイバ | <ul><li>ATM：53バイト固定長セルで高速・低遅延伝送</li><li>SONET・SDH：光伝送のための多重化規格<br>(北米：SONET、国際標準：SDH)</li></ul> |
+| IP-VPN | MPLS | 光ファイバ等(通信事業者網) | <ul><li>通信事業者のIP網を利用した閉域網サービス</li><li>MPLSラベルにより経路制御・帯域確保を実現</li></ul> |
+| 広域イーサネット | イーサネット(レイヤ2) | 光ファイバ | <ul><li>通信事業者網上でイーサネットフレームを転送</li><li>拠点間をLANの延長として接続可能</li></ul> |
+| FTTH | - | 光ファイバ | <ul><li>Fiber To The Home</li><li>加入者宅まで光ファイバを直接敷設</li><li>高速・大容量・低遅延</li></ul> |
+
+<br>
+<br>
+
+| 用語 | 説明 |
+|---|---|
+| RTS | <ul><li>Request To Send(送信要求)</li><li>無線LANの隠れ端末問題対策の一つ</li><li>送信局が送信前に受信局へ送信要求を通知する信号</li></ul> |
+| CTS | <ul><li>Clear To Send(送信可能)</li><li>RTSを受信した局が送信許可を応答する信号</li><li>他局はこの信号を検知し送信を待機する</li></ul> |
+| PPP | <ul><li>Point-to-Point Protocol</li><li>2点間を1対1で接続するデータリンク層プロトコル</li><li>認証・エラー検出機能を持つ</li></ul> |
+| PPPoE | <ul><li>PPP over Ethernet</li><li>イーサネット上でPPPを実現するプロトコル</li><li>FTTHなどのブロードバンド回線でユーザ認証に利用</li></ul> |
+| PPTP | <ul><li>Point to Point Tunneling Protocol</li><li>PPPをカプセル化してIPネットワーク上にトンネルを構築</li><li>VPN通信の実現に利用</li></ul> |
+
+                            </div>
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 ネットワーク機器について
                             </h2>
 
@@ -496,6 +529,9 @@
                                         <a href="#lan">LANケーブルの作成ポイント</a>
                                     </li>
                                     <li>
+                                        <a href="#md-net">ネットワーク接続方式</a>
+                                    </li>
+                                    <li>
                                         <a href="#md-network">ネットワーク機器について</a>
                                     </li>
                                     <li>
@@ -554,6 +590,7 @@
             new Pagination(1, serverModel.page, "pagination");
 
             const mdLists = [
+                "md-net",
                 "md-network",
                 "md-ipv4",
                 "md-ipv6",
