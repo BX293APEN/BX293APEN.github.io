@@ -4,12 +4,6 @@ ETSI
 CIDR表記
 IPアドレスクラス
 
-プロトコル番号
-well known port
-
-TFTP FTP
-
-
 
 
 MPLS PPP PPPoE PPTP

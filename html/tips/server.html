@@ -324,6 +324,63 @@
                                     <td><ul><li>パケットロスを伴わない明示的輻輳通知</li></ul></td>
                                 </tr>
                             </table>
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ポート番号
+                            </h2>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                TCP Well Known ポート (0〜1023) 
+                            </h3>
+                            <div id="md-tcp">
+
+| ポート番号 | プロトコル名 | 説明 |
+|---|---|---|
+| 20 | FTP-DATA | FTPのデータ転送用コネクション |
+| 21 | FTP | FTPの制御用コネクション |
+| 22 | SSH | Secure Shell (暗号化リモート操作)  |
+| 23 | Telnet | 平文でのリモートログイン |
+| 25 | SMTP | メール送信 (Mail Transfer)  |
+| 53 | DNS | ゾーン転送や大きな応答時に使用 |
+| 80 | HTTP | Webアクセス |
+| 110 | POP3 | メール受信 (Post Office Protocol v3)  |
+| 119 | NNTP | ネットニュース転送 |
+| 143 | IMAP | メール受信 (サーバー上で同期管理)  |
+| 179 | BGP | Border Gateway Protocol |
+| 389 | LDAP | 軽量ディレクトリアクセスプロトコル |
+| 443 | HTTPS | HTTP over TLS/SSL |
+| 445 | SMB | Windowsファイル・プリンタ共有 |
+| 465 | SMTPS | SMTP over TLS/SSL |
+| 587 | SMTP Submission | クライアントからのメール投稿用 |
+| 636 | LDAPS | LDAP over TLS/SSL |
+| 993 | IMAPS | IMAP over TLS/SSL |
+| 995 | POP3S | POP3 over TLS/SSL |
+
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                UDP Well Known ポート (0〜1023) 
+                            </h3>
+                            <div id="md-udp">
+
+| ポート番号 | プロトコル名 | 説明 |
+|---|---|---|
+| 53 | DNS | ドメイン名解決の問い合わせ・応答 |
+| 67 | DHCP (Server)  | DHCPサーバーからの応答 |
+| 68 | DHCP (Client)  | DHCPクライアントからの要求 |
+| 69 | TFTP | Trivial File Transfer Protocol (軽量ファイル転送)  |
+| 123 | NTP | Network Time Protocol (時刻同期)  |
+| 161 | SNMP | ネットワーク機器の監視・管理 |
+| 162 | SNMP Trap | SNMPエージェントからの通知 |
+| 443 | HTTP/3 (QUIC)  | QUICベースのHTTP/3通信 |
+| 500 | IKE | Internet Key Exchange (IPsecの鍵交換)  |
+| 514 | Syslog | ログメッセージの転送 |
+| 520 | RIP | Routing Information Protocol |
+| 1900 | SSDP | Simple Service Discovery Protocol (UPnP)  |
+
+                            </div>
+                        </article>
 
                         
                     </div>
@@ -359,6 +416,15 @@
                                     <li>
                                         <a href="#network-congestion">輻輳制御方式</a>
                                     </li>
+                                    <li>
+                                        <a href="#md-tcp">TCP Well Known ポート</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-udp">UDP Well Known ポート</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
                                 </ol>
                             </div>
 
@@ -392,6 +458,8 @@
 
             const mdLists = [
                 "md-network",
+                "md-tcp",
+                "md-udp"
             ];
 
             for (const mdID of mdLists) {
