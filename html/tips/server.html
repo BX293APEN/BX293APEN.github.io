@@ -151,87 +151,91 @@
                             <h3 class="pt-4 mt-4 fw-bold" id="network-collision">
                                 衝突検出方式
                             </h3>
-                            <table>
-                                <tr>
-                                    <th>衝突検出方式</th>
-                                    <th>正式名称</th>
-                                    <th>用途</th>
-                                    <th>動作階層</th>
-                                    <th>概要</th>
-                                </tr>
-                                <tr>
-                                    <td>CSMA/CD</td>
-                                    <td>Carrier Sense Multiple Access with Collision Detection</td>
-                                    <td>有線イーサネット(半二重)</td>
-                                    <td>データリンク層(MAC副層)</td>
-                                    <td>
-                                        <ul>
-                                            <li>送信前にキャリアセンスで回線状態を確認</li>
-                                            <li>送信中も回線を監視し衝突を検出</li>
-                                            <li>衝突検出時はジャム信号を送出し送信を中断</li>
-                                            <li>ランダム時間待機後に再送(2進指数バックオフ)</li>
-                                            <li>全二重通信では原理上使用されない</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>CSMA/CA</td>
-                                    <td>Carrier Sense Multiple Access with Collision Avoidance</td>
-                                    <td>無線LAN(IEEE 802.11)</td>
-                                    <td>データリンク層(MAC副層)</td>
-                                    <td>
-                                        <ul>
-                                            <li>無線では衝突検出が困難なため事前に回避する方式</li>
-                                            <li>IFS(フレーム間隔)とランダムバックオフで送信タイミングを分散</li>
-                                            <li>RTS/CTSのやり取りで隠れ端末問題を軽減</li>
-                                            <li>受信側からのACKで送信成功を確認、未受信なら再送</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>衝突検出方式</th>
+                                        <th>正式名称</th>
+                                        <th>用途</th>
+                                        <th>動作階層</th>
+                                        <th>概要</th>
+                                    </tr>
+                                    <tr>
+                                        <td>CSMA/CD</td>
+                                        <td>Carrier Sense Multiple Access with Collision Detection</td>
+                                        <td>有線イーサネット(半二重)</td>
+                                        <td>データリンク層(MAC副層)</td>
+                                        <td>
+                                            <ul>
+                                                <li>送信前にキャリアセンスで回線状態を確認</li>
+                                                <li>送信中も回線を監視し衝突を検出</li>
+                                                <li>衝突検出時はジャム信号を送出し送信を中断</li>
+                                                <li>ランダム時間待機後に再送(2進指数バックオフ)</li>
+                                                <li>全二重通信では原理上使用されない</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CSMA/CA</td>
+                                        <td>Carrier Sense Multiple Access with Collision Avoidance</td>
+                                        <td>無線LAN(IEEE 802.11)</td>
+                                        <td>データリンク層(MAC副層)</td>
+                                        <td>
+                                            <ul>
+                                                <li>無線では衝突検出が困難なため事前に回避する方式</li>
+                                                <li>IFS(フレーム間隔)とランダムバックオフで送信タイミングを分散</li>
+                                                <li>RTS/CTSのやり取りで隠れ端末問題を軽減</li>
+                                                <li>受信側からのACKで送信成功を確認、未受信なら再送</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
 
                             <h3 class="pt-4 mt-4 fw-bold" id="network-loop">
                                 ループ検出方式
                             </h3>
-                            <table>
-                                <tr>
-                                    <th>ループ検出方式</th>
-                                    <th>内容</th>
-                                    <th>規格</th>
-                                </tr>
-                                <tr>
-                                    <td>STP(スパニングツリープロトコル)</td>
-                                    <td>
-                                        <ul>
-                                            <li>BPDUを交換してルートブリッジを決定</li>
-                                            <li>ループとなる経路をブロッキングポートとして遮断</li>
-                                            <li>障害時はブロック中のポートを有効化し経路を切替</li>
-                                            <li>収束に数十秒かかる</li>
-                                        </ul>
-                                    </td>
-                                    <td>IEEE 802.1D</td>
-                                </tr>
-                                <tr>
-                                    <td>RSTP(高速スパニングツリー)</td>
-                                    <td>
-                                        <ul>
-                                            <li>STPと同じ仕組みでポート状態遷移を簡略化</li>
-                                            <li>収束時間を数秒程度に短縮</li>
-                                        </ul>
-                                    </td>
-                                    <td>IEEE 802.1w</td>
-                                </tr>
-                                <tr>
-                                    <td>MSTP(マルチプルスパニングツリー)</td>
-                                    <td>
-                                        <ul>
-                                            <li>VLANごとに複数のスパニングツリーインスタンスを構成可能</li>
-                                            <li>VLAN単位で負荷分散した経路設計が可能</li>
-                                        </ul>
-                                    </td>
-                                    <td>IEEE 802.1s</td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>ループ検出方式</th>
+                                        <th>内容</th>
+                                        <th>規格</th>
+                                    </tr>
+                                    <tr>
+                                        <td>STP(スパニングツリープロトコル)</td>
+                                        <td>
+                                            <ul>
+                                                <li>BPDUを交換してルートブリッジを決定</li>
+                                                <li>ループとなる経路をブロッキングポートとして遮断</li>
+                                                <li>障害時はブロック中のポートを有効化し経路を切替</li>
+                                                <li>収束に数十秒かかる</li>
+                                            </ul>
+                                        </td>
+                                        <td>IEEE 802.1D</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RSTP(高速スパニングツリー)</td>
+                                        <td>
+                                            <ul>
+                                                <li>STPと同じ仕組みでポート状態遷移を簡略化</li>
+                                                <li>収束時間を数秒程度に短縮</li>
+                                            </ul>
+                                        </td>
+                                        <td>IEEE 802.1w</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MSTP(マルチプルスパニングツリー)</td>
+                                        <td>
+                                            <ul>
+                                                <li>VLANごとに複数のスパニングツリーインスタンスを構成可能</li>
+                                                <li>VLAN単位で負荷分散した経路設計が可能</li>
+                                            </ul>
+                                        </td>
+                                        <td>IEEE 802.1s</td>
+                                    </tr>
+                                </table>
+                            </div>
                             <h3 class="pt-4 mt-4 fw-bold" id="network-congestion">
                                 輻輳制御方式
                             </h3>
@@ -246,84 +250,86 @@
                                 <li>実際の送信可能量 : cwndとrwndのうち小さい方が採用される</li>
                             </ul>
 
-                            <table>
-                                <tr>
-                                    <th>方式</th>
-                                    <th>計算方法</th>
-                                    <th>特徴</th>
-                                </tr>
-                                <tr>
-                                    <td>スロースタート</td>
-                                    <td>
-                                        <ul>
-                                            <li>ACK受信ごとにcwndを1MSSずつ増加(実質倍々に増加)</li>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul>
-                                            <li>通信開始時の急激な負荷集中を回避</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>輻輳回避</td>
-                                    <td>
-                                        <ul>
-                                            <li>ACK受信ごとにcwndを1/cwnd(MSS単位)増加させる線形増加</li>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul>
-                                            <li>ssthresh到達後、緩やかな増加へ移行</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>高速再送</td>
-                                    <td><ul><li>同一ACKを3回重複受信した時点で再送</li></ul></td>
-                                    <td><ul><li>タイムアウトを待たず再送し遅延を削減</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>高速回復</td>
-                                    <td><ul><li>高速再送後、cwndをssthreshまで下げ輻輳回避から再開</li></ul></td>
-                                    <td><ul><li>スロースタートを経ずスループット低下を抑制</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>Tahoe</td>
-                                    <td><ul><li>輻輳検知時にcwndを1に戻しスロースタートからやり直す</li></ul></td>
-                                    <td><ul><li>実装は単純だが回復に時間がかかる</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>Reno</td>
-                                    <td><ul><li>Tahoeに高速再送・高速回復を追加</li></ul></td>
-                                    <td><ul><li>現在広く使われる基本方式</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>NewReno</td>
-                                    <td><ul><li>部分ACK受信時も再送を継続し複数ロスに対応</li></ul></td>
-                                    <td><ul><li>複数パケットロス時の回復効率を改善</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>CUBIC</td>
-                                    <td><ul><li>3次関数(Cubic関数)で時間経過に応じcwndを増加</li></ul></td>
-                                    <td><ul><li>高帯域・長遅延回線(LFN)向け</li><br><li>Linuxの標準アルゴリズム</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>BBR</td>
-                                    <td><ul><li>実測した帯域幅とRTTから最適送信レートを推定</li></ul></td>
-                                    <td><ul><li>パケットロスでなくモデルベースで制御</li><br><li>Googleが開発</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>RED</td>
-                                    <td><ul><li>キュー長に応じた確率でランダムにパケットを破棄</li></ul></td>
-                                    <td><ul><li>ルータ側で行うAQM(Active Queue Management)の代表例</li></ul></td>
-                                </tr>
-                                <tr>
-                                    <td>ECN</td>
-                                    <td><ul><li>パケットを破棄せずIPヘッダに輻輳マーキングして通知</li></ul></td>
-                                    <td><ul><li>パケットロスを伴わない明示的輻輳通知</li></ul></td>
-                                </tr>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>方式</th>
+                                        <th>計算方法</th>
+                                        <th>特徴</th>
+                                    </tr>
+                                    <tr>
+                                        <td>スロースタート</td>
+                                        <td>
+                                            <ul>
+                                                <li>ACK受信ごとにcwndを1MSSずつ増加(実質倍々に増加)</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>通信開始時の急激な負荷集中を回避</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>輻輳回避</td>
+                                        <td>
+                                            <ul>
+                                                <li>ACK受信ごとにcwndを1/cwnd(MSS単位)増加させる線形増加</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>ssthresh到達後、緩やかな増加へ移行</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>高速再送</td>
+                                        <td><ul><li>同一ACKを3回重複受信した時点で再送</li></ul></td>
+                                        <td><ul><li>タイムアウトを待たず再送し遅延を削減</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>高速回復</td>
+                                        <td><ul><li>高速再送後、cwndをssthreshまで下げ輻輳回避から再開</li></ul></td>
+                                        <td><ul><li>スロースタートを経ずスループット低下を抑制</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tahoe</td>
+                                        <td><ul><li>輻輳検知時にcwndを1に戻しスロースタートからやり直す</li></ul></td>
+                                        <td><ul><li>実装は単純だが回復に時間がかかる</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reno</td>
+                                        <td><ul><li>Tahoeに高速再送・高速回復を追加</li></ul></td>
+                                        <td><ul><li>現在広く使われる基本方式</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NewReno</td>
+                                        <td><ul><li>部分ACK受信時も再送を継続し複数ロスに対応</li></ul></td>
+                                        <td><ul><li>複数パケットロス時の回復効率を改善</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUBIC</td>
+                                        <td><ul><li>3次関数(Cubic関数)で時間経過に応じcwndを増加</li></ul></td>
+                                        <td><ul><li>高帯域・長遅延回線(LFN)向け</li><br><li>Linuxの標準アルゴリズム</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BBR</td>
+                                        <td><ul><li>実測した帯域幅とRTTから最適送信レートを推定</li></ul></td>
+                                        <td><ul><li>パケットロスでなくモデルベースで制御</li><br><li>Googleが開発</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>RED</td>
+                                        <td><ul><li>キュー長に応じた確率でランダムにパケットを破棄</li></ul></td>
+                                        <td><ul><li>ルータ側で行うAQM(Active Queue Management)の代表例</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ECN</td>
+                                        <td><ul><li>パケットを破棄せずIPヘッダに輻輳マーキングして通知</li></ul></td>
+                                        <td><ul><li>パケットロスを伴わない明示的輻輳通知</li></ul></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </article>
 
                         <article class="blog-post">
