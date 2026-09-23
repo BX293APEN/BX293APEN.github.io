@@ -10,8 +10,7 @@ well known port
 TFTP FTP
 
 
-アドウェア
-誕生日攻撃
+
 
 MPLS PPP PPPoE PPTP
 
@@ -24,3 +23,9 @@ Ajax
 WebDAV
 
 PQC
+
+
+API
+
+正規表現
+
