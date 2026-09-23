@@ -9,4 +9,6 @@ Ajax
 WebDAV
 
 
-API
+意味　代表例
+ステートフルAPI
+ステートレスAPI 
