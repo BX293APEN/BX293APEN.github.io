@@ -33,6 +33,10 @@ class ServerModel{
                 "page" : 8,
                 "href" : "/html/tips/server/emqx.html"
             },
+            {
+                "page" : 9,
+                "href" : "/html/tips/server/db.html"
+            },
         ]
     }
 }
