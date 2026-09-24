@@ -18,14 +18,10 @@ docker compose up --build -d
 
 | SQL | 説明 | 例文 |
 | --- | --- | --- |
-| CREATE DATABASE | 新しいデータベースを作成する | `CREATE DATABASE {selectdb};` |
-| DROP DATABASE | データベースを削除する | `DROP DATABASE {selectdb};` |
+| CREATE DATABASE | 新しいデータベースを作成する | `CREATE DATABASE pendb;` |
+| DROP DATABASE | データベースを削除する | `DROP DATABASE pendb;` |
 | SHOW DATABASES | 利用可能なデータベース一覧を表示する | `SHOW DATABASES;` |
-
-#### データベースの選択について
-
-画面上部の**プルダウンメニュー**から使用したいデータベースを選択  
-→ このアプリでは`USE データベース名;`は不要
+| USE データベース名; | 使用したいデータベースを選択 | `USE pendb;` |
 
 ### テーブル操作
 
@@ -139,9 +135,9 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 | `[abc]` | 角括弧内のいずれか1文字 | `'[Tt]aro'` → `Taro`, `taro` |
 | `[^abc]` | 角括弧内以外の1文字 | `'[^0-9]'` → 数字以外の1文字 |
 | `[a-z]` | 範囲指定(a〜zのいずれか1文字) | `'^[a-z]'` → 先頭が小文字 |
-| `{{n,m}}` | 直前の文字がn回**以上**m回**以下**の繰り返し | `'a{{2,3}}'` → `aa`, `aaa` |
+| `{n,m}` | 直前の文字がn回**以上**m回**以下**の繰り返し | `'a{2,3}'` → `aa`, `aaa` |
 | `|` | いずれかのパターンに一致(OR) | `'Taro|Hanako'` → `Taro`または`Hanako` |
-| `\d` | 数字1文字(MySQL 8.0.4以降) | `'\d{{3}}'` → 数字3桁 |
+| `\d` | 数字1文字(MySQL 8.0.4以降) | `'\d{3}'` → 数字3桁 |
 | `\s` | 空白文字1文字(MySQL 8.0.4以降) | `'a\sb'` → `a b` |
 
 ### トランザクション
@@ -156,14 +152,13 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 
 | SQL | 説明 | 例文 |
 | --- | --- | --- |
-| CREATE USER | 新しいユーザを作成する | `CREATE USER '{userName}'@'%' IDENTIFIED BY 'password';` |
-| DROP USER | ユーザを削除する | `DROP USER '{userName}'@'%';` |
-| GRANT | ユーザに権限を付与する | `GRANT SELECT, INSERT ON {selectdb}.users TO '{userName}'@'%';` |
-| GRANT(全権限) | 対象データベースの全ての操作権限を付与する | `GRANT ALL PRIVILEGES ON {selectdb}.* TO '{userName}'@'%';` |
-| REVOKE | ユーザから権限を剥奪する | `REVOKE INSERT ON {selectdb}.users FROM '{userName}'@'%';` |
+| CREATE USER | 新しいユーザを作成する | `CREATE USER 'PEN'@'%' IDENTIFIED BY 'password';` |
+| DROP USER | ユーザを削除する | `DROP USER 'PEN'@'%';` |
+| GRANT | ユーザに権限を付与する | `GRANT SELECT, INSERT ON pendb.users TO 'PEN'@'%';` |
+| GRANT(全権限) | 対象データベースの全ての操作権限を付与する | `GRANT ALL PRIVILEGES ON pendb.* TO 'PEN'@'%';` |
+| REVOKE | ユーザから権限を剥奪する | `REVOKE INSERT ON pendb.users FROM 'PEN'@'%';` |
 | FLUSH PRIVILEGES | 権限変更をサーバーに即時反映する | `FLUSH PRIVILEGES;` |
-| SHOW GRANTS | ユーザに付与されている権限を確認する | `SHOW GRANTS FOR '{userName}'@'%';` |
-
+| SHOW GRANTS | ユーザに付与されている権限を確認する | `SHOW GRANTS FOR 'PEN'@'%';` |
 
 ## データ型一覧
 
@@ -179,7 +174,6 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 | DATE | 日付を格納する(`YYYY-MM-DD`) | `birthday DATE` |
 | DATETIME / TIMESTAMP | 日付と時刻を格納する | `created_at DATETIME` |
 | BOOLEAN | 真偽値を格納する(内部的には0または1のTINYINTとして扱われる) | `is_active BOOLEAN` |
-
 
 ## 補足
 
