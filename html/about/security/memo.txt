@@ -1,7 +1,7 @@
 データレイク
 データリネージ
 
-flood攻撃
+
 
 IPSec
 IKE
