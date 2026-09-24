@@ -21,7 +21,10 @@ docker compose up --build -d
 | CREATE DATABASE | 新しいデータベースを作成する | `CREATE DATABASE pendb;` |
 | DROP DATABASE | データベースを削除する | `DROP DATABASE pendb;` |
 | SHOW DATABASES | 利用可能なデータベース一覧を表示する | `SHOW DATABASES;` |
-| USE データベース名; | 使用したいデータベースを選択 | `USE pendb;` |
+| USE データベース名; | 使用したいデータベースを選択 | `USE pendb;` |  
+
+<br>
+<br>
 
 ### テーブル操作
 
@@ -35,7 +38,10 @@ docker compose up --build -d
 | ALTER TABLE ADD COLUMN | 既存テーブルに列を追加する | `ALTER TABLE users ADD COLUMN email VARCHAR(255);` |
 | ALTER TABLE DROP COLUMN | 既存テーブルの列を削除する | `ALTER TABLE users DROP COLUMN email;` |
 | ALTER TABLE MODIFY COLUMN | 既存の列のデータ型・定義のみを変更する(列名は変更されない) | `ALTER TABLE users MODIFY COLUMN age SMALLINT;` |
-| ALTER TABLE CHANGE COLUMN | 列名とデータ型をまとめて変更する | `ALTER TABLE users CHANGE COLUMN age user_age INT;` |
+| ALTER TABLE CHANGE COLUMN | 列名とデータ型をまとめて変更する | `ALTER TABLE users CHANGE COLUMN age user_age INT;` |  
+
+<br>
+<br>
 
 ### データ操作(追加・更新・削除)
 
@@ -44,7 +50,10 @@ docker compose up --build -d
 | INSERT INTO | レコードを追加する | `INSERT INTO users (name, age) VALUES ('Taro', 25);` |
 | INSERT INTO(複数行) | 複数のレコードを一度に追加する | `INSERT INTO users (name, age) VALUES ('Taro', 25), ('Hanako', 22);` |
 | UPDATE | レコードを更新する | `UPDATE users SET age = 26 WHERE id = 1;` |
-| DELETE | レコードを削除する | `DELETE FROM users WHERE id = 1;` |
+| DELETE | レコードを削除する | `DELETE FROM users WHERE id = 1;` |  
+
+<br>
+<br>
 
 ### データ取得・検索条件
 
@@ -76,14 +85,20 @@ docker compose up --build -d
 | LEFT JOIN | 左側テーブルの全行と、一致する右側テーブルの行を取得する | `SELECT u.name, o.product FROM users u LEFT JOIN orders o ON u.id = o.user_id;` |
 | ( サブクエリ ) | SQL文の中に別のSQL文を組み込む | `SELECT * FROM users WHERE id IN (SELECT user_id FROM orders);` <br> `SELECT (SELECT age FROM users WHERE name = 'Taro') + (SELECT age FROM users WHERE name = 'Hanako');` |
 | ORDER BY ASC | 指定した列を昇順に並び替える(省略時のデフォルトもASC) | `SELECT * FROM users ORDER BY name ASC;` |
-| ORDER BY DESC | 指定した列を降順に並び替える | `SELECT * FROM users ORDER BY age DESC;` |
+| ORDER BY DESC | 指定した列を降順に並び替える | `SELECT * FROM users ORDER BY age DESC;` |  
+
+<br>
+<br>
 
 #### 昇順・降順について
 
 | 並び順 | SQL |
 | --- | --- |
 | 昇順(デフォルト) | ASC |
-| 降順 | DESC |
+| 降順 | DESC |  
+
+<br>
+<br>
 
 - 数値型・日付型の列は**値の大小**で並び替え
 - 文字列型の列は**文字コード順 (辞書順)**で並び替え (ASCII文字以外の場合は使用している文字コード・照合順序によって並び順が変わる)
@@ -106,7 +121,10 @@ docker compose up --build -d
 | IF() | 条件がTRUEかFALSEかで返す値を切り替える | `SELECT IF(age >= 20, '成人', '未成年') FROM users;` |
 | IFNULL() | 値がNULLの場合に代わりの値を返す | `SELECT IFNULL(age, 0) FROM users;` |
 | COALESCE() | 複数の値のうち最初にNULLでない値を返す | `SELECT COALESCE(nickname, name, '不明') FROM users;` |
-| EXISTS | サブクエリの結果が1件でも存在するかを判定する | `SELECT * FROM users u WHERE EXISTS (SELECT 1 FROM orders o WHERE o.user_id = u.id);` |
+| EXISTS | サブクエリの結果が1件でも存在するかを判定する | `SELECT * FROM users u WHERE EXISTS (SELECT 1 FROM orders o WHERE o.user_id = u.id);` |  
+
+<br>
+<br>
 
 #### 正規表現
 
@@ -120,9 +138,12 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 | REGEXP_LIKE() | 正規表現の一致を真偽値で判定する関数(WHERE句以外でも使用可) | `SELECT *, REGEXP_LIKE(name, '^[A-Z]') AS is_capitalized FROM users;` |
 | REGEXP_REPLACE() | 正規表現に一致した部分を置換する | `SELECT REGEXP_REPLACE(name, '[aeiou]', '*') FROM users;` |
 | REGEXP_SUBSTR() | 正規表現に一致した部分文字列を抽出する | `SELECT REGEXP_SUBSTR(name, '[A-Z][a-z]+') FROM users;` |
-| REGEXP_INSTR() | 正規表現に一致した部分の位置を取得する | `SELECT REGEXP_INSTR(name, '[0-9]') FROM users;` |
+| REGEXP_INSTR() | 正規表現に一致した部分の位置を取得する | `SELECT REGEXP_INSTR(name, '[0-9]') FROM users;` |  
 
-**よく使う正規表現のメタ文字**
+<br>
+<br>
+
+<b>よく使う<a href="/html/tips/ascii-code.html">正規表現</a>のメタ文字</b>
 
 | 記号 | 意味 | 例 |
 | --- | --- | --- |
@@ -138,7 +159,10 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 | `{n,m}` | 直前の文字がn回**以上**m回**以下**の繰り返し | `'a{2,3}'` → `aa`, `aaa` |
 | `|` | いずれかのパターンに一致(OR) | `'Taro|Hanako'` → `Taro`または`Hanako` |
 | `\d` | 数字1文字(MySQL 8.0.4以降) | `'\d{3}'` → 数字3桁 |
-| `\s` | 空白文字1文字(MySQL 8.0.4以降) | `'a\sb'` → `a b` |
+| `\s` | 空白文字1文字(MySQL 8.0.4以降) | `'a\sb'` → `a b` |  
+
+<br>
+<br>
 
 ### トランザクション
 
@@ -146,7 +170,10 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 | --- | --- | --- |
 | START TRANSACTION | 一連の処理をまとめて実行する準備をする | `START TRANSACTION;` |
 | COMMIT | トランザクション内の変更を確定する | `COMMIT;` |
-| ROLLBACK | トランザクション内の変更を取り消す | `ROLLBACK;` |
+| ROLLBACK | トランザクション内の変更を取り消す | `ROLLBACK;` |  
+
+<br>
+<br>
 
 ### 権限管理
 
@@ -158,7 +185,10 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 | GRANT(全権限) | 対象データベースの全ての操作権限を付与する | `GRANT ALL PRIVILEGES ON pendb.* TO 'PEN'@'%';` |
 | REVOKE | ユーザから権限を剥奪する | `REVOKE INSERT ON pendb.users FROM 'PEN'@'%';` |
 | FLUSH PRIVILEGES | 権限変更をサーバーに即時反映する | `FLUSH PRIVILEGES;` |
-| SHOW GRANTS | ユーザに付与されている権限を確認する | `SHOW GRANTS FOR 'PEN'@'%';` |
+| SHOW GRANTS | ユーザに付与されている権限を確認する | `SHOW GRANTS FOR 'PEN'@'%';` |  
+
+<br>
+<br>
 
 ## データ型一覧
 
@@ -173,7 +203,36 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 | TEXT | VARCHARより長い文字列を格納する | `description TEXT` |
 | DATE | 日付を格納する(`YYYY-MM-DD`) | `birthday DATE` |
 | DATETIME / TIMESTAMP | 日付と時刻を格納する | `created_at DATETIME` |
-| BOOLEAN | 真偽値を格納する(内部的には0または1のTINYINTとして扱われる) | `is_active BOOLEAN` |
+| BOOLEAN | 真偽値を格納する(内部的には0または1のTINYINTとして扱われる) | `is_active BOOLEAN` |  
+
+<br>
+<br>
+
+## 権限一覧
+
+| 権限名 | 権限内容 |
+| --- | --- |
+| SELECT | 表示 |
+| INSERT | 挿入 |
+| UPDATE | 更新 |
+| DELETE | 削除 |
+| CREATE | データベース・テーブルの作成 |
+| DROP | データベース・テーブルの削除 |
+| ALTER | テーブル構造の変更 |
+| INDEX | インデックスの作成・削除 |
+| REFERENCES | 外部キー制約の作成 |
+| CREATE VIEW | ビューの作成 |
+| SHOW VIEW | ビュー定義の確認 |
+| CREATE ROUTINE | ストアドプロシージャ・ファンクションの作成 |
+| ALTER ROUTINE | ストアドプロシージャ・ファンクションの変更・削除 |
+| EXECUTE | ストアドプロシージャ・ファンクションの実行 |
+| TRIGGER | トリガーの作成・削除・実行 |
+| CREATE USER | ユーザの作成・削除・変更 |
+| GRANT OPTION | 自身が持つ権限を他のユーザに付与する権限<br>(`WITH GRANT OPTION`をGRANT文の末尾に付けて設定) |
+| ALL PRIVILEGES | 全ての権限をまとめて付与する |  
+
+<br>
+<br>
 
 ## 補足
 
