@@ -610,7 +610,7 @@
 | DDoS攻撃 | <ul><li>Mirai<br>(2016年、DNSサービスDynへの<br>大規模DDoS攻撃に使用)</li></ul> | ボットネットなど複数の踏み台から一斉にDoS攻撃を行う | <ul><li>ボットハーダー</li><li>犯罪組織</li></ul> | <ul><li>DDoS対策サービス(Cloudflare等)</li><li>CDN</li><li>Anycast</li><li>スクラビングセンター</li></ul> |
 | SYN Flood攻撃 | hping3 | TCPコネクション確立時のSYNパケットを大量送信し、<br>リソースを枯渇させる | <ul><li>個人クラッカー</li><li>ボットハーダー</li></ul> | <ul><li>SYN Cookie</li><li>ファイアウォール</li><li>IPS</li></ul> |
 | UDP Flood攻撃 | hping3 | コネクションレスなUDPパケットを大量送信し、<br>宛先ポートが不在であればICMP到達不能応答も誘発して<br>回線帯域・処理能力を枯渇させる | <ul><li>個人クラッカー</li><li>ボットハーダー</li></ul> | <ul><li>レートリミット</li><li>不要UDPポートの遮断</li><li>帯域制御</li></ul> |
-| ICMP Flood攻撃<br>(Ping Flood) | hping3<br>ping | ICMP Echo Request(pingコマンド)を大量送信し、<br>応答処理でリソースを消費させる<br>送信元を標的に偽装し多数のホストに一斉送信する<br>Smurf攻撃(増幅型)もこの一種 | <ul><li>個人クラッカー</li><li>ボットハーダー</li></ul> | <ul><li>ICMPのレートリミット</li><li>ファイアウォールでのICMP制限</li></ul> |
+| ICMP Flood攻撃<br>(Ping Flood) <br> Smurf攻撃 | hping3<br>ping | ICMP Echo Request(pingコマンド)を大量送信し、<br>応答処理でリソースを消費させる<br>送信元を標的に偽装し多数のホストに一斉送信する | <ul><li>個人クラッカー</li><li>ボットハーダー</li></ul> | <ul><li>ICMPのレートリミット</li><li>ファイアウォールでのICMP制限</li></ul> |
 | DNSリフレクション攻撃<br>DNS増幅攻撃 | - | 送信元を偽装したDNSクエリを踏み台サーバに送り、<br>応答を標的に集中させる | ボットハーダー | <ul><li>オープンリゾルバの閉鎖</li><li>レート制限</li><li>BCP38(送信元IP検証)</li></ul> |
 | NTPリフレクション攻撃 | - | NTPサーバのmonlist機能等を悪用した増幅型DDoS | ボットハーダー | <ul><li>NTPサーバの設定見直し</li><li>ファイアウォール</li></ul> |
 | ARPスプーフィング | <ul><li>Ettercap</li><li>arpspoof</li></ul> | 偽のARP応答を送り、通信経路を攻撃者に誘導する(MITMの前段) | <ul><li>内部関係者</li><li>LAN内攻撃者</li></ul> | <ul><li>Dynamic ARP Inspection</li><li>ポートセキュリティ</li><li>静的ARPエントリ</li></ul> |
