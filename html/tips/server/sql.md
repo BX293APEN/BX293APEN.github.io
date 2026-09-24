@@ -210,26 +210,26 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 
 ## 権限一覧
 
-| 権限名 | 権限内容 |
-| --- | --- |
-| SELECT | 表示 |
-| INSERT | 挿入 |
-| UPDATE | 更新 |
-| DELETE | 削除 |
-| CREATE | データベース・テーブルの作成 |
-| DROP | データベース・テーブルの削除 |
-| ALTER | テーブル構造の変更 |
-| INDEX | インデックスの作成・削除 |
-| REFERENCES | 外部キー制約の作成 |
-| CREATE VIEW | ビューの作成 |
-| SHOW VIEW | ビュー定義の確認 |
-| CREATE ROUTINE | ストアドプロシージャ・ファンクションの作成 |
-| ALTER ROUTINE | ストアドプロシージャ・ファンクションの変更・削除 |
-| EXECUTE | ストアドプロシージャ・ファンクションの実行 |
-| TRIGGER | トリガーの作成・削除・実行 |
-| CREATE USER | ユーザの作成・削除・変更 |
-| GRANT OPTION | 自身が持つ権限を他のユーザに付与する権限<br>(`WITH GRANT OPTION`をGRANT文の末尾に付けて設定) |
-| ALL PRIVILEGES | 全ての権限をまとめて付与する |  
+| 権限名 | 権限内容 | 対象範囲 |
+| --- | --- | --- |
+| SELECT | 表示 | <ul><li>`*.*`(全DB) </li><li> `pendb.*`(DB単位) </li><li> `pendb.users`(テーブル単位)</li></ul> |
+| INSERT | 挿入 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| UPDATE | 更新 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| DELETE | 削除 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| CREATE | データベース・テーブルの作成 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| DROP | データベース・テーブルの削除 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| ALTER | テーブル構造の変更 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| INDEX | インデックスの作成・削除 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| REFERENCES | 外部キー制約の作成 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| CREATE VIEW | ビューの作成 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| SHOW VIEW | ビュー定義の確認 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| CREATE ROUTINE | ストアドプロシージャ・ファンクションの作成 | <ul><li>`*.*` </li><li> `pendb.*`(DB単位まで)</li></ul> |
+| ALTER ROUTINE | ストアドプロシージャ・ファンクションの変更・削除 | <ul><li>`*.*` </li><li> `pendb.*`(DB単位まで)</li></ul> |
+| EXECUTE | ストアドプロシージャ・ファンクションの実行 | <ul><li>`*.*` </li><li> `pendb.*`(DB単位まで)</li></ul> |
+| TRIGGER | トリガーの作成・削除・実行 | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |
+| CREATE USER | ユーザの作成・削除・変更 | <ul><li>`*.*`(サーバ全体のみ)</li></ul> |
+| GRANT OPTION | 自身が持つ権限を他のユーザに付与する権限<br>(`WITH GRANT OPTION`をGRANT文の末尾に付けて設定) | 付与する権限と同じ範囲 |
+| ALL PRIVILEGES | 全ての権限をまとめて付与する | <ul><li>`*.*` </li><li> `pendb.*` </li><li> `pendb.users`</li></ul> |  
 
 <br>
 <br>
