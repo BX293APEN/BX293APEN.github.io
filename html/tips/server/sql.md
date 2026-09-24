@@ -246,7 +246,7 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 ## トランザクション処理
 
 
-<ol>
+<ol class="border">
     <li class="border-bottom py-4">
         トランザクションを開始する(START TRANSACTION)
     </li>
