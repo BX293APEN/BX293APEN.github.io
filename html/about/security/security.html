@@ -374,6 +374,62 @@
 
 
                         </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-3 border-bottom fw-bold">
+                                TLS/SSL
+                            </h2>
+                            <div id="md-tls">
+
+### バージョン
+
+| バージョン | 特徴 | 利用状況 | 利用可能暗号形式 |
+|---|---|---|---|
+| SSL 1.0 | 設計段階で重大な欠陥が見つかり、正式リリースされなかった | ✖ | <ul><li>(未公開のためなし)</li></ul> |
+| SSL 2.0 | 1995年公開。複数の脆弱性が発見され、2011年にRFC6176で使用禁止となった | ✖ | <ul><li>RC4</li><li>DES</li><li>3DES</li></ul> |
+| SSL 3.0 | 1996年公開。POODLE攻撃等により脆弱性が指摘され、RFC7568で非推奨となった | ✖ | <ul><li>RC4</li><li>3DES</li></ul> |
+| TLS 1.0 | 1999年公開(SSL3.0がベース)。BEAST攻撃等の脆弱性があり、現在は非推奨 | ✖ | <ul><li>RC4</li><li>3DES</li><li>AES-CBC</li></ul> |
+| TLS 1.1 | 2006年公開。CBCモードに対する攻撃への対策を強化したが、現在は非推奨 | ✖ | <ul><li>3DES</li><li>AES-CBC</li></ul> |
+| TLS 1.2 | 2008年公開。SHA-256等の強力なハッシュ関数・暗号スイートに対応し、現在も広く利用されている | 〇 | <ul><li>AES-CBC</li><li>AES-GCM</li><li>ChaCha20-Poly1305</li></ul> |
+| TLS 1.3 | 2018年公開。ハンドシェイクを1-RTTに簡略化して高速化し、安全性の低い暗号スイートを廃止<br>HTTP/3の基盤であるQUICも、暗号化・鍵交換の仕組みとしてTLS1.3を内部で利用している | 〇 | <ul><li>AES-GCM</li><li>ChaCha20-Poly1305</li><li>AES-CCM</li></ul> |
+
+<br>
+<br>
+
+### TLS関連用語
+
+| 用語 | 内容 |
+|---|---|
+| TLSアクセラレータ | TLSの暗号化・復号処理を専用ハードウェアで肩代わりし、サーバの処理負荷を軽減する装置 |
+| ハンドシェイクプロトコル<br>(Handshake Protocol) | TLSにおいて、通信開始時に暗号方式の合意・サーバ(および必要に応じクライアント)の認証・鍵交換を行う上位プロトコル<br>この過程でプリマスタシークレット・マスターシークレットが生成される |
+| プリマスタシークレット<br>(Pre-Master Secret) | TLSハンドシェイクの鍵交換(DHE/ECDHE等)によって<br>クライアント・サーバ間で共有される元となる乱数値<br>この値をもとにマスターシークレットが導出される |
+| マスターシークレット<br>(Master Secret) | プリマスタシークレットとクライアント/サーバの乱数(Random)から、<br>擬似乱数関数(PRF)を用いて生成される48byteの値<br>暗号化鍵・MAC鍵・IV等、実際に使用する鍵材料はここから導出される |
+| レコードプロトコル<br>(Record Protocol) | TLSにおいて、ハンドシェイクプロトコルで確立された鍵を用いて<br>実際のアプリケーションデータの暗号化・完全性保護・送受信を行う下位プロトコル |
+
+<br>
+<br>
+
+### TLS 認証手順(TLS 1.2 フルハンドシェイク)
+
+| ステップ | 内容 |
+|---|---|
+| 1. ClientHello | クライアントが対応可能なTLSバージョン・暗号スイート・乱数(Client Random)等をサーバへ送信 |
+| 2. ServerHello | サーバが使用するTLSバージョン・暗号スイート・乱数(Server Random)を選択しクライアントへ返信 |
+| 3. Certificate | サーバが自身のデジタル証明書(公開鍵を含む)をクライアントへ送信 |
+| 4. ServerKeyExchange | 鍵交換方式によっては、鍵交換に必要な追加パラメータをサーバが送信 |
+| 5. ServerHelloDone | サーバ側のHello関連メッセージ送信が完了したことを通知 |
+| 6. ClientKeyExchange | クライアントがプリマスタシークレットを生成し、サーバの公開鍵等で暗号化して送信 |
+| 7. 鍵の生成 | クライアント・サーバ双方がプリマスタシークレットとRandom値からマスターシークレットおよびセッション鍵を生成 |
+| 8. ChangeCipherSpec | 以降の通信を合意済みの暗号方式で行うことを相互に通知 |
+| 9. Finished | ハンドシェイク全体のハッシュ値を暗号化して送信し、改ざんがないことを相互に確認 |
+| 10. Application Data | 以降、共有したセッション鍵を用いてアプリケーションデータを暗号化して送受信 |
+
+
+
+
+
+                            </div>
+                        </article>
                         <article class="blog-post" id="cyber-attack">
                             <h2 class="pt-3 border-bottom fw-bold">
                                 サイバー攻撃
@@ -672,6 +728,9 @@
                                         <a href="#CRYPTREC">CRYPTREC暗号リスト</a>
                                     </li>
                                     <li>
+                                        <a href="#md-tls">TLS/SSL</a>
+                                    </li>
+                                    <li>
                                         <a href="#cyber-attack">サイバー攻撃</a>
                                     </li>
                                     <li>
@@ -727,6 +786,7 @@
                 "md-cert",
                 "md-list", 
                 "md-cry",
+                "md-tls",
                 "md-attacker", 
                 "md-weakness-check", 
                 "md-sec-service", 
