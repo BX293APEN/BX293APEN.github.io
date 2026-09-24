@@ -33,13 +33,139 @@
                 <div class="row g-5">
                     <div class="col-md-8">
                         <div id="md-text" class ="pt-4 mt-4"></div>
-                    
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="db">データベースの分類</h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>分類</th>
+                                        <th>種類</th>
+                                        <th>特徴</th>
+                                        <th>サブ分類</th>
+                                        <th>説明</th>
+                                        <th>具体例</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">DB</td>
+                                        <td  rowspan="1">RDBMS</td>
+                                        <td  rowspan="1">
+                                            <ul>
+                                                <li>表(テーブル)形式でデータを管理</li>
+                                                <li>スキーマを事前に定義</li>
+                                                <li>ACID特性によるトランザクション保証</li>
+                                                <li>SQLによる問い合わせ・結合が可能</li>
+                                            </ul>
+                                        </td>
+                                        <td >(リレーショナル型)</td>
+                                        <td >
+                                            <ul>
+                                                <li>行と列からなる表でデータを表現</li>
+                                                <li>外部キーによりテーブル同士を関連付け</li>
+                                                <li>整合性・正確性が求められる業務系システムに適する</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>MySQL</code></li>
+                                                <li><code>PostgreSQL</code></li>
+                                                <li><code>SQLite</code></li>
+                                                <li><code>Oracle Database</code></li>
+                                                <li><code>SQL Server</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  rowspan="4">NoSQL</td>
+                                        <td  rowspan="4">
+                                            <ul>
+                                                <li>スキーマレス(柔軟なデータ構造)</li>
+                                                <li>水平分散によるスケールアウトが容易</li>
+                                                <li>大量データ・高速アクセスに強い</li>
+                                                <li>結合(JOIN)には不向き</li>
+                                            </ul>
+                                        </td>
+                                        <td >KVS型</td>
+                                        <td >
+                                            <ul>
+                                                <li>キーと値のペアでデータを保持</li>
+                                                <li>構造がシンプルで読み書きが非常に高速</li>
+                                                <li>キャッシュやセッション管理に多用</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Redis</code></li>
+                                                <li><code>Memcached</code></li>
+                                                <li><code>Amazon DynamoDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >ドキュメント型</td>
+                                        <td >
+                                            <ul>
+                                                <li>JSON/BSON等の半構造化ドキュメント単位で保存</li>
+                                                <li>ドキュメントごとに異なる構造を持てる</li>
+                                                <li>アプリケーションのオブジェクトと親和性が高い</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>MongoDB</code></li>
+                                                <li><code>Couchbase</code></li>
+                                                <li><code>Amazon DocumentDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >カラムファミリ型</td>
+                                        <td >
+                                            <ul>
+                                                <li>行ごとに異なるカラムを持てる列指向のデータ構造</li>
+                                                <li>大規模・書き込み中心のワークロードに強い</li>
+                                                <li>ノード追加による水平スケールが得意</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Apache Cassandra</code></li>
+                                                <li><code>HBase</code></li>
+                                                <li><code>ScyllaDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >グラフ型</td>
+                                        <td >
+                                            <ul>
+                                                <li>ノードとエッジでデータ間の関係を表現</li>
+                                                <li>関係性をたどる探索クエリが高速</li>
+                                                <li>SNSの人間関係やレコメンドに適する</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Neo4j</code></li>
+                                                <li><code>Amazon Neptune</code></li>
+                                                <li><code>ArangoDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </article>
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4 text-nowrap">
                                 <h4 class="fst-italic border-bottom">Table of Contents</h4>
                                 <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#db">データベースの分類</a>
+                                    </li>
+                                </ol>
                             </div>
                             <div class="p-4">
                                 <h4 class="fst-italic border-bottom">References</h4>
