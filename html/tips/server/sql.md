@@ -247,13 +247,13 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 
 
 <ol>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         トランザクションを開始する(START TRANSACTION)
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         更新対象の行(またはページ)のロックを取得する
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         データを読み込む<br>
         <b>検索順序</b>
         <ol>
@@ -261,22 +261,22 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
             <li>ディスク上の<b>データベース本体ファイル</b>から読み込み、バッファプールへ格納</li>
         </ol>
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         更新前ログ(UNDOログ)に変更前のデータを書き込む <br> 
         書き込み先はディスク上の<b>UNDOログ領域(ロールバックセグメント)</b>(ロールバック時の復元に使用)
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         <b>バッファプール(メモリ)</b>上のデータを更新する <br> 
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         更新後ログ(REDOログ)に変更後のデータを書き出す <br> 
         書き込み先はディスク上の<b>REDOログファイル</b><br>
         ※<b>WAL(Write-Ahead Logging)の原則</b>により、データ本体より先にログをディスクへ確定させる (まずログから記録せよ)
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         処理結果を判定する
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         <ul>
             <li>
                 問題がなければ<b>COMMIT</b>する <br> 
@@ -290,10 +290,10 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
             </li>
         </ul>
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         ロックを解放する
     </li>
-    <li class="border-bottom">
+    <li class="border-bottom py-4">
         トランザクション終了
     </li>
 </ol>
