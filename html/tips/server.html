@@ -223,8 +223,8 @@
                             <h3 class="pt-4 border-bottom fw-bold">
                                 VPNの接続手順
                             </h3>
-                            <ol>
-                                <li>
+                            <ol class ="border">
+                                <li class ="border-bottom pt-4">
                                     ISAKMP SAの確立 (IKEフェーズ1)
                                     <ul>
                                         <li>対向機器同士でDiffie-Hellman鍵交換を行い、以降の通信を保護するための共通鍵を生成</li>
@@ -234,7 +234,7 @@
                                         <li>UDP/500番ポートを使用 (NAT環境下ではNATトラバーサルによりUDP/4500番ポートを使用)</li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class ="border-bottom pt-4">
                                     IPsec SAの確立 (IKEフェーズ2)
                                     <ul>
                                         <li>IKEフェーズ1で確立したISAKMP SAによる暗号化通信路上で、クイックモードによりネゴシエーションを実施</li>
@@ -242,14 +242,14 @@
                                         <li>この段階で確立されるSAをIPsec SAと呼び、送信方向・受信方向でそれぞれ個別に生成される</li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class ="border-bottom pt-4">
                                     データ通信 (ESPによる暗号化通信)
                                     <ul>
                                         <li>確立したIPsec SAに基づき、ESPを用いてパケットを暗号化・認証した上で送受信</li>
                                         <li>トンネルモード (IPヘッダを含めたパケット全体をカプセル化、拠点間VPNで使用) とトランスポートモード (ペイロードのみを保護、端末間通信で使用) の2方式がある</li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class ="border-bottom pt-4">
                                     切断 (SAの削除)
                                     <ul>
                                         <li>鍵の有効期間 (ライフタイム) 満了や明示的な切断要求により、ISAKMP SA・IPsec SAを削除</li>
