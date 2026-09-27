@@ -495,53 +495,99 @@
                                 ポート番号
                             </h2>
                             <h3 class="pt-4 mt-4 fw-bold">
-                                TCP Well Known ポート (0〜1023) 
+                                TCP Well Known ポート (0〜1023) + α
                             </h3>
                             <div id="md-tcp">
 
 | ポート番号 | プロトコル名 | 説明 |
 |---|---|---|
+| 7 | Echo | 受信データをそのまま送り返す疎通確認用 |
 | 20 | FTP-DATA | FTPのデータ転送用コネクション |
 | 21 | FTP | FTPの制御用コネクション |
 | 22 | SSH | Secure Shell (暗号化リモート操作)  |
 | 23 | Telnet | 平文でのリモートログイン |
 | 25 | SMTP | メール送信 (Mail Transfer)  |
+| 37 | Time | 時刻情報の取得 (旧式)  |
 | 53 | DNS | ゾーン転送や大きな応答時に使用 |
 | 80 | HTTP | Webアクセス |
+| 88 | Kerberos | 認証チケットの発行・検証 |
 | 110 | POP3 | メール受信 (Post Office Protocol v3)  |
+| 111 | RPCbind | RPCサービスのポート番号解決 (Portmapper)  |
+| 113 | Ident | 接続元ユーザー識別 (Auth)  |
 | 119 | NNTP | ネットニュース転送 |
+| 135 | MS RPC | Microsoft RPCエンドポイントマッパー |
+| 137 | NetBIOS Name Service | NetBIOS名前解決 |
+| 138 | NetBIOS Datagram | NetBIOSデータグラム配送 |
+| 139 | NetBIOS Session | NetBIOSセッションサービス (ファイル共有等)  |
 | 143 | IMAP | メール受信 (サーバー上で同期管理)  |
 | 179 | BGP | Border Gateway Protocol |
 | 389 | LDAP | 軽量ディレクトリアクセスプロトコル |
 | 443 | HTTPS | HTTP over TLS/SSL |
 | 445 | SMB | Windowsファイル・プリンタ共有 |
+| 464 | Kerberos Password | Kerberosパスワード変更・設定 |
 | 465 | SMTPS | SMTP over TLS/SSL |
+| 502 | Modbus/TCP | 産業用制御機器 (PLC等) との通信 |
+| 512 | rexec | リモートコマンド実行 (認証は平文パスワード)  |
+| 513 | rlogin | リモートログイン (BSD系)  |
+| 514 | rsh | リモートシェル実行 (BSD系)  |
 | 587 | SMTP Submission | クライアントからのメール投稿用 |
+| 631 | IPP | Internet Printing Protocol (ネットワーク印刷)  |
 | 636 | LDAPS | LDAP over TLS/SSL |
+| 853 | DoT | DNS over TLS (DNSクエリの暗号化)  |
+| 873 | rsync | ファイル同期プロトコル |
+| 990 | FTPS | FTP over TLS/SSL (制御コネクション)  |
+| 992 | Telnets | Telnet over TLS/SSL |
 | 993 | IMAPS | IMAP over TLS/SSL |
 | 995 | POP3S | POP3 over TLS/SSL |
+| 1433 | SQL Server | Microsoft SQL Serverへの接続 |
+| 1521 | Oracle DB | Oracle Databaseへの接続 (デフォルトリスナー)  |
+| 1723 | PPTP | Point-to-Point Tunneling Protocol (制御コネクション)  |
+| 1883 | MQTT | IoT機器向けの軽量Pub/Subメッセージング (平文)  |
+| 3306 | MySQL | MySQL/MariaDBへの接続 |
+| 3389 | RDP | Remote Desktop Protocol (Windowsリモートデスクトップ)  |
+| 5060 | SIP | セッション制御 (VoIP呼制御、平文)  |
+| 5061 | SIPS | SIP over TLS/SSL |
+| 5222 | XMPP | インスタントメッセージング/一部IoT機器の制御 |
+| 8080 | HTTP Proxy | HTTPの代替ポート・プロキシ用途 |
+| 8883 | MQTTS | MQTT over TLS/SSL |
 
                             </div>
 
                             <h3 class="pt-4 mt-4 fw-bold">
-                                UDP Well Known ポート (0〜1023) 
+                                UDP Well Known ポート (0〜1023) + α
                             </h3>
                             <div id="md-udp">
 
 | ポート番号 | プロトコル名 | 説明 |
 |---|---|---|
+| 7 | Echo | 受信データをそのまま送り返す疎通確認用 |
+| 37 | Time | 時刻情報の取得 (旧式)  |
 | 53 | DNS | ドメイン名解決の問い合わせ・応答 |
 | 67 | DHCP (Server)  | DHCPサーバーからの応答 |
 | 68 | DHCP (Client)  | DHCPクライアントからの要求 |
 | 69 | TFTP | Trivial File Transfer Protocol (軽量ファイル転送)  |
+| 88 | Kerberos | 認証チケットの発行・検証 |
+| 111 | RPCbind | RPCサービスのポート番号解決 |
 | 123 | NTP | Network Time Protocol (時刻同期)  |
+| 137 | NetBIOS Name Service | NetBIOS名前解決 |
+| 138 | NetBIOS Datagram | NetBIOSデータグラム配送 |
 | 161 | SNMP | ネットワーク機器の監視・管理 |
 | 162 | SNMP Trap | SNMPエージェントからの通知 |
 | 443 | HTTP/3 (QUIC)  | QUICベースのHTTP/3通信 |
 | 500 | IKE | Internet Key Exchange (IPsecの鍵交換)  |
 | 514 | Syslog | ログメッセージの転送 |
 | 520 | RIP | Routing Information Protocol |
+| 546 | DHCPv6 (Client)  | DHCPv6クライアントからの要求 |
+| 547 | DHCPv6 (Server)  | DHCPv6サーバーからの応答 |
+| 631 | IPP | Internet Printing Protocol (ネットワーク印刷)  |
+| 1812 | RADIUS | 利用者認証 (Authentication)  |
+| 1813 | RADIUS Accounting | 利用状況のアカウンティング |
 | 1900 | SSDP | Simple Service Discovery Protocol (UPnP)  |
+| 4500 | IPsec NAT-T | NAT環境下でのIPsec通信 (NATトラバーサル)  |
+| 5060 | SIP | セッション制御 (VoIP呼制御、平文)  |
+| 5353 | mDNS | ローカルネットワーク内の名前解決 (Bonjour/Zeroconf)  |
+| 5683 | CoAP | 省電力IoT機器向け軽量プロトコル (平文)  |
+| 5684 | CoAPS | CoAP over DTLS |
 
                             </div>
                         </article>
@@ -593,10 +639,10 @@
                                         <a href="#md-ipv6">IPv6割り当て</a>
                                     </li>
                                     <li>
-                                        <a href="#md-tcp">TCP Well Known ポート</a>
+                                        <a href="#md-tcp">TCP ポート</a>
                                     </li>
                                     <li>
-                                        <a href="#md-udp">UDP Well Known ポート</a>
+                                        <a href="#md-udp">UDP ポート</a>
                                     </li>
                                     <li>
                                         <a href="#pagination">ページ切り替え</a>
