@@ -121,7 +121,7 @@
 | 電話回線 | アナログ電話網(PSTN) | 銅線(メタリック) | <ul><li>音声伝送用に設計された回線</li><li>モデムを用いることでデータ通信にも流用可能</li></ul> |
 | ADSL | - | 電話回線(銅線) | <ul><li>Asymmetric Digital Subscriber Line</li><li>既存の電話回線を利用</li><li>上り・下りで速度が非対称</li></ul> |
 | 専用回線 | - | 銅線 / 光ファイバ | <ul><li>2地点間を1対1で接続する回線</li><li>回線を占有するため高品質・高セキュリティ</li><li>帯域幅は固定で他者と共有しない</li></ul> |
-| VPN <br>(仮想専用線) | IPsec / SSL(TLS) 等 | インターネット回線等(共用) | <ul><li>公衆回線(インターネット等)上に暗号化等の技術で仮想的な専用回線を構築</li><li>専用回線に対し、物理的な回線を占有しない「仮想的」な専用線</li><li>専用回線より安価だが、帯域幅は保証されない</li></ul> |
+| VPN <br>(仮想専用線) | IPsec / TLS-VPN 等 | インターネット回線等(共用) | <ul><li>公衆回線(インターネット等)上に、IPsecの **ESP(トンネルモード)によるカプセル化・暗号化** や、TLS-VPNによる暗号化通信を用いて仮想的な専用回線(トンネル)を構築</li><li>専用回線と異なり、物理的な回線を占有しない「仮想的」な専用線</li><li>専用回線より安価だが、帯域幅は保証されない</li></ul> |
 | フレームリレー | ITU-T勧告 | 銅線 / 光ファイバ | <ul><li>パケット交換技術の一種</li><li>可変長フレーム単位で伝送</li><li>誤り訂正処理を簡略化し高速化を実現</li></ul> |
 | ATM / SONET・SDH | ITU-T勧告 | 光ファイバ | <ul><li>ATM：53バイト固定長セルで高速・低遅延伝送</li><li>SONET・SDH：光伝送のための多重化規格<br>(北米：SONET、国際標準：SDH)</li></ul> |
 | IP-VPN | MPLS | 光ファイバ等(通信事業者網) | <ul><li>通信事業者のIP網を利用した閉域網サービス</li><li>MPLSラベルにより経路制御・帯域確保を実現</li></ul> |
@@ -210,11 +210,50 @@
 |---|---|
 | IPSec | <ul><li>IP Security</li><li>ネットワーク層でパケット単位の暗号化・認証を行うプロトコル群の総称</li><li>AH・ESP・IKEなどで構成される</li></ul> |
 | IKE | <ul><li>Internet Key Exchange</li><li>IPsec通信に用いる暗号鍵を安全に交換・共有するためのプロトコル</li><li>UDP/500番ポートを使用</li></ul> |
+| ISAKMP SA | <ul><li>Internet Security Association and Key Management Protocol SA</li><li>IKEフェーズ1で確立される、IKEメッセージ自体を暗号化・認証するためのSA (Security Association) </li><li>IKE SAとも呼ばれる</li><li>このSA上でフェーズ2 (IPsec SAの確立) のネゴシエーションが行われる</li></ul> |
 | ESP | <ul><li>Encapsulating Security Payload</li><li>データの暗号化と認証 (改ざん検知) の両方を提供するIPsecのプロトコル</li><li>IPプロトコル番号50</li></ul> |
 | AH | <ul><li>Authentication Header</li><li>データの認証 (改ざん検知) のみを提供し、暗号化は行わないIPsecのプロトコル</li><li>IPプロトコル番号51</li></ul> |
 | NATトラバーサル | <ul><li>NAT Traversal (NAT-T) </li><li>NAT環境下でIPsec通信を行うための技術</li><li>ESPパケットをUDP/4500番ポートでカプセル化し、NAT機器を通過可能にする</li></ul> |
 
                             </div>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                VPNの接続手順
+                            </h3>
+                            <ol>
+                                <li>
+                                    ISAKMP SAの確立 (IKEフェーズ1)
+                                    <ul>
+                                        <li>対向機器同士でDiffie-Hellman鍵交換を行い、以降の通信を保護するための共通鍵を生成</li>
+                                        <li>事前共有鍵 (PSK) や電子証明書等を用いて相手を認証</li>
+                                        <li>この段階で確立されるSA (Security Association) をISAKMP SA (IKE SA) と呼ぶ</li>
+                                        <li>メインモード (6メッセージ、IPアドレス秘匿可) とアグレッシブモード (3メッセージ、高速だが認証情報が平文で流れる) の2方式がある</li>
+                                        <li>UDP/500番ポートを使用 (NAT環境下ではNATトラバーサルによりUDP/4500番ポートを使用)</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    IPsec SAの確立 (IKEフェーズ2)
+                                    <ul>
+                                        <li>IKEフェーズ1で確立したISAKMP SAによる暗号化通信路上で、クイックモードによりネゴシエーションを実施</li>
+                                        <li>実際のデータ通信に使用するプロトコル (ESP/AH) や暗号アルゴリズム、鍵の有効期間等を取り決める</li>
+                                        <li>この段階で確立されるSAをIPsec SAと呼び、送信方向・受信方向でそれぞれ個別に生成される</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    データ通信 (ESPによる暗号化通信)
+                                    <ul>
+                                        <li>確立したIPsec SAに基づき、ESPを用いてパケットを暗号化・認証した上で送受信</li>
+                                        <li>トンネルモード (IPヘッダを含めたパケット全体をカプセル化、拠点間VPNで使用) とトランスポートモード (ペイロードのみを保護、端末間通信で使用) の2方式がある</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    切断 (SAの削除)
+                                    <ul>
+                                        <li>鍵の有効期間 (ライフタイム) 満了や明示的な切断要求により、ISAKMP SA・IPsec SAを削除</li>
+                                        <li>通信を継続する場合は、鍵の危殆化を防ぐためライフタイム満了前に再度ネゴシエーションを行い、SAを再生成 (鍵の再生成 : リキー) </li>
+                                    </ul>
+                                </li>
+                            </ol>
                         </article>
 
                         <article class="blog-post">
