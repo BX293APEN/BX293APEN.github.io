@@ -2,8 +2,18 @@
 データリネージ
 
 
+Network Access Server
+
 
 IPSec
 IKE
 
+ESP
+AH
 
+NATトラバーサル
+
+VPN
+
+DTLS
+| TLS / DTLS | <ul><li>TLS (Transport Layer Security) : TCP上で動作する暗号化プロトコル。HTTPS(SSL-VPNの制御通信含む)等で利用</li><li>DTLS (Datagram TLS) : UDP上で動作するTLS相当のプロトコル。SSL-VPNの実データ通信など、TCP化による遅延(TCP over TCP問題)を避けたいリアルタイム性の高い通信で利用される</li></ul> |
