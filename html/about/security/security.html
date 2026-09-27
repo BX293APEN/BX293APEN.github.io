@@ -73,7 +73,7 @@
 | JWT<br>(JSON Web Token) | 形式名<br>(トークンフォーマット) | 署名付きの情報(クレーム)をJSON形式で<br>コンパクトにやり取りするためのトークン形式<br>署名により改ざん検知が可能だが、内容自体は<br>暗号化されず誰でもデコードして閲覧可能な点に注意 | <ol><li>Header(ヘッダ)・Payload(ペイロード)を作成する</li><li>HMAC(HS256等)やRSA/ECDSA(RS256、ES256等)で<br>署名(Signature)を生成する</li><li>3要素をピリオドで連結しBase64URLエンコードする</li></ol> | <ul><li>OpenID ConnectのIDトークン</li><li>APIの認可情報(アクセストークン)のフォーマットとして利用</li></ul> |
 | WebAuthn<br>(Web Authentication API) | 標準API<br>(FIDO2の構成要素) | パスワードを使わず公開鍵暗号方式でWebサイトへの<br>ログインを実現するW3C標準API<br>ドメインと鍵が紐づくためフィッシング耐性が高い | <ol><li>ブラウザ組み込みAPIとして認証器<br>(生体認証、セキュリティキー等)を呼び出す</li><li>サイト(オリジン)ごとに異なる鍵ペアを生成する</li><li>秘密鍵は認証器内から取り出さずに<br>署名を行いサーバへ返す</li></ol> | <ul><li>パスワードレスログイン</li><li>パスキーの基盤技術</li></ul> |
 | Kerberos認証 | シングルサインオン<br>(チケット型) | チケットベースのネットワーク認証プロトコル<br>パスワードをネットワークに流さず相互認証を実現する | <ol><li>KDC(鍵配布センタ)へ認証要求を行う</li><li>KDCがチケットを発行する</li><li>発行されたチケットを用いて各サービスと相互認証する</li></ol> | <ul><li>Windowsドメイン(Active Directory)認証等</li></ul> |
-| RADIUS<br>(Remote Authentication<br>Dial In User Service) | プロトコル<br>(AAA<br>認証・認可・課金) | ネットワーク機器(NAS)が受け取った認証要求を<br>RADIUSサーバに中継し、AAA<br>(Authentication：認証、Authorization：認可、<br>Accounting：課金・利用記録)の仕組みにより<br>データベースと照合して可否を判断するプロトコル<br>後継としてTLSで暗号化するDiameterや<br>RadSecも存在する | <ol><li>利用者が接続機器(NAS等)にID/パスワードを入力する</li><li>NASが認証要求をRADIUSサーバへ送信する</li><li>RADIUSサーバがユーザデータベース(LDAP等)と照合する</li><li>認証結果(許可/拒否)と認可情報をNASへ返送する</li></ol> | <ul><li>VPN、無線LAN(WPA2/3エンタープライズ)</li><li>ネットワーク機器へのログイン認証</li></ul> |
+| RADIUS<br>(Remote Authentication<br>Dial In User Service) | プロトコル<br>(AAA<br>認証・認可・課金) | ネットワーク機器(NAS：Network Access Server<br>※ネットワーク接続ストレージ(NAS)とは別物)が<br>受け取った認証要求をRADIUSサーバに中継し、AAA<br>(Authentication：認証、Authorization：認可、<br>Accounting：課金・利用記録)の仕組みにより<br>データベースと照合して可否を判断するプロトコル<br>後継としてTLSで暗号化するDiameterや<br>RadSecも存在する | <ol><li>利用者が接続機器(NAS：Network Access Server等)に<br>ID/パスワードを入力する</li><li>NASが認証要求をRADIUSサーバへ送信する</li><li>RADIUSサーバがユーザデータベース(LDAP等)と照合する</li><li>認証結果(許可/拒否)と認可情報をNASへ返送する</li></ol> | <ul><li>VPN、無線LAN(WPA2/3エンタープライズ)</li><li>ネットワーク機器へのログイン認証</li></ul> |
 | 多要素認証<br>(MFA) | 総称<br>(認証要素の組み合わせ) | 「知識情報」「所持情報」「生体情報」のうち<br>2つ以上を組み合わせる認証<br>知識情報：パスワード、PIN<br>所持情報：ICカード、スマートフォン、<br>ワンタイムパスワードトークン<br>生体情報：指紋、虹彩等 | <ol><li>1つ目の要素(例：知識情報)で認証する</li><li>異なる種別の2つ目の要素<br>(例：所持情報や生体情報)で追加認証する</li><li>全ての要素が確認できた場合のみ認証成功とする</li></ol> | <ul><li>重要システムへのログイン</li><li>金融取引</li></ul> |
 
 <br>
@@ -423,6 +423,17 @@
 | 9. Finished | ハンドシェイク全体のハッシュ値を暗号化して送信し、改ざんがないことを相互に確認 |
 | 10. Application Data | 以降、共有したセッション鍵を用いてアプリケーションデータを暗号化して送受信 |
 
+<br>
+<br>
+
+### DTLS (Datagram TLS)
+
+| 項目 | 内容 |
+|---|---|
+| 概要 | UDP等のコネクションレス(データグラム型)通信に<br>TLSと同等のセキュリティ(暗号化・完全性保護・認証)を提供するプロトコル<br>TLSはTCP(順序保証・再送)を前提に設計されているため、<br>パケットの損失・順序入れ替わりが起こりうるUDP上ではそのまま利用できず、<br>これに対応するために策定された |
+| TLSとの主な相違点 | <ul><li>パケットロスに対応するため、ハンドシェイクメッセージの<br>再送タイムアウト機構を持つ</li><li>順序入れ替わりに対応するため、各メッセージに<br>シーケンス番号(epoch含む)を付与する</li><li>ハンドシェイク開始時にHelloVerifyRequestを用いて<br>送信元IPアドレスの検証を行い、<br>なりすましによるDoS攻撃(リフレクション攻撃)を防ぐ</li></ul> |
+| バージョン | <ul><li>DTLS 1.0：TLS 1.1相当をベースに策定(2006年)</li><li>DTLS 1.2：TLS 1.2相当をベースに策定(2012年)、現在も広く利用</li><li>DTLS 1.3：TLS 1.3相当をベースに策定(2022年)</li></ul> |
+| 主な用途 | <ul><li>WebRTC(音声・映像通話)</li><li>VPN(OpenVPN、DTLSベースのIPsec等)</li><li>IoT機器向け軽量プロトコル(CoAPと組み合わせるDTLS等)</li></ul> |
 
 
 
