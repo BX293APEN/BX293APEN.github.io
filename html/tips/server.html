@@ -113,7 +113,7 @@
 
 | 通信サービス・方式 | 規格 | 伝送媒体 | 特徴 |
 |---|---|---|---|
-| 無線LAN(Wi-Fi) | IEEE 802.11<ul><li>Wi-Fi 4：IEEE 802.11n</li><li>Wi-Fi 5：IEEE 802.11ac</li><li>Wi-Fi 6/6E：IEEE 802.11ax</li><li>Wi-Fi 7：IEEE 802.11be</li><li>Wi-Fi 8：IEEE 802.11bn(策定中)</li></ul> | 電波(2.4GHz/5GHz/6GHz帯) | <ul><li>構内で使用する無線LAN規格</li><li>CSMA/CA方式でアクセス制御</li><li>隠れ端末問題対策としてRTS/CTS方式を使用</li></ul> |
+| 無線LAN(Wi-Fi) | IEEE 802.11<ul><li>Wi-Fi 4 : IEEE 802.11n</li><li>Wi-Fi 5 : IEEE 802.11ac</li><li>Wi-Fi 6/6E : IEEE 802.11ax</li><li>Wi-Fi 7 : IEEE 802.11be</li><li>Wi-Fi 8 : IEEE 802.11bn(策定中)</li></ul> | 電波<ul><li>2.4GHz</li><li>5GHz</li><li>6GHz帯</li></ul> | <ul><li>構内で使用する無線LAN規格</li><li>CSMA/CA方式でアクセス制御</li><li>隠れ端末問題対策としてRTS/CTS方式を使用</li></ul> |
 | 公衆無線LAN | IEEE 802.11 | 電波 | <ul><li>駅・店舗等で提供される無線LANサービス</li><li>不特定多数の利用者が接続</li><li>盗聴対策としてVPN利用等のセキュリティ対策が必要</li></ul> |
 | 近距離無線通信 | IEEE 802.15<ul><li>Zigbee</li></ul> | 電波 | <ul><li>低速・低消費電力のPAN(Personal Area Network)規格</li><li>センサネットワークやIoT機器で利用</li></ul> |
 | WiMAX | IEEE 802.16 | 電波 | <ul><li>広帯域無線アクセス規格</li><li>広いエリアをカバーする無線通信</li></ul> |
@@ -123,8 +123,8 @@
 | 専用回線 | - | 銅線 / 光ファイバ | <ul><li>2地点間を1対1で接続する回線</li><li>回線を占有するため高品質・高セキュリティ</li><li>帯域幅は固定で他者と共有しない</li></ul> |
 | VPN <br>(仮想専用線) | IPsec / TLS-VPN 等 | インターネット回線等(共用) | <ul><li>公衆回線(インターネット等)上に、IPsecの **ESP(トンネルモード)によるカプセル化・暗号化** や、<br>TLS-VPNの実装方式(レイヤ2フォワーディング方式等)による暗号化通信を用いて仮想的な専用回線(トンネル)を構築</li><li>専用回線と異なり、物理的な回線を占有しない「仮想的」な専用線</li><li>専用回線より安価だが、帯域幅は保証されない</li></ul> |
 | フレームリレー | ITU-T勧告 | 銅線 / 光ファイバ | <ul><li>パケット交換技術の一種</li><li>可変長フレーム単位で伝送</li><li>誤り訂正処理を簡略化し高速化を実現</li></ul> |
-| ATM / SONET・SDH | ITU-T勧告 | 光ファイバ | <ul><li>ATM：53バイト固定長セルで高速・低遅延伝送</li><li>SONET・SDH：光伝送のための多重化規格<br>(北米：SONET、国際標準：SDH)</li></ul> |
-| IP-VPN | MPLS | 光ファイバ等<br>(通信事業者網・イントラネット・エクストラネット) | <ul><li>通信事業者のIP網を利用した閉域網サービス</li><li>MPLSラベルにより経路制御・帯域確保を実現</li></ul> |
+| ATM / SONET・SDH | ITU-T勧告 | 光ファイバ | <ul><li>ATM : 53バイト固定長セルで高速・低遅延伝送</li><li>SONET・SDH : 光伝送のための多重化規格<br>(北米 : SONET、国際標準 : SDH)</li></ul> |
+| IP-VPN | MPLS | 光ファイバ等<br><ul><li>通信事業者網</li><li>イントラネット</li><li>エクストラネット</li></ul> | <ul><li>通信事業者のIP網を利用した閉域網サービス</li><li>MPLSラベルにより経路制御・帯域確保を実現</li></ul> |
 | 広域イーサネット | イーサネット(レイヤ2) | 光ファイバ | <ul><li>通信事業者網上でイーサネットフレームを転送</li><li>拠点間をLANの延長として接続可能</li></ul> |
 | FTTH | - | 光ファイバ | <ul><li>Fiber To The Home</li><li>加入者宅まで光ファイバを直接敷設</li><li>高速・大容量・低遅延</li></ul> |
 
