@@ -249,7 +249,7 @@
 | EAPOL<br>(EAP over LAN) | <ul><li>IEEE 802.1Xで規定される、サプリカント〜オーセンティケータ間でEAPを運ぶためのプロトコル</li><li>イーサネットフレームに直接EAPを格納する(EtherType 0x888E)</li><li>IPアドレスが割り当てられる前の段階で使える</li><li>認証の開始・終了にEAPOL-Start・EAPOL-Logoffを使用</li></ul> |
 | PPPoE | <ul><li>PPP over Ethernet</li><li>イーサネット上でPPPを実現するプロトコル</li><li>FTTHなどのブロードバンド回線でユーザ認証に利用</li></ul> |
 | PPTP | <ul><li>Point to Point Tunneling Protocol</li><li>PPPをカプセル化してIPネットワーク上にトンネルを構築</li><li>VPN通信の実現に利用</li><li>詳細は「トンネリング技術」を参照</li></ul> |
-| IEEE 802.1X | <ul><li>ポートベースのネットワークアクセス制御規格</li><li>認証に成功するまで、スイッチのポートや無線LANのアソシエーションを通じた通信を許可しない</li><li>認証プロトコルにEAP、認証サーバにRADIUSを用いるのが一般的</li><li>サプリカント・オーセンティケータ・認証サーバの3者で構成される</li><li>有線LAN・無線LAN(WPA/WPA2/WPA3-Enterprise)で使用</li></ul> |
+| IEEE 802.1X | <ul><li>ポートベースのネットワークアクセス制御規格</li><li>認証に成功するまで、スイッチのポートや無線LANのアソシエーションを通じた通信を許可しない</li><li>認証プロトコルにEAP、認証サーバにRADIUSを用いるのが一般的</li><li>サプリカント・オーセンティケータ・認証サーバの3者で構成される</li><li>有線LAN・無線LAN(WPA/WPA2/WPA3-Enterprise)で使用</li><li>サプリカント(端末) ⇐ EAPOL ⇒ オーセンティケータ ⇐ RADIUS ⇒ 認証サーバ</li><li>⇐＝＝＝＝＝＝＝＝　　　　　EAP　　　　　　＝＝＝＝＝＝＝＝⇒</li></ul> |
 | サプリカント | <ul><li>Supplicant</li><li>認証を要求する側(クライアント端末、または端末上の認証ソフト)</li><li>オーセンティケータとEAPOLで通信する</li></ul> |
 | オーセンティケータ | <ul><li>Authenticator</li><li>サプリカントと認証サーバの間で認証を仲介する装置(スイッチ、無線LANアクセスポイント、VPNゲートウェイ等)</li><li>RADIUSの用語ではNAS(Network Access Server)に相当</li><li>サプリカントとの間はEAPOL、認証サーバとの間はRADIUSでEAPメッセージを中継する</li><li>認証結果に基づき、ポートの開放やVLANの割り当てを行う</li><li>認証自体の判断は行わない</li></ul> |
 | 認証サーバ | <ul><li>Authentication Server</li><li>サプリカントの認証情報を検証して認証の可否を判断するサーバ</li><li>通常はRADIUSサーバがこの役割を担う</li><li>ユーザ情報はローカルDBやActive Directory、LDAP等で管理</li></ul> |
