@@ -127,6 +127,7 @@
 | IP-VPN | MPLS | 光ファイバ等<br><ul><li>通信事業者網</li><li>イントラネット</li><li>エクストラネット</li></ul> | <ul><li>通信事業者のIP網を利用した閉域網サービス</li><li>MPLSラベルにより経路制御・帯域確保を実現</li></ul> |
 | 広域イーサネット | イーサネット(レイヤ2) | 光ファイバ | <ul><li>通信事業者網上でイーサネットフレームを転送</li><li>拠点間をLANの延長として接続可能</li></ul> |
 | FTTH | - | 光ファイバ | <ul><li>Fiber To The Home</li><li>加入者宅まで光ファイバを直接敷設</li><li>高速・大容量・低遅延</li></ul> |
+| PoE | IEEE 802.3<ul><li>PoE : IEEE 802.3af (最大15.4W)</li><li>PoE+ : IEEE 802.3at (最大30W)</li><li>PoE++ : IEEE 802.3bt (最大60W / 90W)</li></ul> | LANケーブル(ツイストペアケーブル) | <ul><li>Power over Ethernet</li><li>LANケーブル(イーサネットケーブル)を通じて電力を供給する技術</li><li>給電側をPSE(スイッチ・PoEインジェクタ等)、受電側をPD(IP電話・AP・カメラ等)と呼ぶ</li><li>電源配線が不要になるためIP電話・無線LANアクセスポイント・監視カメラ等の設置に利用</li></ul> |
 
 <br>
 <br>
@@ -135,10 +136,6 @@
 |---|---|
 | RTS | <ul><li>Request To Send(送信要求)</li><li>無線LANの隠れ端末問題対策の一つ</li><li>送信局が送信前に受信局へ送信要求を通知する信号</li></ul> |
 | CTS | <ul><li>Clear To Send(送信可能)</li><li>RTSを受信した局が送信許可を応答する信号</li><li>他局はこの信号を検知し送信を待機する</li></ul> |
-| PPP | <ul><li>Point-to-Point Protocol</li><li>2点間を1対1で接続するデータリンク層プロトコル</li><li>認証・エラー検出機能を持つ</li></ul> |
-| PPPoE | <ul><li>PPP over Ethernet</li><li>イーサネット上でPPPを実現するプロトコル</li><li>FTTHなどのブロードバンド回線でユーザ認証に利用</li></ul> |
-| PPTP | <ul><li>Point to Point Tunneling Protocol</li><li>PPPをカプセル化してIPネットワーク上にトンネルを構築</li><li>VPN通信の実現に利用</li></ul> |
-| PoE | <ul><li>Power over Ethernet</li><li>LANケーブル(イーサネットケーブル)を通じて電力を供給する技術</li><li>電源配線が不要になるためIP電話・無線LANアクセスポイント・監視カメラ等の設置に利用</li></ul> |
 
                             </div>
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
@@ -205,6 +202,30 @@
                             </div>
 
                             <h3 class="pt-4 border-bottom fw-bold">
+                                トンネリング技術
+                            </h3>
+                            <p>
+                                &emsp;トンネリングとは、あるプロトコルのパケット・フレームを別のプロトコルのペイロードとして包み(カプセル化)、途中経路を意識せずに送る技術<br>
+                                &emsp;IPsec(ESPトンネルモード)やTLS/DTLSのペイロードへのカプセル化のほかに、以下のような技術がVPNで使われる<br>
+                                &emsp;トンネリング技術自体には暗号化機能がないものも多く、その場合はIPsec等と組み合わせて機密性を確保する
+                            </p>
+                            <div id="md-vpn-tunnel">
+
+| 技術 | 階層 | 暗号化 | 概要 |
+|---|---|---|---|
+| IPsec ESP<br>(トンネルモード) | ネットワーク層 | あり | <ul><li>元のIPパケット全体をESPで暗号化し、新しいIPヘッダを付与して送信</li><li>拠点間VPNの基本となるトンネリング</li><li>単体ではユニキャストのIP通信のみが対象で、マルチキャストやルーティングプロトコルは通せない</li></ul> |
+| TLS / DTLS | トランスポート層上 | あり | <ul><li>TLS(TCP)またはDTLS(UDP)の暗号化ペイロード内にIPパケットやイーサネットフレームを格納</li><li>SSL-VPN(レイヤ2フォワーディング方式)で使用</li></ul> |
+| PPTP | データリンク層 | 弱い<br>(MPPE) | <ul><li>Point to Point Tunneling Protocol</li><li>PPPフレームをGRE(IPプロトコル番号47)でカプセル化</li><li>制御接続にTCP/1723番ポートを使用</li><li>認証にMS-CHAPv2、暗号化にMPPEを使うが、いずれも脆弱性が指摘されており現在は非推奨</li></ul> |
+| L2TP | データリンク層 | なし | <ul><li>Layer 2 Tunneling Protocol (RFC 2661)</li><li>PPPフレームをUDP/1701番ポートでカプセル化</li><li>PPTPとCisco独自のL2Fを統合した規格</li><li>暗号化・認証機能を持たないため、通常はIPsecと組み合わせる</li><li>アクセス集線側をLAC(L2TP Access Concentrator)、終端側をLNS(L2TP Network Server)と呼ぶ</li><li>L2TPv3(RFC 3931)ではPPP以外のレイヤ2フレーム(イーサネット等)も転送可能</li></ul> |
+| GRE | ネットワーク層 | なし | <ul><li>Generic Routing Encapsulation</li><li>IPプロトコル番号47</li><li>様々なプロトコルのパケットをIPパケットでカプセル化する汎用的な方式</li><li>マルチキャストやOSPF等のルーティングプロトコルもトンネル内で通せる</li><li>暗号化・認証機能を持たない</li><li>PPTPの内部でも利用される</li></ul> |
+| L2TP over IPsec<br>(L2TP/IPsec) | データリンク層 | あり | <ul><li>L2TPのトンネルをIPsecで保護する組み合わせ</li><li>L2TPの通信(UDP/1701)をIPsec ESP(主にトランスポートモード)で暗号化</li><li>ユーザ認証はPPPの認証(PAP/CHAP/EAP等)、機器認証はIPsec(IKE)が担当</li><li>UDP/500・4500(NAT-T)・1701番ポートを使用</li><li>リモートアクセスVPNで広く利用される</li></ul> |
+| GRE over IPsec | ネットワーク層 | あり | <ul><li>GREトンネルをIPsecで保護する組み合わせ</li><li>IPsec単体では通せないマルチキャストやルーティングプロトコルをGRE経由で通しつつ、IPsecで暗号化できる</li><li>拠点間VPNで動的ルーティング(OSPF・BGP等)を行いたい場合に利用</li><li>IPsecはトランスポートモード・トンネルモードのどちらでも使える</li></ul> |
+| Q in Q | データリンク層 | なし | <ul><li>IEEE 802.1ad(プロバイダブリッジ)で規定</li><li>VLANタグを2重に付与する技術</li><li>外側がSタグ(サービスプロバイダ用、TPID 0x88A8)、内側がCタグ(顧客用、TPID 0x8100)</li><li>顧客のVLAN構成を維持したまま通信事業者網を通過でき、広域イーサネットで利用される</li><li>VLAN IDが12bit(約4,000)に限られる制約の緩和にもなる</li></ul> |
+| VXLAN | データリンク層<br>(UDP上) | なし | <ul><li>Virtual eXtensible LAN (RFC 7348)</li><li>イーサネットフレームをUDP(宛先ポートUDP/4789)でカプセル化し、L3ネットワーク上にL2ネットワークを構築するオーバーレイ技術</li><li>VNI(VXLAN Network Identifier)は24bitで、約1,600万のセグメントを識別可能</li><li>VLANの4,094個の制限を超えられ、データセンタのマルチテナント環境で利用される</li><li>トンネルの端点をVTEP(VXLAN Tunnel End Point)と呼ぶ</li><li>暗号化機能はなく、必要に応じてIPsec等と併用する</li></ul> |
+
+                            </div>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
                                 VPNに関する用語
                             </h3>
                             <div id="md-vpn-term">
@@ -217,6 +238,23 @@
 | ESP | <ul><li>Encapsulating Security Payload</li><li>データの暗号化と認証 (改ざん検知) の両方を提供するIPsecのプロトコル</li><li>IPプロトコル番号50</li></ul> |
 | AH | <ul><li>Authentication Header</li><li>データの認証 (改ざん検知) のみを提供し、暗号化は行わないIPsecのプロトコル</li><li>IPプロトコル番号51</li></ul> |
 | NATトラバーサル | <ul><li>NAT Traversal (NAT-T) </li><li>NAT環境下でIPsec通信を行うための技術</li><li>ESPパケットをUDP/4500番ポートでカプセル化し、NAT機器を通過可能にする</li></ul> |
+| PPP | <ul><li>Point-to-Point Protocol</li><li>2点間を1対1で接続するデータリンク層プロトコル</li><li>認証・エラー検出機能を持つ</li><li>認証方式としてPAP・CHAP・EAPを選択できる</li><li>PPTPやL2TPはPPPフレームをカプセル化して運ぶ</li></ul> |
+| EAP | <ul><li>Extensible Authentication Protocol (RFC 3748)</li><li>認証方式を拡張できる認証フレームワーク</li><li>パスワード・証明書・ワンタイムパスワード等の様々な認証方式(EAPメソッド)を同じ枠組みで扱える</li><li>PPPやIEEE 802.1Xの認証で利用される</li><li>以下のEAP-xxxは、EAPの上で動作する個別の認証方式</li></ul> |
+| EAP-MD5 | <ul><li>MD5ハッシュによるチャレンジレスポンス認証</li><li>サーバがクライアントを認証するだけの一方向認証で、サーバの正当性は確認できない</li><li>暗号鍵を生成できず、辞書攻撃にも弱いため、無線LANでは使用不可</li><li>認証にはユーザIDとパスワードを使用</li></ul> |
+| PEAP<br>EAP-PEAP | <ul><li>Protected EAP</li><li>サーバ証明書でサーバを認証してTLSトンネルを構築し、その中でEAPによるクライアント認証(MS-CHAPv2等)を行う</li><li>クライアント証明書が不要なため、証明書の配布・管理の負担が軽い</li><li>Microsoft・Cisco・RSAが提唱、Windows環境で広く利用される</li></ul> |
+| EAP-TLS | <ul><li>EAP Transport Layer Security</li><li>サーバ証明書とクライアント証明書の両方を用いた相互認証</li><li>パスワードを使わず、最も安全性が高い方式の一つ</li><li>全クライアントに証明書を配布するPKIの運用負荷が大きい</li></ul> |
+| EAP-TTLS | <ul><li>EAP Tunneled TLS</li><li>サーバ証明書でTLSトンネルを構築し、その中でクライアント認証を行う</li><li>PEAPと異なり、トンネル内の認証にEAP以外(PAP・CHAP・MS-CHAP等)も使える</li><li>クライアント証明書は不要</li></ul> |
+| EAP-LEAP<br>(LEAP) | <ul><li>Lightweight EAP</li><li>Cisco独自の方式で、MS-CHAPをベースにした相互認証</li><li>認証情報の交換が保護されず、辞書攻撃に脆弱なため非推奨</li></ul> |
+| EAP-OTP | <ul><li>EAP One-Time Password</li><li>ワンタイムパスワードを用いる認証方式</li><li>トークンなどで生成した使い捨てのパスワードを用いるため、盗聴されても再利用されない</li></ul> |
+| EAPOL<br>(EAP over LAN) | <ul><li>IEEE 802.1Xで規定される、サプリカント〜オーセンティケータ間でEAPを運ぶためのプロトコル</li><li>イーサネットフレームに直接EAPを格納する(EtherType 0x888E)</li><li>IPアドレスが割り当てられる前の段階で使える</li><li>認証の開始・終了にEAPOL-Start・EAPOL-Logoffを使用</li></ul> |
+| PPPoE | <ul><li>PPP over Ethernet</li><li>イーサネット上でPPPを実現するプロトコル</li><li>FTTHなどのブロードバンド回線でユーザ認証に利用</li></ul> |
+| PPTP | <ul><li>Point to Point Tunneling Protocol</li><li>PPPをカプセル化してIPネットワーク上にトンネルを構築</li><li>VPN通信の実現に利用</li><li>詳細は「トンネリング技術」を参照</li></ul> |
+| IEEE 802.1X | <ul><li>ポートベースのネットワークアクセス制御規格</li><li>認証に成功するまで、スイッチのポートや無線LANのアソシエーションを通じた通信を許可しない</li><li>認証プロトコルにEAP、認証サーバにRADIUSを用いるのが一般的</li><li>サプリカント・オーセンティケータ・認証サーバの3者で構成される</li><li>有線LAN・無線LAN(WPA/WPA2/WPA3-Enterprise)で使用</li></ul> |
+| サプリカント | <ul><li>Supplicant</li><li>認証を要求する側(クライアント端末、または端末上の認証ソフト)</li><li>オーセンティケータとEAPOLで通信する</li></ul> |
+| オーセンティケータ | <ul><li>Authenticator</li><li>サプリカントと認証サーバの間で認証を仲介する装置(スイッチ、無線LANアクセスポイント、VPNゲートウェイ等)</li><li>RADIUSの用語ではNAS(Network Access Server)に相当</li><li>サプリカントとの間はEAPOL、認証サーバとの間はRADIUSでEAPメッセージを中継する</li><li>認証結果に基づき、ポートの開放やVLANの割り当てを行う</li><li>認証自体の判断は行わない</li></ul> |
+| 認証サーバ | <ul><li>Authentication Server</li><li>サプリカントの認証情報を検証して認証の可否を判断するサーバ</li><li>通常はRADIUSサーバがこの役割を担う</li><li>ユーザ情報はローカルDBやActive Directory、LDAP等で管理</li></ul> |
+| RADIUS | <ul><li>Remote Authentication Dial-In User Service (RFC 2865)</li><li>認証・認可・アカウンティング(AAA)を一元的に提供するプロトコル</li><li>UDPを使用(認証・認可: UDP/1812、アカウンティング: UDP/1813。旧ポートは1645・1646)</li><li>メッセージはAccess-Request・Access-Challenge・Access-Accept・Access-Rejectなど</li><li>オーセンティケータ(NAS)と認証サーバは共有シークレットで相互に確認し、パスワード属性を保護する</li><li>EAPメッセージはRADIUSの属性に格納して転送(RFC 3579)</li></ul> |
+| AAA | <ul><li>Authentication・Authorization・Accounting</li><li>認証(誰か)・認可(何をしてよいか)・アカウンティング(何をしたか)の3機能の総称</li><li>RADIUSやTACACS+が実装するモデル</li></ul> |
 
                             </div>
 
@@ -254,6 +292,68 @@
                                     <ul>
                                         <li>鍵の有効期間 (ライフタイム) 満了や明示的な切断要求により、ISAKMP SA・IPsec SAを削除</li>
                                         <li>通信を継続する場合は、鍵の危殆化を防ぐためライフタイム満了前に再度ネゴシエーションを行い、SAを再生成 (鍵の再生成 : リキー) </li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                本人確認の手順 (IEEE 802.1X / RADIUS)
+                            </h3>
+                            <p>
+                                &emsp;サプリカント・オーセンティケータ・RADIUSサーバ(認証サーバ)による、ユーザ・端末の本人確認の流れ<br>
+                                &emsp;リモートアクセスVPNでは、VPNゲートウェイがオーセンティケータ(NAS)となり、IKEv2のEAP認証などの中で同様の手順で認証を行う
+                            </p>
+                            <ol class ="border">
+                                <li class ="border-bottom py-4">
+                                    認証の開始
+                                    <ul>
+                                        <li>サプリカントがオーセンティケータにEAPOL-Startを送信し、認証を開始 (オーセンティケータ側から開始する場合もある)</li>
+                                        <li>この時点のポートは未認証状態で、EAPOL以外の通信は遮断される</li>
+                                    </ul>
+                                </li>
+                                <li class ="border-bottom py-4">
+                                    ID情報の取得
+                                    <ul>
+                                        <li>オーセンティケータがサプリカントにEAP-Request/Identityを送信</li>
+                                        <li>サプリカントがEAP-Response/Identityでユーザ名(ID)を返答</li>
+                                    </ul>
+                                </li>
+                                <li class ="border-bottom py-4">
+                                    認証サーバへの中継
+                                    <ul>
+                                        <li>オーセンティケータは受け取ったEAPメッセージをRADIUSのAccess-Requestに格納し、認証サーバへ転送</li>
+                                        <li>この後の認証サーバとサプリカントのやり取りはオーセンティケータが中継するだけで、内容は関知しない</li>
+                                    </ul>
+                                </li>
+                                <li class ="border-bottom py-4">
+                                    EAP方式による認証
+                                    <ul>
+                                        <li>認証サーバがEAP方式(EAP-TLS、PEAP等)を提示し、Access-Challengeで応答を要求</li>
+                                        <li>サプリカントとの間でEAP方式に応じた認証(証明書の検証、TLSトンネル内でのパスワード認証等)を、EAPOLとRADIUSを介して数回往復して実施</li>
+                                        <li>サーバ証明書を検証することで、サプリカント側は認証サーバ(接続先)の正当性も確認できる</li>
+                                    </ul>
+                                </li>
+                                <li class ="border-bottom py-4">
+                                    認証結果の通知
+                                    <ul>
+                                        <li>認証成功時: 認証サーバがAccess-Acceptを返し、オーセンティケータがサプリカントにEAP-Successを送信</li>
+                                        <li>認証失敗時: Access-Rejectが返され、EAP-Failureを送信して接続を拒否</li>
+                                        <li>成功時は、暗号鍵(無線LANではPMK等)の材料もAccess-Acceptで提供される</li>
+                                    </ul>
+                                </li>
+                                <li class ="border-bottom py-4">
+                                    通信の許可
+                                    <ul>
+                                        <li>オーセンティケータがポートを認証済み状態にして通信を許可 (RADIUSの属性による動的VLAN割り当ても可能)</li>
+                                        <li>VPNでは、この認証後に上記のIPsec SAの確立・データ通信へ進む</li>
+                                        <li>オーセンティケータはAccounting-Requestで接続開始をRADIUSサーバに通知し、利用状況を記録 (アカウンティング)</li>
+                                    </ul>
+                                </li>
+                                <li class ="border-bottom py-4">
+                                    切断
+                                    <ul>
+                                        <li>サプリカントがEAPOL-Logoffを送信するか、セッションが切れると、ポートを未認証状態に戻す</li>
+                                        <li>オーセンティケータは接続時間・通信量等をAccounting-Request(Stop)で報告</li>
                                     </ul>
                                 </li>
                             </ol>
