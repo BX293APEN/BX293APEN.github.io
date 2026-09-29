@@ -1,0 +1,15 @@
+WEP
+WPA
+WPA2
+WPA3
+Enhanced Open
+
+TPM　
+耐タンパ性
+
+
+ネットワークが無い時のWindows11セットアップ
+
+Shift + F10
+cd oobe
+BypassNRO.cmd

@@ -35,6 +35,37 @@
                             Linuxセットアップガイド
                         </h2>
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="permission">
+                                権限管理
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">ユーザ</th>
+                                            <th scope="colgroup" colspan="3">所有者</th>
+                                            <th scope="colgroup" colspan="3">グループ</th>
+                                            <th scope="colgroup" colspan="3">その他</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">権限</th>
+                                            <td>r</td><td>w</td><td>x</td>
+                                            <td>r</td><td>w</td><td>x</td>
+                                            <td>r</td><td>w</td><td>x</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">0b<br>0:無効<br>1:有効</th>
+                                            <td>0</td><td>0</td><td>0</td>
+                                            <td>0</td><td>0</td><td>0</td>
+                                            <td>0</td><td>0</td><td>0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="update">
                                 更新方法
                             </h3>
@@ -582,6 +613,9 @@ sudo umount -R /Programs/mnt</code></pre>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#permission">権限管理</a>
                                     </li>
                                     <li>
                                         <a href="#update">Linuxの更新</a>
