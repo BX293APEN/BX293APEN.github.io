@@ -6,3 +6,7 @@ Enhanced Open
 
 
 SPF
+
+HTTP
+メソッド
+コード
