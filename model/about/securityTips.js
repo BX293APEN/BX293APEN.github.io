@@ -13,10 +13,6 @@ class SecurityModel{
                 "page" : 3,
                 "href" : "/html/about/security/security.html"
             },
-            {
-                "page" : 5,
-                "href" : "/API/index.html"
-            },
         ]
     }
 }

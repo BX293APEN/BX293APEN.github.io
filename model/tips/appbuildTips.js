@@ -10,6 +10,10 @@ class APPBuildModel{
                 "href" : "/html/tips/appbuild/appsec.html"
             },
             {
+                "page" : 4,
+                "href" : "/API/index.html"
+            },
+            {
                 "page" : 5,
                 "href" : "/html/tips/appbuild/chromium.html"
             },
