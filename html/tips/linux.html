@@ -267,11 +267,31 @@ break-system-packages = true</code></pre>
                             </p>
                             
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="ssh">
-                                SSH
+                                SSH (Secure Shell)
                             </h3>
+                            <p>
+                                &emsp;ネットワーク経由での安全なリモートログイン・コマンド実行・ファイル転送等をするためのプロトコル
+                            </p>
                             <h4 class="pt-4 border-bottom fw-bold">
                                 鍵作成 (エドワード曲線)
                             </h4>
+                            <p>
+                                <strong>Ed25519</strong>
+                                <ul>
+                                    <li>
+                                        EdDSAの一種
+                                    </li>
+                                    <li>
+                                        鍵長 : 256[bit]
+                                    </li>
+                                    <li>
+                                        署名サイズ : 512[bit]
+                                    </li>
+                                    <li>
+                                        高速・安全性を兼ね備える
+                                    </li>
+                                </ul>
+                            </p>
                             <p>
                                 <div class="fw-bold">
                                     Windows ターミナル
@@ -281,6 +301,10 @@ break-system-packages = true</code></pre>
                             <h4 class="pt-4 border-bottom fw-bold">
                                 公開鍵認証
                             </h4>
+                            <p>
+                                &emsp;クライアントで公開鍵と秘密鍵のペアを生成し、その公開鍵をサーバに置いておくことで認証する方式<br>
+                                &emsp;秘密鍵を持つ本人だけがログインできる
+                            </p>
                             <p>
                                 <div class="fw-bold">
                                     Windows ターミナル
