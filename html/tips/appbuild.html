@@ -568,7 +568,7 @@ flowchart LR
                                     </tr>
 
                                     <tr style="border-top: 3px solid #212529;">
-                                        <td rowspan="20">トランスポート層<br>(TCP)<br> 20[Byte]～60[Byte]</td>
+                                        <td rowspan="13">トランスポート層<br>(TCP)<br> 20[Byte]～60[Byte]</td>
                                         <td colspan="8">送信元ポート番号 16[bit]</td>
                                     </tr>
                                     <tr>
@@ -609,9 +609,18 @@ flowchart LR
                                         <td colspan="4">予約領域 4[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="8">コードビット 8[bit]</td>
+                                        <td style="border-top: 2px dashed #ccc;">コードビット</td>
+                                        <td>CWR</td>
+                                        <td>ECE</td>
+                                        <td>URG</td>
+                                        <td>ACK</td>
+                                        <td>PSH</td>
+                                        <td>RST</td>
+                                        <td>SYN</td>
+                                        <td>FIN</td>
                                     </tr>
                                     <tr>
+                                        <td style="border-top: 2px dashed #ccc;" rowspan="6"></td>
                                         <td colspan="8">ウィンドウサイズ 16[bit]</td>
                                     </tr>
                                     <tr>

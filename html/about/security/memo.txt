@@ -4,7 +4,25 @@ WPA2
 WPA3
 Enhanced Open
 
-webhook
 
-カミンスキー
-「トランザクションID（16bit）」に加えて「送信元ポート番号（16bit）」もランダム化するソースポートランダマイゼーション
+SPF
+
+オープンリゾルバ
+スタブリゾルバ
+キャッシュサーバ(フルサービスリゾルバ)
+ゾーンサーバ(コンテンツサーバ)
+DDNS
+DNSラウンドロビン
+
+レコード
+A
+AAAA
+CNAME
+MX
+NS
+SOA
+PTR
+TXT
+OPT
+CAA
+
