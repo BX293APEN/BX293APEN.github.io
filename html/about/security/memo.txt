@@ -7,6 +7,8 @@ Enhanced Open
 
 SPF
 
+# DNS
+## 用語
 オープンリゾルバ
 スタブリゾルバ
 キャッシュサーバ(フルサービスリゾルバ)
@@ -14,7 +16,7 @@ SPF
 DDNS
 DNSラウンドロビン
 
-レコード
+## レコード
 A
 AAAA
 CNAME

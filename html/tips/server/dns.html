@@ -27,7 +27,7 @@
     </head>
     <body>
         <div id="header-contents"></div>
-        <div class="container pt-3">
+        <div class="ps-4 pt-4">
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
@@ -228,6 +228,385 @@ named-checkzone 10.168.192.in-addr.arpa /var/cache/bind/raspi3b.rev # 逆引き�
 sudo systemctl status bind9 # 状態確認</code></pre>
                             </p>
                         </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                DNSサーバについて
+                            </h2>
+                            <div id="md-dns-word">
+
+| 用語 | 別名・関連語 | 役割・意味 | 再帰問い合わせ | 権威応答 | 備考 |
+|------|--------------|------------|--------------|--------|------|
+| オープンリゾルバ | - | 外部の不特定多数からの再帰問い合わせに応答するキャッシュサーバ | 受け付ける(問題) | ✕ | DNSリフレクション/増幅攻撃の踏み台に悪用される。ACLで問い合わせ元を制限して防ぐ |
+| スタブリゾルバ | リゾルバ(クライアント側) | OSやアプリに組み込まれた簡易リゾルバ<br>自身では名前解決を行わず、キャッシュサーバへ再帰問い合わせ(RDビット=1)を依頼するだけ | 依頼する側 | ✕ | Linuxの `/etc/resolv.conf`、Windowsのネットワーク設定で参照先を指定する |
+| キャッシュサーバ | フルサービスリゾルバ、再帰サーバ、DNSキャッシュサーバ | スタブリゾルバの代わりにルートから順にたどって名前解決(反復問い合わせ)を行い、結果をTTLの間キャッシュする | 受け付ける | ✕ | BIND(named)、Unbound、PowerDNS Recursor など。社内/ISP内など限定された範囲に提供する |
+| ゾーンサーバ | コンテンツサーバ、権威DNSサーバ、権威サーバ | 自分が管理するゾーンのデータを保持し、そのゾーンについて権威ある応答(AAビット=1)を返す | 受け付けない | 〇 | プライマリ(マスタ)とセカンダリ(スレーブ)で冗長化し、ゾーン転送(AXFR/IXFR)で同期する |
+| DDNS | Dynamic DNS、動的DNS | IPアドレスが変わるホストのレコードを自動で更新する仕組み。DNS UPDATE(RFC 2136)や、事業者提供の更新APIで実現する | - | - | 家庭用回線・DHCP環境で利用。変更を早く反映するためTTLを短く設定することが多い |
+| DNSラウンドロビン | ラウンドロビンDNS | 同一の名前に複数のA/AAAAレコードを登録し、応答の順序を入れ替えることでアクセスを分散する簡易負荷分散 | - | - | ヘルスチェックがなく、障害ノードにも振り分けられる。キャッシュの影響で均等に分散されないことがある |
+
+                            </div>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dns-record">
+                                DNSレコード
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>レコード</th>
+                                            <th>Type</th>
+                                            <th>名称</th>
+                                            <th>フィールド・種別</th>
+                                            <th>説明・注意点</th>
+                                            <th>主な用途</th>
+                                            <th>記述例</th>
+                                        </tr>
+                                    </thead>
+                                
+                                    <!-- ## A -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>A</td>
+                                            <td class="text-center">1</td>
+                                            <td>Address</td>
+                                            <td class="text-nowrap">IPv4アドレス(32bit)</td>
+                                            <td>同一名に複数登録するとDNSラウンドロビンになる</td>
+                                            <td class="text-nowrap">ホスト名からIPv4アドレスへの正引き</td>
+                                            <td>
+                                                <pre><code>www 3600 IN A 192.0.2.1</code></pre></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## AAAA -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>AAAA</td>
+                                            <td class="text-center">28</td>
+                                            <td>IPv6 Address</td>
+                                            <td>IPv6アドレス(128bit)<br>(RFC 3596)</td>
+                                            <td>Aと同様に複数登録で分散できる</td>
+                                            <td>ホスト名からIPv6アドレスへの正引き</td>
+                                            <td><pre><code>www 3600 IN AAAA 2001:db8::1</code></pre></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## CNAME -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>CNAME</td>
+                                            <td class="text-center">5</td>
+                                            <td>Canonical Name</td>
+                                            <td>
+                                                正規名<br>
+                                                (別名の指す先のドメイン名)
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li class="text-nowrap">ゾーンの頂点(apex)には置けない</li>
+                                                    <li>同じ名前に他のレコードと共存できない</li>
+                                                    <li>NS・MXの指す先にしてはならない</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ホスト名の別名定義</li>
+                                                    <li>CDN・SaaSへの向き先設定</li>
+                                                </ul>
+                                            </td>
+                                            <td><pre><code>blog 3600 IN CNAME www.example.com.</code></pre></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## MX -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2">MX</td>
+                                            <td rowspan="2" class="text-center">15</td>
+                                            <td rowspan="2">Mail Exchanger</td>
+                                            <td>PRIORITY(優先度)<br>16bit整数</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>数値が小さいほど優先される</li>
+                                                    <li>同値なら分散される</li>
+                                                    <li>例: <code>10</code></li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="2">ドメイン宛メールの配送先指定</td>
+                                            <td rowspan="2">
+                                                <pre><code>@ 3600 IN MX [PRIORITY] [HOSTNAME]</code></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>HOSTNAME<br>(メールサーバのホスト名)</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>A/AAAAを持つホスト名とし、CNAMEにしない</li>
+                                                    <li>例: <code>mail.example.com.</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## NS -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>NS</td>
+                                            <td class="text-center">2</td>
+                                            <td>Name Server</td>
+                                            <td>権威サーバのホスト名</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>親ゾーン側に委任用のNSが必要</li>
+                                                    <li>NS名がゾーン内にある場合はグルーレコードも必要</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ゾーンの権威サーバの宣言</li>
+                                                    <li>サブドメインの委任</li>
+                                                </ul>
+                                            </td>
+                                            <td><pre><code>@ 86400 IN NS ns1.example.com.</code></pre></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## SOA -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="7">SOA</td>
+                                            <td rowspan="7" class="text-center">6</td>
+                                            <td rowspan="7">Start of Authority</td>
+                                            <td>MNAME</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>プライマリゾーンサーバのホスト名</li>
+                                                    <li>例: <code>ns1.example.com.</code></li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="7">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ゾーンの起点</li>
+                                                    <li>ゾーンに必ず1つだけ存在する</li>
+                                                    <li>ゾーン転送やキャッシュ期間の制御</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="7">
+                                                <pre><code>@ IN SOA [MNAME] [RNAME] (
+    [SERIAL]
+    [REFRESH]
+    [RETRY]
+    [EXPIRE]
+    [MINIMUM] )</code></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>RNAME</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>管理者のメールアドレス<br>(<code>@</code> を <code>.</code> に置換して表記)</li>
+                                                    <li>例: <code>root.example.com.</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SERIAL</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ゾーンのバージョン番号</li>
+                                                    <li>ゾーン変更時に増やし、セカンダリが更新を検知する</li>
+                                                    <li>毎回変更すること推奨<br>(例: <code>2026092901</code>)</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>REFRESH</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>セカンダリがプライマリの更新を確認する間隔[秒]</li>
+                                                    <li>例: <code>3600</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>RETRY</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>REFRESHの確認に失敗した際の再試行間隔[秒]</li>
+                                                    <li>例: <code>900</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EXPIRE</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>確認できない状態が続いた際、セカンダリがゾーンを無効とするまでの時間[秒]</li>
+                                                    <li>例: <code>604800</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>MINIMUM</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ネガティブキャッシュのTTL[秒](RFC 2308)</li>
+                                                    <li>例: <code>300</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## PTR -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>PTR</td>
+                                            <td class="text-center">12</td>
+                                            <td>Pointer</td>
+                                            <td>ドメイン名</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>逆引きゾーン<ul><li><code>in-addr.arpa</code></li><li> <code>ip6.arpa</code></li></ul>に置く</li>
+                                                    <li>権限はIPアドレスの割り当て元(ISPなど)にある</li>
+                                                    <li>メールサーバでは正引きと逆引きの一致が求められることが多い</li>
+                                                </ul>
+                                            </td>
+                                            <td>IPアドレスからホスト名への逆引き</td>
+                                            <td><pre><code>1.2.0.192.in-addr.arpa. IN PTR www.example.com.</code></pre></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## TXT -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="4">TXT</td>
+                                            <td rowspan="4" class="text-center">16</td>
+                                            <td rowspan="4">Text</td>
+                                            <td>一般(任意のテキスト)</td>
+                                            <td rowspan="4">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>1文字列あたり255バイトまで</li>
+                                                    <li>長い値(DKIM鍵など)は分割して複数の文字列で記述する</li>
+                                                </ul>
+                                            </td>
+                                            <td>ドメイン所有確認など</td>
+                                            <td><pre><code>@ 3600 IN TXT "site-verification=abc123"</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SPF</td>
+                                            <td>送信を許可するサーバの指定(ドメイン名 <code>@</code> に設定)</td>
+                                            <td><pre><code>@ IN TXT "v=spf1 ip4:192.0.2.0/24 -all"</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DKIM</td>
+                                            <td>電子署名を検証する公開鍵(<code>セレクタ._domainkey</code> に設定)</td>
+                                            <td><pre><code>sel1._domainkey IN TXT "v=DKIM1; k=rsa; p=MIGf..."</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DMARC</td>
+                                            <td>SPF/DKIM失敗時の扱いとレポート先(<code>_dmarc</code> に設定)</td>
+                                            <td><pre><code>_dmarc IN TXT "v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com"</code></pre></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## OPT -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="5">OPT</td>
+                                            <td rowspan="5" class="text-center">41</td>
+                                            <td rowspan="5">Option</td>
+                                            <td>NAME</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>通常のRRではドメイン名</li>
+                                                    <li>OPTでは常にルート(<code>.</code>)</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="5">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>EDNS(0)(RFC 6891)によるDNSメッセージの拡張</li>
+                                                    <li>大きなUDPサイズやDNSSEC対応の通知など</li>
+                                                    <li>実メッセージの追加セクションにのみ現れる疑似レコードで、1メッセージに最大1つ</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="5">
+                                                <p class="mb-1">ゾーンファイルには記述しない。<code>dig</code> での表示形式:</p>
+                                                <pre><code>; EDNS: version: [VERSION], flags: [FLAGS]; udp: [UDP_SIZE]</code></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>TYPE</td>
+                                            <td>41</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CLASS</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>通常のRRではクラス(IN等)</li>
+                                                    <li>OPTでは要求元が受信可能なUDPペイロードサイズ(<code>[UDP_SIZE]</code>)</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>TTL</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>通常のRRではキャッシュ時間</li>
+                                                    <li>OPTでは<ul><li>拡張RCODEの上位8bit</li><li>EDNSバージョン(<code>[VERSION]</code>)</li><li>フラグ(<code>[FLAGS]</code></li><li>DOビット</li></ul>など</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>RDATA</td>
+                                            <td>オプションコード+データの列(ECS、Cookie、パディングなど)</td>
+                                        </tr>
+                                    </tbody>
+                                
+                                    <!-- ## CAA -->
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="3">CAA</td>
+                                            <td rowspan="3" class="text-center">257</td>
+                                            <td rowspan="3">Certification Authority Authorization</td>
+                                            <td>flags</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>通常は <code>0</code></li>
+                                                    <li><code>128</code> は未知のタグを理解できないCAに発行を拒否させる(critical)</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="3">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ドメインに対して証明書を発行してよい認証局(CA)の制限(RFC 8659)</li>
+                                                    <li>該当ドメインになければ親ドメインへたどって評価される</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="3">
+                                                <pre><code>@ 3600 IN CAA [flags] [tag] "[value]"</code></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>tag</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>issue</code>(発行許可CA)</li>
+                                                    <li><code>issuewild</code><br>(ワイルドカード証明書)</li>
+                                                    <li><code>iodef</code>(違反時の通知先)</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>value</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>タグに対応する値<ul><li>CAのドメイン名</li><li>通知先URL</li></ul>など</li>
+                                                    <li>例: <code>letsencrypt.org</code></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </article>
 
                     </div>
 
@@ -241,6 +620,12 @@ sudo systemctl status bind9 # 状態確認</code></pre>
                                     </li>
                                     <li>
                                         <a href="#dns">DNSサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-dns-word">DNSサーバについて</a>
+                                    </li>
+                                    <li>
+                                        <a href="#dns-record">DNSレコード</a>
                                     </li>
     
                                 </ol>
@@ -264,6 +649,7 @@ sudo systemctl status bind9 # 状態確認</code></pre>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -272,6 +658,15 @@ sudo systemctl status bind9 # 状態確認</code></pre>
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
             new Pagination(2, serverModel.page, "pagination");
+            const mdLists = [
+                "md-dns-word", 
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
         </script>
     </footer>
 </html>
