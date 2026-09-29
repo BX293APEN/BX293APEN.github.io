@@ -4,12 +4,16 @@ WPA2
 WPA3
 Enhanced Open
 
-TPM　
-耐タンパ性
+Linux
 
+ps
+top
 
-ネットワークが無い時のWindows11セットアップ
+WORM
+ブロックチェーン
+IRM
 
-Shift + F10
-cd oobe
-BypassNRO.cmd
+webhook
+
+カミンスキー
+「トランザクションID（16bit）」に加えて「送信元ポート番号（16bit）」もランダム化するソースポートランダマイゼーション
