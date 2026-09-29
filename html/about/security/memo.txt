@@ -4,10 +4,6 @@ WPA2
 WPA3
 Enhanced Open
 
-Linux
-
-ps
-top
 
 WORM
 ブロックチェーン
