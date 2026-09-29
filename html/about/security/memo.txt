@@ -6,25 +6,3 @@ Enhanced Open
 
 
 SPF
-
-# DNS
-## 用語
-オープンリゾルバ
-スタブリゾルバ
-キャッシュサーバ(フルサービスリゾルバ)
-ゾーンサーバ(コンテンツサーバ)
-DDNS
-DNSラウンドロビン
-
-## レコード
-A
-AAAA
-CNAME
-MX
-NS
-SOA
-PTR
-TXT
-OPT
-CAA
-

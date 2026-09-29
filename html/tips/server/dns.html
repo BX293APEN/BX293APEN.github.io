@@ -229,20 +229,131 @@ sudo systemctl status bind9 # 状態確認</code></pre>
                             </p>
                         </article>
                         <article class="blog-post">
-                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dns-server">
                                 DNSサーバについて
                             </h2>
-                            <div id="md-dns-word">
+                            <!--
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '15px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+stub["スタブリゾルバ<br>(端末)"]
+    cache["キャッシュサーバ<br>(フルサービスリゾルバ)"]
+    open["オープンリゾルバ"]
 
-| 用語 | 別名・関連語 | 役割・意味 | 再帰問い合わせ | 権威応答 | 備考 |
-|------|--------------|------------|--------------|--------|------|
-| オープンリゾルバ | - | 外部の不特定多数からの再帰問い合わせに応答するキャッシュサーバ | 受け付ける(問題) | ✕ | DNSリフレクション/増幅攻撃の踏み台に悪用される。ACLで問い合わせ元を制限して防ぐ |
-| スタブリゾルバ | リゾルバ(クライアント側) | OSやアプリに組み込まれた簡易リゾルバ<br>自身では名前解決を行わず、キャッシュサーバへ再帰問い合わせ(RDビット=1)を依頼するだけ | 依頼する側 | ✕ | Linuxの `/etc/resolv.conf`、Windowsのネットワーク設定で参照先を指定する |
-| キャッシュサーバ | フルサービスリゾルバ、再帰サーバ、DNSキャッシュサーバ | スタブリゾルバの代わりにルートから順にたどって名前解決(反復問い合わせ)を行い、結果をTTLの間キャッシュする | 受け付ける | ✕ | BIND(named)、Unbound、PowerDNS Recursor など。社内/ISP内など限定された範囲に提供する |
-| ゾーンサーバ | コンテンツサーバ、権威DNSサーバ、権威サーバ | 自分が管理するゾーンのデータを保持し、そのゾーンについて権威ある応答(AAビット=1)を返す | 受け付けない | 〇 | プライマリ(マスタ)とセカンダリ(スレーブ)で冗長化し、ゾーン転送(AXFR/IXFR)で同期する |
-| DDNS | Dynamic DNS、動的DNS | IPアドレスが変わるホストのレコードを自動で更新する仕組み。DNS UPDATE(RFC 2136)や、事業者提供の更新APIで実現する | - | - | 家庭用回線・DHCP環境で利用。変更を早く反映するためTTLを短く設定することが多い |
-| DNSラウンドロビン | ラウンドロビンDNS | 同一の名前に複数のA/AAAAレコードを登録し、応答の順序を入れ替えることでアクセスを分散する簡易負荷分散 | - | - | ヘルスチェックがなく、障害ノードにも振り分けられる。キャッシュの影響で均等に分散されないことがある |
+    subgraph content["コンテンツサーバ(権威サーバ)"]
+        root["ルートゾーンサーバ"]
+        tld["TLDゾーンサーバ"]
+        sld["SLDゾーンサーバ"]
+        lan[".lanゾーンサーバ"]
+    end
 
+    stub &lt;--&gt;|"問い合わせ / 応答"| cache
+    cache -.-|"不特定多数に開放した形態"| open
+    cache &lt;--&gt;|"再帰問い合わせ"| root
+    cache &lt;--&gt;|"再帰問い合わせ"| tld
+    cache &lt;--&gt;|"再帰問い合わせ"| sld
+    cache &lt;--&gt;|"再帰問い合わせ"| lan
+
+                            -->
+                            <img src="/img/server/dns.svg" width = "100%"/>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-nowrap">用語</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col" class="text-nowrap">再帰問い合わせ</th>
+                                            <th scope="col" class="text-nowrap">権威応答</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">オープンリゾルバ</th>
+                                            <td>
+                                                外部の不特定多数からの再帰問い合わせに応答するキャッシュサーバ<br>
+                                                DNSリフレクション/増幅攻撃の踏み台に悪用される可能性あり<br>
+                                                ACLで問い合わせ元を制限して防ぐ
+                                            </td>
+                                            <td class="text-danger">受け付ける(問題)</td>
+                                            <td class="text-center">✕</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                スタブリゾルバ<br>
+                                                リゾルバ(クライアント側)
+                                            </th>
+                                            <td>
+                                                OSやアプリに組み込まれた簡易リゾルバ<br>
+                                                自身では名前解決を行わず、キャッシュサーバへ再帰問い合わせ(RDビット=1)を依頼する<br>
+                                                <br>
+                                                
+                                                <ul>
+                                                    <li>
+                                                        Linuxの <code>/etc/resolv.conf</code>
+                                                    </li>
+                                                    <li>
+                                                        Windowsのネットワーク設定
+                                                    </li>
+                                                </ul>
+                                                で参照先を指定する
+                                            </td>
+                                            <td>依頼する側</td>
+                                            <td class="text-center">✕</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                キャッシュサーバ<br>
+                                                フルサービスリゾルバ<br>
+                                                再帰サーバ<br>
+                                                DNSキャッシュサーバ
+                                            </th>
+                                            <td>
+                                                スタブリゾルバの代わりにルートから順にたどって名前解決(反復問い合わせ)を行い、結果をTTLの間キャッシュする<br>
+                                                <ul>
+                                                    <li>
+                                                        BIND(named)
+                                                    </li>
+                                                    <li>
+                                                        Unbound
+                                                    </li>
+                                                    <li>
+                                                        PowerDNS Recursor 
+                                                    </li>
+                                                </ul>
+                                                    など<br>
+                                                    社内/ISP内など限定された範囲に提供する
+                                            </td>
+                                            <td>受け付ける</td>
+                                            <td class="text-center">✕</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">
+                                                ゾーンサーバ<br>
+                                                コンテンツサーバ<br>
+                                                権威DNSサーバ<br>
+                                                権威サーバ
+                                            </th>
+                                            <td>
+                                                自分が管理するゾーンのデータを保持し、そのゾーンについて権威ある応答(AAビット=1)を返す<br>
+                                                プライマリ(マスタ)とセカンダリ(スレーブ)で冗長化し、ゾーン転送(AXFR/IXFR)で同期する
+                                            </td>
+                                            <td>受け付けない</td>
+                                            <td class="text-center">〇</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dns-record">
@@ -606,6 +717,65 @@ sudo systemctl status bind9 # 状態確認</code></pre>
                                 </table>
                             </div>
 
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dns-word">
+                                DNSの関連技術
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-nowrap">用語</th>
+                                            <th scope="col">概要</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                DDNS<br>
+                                                Dynamic DNS<br>
+                                                動的DNS
+                                            </th>
+                                            <td>
+                                                IPアドレスが変わるホストのレコードを自動で更新する仕組み<br>
+                                                DNS UPDATE(RFC 2136)や、事業者提供の更新APIで実現する<br>
+                                                家庭用回線・DHCP環境で利用<br>変更を早く反映するためTTLを短く設定することが多い
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="text-nowrap">
+                                                DNSラウンドロビン<br>
+                                                ラウンドロビンDNS
+                                            </th>
+                                            <td>
+                                                同一の名前に複数のA/AAAAレコードを登録し、応答の順序を入れ替えることでアクセスを分散する簡易負荷分散<br>
+                                                ヘルスチェックがなく、障害ノードにも振り分けられる<br>
+                                                キャッシュの影響で均等に分散されないことがある
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">DNSSEC</th>
+                                            <td>
+                                                DNSの応答にデジタル署名を付け、応答の改ざんやなりすまし(キャッシュポイズニング)を検知できるようにする拡張仕様(RFC 4033〜4035)<br>
+                                                <ul>
+                                                    <li>
+                                                        署名(RRSIG)
+                                                    </li>
+                                                    <li>
+                                                        公開鍵(DNSKEY)
+                                                    </li>
+                                                    <li>
+                                                        親ゾーンに登録する鍵のハッシュ(DS)
+                                                    </li>
+                                                </ul>
+                                                によりルートから続く信頼の連鎖で検証する<br>
+                                                検証はキャッシュサーバ側で行われ、検証に成功するとADビットが立つ<br>
+                                                通信の暗号化(盗聴防止)は行わない
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </article>
 
                     </div>
@@ -622,10 +792,13 @@ sudo systemctl status bind9 # 状態確認</code></pre>
                                         <a href="#dns">DNSサーバの構築</a>
                                     </li>
                                     <li>
-                                        <a href="#md-dns-word">DNSサーバについて</a>
+                                        <a href="#dns-server">DNSサーバについて</a>
                                     </li>
                                     <li>
                                         <a href="#dns-record">DNSレコード</a>
+                                    </li>
+                                    <li>
+                                        <a href="#dns-word">DNSの関連技術</a>
                                     </li>
     
                                 </ol>
@@ -659,7 +832,6 @@ sudo systemctl status bind9 # 状態確認</code></pre>
             new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
             new Pagination(2, serverModel.page, "pagination");
             const mdLists = [
-                "md-dns-word", 
             ];
 
             for (const mdID of mdLists) {
