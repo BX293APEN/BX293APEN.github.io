@@ -37,6 +37,10 @@ class ServerModel{
                 "page" : 9,
                 "href" : "/html/tips/server/db.html"
             },
+            {
+                "page" : 10,
+                "href" : "/html/tips/server/mail.html"
+            },
         ]
     }
 }

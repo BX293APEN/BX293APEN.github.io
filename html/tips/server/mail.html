@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/db.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="検証用メールサーバ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>検証用メールサーバ</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class ="pt-4 ps-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                検証環境用メールサーバの構築
+                            </h2>
+                            <div id="md-mail-components">
+
+| 役割 | ソフトウェア | ポート |
+|---|---|---|
+| 送信サーバ (SMTP) | Postfix | 25 |
+| 受信サーバ (POP3) | Dovecot | 110 |
+| 受信サーバ (IMAP4) | Dovecot | 143 |
+
+                            </div>
+                            <h3 class="pt-4 border-bottom fw-bold" id="postfix">
+                                送信サーバ (Postfix)
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h4>
+                            <p>
+                                <div id="md-main_mailer_type">
+# **General mail configuration type** (main_mailer_type)
+
+| タイプ | 内容 |
+|---|---|
+| No configuration | 設定を一切行わない。`main.cf` などを手動で作成する場合に選ぶ |
+| Internet Site | SMTP で直接メールを送受信する。インターネット上のサーバと直接やり取りする一般的な構成 |
+| Internet with smarthost | 受信は直接 SMTP で行い、送信は外部のリレーサーバ (smarthost) 経由にする。ISP の SMTP サーバなどを経由する場合に使う |
+| Satellite system | 送受信ともにすべて外部の smarthost に任せる。ローカルには配送しない端末向け |
+| **Local only** | 同一マシン内のユーザ間のみメールを配送する。外部との送受信は行わない |
+
+                                </div>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">echo "postfix postfix/main_mailer_type select Local only" | sudo debconf-set-selections
+echo "postfix postfix/mailname string [任意のドメイン名]" | sudo debconf-set-selections
+sudo DEBIAN_FRONTEND=noninteractive apt install postfix -y</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash"># 変数の設定
+MAIL_ROOT=""                        # ホーム配下 (~/Maildir/) に保存する場合
+# MAIL_ROOT="/Programs/mail"        # 任意のフォルダに保存する場合は、この行を有効にする
+
+"${MAIL_ROOT:=$HOME/Maildir/}"
+HOST_SHORT=$(hostname -s)
+DOMAIN="nc.test"
+
+# 基本設定
+# ' : $の展開防止
+# default_transport / relay_transport : error → 外部への送信を拒否 : Local Only
+# inet_interfaces
+#   all : 全インターフェースで待ち受け
+#   loopback-only : 自分のみ待ち受け
+sudo postconf -e \
+  "myhostname = $HOST_SHORT.$DOMAIN" \
+  "mydomain = $DOMAIN" \
+  'mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain' \
+  "mynetworks = 127.0.0.0/8" \
+  "inet_interfaces = all" \
+  "inet_protocols = ipv4" \
+  "default_transport = error" \
+  "relay_transport = error" \
+  "smtpd_recipient_restrictions = permit_mynetworks,reject_unauth_destination"
+
+# メールの保存先
+
+sudo mkdir -p "$MAIL_ROOT"
+sudo chown root:mail "$MAIL_ROOT"
+sudo chmod 1777 "$MAIL_ROOT"
+sudo postconf -e "home_mailbox =" "mail_spool_directory = $MAIL_ROOT/"
+
+sudo chmod 777 /var/mail    # 注意 : 775 に変更推奨
+
+
+# 反映
+sudo postfix check
+sudo newaliases
+sudo systemctl enable postfix
+sudo systemctl restart postfix</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold" id="dovecot">
+                                受信サーバ (Dovecot)
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install dovecot-core dovecot-imapd dovecot-pop3d -y</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash"># 設定フォルダ
+cd /etc/dovecot
+
+# メールの保存先 (MAIL_ROOT は 1-2 ① で設定した値と同じにする)
+if [ -n "$MAIL_ROOT" ]; then LOC="maildir:$MAIL_ROOT/%u"; else LOC="maildir:~/Maildir"; fi
+
+# 待受アドレス (閉じた環境以外では 127.0.0.1 推奨)
+if grep -q "^listen *=" dovecot.conf; then sudo sed -i "s|^listen *=.*|listen = *|" dovecot.conf; else echo "listen = *" | sudo tee -a dovecot.conf; fi
+
+# メールの保存先
+if grep -q "^mail_location *=" conf.d/10-mail.conf; then sudo sed -i "s|^mail_location *=.*|mail_location = $LOC|" conf.d/10-mail.conf; else echo "mail_location = $LOC" | sudo tee -a conf.d/10-mail.conf; fi
+
+# 平文認証を許可 (検証環境のみ : パスワードが平文で流れる)
+if grep -q "^disable_plaintext_auth *=" conf.d/10-auth.conf; then sudo sed -i "s|^disable_plaintext_auth *=.*|disable_plaintext_auth = no|" conf.d/10-auth.conf; else echo "disable_plaintext_auth = no" | sudo tee -a conf.d/10-auth.conf; fi
+
+# TLS を無効化 (検証環境のみ : 通信が暗号化されない)
+if grep -q "^ssl *=" conf.d/10-ssl.conf; then sudo sed -i "s|^ssl *=.*|ssl = no|" conf.d/10-ssl.conf; else echo "ssl = no" | sudo tee -a conf.d/10-ssl.conf; fi
+
+# 反映
+sudo systemctl enable dovecot
+sudo systemctl restart dovecot
+sudo systemctl status dovecot</code></pre>
+
+                            </p>
+
+                            
+                            
+                        </article>
+                        <article class="blog-post" id="sample">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                メール送受信プログラム
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                受信コード
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-python">#!/usr/bin/env python3
+
+import base64, email, poplib, imaplib
+from email.header import decode_header, make_header
+# https://docs.python.jp/3/library/poplib.html
+
+class POP3():
+    def __init__(
+        self, 
+        account, 
+        password, 
+        host = "localhost", 
+        port = 110
+    ):
+        self.popclient = poplib.POP3(host, port)
+        self.popclient.user(account)
+        self.popclient.pass_(password)
+    
+    def recv_mail(self):
+        msgList = [] # 取得したMIMEメッセージを格納するリスト
+        msgNum = self.popclient.stat()[0]  # POP3サーバに存在するメールの数を取得
+        for i in range(msgNum):
+            msgBytes = b""
+            for line in self.popclient.retr(i+1)[1]:  # i+1から始まる
+                msgBytes += line + b"\n"
+            msgList.append(email.message_from_bytes(msgBytes))
+        
+        return msgList
+    
+    def del_mail(self, num = 0):
+        self.popclient.dele(num + 1)
+        
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, *args):
+        self.popclient.quit()
+
+class IMAP4():
+    def __init__(
+        self, 
+        account, 
+        password, 
+        host = "localhost", 
+        port = 143
+    ):
+        self.imapclient = imaplib.IMAP4(host, port)
+        self.imapclient.debug = 3  # 各命令をトレースする
+        
+        self.imapclient.login(account, password)
+        self.sel_box()
+    
+    def sel_box(self, box = "INBOX"):
+        self.imapclient.select(box) # メールボックスの選択
+        
+    def recv_mail(self):
+        typ, data = self.imapclient.search(None, "ALL")  # data = [b"1 2 3 4 ..."]
+        datas = data[0].split()
+        fetchNum = len(datas)
+        msgList = []  # 取得したMIMEメッセージを格納するリスト
+        for num in datas:
+            typ, data = self.imapclient.fetch(num, '(RFC822)')
+            msg = email.message_from_bytes(data[0][1])
+            msgList.append(msg)
+            
+        return msgList
+    
+    def del_mail(self, num = 0):
+        typ, data = self.imapclient.uid('search', None, 'ALL')
+        datas = data[0].split()
+        self.imapclient.uid('STORE', datas[num], '+FLAGS', '\\Deleted')
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, *args):
+        self.imapclient.close()
+        self.imapclient.logout()
+        
+        
+if __name__ == "__main__":
+    mode = input("mode : pop/imap ")
+    if mode == "pop":
+        with POP3(
+            account     = "pen",
+            password    = "20011222",
+            host        = "localhost"
+        ) as emailRecv:
+            msgList = emailRecv.recv_mail()
+            # for i in range(len(msgList)):
+            #     emailRecv.del_mail(i)
+    else:
+        with IMAP4(
+            account     = "pen",
+            password    = "20011222",
+            host        = "localhost"
+        ) as emailRecv:
+            msgList = emailRecv.recv_mail()
+            # for i in range(len(msgList)):
+            #     emailRecv.del_mail(i)
+            
+    for iii, msg in enumerate(msgList):
+        # ヘッダ
+        fromAddr = str(make_header(decode_header(msg["From"])))
+        subject = str(make_header(decode_header(msg["Subject"])))
+        print(f"No.{iii}, From:{fromAddr}, Subject:{subject}")
+        
+        # 本文
+        payload = msg.get_payload(decode=True)
+        charset = msg.get_content_charset()
+        if charset is not None:
+            payload = payload.decode(charset, "ignore")
+        print(payload)</code></pre>
+
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                送信コード
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-python">#!/usr/bin/env python3
+
+import os
+import smtplib
+from email.mime.text import MIMEText
+
+class SendMail():
+    def __init__(
+        self, 
+        account = None, 
+        password = None, 
+        server = "smtp.gmail.com", 
+        port = 587
+    ):
+        self.smtpobj = smtplib.SMTP(server, port)   # SMTPオブジェクト作成
+        self.smtpobj.ehlo()                         # SMTPサーバとの接続を確立
+        
+        if self.smtpobj.has_extn('STARTTLS'):
+            self.smtpobj.starttls()
+            self.smtpobj.ehlo()
+        
+        if account is not None:
+            self.smtpobj.login(account, password)       # SMTPサーバーへログイン
+        
+    def __enter__(self):
+        return self
+    
+    def send_mail(
+        self, 
+        mail_from, 
+        mail_to, 
+        mail_subject, 
+        mail_body
+    ):
+        """ メッセージのオブジェクト """
+        msg = MIMEText(mail_body, "plain", "utf-8")
+        msg['Subject'] = mail_subject
+        msg['From'] = mail_from
+        msg['To'] = mail_to
+        
+        try:
+            self.smtpobj.sendmail(mail_from, mail_to, msg.as_string())
+            return "メール送信完了"
+        
+        except:
+            return "失敗"
+    
+    def __exit__(self, *args):
+        self.smtpobj.quit()
+        
+        
+if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
+    with SendMail(
+        #account     = "aaaaaa@bbbbb",
+        #password    = "password",
+        server      = 'localhost',
+        port        = 25
+    ) as email:
+        
+        """ メール設定 """
+        mail_from       = "pen@localhost"               # 送信元アドレス
+        mail_to         = "pen@localhost"               # 送信先アドレス(To)
+        mail_subject    = input("件名を入力 : ")        # メール件名
+        mail_body       = input("本文を入力 : ")        # メール本文
+
+        """ send_mail関数実行 """
+        result = email.send_mail(mail_from, mail_to, mail_subject, mail_body)
+        print(result)</code></pre>
+
+                            </p>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4 text-nowrap">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-mail-components">検証環境用メールサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#postfix">送信サーバ (Postfix)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#dovecot">受信サーバ (Dovecot)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sample">メール送受信プログラム</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
+            new Pagination(10, serverModel.page, "pagination");
+
+            const mdLists = [
+                "md-mail-components", 
+                "md-main_mailer_type",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>

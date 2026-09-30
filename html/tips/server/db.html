@@ -387,11 +387,6 @@
                 id              = "md-text",
                 mdFile          = "/html/tips/server/sql.md",
             )
-            
-            new MarkDownMaker(
-                id              = "md-source",
-            )
-
             new MarkDownTOC(
                 mdInstance      = mdInst,
                 id              = "toc",
@@ -399,6 +394,7 @@
             )
 
             const mdLists = [
+                "md-source", 
                 "md-data", 
             ];
 
