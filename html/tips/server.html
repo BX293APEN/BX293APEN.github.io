@@ -1427,7 +1427,7 @@
                                             <td class="mark ng">✖</td>
                                         </tr>
                                         <tr>
-                                            <td>WEP-104 (128ビット)</td>
+                                            <td class="text-nowrap">WEP-104 (128ビット)</td>
                                             <td><ul>
                                                 <li>104ビット鍵 + 24ビットIV</li>
                                                 <li>鍵を長くしてもIV由来の弱点は解消されない</li>
@@ -1670,18 +1670,22 @@
                                         <!-- AOSS / WPS -->
                                         <tr>
                                             <td class="name" rowspan="5">AOSS / WPS</td>
-                                            <td rowspan="5"><ul>
-                                                <li>AOSS: バッファロー独自プロトコルでAPと端末が通信し、SSID・暗号キーを自動設定</li>
-                                                <li>AOSS2: 設定時のみ起動する専用SSID (!AOSSで始まる) にスマートフォン等を接続し、ブラウザでAOSS2キー (3桁) を入力して設定</li>
-                                                <li>WPS: レジストラ (AP) とエンロリー (端末) がWPSプロトコルで通信し、SSID・PSK等を自動配布</li>
-                                            </ul></td>
-                                            <td rowspan="5"><ul>
-                                                <li>AOSS: バッファロー独自の簡易設定機能 (2003年発表)。標準規格ではなく、WPSの先駆けとなった旧称</li>
-                                                <li>AOSS: 1つのSSIDに設定できる暗号は1種類のため、接続機器のうち最も弱い暗号に合わせられる (マルチSSID対応機種を除く)</li>
-                                                <li>2009年以降のAirStationはAOSSとWPSの両方に対応し、両対応の端末ではWPSが優先される</li>
-                                                <li>WPS: Wi-Fi Allianceによる簡易接続設定規格 (2007年)</li>
-                                                <li>WPSのPIN方式は総当たり (Reaver等) やPixie Dust攻撃で脆弱で、通常は無効化を推奨</li>
-                                            </ul></td>
+                                            <td rowspan="3">
+                                                <strong>AOSS</strong>
+                                                <ul>
+                                                    <li>バッファロー独自プロトコルでAPと端末が通信し、SSID・暗号キーを自動設定</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="3">
+                                                <strong>AOSS</strong>
+                                                <ul>
+                                                    <li>
+                                                        バッファロー独自の簡易設定機能 (2003年発表)<br>
+                                                        標準規格ではなく、WPSの先駆けとなった旧称
+                                                    </li>
+                                                    <li>2009年以降のAirStationはAOSSとWPSの両方に対応し、両対応の端末ではWPSが優先される</li>
+                                                </ul>
+                                            </td>
                                             <td>AOSS (WEP / TKIP)</td>
                                             <td><ul>
                                                 <li>AP・端末双方のAOSSボタンを押すだけで設定</li>
@@ -1692,27 +1696,48 @@
                                         </tr>
                                         <tr>
                                             <td>AOSS (AES)</td>
-                                            <td><ul>
-                                                <li>WPA-PSK (AES) で暗号化 (WPA2表記には非対応)</li>
-                                                <li>AES非対応の端末が混在すると、全体の暗号強度が下がる場合がある</li>
-                                            </ul></td>
+                                            <td>
+                                                <ul>
+                                                    <li>WPA-PSK (AES) で暗号化 (WPA2表記には非対応)</li>
+                                                    <li>AES非対応の端末が混在すると、全体の暗号強度が下がる場合がある</li>
+                                                    <li>1つのSSIDに設定できる暗号は1種類のため、接続機器のうち最も弱い暗号に合わせられる (マルチSSID対応機種を除く)</li>
+                                                </ul>
+                                            </td>
                                             <td class="mark ">-</td>
                                         </tr>
                                         <tr>
                                             <td>AOSS2</td>
-                                            <td><ul>
-                                                <li>ボタン操作とブラウザ入力だけで、スマートフォン単体で設定可能</li>
-                                                <li>専用SSIDへの接続時の通信は独自方式で暗号化</li>
-                                                <li>AOSS2対応ルーターが必要</li>
-                                            </ul></td>
+                                            <td>
+                                                <ul>
+                                                    <li>設定時のみ起動する専用SSID (!AOSSで始まる) にスマートフォン等を接続し、ブラウザでAOSS2キー (3桁) を入力して設定</li>
+                                                    <li>ボタン操作とブラウザ入力だけで、スマートフォン単体で設定可能</li>
+                                                    <li>専用SSIDへの接続時の通信は独自方式で暗号化</li>
+                                                    <li>AOSS2対応ルーターが必要</li>
+                                                </ul>
+                                            </td>
                                             <td class="mark ">-</td>
                                         </tr>
                                         <tr>
+                                            <td rowspan="2">
+                                                <strong>WPS</strong>
+                                                <ul>
+                                                    <li>レジストラ (AP) とエンロリー (端末) がWPSプロトコルで通信し、SSID・PSK等を自動配布</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="2">
+                                                <strong>WPS</strong>
+                                                <ul>
+                                                    <li>Wi-Fi Allianceによる簡易接続設定規格 (2007年)</li>
+                                                </ul>
+                                            </td>
                                             <td>WPS PINメソッド</td>
-                                            <td><ul>
-                                                <li>8桁PIN (実質7桁 + チェックサム)</li>
-                                                <li>前半4桁・後半3桁を別々に検証できるため、約11,000通りで総当たり可能</li>
-                                            </ul></td>
+                                            <td>
+                                                <ul>
+                                                    <li>8桁PIN (実質7桁 + チェックサム)</li>
+                                                    <li>総当たり (Reaver等) やPixie Dust攻撃で脆弱で、通常は無効化を推奨</li>
+                                                    <li>前半4桁・後半3桁を別々に検証できるため、約11,000通りで総当たり可能</li>
+                                                </ul>
+                                            </td>
                                             <td class="mark ng">✖</td>
                                         </tr>
                                         <tr>
