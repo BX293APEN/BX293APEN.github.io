@@ -178,10 +178,10 @@ fi
 
 
 # 平文認証を許可 (検証環境のみ : パスワードが平文で流れる)
-if grep -q "^auth_allow_cleartext *=" conf.d/10-auth.conf; then                                       \
-    sudo sed -i "s|^auth_allow_cleartext *=.*|auth_allow_cleartext = yes|" conf.d/10-auth.conf;      \
-else                                                                                                    \
-    echo "auth_allow_cleartext = yes" | sudo tee -a conf.d/10-auth.conf;                               \
+if grep -q "^auth_allow_cleartext *=" conf.d/10-auth.conf; then                                     \
+    sudo sed -i "s|^auth_allow_cleartext *=.*|auth_allow_cleartext = yes|" conf.d/10-auth.conf;     \
+else                                                                                                \
+    echo "auth_allow_cleartext = yes" | sudo tee -a conf.d/10-auth.conf;                            \
 fi
 
 # TLS を無効化 (検証環境のみ : 通信が暗号化されない)
