@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <meta property="og:title" content="サーバの構築" />
-        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/db.html" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/mail.html" />
         <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="とあるペンギンの実験室" />
@@ -68,7 +68,7 @@
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash">echo "postfix postfix/main_mailer_type select Local only" | sudo debconf-set-selections
-echo "postfix postfix/mailname string [任意のドメイン名]" | sudo debconf-set-selections
+echo "postfix postfix/mailname string [ドメイン名]" | sudo debconf-set-selections
 sudo DEBIAN_FRONTEND=noninteractive apt install postfix -y</code></pre>
                             </p>
 
@@ -80,12 +80,12 @@ sudo DEBIAN_FRONTEND=noninteractive apt install postfix -y</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash"># 変数の設定
-MAIL_ROOT=""                        # ホーム配下 (~/Maildir/) に保存する場合
-# MAIL_ROOT="/Programs/mail"        # 任意のフォルダに保存する場合は、この行を有効にする
+MAIL_ROOT=""                                # ホーム配下 (~/Maildir/) に保存する場合
+# MAIL_ROOT="[メールの保存先フォルダ]"        # 任意のフォルダに保存する場合は、この行を有効にする
 
-"${MAIL_ROOT:=$HOME/Maildir/}"
+: "${MAIL_ROOT:=/Programs/Maildir/}"
 HOST_SHORT=$(hostname -s)
-DOMAIN="nc.test"
+DOMAIN="[ドメイン名]"
 
 # 基本設定
 # ' : $の展開防止
@@ -94,15 +94,15 @@ DOMAIN="nc.test"
 #   all : 全インターフェースで待ち受け
 #   loopback-only : 自分のみ待ち受け
 sudo postconf -e \
-  "myhostname = $HOST_SHORT.$DOMAIN" \
-  "mydomain = $DOMAIN" \
-  'mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain' \
-  "mynetworks = 127.0.0.0/8" \
-  "inet_interfaces = all" \
-  "inet_protocols = ipv4" \
-  "default_transport = error" \
-  "relay_transport = error" \
-  "smtpd_recipient_restrictions = permit_mynetworks,reject_unauth_destination"
+    "myhostname                     = $HOST_SHORT.$DOMAIN" \
+    "mydomain                       = $DOMAIN" \
+    'mydestination                  = $myhostname, localhost.$mydomain, localhost, $mydomain' \
+    "mynetworks                     = [リレーを許可するネットワーク (127.0.0.0/8 ...)]" \
+    "inet_interfaces                = [待受IPアドレス/ホスト名 (loopback-only / all / 127.0.0.1 ...)]" \
+    "inet_protocols                 = ipv4" \
+    "default_transport              = error" \
+    "relay_transport                = error" \
+    "smtpd_recipient_restrictions   = permit_mynetworks,reject_unauth_destination"
 
 # メールの保存先
 
@@ -144,11 +144,11 @@ sudo systemctl restart postfix</code></pre>
                                 <pre><code class="language-bash"># 設定フォルダ
 cd /etc/dovecot
 
-# メールの保存先 (MAIL_ROOT は 1-2 ① で設定した値と同じにする)
+# MAIL_ROOT="[送信サーバと同じ値にする]"        # メールの保存先フォルダ
 if [ -n "$MAIL_ROOT" ]; then LOC="maildir:$MAIL_ROOT/%u"; else LOC="maildir:~/Maildir"; fi
 
 # 待受アドレス (閉じた環境以外では 127.0.0.1 推奨)
-if grep -q "^listen *=" dovecot.conf; then sudo sed -i "s|^listen *=.*|listen = *|" dovecot.conf; else echo "listen = *" | sudo tee -a dovecot.conf; fi
+if grep -q "^listen *=" dovecot.conf; then sudo sed -i "s|^listen *=.*|listen = [待受アドレス]|" dovecot.conf; else echo "listen = [待受アドレス]" | sudo tee -a dovecot.conf; fi
 
 # メールの保存先
 if grep -q "^mail_location *=" conf.d/10-mail.conf; then sudo sed -i "s|^mail_location *=.*|mail_location = $LOC|" conf.d/10-mail.conf; else echo "mail_location = $LOC" | sudo tee -a conf.d/10-mail.conf; fi
@@ -162,7 +162,7 @@ if grep -q "^ssl *=" conf.d/10-ssl.conf; then sudo sed -i "s|^ssl *=.*|ssl = no|
 # 反映
 sudo systemctl enable dovecot
 sudo systemctl restart dovecot
-sudo systemctl status dovecot</code></pre>
+sudo systemctl status dovecot --no-pager</code></pre>
 
                             </p>
 
@@ -264,18 +264,18 @@ if __name__ == "__main__":
     mode = input("mode : pop/imap ")
     if mode == "pop":
         with POP3(
-            account     = "pen",
-            password    = "20011222",
-            host        = "localhost"
+            account     = "[自分のアカウント名]",
+            password    = "[自分のパスワード]",
+            host        = "[受信サーバのホスト名]"
         ) as emailRecv:
             msgList = emailRecv.recv_mail()
             # for i in range(len(msgList)):
             #     emailRecv.del_mail(i)
     else:
         with IMAP4(
-            account     = "pen",
-            password    = "20011222",
-            host        = "localhost"
+            account     = "[自分のアカウント名]",
+            password    = "[自分のパスワード]",
+            host        = "[受信サーバのホスト名]"
         ) as emailRecv:
             msgList = emailRecv.recv_mail()
             # for i in range(len(msgList)):
@@ -314,7 +314,7 @@ class SendMail():
         account = None, 
         password = None, 
         server = "smtp.gmail.com", 
-        port = 587
+        port = 25
     ):
         self.smtpobj = smtplib.SMTP(server, port)   # SMTPオブジェクト作成
         self.smtpobj.ehlo()                         # SMTPサーバとの接続を確立
@@ -355,15 +355,15 @@ class SendMail():
         
 if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
     with SendMail(
-        #account     = "aaaaaa@bbbbb",
-        #password    = "password",
-        server      = 'localhost',
-        port        = 25
+        #account     = "[自分のアカウント名]",
+        #password    = "[自分のパスワード]",
+        server      = '[SMTPサーバのホスト名]',
+        port        = [SMTPサーバのポート番号 デフォルト : 25]
     ) as email:
         
         """ メール設定 """
-        mail_from       = "pen@localhost"               # 送信元アドレス
-        mail_to         = "pen@localhost"               # 送信先アドレス(To)
+        mail_from       = "[自分のアカウント名]@localhost"               # 送信元アドレス
+        mail_to         = "[送信先のアカウント名]@localhost"               # 送信先アドレス(To)
         mail_subject    = input("件名を入力 : ")        # メール件名
         mail_body       = input("本文を入力 : ")        # メール本文
 
