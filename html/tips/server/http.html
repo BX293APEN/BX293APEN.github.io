@@ -27,7 +27,7 @@
     </head>
     <body>
         <div id="header-contents"></div>
-        <div class="container pt-3">
+        <div class="ps-4 pt-4">
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
@@ -430,10 +430,62 @@ sudo systemctl enable [Project Name].service</code></pre>
                             </p>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="http">
+                            <h3 class="pt-4 border-bottom fw-bold">
                                 HTTP
                             </h3>
                             <h4 class="pt-4 border-bottom fw-bold">
+                                HTTPメソッド
+                            </h4>
+                            <div id="md-http-method">
+
+| メソッド名 | 内容 | CRUD特性 |
+| --- | --- | --- |
+| GET | リソースの取得 | Read |
+| POST | リソースの新規作成・データの送信 | Create |
+| HEAD | リソースヘッダ情報のみ取得 | - |
+| PUT | リソースの置換・更新<br>(存在しなければ作成) | Update |
+| DELETE | リソースの削除 | Delete |
+
+                            </div>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                HTTPステータスコード
+                            </h4>
+                            <div id="md-http-status">
+
+| コード番号 | ステータス | 内容 |
+| --- | --- | --- |
+| 100 | Continue | リクエストの継続を許可 |
+| 101 | Switching Protocols | プロトコルの切り替え |
+| 200 | OK | 正常終了 |
+| 201 | Created | リソースの作成成功 |
+| 202 | Accepted | リクエストは受理されたが処理は未完了 |
+| 204 | No Content | 正常終了(返すボディなし) |
+| 206 | Partial Content | 範囲指定による部分的な取得成功 |
+| 301 | Moved Permanently | リソースが恒久的に移動 |
+| 302 | Found | リソースが一時的に移動 |
+| 303 | See Other | 別のURIを参照(GETで取得) |
+| 304 | Not Modified | 前回から更新なし(キャッシュ利用可) |
+| 307 | Temporary Redirect | 一時的なリダイレクト(メソッド維持) |
+| 308 | Permanent Redirect | 恒久的なリダイレクト(メソッド維持) |
+| 400 | Bad Request | リクエストの構文が不正 |
+| 401 | Unauthorized | 認証が必要 |
+| 403 | Forbidden | アクセス権限なし |
+| 404 | Not Found | リソースが存在しない |
+| 405 | Method Not Allowed | 許可されていないメソッド |
+| 408 | Request Timeout | リクエストがタイムアウト |
+| 409 | Conflict | リソースの状態と競合 |
+| 410 | Gone | リソースが恒久的に削除済み |
+| 413 | Content Too Large | リクエストボディが大きすぎる |
+| 415 | Unsupported Media Type | 未対応のメディアタイプ |
+| 429 | Too Many Requests | リクエスト過多(レート制限) |
+| 500 | Internal Server Error | サーバー内部エラー |
+| 501 | Not Implemented | 未実装の機能 |
+| 502 | Bad Gateway | 上位サーバーから不正な応答 |
+| 503 | Service Unavailable | サービス一時停止(過負荷・メンテナンス等) |
+| 504 | Gateway Timeout | 上位サーバーからの応答タイムアウト |
+
+                            </div>
+                            <h4 class="pt-4 border-bottom fw-bold" id="req-header">
                                 リクエストヘッダ
                             </h4>
                             <p>
@@ -456,7 +508,7 @@ Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(�
 </code></pre>
                             </p>
 
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h4 class="pt-4 border-bottom fw-bold" id="res-header">
                                 レスポンスヘッダ
                             </h4>
                             <p>
@@ -551,9 +603,20 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <a href="#django-http">Djangoを利用したWebサーバの構築 (nginx)</a>
                                     </li>
                                     <li>
-                                        <a href="#http">HTTP</a>
+                                        <a href="#md-http-method">HTTPメソッド</a>
                                     </li>
-    
+                                    <li>
+                                        <a href="#md-http-status">HTTPステータスコード</a>
+                                    </li>
+                                    <li>
+                                        <a href="#req-header">リクエストヘッダ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#res-header">レスポンスヘッダ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-html">HTMLに関する用語</a>
+                                    </li>
                                 </ol>
                             </div>
 
@@ -584,11 +647,12 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
             new Pagination(4, serverModel.page, "pagination");
-            new MarkDownMaker(
-                id              = "md-text",
-            )
+
             const mdLists = [
+                "md-text",
                 "md-html",
+                "md-http-method",
+                "md-http-status",
             ];
 
             for (const mdID of mdLists) {
