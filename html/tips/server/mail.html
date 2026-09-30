@@ -80,7 +80,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt install postfix -y</code></pre>
                                     ターミナル
                                 </div>
                                 <pre><code class="language-bash"># 変数の設定
-MAIL_ROOT=""                                # ホーム配下 (~/Maildir/) に保存する場合
+MAIL_ROOT=""                                # デフォルト値 : /Programs/Maildir/
 # MAIL_ROOT="[メールの保存先フォルダ]"        # 任意のフォルダに保存する場合は、この行を有効にする
 
 : "${MAIL_ROOT:=/Programs/Maildir/}"
@@ -145,19 +145,51 @@ sudo systemctl restart postfix</code></pre>
 cd /etc/dovecot
 
 # MAIL_ROOT="[送信サーバと同じ値にする]"        # メールの保存先フォルダ
-if [ -n "$MAIL_ROOT" ]; then LOC="maildir:$MAIL_ROOT/%u"; else LOC="maildir:~/Maildir"; fi
+
+: "${MAIL_ROOT:=/Programs/Maildir/}"
+LOC="$MAIL_ROOT/%{user}";
+
 
 # 待受アドレス (閉じた環境以外では 127.0.0.1 推奨)
-if grep -q "^listen *=" dovecot.conf; then sudo sed -i "s|^listen *=.*|listen = [待受アドレス]|" dovecot.conf; else echo "listen = [待受アドレス]" | sudo tee -a dovecot.conf; fi
+if grep -q "^listen *=" dovecot.conf; then                                  \
+    sudo sed -i "s|^listen *=.*|listen = [待受アドレス]|" dovecot.conf;     \
+else                                                                        \
+    echo "listen = [待受アドレス]" | sudo tee -a dovecot.conf;              \
+fi
 
 # メールの保存先
-if grep -q "^mail_location *=" conf.d/10-mail.conf; then sudo sed -i "s|^mail_location *=.*|mail_location = $LOC|" conf.d/10-mail.conf; else echo "mail_location = $LOC" | sudo tee -a conf.d/10-mail.conf; fi
+if grep -q "^mail_home *=" conf.d/10-mail.conf; then                                    \
+    sudo sed -i "s|^mail_home *=.*|mail_home = $LOC|" conf.d/10-mail.conf;              \
+else                                                                                    \
+    echo "mail_home = $LOC" | sudo tee -a conf.d/10-mail.conf;                          \
+fi
+
+if grep -q "^mail_driver *=" conf.d/10-mail.conf; then                                  \
+    sudo sed -i "s|^mail_driver *=.*|mail_driver = maildir|" conf.d/10-mail.conf;       \
+else                                                                                    \
+    echo "mail_driver = maildir" | sudo tee -a conf.d/10-mail.conf;                     \
+fi
+
+if grep -q "^mail_path *=" conf.d/10-mail.conf; then                                    \
+    sudo sed -i "s|^mail_path *=.*|mail_path = $LOC|" conf.d/10-mail.conf;              \
+else                                                                                    \
+    echo "mail_path = $LOC" | sudo tee -a conf.d/10-mail.conf;                          \
+fi
+
 
 # 平文認証を許可 (検証環境のみ : パスワードが平文で流れる)
-if grep -q "^disable_plaintext_auth *=" conf.d/10-auth.conf; then sudo sed -i "s|^disable_plaintext_auth *=.*|disable_plaintext_auth = no|" conf.d/10-auth.conf; else echo "disable_plaintext_auth = no" | sudo tee -a conf.d/10-auth.conf; fi
+if grep -q "^auth_allow_cleartext *=" conf.d/10-auth.conf; then                                       \
+    sudo sed -i "s|^auth_allow_cleartext *=.*|auth_allow_cleartext = yes|" conf.d/10-auth.conf;      \
+else                                                                                                    \
+    echo "auth_allow_cleartext = yes" | sudo tee -a conf.d/10-auth.conf;                               \
+fi
 
 # TLS を無効化 (検証環境のみ : 通信が暗号化されない)
-if grep -q "^ssl *=" conf.d/10-ssl.conf; then sudo sed -i "s|^ssl *=.*|ssl = no|" conf.d/10-ssl.conf; else echo "ssl = no" | sudo tee -a conf.d/10-ssl.conf; fi
+if grep -q "^ssl *=" conf.d/10-ssl.conf; then               \
+    sudo sed -i "s|^ssl *=.*|ssl = no|" conf.d/10-ssl.conf; \
+else                                                        \
+    echo "ssl = no" | sudo tee -a conf.d/10-ssl.conf;       \
+fi
 
 # 反映
 sudo systemctl enable dovecot
