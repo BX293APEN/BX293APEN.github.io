@@ -1,8 +1,0 @@
-WEP
-WPA
-WPA2
-WPA3
-Enhanced Open
-
-
-SPF

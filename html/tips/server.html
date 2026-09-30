@@ -114,7 +114,7 @@
                             <div id="net-connection">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-                                        <thead class="table-light">
+                                        <thead>
                                             <tr>
                                                 <th scope="col">通信サービス・方式</th>
                                                 <th scope="col">伝送媒体</th>
@@ -1388,7 +1388,271 @@
                         
                         </article>
 
-
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="wifi-sec">
+                                Wi-Fi セキュリティ規格一覧
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>規格名</th><th>仕組み</th><th>概要</th><th>種類</th><th>内容</th><th>利用状況</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                        <!-- WEP -->
+                                        <tr>
+                                            <td class="name" rowspan="2">WEP</td>
+                                            <td rowspan="2"><ul>
+                                                <li>暗号化: RC4ストリーム暗号</li>
+                                                <li>改ざん検出: CRC-32</li>
+                                                <li>IVは24ビットと短く、平文で送信される</li>
+                                            </ul></td>
+                                            <td rowspan="2"><ul>
+                                                <li>1997年、IEEE 802.11初期規格の暗号化方式</li>
+                                                <li>IV再利用により鍵が推測可能</li>
+                                                <li>FMS攻撃・KoreK攻撃等で数分程度で解読可能</li>
+                                            </ul></td>
+                                            <td>WEP-40 (64ビット)</td>
+                                            <td><ul><li>40ビット鍵 + 24ビットIV</li></ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WEP-104 (128ビット)</td>
+                                            <td><ul>
+                                                <li>104ビット鍵 + 24ビットIV</li>
+                                                <li>鍵を長くしてもIV由来の弱点は解消されない</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                    
+                                        <!-- WPA -->
+                                        <tr>
+                                            <td class="name" rowspan="2">WPA</td>
+                                            <td rowspan="2"><ul>
+                                                <li>暗号化: TKIP (RC4ベース)</li>
+                                                <li>パケット単位の鍵生成</li>
+                                                <li>48ビットIV</li>
+                                                <li>改ざん検出: MIC (Michael)</li>
+                                            </ul></td>
+                                            <td rowspan="2"><ul>
+                                                <li>2003年、Wi-Fi AllianceがWEPの代替として策定した暫定規格</li>
+                                                <li>既存ハードはファーム更新で対応可能</li>
+                                                <li>TKIPは脆弱性が判明し、廃止済み</li>
+                                            </ul></td>
+                                            <td>WPA-Personal</td>
+                                            <td><ul>
+                                                <li>事前共有鍵 (PSK) 方式</li>
+                                                <li>TKIPで暗号化</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WPA-Enterprise</td>
+                                            <td><ul>
+                                                <li>IEEE 802.1X / EAP + RADIUSサーバで認証</li>
+                                                <li>TKIPで暗号化</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                    
+                                        <!-- WPA2 -->
+                                        <tr>
+                                            <td class="name" rowspan="3">WPA2</td>
+                                            <td rowspan="3"><ul>
+                                                <li>暗号化: CCMP (AES-CTR)</li>
+                                                <li>改ざん検出: CBC-MAC</li>
+                                                <li>AES-128を使用</li>
+                                            </ul></td>
+                                            <td rowspan="3"><ul>
+                                                <li>2004年、IEEE 802.11i準拠</li>
+                                                <li>2006年以降、Wi-Fi認定機器で必須</li>
+                                                <li>KRACK攻撃 (2017) は実装側の修正で対策済み</li>
+                                            </ul></td>
+                                            <td>WPA2-Personal</td>
+                                            <td><ul>
+                                                <li>PSK方式</li>
+                                                <li>AES-CCMPで暗号化</li>
+                                                <li>詳細は PSK の行を参照</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WPA2-Enterprise</td>
+                                            <td><ul>
+                                                <li>IEEE 802.1X / EAP (EAP-TLS, PEAP等) + RADIUS</li>
+                                                <li>ユーザ・端末単位で認証</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TKIP併用モード</td>
+                                            <td><ul>
+                                                <li>互換性のためAESとTKIPを混在させる設定</li>
+                                                <li>TKIP側の脆弱性の影響を受ける</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                    
+                                        <!-- PSK -->
+                                        <tr>
+                                            <td class="name" rowspan="3">PSK</td>
+                                            <td rowspan="3"><ol>
+                                                <li>パスフレーズとSSIDからPBKDF2-HMAC-SHA1 (4096回) でPMKを生成</li>
+                                                <li>4-wayハンドシェイクを実施</li>
+                                                <li>PTK (通信鍵) を導出</li>
+                                            </ol></td>
+                                            <td rowspan="3"><ul>
+                                                <li>Pre-Shared Key の略</li>
+                                                <li>WPA/WPA2のPersonal向け認証方式</li>
+                                                <li>ハンドシェイクを取得されるとオフライン辞書攻撃を受ける</li>
+                                                <li>長く複雑なパスフレーズが必要</li>
+                                            </ul></td>
+                                            <td>パスフレーズ形式</td>
+                                            <td><ul>
+                                                <li>8〜63文字のASCII文字列</li>
+                                                <li>WPA2-PSK (AES) として利用</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>64桁16進数形式</td>
+                                            <td><ul>
+                                                <li>256ビットのPMKを直接指定</li>
+                                                <li>パスフレーズからの変換を経ない</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WPA-PSK (TKIP)</td>
+                                            <td><ul><li>TKIPと組み合わせた旧来の構成</li></ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                    
+                                        <!-- WPA3 -->
+                                        <tr>
+                                            <td class="name" rowspan="4">WPA3</td>
+                                            <td rowspan="4"><ul>
+                                                <li>Personal: SAEで認証</li>
+                                                <li>暗号化: AES-CCMP-128 / GCMP-256</li>
+                                                <li>PMF (保護された管理フレーム) が必須</li>
+                                            </ul></td>
+                                            <td rowspan="4"><ul>
+                                                <li>2018年策定</li>
+                                                <li>オフライン辞書攻撃への耐性を提供</li>
+                                                <li>前方秘匿性を提供</li>
+                                                <li>2020年7月以降、Wi-Fi認定機器で必須</li>
+                                            </ul></td>
+                                            <td>WPA3-Personal</td>
+                                            <td><ul>
+                                                <li>SAEによるパスワード認証</li>
+                                                <li>PMF必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WPA3-Personal 移行モード</td>
+                                            <td><ul>
+                                                <li>WPA3-SAEとWPA2-PSKを同一SSIDで併用</li>
+                                                <li>旧端末との互換用</li>
+                                                <li>PMFは任意</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WPA3-Enterprise</td>
+                                            <td><ul>
+                                                <li>IEEE 802.1X / EAP + RADIUS</li>
+                                                <li>PMF必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>WPA3-Enterprise 192ビット</td>
+                                            <td><ul>
+                                                <li>CNSA準拠の高セキュリティモード</li>
+                                                <li>GCMP-256</li>
+                                                <li>ECDH / ECDSA (P-384)</li>
+                                                <li>HMAC-SHA-384</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                    
+                                        <!-- SAE -->
+                                        <tr>
+                                            <td class="name" rowspan="3">SAE</td>
+                                            <td rowspan="3"><ol>
+                                                <li>Commit: パスワード要素から楕円曲線上の値を生成して交換</li>
+                                                <li>Confirm: 双方が同じPMKを導出したことを確認</li>
+                                                <li>4-wayハンドシェイクで通信鍵を導出</li>
+                                            </ol></td>
+                                            <td rowspan="3"><ul>
+                                                <li>Simultaneous Authentication of Equals (IEEE 802.11-2016)</li>
+                                                <li>Dragonflyハンドシェイク (PAKE) を採用</li>
+                                                <li>WPA3-PersonalでPSKを置換</li>
+                                                <li>オフライン辞書攻撃を防ぐ</li>
+                                                <li>前方秘匿性を持つ</li>
+                                            </ul></td>
+                                            <td>SAE (Hunting-and-Pecking)</td>
+                                            <td><ul>
+                                                <li>初期のパスワード要素導出方式</li>
+                                                <li>サイドチャネル攻撃 (Dragonblood) が報告されている</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SAE-H2E (Hash-to-Element)</td>
+                                            <td><ul>
+                                                <li>ハッシュ関数で楕円曲線上の点へ変換</li>
+                                                <li>サイドチャネル耐性が高い</li>
+                                                <li>Wi-Fi 6E (6GHz帯) では必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SAE-PK</td>
+                                            <td><ul>
+                                                <li>パスワードに公開鍵のフィンガープリントを含める</li>
+                                                <li>偽AP (Evil Twin) を検出可能</li>
+                                                <li>公共Wi-Fi向け</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                    
+                                        <!-- Enhanced Open -->
+                                        <tr>
+                                            <td class="name" rowspan="2">Enhanced Open</td>
+                                            <td rowspan="2"><ol>
+                                                <li>OWE (Opportunistic Wireless Encryption, RFC 8110) で接続</li>
+                                                <li>接続ごとにDiffie-Hellman鍵交換を実施</li>
+                                                <li>端末ごとに個別の暗号鍵を生成</li>
+                                            </ol></td>
+                                            <td rowspan="2"><ul>
+                                                <li>パスワード不要のオープンWi-Fiを暗号化するWi-Fi Alliance認証 (2018年)</li>
+                                                <li>盗聴は防げる</li>
+                                                <li>APの真正性は検証しないため、偽APには無力</li>
+                                            </ul></td>
+                                            <td>OWE</td>
+                                            <td><ul>
+                                                <li>パスワードなしで端末ごとに暗号化</li>
+                                                <li>PMF必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td>OWE 移行モード</td>
+                                            <td><ul>
+                                                <li>非暗号化SSIDとOWE SSIDを併設</li>
+                                                <li>OWE非対応端末も接続可能</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
 
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
@@ -2063,6 +2327,9 @@
                                     </li>
                                     <li>
                                         <a href="#net-devices">ネットワーク機器について</a>
+                                    </li>
+                                    <li>
+                                        <a href="#wifi-sec">Wi-Fi セキュリティ規格一覧</a>
                                     </li>
                                     <li>
                                         <a href="#md-vpn-term">VPN</a>
