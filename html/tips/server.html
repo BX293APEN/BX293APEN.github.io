@@ -1397,11 +1397,11 @@
                                     <thead>
                                         <tr>
                                             <th>規格名</th>
-                                            <th class="table-active">仕組み</th>
+                                            <th>仕組み</th>
                                             <th>概要</th>
-                                            <th class="table-active">種類</th>
+                                            <th>種類</th>
                                             <th>内容</th>
-                                            <th class="text-nowrap table-active">利用状況</th>
+                                            <th class="text-nowrap">利用状況</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1409,7 +1409,7 @@
                                         <!-- WEP -->
                                         <tr>
                                             <td class="name" rowspan="3"><strong>WEP</strong></td>
-                                            <td class="table-active" rowspan="3"><ul>
+                                            <td rowspan="3"><ul>
                                                 <li class="text-nowrap">暗号化: RC4ストリーム暗号</li>
                                                 <li>改ざん検出: CRC-32</li>
                                                 <li>IVは24ビットと短く、平文で送信される</li>
@@ -1420,34 +1420,34 @@
                                                 <li>IV再利用により鍵が推測可能</li>
                                                 <li>FMS攻撃・KoreK攻撃等で数分程度で解読可能</li>
                                             </ul></td>
-                                            <td class="table-active"><strong>WEP-40 (64ビット)</strong></td>
+                                            <td><strong>WEP-40 (64ビット)</strong></td>
                                             <td><ul>
                                                 <li class="text-nowrap">40ビット鍵 + 24ビットIV</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-nowrap table-active"><strong>WEP-104 (128ビット)</strong></td>
+                                            <td class="text-nowrap"><strong>WEP-104 (128ビット)</strong></td>
                                             <td><ul>
                                                 <li>104ビット鍵 + 24ビットIV</li>
                                                 <li>鍵を長くしてもIV由来の弱点は解消されない</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WEP共有キー認証</strong></td>
+                                            <td><strong>WEP共有キー認証</strong></td>
                                             <td><ul>
                                                 <li>APが送るチャレンジ文を端末がWEP鍵で暗号化して返す方式</li>
                                                 <li>平文と暗号文の組を盗聴でき、鍵ストリームが漏洩する</li>
                                                 <li>オープンシステム認証よりも脆弱</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
 
                                         <!-- WPA -->
                                         <tr>
                                             <td class="name" rowspan="2"><strong>WPA</strong></td>
-                                            <td class="table-active" rowspan="2"><ul>
+                                            <td rowspan="2"><ul>
                                                 <li class="text-nowrap">暗号化: TKIP (RC4ベース)</li>
                                                 <li>パケット単位の鍵生成</li>
                                                 <li>48ビットIV</li>
@@ -1459,27 +1459,27 @@
                                                 <li>既存ハードはファーム更新で対応可能</li>
                                                 <li>TKIPは脆弱性が判明し、廃止済み</li>
                                             </ul></td>
-                                            <td class="table-active"><strong>WPA-PSK</strong></td>
+                                            <td><strong>WPA-PSK</strong></td>
                                             <td><ul>
                                                 <li>事前共有鍵 (Pre-Shared Key) 方式</li>
                                                 <li>Personal向け</li>
                                                 <li>TKIPで暗号化</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
                                         <tr>
-                                            <td class="text-nowrap table-active"><strong>WPA-Enterprise</strong></td>
+                                            <td class="text-nowrap"><strong>WPA-Enterprise</strong></td>
                                             <td><ul>
                                                 <li>IEEE 802.1X / EAP + RADIUSサーバで認証</li>
                                                 <li>TKIPで暗号化</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
 
                                         <!-- WPA2 -->
                                         <tr>
                                             <td class="name" rowspan="4"><strong>WPA2</strong></td>
-                                            <td class="table-active" rowspan="4"><ul>
+                                            <td rowspan="4"><ul>
                                                 <li>暗号化: CCMP (AES-CTR)</li>
                                                 <li>改ざん検出: CBC-MAC</li>
                                                 <li>AES-128を使用</li>
@@ -1497,45 +1497,45 @@
                                                 <li>KRACK攻撃 (2017) は実装側の修正で対策済み</li>
                                                 <li>PSKはハンドシェイクを取得されるとオフライン辞書攻撃を受けるため、長く複雑なパスフレーズが必要</li>
                                             </ul></td>
-                                            <td class="table-active"><strong>WPA2-PSK</strong></td>
+                                            <td><strong>WPA2-PSK</strong></td>
                                             <td><ul>
                                                 <li>Pre-Shared Key方式 (Personal向け)</li>
                                                 <li>AES-CCMPで暗号化</li>
                                                 <li>パスフレーズ形式: 8〜63文字のASCII文字列</li>
                                                 <li>64桁16進数形式: 256ビットのPMKを直接指定</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA2-Enterprise</strong></td>
+                                            <td><strong>WPA2-Enterprise</strong></td>
                                             <td><ul>
                                                 <li>IEEE 802.1X / EAP (EAP-TLS, PEAP等) + RADIUS</li>
                                                 <li>ユーザ・端末単位で認証</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA2 + PMF (802.11w)</strong></td>
+                                            <td><strong>WPA2 + PMF (802.11w)</strong></td>
                                             <td><ul>
                                                 <li>管理フレーム (認証解除等) を保護</li>
                                                 <li>偽の認証解除攻撃への対策</li>
                                                 <li>WPA2では任意設定 (WPA3では必須)</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA/WPA2 混在モード (TKIP併用)</strong></td>
+                                            <td><strong>WPA/WPA2 混在モード (TKIP併用)</strong></td>
                                             <td><ul>
                                                 <li>互換性のためAESとTKIPを混在させる設定</li>
                                                 <li>TKIP側の脆弱性の影響を受ける</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
 
                                         <!-- WPA3 -->
                                         <tr>
                                             <td class="name" rowspan="6"><strong>WPA3</strong></td>
-                                            <td class="table-active" rowspan="6"><ul>
+                                            <td rowspan="6"><ul>
                                                 <li>Personal: SAEで認証</li>
                                                 <li>暗号化: AES-CCMP-128 / GCMP-256</li>
                                                 <li>PMF (保護された管理フレーム) が必須</li>
@@ -1555,64 +1555,64 @@
                                                 <li>前方秘匿性を提供</li>
                                                 <li>2020年7月以降、Wi-Fi認定機器で必須</li>
                                             </ul></td>
-                                            <td class="table-active"><strong>WPA3-SAE (Hunting-and-Pecking)</strong></td>
+                                            <td><strong>WPA3-SAE (Hunting-and-Pecking)</strong></td>
                                             <td><ul>
                                                 <li>SAEによるパスワード認証 (初期のパスワード要素導出方式)</li>
                                                 <li>サイドチャネル攻撃 (Dragonblood) が報告されている</li>
                                                 <li>PMF必須</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA3-SAE-H2E (Hash-to-Element)</strong></td>
+                                            <td><strong>WPA3-SAE-H2E (Hash-to-Element)</strong></td>
                                             <td><ul>
                                                 <li>ハッシュ関数で楕円曲線上の点へ変換</li>
                                                 <li>サイドチャネル耐性が高い</li>
                                                 <li>Wi-Fi 6E (6GHz帯) では必須</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA3-SAE-PK</strong></td>
+                                            <td><strong>WPA3-SAE-PK</strong></td>
                                             <td><ul>
                                                 <li>パスワードに公開鍵のフィンガープリントを含める</li>
                                                 <li>偽AP (Evil Twin) を検出可能</li>
                                                 <li>公共Wi-Fi向け</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA3-Personal 移行モード</strong></td>
+                                            <td><strong>WPA3-Personal 移行モード</strong></td>
                                             <td><ul>
                                                 <li>WPA3-SAEとWPA2-PSKを同一SSIDで併用</li>
                                                 <li>旧端末との互換用</li>
                                                 <li>PMFは任意</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA3-Enterprise</strong></td>
+                                            <td><strong>WPA3-Enterprise</strong></td>
                                             <td><ul>
                                                 <li>IEEE 802.1X / EAP + RADIUS</li>
                                                 <li>PMF必須</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPA3-Enterprise 192ビット</strong></td>
+                                            <td><strong>WPA3-Enterprise 192ビット</strong></td>
                                             <td><ul>
                                                 <li>CNSA準拠の高セキュリティモード</li>
                                                 <li>GCMP-256</li>
                                                 <li>ECDH / ECDSA (P-384)</li>
                                                 <li>HMAC-SHA-384</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
 
                                         <!-- Enhanced Open -->
                                         <tr>
                                             <td class="name" rowspan="2"><strong>Enhanced Open</strong></td>
-                                            <td class="table-active" rowspan="2"><ol>
+                                            <td rowspan="2"><ol>
                                                 <li>OWE (Opportunistic Wireless Encryption, RFC 8110) で接続</li>
                                                 <li>接続ごとにDiffie-Hellman鍵交換を実施</li>
                                                 <li>端末ごとに個別の暗号鍵を生成</li>
@@ -1622,26 +1622,26 @@
                                                 <li>盗聴は防げる</li>
                                                 <li>APの真正性は検証しないため、偽APには無力</li>
                                             </ul></td>
-                                            <td class="table-active"><strong>OWE</strong></td>
+                                            <td><strong>OWE</strong></td>
                                             <td><ul>
                                                 <li>パスワードなしで端末ごとに暗号化</li>
                                                 <li>PMF必須</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>OWE 移行モード</strong></td>
+                                            <td><strong>OWE 移行モード</strong></td>
                                             <td><ul>
                                                 <li>非暗号化SSIDとOWE SSIDを併設</li>
                                                 <li>OWE非対応端末も接続可能</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
 
                                         <!-- オープン -->
                                         <tr>
                                             <td class="name" rowspan="2"><strong>オープン</strong></td>
-                                            <td class="table-active" rowspan="2"><ul>
+                                            <td rowspan="2"><ul>
                                                 <li>認証: オープンシステム認証 (実質的に認証なし)</li>
                                                 <li>暗号化なし</li>
                                             </ul></td>
@@ -1650,27 +1650,27 @@
                                                 <li>無線区間の通信内容が平文で、盗聴・改ざんが可能</li>
                                                 <li>現在はOWE (Enhanced Open) への置換が推奨</li>
                                             </ul></td>
-                                            <td class="table-active"><strong>オープン (暗号化なし)</strong></td>
+                                            <td><strong>オープン (暗号化なし)</strong></td>
                                             <td><ul>
                                                 <li>SSIDのみで接続</li>
                                                 <li>すべての通信が平文</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>Web認証 (キャプティブポータル)</strong></td>
+                                            <td><strong>Web認証 (キャプティブポータル)</strong></td>
                                             <td><ul>
                                                 <li>接続後にブラウザ上で認証・利用規約同意を行う</li>
                                                 <li>無線区間は暗号化されない</li>
                                                 <li>偽APによる認証情報の窃取に注意</li>
                                             </ul></td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
 
                                         <!-- AOSS / WPS -->
                                         <tr>
                                             <td class="name" rowspan="5"><strong>AOSS / WPS</strong></td>
-                                            <td class="table-active" rowspan="3">
+                                            <td rowspan="3">
                                                 <strong>AOSS</strong>
                                                 <ul>
                                                     <li>バッファロー独自プロトコルでAPと端末が通信し、SSID・暗号キーを自動設定</li>
@@ -1686,16 +1686,16 @@
                                                     <li>2009年以降のAirStationはAOSSとWPSの両方に対応し、両対応の端末ではWPSが優先される</li>
                                                 </ul>
                                             </td>
-                                            <td class="table-active"><strong>AOSS (WEP / TKIP)</strong></td>
+                                            <td><strong>AOSS (WEP / TKIP)</strong></td>
                                             <td><ul>
                                                 <li>AP・端末双方のAOSSボタンを押すだけで設定</li>
                                                 <li>暗号化レベルがWEPまたはTKIPになる場合がある</li>
                                                 <li>WEP・TKIPの脆弱性の影響を受ける</li>
                                             </ul></td>
-                                            <td class="mark table-active">-</td>
+                                            <td class="mark">-</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>AOSS (AES)</strong></td>
+                                            <td><strong>AOSS (AES)</strong></td>
                                             <td>
                                                 <ul>
                                                     <li>WPA-PSK (AES) で暗号化 (WPA2表記には非対応)</li>
@@ -1703,10 +1703,10 @@
                                                     <li>1つのSSIDに設定できる暗号は1種類のため、接続機器のうち最も弱い暗号に合わせられる (マルチSSID対応機種を除く)</li>
                                                 </ul>
                                             </td>
-                                            <td class="mark table-active">-</td>
+                                            <td class="mark">-</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>AOSS2</strong></td>
+                                            <td><strong>AOSS2</strong></td>
                                             <td>
                                                 <ul>
                                                     <li>設定時のみ起動する専用SSID (!AOSSで始まる) にスマートフォン等を接続し、ブラウザでAOSS2キー (3桁) を入力して設定</li>
@@ -1715,10 +1715,10 @@
                                                     <li>AOSS2対応ルーターが必要</li>
                                                 </ul>
                                             </td>
-                                            <td class="mark table-active">-</td>
+                                            <td class="mark">-</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active" rowspan="2">
+                                            <td rowspan="2">
                                                 <strong>WPS</strong>
                                                 <ul>
                                                     <li>レジストラ (AP) とエンロリー (端末) がWPSプロトコルで通信し、SSID・PSK等を自動配布</li>
@@ -1730,7 +1730,7 @@
                                                     <li>Wi-Fi Allianceによる簡易接続設定規格 (2007年)</li>
                                                 </ul>
                                             </td>
-                                            <td class="table-active"><strong>WPS PINメソッド</strong></td>
+                                            <td><strong>WPS PINメソッド</strong></td>
                                             <td>
                                                 <ul>
                                                     <li>8桁PIN (実質7桁 + チェックサム)</li>
@@ -1738,21 +1738,21 @@
                                                     <li>前半4桁・後半3桁を別々に検証できるため、約11,000通りで総当たり可能</li>
                                                 </ul>
                                             </td>
-                                            <td class="mark ng table-active">✖</td>
+                                            <td class="mark ng">✖</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>WPS PBC (プッシュボタン)</strong></td>
+                                            <td><strong>WPS PBC (プッシュボタン)</strong></td>
                                             <td><ul>
                                                 <li>APのボタン押下から約2分間のみ接続を受け付け</li>
                                                 <li>PIN入力が不要</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
 
                                         <!-- Easy Connect -->
                                         <tr>
                                             <td class="name" rowspan="2"><strong>Easy Connect</strong></td>
-                                            <td class="table-active" rowspan="2"><ol>
+                                            <td rowspan="2"><ol>
                                                 <li>ConfiguratorがEnrolleeの公開鍵をブートストラップで取得</li>
                                                 <li>DPP認証で相互に公開鍵を検証</li>
                                                 <li>設定情報 (Connector) を配布</li>
@@ -1764,27 +1764,27 @@
                                                 <li>WPS (PIN方式) の後継として位置付けられる</li>
                                                 <li>WPA2 / WPA3で利用可能</li>
                                             </ul></td>
-                                            <td class="table-active"><strong>QRコード方式</strong></td>
+                                            <td><strong>QRコード方式</strong></td>
                                             <td><ul>
                                                 <li>QRコードに埋め込まれた公開鍵を読み取る</li>
                                                 <li>スマートフォンをConfiguratorとして利用可能</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-active"><strong>NFC / BLE / PKEX 方式</strong></td>
+                                            <td><strong>NFC / BLE / PKEX 方式</strong></td>
                                             <td><ul>
                                                 <li>近接通信や共通コードによる鍵交換でブートストラップ</li>
                                                 <li>画面のない機器にも対応</li>
                                             </ul></td>
-                                            <td class="mark ok table-active">〇</td>
+                                            <td class="mark ok">〇</td>
                                         </tr>
 
                                     </tbody>
                                 </table>
                             </div>
                         </article>
-                        
+
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 VPN
