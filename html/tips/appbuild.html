@@ -609,7 +609,7 @@ flowchart LR
                                         <td colspan="4">予約領域 4[bit]</td>
                                     </tr>
                                     <tr>
-                                        <td style="border-top: 2px dashed #ccc;">コードビット</td>
+                                        <td style="border-top: 2px dashed #ccc;">コードビット : 8[bit]</td>
                                         <td>CWR</td>
                                         <td>ECE</td>
                                         <td>URG</td>
@@ -707,98 +707,52 @@ flowchart LR
                             </div>
 
                         </article>
-                        <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="http">
-                                HTTP
-                            </h3>
-                            <h4 class="pt-4 border-bottom fw-bold">
-                                リクエストヘッダ
-                            </h4>
-                            <p>
-                                <pre><code class="language-html">[method] [URI] HTTP/[プロトコルバージョン]
-Authorization: [認証方式] [アクセストークン / BASE64に変換した値]
-Referer: [リンク元のURL]
-User-Agent: [ブラウザの名称/バージョン情報]
-Host: [接続先サーバのURI:ポート番号]
-Cookie: [クライアントがサーバに提示するCookie]
-Content-Type: [ファイル内容/ファイルの種類]; charset=UTF-8
-X-Forwarded-For: [実際の送信元ホストのIPアドレス]
-Connection: [ネットワークの接続状態の制御 (keep-alive 等)]
-Accept: [クライアントが受信可能なファイルの種類 (MIMEタイプ text/html,application/xml,*/* 等)]
-Accept-Language: ja-JP,ja;q=[ja優先度],en-US;q=[en-US優先度],en;q=[en優先度]
-Accept-Encoding: [クライアントが対応しているデータの圧縮形式(コンマ区切り)]
-Upgrade-Insecure-Requests: [HTTPSへのアップグレード要求]
-If-Modified-Since: [キャッシュ検証用日時 (ddd, dd MMM yyyy HH:mm:ss GMT)]
-If-None-Match: [キャッシュが最新か検証するためにサーバーへ提示するコンテンツの識別子 (ETag値) ]
-Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(キャッシュ禁止) / public / private 等)], max-age=[有効期間秒数], [must-revalidate (期限切れなら絶対に確認 通信不可ならエラーを出す)]
-</code></pre>
-                            </p>
+                        <article class="pt-4 mt-4 blog-post" id="article_top">
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                バグ・脆弱性
+                            </h2>
+                            <div id="md-bug">
 
-                            <h4 class="pt-4 border-bottom fw-bold">
-                                レスポンスヘッダ
-                            </h4>
-                            <p>
-                                <pre><code class="language-html">HTTP/[プロトコルバージョン] [ステータスコード] &lt;ステータスコードの説明(任意文字列可能 HTTP/2以降廃止)&gt;
-Date: [レスポンスを生成した日時 (ddd, dd MMM yyyy HH:mm:ss GMT)]
-Content-Type: [ファイル内容/ファイルの種類]; charset=UTF-8
-Content-Length: [レスポンスボディのサイズ(Byte数)]
-Transfer-Encoding: [レスポンスボディの転送方式 (chunked 等)]
-Connection: [ネットワークの接続状態の制御 (keep-alive 等)]
-Server: [レスポンスを処理したWebサーバーの種類 (nginx 等)]
-Location: [リダイレクト先のURI]
-X-Frame-Options: [ページを &lt;frame&gt; / &lt;iframe&gt; / &lt;object&gt;等で表示する際の制御 (DENY / SAMEORIGIN 等) クリックジャッキング対策]
-X-XSS-Protection: [1 : ブラウザのXSSフィルターの有効化]; mode=[動作指定(block 等)]
-X-Content-Type-Options: [nosniff : MIMEタイプの推測禁止&レスポンスヘッダのContent-Type指定を常に優先させる]
-ETag: [レスポンス内容を識別するための識別子 (ETag値)]
-Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(キャッシュ禁止) / public / private 等)], max-age=[有効期間秒数], [must-revalidate (期限切れなら絶対に確認 通信不可ならエラーを出す)]
-Set-Cookie:  [クライアントに保存させるCookie名]=[Cookieの値]; Secure(HTTPSのみCookieを有効); Domain=[サブドメインに共有(省略時 : 発行元サーバーのみ)]; Path=[有効にするパス]; Expires=[Cookieを保持する期限(ddd, dd MMM yyyy HH:mm:ss GMT)]; Max-Age=[有効期間秒数]; HttpOnly(JavaScriptからのアクセスを禁止 XSS対策); SameSite=[Strict / Lax / None (CSRF対策の送信制限)]; [属性]=[値]; [属性];
-X-Runtime: [サーバー側でリクエスト処理に要した時間[秒]]
-Strict-Transport-Security: max-age=[HTTPS接続を強制する有効期間秒数]
-X-Request-Id: [リクエストを一意に識別するためのID]
-Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシー違反を監視・報告するための指定 (default-src / script-src / report-uri / report-to 等)]
-(空行 : \r\n)
-&lt;!DOCTYPE html&gt;
-    &lt;html lang="ja"&gt;
-        &lt;head&gt;
-</code></pre>
-                            </p>
-                            <h4 class="pt-4 border-bottom fw-bold">
-                                HTML
-                            </h4>
-                            <div id="md-html">
+| 事象名 | 概要 | 主な原因 | セキュリティ上の影響 | 主な対策 |
+|---|---|---|---|---|
+| バッファオーバーフロー | 確保した領域を超えてデータを書き込む | 境界チェック不足                                                                                                  | <ul><li>任意コード実行</li><li>クラッシュ</li></ul>                        | <ul><li>境界チェック</li><li>安全な関数の使用</li><li>ASLR/DEP</li></ul> |
+| スタックオーバーフロー | スタック領域の確保サイズを超えて使用する | <ul><li>再帰呼び出しの終了条件不備</li><li>巨大なローカル変数</li><li>スタック上でのバッファオーバーフロー</li></ul> | <ul><li>リターンアドレス改ざんによる任意コード実行</li><li>サービス停止</li></ul>   | <ul><li>再帰の深さ制限</li><li>スタック保護(カナリア)</li><li>境界チェック</li></ul> |
+| ヒープオーバーフロー | ヒープ領域上のバッファ境界を超えて書き込む | <ul><li>動的確保サイズの計算誤り</li><li>境界チェック不足</li></ul>                                               | ヒープ管理情報の破壊による任意コード実行                                  | <ul><li>境界チェック</li><li>ヒープ保護機構</li></ul> |
+| Use-After-Free<br>(解放後使用) | 解放済みメモリ領域への参照・書き込みを行う | 解放後にポインタを初期化していない<br>(ダングリングポインタ)                                            | <ul><li>任意コード実行</li><li>情報漏えい</li></ul>                                   | <ul><li>解放後のポインタをNULL化</li><li>スマートポインタの利用</li></ul> |
+| 二重解放<br>(Double Free) | 同一メモリ領域を2回解放する | <ul><li>解放処理の重複</li><li>エラー処理の不備</li></ul>                                                               | <ul><li>ヒープ破壊</li><li>任意コード実行</li></ul>                       | <ul><li>解放後のポインタをNULL化</li><li>所有権管理の徹底</li></ul> |
+| ヌルポインタアクセス<br>(NULLポインタ参照外し) | NULLを指すポインタを参照する | 戻り値・確保結果の未チェック                                                                          | <ul><li>サービス停止(クラッシュ)</li><li>DoS </li></ul>                   | <ul><li>NULLチェックの徹底</li><li>Optional型等の活用</li></ul> |
+| ダングリングポインタ | 解放済み・無効な領域を指し続けるポインタ | <ul><li>解放後の初期化漏れ</li><li>スコープ外変数へのポインタ保持</li></ul>                                             | <ul><li>Use-After-Freeの誘発</li><li>不正な動作</li></ul>             | <ul><li>解放後のNULL代入</li><li>スコープ管理の徹底</li></ul> |
+| 未初期化変数の使用 | 初期化前の変数値を読み取る | 変数の初期化漏れ                                                                                                                    | <ul><li>不定動作</li><li>情報漏洩(メモリ内容の漏洩)</li></ul>         | <ul><li>変数の宣言時初期化</li><li>静的解析</li></ul> |
+| 整数オーバーフロー<br>アンダーフロー | 数値型の表現範囲を超えた演算結果になる | サイズ計算等での桁あふれチェック不足                                                                      | バッファサイズ誤計算経由でのオーバーフロー誘発                            | <ul><li>オーバーフロー検知</li><li>安全な整数演算ライブラリ</li></ul> |
+| オフバイワンエラー | ループや配列の境界を1つ誤る | ループ条件<br>添字の誤り(&lt;と&lt;=の混同等)                                                                                          | <ul><li>境界外アクセス</li><li>バッファオーバーフロー</li></ul>               | <ul><li>境界条件のレビュー</li><li>テスト強化</li></ul> |
+| メモリリーク | 不要になったメモリが解放されず蓄積する | 解放処理の記述漏れ                                                                                                                | メモリ枯渇によるサービス停止(DoS)                                 | <ul><li>確保と解放の対応管理</li><li>ガベージコレクション</li><li>静的解析</li></ul> |
+| レースコンディション | 複数スレッド/プロセスの実行順序により結果が変わる | 共有資源への排他制御不足                                                                                       | <ul><li>データ不整合</li><li>権限昇格</li><li>二重処理</li></ul> | <ul><li>排他制御(ロック、セマフォ)</li><li>アトミック操作</li></ul> |
+| TOCTOU<br>(Time-of-Check to Time-of-Use) | チェック時点と使用時点の間に状態が変化する | チェックと使用の間に処理の隙間(間隙)がある                                                        | <ul><li>権限のないファイルへのアクセス</li><li>シンボリックリンク攻撃</li></ul> | <ul><li>アトミックなチェック＆使用</li><li>ファイルロック</li></ul> |
+| デッドロック | 複数の処理が互いにロック解放を待ち続け停止する | ロック取得順序の不統一                                                                                                    | サービス停止(可用性低下) | <ul><li>ロック取得順序の統一</li><li>タイムアウト設定</li></ul> |  
 
-| 用語 | 説明 |
-|---|---|
-| HTML | Webページの構造を記述するマークアップ言語<br>要素(タグ)によって<ul><li>見出し</li><li>段落</li><li>リンク</li><li>フォーム</li></ul>などを表現する |
-| CSS | HTML要素の見た目(色・レイアウト・フォント等)<br>を指定するスタイルシート言語 |
-| DOM | HTMLやXML文書をツリー構造のオブジェクトとして表現するAPI・仕様<br>JavaScriptからページの内容や構造を動的に操作できる |
-| ECMAScript | JavaScriptの言語仕様を定めた標準規格<br>文法や基本的な機能(変数、関数、クラス等)を規定する |
-| JavaScript | ECMAScriptを実装したプログラミング言語<br>ブラウザ上で動作し、DOM操作やイベント処理により動的なWebページを実現する |
-| TypeScript | JavaScriptに静的型付けの機能を追加した言語<br>コンパイルによりJavaScriptに変換されて実行される |
-| JSON | JavaScriptのオブジェクト表記法をベースにしたデータ交換フォーマット<br>テキストベースで軽量なため、API通信等で広く使われる |
-| Ajax | ページ全体を再読み込みせずに、JavaScriptから非同期でサーバーとデータをやり取りする手法。 |
-| XMLHttpRequest (XHR) | JavaScriptから非同期通信を行うための旧来のAPI<br>Ajaxの実現に用いられてきた |
-| CORBA <br>(Common Object Request Broker Architecture) | 異なるプログラミング言語・OS間でオブジェクトを分散連携させるための<br>ミドルウェア標準規格(ORBを介してリモートオブジェクトを呼び出す) |
-| SOAP <br>(Simple Object Access Protocol) | XML形式のメッセージを用いてネットワーク越しに情報交換を行うための<br>プロトコル<br>主にHTTP上でWebサービス間の連携に利用されてきた |
-| WSDL <br>(Web Services Description Language) | SOAPベースのWebサービスが提供する操作・メッセージ形式・<br>エンドポイント等をXMLで記述するためのインターフェース定義言語 |
-| UDDI <br>(Universal Description, Discovery and Integration) | Webサービスの情報を登録・検索するためのディレクトリサービス(の仕様)<br>SOAP・WSDLと組み合わせて使われた |
-| WebDAV <br>(Web-based Distributed Authoring and Versioning) | HTTPを拡張し、Webサーバー上のファイルの作成・編集・削除・<br>バージョン管理等を可能にするプロトコル |
-| Fetch API | ブラウザがサーバーとHTTP通信を行うためのJavaScript標準API<br>従来のXMLHttpRequestに代わる方式 |
-| Cookie | サーバーがブラウザに保存させる小さなデータ<br>セッション管理やログイン状態の保持に利用されるが、盗用により成りすまし等の脅威にもなる |
-| Session | サーバー側で一連のユーザー操作をひとまとまりとして管理する仕組み<br>Cookie等にセッションIDを持たせて識別することが多い |
-| Web Storage <br>localStorage <br> sessionStorage | ブラウザ内にキーと値の形式でデータを保存するJavaScript API<br>Cookieと異なりサーバーへ自動送信されない |
-| Same-Origin Policy <br>(SOP) | 異なるオリジン(スキーム・ホスト・ポートの組)間での<br>リソースアクセスを制限するブラウザの基本的なセキュリティ機構 |
-| CORS <br> (Cross-Origin Resource Sharing) | Same-Origin Policyを緩和し、許可されたオリジン間の通信を可能にする仕組み |
-| iframe | 別のHTML文書を現在のページ内に埋め込むためのHTML要素<br>クリックジャッキング等の攻撃にも利用され得る |
-| WebSocket | サーバーとブラウザ間で双方向・リアルタイムの通信を行うためのプロトコル・API |
-| SPA <br>(Single Page Application) | 初回読み込み後、JavaScriptによる画面遷移・再描画のみで動作するWebアプリケーションの形態 |
-| SSR <br>(Server-Side Rendering) <br><br> CSR <br>(Client-Side Rendering) | サーバー側でHTMLを生成する方式と、ブラウザ側のJavaScriptで生成する方式 |
-| Node.js | ブラウザ外でJavaScriptを実行するためのランタイム環境<br>サーバーサイド開発等にも用いられる |
-| npm | JavaScript/Node.jsのパッケージを管理・配布するためのパッケージマネージャー |
-| Web Components | Custom Elements・Shadow DOM・Templateから成る、再利用可能なUI部品を作成するための標準技術群 |
+                            </div>
+
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                メモリマップ
+                            </h2>
+
+                            <div id="md-addr">
+
+| Pico W アドレス(デフォルト) | 使用方法 |
+| --- | --- |
+| 0x20000000 - 0x200000BF | 静的データ |
+| 0x200000C0 - アプリ依存 | 命令コード |
+| アプリ依存 | 静的データ |
+| アプリ依存 - 0x20040000 | ヒープ |
+| 0x20040000 - アプリ依存 | 未使用領域 |
+| アプリ依存 - 0x20041000 | スタック : LIFO (コア1用) |
+| 0x20041000 - アプリ依存 | 未使用領域 |
+| アプリ依存 - 0x20041F00 | スタック : LIFO (コア0用) |
+| 0x20041F00 - 0x20042000 | システム予約 |
 
                             </div>
                         </article>
+                        
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
@@ -830,7 +784,10 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <a href="#md-protocol">プロトコル番号</a>
                                     </li>
                                     <li>
-                                        <a href="#http">HTTP</a>
+                                        <a href="#md-bug">バグ・脆弱性</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-addr">メモリマップ</a>
                                     </li>
                                 </ol>
                             </div>
@@ -865,10 +822,11 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                 "md-slcp", 
                 "md-soft-dev-model", 
                 "md-maintenance",
-                "md-html",
                 "md-model-product",
                 "md-model-use",
                 "md-protocol",
+                "md-bug",
+                "md-addr",
             ];
 
             for (const mdID of mdLists) {
