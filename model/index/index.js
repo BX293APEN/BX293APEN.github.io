@@ -241,6 +241,9 @@ class Model extends LoadModel {
             "iperf3" : {
                 "href" : "/html/tips/server/iperf3.html",
             },
+            "mailserver" : {
+                "href" : "/html/tips/server/mail.html",
+            },
         }
 
         this.sitemapIndex = Object.keys(this.sitemap);

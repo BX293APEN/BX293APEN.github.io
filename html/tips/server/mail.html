@@ -36,7 +36,24 @@
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 検証環境用メールサーバの構築
                             </h2>
-                            <div id="md-mail-components">
+                            <!--
+    S["送信者"] -- > MUA1["MUA<br>(Outlook / Gmail)"]
+    MUA1        -- >|SMTP| MSA["MSA"]
+    MSA         -- > MTA1[("MTA<br>(Postfix)")]
+    MTA1        -- >|SMTP| MTA2[("MTA")]
+    MTA2        -- >|SMTP| MTA3[("MTA")]
+    MTA3        -- >|SMTP| MDA["MDA"]
+    MDA         -- > MB[("メールボックス")]
+    MB          -- > MRA["MRA<br>(Dovecot)"]
+    MRA         -- >|POP3 / IMAP4| MUA2["MUA<br>(Outlook / Gmail)"]
+    MUA2        -- > R["受信者"]
+
+送信者からMTA1までDT
+MTA1からMTA3までLR
+MTA3から受信者までTD
+                            -->
+                            <img src="/img/server/mail.svg" width = "75%"/>
+                            <div id="md-mail-components" class="pt-4 mt-4">
 
 | 役割 | ソフトウェア | ポート |
 |---|---|---|
