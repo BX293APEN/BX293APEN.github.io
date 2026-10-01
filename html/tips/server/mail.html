@@ -425,9 +425,182 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                         
                         <article class="blog-post" id="sample">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
-                                メール
+                                メールヘッダ
                             </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <thead class="table-secondary">
+                                        <tr><th>ヘッダ</th><th>サブ</th><th>説明</th><th>例</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- **Return-Path**: サブなし → ヘッダ列を `colspan="2"` で結合 -->
+                                        <tr>
+                                            <td colspan="2">Return-Path</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>エンベロープ送信者 (SMTP <code>MAIL FROM</code>)</li>
+                                                    <li>最終配送MTAが付与</li>
+                                                    <li>バウンス返送先</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap">
+                                                <pre class="mb-0"><code>Return-Path: &lt;bounce@example.com&gt;</code></pre>
+                                            </td>
+                                        </tr>
+
+                                        <!-- **Received #1**: 最上段 = 最後に受信したサーバが付与。最も信頼できる。サブ行と例を `rowspan="6"` で結合し、ヘッダ全体を1つの `pre` に記載 -->
+                                        <tr class="table-primary">
+                                            <td rowspan="6">Received #1<br>(最新)</td>
+                                            <td>from</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>送信側が名乗った名前 (HELO/EHLO)</li>
+                                                    <li><strong>詐称可能</strong></li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="6"><pre class="mb-0"><code>Received: from mail.example.com (mx1.example.com [192.0.2.1])
+    by mx.example.net
+    with ESMTPS
+    for &lt;user@example.net&gt;; Thu, 1 Oct 2026 10:00:05 +0900</code></pre></td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>()</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>()</code> 内は<strong>受信側サーバが接続から自ら記録</strong>した逆引きホスト名と接続元IP</li>
+                                                    <li>送信者は書き換えられず、<strong>最新 (#1) のみ詐称不可</strong></li>
+                                                    <li>ただしホスト名はPTR管理者次第のため、決め手はIP</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>by</td>
+                                            <td>受信したサーバ名</td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>with</td>
+                                            <td>使用したプロトコル</td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>for</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>宛先アドレス</li>
+                                                    <li>省略されることもある</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>日時</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>;</code> 以降</li>
+                                                    <li>受信した日時</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                        <!-- **Received #2**: 1つ前の中継。自組織外のサーバが付与した分は偽造される可能性あり。構成は #1 と同じ -->
+                                        <tr class="table-warning">
+                                            <td rowspan="6" class="text-nowrap">Received #2<br>(1つ前)</td>
+                                            <td>from</td>
+                                            <td>同上</td>
+                                            <td rowspan="6"><pre class="mb-0"><code>Received: from smtp.example.com ([198.51.100.7])
+    by mx1.example.com
+    with ESMTP
+    for &lt;user@example.net&gt;; Thu, 1 Oct 2026 10:00:03 +0900</code></pre></td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>()</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>同上</li>
+                                                    <li>ただし詐称不可なのは最新 (#1) のみ</li>
+                                                    <li>#2 以前の行は、送信者が最初から偽の Received 行を差し込める</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>by</td>
+                                            <td>同上</td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>with</td>
+                                            <td>同上</td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>for</td>
+                                            <td>同上</td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>日時</td>
+                                            <td>同上</td>
+                                        </tr>
+
+                                        <!-- **From / To / Subject**: Return-Path と同じ結合 -->
+                                        <tr>
+                                            <td colspan="2">From</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>本文ヘッダの差出人 (RFC 5322)</li>
+                                                    <li>表示用で<strong>詐称可能</strong></li>
+                                                    <li>Return-Path と異なることがある</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>From: sender@example.com</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">To</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>本文ヘッダの宛先</li>
+                                                    <li class="text-nowrap">実際の配送先 (エンベロープ <code>RCPT TO</code>) とは別</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>To: user@example.net</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Subject</td>
+                                            <td>件名</td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>Subject: 件名</code></pre></td>
+                                        </tr>
+                                        <!-- **Date / 空行 / 本文**: ヘッダ列とサブ列を `colspan="2"` で結合。Date は送信者のメールソフトが付与。空行はヘッダと本文の区切り -->
+                                        <tr>
+                                            <td colspan="2">Date</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>メッセージの作成日時 (RFC 5322)</li>
+                                                    <li>送信者のメールソフトが付与するため<strong>詐称可能</strong></li>
+                                                    <li>Received の日時と大きくずれていれば調査の手がかり</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>Date: Thu, 1 Oct 2026 10:00:00 +0900</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">空行</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ヘッダと本文の区切り</li>
+                                                    <li>改行コードのみの行 (CRLF)</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>\r\n</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">本文</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>空行の次の行から始まる</li>
+                                                    <li>メッセージ本体</li>
+                                                </ul>
+                                            </td>
+                                            <td>本文</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </article>
+
 
                     </div>
                     <div class="col-md-4">
