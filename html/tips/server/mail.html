@@ -60,9 +60,9 @@ MTA3から受信者までTD
 | MUA (送信) | Mail User Agent | メール送信アプリ | <ul><li>Outlook</li><li>Thunderbird</li></ul> | HTTPS (Webメールの場合) | 443 (Webメールの場合) | SMTP (Submission) | 587 | <ul><li>利用者が使うメールクライアント</li><li>メールの送信時はMSAへ渡す</li></ul> |
 | MSA | Mail Submission Agent | メール送信受付 | Postfix (submission) | SMTP (Submission) | 587 | SMTP | 25 | クライアントからのメール送信を受け付けるサーバ |
 | MTA | Mail Transfer Agent | メール中継・配送 | <ul><li>Postfix</li><li>sendmail</li></ul> | SMTP | 25 | SMTP | 25 | メールを中継・配送するサーバソフトウェア |
-| MDA | Mail Delivery Agent | メールボックスへの配送 | <ul><li>Dovecot LDA</li><li>procmail</li></ul> | <ul><li>SMTP (MTAから引き渡し)</li><li>LMTP (MTAから引き渡し)</li></ul> | <ul><li>25 (SMTP)</li><li>ローカルソケット (LMTP)</li></ul> | ファイルシステム経由 (メールボックスへ書き込み) | なし | MTAから受け取ったメールを利用者のメールボックスへ振り分けて格納する |
-| メールボックス | Mailbox | メール保管 | <ul><li>Maildir 形式</li><li>mbox 形式</li></ul> | ファイルシステム経由 (MDAからの書き込みを受ける) | なし | ファイルシステム経由 (MRAからの読み出しに応じる) | なし | 利用者ごとの受信メールを保管する領域 |
-| MRA | Mail Retrieval Agent | メール取得の窓口 | Dovecot | ファイルシステム経由 (メールボックスから読み出し) | なし | <ul><li>POP3</li><li>IMAP4</li></ul> | <ul><li>110</li><li>143</li></ul> | メールボックスのメールをMUAへ引き渡すサーバ |
+| MDA | Mail Delivery Agent | メールボックスへの配送 | <ul><li>Dovecot LDA</li><li>procmail</li></ul> | <ul><li>SMTP (MTAから引き渡し)</li><li>LMTP (MTAから引き渡し)</li></ul> | <ul><li>25 (SMTP)</li><li>ローカルソケット (LMTP)</li></ul> | ファイルシステム経由 <br>(メールボックスへ書き込み) | なし | MTAから受け取ったメールを利用者のメールボックスへ振り分けて格納する |
+| メールボックス | Mailbox | メール保管 | <ul><li>Maildir 形式</li><li>mbox 形式</li></ul> | ファイルシステム経由 <br>(MDAからの書き込みを受ける) | なし | ファイルシステム経由 <br>(MRAからの読み出しに応じる) | なし | 利用者ごとの受信メールを保管する領域 |
+| MRA | Mail Retrieval Agent | メール取得の窓口 | Dovecot | ファイルシステム経由 <br>(メールボックスから読み出し) | なし | <ul><li>POP3</li><li>IMAP4</li></ul> | <ul><li>110</li><li>143</li></ul> | メールボックスのメールをMUAへ引き渡すサーバ |
 | MUA (受信) | Mail User Agent | メール受信アプリ | <ul><li>Outlook</li><li>Thunderbird</li></ul> | <ul><li>POP3</li><li>IMAP4</li></ul> | <ul><li>110</li><li>143</li></ul> | HTTPS (Webメールの場合) | 443 (Webメールの場合) | <ul><li>利用者が使うメールクライアント</li><li>メールの受信時はMRAから取得する</li></ul> |
 
                             </div>
