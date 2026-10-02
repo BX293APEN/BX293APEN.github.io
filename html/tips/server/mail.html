@@ -608,18 +608,18 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                 </table>
                             </div>
                         </article>
-                        <article class="blog-post" id="header">
+                        <article class="blog-post" id="spam">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 迷惑メール対策
                             </h2>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped align-middle">
-                                    <thead class="table-dark">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
                                             <th scope="col" style="width: 10%;">対策</th>
                                             <th scope="col" style="width: 14%;">正式名称</th>
                                             <th scope="col" style="width: 24%;">仕組み</th>
-                                            <th scope="col" class="text-center" style="width: 7%;">利用状況</th>
+                                            <th scope="col" class="text-nowrap" style="width: 7%;">利用状況</th>
                                             <th scope="col">概要</th>
                                         </tr>
                                     </thead>
@@ -672,7 +672,7 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             <td>Outbound Port 25 Blocking</td>
                                             <td>
                                                 <ol class="mb-0 ps-3">
-                                                    <li>ISPが動的IP等からの通信を監視する</li>
+                                                    <li class = "text-nowrap">ISPが動的IP等からの通信を監視する</li>
                                                     <li>外部ネットワーク宛のポート25(SMTP)通信を遮断する</li>
                                                 </ol>
                                             </td>
@@ -685,7 +685,7 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">中継制限</th>
+                                            <th scope="row" class="text-nowrap">中継制限</th>
                                             <td>オープンリレーの防止</td>
                                             <td>
                                                 <ol class="mb-0 ps-3">
@@ -696,7 +696,7 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             <td class="text-center fs-4 text-success">〇</td>
                                             <td>
                                                 <ul class="mb-0 ps-3">
-                                                    <li>分類: 送信サーバ側</li>
+                                                    <li>送信サーバ側の設定</li>
                                                     <li>第三者中継を禁止する</li>
                                                 </ul>
                                             </td>
@@ -735,7 +735,7 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             <td>
                                                 <ul class="mb-2 ps-3">
                                                     <li>送信ドメイン認証 / 送信元の検証</li>
-                                                    <li>失敗時の扱い(ポリシー)と集計レポートを送信ドメイン側が指定できる</li>
+                                                    <li class="text-nowrap">失敗時の扱い(ポリシー)と集計レポートを送信ドメイン側が指定できる</li>
                                                     <li>
                                                         DMARCポリシー(<code>p=</code>タグ)
                                                         <table class="table table-sm table-bordered mt-1 mb-0">
@@ -750,7 +750,7 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                                                 <tr>
                                                                     <td><code>none</code></td>
                                                                     <td>認証失敗でも何もしない(レポートのみ受け取る)</td>
-                                                                    <td>導入初期の監視</td>
+                                                                    <td class="text-nowrap">導入初期の監視</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><code>quarantine</code></td>
@@ -781,14 +781,14 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             <td class="text-center fs-4 text-success">〇</td>
                                             <td>
                                                 <ul class="mb-0 ps-3">
-                                                    <li>分類: 内容ベースの判定 / 受信側フィルタ</li>
+                                                    <li>内容ベースの判定の受信側フィルタ</li>
                                                     <li>
                                                         ベイズ理論(ナイーブベイズ)を利用する(最終行は、∩と余事象のバーだけで書き換えた式)
                                                         \[
                                                         \begin{aligned}
-                                                        P(A \mid B) &= \frac{P(B \mid A)\,P(A)}{P(B)} \\
-                                                                    &= \frac{P(A \cap B)}{P(B)} \\
-                                                                    &= \frac{P(A \cap B)}{P(A \cap B) + P(\bar{A} \cap B)}
+                                                        P(A \mid \; B)  &= \frac{P(B \mid \; A)\,P(A)}{P(B)} \\
+                                                                        &= \frac{P(A \cap \; B)}{P(B)} \\
+                                                                        &= \frac{P(A \cap \; B)}{P(A \cap \; B) + P(\bar{A} \cap \; B)}
                                                         \end{aligned}
                                                         \]
                                                         <table class="table table-sm table-bordered mt-1 mb-2">
@@ -800,12 +800,12 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>1行目 → 2行目</td>
-                                                                    <td>乗法定理 \(P(B \mid A)\,P(A) = P(A \cap B)\)</td>
+                                                                    <td class="text-nowrap">1行目 → 2行目</td>
+                                                                    <td>乗法定理 \(P(B \mid \; A)\,P(A) = P(A \cap \; B)\)</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>2行目 → 3行目</td>
-                                                                    <td>全確率の定理 \(P(B) = P(A \cap B) + P(\bar{A} \cap B)\)</td>
+                                                                    <td>全確率の定理 \(P(B) = P(A \cap \; B) + P(\bar{A} \cap \; B)\)</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -830,7 +830,7 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                                                     <td>メールに特定の単語が含まれる事象</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>\(P(A \mid B)\)</td>
+                                                                    <td>\(P(A \mid \; B)\)</td>
                                                                     <td>その単語を含むメールが迷惑メールである確率</td>
                                                                 </tr>
                                                             </tbody>
@@ -849,14 +849,14 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>フォールスポジティブ</td>
-                                                                    <td>誤検知・過検知</td>
-                                                                    <td>正常なメールを迷惑メールと誤判定する(重要なメールを見落とす恐れがある)</td>
+                                                                    <td class="text-nowrap">フォールス<br>ポジティブ</td>
+                                                                    <td>誤検知<br>過検知</td>
+                                                                    <td class="text-nowrap">正常なメールを迷惑メールと誤判定する<br>(重要なメールを見落とす恐れがある)</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>フォールスネガティブ</td>
-                                                                    <td>検知漏れ</td>
-                                                                    <td>迷惑メールを正常なメールと誤判定し、受信箱に届いてしまう</td>
+                                                                    <td class="text-nowrap">フォールス<br>ネガティブ</td>
+                                                                    <td class="text-nowrap">検知漏れ</td>
+                                                                    <td class="text-nowrap">迷惑メールを正常なメールと誤判定し、<br>受信箱に届いてしまう</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -894,6 +894,9 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                     </li>
                                     <li>
                                         <a href="#header">メールヘッダ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#spam">迷惑メール対策</a>
                                     </li>
                                     
                                 </ol>
