@@ -74,7 +74,5 @@
 |---|---|
 | SPF (Sender Policy Framework) | 送信元IPアドレスが、ドメインのDNS(TXTレコード)に登録された許可リストに含まれるかを検証する送信ドメイン認証 |
 | STARTTLS | 平文の接続をTLS接続へ昇格させるコマンド。SMTP・POP3・IMAPで利用される |
-| MTA (Mail Transfer Agent) | メールを中継・配送するサーバソフトウェア(Postfix、sendmail等) |
-| MUA (Mail User Agent) | 利用者が使うメールクライアント(Outlook、Thunderbird等) |
-| MSA (Mail Submission Agent) | クライアントからのメール送信を受け付けるサーバ(ポート587) |
+
 | ARC (Authenticated Received Chain) | メーリングリスト等の転送経由で崩れるSPF/DKIM認証結果を、中継者が署名付きで引き継ぐ仕組み |
