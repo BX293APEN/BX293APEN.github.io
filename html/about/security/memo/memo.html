@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>メールの認証・暗号方式</title>
+    <!--
+        # mail.html
+
+        メールの認証・暗号方式をまとめた表。Bootstrap 5 利用。
+
+        ## セル結合の使い分け
+
+        | 属性 | 用途 |
+        |---|---|
+        | `colspan="5"` | 分類見出し行 |
+        | `rowspan="3"` | STARTTLSのプロトコル別(SMTP / POP3 / IMAP)の規格行 |
+    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <h1 class="h4 mb-3">メールの認証・暗号方式</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">方式</th>
+                        <th scope="col">正式名称</th>
+                        <th scope="col">規格</th>
+                        <th scope="col">手順</th>
+                        <th scope="col">概要</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ## 暗号化・電子署名 -->
+                    <tr class="table-secondary">
+                        <th colspan="5" scope="colgroup">暗号化・電子署名</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">S/MIME</th>
+                        <td>Secure/Multipurpose Internet Mail Extensions</td>
+                        <td>RFC 8551</td>
+                        <td>
+                            <ol class="mb-0">
+                                <li>CAから証明書(X.509)を取得する</li>
+                                <li>送信者が受信者の証明書の公開鍵で本文を暗号化する</li>
+                                <li>送信者が自分の秘密鍵で電子署名を付ける</li>
+                                <li>受信者が自分の秘密鍵で復号し、署名を検証する</li>
+                            </ol>
+                        </td>
+                        <td>
+                            <ul class="mb-0">
+                                <li>X.509証明書でメール本文の暗号化と電子署名を行う</li>
+                                <li>認証局(CA)による階層型PKIで信頼を担保する</li>
+                                <li>Outlook、Thunderbird、Apple Mail等で標準対応が多い</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">PGP</th>
+                        <td>Pretty Good Privacy</td>
+                        <td>
+                            OpenPGP<br>
+                            RFC 4880 / RFC 9580
+                        </td>
+                        <td>
+                            <ol class="mb-0">
+                                <li>利用者が自分で鍵ペアを生成する</li>
+                                <li>公開鍵を相手と交換する</li>
+                                <li>送信者が受信者の公開鍵で暗号化し、自分の秘密鍵で署名する</li>
+                                <li>受信者が秘密鍵で復号し、署名を検証する</li>
+                            </ol>
+                        </td>
+                        <td>
+                            <ul class="mb-0">
+                                <li>公開鍵暗号によるメールの暗号化・署名方式</li>
+                                <li>代表的実装はGnuPG</li>
+                                <li>信頼モデルはWeb of Trust(相互署名による信頼の輪)</li>
+                                <li>GnuPG連携やプラグインが必要な場合が多い</li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <!-- ## 送信ドメイン認証 -->
+                    <tr class="table-secondary">
+                        <th colspan="5" scope="colgroup">送信ドメイン認証</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">SPF</th>
+                        <td>Sender Policy Framework</td>
+                        <td>RFC 7208</td>
+                        <td>
+                            <ol class="mb-0">
+                                <li>送信側ドメインのDNSにTXTレコードで許可IPリストを登録する</li>
+                                <li>受信側がメール受信時に送信元IPアドレスを確認する</li>
+                                <li>送信ドメインのTXTレコードを参照して照合し、結果(pass/fail等)を判定する</li>
+                            </ol>
+                        </td>
+                        <td>
+                            <ul class="mb-0">
+                                <li>送信元IPアドレスが、DNS(TXTレコード)の許可リストに含まれるかを検証する</li>
+                                <li>送信ドメイン認証の一種</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">ARC</th>
+                        <td>Authenticated Received Chain</td>
+                        <td>RFC 8617</td>
+                        <td>
+                            <ol class="mb-0">
+                                <li>転送・中継を行う者が、受信時のSPF/DKIM認証結果を確認する</li>
+                                <li>認証結果を記録し、中継者の署名を付与する</li>
+                                <li>次の中継者・最終受信者が、署名のチェーンを検証する</li>
+                            </ol>
+                        </td>
+                        <td>
+                            <ul class="mb-0">
+                                <li>メーリングリスト等の転送経由で崩れるSPF/DKIM認証結果を引き継ぐ</li>
+                                <li>中継者が署名付きで認証結果を保証する</li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <!-- ## 通信路の暗号化 -->
+                    <tr class="table-secondary">
+                        <th colspan="5" scope="colgroup">通信路の暗号化</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="3" scope="row">STARTTLS</th>
+                        <td rowspan="3">(正式名称なし。コマンド名)</td>
+                        <td>SMTP: RFC 3207</td>
+                        <td rowspan="3">
+                            <ol class="mb-0">
+                                <li>平文でSMTP/POP3/IMAPの接続を確立する</li>
+                                <li>クライアントが対応を確認し、STARTTLSコマンドを送る</li>
+                                <li>サーバーが了承し、TLSハンドシェイクを行う</li>
+                                <li>以降の通信を暗号化して行う</li>
+                            </ol>
+                        </td>
+                        <td rowspan="3">
+                            <ul class="mb-0">
+                                <li>平文の接続をTLS接続へ昇格させるコマンド</li>
+                                <li>SMTP・POP3・IMAPで利用される</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>POP3: RFC 2595(コマンド名はSTLS)</td>
+                    </tr>
+                    <tr>
+                        <td>IMAP: RFC 2595 / RFC 9051</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,14 +3,4 @@
 プロミスキャストモード
 プロトコルアナライザ
 
-Webビーコン
-
-S/MIME(Secure MIME)
-PGP
-DKIM
-SMTP-AUTH
-POP before SMTP
-OP25B
-DMARC
-オープンリレー
-ベイジアンフィルタリング
+Webビーコンによるデータ収集
