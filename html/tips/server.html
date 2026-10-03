@@ -1,0 +1,2653 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="LANケーブルの作成方法 / EMQXについて" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="ps-4 pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            サーバの構築手順
+                        </h1>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="lan">
+                                LANケーブルの作成ポイント
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                芯線の配線
+                            </h3>
+                            <figure class="figure">
+                                <img src="/img/server/LAN.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">芯線の配線</figcaption>
+                            </figure><br>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                詳細
+                            </h4>
+                            <figure class="figure px-4">
+                                <img src="/img/server/LAN-T.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">上面図</figcaption>
+                            </figure>
+
+                            <figure class="figure ps-4">
+                                <img src="/img/server/LAN-F.png" class="figure-img img-fluid rounded" alt="LANケーブル">
+                                <figcaption class="figure-caption text-end">正面図</figcaption>
+                            </figure><br>
+                            
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ポイント
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                ロードバー型コネクタ
+                            </h5>
+                            <ul>
+                                <li>
+                                    ラジオペンチで芯線を1本ずつ芯線を引き出すこと
+                                </li>
+                                <li>
+                                    芯線を引き出したらなるべく短く切ること
+                                </li>
+                                <li>
+                                    ロードバーは奥まできちんとはめ込むこと
+                                </li>
+                            </ul>
+                            <h5 class="pt-4 fw-bold">
+                                貫通型コネクタ
+                            </h5>
+                            <ul>
+                                <li>
+                                    挿入前にニッパで先端を揃えると入れやすくなる
+                                </li>
+                                <li>
+                                    芯線の並び方が間違っていないことを再度確認すること (コネクタ内部で順番が変わることあり)
+                                </li>
+                                <li>
+                                    加締めるまで何度でも修正可能であるため、きちんと確認すること
+                                </li>
+                            </ul>
+
+                            <h5 class="pt-4 fw-bold">
+                                6Aケーブル
+                            </h5>
+                            <ul>
+                                <li>
+                                    仕切り板は根元で切ること
+                                </li>
+                                <li>
+                                    ねじれている箇所はきちんとまっすぐにすること(上下に波を打たせるようにするとまっすぐになりやすい)
+                                </li>
+                            </ul>
+                        </article>
+
+                        <article class="blog-post">
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ネットワーク接続方式
+                            </h2>
+                        
+                            <div id="net-connection">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">通信サービス・方式</th>
+                                                <th scope="col">伝送媒体</th>
+                                                <th scope="col">説明</th>
+                                                <th scope="col">規格</th>
+                                                <th scope="col">特徴</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                            <!-- ### 電波 -->
+                                            <tr>
+                                                <td class="text-nowrap">無線LAN(Wi-Fi)</td>
+                                                <td>電波</td>
+                                                <td>構内で使用する無線LAN規格</td>
+                                                <td>
+                                                    IEEE 802.11
+                                                    <ul>
+                                                        <li>Wi-Fi 4 : IEEE 802.11n</li>
+                                                        <li>Wi-Fi 5 : IEEE 802.11ac</li>
+                                                        <li>Wi-Fi 6/6E : IEEE 802.11ax</li>
+                                                        <li>Wi-Fi 7 : IEEE 802.11be</li>
+                                                        <li class="text-nowrap">Wi-Fi 8 : IEEE 802.11bn(策定中)</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>使用周波数帯
+                                                            <ul>
+                                                                <li>2.4GHz</li> 
+                                                                <li>5GHz</li> 
+                                                                <li>6GHz帯</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="text-nowrap">CSMA/CA方式でアクセス制御</li>
+                                                        <li>
+                                                            隠れ端末問題対策として<br>
+                                                            RTS / CTS 方式<br>
+                                                            (Request To Send : 送信局が送信前に受信局へ送信要求を通知する信号)<br>
+                                                            (Clear To Send : RTSを受信した局が送信許可を応答する信号)<br>
+                                                            を使用
+                                                        </li>
+                                                        <li>
+                                                            セキュリティ機能として
+                                                            <ul>
+                                                                <li class="text-nowrap">MACアドレスフィルタリング : 登録されているMACアドレスをもつ機器だけが無線LANに接続可能</li>
+                                                                <li>
+                                                                    プライバシセパレータ(アクセスポイントアイソレーション) :<br>
+                                                                    同じアクセスポイントに接続されている機器同士の通信を禁止にする
+                                                                </li>
+                                                                <li>暗号化 : WPA3 / Enhanced Open等</li>
+                                                            </ul>
+                                                            がある
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>公衆無線LAN</td>
+                                                <td>電波</td>
+                                                <td>駅・店舗等で提供される無線LANサービス</td>
+                                                <td>IEEE 802.11</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>不特定多数の利用者が接続</li>
+                                                        <li>盗聴対策としてVPN利用等のセキュリティ対策が必要</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 近距離無線通信 (通信サービス・方式・伝送媒体・説明をセル結合 / 全3行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 通信サービス・方式 | rowspan=3 |
+                                            | 伝送媒体 | rowspan=3 |
+                                            | 説明 | rowspan=3 |
+                                            | 規格 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="3">近距離無線通信</td>
+                                                <td rowspan="3">電波</td>
+                                                <td rowspan="3">低速・低消費電力のPAN(Personal Area Network)規格</td>
+                                                <td>
+                                                    IEEE 802.15.4<br>
+                                                    (Zigbee)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>センサネットワークやIoT機器で利用</li>
+                                                        <li>通信速度は最大250kbps程度と低速</li>
+                                                        <li>メッシュネットワークを構成でき、多数の機器を中継して接続できる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    IEEE 802.15.1<br>
+                                                    (Bluetooth)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>2.4GHz帯(ISMバンド)を使用し、周波数ホッピング方式で干渉を軽減する(無線LANの2.4GHz帯と同じ周波数帯を使うため、電波干渉に注意)</li>
+                                                        <li>通信距離はクラスにより約1m〜100m程度</li>
+                                                        <li>従来方式(Classic : BR/EDR)と、低消費電力方式(BLE : Bluetooth Low Energy)がある</li>
+                                                        <li>ヘッドセット・キーボード・マウス等の周辺機器接続や、ウェアラブル機器・ビーコンなどで利用</li>
+                                                        <li>現在の仕様は業界団体のBluetooth SIGが策定しており、IEEE 802.15.1は初期のBluetoothを標準化したもの</li>
+                                                        <li>セキュリティ面ではペアリング時の認証・暗号化が重要で、ブルージャッキング(迷惑メッセージの送りつけ)やブルースナーフィング(無断でのデータ窃取)等の攻撃がある</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    ISO/IEC 18092<br>
+                                                    (NFC : Near Field Communication)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>13.56MHz帯を使用し、通信距離は約10cm以内</li>
+                                                        <li>非接触ICカード・電子マネー・スマートフォンのタッチ決済などで利用</li>
+                                                        <li>BluetoothやWi-Fiのペアリング(接続設定)を、かざすだけで簡略化する用途にも使われる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>WiMAX</td>
+                                                <td>電波</td>
+                                                <td>広帯域無線アクセス規格</td>
+                                                <td>IEEE 802.16</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>広いエリアをカバーする無線通信</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>モバイル回線</td>
+                                                <td>電波</td>
+                                                <td>携帯電話網を利用したデータ通信</td>
+                                                <td>3G / 4G(LTE) / 5G 等</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>広域をカバーし移動中も利用可能</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### LPWA (通信サービス・方式・伝送媒体・説明をセル結合 / 全3行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 通信サービス・方式 | rowspan=3 |
+                                            | 伝送媒体 | rowspan=3 |
+                                            | 説明 | rowspan=3 |
+                                            | 規格 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="3">
+                                                    LPWA<br>
+                                                    (Low Power Wide Area)
+                                                </td>
+                                                <td rowspan="3">電波</td>
+                                                <td rowspan="3">低消費電力で広域(数km〜数十km)をカバーする無線通信の総称。少量のデータを低速で送るIoT向け</td>
+                                                <td>
+                                                    LoRaWAN<br>
+                                                    (LoRa Alliance)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>LoRa : 物理層の変調方式(チャープスペクトラム拡散)、LoRaWAN : その上位のMAC層プロトコル</li>
+                                                        <li>免許不要のサブGHz帯(日本では920MHz帯)を使用</li>
+                                                        <li>通信距離は見通しで数km〜十数km、通信速度は数百bps〜数十kbps程度</li>
+                                                        <li>ゲートウェイを中心としたスター型で接続する</li>
+                                                        <li>農業・物流・設備監視などのセンサで利用</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Wi-SUN<br>
+                                                    (IEEE 802.15.4gベース)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>サブGHz帯(日本では920MHz帯)を使用</li>
+                                                        <li>メッシュ型のネットワークを構成できる</li>
+                                                        <li>スマートメーター(電力・ガス)やHEMS等で利用</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    NB-IoT / LTE-M<br>
+                                                    (3GPP)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>携帯電話網(免許帯)を利用するセルラー系のLPWA</li>
+                                                        <li>既存の基地局を利用できるため、広域を安定してカバーできる</li>
+                                                        <li>NB-IoT : 狭帯域・低速・超低消費電力</li>
+                                                        <li>LTE-M : NB-IoTより高速(最大約1Mbps)で、移動体や音声通話(VoLTE)にも対応</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 衛星通信 (通信サービス・方式・伝送媒体・説明をセル結合 / 全2行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 通信サービス・方式 | rowspan=2 |
+                                            | 伝送媒体 | rowspan=2 |
+                                            | 説明 | rowspan=2 |
+                                            | 規格 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2">衛星通信</td>
+                                                <td rowspan="2">電波</td>
+                                                <td rowspan="2">通信衛星を経由して地上局・端末間で通信する方式。地上回線を敷設できない場所でも利用可能</td>
+                                                <td>静止軌道衛星(GEO)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>高度約36,000kmの静止軌道上にあり、1機で広い範囲をカバーできる</li>
+                                                        <li>距離が遠いため遅延が大きい(往復で0.5秒以上)</li>
+                                                        <li>船舶・航空機・山間部・離島や、災害時のバックアップ回線などで利用</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>低軌道衛星(LEO)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>高度数百km〜約2,000kmを周回する多数の衛星を連携させる(コンステレーション)</li>
+                                                        <li>距離が近いため、静止軌道衛星より遅延が小さい</li>
+                                                        <li>衛星が移動するため、地上側は衛星を切り替えながら通信する</li>
+                                                        <li>例 : Starlink</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 銅線 / 電話回線 -->
+                                            <tr>
+                                                <td>電話回線</td>
+                                                <td>銅線(メタリック)</td>
+                                                <td>音声伝送用に設計された回線</td>
+                                                <td>アナログ電話網(PSTN)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>モデムを用いることでデータ通信にも流用可能</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ISDN</td>
+                                                <td>電話回線(銅線)</td>
+                                                <td>Integrated Services Digital Network : 音声・データ等をデジタル化して1本の回線で扱う通信網</td>
+                                                <td>ITU-T勧告(Iシリーズ)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>基本インタフェースは2B+D(Bチャネル64kbps×2 + Dチャネル16kbps)</li>
+                                                        <li>一次群速度インタフェースは23B+D(日本)</li>
+                                                        <li>日本ではINSネットのディジタル通信モードが2024年1月から段階的に提供終了</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ADSL</td>
+                                                <td>電話回線(銅線)</td>
+                                                <td>
+                                                    Asymmetric Digital Subscriber Line<br>
+                                                    既存の電話回線を利用したブロードバンド接続
+                                                </td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>上り・下りで速度が非対称</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>VDSL</td>
+                                                <td>電話回線(銅線)</td>
+                                                <td>Very high-speed Digital Subscriber Line : 既存の電話回線を利用した、ADSLより高速なブロードバンド接続</td>
+                                                <td>ITU-T勧告 G.993.x<br>(VDSL2 : G.993.2)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>ADSLより高い周波数帯を使うため高速だが、距離が長くなると速度が低下する(数百m〜1km程度)</li>
+                                                        <li>集合住宅で、建物内までは光ファイバ、各戸へは既存の電話線を使う方式で利用される</li>
+                                                        <li>日本の集合住宅向けでは最大100Mbps程度</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 同軸ケーブル -->
+                                            <tr>
+                                                <td>CATV<br>(ケーブルテレビ回線)</td>
+                                                <td>同軸ケーブル<br>(HFC : 光ファイバ + 同軸ケーブル)</td>
+                                                <td>ケーブルテレビの回線を利用したインターネット接続サービス</td>
+                                                <td>DOCSIS</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>ケーブルモデムを用いて接続する</li>
+                                                        <li>幹線は光ファイバ、加入者宅までは同軸ケーブルのHFC構成が主流</li>
+                                                        <li>上り・下りで速度が非対称</li>
+                                                        <li>同じ地域の加入者で帯域を共有するため、混雑時は速度が低下することがある</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 電力線 -->
+                                            <tr>
+                                                <td>PLC<br>(電力線通信 : Power Line Communication)</td>
+                                                <td>電力線(屋内配線)</td>
+                                                <td>電力線(コンセント)を通信回線として利用する技術</td>
+                                                <td>IEEE 1901<br>(HD-PLC / HomePlug AV 等)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>コンセント間で通信でき、新たな配線工事が不要</li>
+                                                        <li>家電のノイズの影響を受けやすく、通信速度が変動しやすい</li>
+                                                        <li>無線LANが届きにくい場所の補完として利用</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 銅線 / 光ファイバ -->
+                                            <tr>
+                                                <td>専用回線</td>
+                                                <td>銅線 / 光ファイバ</td>
+                                                <td>2地点間を1対1で接続する回線</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>回線を占有するため高品質・高セキュリティ</li>
+                                                        <li>帯域幅は固定で他者と共有しない</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>フレームリレー</td>
+                                                <td>銅線 / 光ファイバ</td>
+                                                <td>パケット交換技術の一種</td>
+                                                <td>ITU-T勧告</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>可変長フレーム単位で伝送</li>
+                                                        <li>誤り訂正処理を簡略化し高速化を実現</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### LANケーブル / 光ファイバ (VLAN : 全5行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 通信サービス・方式 | rowspan=5 |
+                                            | 伝送媒体 | rowspan=5 |
+                                            | 説明 | rowspan=5 |
+                                            | 規格 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="5">
+                                                    VLAN<br>
+                                                    (Virtual LAN)
+                                                </td>
+                                                <td rowspan="5" class="text-nowrap">LANケーブル / 光ファイバ</td>
+                                                <td rowspan="5">
+                                                    物理的な配線とは無関係に、スイッチ上で論理的にLANを分割する技術
+                                                    <ul>
+                                                        <li>VLANごとにブロードキャストドメインが分割され、ブロードキャストの抑制・セキュリティの向上につながる</li>
+                                                        <li>異なるVLAN間の通信にはルータまたはL3SW(Inter-VLAN Routing)が必要</li>
+                                                        <li>端末をどの基準でVLANに所属させるかにより、右記の方式に分類される</li>
+                                                    </ul>
+                                                </td>
+                                                <td>ポートベースVLAN</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>スイッチの物理ポート単位でVLANを割り当てる方式(静的VLAN)</li>
+                                                        <li>設定が簡単・最も広く使われている</li>
+                                                        <li>設定 : どのポートにどのVLANを所属させるか</li>
+                                                        <li>ポートに接続する機器を変更するとVLANの所属も変わってしまうため、機器の移動が多い環境では管理の手間が増える</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>アドレスベースVLAN</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>端末のMACアドレスやIPアドレスに基づいてVLANを割り当てる方式(動的VLAN)</li>
+                                                        <li>端末単位で所属VLANが決まるため、同じ端末であればポートを差し替えても同じVLANに所属し続ける</li>
+                                                        <li>あらかじめ端末のアドレスとVLANの対応表をスイッチに登録しておく必要がある</li>
+                                                        <li>端末数が多い環境では管理負荷が高くなる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ポリシーベースVLAN</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>あらかじめ定めたポリシー(規則)に基づいてVLANを割り当てる方式</li>
+                                                        <li>
+                                                            ポリシーの例
+                                                            <ul>
+                                                                <li>プロトコルベースVLAN : プロトコルの種類(IP, IPXなど)やパケットの内容でVLANを構成</li>
+                                                                <li>サブネットベースVLAN : サブネットごとにVLANを構成</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li>同一ポートに接続された端末でも、通信の種類ごとに異なるVLANへ振り分け可能</li>
+                                                        <li>柔軟な条件でVLANを分けられる反面、ポリシーの設計・設定が複雑になりやすく、対応する機器も限られる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>タグVLAN(IEEE 802.1Q)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IEEE 802.1Qで規定された方式</li>
+                                                        <li>イーサネットフレームにVLANを識別するためのタグ(VLAN ID)を付加する(Cisco独自のISL(Inter-Switch Link)ヘッダを用いる方式もある)</li>
+                                                        <li>VLANタグは4バイトで、VLAN IDは12ビット(1〜4094)</li>
+                                                        <li><strong>トランクポート</strong>を使い伝送できるため、スイッチ間やスイッチ・ルータ間の接続で広く利用される</li>
+                                                        <li>トランクポート : 複数のVLANに所属しているポート(1本のリンクで複数VLANのフレームを伝送できる)</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>VXLAN(RFC 7348)<br>
+                                                    (Virtual eXtensible LAN)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IPネットワーク上にL2セグメントをトンネリングするための技術(オーバーレイ技術)</li>
+                                                        <li>UDPパケット(宛先ポート4789)の中にオリジナルのイーサネットフレームをカプセル化して伝送する</li>
+                                                        <li>24ビットのVNI(VXLAN Network Identifier)を用いることで、従来のタグVLAN(12ビット、最大4094個)の上限を超えて、1600万以上の仮想ネットワークを識別できる</li>
+                                                        <li>データセンター間などL3ネットワークをまたいでL2セグメントを拡張したい場合に利用される</li>
+                                                        <li>データセンタ内のマルチテナント環境でも利用される</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### LANケーブル(ツイストペアケーブル) -->
+                                            <tr>
+                                                <td>PoE</td>
+                                                <td>LANケーブル(ツイストペアケーブル)</td>
+                                                <td>
+                                                    Power over Ethernet<br>
+                                                    LANケーブル(イーサネットケーブル)を通じて電力を供給する技術
+                                                </td>
+                                                <td>
+                                                    IEEE 802.3
+                                                    <ul>
+                                                        <li>PoE : IEEE 802.3af (最大15.4W)</li>
+                                                        <li>PoE+ : IEEE 802.3at (最大30W)</li>
+                                                        <li>PoE++ : IEEE 802.3bt (最大60W / 90W)</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>給電側をPSE(スイッチ・PoEインジェクタ等)、受電側をPD(IP電話・AP・カメラ等)と呼ぶ</li>
+                                                        <li>電源配線が不要になるためIP電話・無線LANアクセスポイント・監視カメラ等の設置に利用</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 光ファイバ -->
+                                            <tr>
+                                                <td>ATM</td>
+                                                <td>光ファイバ</td>
+                                                <td>Asynchronous Transfer Mode : 固定長セルで交換・伝送する方式</td>
+                                                <td>ITU-T勧告</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>53バイト固定長セルで高速・低遅延伝送</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>SONET・SDH</td>
+                                                <td>光ファイバ</td>
+                                                <td>光伝送のための多重化規格</td>
+                                                <td>ITU-T勧告</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>北米 : SONET、国際標準 : SDH</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>広域イーサネット</td>
+                                                <td>光ファイバ</td>
+                                                <td>通信事業者網上でイーサネットフレームを転送するサービス</td>
+                                                <td>イーサネット(レイヤ2)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>拠点間をLANの延長として接続可能</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>FTTH</td>
+                                                <td>光ファイバ</td>
+                                                <td>
+                                                    Fiber To The Home<br>
+                                                    加入者宅まで光ファイバを直接敷設する方式
+                                                </td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>高速・大容量・低遅延</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### PON (通信サービス・方式・伝送媒体・説明をセル結合 / 全3行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 通信サービス・方式 | rowspan=3 |
+                                            | 伝送媒体 | rowspan=3 |
+                                            | 説明 | rowspan=3 |
+                                            | 規格 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="3">
+                                                    PON<br>
+                                                    (Passive Optical Network)
+                                                </td>
+                                                <td rowspan="3">光ファイバ</td>
+                                                <td rowspan="3">
+                                                    FTTHの方式の1つ。光スプリッタ(受動素子)で1本の光ファイバを分岐し、複数の加入者で共有する
+                                                    <ul>
+                                                        <li>局側装置をOLT、加入者側装置をONUと呼ぶ</li>
+                                                        <li>光スプリッタは電源が不要で、設備の保守が容易</li>
+                                                        <li>加入者ごとに1本ずつ光ファイバを引く方式は、SS(Single Star)方式と呼ぶ</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    GE-PON<br>
+                                                    (IEEE 802.3ah)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>上り・下りとも最大1Gbps</li>
+                                                        <li>イーサネットのフレームをそのまま扱う</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    G-PON<br>
+                                                    (ITU-T G.984)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>下り最大約2.4Gbps、上り最大約1.2Gbps</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    10G-EPON (IEEE 802.3av)<br>
+                                                    XG-PON (ITU-T G.987)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>GE-PON / G-PONの後継となる、10Gbps級の高速規格</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 光ファイバ等(通信事業者網) -->
+                                            <tr>
+                                                <td>IP-VPN</td>
+                                                <td>
+                                                    光ファイバ等<br>
+                                                    (通信事業者網)
+                                                </td>
+                                                <td class="text-nowrap">通信事業者のIP網を利用した閉域網サービス</td>
+                                                <td>MPLS</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>MPLSラベルにより経路制御・帯域確保を実現</li>
+                                                        <li>イントラネット・エクストラネットの構築に利用</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### インターネット回線等(共用) (VPN : 全5行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 通信サービス・方式 | rowspan=5 |
+                                            | 伝送媒体 | rowspan=5 |
+                                            | 説明 | rowspan=5 |
+                                            | 規格 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="5">
+                                                    VPN<br>
+                                                    (Virtual Private Network : <br>
+                                                    仮想専用線)
+
+                                                </td>
+                                                <td rowspan="5">インターネット回線等(共用)</td>
+                                                <td rowspan="5">
+                                                    <ul>
+                                                        <li>インターネットなどの公衆回線上に、暗号化・認証・トンネリングといった技術を用いて仮想的な専用回線を構築し、拠点間やリモート端末からの通信を安全に行うための技術</li>
+                                                        <li>専用回線と異なり、物理的な回線を占有しない「仮想的」な専用線</li>
+                                                        <li>専用回線より安価だが、帯域幅は保証されない</li>
+                                                    </ul>
+                                                </td>
+                                                <td>IPsec (ESP / AH)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IPsec VPN : ネットワーク層(第3層)でIPsec (ESP/AH) を用いて通信を暗号化・認証する方式 (VPN装置(IPsec-VPN))</li>
+                                                        <li>IPsecの <strong>ESP(トンネルモード)によるカプセル化・暗号化</strong> がVPNとして働く(ESPのトンネルモードがトンネリングの実体)</li>
+                                                        <li>拠点間VPN (サイト間VPN) で広く利用される</li>
+                                                        <li>VPNルータやVPN対応ファイアウォール等の専用機器が必要</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    TLS<br>
+                                                    (TLS-VPN / SSL-VPN)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>アプリケーション層(第7層)で動作し、Webブラウザ等からHTTPS (TCP/443) でアクセスするリモートアクセス型VPN (VPN装置(SSL-VPN))</li>
+                                                        <li>「SSL-VPN」は慣習的な呼称で、実際に使われているプロトコルはTLS (SSLはSSL 2.0/3.0の脆弱性により非推奨・廃止済み)</li>
+                                                        <li>TLSは暗号化通信路を提供するプロトコルであり、単体にトンネルモード相当の機能はなく、レイヤ2フォワーディング方式等の実装方式と組み合わせることでVPNとして機能する</li>
+                                                        <li>専用クライアントが不要な場合が多く、外出先からの利用に適する</li>
+                                                        <li>実装方式として、レイヤ2フォワーディング方式・ポートフォワーディング方式・リバースプロキシ方式がある (下記の各行)</li>
+                                                        <li>
+                                                            TLS(TCP)を基盤とするため、
+                                                            <ul>
+                                                                <li>音声</li>
+                                                                <li>動画等のリアルタイム通信</li>
+                                                                <li>フルトンネル型のL3 VPN</li>
+                                                            </ul>
+                                                            等のUDPベースの通信を扱うには、UDP上で動作するDTLS(Datagram TLS)を用いる実装が多い<br>
+                                                            (例 : Cisco AnyConnectのデータチャネル、OpenVPNのUDPモード)
+                                                        </li>
+                                                        <li>UDPアプリケーションをTCP上のTLSでそのままトンネリングすると、輻輳制御が二重にかかり速度低下を招きやすい (TCP over TCP問題)</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    レイヤ2フォワーディング方式<br>
+                                                    (TLS-VPNの実装方式)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>データリンク層のフレームをそのままトンネリングし、あたかも社内LANに接続しているかのような通信を実現</li>
+                                                        <li>TLS(またはDTLS)の暗号化ペイロードの中に、IPパケットやイーサネットフレームをそのまま格納してカプセル化する</li>
+                                                        <li>専用クライアント (エージェント) のインストールが必要</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    ポートフォワーディング方式<br>
+                                                    (TLS-VPNの実装方式)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>特定のTCPポート宛の通信をブラウザ経由でトンネリングする方式</li>
+                                                        <li>対応可能なアプリケーション (ポート) が限定される</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    リバースプロキシ方式<br>
+                                                    (TLS-VPNの実装方式)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>パケットのカプセル化を行わない点が他の2方式と異なる</li>
+                                                        <li>VPNゲートウェイがHTTPSリクエストを一旦終端し、社内Webアプリの内容(URL等)を書き換えてブラウザに返す、アプリケーション層での代理アクセス方式</li>
+                                                        <li>ブラウザだけで利用できる反面、対応できるのは基本的にWebアプリケーションに限られる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                                <br>
+                                <br>
+                            </div>
+                        
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ネットワーク機器について
+                            </h2>
+                        
+                            <div id="net-devices">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">機器名</th>
+                                                <th scope="col">動作するOSI層</th>
+                                                <th scope="col">説明</th>
+                                                <th scope="col">種類</th>
+                                                <th scope="col">特徴</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                            <!-- ### 第7層 : アプリケーション層 -->
+                                            <tr>
+                                                <td class="text-nowrap">
+                                                    WAF<br>
+                                                    (Web Application Firewall)
+                                                </td>
+                                                <td class="text-nowrap">アプリケーション層 (第7層)</td>
+                                                <td class="text-nowrap">
+                                                    Webアプリケーションへの攻撃を<br>
+                                                    HTTP/HTTPS通信の内容から検知・防御
+                                                </td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li class="text-nowrap">SQLインジェクションやXSSなど、アプリケーション層特有の攻撃を検知</li>
+                                                        <li>IPS/IDSやファイアウォールでは防げない攻撃に対応できる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### プロキシサーバ (機器名・動作するOSI層・説明をセル結合 / 全2行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=2 |
+                                            | 動作するOSI層 | rowspan=2 |
+                                            | 説明 | rowspan=2 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2">プロキシサーバ</td>
+                                                <td rowspan="2">アプリケーション層 (第7層)</td>
+                                                <td rowspan="2">クライアントに代わって外部との通信を中継</td>
+                                                <td>フォワードプロキシ</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>代理する通信 : 社内端末 → インターネット</li>
+                                                        <li>主な用途 : URLフィルタリング、キャッシュなど</li>
+                                                        <li>クライアントの実IPアドレスを隠蔽できる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>リバースプロキシ</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>代理する通信 : 外部 → 社内サーバ</li>
+                                                        <li>主な用途 : 負荷分散、SSLアクセラレーションなど</li>
+                                                        <li>サーバの実IPアドレスを隠蔽できる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>VPN装置<br>(SSL-VPN)</td>
+                                                <td>アプリケーション層 (第7層)</td>
+                                                <td>TLS-VPN(SSL-VPN)の終端点となり、リモート端末からのHTTPS通信を受けて社内ネットワークへ接続させる装置</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>Webブラウザ等からHTTPS (TCP/443) でアクセスするリモートアクセス型VPNを提供する</li>
+                                                        <li>実装方式として、レイヤ2フォワーディング・ポートフォワーディング・リバースプロキシ方式がある(接続方式の「VPN」を参照)</li>
+                                                        <li>利用者認証やアクセス制御を行う</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 第4〜7層 : トランスポート層〜アプリケーション層 -->
+                                            <!-- ### ロードバランサ (機器名・説明をセル結合 / 全2行 : 第7層 → 第4層の降順)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=2 |
+                                            | 動作するOSI層 | 結合なし (行ごと) |
+                                            | 説明 | rowspan=2 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2" class="text-nowrap">
+                                                    ロードバランサ<br>
+                                                    (負荷分散装置)
+                                                </td>
+                                                <td>アプリケーション層 (第7層)</td>
+                                                <td rowspan="2">
+                                                    <ul>
+                                                        <li>複数のサーバへ通信を振り分けて負荷を分散</li>
+                                                        <li>可用性向上や特定サーバへの負荷集中防止の目的で利用</li>
+                                                    </ul>
+                                                </td>
+                                                <td>L7ロードバランサ</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>振り分けの判断材料 : HTTPヘッダやURLなどの内容</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>トランスポート層 (第4層)</td>
+                                                <td>L4ロードバランサ</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>振り分けの判断材料 : IPアドレス・ポート番号</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ゲートウェイ</td>
+                                                <td>トランスポート層〜アプリケーション層 (第4〜7層)</td>
+                                                <td>プロトコルが異なるネットワーク同士を変換して中継</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>単なるIP中継ではなく、プロトコルやデータ形式そのものを変換する (例 : メールゲートウェイ、VoIPゲートウェイ)</li>
+                                                        <li>「ゲートウェイ」という語はデフォルトゲートウェイ (＝ルータ) を指す場合もあり文脈で意味が変わる点に注意</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 第3〜7層 : ネットワーク層〜アプリケーション層 (ファイアウォール : 機器名・説明をセル結合 / 全6行 : 第7層 → 第3層の降順)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=6 |
+                                            | 動作するOSI層 | 結合なし (行ごと) |
+                                            | 説明 | rowspan=6 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="6">ファイアウォール</td>
+                                                <td>アプリケーション層 (第7層)</td>
+                                                <td rowspan="6">
+                                                    <ul>
+                                                        <li>ネットワークの境界に設置し、通信を制御して内部ネットワークを外部の脅威から防御する</li>
+                                                        <li>判断に用いる情報の範囲(パケット単位 / セッション単位 / アプリケーションの内容)により、分類される</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    アプリケーションゲートウェイ型<br>
+                                                    (プロキシ型)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>アプリケーション (HTTP・FTP・SMTPなど) ごとのプロキシが通信を終端し、代理で外部と通信する</li>
+                                                        <li>コマンドやURLなど、アプリケーション層の内容まで検査できる</li>
+                                                        <li>内部と外部が直接通信しないため安全性が高い</li>
+                                                        <li>処理負荷が大きく、対応するプロトコルごとにプロキシが必要</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ネットワーク層〜アプリケーション層 (第3〜7層)</td>
+                                                <td>次世代ファイアウォール<br>(NGFW)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>ポート番号ではなく、通信するアプリケーションそのものを識別して制御できる</li>
+                                                        <li>ユーザ単位での制御や、IPS機能の統合、TLS通信の復号検査などを備える</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>トランスポート層〜セッション層 (第4〜5層)</td>
+                                                <td>サーキットレベルゲートウェイ型</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>クライアントとサーバの間のTCPセッションを2本に分けて中継し、内部と外部の直接接続を遮断する</li>
+                                                        <li>アプリケーションプロトコルの中身は見ないため、アプリケーションに依存せず利用できる</li>
+                                                        <li>代表的なプロトコルとしてSOCKSがある</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ネットワーク層〜トランスポート層 (第3〜4層)</td>
+                                                <td>パケットフィルタリング型</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>アクセス制御リスト (ACL) に基づき、送信元/宛先IPアドレス・ポート番号・プロトコルでパケットごとに許可・拒否を判断する</li>
+                                                        <li>セッション状態は管理しない(ステートレス)</li>
+                                                        <li>処理が単純で高速・低負荷</li>
+                                                        <li>戻りパケットも個別に許可ルールを書く必要があり、通信に使うポートを常時開放しがち</li>
+                                                        <li>アプリケーション層の中身は見ない</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ネットワーク層〜トランスポート層 (第3〜4層)</td>
+                                                <td>ダイナミックパケットフィルタリング型</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>パケットフィルタリングを拡張し、通信の開始時にルールを確認して、戻りの通信に必要なポートを動的に開放する</li>
+                                                        <li>通信の終了後は開放したポートを閉じるため、ポートの常時開放を避けられる</li>
+                                                        <li>FTPのデータコネクションのように、通信中にポート番号が動的に決まるものにも対応できる</li>
+                                                        <li>ステートフルインスペクション型と同義に扱われることもある</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ネットワーク層〜トランスポート層 (第3〜4層)</td>
+                                                <td>
+                                                    ステートフルパケットフィルタリング型<br>
+                                                    (ステートフルインスペクション型)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>セッション管理テーブルで通信の状態 (TCPの接続確立・終了など) を追跡し、正規のセッションに属するパケットだけを許可する</li>
+                                                        <li>戻りパケットは自動的に許可され、対応するセッションのない不正な応答は遮断できる</li>
+                                                        <li>UDPやICMPも擬似的にセッションとして管理する</li>
+                                                        <li>ACLのみで判断するパケットフィルタリング型より高度な制御が可能</li>
+                                                        <li>アプリケーション層の中身までは基本的に見ない</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 第3〜7層 : ネットワーク層〜アプリケーション層 (IDS/IPS : 機器名・説明をセル結合 / 全2行 : 第7層 → 第3層の降順)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=2 |
+                                            | 動作するOSI層 | 結合なし (行ごと) |
+                                            | 説明 | rowspan=2 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2">IDS/IPS<br>(Intrusion Detection System /<br>Intrusion Prevention System)</td>
+                                                <td>アプリケーション層 (第7層)</td>
+                                                <td rowspan="2">
+                                                    通信やホストの挙動を監視し、不正アクセスや攻撃を検知(IDS)・遮断(IPS)する
+                                                    <ul>
+                                                        <li>IDS : 検知・通知が目的。通信経路の外に設置し、ネットワークタップやミラーポートで複製した通信を監視する</li>
+                                                        <li>IPS : 通信経路上にインラインで設置し、検知した攻撃を遮断する</li>
+                                                        <li>検知方式として、既知の攻撃パターンと照合するシグネチャ型と、通常と異なる挙動を検知するアノマリ型がある</li>
+                                                    </ul>
+                                                </td>
+                                                <td>アプリケーション層まで解析する製品</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>アプリケーションプロトコルの内容(ペイロード)まで検査し、シグネチャと照合する</li>
+                                                        <li>Web以外のプロトコルも検査の対象にできる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ネットワーク層 (第3層)</td>
+                                                <td>ネットワーク層(IPヘッダ等)の解析が中心の製品</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IPアドレスやパケットの異常(ポートスキャン・DoS攻撃など)の検知が中心</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 第3〜7層 : ネットワーク層〜アプリケーション層 (UTM : 機器名・説明をセル結合 / 全2行 : 第7層 → 第3層の降順)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=2 |
+                                            | 動作するOSI層 | 結合なし (行ごと) |
+                                            | 説明 | rowspan=2 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2">UTM<br>(Unified Threat Management)</td>
+                                                <td>アプリケーション層 (第7層)</td>
+                                                <td rowspan="2">
+                                                    ファイアウォール・IPS・アンチウイルス・URLフィルタリングなど、複数のセキュリティ機能を1台に統合して一元管理する装置
+                                                    <ul>
+                                                        <li>小規模拠点でも導入・運用しやすい</li>
+                                                        <li>1台に機能が集中するため、障害時の影響や処理負荷が課題になる</li>
+                                                    </ul>
+                                                </td>
+                                                <td>アプリケーション層まで検査する機能</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IPS・アンチウイルス・URLフィルタリングなど</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ネットワーク層 (第3層)</td>
+                                                <td>ネットワーク層の機能</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>パケットフィルタリング・VPNなど</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 第2〜7層 : データリンク層〜アプリケーション層 -->
+                                            <!-- ### プロトコルアナライザ (機器名・動作するOSI層・説明をセル結合 / 全2行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=2 |
+                                            | 動作するOSI層 | rowspan=2 |
+                                            | 説明 | rowspan=2 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2">
+                                                    プロトコルアナライザ<br>
+                                                    (パケットアナライザ / パケットキャプチャ)
+                                                </td>
+                                                <td rowspan="2">データリンク層〜アプリケーション層 (第2〜7層)</td>
+                                                <td rowspan="2">
+                                                    ネットワーク上を流れるパケット (フレーム) をキャプチャし、各層のプロトコルごとに解読・表示して通信内容を分析するツール・装置
+                                                    <ul>
+                                                        <li>用途 : ネットワーク障害の切り分け、性能分析、不正通信の調査など</li>
+                                                        <li>キャプチャの方法 : ① 解析する端末自身のNICで取得する ② ネットワークタップやミラーポートで複製した通信を、監視用のNICで受信して取得する</li>
+                                                        <li>自分宛以外のフレームも取得するため、NICをプロミスキャスモードにして使う (NICの項を参照)</li>
+                                                        <li>②の場合は通信経路上に入らず、複製された通信を受け取るだけなので本線の通信に影響しない (本線はネットワークタップを通り、アナライザはその複製側につながる)</li>
+                                                        <li>TLSなどで暗号化された通信は、復号しないとペイロードの内容を確認できない</li>
+                                                        <li>IDS/IPSが自動で検知・遮断するのに対し、人が通信内容を詳しく解析するために使う</li>
+                                                    </ul>
+                                                </td>
+                                                <td>ソフトウェア型</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>PCにインストールして使う (例 : Wireshark、tcpdump)</li>
+                                                        <li>汎用のNICをプロミスキャスモードにしてキャプチャする</li>
+                                                        <li>手軽で低コスト</li>
+                                                        <li>高速回線ではPCやNICの処理能力が追いつかず、パケットロスが起きることがある</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ハードウェア型 (専用機)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>キャプチャ専用の機器で、高速回線でも取りこぼしにくい</li>
+                                                        <li>タイムスタンプの精度が高く、通信の遅延分析などに向く</li>
+                                                        <li>高価</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 第3層 : ネットワーク層 -->
+                                            <tr>
+                                                <td>ルータ</td>
+                                                <td>ネットワーク層 (第3層)</td>
+                                                <td>異なるネットワーク間のパケット中継</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IPアドレスに基づき最適経路を選択してパケットを転送</li>
+                                                        <li>ルーティングプロトコル (RIP、OSPF、BGPなど) に対応</li>
+                                                        <li>NAT/NAPT、パケットフィルタリング (簡易ファイアウォール機能) を持つ製品もある</li>
+                                                        <li>LAN-WAN間の接続点として利用されることが多い</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>VPN装置<br>(IPsec-VPN)</td>
+                                                <td>ネットワーク層 (第3層)</td>
+                                                <td>IPsecの終端点となり、拠点間の通信を暗号化・認証してトンネルを構築する装置</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IPsec (ESP/AH) を用いて通信を暗号化・認証する</li>
+                                                        <li>ESP(トンネルモード)によるカプセル化・暗号化でVPNとして働く</li>
+                                                        <li>拠点間VPN (サイト間VPN) で広く利用される</li>
+                                                        <li>VPNルータやVPN対応ファイアウォール等が該当する</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    L3SW<br>
+                                                    (レイヤ3スイッチ)
+                                                </td>
+                                                <td>ネットワーク層 (第3層) + データリンク層 (第2層)</td>
+                                                <td>ルーティング機能を内蔵したスイッチ</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>L2SWの機能に加え、IPアドレスに基づくルーティングが可能</li>
+                                                        <li>VLAN間通信 (Inter-VLAN Routing) を高速に処理</li>
+                                                        <li>ハードウェア (ASIC) でルーティング処理を行うため、ルータより高速</li>
+                                                        <li>WAN接続などの複雑なルーティングプロトコルには不向きな場合がある</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 第2層 : データリンク層 (L2SW : 全3行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=3 |
+                                            | 動作するOSI層 | rowspan=3 |
+                                            | 説明 | rowspan=3 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="3">
+                                                    L2SW<br>
+                                                    (レイヤ2スイッチ / スイッチングハブ)
+                                                </td>
+                                                <td rowspan="3">データリンク層 (第2層)</td>
+                                                <td rowspan="3">
+                                                    <ul>
+                                                        <li>ASIC<br>(特定用途向け集積回路 : Application Specific Integrated Circuit)<br>を搭載</li>
+                                                        <li>必要な相手にだけデータを送る(MACアドレステーブルに基づくフレーム転送)</li>
+                                                        <li>ネットワーク(LAN内)のL2中継機器</li>
+                                                        <li>ASICを搭載しているためソフトウェア処理のブリッジよりも高速にフレームを振り分けることが可能</li>
+                                                        <li>宛先MACアドレスを学習し、該当ポートにのみフレームを転送 (フラッディング/フォワーディング)</li>
+                                                        <li>VLANによるブロードキャストドメインの分割が可能</li>
+                                                        <li>IPアドレスやルーティングの概念は扱わない</li>
+                                                        <li>スパニングツリープロトコル (STP) でループ防止</li>
+                                                        <li>フレーム転送方式により、種類が分けられる</li>
+                                                    </ul>
+                                                </td>
+                                                <td class="text-nowrap">ストアアンドフォワード</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            転送手順 : 
+                                                            <ol>
+                                                                <li>フレーム全て読み込み</li>
+                                                                <li>CRCチェック(FCSを検査)</li>
+                                                                <li>転送</li>
+                                                            </ol>
+                                                        </li>
+                                                        <li>速度 : 遅い (フレーム長に依存し、遅延は大)</li>
+                                                        <li>信頼性 : 高い (エラーフレームは破棄される)</li>
+                                                        <li>速度の異なるポート間でも転送可能<br>現在の主流</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>カットアンドスルー方式</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            転送手順 : 
+                                                            <ol>
+                                                                <li>フレームの先頭 6 [Byte] (送信先MACアドレス)読み込み</li>
+                                                                <li>転送</li>
+                                                            </ol>
+                                                        </li>
+                                                        <li>速度 : 速い (フレーム長に依存せず、遅延は最小)</li>
+                                                        <li>信頼性 : 低 (エラーフレームも転送される)</li>
+                                                        <li>速度の異なるポート間の転送は不可</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>フラグメントフリー方式</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            転送手順 : 
+                                                            <ol>
+                                                                <li>フレームの先頭 64 [Byte]読み込み</li>
+                                                                <li>Runtフレーム(衝突により壊れたフレーム)除外</li>
+                                                                <li>転送</li>
+                                                            </ol>
+                                                        </li>
+                                                        <li>速度 : 中 (Runtフレーム除外可能)</li>
+                                                        <li>信頼性 : 中 (Runtフレーム以外のチェックは行わない)</li>
+                                                        <li>ストアアンドフォワードとカットアンドスルー方式の中間的な方式</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ブリッジ</td>
+                                                <td>データリンク層 (第2層)</td>
+                                                <td>2つのセグメントをMACアドレスで中継・分割</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>L2SWの原型にあたる機器で、ポート数が少ない (2〜数ポート程度)</li>
+                                                        <li>MACアドレステーブルを持ち、衝突ドメインを分割できる</li>
+                                                        <li>STPの考え方はブリッジの時代から存在する</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    無線LANアクセスポイント<br>
+                                                    (AP)
+                                                </td>
+                                                <td>データリンク層 (第2層)</td>
+                                                <td>無線端末を有線LANに接続する中継機器</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>IEEE 802.11規格に準拠</li>
+                                                        <li>SSIDによるネットワーク識別、WPA2/WPA3による暗号化・認証を行う</li>
+                                                        <li>不正APによる「なりすまし」がセキュリティ上の脅威となる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    ミラーポート<br>
+                                                    (SPANポート)
+                                                </td>
+                                                <td>データリンク層 (第2層)</td>
+                                                <td>スイッチが特定ポートの通信を別のポートへコピーして、監視機器に送る機能</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>既存のスイッチの設定だけで利用でき、追加の機器は不要</li>
+                                                        <li>コピー処理がスイッチの負荷になる</li>
+                                                        <li>バッファ溢れによりパケットロスが起きることがある</li>
+                                                        <li>ネットワークタップと比較される</li>
+                                                        <li>コピー先ポートにつないだ監視機器のNICをプロミスキャスモードにして受信する (NICの項を参照)</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 第1〜2層 : 物理層〜データリンク層 -->
+                                            <!-- ### NIC (機器名・動作するOSI層・説明をセル結合 / 全3行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=3 |
+                                            | 動作するOSI層 | rowspan=3 |
+                                            | 説明 | rowspan=3 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="3">
+                                                    NIC<br>
+                                                    (Network Interface Card /<br>
+                                                    ネットワークインターフェースカード)
+                                                </td>
+                                                <td rowspan="3">物理層 (第1層) 〜データリンク層 (第2層)</td>
+                                                <td rowspan="3">
+                                                    コンピュータやネットワーク機器をネットワークに接続し、通信媒体上の信号とフレームを相互に変換するインターフェース
+                                                    <ul>
+                                                        <li>物理層 (PHY) : ケーブル上の電気信号・光信号・無線信号とビット列を相互に変換する</li>
+                                                        <li>データリンク層 (MAC) : フレームの組み立て・分解、宛先MACアドレスの判定、FCSによる誤り検出を行う</li>
+                                                        <li>製造時に、原則として世界で一意なMACアドレス (48bit) が割り当てられる</li>
+                                                        <li>形態 : マザーボード搭載 (オンボード)・拡張カード・USB接続・無線LAN子機など</li>
+                                                        <li>受信したフレームをどこまでOSに渡すかによって、動作モードが分かれる</li>
+                                                    </ul>
+                                                </td>
+                                                <td>通常モード</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>自分宛 (自NICのMACアドレス)・ブロードキャスト・参加中のマルチキャスト宛のフレームだけをOSに渡す</li>
+                                                        <li>それ以外のフレームはNICが破棄する</li>
+                                                        <li>一般的な端末・サーバの通常の動作</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    プロミスキャスモード<br>
+                                                    (Promiscuous Mode)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>宛先MACアドレスに関係なく、NICが受信した全てのフレームをOSに渡す</li>
+                                                        <li>プロトコルアナライザ (パケットキャプチャ) やIDSが、自分宛以外の通信を取得するために必要</li>
+                                                        <li>L2SWは宛先MACアドレスのポートにしかフレームを転送しないため、スイッチ配下の端末で有効にしても他端末宛の通信は見えない<br>→ ミラーポートやネットワークタップで通信を複製して受け取る</li>
+                                                        <li>リピータハブは全ポートにフレームを流すため、設定だけで他端末宛の通信を取得できた</li>
+                                                        <li>有効化には管理者権限が必要</li>
+                                                        <li>盗聴 (スニッフィング) にも悪用される。通信の暗号化 (TLS・IPsecなど) が対策になる</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    モニタモード<br>
+                                                    (Monitor Mode / 無線LAN)
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>無線LANのNICで、アクセスポイントに接続 (アソシエーション) せずに、同じチャネル上の全てのIEEE 802.11フレームを受信する</li>
+                                                        <li>管理フレーム・制御フレームも取得できる</li>
+                                                        <li>無線LANのプロミスキャスモードは、接続中のネットワーク (BSS) のフレームだけが対象</li>
+                                                        <li>無線LANの解析や不正APの調査に利用される</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ネットワークタップ</td>
+                                                <td>物理層 (第1層) 〜データリンク層 (第2層)</td>
+                                                <td>通信を分岐・複製して監視用に取り出す専用機器</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>通信経路上に設置し、流れるトラフィックをそのまま複製して監視機器 (IDS/IPSなど) に送る</li>
+                                                        <li>本線の通信に影響を与えない (能動的な処理をしない) ため、可用性への影響が小さい</li>
+                                                        <li>不正侵入検知やパケットキャプチャなど、セキュリティ監視目的で利用される</li>
+                                                        <li>スイッチへの負荷がなく、パケットロスが起きにくい (ミラーポートとの違い)</li>
+                                                        <li>複製した通信は、監視機器のNICをプロミスキャスモードにして受信する (NICの項を参照)</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                            <!-- ### 第1層 : 物理層 (WDM装置 : 全2行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=2 |
+                                            | 動作するOSI層 | rowspan=2 |
+                                            | 説明 | rowspan=2 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2">
+                                                    波長分割多重装置<br>
+                                                    (WDM装置)
+                                                </td>
+                                                <td rowspan="2">物理層 (第1層)</td>
+                                                <td rowspan="2">
+                                                    複数の光信号を異なる波長で多重化して1本の光ファイバで伝送
+                                                    <ul>
+                                                        <li>1本の光ファイバで大容量・長距離のデータ伝送を実現</li>
+                                                        <li>データリンク層以上のプロトコルには依存しない (透過的に伝送)</li>
+                                                        <li>広域網 (バックボーン) やデータセンター間接続などで利用される</li>
+                                                    </ul>
+                                                </td>
+                                                <td>CWDM (粗波長分割多重)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>波長間隔 : 広い</li>
+                                                        <li>多重数 : 少ない</li>
+                                                        <li>コスト : 低い</li>
+                                                        <li>主な用途 : 短〜中距離</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>DWDM (高密度波長分割多重)</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>波長間隔 : 狭い</li>
+                                                        <li>多重数 : 多い</li>
+                                                        <li>コスト : 高い</li>
+                                                        <li>主な用途 : 長距離・大容量</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    リピータ<br>
+                                                    リピータハブ<br>
+                                                    (通称 : バカハブ)
+                                                </td>
+                                                <td>物理層 (第1層)</td>
+                                                <td>受信した電気信号を増幅・整形して全ポートに再送信</td>
+                                                <td>-</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>宛先を判別せず、受信したポート以外の全ポートにそのまま流す (フラッディングのみ)</li>
+                                                        <li>MACアドレスの学習やフィルタリングを一切行わない</li>
+                                                        <li>接続された全端末が1つの衝突ドメイン (コリジョンドメイン) を共有するため、通信効率が悪い</li>
+                                                        <li>現在はほぼ使われず、L2SW (スイッチングハブ) に置き換わっている</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <!-- ### 第1層 : 物理層 (モデム / ONU : 機器名・OSI層・説明をセル結合 / 全2行)
+                                            | 列 | セル結合 |
+                                            |---|---|
+                                            | 機器名 | rowspan=2 |
+                                            | 動作するOSI層 | rowspan=2 |
+                                            | 説明 | rowspan=2 |
+                                            | 種類 | 結合なし (行ごと) |
+                                            | 特徴 | 結合なし (行ごと) |
+                                            -->
+                                            <tr>
+                                                <td rowspan="2">モデム / ONU</td>
+                                                <td rowspan="2">物理層 (第1層)</td>
+                                                <td rowspan="2">通信回線上の信号と、端末側の信号を相互に変換する装置</td>
+                                                <td>モデム</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>Modulator / Demodulator : デジタル信号とアナログ信号を相互に変換(変調・復調)する</li>
+                                                        <li>電話回線(ADSL等)やCATV回線などの接続で使用する</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ONU</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>Optical Network Unit : 光信号と電気信号を相互に変換する加入者側の装置</li>
+                                                        <li>FTTH(PON)の加入者宅に設置され、局側装置のOLTと対向する</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                        
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="wifi-sec">
+                                Wi-Fi セキュリティ規格一覧
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>規格名</th>
+                                            <th>仕組み</th>
+                                            <th>概要</th>
+                                            <th>種類</th>
+                                            <th>内容</th>
+                                            <th class="text-nowrap">利用状況</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <!-- WEP -->
+                                        <tr>
+                                            <td class="name" rowspan="3"><strong>WEP</strong></td>
+                                            <td rowspan="3"><ul>
+                                                <li class="text-nowrap">暗号化: RC4ストリーム暗号</li>
+                                                <li>改ざん検出: CRC-32</li>
+                                                <li>IVは24ビットと短く、平文で送信される</li>
+                                                <li>認証: オープンシステム認証 / 共有キー認証</li>
+                                            </ul></td>
+                                            <td rowspan="3"><ul>
+                                                <li>1997年、IEEE 802.11初期規格の暗号化方式</li>
+                                                <li>IV再利用により鍵が推測可能</li>
+                                                <li>FMS攻撃・KoreK攻撃等で数分程度で解読可能</li>
+                                            </ul></td>
+                                            <td><strong>WEP-40 (64ビット)</strong></td>
+                                            <td><ul>
+                                                <li class="text-nowrap">40ビット鍵 + 24ビットIV</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>WEP-104 (128ビット)</strong></td>
+                                            <td><ul>
+                                                <li>104ビット鍵 + 24ビットIV</li>
+                                                <li>鍵を長くしてもIV由来の弱点は解消されない</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WEP共有キー認証</strong></td>
+                                            <td><ul>
+                                                <li>APが送るチャレンジ文を端末がWEP鍵で暗号化して返す方式</li>
+                                                <li>平文と暗号文の組を盗聴でき、鍵ストリームが漏洩する</li>
+                                                <li>オープンシステム認証よりも脆弱</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+
+                                        <!-- WPA -->
+                                        <tr>
+                                            <td class="name" rowspan="2"><strong>WPA</strong></td>
+                                            <td rowspan="2"><ul>
+                                                <li class="text-nowrap">暗号化: TKIP (RC4ベース)</li>
+                                                <li>パケット単位の鍵生成</li>
+                                                <li>48ビットIV</li>
+                                                <li>改ざん検出: MIC (Michael)</li>
+                                                <li>認証: PSK または IEEE 802.1X (PSKの仕組みはWPA2を参照)</li>
+                                            </ul></td>
+                                            <td rowspan="2"><ul>
+                                                <li>2003年、Wi-Fi AllianceがWEPの代替として策定した暫定規格</li>
+                                                <li>既存ハードはファーム更新で対応可能</li>
+                                                <li>TKIPは脆弱性が判明し、廃止済み</li>
+                                            </ul></td>
+                                            <td><strong>WPA-PSK</strong></td>
+                                            <td><ul>
+                                                <li>事前共有鍵 (Pre-Shared Key) 方式</li>
+                                                <li>Personal向け</li>
+                                                <li>TKIPで暗号化</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-nowrap"><strong>WPA-Enterprise</strong></td>
+                                            <td><ul>
+                                                <li>IEEE 802.1X / EAP + RADIUSサーバで認証</li>
+                                                <li>TKIPで暗号化</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+
+                                        <!-- WPA2 -->
+                                        <tr>
+                                            <td class="name" rowspan="4"><strong>WPA2</strong></td>
+                                            <td rowspan="4"><ul>
+                                                <li class="text-nowrap">暗号化: CCMP (AES-CTR)</li>
+                                                <li>改ざん検出: CBC-MAC</li>
+                                                <li>AES-128を使用</li>
+                                                <li>PSKの鍵導出手順
+                                                    <ol>
+                                                        <li>パスフレーズとSSIDからPBKDF2-HMAC-SHA1 (4096回) でPMKを生成</li>
+                                                        <li>4-wayハンドシェイクを実施</li>
+                                                        <li>PTK (通信鍵) を導出</li>
+                                                    </ol>
+                                                </li>
+                                            </ul></td>
+                                            <td rowspan="4"><ul>
+                                                <li>2004年、IEEE 802.11i準拠</li>
+                                                <li>2006年以降、Wi-Fi認定機器で必須</li>
+                                                <li>KRACK攻撃 (2017) は実装側の修正で対策済み</li>
+                                                <li>PSKはハンドシェイクを取得されるとオフライン辞書攻撃を受けるため、長く複雑なパスフレーズが必要</li>
+                                            </ul></td>
+                                            <td><strong>WPA2-PSK</strong></td>
+                                            <td><ul>
+                                                <li>Pre-Shared Key方式 (Personal向け)</li>
+                                                <li>AES-CCMPで暗号化</li>
+                                                <li>パスフレーズ形式: 8〜63文字のASCII文字列</li>
+                                                <li>64桁16進数形式: 256ビットのPMKを直接指定</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA2-Enterprise</strong></td>
+                                            <td><ul>
+                                                <li>IEEE 802.1X / EAP (EAP-TLS, PEAP等) + RADIUS</li>
+                                                <li>ユーザ・端末単位で認証</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA2 + PMF (802.11w)</strong></td>
+                                            <td><ul>
+                                                <li>管理フレーム (認証解除等) を保護</li>
+                                                <li>偽の認証解除攻撃への対策</li>
+                                                <li>WPA2では任意設定 (WPA3では必須)</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA/WPA2 混在モード (TKIP併用)</strong></td>
+                                            <td><ul>
+                                                <li>互換性のためAESとTKIPを混在させる設定</li>
+                                                <li>TKIP側の脆弱性の影響を受ける</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+
+                                        <!-- WPA3 -->
+                                        <tr>
+                                            <td class="name" rowspan="6"><strong>WPA3</strong></td>
+                                            <td rowspan="6"><ul>
+                                                <li>Personal: SAEで認証</li>
+                                                <li>暗号化: AES-CCMP-128 / GCMP-256</li>
+                                                <li>PMF (保護された管理フレーム) が必須</li>
+                                                <li>SAEの手順
+                                                    <ol>
+                                                        <li>Commit: パスワード要素から楕円曲線上の値を生成して交換</li>
+                                                        <li>Confirm: 双方が同じPMKを導出したことを確認</li>
+                                                        <li>4-wayハンドシェイクで通信鍵を導出</li>
+                                                    </ol>
+                                                </li>
+                                            </ul></td>
+                                            <td rowspan="6"><ul>
+                                                <li>2018年策定</li>
+                                                <li>SAE (Simultaneous Authentication of Equals, IEEE 802.11-2016) でPSKを置換</li>
+                                                <li>Dragonflyハンドシェイク (PAKE) を採用</li>
+                                                <li>オフライン辞書攻撃への耐性を提供</li>
+                                                <li>前方秘匿性を提供</li>
+                                                <li class="text-nowrap">2020年7月以降、Wi-Fi認定機器で必須</li>
+                                            </ul></td>
+                                            <td><strong>WPA3-SAE (Hunting-and-Pecking)</strong></td>
+                                            <td><ul>
+                                                <li>SAEによるパスワード認証 (初期のパスワード要素導出方式)</li>
+                                                <li>サイドチャネル攻撃 (Dragonblood) が報告されている</li>
+                                                <li>PMF必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA3-SAE-H2E (Hash-to-Element)</strong></td>
+                                            <td><ul>
+                                                <li>ハッシュ関数で楕円曲線上の点へ変換</li>
+                                                <li>サイドチャネル耐性が高い</li>
+                                                <li>Wi-Fi 6E (6GHz帯) では必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA3-SAE-PK</strong></td>
+                                            <td><ul>
+                                                <li>パスワードに公開鍵のフィンガープリントを含める</li>
+                                                <li>偽AP (Evil Twin) を検出可能</li>
+                                                <li>公共Wi-Fi向け</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA3-Personal 移行モード</strong></td>
+                                            <td><ul>
+                                                <li class="text-nowrap">WPA3-SAEとWPA2-PSKを同一SSIDで併用</li>
+                                                <li>旧端末との互換用</li>
+                                                <li>PMFは任意</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA3-Enterprise</strong></td>
+                                            <td><ul>
+                                                <li>IEEE 802.1X / EAP + RADIUS</li>
+                                                <li>PMF必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPA3-Enterprise 192ビット</strong></td>
+                                            <td><ul>
+                                                <li>CNSA準拠の高セキュリティモード</li>
+                                                <li>GCMP-256</li>
+                                                <li>ECDH / ECDSA (P-384)</li>
+                                                <li>HMAC-SHA-384</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+
+                                        <!-- Enhanced Open -->
+                                        <tr>
+                                            <td class="name" rowspan="2"><strong>Enhanced Open</strong></td>
+                                            <td rowspan="2"><ol>
+                                                <li>OWE (Opportunistic Wireless Encryption, RFC 8110) で接続</li>
+                                                <li>接続ごとにDiffie-Hellman鍵交換を実施</li>
+                                                <li>端末ごとに個別の暗号鍵を生成</li>
+                                            </ol></td>
+                                            <td rowspan="2"><ul>
+                                                <li>パスワード不要のオープンWi-Fiを暗号化するWi-Fi Alliance認証 (2018年)</li>
+                                                <li>盗聴は防げる</li>
+                                                <li>APの真正性は検証しないため、偽APには無力</li>
+                                            </ul></td>
+                                            <td><strong>OWE</strong></td>
+                                            <td><ul>
+                                                <li>パスワードなしで端末ごとに暗号化</li>
+                                                <li>PMF必須</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>OWE 移行モード</strong></td>
+                                            <td><ul>
+                                                <li>非暗号化SSIDとOWE SSIDを併設</li>
+                                                <li>OWE非対応端末も接続可能</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+
+                                        <!-- オープン -->
+                                        <tr>
+                                            <td class="name" rowspan="2"><strong>オープン</strong></td>
+                                            <td rowspan="2"><ul>
+                                                <li>認証: オープンシステム認証 (実質的に認証なし)</li>
+                                                <li>暗号化なし</li>
+                                            </ul></td>
+                                            <td rowspan="2"><ul>
+                                                <li>パスワード不要で誰でも接続できる</li>
+                                                <li>無線区間の通信内容が平文で、盗聴・改ざんが可能</li>
+                                                <li>現在はOWE (Enhanced Open) への置換が推奨</li>
+                                            </ul></td>
+                                            <td><strong>オープン (暗号化なし)</strong></td>
+                                            <td><ul>
+                                                <li>SSIDのみで接続</li>
+                                                <li>すべての通信が平文</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Web認証 (キャプティブポータル)</strong></td>
+                                            <td><ul>
+                                                <li>接続後にブラウザ上で認証・利用規約同意を行う</li>
+                                                <li>無線区間は暗号化されない</li>
+                                                <li>偽APによる認証情報の窃取に注意</li>
+                                            </ul></td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+
+                                        <!-- AOSS / WPS -->
+                                        <tr>
+                                            <td class="name" rowspan="5"><strong>AOSS / WPS</strong></td>
+                                            <td rowspan="3">
+                                                <strong>AOSS</strong>
+                                                <ul>
+                                                    <li>バッファロー独自プロトコルでAPと端末が通信し、SSID・暗号キーを自動設定</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="3">
+                                                <strong>AOSS</strong>
+                                                <ul>
+                                                    <li>
+                                                        バッファロー独自の簡易設定機能 (2003年発表)<br>
+                                                        標準規格ではなく、WPSの先駆けとなった旧称
+                                                    </li>
+                                                    <li>2009年以降のAirStationはAOSSとWPSの両方に対応し、両対応の端末ではWPSが優先される</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>AOSS (WEP / TKIP)</strong></td>
+                                            <td><ul>
+                                                <li>AP・端末双方のAOSSボタンを押すだけで設定</li>
+                                                <li>暗号化レベルがWEPまたはTKIPになる場合がある</li>
+                                                <li>WEP・TKIPの脆弱性の影響を受ける</li>
+                                            </ul></td>
+                                            <td class="mark">-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>AOSS (AES)</strong></td>
+                                            <td>
+                                                <ul>
+                                                    <li>WPA-PSK (AES) で暗号化 (WPA2表記には非対応)</li>
+                                                    <li>AES非対応の端末が混在すると、全体の暗号強度が下がる場合がある</li>
+                                                    <li>1つのSSIDに設定できる暗号は1種類のため、接続機器のうち最も弱い暗号に合わせられる (マルチSSID対応機種を除く)</li>
+                                                </ul>
+                                            </td>
+                                            <td class="mark">-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>AOSS2</strong></td>
+                                            <td>
+                                                <ul>
+                                                    <li>設定時のみ起動する専用SSID (!AOSSで始まる) にスマートフォン等を接続し、ブラウザでAOSS2キー (3桁) を入力して設定</li>
+                                                    <li>ボタン操作とブラウザ入力だけで、スマートフォン単体で設定可能</li>
+                                                    <li>専用SSIDへの接続時の通信は独自方式で暗号化</li>
+                                                    <li>AOSS2対応ルーターが必要</li>
+                                                </ul>
+                                            </td>
+                                            <td class="mark">-</td>
+                                        </tr>
+                                        <tr>
+                                            <td rowspan="2">
+                                                <strong>WPS</strong>
+                                                <ul>
+                                                    <li>レジストラ (AP) とエンロリー (端末) がWPSプロトコルで通信し、SSID・PSK等を自動配布</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="2">
+                                                <strong>WPS</strong>
+                                                <ul>
+                                                    <li>Wi-Fi Allianceによる簡易接続設定規格 (2007年)</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>WPS PINメソッド</strong></td>
+                                            <td>
+                                                <ul>
+                                                    <li>8桁PIN (実質7桁 + チェックサム)</li>
+                                                    <li>総当たり (Reaver等) やPixie Dust攻撃で脆弱で、通常は無効化を推奨</li>
+                                                    <li>前半4桁・後半3桁を別々に検証できるため、約11,000通りで総当たり可能</li>
+                                                </ul>
+                                            </td>
+                                            <td class="mark ng">✖</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>WPS PBC (プッシュボタン)</strong></td>
+                                            <td><ul>
+                                                <li>APのボタン押下から約2分間のみ接続を受け付け</li>
+                                                <li>PIN入力が不要</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+
+                                        <!-- Easy Connect -->
+                                        <tr>
+                                            <td class="name" rowspan="2"><strong>Easy Connect</strong></td>
+                                            <td rowspan="2"><ol>
+                                                <li>ConfiguratorがEnrolleeの公開鍵をブートストラップで取得</li>
+                                                <li>DPP認証で相互に公開鍵を検証</li>
+                                                <li>設定情報 (Connector) を配布</li>
+                                                <li>Connectorを用いてAPへ接続</li>
+                                            </ol></td>
+                                            <td rowspan="2"><ul>
+                                                <li>Wi-Fi Allianceの規格 (2018年)。DPP (Device Provisioning Protocol) を採用</li>
+                                                <li>パスワード入力なしで端末を追加できる</li>
+                                                <li>WPS (PIN方式) の後継として位置付けられる</li>
+                                                <li>WPA2 / WPA3で利用可能</li>
+                                            </ul></td>
+                                            <td><strong>QRコード方式</strong></td>
+                                            <td><ul>
+                                                <li>QRコードに埋め込まれた公開鍵を読み取る</li>
+                                                <li>スマートフォンをConfiguratorとして利用可能</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>NFC / BLE / PKEX 方式</strong></td>
+                                            <td><ul>
+                                                <li>近接通信や共通コードによる鍵交換でブートストラップ</li>
+                                                <li>画面のない機器にも対応</li>
+                                            </ul></td>
+                                            <td class="mark ok">〇</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                VPN
+                            </h2>
+                            <div id="md-vpn-term">
+
+| 用語 | 説明 |
+|---|---|
+| IPSec | <ul><li>IP Security</li><li>ネットワーク層でパケット単位の暗号化・認証を行うプロトコル群の総称</li><li>AH・ESP・IKEなどで構成される</li></ul> |
+| IKE | <ul><li>Internet Key Exchange</li><li>IPsec通信に用いる暗号鍵を安全に交換・共有するためのプロトコル</li><li>UDP/500番ポートを使用</li></ul> |
+| ISAKMP SA | <ul><li>Internet Security Association and Key Management Protocol SA</li><li>IKEフェーズ1で確立される、IKEメッセージ自体を暗号化・認証するためのSA (Security Association) </li><li>IKE SAとも呼ばれる</li><li>このSA上でフェーズ2 (IPsec SAの確立) のネゴシエーションが行われる</li></ul> |
+| ESP | <ul><li>Encapsulating Security Payload</li><li>データの暗号化と認証 (改ざん検知) の両方を提供するIPsecのプロトコル</li><li>IPプロトコル番号50</li></ul> |
+| AH | <ul><li>Authentication Header</li><li>データの認証 (改ざん検知) のみを提供し、暗号化は行わないIPsecのプロトコル</li><li>IPプロトコル番号51</li></ul> |
+| NATトラバーサル | <ul><li>NAT Traversal (NAT-T) </li><li>NAT環境下でIPsec通信を行うための技術</li><li>ESPパケットをUDP/4500番ポートでカプセル化し、NAT機器を通過可能にする</li></ul> |
+| PPP | <ul><li>Point-to-Point Protocol</li><li>2点間を1対1で接続するデータリンク層プロトコル</li><li>認証・エラー検出機能を持つ</li><li>認証方式としてPAP・CHAP・EAPを選択できる</li><li>PPTPやL2TPはPPPフレームをカプセル化して運ぶ</li></ul> |
+| EAP | <ul><li>Extensible Authentication Protocol (RFC 3748)</li><li>認証方式を拡張できる認証フレームワーク</li><li>パスワード・証明書・ワンタイムパスワード等の様々な認証方式(EAPメソッド)を同じ枠組みで扱える</li><li>もともとはPPPの認証拡張 (RFC 2284) として開発され、その後、下位層に依存しない汎用フレームワークとなった</li><li>PPP、IEEE 802.1X (EAPOL)、IKEv2等の上で運ばれる</li><li>以下のEAP-xxxは、EAPの上で動作する個別の認証方式</li></ul> |
+| EAP-MD5 | <ul><li>MD5ハッシュによるチャレンジレスポンス認証</li><li>サーバがクライアントを認証するだけの一方向認証で、サーバの正当性は確認できない</li><li>暗号鍵を生成できず、辞書攻撃にも弱いため、無線LANでは使用不可</li><li>認証にはユーザIDとパスワードを使用</li></ul> |
+| PEAP<br>EAP-PEAP | <ul><li>Protected EAP</li><li>サーバ証明書でサーバを認証してTLSトンネルを構築し、その中でEAPによるクライアント認証(MS-CHAPv2等)を行う</li><li>クライアント証明書が不要なため、証明書の配布・管理の負担が軽い</li><li>Microsoft・Cisco・RSAが提唱、Windows環境で広く利用される</li></ul> |
+| EAP-TLS | <ul><li>EAP Transport Layer Security</li><li>サーバ証明書とクライアント証明書の両方を用いた相互認証</li><li>パスワードを使わず、最も安全性が高い方式の一つ</li><li>全クライアントに証明書を配布するPKIの運用負荷が大きい</li></ul> |
+| EAP-TTLS | <ul><li>EAP Tunneled TLS</li><li>サーバ証明書でTLSトンネルを構築し、その中でクライアント認証を行う</li><li>PEAPと異なり、トンネル内の認証にEAP以外(PAP・CHAP・MS-CHAP等)も使える</li><li>クライアント証明書は不要</li></ul> |
+| EAP-LEAP<br>(LEAP) | <ul><li>Lightweight EAP</li><li>Cisco独自の方式で、MS-CHAPをベースにした相互認証</li><li>認証情報の交換が保護されず、辞書攻撃に脆弱なため非推奨</li></ul> |
+| EAP-OTP | <ul><li>EAP One-Time Password</li><li>ワンタイムパスワードを用いる認証方式</li><li>トークンなどで生成した使い捨てのパスワードを用いるため、盗聴されても再利用されない</li></ul> |
+| EAPOL<br>(EAP over LAN) | <ul><li>IEEE 802.1Xで規定される、サプリカント〜オーセンティケータ間でEAPを運ぶためのプロトコル</li><li>イーサネットフレームに直接EAPを格納する(EtherType 0x888E)</li><li>IPアドレスが割り当てられる前の段階で使える</li><li>認証の開始・終了にEAPOL-Start・EAPOL-Logoffを使用</li></ul> |
+| PPPoE | <ul><li>PPP over Ethernet</li><li>イーサネット上でPPPを実現するプロトコル</li><li>FTTHなどのブロードバンド回線でユーザ認証に利用</li></ul> |
+| PPTP | <ul><li>Point to Point Tunneling Protocol</li><li>PPPをカプセル化してIPネットワーク上にトンネルを構築</li><li>VPN通信の実現に利用</li><li>詳細は「トンネリング技術」を参照</li></ul> |
+| IEEE 802.1X | <ul><li>ポートベースのネットワークアクセス制御規格</li><li>認証に成功するまで、スイッチのポートや無線LANのアソシエーションを通じた通信を許可しない</li><li>認証プロトコルにEAP、認証サーバにRADIUSを用いるのが一般的</li><li>サプリカント・オーセンティケータ・認証サーバの3者で構成される</li><li>有線LAN・無線LAN(WPA/WPA2/WPA3-Enterprise)で使用</li><li>サプリカント(端末) ⇐ EAPOL ⇒ オーセンティケータ ⇐ RADIUS ⇒ 認証サーバ</li><li>⇐＝＝＝＝＝＝＝＝　　　　　EAP　　　　　　＝＝＝＝＝＝＝＝⇒</li></ul> |
+| サプリカント | <ul><li>Supplicant</li><li>認証を要求する側(クライアント端末、または端末上の認証ソフト)</li><li>オーセンティケータとEAPOLで通信する</li></ul> |
+| オーセンティケータ | <ul><li>Authenticator</li><li>サプリカントと認証サーバの間で認証を仲介する装置(スイッチ、無線LANアクセスポイント、VPNゲートウェイ等)</li><li>RADIUSの用語ではNAS(Network Access Server)に相当</li><li>サプリカントとの間はEAPOL、認証サーバとの間はRADIUSでEAPメッセージを中継する</li><li>認証結果に基づき、ポートの開放やVLANの割り当てを行う</li><li>認証自体の判断は行わない</li></ul> |
+| 認証サーバ | <ul><li>Authentication Server</li><li>サプリカントの認証情報を検証して認証の可否を判断するサーバ</li><li>通常はRADIUSサーバがこの役割を担う</li><li>ユーザ情報はローカルDBやActive Directory、LDAP等で管理</li></ul> |
+| RADIUS | <ul><li>Remote Authentication Dial-In User Service (RFC 2865)</li><li>認証・認可・アカウンティング(AAA)を一元的に提供するプロトコル</li><li>UDPを使用(認証・認可: UDP/1812、アカウンティング: UDP/1813。旧ポートは1645・1646)</li><li>メッセージはAccess-Request・Access-Challenge・Access-Accept・Access-Rejectなど</li><li>オーセンティケータ(NAS : Network Access Server)と認証サーバは共有シークレットで相互に確認し、パスワード属性を保護する</li><li>EAPメッセージはRADIUSの属性に格納して転送(RFC 3579)</li></ul> |
+| AAA | <ul><li>Authentication・Authorization・Accounting</li><li>認証(誰か)・認可(何をしてよいか)・アカウンティング(何をしたか)の3機能の総称</li><li>RADIUSやTACACS+が実装するモデル</li></ul> |
+
+                            </div>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                トンネリング技術
+                            </h3>
+                            <p>
+                                &emsp;トンネリングとは、あるプロトコルのパケット・フレームを別のプロトコルのペイロードとして包み(カプセル化)、途中経路を意識せずに送る技術<br>
+                                &emsp;IPsec(ESPトンネルモード)やTLS/DTLSのペイロードへのカプセル化のほかに、以下のような技術がVPNで使われる<br>
+                                &emsp;トンネリング技術自体には暗号化機能がないものも多く、その場合はIPsec等と組み合わせて機密性を確保する
+                            </p>
+                            <div id="md-vpn-tunnel">
+
+| 技術 | 階層 | 暗号化 | 概要 |
+|---|---|---|---|
+| IPsec ESP<br>(トンネルモード) | ネットワーク層 | あり | <ul><li>元のIPパケット全体をESPで暗号化し、新しいIPヘッダを付与して送信</li><li>拠点間VPNの基本となるトンネリング</li><li>単体ではユニキャストのIP通信のみが対象で、マルチキャストやルーティングプロトコルは通せない</li></ul> |
+| TLS / DTLS | トランスポート層上 | あり | <ul><li>TLS(TCP)またはDTLS(UDP)の暗号化ペイロード内にIPパケットやイーサネットフレームを格納</li><li>SSL-VPN(レイヤ2フォワーディング方式)で使用</li></ul> |
+| PPTP | データリンク層 | 弱い<br>(MPPE) | <ul><li>Point to Point Tunneling Protocol</li><li>PPPフレームをGRE(IPプロトコル番号47)でカプセル化</li><li>制御接続にTCP/1723番ポートを使用</li><li>認証にMS-CHAPv2、暗号化にMPPEを使うが、いずれも脆弱性が指摘されており現在は非推奨</li></ul> |
+| L2TP | データリンク層 | なし | <ul><li>Layer 2 Tunneling Protocol (RFC 2661)</li><li>PPPフレームをUDP/1701番ポートでカプセル化</li><li>PPTPとCisco独自のL2Fを統合した規格</li><li>暗号化・認証機能を持たないため、通常はIPsecと組み合わせる</li><li>アクセス集線側をLAC(L2TP Access Concentrator)、終端側をLNS(L2TP Network Server)と呼ぶ</li><li>L2TPv3(RFC 3931)ではPPP以外のレイヤ2フレーム(イーサネット等)も転送可能</li></ul> |
+| GRE | ネットワーク層 | なし | <ul><li>Generic Routing Encapsulation</li><li>IPプロトコル番号47</li><li>様々なプロトコルのパケットをIPパケットでカプセル化する汎用的な方式</li><li>マルチキャストやOSPF等のルーティングプロトコルもトンネル内で通せる</li><li>暗号化・認証機能を持たない</li><li>PPTPの内部でも利用される</li></ul> |
+| L2TP over IPsec<br>(L2TP/IPsec) | データリンク層 | あり | <ul><li>L2TPのトンネルをIPsecで保護する組み合わせ</li><li>L2TPの通信(UDP/1701)をIPsec ESP(主にトランスポートモード)で暗号化</li><li>ユーザ認証はPPPの認証(PAP/CHAP/EAP等)、機器認証はIPsec(IKE)が担当</li><li>UDP/500・4500(NAT-T)・1701番ポートを使用</li><li>リモートアクセスVPNで広く利用される</li></ul> |
+| GRE over IPsec | ネットワーク層 | あり | <ul><li>GREトンネルをIPsecで保護する組み合わせ</li><li>IPsec単体では通せないマルチキャストやルーティングプロトコルをGRE経由で通しつつ、IPsecで暗号化できる</li><li>拠点間VPNで動的ルーティング(OSPF・BGP等)を行いたい場合に利用</li><li>IPsecはトランスポートモード・トンネルモードのどちらでも使える</li></ul> |
+| Q in Q | データリンク層 | なし | <ul><li>IEEE 802.1ad(プロバイダブリッジ)で規定</li><li>VLANタグを2重に付与する技術</li><li>外側がSタグ(サービスプロバイダ用、TPID 0x88A8)、内側がCタグ(顧客用、TPID 0x8100)</li><li>顧客のVLAN構成を維持したまま通信事業者網を通過でき、広域イーサネットで利用される</li><li>VLAN IDが12bit(約4,000)に限られる制約の緩和にもなる</li></ul> |
+| VXLAN | データリンク層<br>(UDP上) | なし | <ul><li>Virtual eXtensible LAN (RFC 7348)</li><li>イーサネットフレームをUDP(宛先ポートUDP/4789)でカプセル化し、L3ネットワーク上にL2ネットワークを構築するオーバーレイ技術</li><li>VNI(VXLAN Network Identifier)は24bitで、約1,600万のセグメントを識別可能</li><li>VLANの4,094個の制限を超えられ、データセンタのマルチテナント環境で利用される</li><li>トンネルの端点をVTEP(VXLAN Tunnel End Point)と呼ぶ</li><li>暗号化機能はなく、必要に応じてIPsec等と併用する</li></ul> |
+
+                            </div>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                VPNの接続手順
+                            </h3>
+                            <p>
+                                &emsp;IKEフェーズ1でISAKMP SAを確立した後、IEEE 802.1X / RADIUSによる本人確認を行い、認証成功後にIKEフェーズ2でIPsec SAを確立してデータ通信へ進む<br>
+                                &emsp;リモートアクセスVPNでは、VPNゲートウェイがオーセンティケータ(NAS : Network Access Server)となり、IKEv2のEAP認証などの中で同様の手順で認証を行う
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">フェーズ</th>
+                                            <th scope="col">規格・プロトコル</th>
+                                            <th scope="col">内容</th>
+                                            <th scope="col">手順</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--
+                                        ### 1. IKEフェーズ1
+                                    
+                                        | 項目 | 値 |
+                                        |------|----|
+                                        | 内容 | ISAKMP SAの確立 |
+                                        | 使用ポート | UDP/500 (NAT環境下ではUDP/4500) |
+                                        -->
+                                        <tr>
+                                            <th scope="row" class="fw-bold text-nowrap">IKEフェーズ1</th>
+                                            <td>
+                                                <ul>
+                                                    <li>IKE <br>(ISAKMP)</li>
+                                                    <li>Diffie-Hellman鍵交換</li>
+                                                    <li>UDP/500、UDP/4500 <br>(NATトラバーサル)</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap">ISAKMP SAの確立</td>
+                                            <td>
+                                                <ul>
+                                                    <li>対向機器同士でDiffie-Hellman鍵交換を行い、以降の通信を保護するための共通鍵を生成</li>
+                                                    <li>事前共有鍵 (PSK) や電子証明書等を用いて相手を認証</li>
+                                                    <li>この段階で確立されるSA (Security Association) をISAKMP SA (IKE SA) と呼ぶ</li>
+                                                    <li>メインモード (6メッセージ、IPアドレス秘匿可) とアグレッシブモード (3メッセージ、高速だが認証情報が平文で流れる) の2方式がある</li>
+                                                    <li>UDP/500番ポートを使用 (NAT環境下ではNATトラバーサルによりUDP/4500番ポートを使用)</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    
+                                        <!--
+                                        ### 2. 本人確認 (IEEE 802.1X / RADIUS)
+                                    
+                                        `フェーズ` 列と `規格・プロトコル` 列を `rowspan="6"` で縦結合。
+                                    
+                                        | 順 | 内容 | 主なメッセージ |
+                                        |----|------|----------------|
+                                        | 1 | 認証の開始 | `EAPOL-Start` |
+                                        | 2 | ID情報の取得 | `EAP-Request/Identity` `EAP-Response/Identity` |
+                                        | 3 | 認証サーバへの中継 | `Access-Request` |
+                                        | 4 | EAP方式による認証 | `Access-Challenge` |
+                                        | 5 | 認証結果の通知 | `Access-Accept` `Access-Reject` `EAP-Success` `EAP-Failure` |
+                                        | 6 | 通信の許可 / 切断 | `Accounting-Request` `EAPOL-Logoff` |
+                                        -->
+                                        <tr>
+                                            <th scope="row" class="fw-bold" rowspan="6">本人確認</th>
+                                            <td rowspan="6">
+                                                <ul>
+                                                    <li>IEEE 802.1X <br>(EAPOL)</li>
+                                                    <li>EAP <br>(EAP-TLS、PEAP等)</li>
+                                                    <li>RADIUS</li>
+                                                </ul>
+                                                <p class="small">
+                                                    サプリカント・オーセンティケータ・RADIUSサーバ(認証サーバ)による、ユーザ・端末の本人確認の流れ
+                                                </p>
+                                            </td>
+                                            <td>認証の開始</td>
+                                            <td>
+                                                <ul>
+                                                    <li>サプリカントがオーセンティケータにEAPOL-Startを送信し、認証を開始 (オーセンティケータ側から開始する場合もある)</li>
+                                                    <li>この時点のポートは未認証状態で、EAPOL以外の通信は遮断される</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>ID情報の取得</td>
+                                            <td>
+                                                <ul>
+                                                    <li>オーセンティケータがサプリカントにEAP-Request/Identityを送信</li>
+                                                    <li>サプリカントがEAP-Response/Identityでユーザ名(ID)を返答</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>認証サーバへの中継</td>
+                                            <td>
+                                                <ul>
+                                                    <li>オーセンティケータは受け取ったEAPメッセージをRADIUSのAccess-Requestに格納し、認証サーバへ転送</li>
+                                                    <li>この後の認証サーバとサプリカントのやり取りはオーセンティケータが中継するだけで、内容は関知しない</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>EAP方式による認証</td>
+                                            <td>
+                                                <ul>
+                                                    <li>認証サーバがEAP方式(EAP-TLS、PEAP等)を提示し、Access-Challengeで応答を要求</li>
+                                                    <li>サプリカントとの間でEAP方式に応じた認証(証明書の検証、TLSトンネル内でのパスワード認証等)を、EAPOLとRADIUSを介して数回往復して実施</li>
+                                                    <li>サーバ証明書を検証することで、サプリカント側は認証サーバ(接続先)の正当性も確認できる</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>認証結果の通知</td>
+                                            <td>
+                                                <ul>
+                                                    <li>認証成功時: 認証サーバがAccess-Acceptを返し、オーセンティケータがサプリカントにEAP-Successを送信</li>
+                                                    <li>認証失敗時: Access-Rejectが返され、EAP-Failureを送信して接続を拒否</li>
+                                                    <li>成功時は、暗号鍵(無線LANではPMK等)の材料もAccess-Acceptで提供される</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>通信の許可・切断</td>
+                                            <td>
+                                                <ul>
+                                                    <li>オーセンティケータがポートを認証済み状態にして通信を許可 (RADIUSの属性による動的VLAN割り当ても可能)</li>
+                                                    <li>VPNでは、この認証後に次のIKEフェーズ2 (IPsec SAの確立)・データ通信へ進む</li>
+                                                    <li>オーセンティケータはAccounting-Requestで接続開始をRADIUSサーバに通知し、利用状況を記録 (アカウンティング)</li>
+                                                    <li>切断時は、サプリカントがEAPOL-Logoffを送信するか、セッションが切れると、ポートを未認証状態に戻す</li>
+                                                    <li>オーセンティケータは接続時間・通信量等をAccounting-Request(Stop)で報告</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    
+                                        <!--
+                                        ### 3. IKEフェーズ2
+                                    
+                                        | 項目 | 値 |
+                                        |------|----|
+                                        | 内容 | IPsec SAの確立 |
+                                        | モード | クイックモード |
+                                        | 取り決め項目 | プロトコル (`ESP` / `AH`) 、暗号アルゴリズム、鍵の有効期間 |
+                                        -->
+                                        <tr>
+                                            <th scope="row" class="fw-bold">IKEフェーズ2</th>
+                                            <td>
+                                                <ul>
+                                                    <li>IKE <br>(クイックモード)</li>
+                                                    <li>IPsec <br>(ESP / AH)</li>
+                                                </ul>
+                                            </td>
+                                            <td>IPsec SAの確立</td>
+                                            <td>
+                                                <ul>
+                                                    <li>IKEフェーズ1で確立したISAKMP SAによる暗号化通信路上で、クイックモードによりネゴシエーションを実施</li>
+                                                    <li>実際のデータ通信に使用するプロトコル (ESP/AH) や暗号アルゴリズム、鍵の有効期間等を取り決める</li>
+                                                    <li>この段階で確立されるSAをIPsec SAと呼び、送信方向・受信方向でそれぞれ個別に生成される</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    
+                                        <!--
+                                        ### 4. データ通信
+                                    
+                                        | モード | カプセル化の範囲 | 主な用途 |
+                                        |--------|------------------|----------|
+                                        | トンネルモード | IPヘッダを含めたパケット全体 | 拠点間VPN |
+                                        | トランスポートモード | ペイロードのみ | 端末間通信 |
+                                        -->
+                                        <tr>
+                                            <th scope="row" class="fw-bold">データ通信</th>
+                                            <td>
+                                                <ul>
+                                                    <li>IPsec (ESP)</li>
+                                                </ul>
+                                            </td>
+                                            <td>ESPによる暗号化通信</td>
+                                            <td>
+                                                <ul>
+                                                    <li>確立したIPsec SAに基づき、ESPを用いてパケットを暗号化・認証した上で送受信</li>
+                                                    <li>トンネルモード (IPヘッダを含めたパケット全体をカプセル化、拠点間VPNで使用) とトランスポートモード (ペイロードのみを保護、端末間通信で使用) の2方式がある</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    
+                                        <!--
+                                        ### 5. 切断
+                                    
+                                        | 項目 | 値 |
+                                        |------|----|
+                                        | 内容 | SAの削除 |
+                                        | 削除対象 | ISAKMP SA、IPsec SA |
+                                        | 鍵の再生成 | ライフタイム満了前にリキーを実施 |
+                                        -->
+                                        <tr>
+                                            <th scope="row" class="fw-bold">切断</th>
+                                            <td>
+                                                <ul>
+                                                    <li>IKE</li>
+                                                    <li>IPsec</li>
+                                                </ul>
+                                            </td>
+                                            <td>SAの削除</td>
+                                            <td>
+                                                <ul>
+                                                    <li>鍵の有効期間 (ライフタイム) 満了や明示的な切断要求により、ISAKMP SA・IPsec SAを削除</li>
+                                                    <li>通信を継続する場合は、鍵の危殆化を防ぐためライフタイム満了前に再度ネゴシエーションを行い、SAを再生成 (鍵の再生成 : リキー)</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ネットワークの異常検出方法
+                            </h2>
+                            <h3 class="pt-4 mt-4 fw-bold" id="network-collision">
+                                衝突検出方式
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>衝突検出方式</th>
+                                        <th>正式名称</th>
+                                        <th>用途</th>
+                                        <th>動作階層</th>
+                                        <th>概要</th>
+                                    </tr>
+                                    <tr>
+                                        <td>CSMA/CD</td>
+                                        <td>Carrier Sense Multiple Access with Collision Detection</td>
+                                        <td>有線イーサネット(半二重)</td>
+                                        <td>データリンク層(MAC副層)</td>
+                                        <td>
+                                            <ul>
+                                                <li>送信前にキャリアセンスで回線状態を確認</li>
+                                                <li>送信中も回線を監視し衝突を検出</li>
+                                                <li>衝突検出時はジャム信号を送出し送信を中断</li>
+                                                <li>ランダム時間待機後に再送(2進指数バックオフ)</li>
+                                                <li>全二重通信では原理上使用されない</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>CSMA/CA</td>
+                                        <td>Carrier Sense Multiple Access with Collision Avoidance</td>
+                                        <td>無線LAN(IEEE 802.11)</td>
+                                        <td>データリンク層(MAC副層)</td>
+                                        <td>
+                                            <ul>
+                                                <li>無線では衝突検出が困難なため事前に回避する方式</li>
+                                                <li>IFS(フレーム間隔)とランダムバックオフで送信タイミングを分散</li>
+                                                <li>RTS/CTSのやり取りで隠れ端末問題を軽減</li>
+                                                <li>受信側からのACKで送信成功を確認、未受信なら再送</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold" id="network-loop">
+                                ループ検出方式
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>ループ検出方式</th>
+                                        <th>内容</th>
+                                        <th>規格</th>
+                                    </tr>
+                                    <tr>
+                                        <td>STP(スパニングツリープロトコル)</td>
+                                        <td>
+                                            <ul>
+                                                <li>BPDUを交換してルートブリッジを決定</li>
+                                                <li>ループとなる経路をブロッキングポートとして遮断</li>
+                                                <li>障害時はブロック中のポートを有効化し経路を切替</li>
+                                                <li>収束に数十秒かかる</li>
+                                            </ul>
+                                        </td>
+                                        <td>IEEE 802.1D</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RSTP(高速スパニングツリー)</td>
+                                        <td>
+                                            <ul>
+                                                <li>STPと同じ仕組みでポート状態遷移を簡略化</li>
+                                                <li>収束時間を数秒程度に短縮</li>
+                                            </ul>
+                                        </td>
+                                        <td>IEEE 802.1w</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MSTP(マルチプルスパニングツリー)</td>
+                                        <td>
+                                            <ul>
+                                                <li>VLANごとに複数のスパニングツリーインスタンスを構成可能</li>
+                                                <li>VLAN単位で負荷分散した経路設計が可能</li>
+                                            </ul>
+                                        </td>
+                                        <td>IEEE 802.1s</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <h3 class="pt-4 mt-4 fw-bold" id="network-congestion">
+                                輻輳制御方式
+                            </h3>
+                            <p>
+                                ネットワーク経路上のルータなどでバッファ溢れによるパケット廃棄や遅延増大が起きないよう、送信側が事前に送信レートを抑制し、回線の混雑(輻輳崩壊)を防ぎつつ可能な限り高いスループットを得るための制御<br>
+                                トランスポート層で行われる
+                            </p>
+                            <ul>
+                                <li>cwnd(輻輳ウィンドウ) : 送信側がネットワークの輻輳状況を考慮して決める、確認応答を待たずに送信できるデータ量</li>
+                                <li>ssthresh(スロースタート閾値) : スロースタート(指数増加)から輻輳回避(線形増加)へ切り替える境界値</li>
+                                <li>rwnd(受信ウィンドウ) : 受信側のバッファ空き容量に基づく制限値。輻輳制御ではなくフロー制御用の変数</li>
+                                <li>実際の送信可能量 : cwndとrwndのうち小さい方が採用される</li>
+                            </ul>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>方式</th>
+                                        <th>計算方法</th>
+                                        <th>特徴</th>
+                                    </tr>
+                                    <tr>
+                                        <td>スロースタート</td>
+                                        <td>
+                                            <ul>
+                                                <li>ACK受信ごとにcwndを1MSSずつ増加(実質倍々に増加)</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>通信開始時の急激な負荷集中を回避</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>輻輳回避</td>
+                                        <td>
+                                            <ul>
+                                                <li>ACK受信ごとにcwndを1/cwnd(MSS単位)増加させる線形増加</li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                <li>ssthresh到達後、緩やかな増加へ移行</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>高速再送</td>
+                                        <td><ul><li>同一ACKを3回重複受信した時点で再送</li></ul></td>
+                                        <td><ul><li>タイムアウトを待たず再送し遅延を削減</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>高速回復</td>
+                                        <td><ul><li>高速再送後、cwndをssthreshまで下げ輻輳回避から再開</li></ul></td>
+                                        <td><ul><li>スロースタートを経ずスループット低下を抑制</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tahoe</td>
+                                        <td><ul><li>輻輳検知時にcwndを1に戻しスロースタートからやり直す</li></ul></td>
+                                        <td><ul><li>実装は単純だが回復に時間がかかる</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reno</td>
+                                        <td><ul><li>Tahoeに高速再送・高速回復を追加</li></ul></td>
+                                        <td><ul><li>現在広く使われる基本方式</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NewReno</td>
+                                        <td><ul><li>部分ACK受信時も再送を継続し複数ロスに対応</li></ul></td>
+                                        <td><ul><li>複数パケットロス時の回復効率を改善</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CUBIC</td>
+                                        <td><ul><li>3次関数(Cubic関数)で時間経過に応じcwndを増加</li></ul></td>
+                                        <td><ul><li>高帯域・長遅延回線(LFN)向け</li><br><li>Linuxの標準アルゴリズム</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BBR</td>
+                                        <td><ul><li>実測した帯域幅とRTTから最適送信レートを推定</li></ul></td>
+                                        <td><ul><li>パケットロスでなくモデルベースで制御</li><br><li>Googleが開発</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>RED</td>
+                                        <td><ul><li>キュー長に応じた確率でランダムにパケットを破棄</li></ul></td>
+                                        <td><ul><li>ルータ側で行うAQM(Active Queue Management)の代表例</li></ul></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ECN</td>
+                                        <td><ul><li>パケットを破棄せずIPヘッダに輻輳マーキングして通知</li></ul></td>
+                                        <td><ul><li>パケットロスを伴わない明示的輻輳通知</li></ul></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                IPv4 / IPv6 アドレスの用途一覧
+                            </h2>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                IPv4
+                            </h3>
+                            <div id="md-ipv4">
+
+| CIDR表記 (プレフィックス表記)<br>[IPアドレス] / [プレフィックス] | アドレス範囲 (ドットデシマル表記) | 区分 / 用途 | 規格 | 備考 |
+|---|---|---|---|---|
+| `0.0.0.0/1` | 0.0.0.0 ～ 127.255.255.255 | クラスA | RFC 791 | 先頭ビット `0` |
+| `128.0.0.0/2` | 128.0.0.0 ～ 191.255.255.255 | クラスB | RFC 791 | 先頭ビット `10` |
+| `192.0.0.0/3` | 192.0.0.0 ～ 223.255.255.255 | クラスC | RFC 791 | 先頭ビット `110` |
+| `224.0.0.0/4` | 224.0.0.0 ～ 239.255.255.255 | クラスD (マルチキャスト)  | RFC 5771 | 先頭ビット `1110` |
+| `240.0.0.0/4` | 240.0.0.0 ～ 255.255.255.255 | クラスE (予約)  | RFC 1112 | 将来利用のため予約。実質使用不可 |
+| `0.0.0.0/8` | 0.0.0.0 ～ 0.255.255.255 | Thisネットワーク | RFC 791 / RFC 1122 | 送信元としてのみ有効 |
+| `0.0.0.0/32` | 0.0.0.0 | 未指定アドレス (このホスト)  | RFC 1122 | DHCP取得前の送信元などに使用 |
+| `10.0.0.0/8` | 10.0.0.0 ～ 10.255.255.255 | プライベート | RFC 1918 | 約1,677万アドレス |
+| `100.64.0.0/10` | 100.64.0.0 ～ 100.127.255.255 | 共有アドレス空間 (CGN用)  | RFC 6598 | キャリアグレードNAT用 |
+| `127.0.0.0/8` | 127.0.0.0 ～ 127.255.255.255 | ループバック | RFC 1122 | 通常は `127.0.0.1` を使用 |
+| `169.254.0.0/16` | 169.254.0.0 ～ 169.254.255.255 | リンクローカル | RFC 3927 | APIPA。DHCP失敗時の自動設定 |
+| `172.16.0.0/12` | 172.16.0.0 ～ 172.31.255.255 | プライベート | RFC 1918 | 約104万アドレス |
+| `192.0.0.0/24` | 192.0.0.0 ～ 192.0.0.255 | IETFプロトコル割り当て | RFC 6890 | DS-Lite (`192.0.0.0/29`) など |
+| `192.0.2.0/24` | 192.0.2.0 ～ 192.0.2.255 | ドキュメント用 (TEST-NET-1)  | RFC 5737 | 例示・ドキュメント用 |
+| `192.31.196.0/24` | 192.31.196.0 ～ 192.31.196.255 | AS112-v4 | RFC 7535 | 逆引きDNSの空振り応答用 |
+| `192.52.193.0/24` | 192.52.193.0 ～ 192.52.193.255 | AMT | RFC 7450 | マルチキャストのトンネル |
+| `192.88.99.0/24` | 192.88.99.0 ～ 192.88.99.255 | 6to4リレーAnycast (廃止)  | RFC 3068 / RFC 7526 | 廃止済み |
+| `192.168.0.0/16` | 192.168.0.0 ～ 192.168.255.255 | プライベート | RFC 1918 | 家庭・小規模LANで一般的 |
+| `192.175.48.0/24` | 192.175.48.0 ～ 192.175.48.255 | AS112直接委任 | RFC 7534 | 逆引きDNS用 |
+| `198.18.0.0/15` | 198.18.0.0 ～ 198.19.255.255 | ベンチマークテスト | RFC 2544 | 機器の性能測定用 |
+| `198.51.100.0/24` | 198.51.100.0 ～ 198.51.100.255 | ドキュメント用 (TEST-NET-2)  | RFC 5737 | 例示・ドキュメント用 |
+| `203.0.113.0/24` | 203.0.113.0 ～ 203.0.113.255 | ドキュメント用 (TEST-NET-3)  | RFC 5737 | 例示・ドキュメント用 |
+| `224.0.0.0/24` | 224.0.0.0 ～ 224.0.0.255 | マルチキャスト: ローカルネットワーク制御 | RFC 5771 | TTL=1、ルーティングされない (`224.0.0.1` 全ホスト、`224.0.0.2` 全ルータ)  |
+| `224.0.1.0/24` | 224.0.1.0 ～ 224.0.1.255 | マルチキャスト: インターネットワーク制御 | RFC 5771 | NTP (`224.0.1.1`) など |
+| `232.0.0.0/8` | 232.0.0.0 ～ 232.255.255.255 | マルチキャスト: SSM | RFC 4607 | Source-Specific Multicast |
+| `233.0.0.0/8` | 233.0.0.0 ～ 233.255.255.255 | マルチキャスト: GLOP | RFC 3180 | AS番号ベースの割り当て |
+| `233.252.0.0/24` | 233.252.0.0 ～ 233.252.0.255 | マルチキャスト: テスト用 | RFC 5771 | MCAST-TEST-NET |
+| `239.0.0.0/8` | 239.0.0.0 ～ 239.255.255.255 | マルチキャスト: 管理スコープ | RFC 2365 | プライベート相当のマルチキャスト |
+| `255.255.255.255/32` | 255.255.255.255 | 制限付きブロードキャスト | RFC 919 | 同一リンク内のみ |
+
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                IPv6
+                            </h3>
+                            <div id="md-ipv6">
+
+| CIDR表記 | 区分 / 用途 | 規格 | 備考 |
+|---|---|---|---|
+| `::/128` | 未指定アドレス | RFC 4291 | IPv4の `0.0.0.0` 相当 |
+| `::1/128` | ループバック | RFC 4291 | IPv4の `127.0.0.1` 相当 |
+| `::ffff:0:0/96` | IPv4射影アドレス | RFC 4291 | `::ffff:192.0.2.1` のような形式 |
+| `64:ff9b::/96` | NAT64 (Well-Known Prefix)  | RFC 6052 | IPv6からIPv4への変換用 |
+| `64:ff9b:1::/48` | NAT64 (ローカル用途)  | RFC 8215 | 組織内でのNAT64用 |
+| `100::/64` | Discard-Only | RFC 6666 | ブラックホール用。RTBHなどで利用 |
+| `2000::/3` | グローバルユニキャスト | RFC 4291 | 現在の割り当ては主にこの範囲 |
+| `2001::/23` | IETFプロトコル割り当て | RFC 2928 | 下記のTeredoなどを含む |
+| `2001::/32` | Teredo | RFC 4380 | IPv4 NAT越えのトンネル |
+| `2001:2::/48` | ベンチマークテスト | RFC 5180 | IPv4の `198.18.0.0/15` 相当 |
+| `2001:3::/32` | AMT | RFC 7450 | マルチキャストのトンネル |
+| `2001:4:112::/48` | AS112-v6 | RFC 7535 | 逆引きDNSの空振り応答用 |
+| `2001:10::/28` | ORCHID (廃止)  | RFC 4843 | 廃止済み |
+| `2001:20::/28` | ORCHIDv2 | RFC 7343 | 暗号学的ハッシュ識別子 |
+| `2001:db8::/32` | ドキュメント用 | RFC 3849 | IPv6の例示アドレスで最も一般的 |
+| `2002::/16` | 6to4 | RFC 3056 | 非推奨 (RFC 7526)  |
+| `2620:4f:8000::/48` | AS112直接委任 | RFC 7534 | 逆引きDNS用 |
+| `3fff::/20` | ドキュメント用 (大規模)  | RFC 9637 | 2024年に追加された、より大きなドキュメント用範囲 |
+| `5f00::/16` | SRv6 SID | RFC 9602 | Segment Routing用 |
+| `fc00::/7` | ユニークローカルアドレス (ULA)  | RFC 4193 | IPv6版プライベート。実際に使うのは `fd00::/8` |
+| `fd00::/8` | ULA (ローカル割り当て)  | RFC 4193 | 40ビットのランダムなグローバルIDを生成して使う |
+| `fe80::/10` | リンクローカルユニキャスト | RFC 4291 | 通常は `fe80::/64` として使用 |
+| `fec0::/10` | サイトローカル (廃止)  | RFC 3879 | 廃止済み。ULAに置き換え |
+| `ff00::/8` | マルチキャスト | RFC 4291 | 下記スコープ・サブ範囲を含む |
+| `ff02::/16` | マルチキャスト: リンクローカルスコープ | RFC 4291 | `ff02::1` 全ノード、`ff02::2` 全ルータ |
+| `ff02::1:ff00:0/104` | マルチキャスト: 被請求ノード | RFC 4291 | NDP (近隣探索) で使用 |
+| `ff05::/16` | マルチキャスト: サイトローカルスコープ | RFC 4291 | サイト内 |
+| `ff0e::/16` | マルチキャスト: グローバルスコープ | RFC 4291 | インターネット全体 |
+| `ff30::/12` | マルチキャスト: ユニキャストプレフィックスベース | RFC 3306 | `ff3x::/32` はSSM (RFC 4607)  |
+| `ff70::/12` | マルチキャスト: Embedded RP | RFC 3956 | RPアドレスをグループアドレスに埋め込む |
+
+
+                            </div>
+
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ポート番号
+                            </h2>
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                TCP Well Known ポート (0〜1023) + α
+                            </h3>
+                            <div id="md-tcp">
+
+| ポート番号 | プロトコル名 | 説明 |
+|---|---|---|
+| 7 | Echo | 受信データをそのまま送り返す疎通確認用 |
+| 20 | FTP-DATA | FTPのデータ転送用コネクション |
+| 21 | FTP | FTPの制御用コネクション |
+| 22 | SSH | Secure Shell (暗号化リモート操作)  |
+| 23 | Telnet | 平文でのリモートログイン |
+| 25 | SMTP | メール送信 (Mail Transfer)  |
+| 37 | Time | 時刻情報の取得 (旧式)  |
+| 53 | DNS | ゾーン転送や大きな応答時に使用 |
+| 80 | HTTP | Webアクセス |
+| 88 | Kerberos | 認証チケットの発行・検証 |
+| 110 | POP3 | メール受信 (Post Office Protocol v3)  |
+| 111 | RPCbind | RPCサービスのポート番号解決 (Portmapper)  |
+| 113 | Ident | 接続元ユーザー識別 (Auth)  |
+| 119 | NNTP | ネットニュース転送 |
+| 135 | MS RPC | Microsoft RPCエンドポイントマッパー |
+| 137 | NetBIOS Name Service | NetBIOS名前解決 |
+| 138 | NetBIOS Datagram | NetBIOSデータグラム配送 |
+| 139 | NetBIOS Session | NetBIOSセッションサービス (ファイル共有等)  |
+| 143 | IMAP | メール受信 (サーバー上で同期管理)  |
+| 179 | BGP | Border Gateway Protocol |
+| 389 | LDAP | 軽量ディレクトリアクセスプロトコル |
+| 443 | HTTPS | HTTP over TLS/SSL |
+| 445 | SMB | Windowsファイル・プリンタ共有 |
+| 464 | Kerberos Password | Kerberosパスワード変更・設定 |
+| 465 | SMTPS | SMTP over TLS/SSL |
+| 502 | Modbus/TCP | 産業用制御機器 (PLC等) との通信 |
+| 512 | rexec | リモートコマンド実行 (認証は平文パスワード)  |
+| 513 | rlogin | リモートログイン (BSD系)  |
+| 514 | rsh | リモートシェル実行 (BSD系)  |
+| 587 | SMTP Submission | クライアントからのメール投稿用 |
+| 631 | IPP | Internet Printing Protocol (ネットワーク印刷)  |
+| 636 | LDAPS | LDAP over TLS/SSL |
+| 853 | DoT | DNS over TLS (DNSクエリの暗号化)  |
+| 873 | rsync | ファイル同期プロトコル |
+| 990 | FTPS | FTP over TLS/SSL (制御コネクション)  |
+| 992 | Telnets | Telnet over TLS/SSL |
+| 993 | IMAPS | IMAP over TLS/SSL |
+| 995 | POP3S | POP3 over TLS/SSL |
+| 1433 | SQL Server | Microsoft SQL Serverへの接続 |
+| 1521 | Oracle DB | Oracle Databaseへの接続 (デフォルトリスナー)  |
+| 1723 | PPTP | Point-to-Point Tunneling Protocol (制御コネクション)  |
+| 1883 | MQTT | IoT機器向けの軽量Pub/Subメッセージング (平文)  |
+| 3306 | MySQL | MySQL/MariaDBへの接続 |
+| 3389 | RDP | Remote Desktop Protocol (Windowsリモートデスクトップ)  |
+| 5060 | SIP | セッション制御 (VoIP呼制御、平文)  |
+| 5061 | SIPS | SIP over TLS/SSL |
+| 5222 | XMPP | インスタントメッセージング/一部IoT機器の制御 |
+| 8080 | HTTP Proxy | HTTPの代替ポート・プロキシ用途 |
+| 8883 | MQTTS | MQTT over TLS/SSL |
+
+                            </div>
+
+                            <h3 class="pt-4 mt-4 fw-bold">
+                                UDP Well Known ポート (0〜1023) + α
+                            </h3>
+                            <div id="md-udp">
+
+| ポート番号 | プロトコル名 | 説明 |
+|---|---|---|
+| 7 | Echo | 受信データをそのまま送り返す疎通確認用 |
+| 37 | Time | 時刻情報の取得 (旧式)  |
+| 53 | DNS | ドメイン名解決の問い合わせ・応答 |
+| 67 | DHCP (Server)  | DHCPサーバーからの応答 |
+| 68 | DHCP (Client)  | DHCPクライアントからの要求 |
+| 69 | TFTP | Trivial File Transfer Protocol (軽量ファイル転送)  |
+| 88 | Kerberos | 認証チケットの発行・検証 |
+| 111 | RPCbind | RPCサービスのポート番号解決 |
+| 123 | NTP | Network Time Protocol (時刻同期)  |
+| 137 | NetBIOS Name Service | NetBIOS名前解決 |
+| 138 | NetBIOS Datagram | NetBIOSデータグラム配送 |
+| 161 | SNMP | ネットワーク機器の監視・管理 |
+| 162 | SNMP Trap | SNMPエージェントからの通知 |
+| 443 | HTTP/3 (QUIC)  | QUICベースのHTTP/3通信 |
+| 500 | IKE | Internet Key Exchange (IPsecの鍵交換)  |
+| 514 | Syslog | ログメッセージの転送 |
+| 520 | RIP | Routing Information Protocol |
+| 546 | DHCPv6 (Client)  | DHCPv6クライアントからの要求 |
+| 547 | DHCPv6 (Server)  | DHCPv6サーバーからの応答 |
+| 631 | IPP | Internet Printing Protocol (ネットワーク印刷)  |
+| 1812 | RADIUS | 利用者認証 (Authentication)  |
+| 1813 | RADIUS Accounting | 利用状況のアカウンティング |
+| 1900 | SSDP | Simple Service Discovery Protocol (UPnP)  |
+| 4500 | IPsec NAT-T | NAT環境下でのIPsec通信 (NATトラバーサル)  |
+| 5060 | SIP | セッション制御 (VoIP呼制御、平文)  |
+| 5353 | mDNS | ローカルネットワーク内の名前解決 (Bonjour/Zeroconf)  |
+| 5683 | CoAP | 省電力IoT機器向け軽量プロトコル (平文)  |
+| 5684 | CoAPS | CoAP over DTLS |
+
+                            </div>
+                        </article>
+
+                        
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://qiita.com/S_Katz/items/a82554447491fb8079f0">
+                                    <a href="https://qiita.com/S_Katz/items/a82554447491fb8079f0">
+                                        busyboxの使い方
+                                    </a>
+                                </blockquote>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#lan">LANケーブルの作成ポイント</a>
+                                    </li>
+                                    <li>
+                                        <a href="#net-connection">ネットワーク接続方式</a>
+                                    </li>
+                                    <li>
+                                        <a href="#net-devices">ネットワーク機器について</a>
+                                    </li>
+                                    <li>
+                                        <a href="#wifi-sec">Wi-Fi セキュリティ規格一覧</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-vpn-term">VPN</a>
+                                    </li>
+                                    <li>
+                                        <a href="#network-collision">衝突検出方式</a>
+                                    </li>
+                                    <li>
+                                        <a href="#network-loop">ループ検出方式</a>
+                                    </li>
+                                    <li>
+                                        <a href="#network-congestion">輻輳制御方式</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-ipv4">IPv4割り当て</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-ipv6">IPv6割り当て</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-tcp">TCP ポート</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-udp">UDP ポート</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "UEFITip"]);
+            new Pagination(1, serverModel.page, "pagination");
+
+            const mdLists = [
+                "md-vpn-tunnel",
+                "md-vpn-term",
+                "md-ipv4",
+                "md-ipv6",
+                "md-tcp",
+                "md-udp",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>

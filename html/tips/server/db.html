@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/db.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="データベースサーバ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>データベースサーバ</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class ="pt-4 ps-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <div id="md-text" class ="pt-4 mt-4"></div>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="db">データ基盤の分類</h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th>分類</th>
+                                        <th>特徴</th>
+                                        <th>種類</th>
+                                        <th>特徴</th>
+                                        <th>サブ分類</th>
+                                        <th>説明</th>
+                                        <th>具体例</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">DB</td>
+                                        <td rowspan="5">
+                                            <ul>
+                                                <li>最新の状態</li>
+                                                <li>データを構造化して保存・管理し、検索や更新を効率的に行う</li>
+                                                <li>業務システムの日々の読み書き(OLTP)に適する</li>
+                                                <li>常に最新の状態のデータを保持</li>
+                                                <li class="text-nowrap">アプリケーションから直接利用される</li>
+                                            </ul>
+                                        </td>
+                                        <td  rowspan="1">RDBMS</td>
+                                        <td  rowspan="1">
+                                            <ul>
+                                                <li>表(テーブル)形式でデータを管理</li>
+                                                <li>スキーマを事前に定義</li>
+                                                <li>ACID特性によるトランザクション保証</li>
+                                                <li>SQLによる問い合わせ・結合が可能</li>
+                                            </ul>
+                                        </td>
+                                        <td >(リレーショナル型)</td>
+                                        <td >
+                                            <ul>
+                                                <li>行と列からなる表でデータを表現</li>
+                                                <li>外部キーによりテーブル同士を関連付け</li>
+                                                <li>整合性・正確性が求められる業務系システムに適する</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>MySQL</code></li>
+                                                <li><code>PostgreSQL</code></li>
+                                                <li><code>SQLite</code></li>
+                                                <li><code>Oracle Database</code></li>
+                                                <li><code>SQL Server</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  rowspan="4">NoSQL</td>
+                                        <td  rowspan="4">
+                                            <ul>
+                                                <li>スキーマレス(柔軟なデータ構造)</li>
+                                                <li>水平分散によるスケールアウトが容易</li>
+                                                <li>大量データ・高速アクセスに強い</li>
+                                                <li class="text-nowrap">結合(JOIN)には不向き</li>
+                                            </ul>
+                                        </td>
+                                        <td >KVS型</td>
+                                        <td >
+                                            <ul>
+                                                <li>キーと値のペアでデータを保持</li>
+                                                <li>構造がシンプルで読み書きが非常に高速</li>
+                                                <li>キャッシュやセッション管理に多用</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Redis</code></li>
+                                                <li><code>Memcached</code></li>
+                                                <li><code>Amazon DynamoDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">ドキュメント型</td>
+                                        <td >
+                                            <ul>
+                                                <li>JSON/BSON等の半構造化ドキュメント単位で保存</li>
+                                                <li>ドキュメントごとに異なる構造を持てる</li>
+                                                <li>アプリケーションのオブジェクトと親和性が高い</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>MongoDB</code></li>
+                                                <li><code>Couchbase</code></li>
+                                                <li><code>Amazon DocumentDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >カラムファミリ型</td>
+                                        <td >
+                                            <ul>
+                                                <li>行ごとに異なるカラムを持てる列指向のデータ構造</li>
+                                                <li>大規模・書き込み中心のワークロードに強い</li>
+                                                <li>ノード追加による水平スケールが得意</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Apache Cassandra</code></li>
+                                                <li><code>HBase</code></li>
+                                                <li><code>ScyllaDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >グラフ型</td>
+                                        <td >
+                                            <ul>
+                                                <li>ノードとエッジでデータ間の関係を表現</li>
+                                                <li>関係性をたどる探索クエリが高速</li>
+                                                <li>SNSの人間関係やレコメンドに適する</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Neo4j</code></li>
+                                                <li><code>Amazon Neptune</code></li>
+                                                <li><code>ArangoDB</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">データレイク</td>
+                                        <td rowspan="3">
+                                            <ul>
+                                                <li>加工前の生データ</li>
+                                                <li>生データをそのままの形式で大量に蓄積</li>
+                                                <li>構造化・半構造化・非構造化データを区別なく保存</li>
+                                                <li>読み込み時にスキーマを適用(Schema on Read)</li>
+                                                <li>機械学習や探索的分析のデータソースに適する</li>
+                                            </ul>
+                                        </td>
+                                        <td  rowspan="1">オブジェクトストレージ型</td>
+                                        <td  rowspan="1">
+                                            <ul>
+                                                <li>低コストで容量をほぼ無制限に拡張可能</li>
+                                                <li>ストレージと計算資源を分離して個別にスケール可能</li>
+                                                <li>HTTP APIでファイル(オブジェクト)単位にアクセス</li>
+                                            </ul>
+                                        </td>
+                                        <td >(クラウドストレージ型)</td>
+                                        <td >
+                                            <ul>
+                                                <li>ログ、画像、動画、CSV、JSONなどをファイル単位で保存</li>
+                                                <li>クラウド上のデータレイクの基盤として最も一般的</li>
+                                                <li>各種分析サービスから直接読み込める</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Amazon S3</code></li>
+                                                <li><code>Azure Data Lake Storage</code></li>
+                                                <li><code>Google Cloud Storage</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  rowspan="1">分散ファイルシステム型</td>
+                                        <td  rowspan="1">
+                                            <ul>
+                                                <li>複数ノードにファイルを分割・複製して保存</li>
+                                                <li>ノード追加による水平スケールが容易</li>
+                                                <li>データの近くで処理を実行できる(データローカリティ)</li>
+                                            </ul>
+                                        </td>
+                                        <td >(オンプレミス型)</td>
+                                        <td >
+                                            <ul>
+                                                <li>Hadoopエコシステムを中心に発展したデータレイクの原型</li>
+                                                <li>自社環境で大規模データを扱う場合に利用</li>
+                                                <li>MapReduceやSparkによる大規模バッチ処理に適する</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>HDFS</code></li>
+                                                <li><code>Apache Ozone</code></li>
+                                                <li><code>GlusterFS</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  rowspan="1" class="text-nowrap">レイクハウス型</td>
+                                        <td  rowspan="1">
+                                            <ul>
+                                                <li>データレイク上にテーブル形式の管理層を追加</li>
+                                                <li>ACIDトランザクションやスキーマ管理に対応</li>
+                                                <li>1つの基盤でBIと機械学習の両方を扱える</li>
+                                            </ul>
+                                        </td>
+                                        <td >(テーブルフォーマット型)</td>
+                                        <td >
+                                            <ul>
+                                                <li>データレイクの柔軟性とDWHの信頼性を両立</li>
+                                                <li>タイムトラベル(過去時点のデータ参照)などに対応</li>
+                                                <li>Parquet等のファイルに対してメタデータ層を提供</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Delta Lake</code></li>
+                                                <li><code>Apache Iceberg</code></li>
+                                                <li><code>Apache Hudi</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" class="text-nowrap">データウェアハウス</td>
+                                        <td rowspan="2">
+                                            <ul>
+                                                <li>加工・統合済みのデータ</li>
+                                                <li>複数システムのデータを統合・整形して蓄積</li>
+                                                <li>分析・レポート用途(OLAP)に最適化</li>
+                                                <li>書き込み時にスキーマを定義(Schema on Write)</li>
+                                                <li>BIツールと連携した経営分析・意思決定に適する</li>
+                                            </ul>
+                                        </td>
+                                        <td  rowspan="1">クラウドDWH</td>
+                                        <td  rowspan="1">
+                                            <ul>
+                                                <li>列指向ストレージによる高速な集計・分析</li>
+                                                <li>インフラ管理が不要なマネージドサービス</li>
+                                                <li>需要に応じて柔軟にスケール可能</li>
+                                            </ul>
+                                        </td>
+                                        <td >(マネージドサービス型)</td>
+                                        <td >
+                                            <ul>
+                                                <li>ストレージと計算資源を分離できる製品が多い</li>
+                                                <li>SQLで大量データを扱えるため、アナリストが使いやすい</li>
+                                                <li class="text-nowrap">従量課金で小さく始められる</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Google BigQuery</code></li>
+                                                <li><code>Amazon Redshift</code></li>
+                                                <li><code>Snowflake</code></li>
+                                                <li><code>Azure Synapse Analytics</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  rowspan="1">オンプレミスDWH</td>
+                                        <td  rowspan="1">
+                                            <ul>
+                                                <li>自社データセンター内にDWHを構築・運用</li>
+                                                <li>並列処理による大規模な集計に対応</li>
+                                                <li>データの所在やセキュリティを自社で管理できる</li>
+                                            </ul>
+                                        </td>
+                                        <td >(アプライアンス型)</td>
+                                        <td >
+                                            <ul>
+                                                <li>専用のハードウェアとソフトウェアを組み合わせた製品が中心</li>
+                                                <li>規制やセキュリティ要件でクラウドを使えない場合に選択</li>
+                                                <li>導入・拡張には初期投資と運用負荷が必要</li>
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            <ul>
+                                                <li><code>Teradata</code></li>
+                                                <li><code>Oracle Exadata</code></li>
+                                                <li><code>IBM Db2 Warehouse</code></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="db">データ基盤の構成要素</h2>
+                            <div id="md-data">
+
+| 用語 | 別名 | 英語 | 概要 | 例 |
+|------|------|------|------|----|
+| テーブル(表) | 表 | Table | データを行と列の二次元で格納する、データベースの基本単位 | `customers`(顧客テーブル) |
+| レコード(行) | 行 / タプル | Record / Row / Tuple | テーブル内の1件分のデータ | 顧客1人分の情報 |
+| カラム(列) | 列 / 属性 | Column / Attribute | テーブル内の項目。データ型を持つ | `name` / `email` / `created_at` |
+| フィールド(セル) | セル / 値 | Field / Cell | 行と列が交差する1つの値 | 顧客ID=1 の `name` が「山田太郎」 |
+| データマート | マート | Data Mart | DWHから特定の部門・目的向けに切り出した小規模なデータ集合 | 営業部門向け分析 / マーケティング分析など |
+| データリネージ | データ系譜 / リネージ | Data Lineage | データの発生源から加工・移動を経て最終的な利用先に至るまでの流れ(系譜)を追跡できる情報 | 影響範囲調査 / データ品質管理 / 監査・コンプライアンス対応 |
+| スキーマ | 構造定義 | Schema | テーブル構造、カラムの型、制約など、データベースの設計情報 | `customers(id INT, name VARCHAR, email VARCHAR)` |
+| 主キー | PK / プライマリキー | Primary Key (PK) | テーブル内のレコードを一意に識別するカラム(またはその組み合わせ) | `customers.id` |
+| 外部キー | FK / フォーリンキー | Foreign Key (FK) | 他テーブルの主キーを参照するカラム。テーブル間の関連を表す | `orders.customer_id` が `customers.id` を参照 |
+| インデックス | 索引 | Index | 検索を高速化するために作成する索引 | `email` カラムに作成して顧客検索を高速化 |
+| ビュー | 仮想テーブル | View | クエリ結果を仮想的なテーブルとして扱えるようにしたもの | 有効な顧客だけを抽出した `active_customers` |
+| トランザクション | - | Transaction | 複数の処理を1つのまとまりとして扱う仕組み(全て成功か全て失敗) | 送金処理(出金と入金を1つの単位として実行) |
+| 正規化 | - | Normalization | データの重複を排除し、整合性を保つようにテーブルを分割する設計手法 | 注文テーブルから顧客情報を切り出し `customers` テーブルに分離 |
+| ETL | - | Extract / Transform / Load | データを抽出し、変換して、格納先にロードする処理 | 基幹システムのデータを整形してからDWHへ格納 |
+| ELT | - | Extract / Load / Transform | データを先にロードし、格納先で変換する処理。DWHやデータレイクで多く使われる | 生データをデータレイクへ格納後、DWH上のSQLで変換 |
+| メタデータ | 属性情報 | Metadata | データそのものではなく、データに関する情報(定義、作成日、所有者など) | テーブル定義 / カラムの型 / 最終更新日時 |
+| データカタログ | - | Data Catalog | 組織内のデータ資産のメタデータを一覧化し、検索・理解しやすくする仕組み | 社内データの検索ポータル / 用語集 |
+
+                            </div>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4 text-nowrap">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#db">データベースの分類</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <div id="md-source">
+&#62; [ソース](/html/tips/server/sql.md)  
+                                </div>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
+            new Pagination(9, serverModel.page, "pagination");
+            const mdInst        = new MarkDownLoader(
+                id              = "md-text",
+                mdFile          = "/html/tips/server/sql.md",
+            )
+            new MarkDownTOC(
+                mdInstance      = mdInst,
+                id              = "toc",
+                mdid            = "md-text",
+            )
+
+            const mdLists = [
+                "md-source", 
+                "md-data", 
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>

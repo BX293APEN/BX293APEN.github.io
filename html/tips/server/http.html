@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/http.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="Webサーバ(Nginx) の設定方法について" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="ps-4 pt-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            サーバの構築手順
+                        </h1>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="cgi-http">
+                                Nginx (CGI)
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <div id = "md-text">
+##### ※注意
+- Python 3.12 以降では `cgi`  `cgitb` モジュールが削除されています  
+  **古い** CGIスクリプトは動作しないため、 **環境変数** と **stdin** を使ったフォーム処理に書き換える必要があります。  
+  → **代替モジュール** [`libcgipy`](https://pypi.org/project/libcgipy/) を作成しました
+
+                            </div>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install nginx fcgiwrap
+pip install libcgipy    # Pythonスクリプトを動かす場合</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/nginx/sites-available/[Project Name]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">server {
+    listen 80;
+    server_name radicon.lan;
+
+    location /cgi-bin/ {
+        gzip off;
+        alias [path]/cgi-bin/;
+        fastcgi_pass unix:/run/fcgiwrap.socket;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $request_filename;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/[Project Name] /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t # テスト</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                起動
+                            </h3>
+                            <p>
+                                &emsp;親ディレクトリにも実行権限<code>o+x</code>を与えること<br>
+                                &emsp;子ディレクトリには<code>-R</code>オプションで一括権限付与
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart nginx</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="django-http">
+                                Djangoを利用したWebサーバの構築 (nginx)
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                プロジェクトの作成 (Windows用)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    バッチファイル (.bat)
+                                </div>
+                                <pre><code class="language-bash">@echo off
+if "%1" == "" (
+    set /p projectName="プロジェクト名を入力 : "
+) else (
+    set projectName=%1
+)
+django-admin startproject %projectName%
+echo 作成完了
+pause > nul</code></pre> 
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                アプリの設定
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd [Project Name]</code></pre> 
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    バッチファイル (.bat)
+                                </div>
+                                <pre><code class="language-bash">@echo off
+
+if "%1" == "" (
+    goto help
+
+) else if "%~1" == "/?" (
+    goto help
+
+) else if "%~1" == "-help" (
+    goto help
+
+) else if "%~1" == "-app" (
+    if "%2" == "" (
+        echo アプリ作成
+        set /p appName="アプリ名 : "
+    ) else (
+        set appName=%2
+    )
+    setlocal enabledelayedexpansion
+    python manage.py startapp !appName!
+    echo 完了しました
+    pause > nul
+    exit /b
+
+) else if "%~1" == "-mig" (
+    if "%2" == "" (
+        echo マイグレーション
+        set /p appName="アプリ名 : "
+    ) else (
+        set appName=%2
+    )
+    setlocal enabledelayedexpansion
+    python manage.py makemigrations !appName!
+    python manage.py migrate
+    echo 完了しました
+    pause > nul
+    exit /b
+
+) else if "%~1" == "-run" (
+    python manage.py runserver
+    pause>nul
+    exit /b
+
+) else if "%~1" == "-col" (
+    python manage.py collectstatic
+    pause>nul
+    exit /b
+
+) else if "%~1" == "--create-admin" (
+    python manage.py createsuperuser
+    pause>nul
+    exit /b
+
+) else (
+    echo 引数が違います
+    goto help
+)
+
+:help
+    echo %~0
+    echo [/?]             : help
+    echo [-app] [appName] : 指定したアプリを作成
+    echo [-mig] [appName] : 指定したアプリのマイグレーションを実行
+    echo [-run]           : ローカルサーバ立ち上げ
+    echo [-col]           : staticファイルを集める
+    echo [--create-admin] : 管理者登録
+    cmd
+    exit /b</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install nginx
+pip install uwsgi # テスト環境用
+sudo pip install django djangorestframework django-bootstrap5 uwsgi --break-system-packages # 実環境にインストール</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの編集
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">nano [path]/[Project Name]/[Project Name]_uwsgi.ini</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[uwsgi]
+socket = /tmp/[Project Name].sock
+chmod-socket = 666
+
+chdir = [path]/[Project Name]
+
+module = [Project Name].wsgi
+
+processes = 4
+threads = 2
+
+uid = www-data
+gid = www-data
+
+pidfile = /tmp/[Project Name].pid
+logto = /var/log/uwsgi/[Project Name].log
+daemonize = /var/log/uwsgi/[Project Name].log</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">uwsgi --ini [path]/[Project Name]/[Project Name]_uwsgi.ini # テスト</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/nginx/sites-available/[Project Name]</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# https://www.nginx.com/resources/wiki/start/
+# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+# https://wiki.debian.org/Nginx/DirectoryStructure
+#
+# In most cases, administrators will remove this file from sites-enabled/ and
+# leave it as reference inside of sites-available where it will continue to be
+# updated by the nginx packaging team.
+#
+# This file will automatically load configuration files provided by other
+# applications, such as Drupal or Wordpress. These applications will be made
+# available underneath a path with that package name, such as /drupal8.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+
+server {
+    listen 80 default_server;
+
+    # ワイルドカード (ホスト名がマッチしないすべて)
+    server_name _;
+
+    # 接続を即時切断
+    return 444;
+}
+
+server {
+    listen 443 ssl default_server;
+
+    ssl_certificate [path]/server.crt;
+    ssl_certificate_key [path]/server.key;
+
+    # ワイルドカード (ホスト名がマッチしないすべて)
+    server_name _;
+
+    # 接続を即時切断
+    return 444;
+}
+
+server {
+    listen 80;
+    # root /var/www/html;
+
+    server_name raspi5.lan;
+
+    # 静的ファイル
+    location /static/ {
+        alias [path]/[Project Name]/static/;
+    }
+
+    # すべての動的リクエストをuWSGIに転送
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:///tmp/[Project Name].sock; # uWSGI設定ファイルで指定したソケットのパス
+    }
+
+    error_log /var/log/nginx/[Project Name]_error.log;
+    access_log /var/log/nginx/[Project Name]_access.log;
+}
+
+server {
+    listen 443 ssl;
+
+    ssl_certificate [path]/server.crt;
+    ssl_certificate_key [path]/server.key;
+
+    # root /var/www/html;
+
+    server_name raspi5.lan;
+
+    # 静的ファイル
+    location /static/ {
+        alias [path]/[Project Name]/static/;
+    }
+
+    # すべての動的リクエストをuWSGIに転送
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:///tmp/[Project Name].sock; # uWSGI設定ファイルで指定したソケットのパス
+    }
+
+    error_log /var/log/nginx/[Project Name]_error.log;
+    access_log /var/log/nginx/[Project Name]_access.log;
+
+}
+
+</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の変更
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo ln -s /etc/nginx/sites-available/[Project Name] /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t # テスト</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                起動
+                            </h3>
+                            <p>
+                                &emsp;親ディレクトリにも実行権限<code>o+x</code>を与えること<br>
+                                &emsp;子ディレクトリには<code>-R</code>オプションで一括権限付与
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl restart nginx</code></pre>
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                自動起動
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/system/[Project Name].service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=uWSGI instance to serve [Project Name]
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=[path]/[Project Name] 
+ExecStart=uwsgi --ini [path]/[Project Name]/[Project Name]_uwsgi.ini
+Restart=always
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl restart [Project Name].service
+sudo systemctl enable [Project Name].service</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                HTTP
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                HTTPメソッド
+                            </h4>
+                            <div id="md-http-method">
+
+| メソッド名 | 内容 | CRUD特性 |
+| --- | --- | --- |
+| GET | リソースの取得 | Read |
+| POST | リソースの新規作成・データの送信 | Create |
+| HEAD | リソースヘッダ情報のみ取得 | - |
+| PUT | リソースの置換・更新<br>(存在しなければ作成) | Update |
+| DELETE | リソースの削除 | Delete |
+
+                            </div>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                HTTPステータスコード
+                            </h4>
+                            <div id="md-http-status">
+
+| コード番号 | ステータス | 内容 |
+| --- | --- | --- |
+| 100 | Continue | リクエストの継続を許可 |
+| 101 | Switching Protocols | プロトコルの切り替え |
+| 200 | OK | 正常終了 |
+| 201 | Created | リソースの作成成功 |
+| 202 | Accepted | リクエストは受理されたが処理は未完了 |
+| 204 | No Content | 正常終了(返すボディなし) |
+| 206 | Partial Content | 範囲指定による部分的な取得成功 |
+| 301 | Moved Permanently | リソースが恒久的に移動 |
+| 302 | Found | リソースが一時的に移動 |
+| 303 | See Other | 別のURIを参照(GETで取得) |
+| 304 | Not Modified | 前回から更新なし(キャッシュ利用可) |
+| 307 | Temporary Redirect | 一時的なリダイレクト(メソッド維持) |
+| 308 | Permanent Redirect | 恒久的なリダイレクト(メソッド維持) |
+| 400 | Bad Request | リクエストの構文が不正 |
+| 401 | Unauthorized | 認証が必要 |
+| 403 | Forbidden | アクセス権限なし |
+| 404 | Not Found | リソースが存在しない |
+| 405 | Method Not Allowed | 許可されていないメソッド |
+| 408 | Request Timeout | リクエストがタイムアウト |
+| 409 | Conflict | リソースの状態と競合 |
+| 410 | Gone | リソースが恒久的に削除済み |
+| 413 | Content Too Large | リクエストボディが大きすぎる |
+| 415 | Unsupported Media Type | 未対応のメディアタイプ |
+| 429 | Too Many Requests | リクエスト過多(レート制限) |
+| 500 | Internal Server Error | サーバー内部エラー |
+| 501 | Not Implemented | 未実装の機能 |
+| 502 | Bad Gateway | 上位サーバーから不正な応答 |
+| 503 | Service Unavailable | サービス一時停止(過負荷・メンテナンス等) |
+| 504 | Gateway Timeout | 上位サーバーからの応答タイムアウト |
+
+                            </div>
+                            <h4 class="pt-4 border-bottom fw-bold" id="req-header">
+                                リクエストヘッダ
+                            </h4>
+                            <p>
+                                <pre><code class="language-html">[method] [URI] HTTP/[プロトコルバージョン]
+Authorization: [認証方式] [アクセストークン / BASE64に変換した値]
+Referer: [リンク元のURL]
+User-Agent: [ブラウザの名称/バージョン情報]
+Host: [接続先サーバのURI:ポート番号]
+Cookie: [クライアントがサーバに提示するCookie]
+Content-Type: [ファイル内容/ファイルの種類]; charset=UTF-8
+X-Forwarded-For: [実際の送信元ホストのIPアドレス]
+Connection: [ネットワークの接続状態の制御 (keep-alive 等)]
+Accept: [クライアントが受信可能なファイルの種類 (MIMEタイプ text/html,application/xml,*/* 等)]
+Accept-Language: ja-JP,ja;q=[ja優先度],en-US;q=[en-US優先度],en;q=[en優先度]
+Accept-Encoding: [クライアントが対応しているデータの圧縮形式(コンマ区切り)]
+Upgrade-Insecure-Requests: [HTTPSへのアップグレード要求]
+If-Modified-Since: [キャッシュ検証用日時 (ddd, dd MMM yyyy HH:mm:ss GMT)]
+If-None-Match: [キャッシュが最新か検証するためにサーバーへ提示するコンテンツの識別子 (ETag値) ]
+Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(キャッシュ禁止) / public / private 等)], max-age=[有効期間秒数], [must-revalidate (期限切れなら絶対に確認 通信不可ならエラーを出す)]
+</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="res-header">
+                                レスポンスヘッダ
+                            </h4>
+                            <p>
+                                <pre><code class="language-html">HTTP/[プロトコルバージョン] [ステータスコード] &lt;ステータスコードの説明(任意文字列可能 HTTP/2以降廃止)&gt;
+Date: [レスポンスを生成した日時 (ddd, dd MMM yyyy HH:mm:ss GMT)]
+Content-Type: [ファイル内容/ファイルの種類]; charset=UTF-8
+Content-Length: [レスポンスボディのサイズ(Byte数)]
+Transfer-Encoding: [レスポンスボディの転送方式 (chunked 等)]
+Connection: [ネットワークの接続状態の制御 (keep-alive 等)]
+Server: [レスポンスを処理したWebサーバーの種類 (nginx 等)]
+Location: [リダイレクト先のURI]
+X-Frame-Options: [ページを &lt;frame&gt; / &lt;iframe&gt; / &lt;object&gt;等で表示する際の制御 (DENY / SAMEORIGIN 等) クリックジャッキング対策]
+X-XSS-Protection: [1 : ブラウザのXSSフィルターの有効化]; mode=[動作指定(block 等)]
+X-Content-Type-Options: [nosniff : MIMEタイプの推測禁止&レスポンスヘッダのContent-Type指定を常に優先させる]
+ETag: [レスポンス内容を識別するための識別子 (ETag値)]
+Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(キャッシュ禁止) / public / private 等)], max-age=[有効期間秒数], [must-revalidate (期限切れなら絶対に確認 通信不可ならエラーを出す)]
+Set-Cookie:  [クライアントに保存させるCookie名]=[Cookieの値]; Secure(HTTPSのみCookieを有効); Domain=[サブドメインに共有(省略時 : 発行元サーバーのみ)]; Path=[有効にするパス]; Expires=[Cookieを保持する期限(ddd, dd MMM yyyy HH:mm:ss GMT)]; Max-Age=[有効期間秒数]; HttpOnly(JavaScriptからのアクセスを禁止 XSS対策); SameSite=[Strict / Lax / None (CSRF対策の送信制限)]; [属性]=[値]; [属性];
+X-Runtime: [サーバー側でリクエスト処理に要した時間[秒]]
+Strict-Transport-Security: max-age=[HTTPS接続を強制する有効期間秒数]
+X-Request-Id: [リクエストを一意に識別するためのID]
+Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシー違反を監視・報告するための指定 (default-src / script-src / report-uri / report-to 等)]
+(空行 : \r\n)
+&lt;!DOCTYPE html&gt;
+    &lt;html lang="ja"&gt;
+        &lt;head&gt;
+</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                HTML
+                            </h4>
+                            <div id="md-html">
+
+| 用語 | 説明 |
+|---|---|
+| HTML | Webページの構造を記述するマークアップ言語<br>要素(タグ)によって<ul><li>見出し</li><li>段落</li><li>リンク</li><li>フォーム</li></ul>などを表現する |
+| CSS | HTML要素の見た目(色・レイアウト・フォント等)<br>を指定するスタイルシート言語 |
+| DOM | HTMLやXML文書をツリー構造のオブジェクトとして表現するAPI・仕様<br>JavaScriptからページの内容や構造を動的に操作できる |
+| ECMAScript | JavaScriptの言語仕様を定めた標準規格<br>文法や基本的な機能(変数、関数、クラス等)を規定する |
+| JavaScript | ECMAScriptを実装したプログラミング言語<br>ブラウザ上で動作し、DOM操作やイベント処理により動的なWebページを実現する |
+| TypeScript | JavaScriptに静的型付けの機能を追加した言語<br>コンパイルによりJavaScriptに変換されて実行される |
+| JSON | JavaScriptのオブジェクト表記法をベースにしたデータ交換フォーマット<br>テキストベースで軽量なため、API通信等で広く使われる |
+| Ajax | ページ全体を再読み込みせずに、JavaScriptから非同期でサーバーとデータをやり取りする手法。 |
+| XMLHttpRequest (XHR) | JavaScriptから非同期通信を行うための旧来のAPI<br>Ajaxの実現に用いられてきた |
+| CORBA <br>(Common Object Request Broker Architecture) | 異なるプログラミング言語・OS間でオブジェクトを分散連携させるための<br>ミドルウェア標準規格(ORBを介してリモートオブジェクトを呼び出す) |
+| SOAP <br>(Simple Object Access Protocol) | XML形式のメッセージを用いてネットワーク越しに情報交換を行うための<br>プロトコル<br>主にHTTP上でWebサービス間の連携に利用されてきた |
+| WSDL <br>(Web Services Description Language) | SOAPベースのWebサービスが提供する操作・メッセージ形式・<br>エンドポイント等をXMLで記述するためのインターフェース定義言語 |
+| UDDI <br>(Universal Description, Discovery and Integration) | Webサービスの情報を登録・検索するためのディレクトリサービス(の仕様)<br>SOAP・WSDLと組み合わせて使われた |
+| WebDAV <br>(Web-based Distributed Authoring and Versioning) | HTTPを拡張し、Webサーバー上のファイルの作成・編集・削除・<br>バージョン管理等を可能にするプロトコル |
+| Fetch API | ブラウザがサーバーとHTTP通信を行うためのJavaScript標準API<br>従来のXMLHttpRequestに代わる方式 |
+| Cookie | サーバーがブラウザに保存させる小さなデータ<br>セッション管理やログイン状態の保持に利用されるが、盗用により成りすまし等の脅威にもなる |
+| Session | サーバー側で一連のユーザー操作をひとまとまりとして管理する仕組み<br>Cookie等にセッションIDを持たせて識別することが多い |
+| Web Storage <br>localStorage <br> sessionStorage | ブラウザ内にキーと値の形式でデータを保存するJavaScript API<br>Cookieと異なりサーバーへ自動送信されない |
+| Same-Origin Policy <br>(SOP) | 異なるオリジン(スキーム・ホスト・ポートの組)間での<br>リソースアクセスを制限するブラウザの基本的なセキュリティ機構 |
+| CORS <br> (Cross-Origin Resource Sharing) | Same-Origin Policyを緩和し、許可されたオリジン間の通信を可能にする仕組み |
+| iframe | 別のHTML文書を現在のページ内に埋め込むためのHTML要素<br>クリックジャッキング等の攻撃にも利用され得る |
+| WebSocket | サーバーとブラウザ間で双方向・リアルタイムの通信を行うためのプロトコル・API |
+| SPA <br>(Single Page Application) | 初回読み込み後、JavaScriptによる画面遷移・再描画のみで動作するWebアプリケーションの形態 |
+| SSR <br>(Server-Side Rendering) <br><br> CSR <br>(Client-Side Rendering) | サーバー側でHTMLを生成する方式と、ブラウザ側のJavaScriptで生成する方式 |
+| Node.js | ブラウザ外でJavaScriptを実行するためのランタイム環境<br>サーバーサイド開発等にも用いられる |
+| npm | JavaScript/Node.jsのパッケージを管理・配布するためのパッケージマネージャー |
+| Web Components | Custom Elements・Shadow DOM・Templateから成る、再利用可能なUI部品を作成するための標準技術群 |
+
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://github.com/BX293APEN/Python-CGI">
+                                    <a href="https://github.com/BX293APEN/Python-CGI">
+                                        libcgipyリポジトリ
+                                    </a>
+                                </blockquote>
+                                <blockquote cite="https://raw.githubusercontent.com/BX293APEN/Python-CGI/refs/heads/main/sample/http/html/cgi-bin/radicon.py">
+                                    <a href="https://raw.githubusercontent.com/BX293APEN/Python-CGI/refs/heads/main/sample/http/html/cgi-bin/radicon.py">
+                                        サンプルCGIコード
+                                    </a>
+                                </blockquote>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cgi-http">Nginx (CGI)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#django-http">Djangoを利用したWebサーバの構築 (nginx)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-http-method">HTTPメソッド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-http-status">HTTPステータスコード</a>
+                                    </li>
+                                    <li>
+                                        <a href="#req-header">リクエストヘッダ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#res-header">レスポンスヘッダ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-html">HTMLに関する用語</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
+            new Pagination(4, serverModel.page, "pagination");
+
+            const mdLists = [
+                "md-text",
+                "md-html",
+                "md-http-method",
+                "md-http-status",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>

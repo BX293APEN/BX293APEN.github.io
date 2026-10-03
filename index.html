@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <meta property="og:title" content="とあるペンギンの実験室" />
+        <meta property="og:url" content="https://bx293apen.github.io/" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="PENの実験室" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/env.js"></script>
+        <script src="/model/index/index.js"></script>
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>とあるペンギンの実験室</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <main>
+            <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" data-bs-theme="light">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <canvas class="bd-placeholder-img" id="matrix" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        </canvas>
+                        <div class="container">
+                            <div class="carousel-caption text-start">
+                                <h1 class = "font-shadow">
+                                    Let's Try GitHub !
+                                </h1>
+                                <p class = "font-shadow">
+                                    GitHubを使い、バージョン管理を行うことで、大規模プログラミングが容易になります
+                                </p>
+                                <p>
+                                    <a class="btn btn-lg btn-primary" href="/BX293APEN/github.html">Learn more</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item bg-black" data-bs-interval="10000">
+                        <span class="bd-placeholder-img" width="100%" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <img src = "/img/BUFFALO.webp" class="pc mx-auto" height="100%">
+                            <img src = "/img/BUFFALO_sp.webp" class="sp mx-auto" height="100%">
+                        </span>
+                        <div class="container">
+                            <div class="carousel-caption text-end">
+                                <h1 
+                                    class = "font-shadow fst-italic"
+                                    style="font-family: 'My_Haettenschweiler';"
+                                >
+                                    BUFFALO&emsp;&emsp;
+                                </h1>
+                                <p class = "font-shadow">
+                                    Since 1975 -
+                                </p>
+                                <p>
+                                    <a 
+                                        class="btn btn-lg btn-primary fw-light" 
+                                        href="https://www.buffalo.jp/contents/archives/50th/"
+                                        style="font-family: 'My_Haettenschweiler';"
+                                    >
+                                        Value Chain Engineering
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item bg-white">
+                        <span class="bd-placeholder-img" width="100%" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <img src = "/img/ollama.webp" class="d-block mx-auto" height="100%">
+                        </span>
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <h1 class = "font-shadow">
+                                    Ollama
+                                </h1>
+                                <p class = "font-shadow">
+                                    ローカル環境で生成AIを動作させることにより、情報が外部に漏洩する心配が無くなります
+                                </p>
+                                <p>
+                                    <a class="btn btn-lg btn-primary" href="https://ollama.com/">
+                                        DownLoad
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item scroll" data-bs-interval="20000">
+                        <img class="bd-placeholder-img" src = "/img/scrolling_noel.webp" height="100%" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <div class="container hover">
+                            <div class="carousel-caption text-end">
+                                <h1 class = "font-shadow">
+                                    <div id = "letters">
+                                        KAWAISOU IS KAWAII
+                                    </div>
+                                    
+                                </h1>
+                                <p class = "font-shadow">
+                                    Alice in Cradle の体験版をプレイしてデバッグをしてみましょう
+                                </p>
+                                <p>
+                                    <a class="btn btn-lg btn-primary" href="https://get.aliceincradle.dev">
+                                        体験版
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="carousel-item">
+                    </div>
+                    -->
+
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <!-- Marketing messaging and featurettes
+            ================================================== -->
+            <!-- Wrap the rest of the page in another container to center all the content. -->
+      
+            <div class="container marketing">
+        
+                <!-- Three columns of text below the carousel -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="/img/RaspberryPi-Dark.svg" height="140" class="bd-placeholder-img rounded-circle" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"/>
+                        <h2 class="fw-bold">Raspberry Pi</h2>
+                        <p class="text-start">
+                            &emsp;Raspberry Piは、イギリスのラズベリーパイ財団が開発したシングルボードコンピュータです。Raspberry Piを活用し、<b>プログラミング 電子工作 IoT開発</b>等に挑戦しましょう！
+                        </p>
+                        <p>
+                            <a class="btn btn-danger fw-bold" href="https://www.raspberrypi.com/software/">
+                                Get Started &raquo;
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-lg-4">
+                        
+                        <img src="https://avatars.githubusercontent.com/u/32667550?v=4" height="140" class="bd-placeholder-img rounded-circle" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"/>
+                        <h2 class="fw-bold">名城公園</h2>
+                        <p>
+                            &emsp;<a href = "https://github.com/hisuie08">@NashiroAoi</a>の実験室
+                        </p>
+                        <p>
+                            <a class="btn btn-success" href="https://www.nashiro.f5.si/">
+                                View details &raquo;
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-lg-4">
+                        <img src = "/img/noel.webp" class="bd-placeholder-img rounded-circle" width="140" height="140" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <h2 class="fw-bold">
+                            Alice in Cradle 🎮 <br>
+                            Official Discord Server
+                        </h2>
+                        <p>
+                            Alice in Cradleのバグ報告用サーバ
+                        </p>
+                        <p>
+                            <a class="btn btn-bd-primary" href="https://discord.com/invite/DYPe69vSpD">
+                                Invitation Code &raquo;
+                            </a>
+                        </p>
+                    </div>
+                </div>
+        
+        
+                <!-- START THE FEATURETTES -->
+                
+                <hr class="featurette-divider">
+
+                <div class="row featurette">
+                    <div class="col-md-7">
+                        <h2 class="featurette-heading fw-bold lh-1">
+                            APIを活用しましょう！
+                        </h2>
+                        <p class="lead fw-normal">
+                            &emsp;Web APIを利用することで、様々な情報やサービスを受けることが出来ます
+                        </p>
+                        <div class="text-end">
+                            <a href="/API/index.html" class="btn btn-bd-primary">
+                                learn more
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <img src = "" id = "weather" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice">
+                        <h2 id = "weather-place" class ="text-center fw-bold">
+                        </h2>
+                        <blockquote class="blockquote-footer text-body-secondary text-end">
+                            <a href="https://www.jma.go.jp/jma/index.html">
+                                気象庁
+                            </a>
+                        </blockquote>
+                    </div>
+                </div>
+                
+                <hr class="featurette-divider">
+                
+                <div class="row featurette">
+                    <div class="col-md-7 order-md-2">
+                        <h2 class="featurette-heading lh-1 fw-bold">
+                            Let's draw UML diagrams!
+                        </h2>
+                        <p class="lead fw-normal">
+                            &emsp;UML図を活用することで、作業内容が整理され、効率を上げることが出来ます！<br>
+                        </p>
+                        <figure>
+                            <blockquote class="blockquote-footer text-body-secondary text-end">
+                                <a href="https://mermaid.live/edit">
+                                    mermaid.js
+                                </a>
+                                を利用しています
+                            </blockquote>
+                        </figure>
+                        <textarea id="sourceUML" rows = "10">
+flowchart TD
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    A(["ソース<br>プログラム"]) ==> B{"コンパイラで<br>コンパイル"}
+    B ==>|"エラー無し"| C["オブジェクト<br>プログラム"]
+    B -.->|"バグ"| D["エラー<br>メッセージ"]
+    C ==> F(["実行形式<br>プログラム"])
+    D -.-> |"デバッグ"|A
+    E["ライブラリ"] -->|"リンカで<br>リンク"|F
+                        </textarea>
+                        <div class="text-end">
+                            <button class="btn btn-secondary" id = "umlDownload">
+                                保存
+                            </button>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="col-md-5 order-md-1">
+                        <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <div id="drawUML" class = "mermaid"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="featurette-divider">
+                
+                <div class="row featurette">
+                    <div class="col-md-7">
+                        <h2 class="featurette-heading fw-bold lh-1">
+                            JJYジェネレータ
+                        </h2>
+                        <p class="fw-normal lead">
+                            &emsp;JJYおおたかどや山標準電波送信所の送信波周波数は40[kHz]である。フーリエ級数展開の数式を利用すると、これは13.333[kHz]の矩形波の第3高調波であるため、13.333[kHz]の矩形波信号を発信すれば、電波時計の時刻を修正出来る。<br>
+                            &emsp;ここでは、
+                            <a href="https://github.com/shogo82148/web-jjy" class = "link-dark">
+                                参考ソースコード
+                            </a>
+                            を元に作成したJavaScriptを利用して、標準電波JJYの信号を再現している。
+                            <figure>
+                                <blockquote class="blockquote-footer mt-3 text-end fw-normal">
+                                    <a href="https://shogo82148.github.io/web-jjy/">
+                                        JJYシミュレータWeb版 | shogo82148
+                                    </a>
+                                </blockquote>
+                            </figure>
+                        </p>
+                        <p class="fw-normal">
+                            <input id="summer-time" type="checkbox"> 夏時間を有効にする </input>
+                        </p>
+                        
+                        <div class="text-end">
+                            <button class="btn btn-secondary" id="control-button">
+                                Start
+                            </button>
+                        </div>
+
+                        
+
+                    </div>
+                    <div class="col-md-5">
+                        <h5>
+                            <span id="time" class = "fw-bolder"></span>
+                        </h5>
+                        <div class="text-body-secondary fw-normal text-end">
+                            Web Audioで出力します
+                        </div>
+                        <canvas id="jjyCode" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="1000" height="200" preserveAspectRatio="xMidYMid slice">
+                        </canvas>
+                    </div>
+                </div>
+                
+                <hr class="featurette-divider">
+                
+                <!-- /END THE FEATURETTES -->
+        
+            </div><!-- /.container -->
+        </main>
+    </body>
+    <footer class="container" id="footer-contents"> <!-- FOOTER -->
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/mermaid.min.js"></script>
+        <script src="/view/matrix.js"></script>
+        <script src="/view/jjy.js"></script>
+        <script src="/view/api.js"></script>
+        <script src="/view/createUML.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/device.js"></script>
+        <script src="/view/fontchange.js"></script>
+        <script>
+            new ChangeFont(
+                {
+                    hoverRegionQuery    : ".hover", 
+                    changeTarget        : "letters",
+                    wordClass           : "word-wrap",
+                    letterClass         : "letter", 
+                    font1               : "AicFont", 
+                    font2               : "My_Inkfree",
+                }
+            );
+            new MatrixDraw(
+                {
+                    "canvasName"    : "matrix", 
+                    "charSize"      : 10, 
+                    "fontFamily"    : "HGPゴシックE", 
+                    "width"         : window.screen.width
+                }
+            );
+            new JJYGenerate(
+                {
+                    "jjyCanvas" : "jjyCode"
+                }
+            );
+            const weather = new Weather();
+            new GetWeather("weather", "weather-place", weather, 10000);
+            new MermaidUML(
+                {
+                    "umlPlace"  : "drawUML", 
+                    "umlSource" : "sourceUML", 
+                    "dl"        : "umlDownload", 
+                    "umlName"   : "uml"
+                }
+            );
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("home"));
+
+
+            
+            window.addEventListener(
+                'resize', 
+                switchDeviceView(
+                    {
+                        pcClass     : ".pc",
+                        mobileClass : ".sp",
+                    }
+                )
+            );
+
+            window.addEventListener(
+                "load", 
+                switchDeviceView(
+                    {
+                        pcClass     : ".pc",
+                        mobileClass : ".sp",
+                    }
+                )
+            );
+
+            
+        </script>
+    </footer>
+</html>

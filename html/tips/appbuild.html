@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="アプリ作成メモ" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/appbuild.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="アプリ作成メモ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/appbuildTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>アプリ作成メモ</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="pt-3 ps-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            アプリケーション
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="software">
+                                ソフトウェア
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ソフトウェアライフサイクルプロセス
+                            </h4>
+                            <p>
+                                ソフトウェアの企画・開発・運用・保守・廃棄に至る一連の工程を、共通の枠組み・用語で整理した規格
+                            </p>
+                            <div id="md-slcp">
+| 分類 | 位置づけ |
+|---|---|
+| 1. 合意プロセス | 発注者・受注者間の「契約」に関するプロセス |
+| 2. 組織のプロジェクトイネーブリングプロセス | 組織全体としてプロジェクトを支える基盤整備プロセス |
+| 3. プロジェクトプロセス | 個々のプロジェクトのマネジメントに関するプロセス |
+| 4. テクニカルプロセス | システムレベルでの技術的な開発活動 |
+| 5. ソフトウェア実装プロセス | テクニカルプロセスをソフトウェア開発に特化させたもの |
+| 6. ソフトウェア支援プロセス | ソフトウェア開発を横断的に支える活動 |
+| 7. ソフトウェア再利用プロセス | 資産の再利用に関するプロセス |  
+  
+<br>
+  
+##### 1. 合意プロセス (Agreement Processes)
+
+| プロセス | 内容 |
+|---|---|
+| 取得プロセス | 発注者側が必要なシステム・ソフトウェアを調達する活動(要求仕様の提示、提案評価、契約締結等) |
+| 供給プロセス | 受注者側が製品・サービスを提供する活動(提案、契約履行、納品等) |  
+
+
+  
+<br>
+  
+##### 2. 組織のプロジェクトイネーブリングプロセス (Organizational Project-Enabling Processes)
+
+| プロセス | 内容 |
+|---|---|
+| ライフサイクルモデル管理プロセス | 組織で使うライフサイクルモデル・標準・手順を定義・維持する |
+| インフラストラクチャ管理プロセス | 開発・運用に必要な設備・ツール等の基盤を整備する |
+| ポートフォリオ管理プロセス | 複数プロジェクトへの資源配分・優先順位付けを行う |
+| 人的資源管理プロセス | 要員のスキル確保・教育訓練を行う |
+| 品質管理プロセス | 組織としての品質方針・品質マネジメントシステムを維持する |
+| ナレッジ管理プロセス | 組織内の知識・技術資産を蓄積・活用する |  
+
+  
+<br>
+  
+##### 3. プロジェクトプロセス (Project Processes)
+
+| プロセス | 内容 |
+|---|---|
+| プロジェクト計画プロセス | スコープ・スケジュール・体制等の計画を立てる |
+| プロジェクト評価・制御プロセス | 計画に対する進捗・実績を評価し是正する |
+| 意思決定管理プロセス | プロジェクト内の重要な意思決定を管理する |
+| リスク管理プロセス | リスクの識別・分析・対応を行う |
+| 構成管理プロセス | 成果物のバージョン・変更履歴を管理する |
+| 情報管理プロセス | プロジェクトの情報(文書等)を管理する |
+| 測定プロセス | プロジェクトやプロセスの状況を定量的に測定する |
+| 品質保証プロセス | 成果物・プロセスが要求品質を満たすことを保証する |  
+
+
+  
+<br>
+  
+##### 4. テクニカルプロセス(Technical Processes)
+
+- システム全体を対象とした、企画から廃棄までの技術的な活動
+
+| プロセス | 内容 |
+|---|---|
+| 事業又は任務分析プロセス | 事業・業務上の課題やニーズを分析する |
+| 利害関係者ニーズ・要求事項定義プロセス | 利害関係者の要求を明確化する |
+| システム/ソフトウェア要求定義プロセス | システムに求める要件を定義する |
+| アーキテクチャ定義プロセス | システムの構造・方式を設計する |
+| 設計定義プロセス | システムの詳細な設計を行う |
+| システム解析プロセス | 設計の妥当性等を解析する |
+| 実装プロセス | システムを実際に作り上げる |
+| 統合プロセス | 構成要素を結合しシステムとして成立させる |
+| 検証プロセス | 仕様どおりに作られているかを確認する(Doing the right things) |
+| 移行プロセス | 新システムへの切り替え・移行を行う |
+| 妥当性確認プロセス | 利用者の要求を満たしているかを確認する(Doing the right product) |
+| 運用プロセス | 本番環境でシステムを稼働させる |
+| 保守プロセス | 稼働中のシステムを修正・改善する |
+| 廃棄プロセス | システムの利用を終了し処分する |  
+
+  
+<br>
+  
+
+##### 5. ソフトウェア実装プロセス(Software Implementation Processes)
+
+- テクニカルプロセスの「実装」以降を、ソフトウェアに特化して詳細化したもの
+
+| プロセス | 内容 |
+|---|---|
+| ソフトウェア実装プロセス(親) | ソフトウェア実装全体の統括 |
+| ソフトウェア要求分析プロセス | ソフトウェアへの要求を分析する |
+| ソフトウェア方式設計プロセス | ソフトウェアの構造(アーキテクチャ)を設計する(基本設計/外部設計に相当) |
+| ソフトウェア詳細設計プロセス | モジュール内部のロジックを設計する(詳細設計/内部設計に相当) |
+| ソフトウェア構築プロセス | プログラムをコーディングする |
+| ソフトウェア統合プロセス | モジュールを結合する(結合テストを含む) |
+| ソフトウェア適格性確認テストプロセス | ソフトウェアが要求を満たすかテストする |  
+
+  
+<br>
+  
+
+
+##### 6. ソフトウェア支援プロセス(Software Support Processes)
+
+ソフトウェア開発を横断的に支えるプロセスです。
+
+| プロセス | 内容 |
+|---|---|
+| ソフトウェア文書化管理プロセス | 文書の作成・管理 |
+| ソフトウェア構成管理プロセス | ソースコード等の版管理 |
+| ソフトウェア品質保証プロセス | ソフトウェアの品質保証 |
+| ソフトウェア検証プロセス | 仕様適合性の確認 |
+| ソフトウェア妥当性確認プロセス | 利用者要求適合性の確認 |
+| ソフトウェアレビュープロセス | レビューの実施 |
+| ソフトウェア監査プロセス | 標準・手順への準拠監査 |
+| ソフトウェア問題解決プロセス | 不具合等の分析・解決 |  
+
+  
+<br>
+  
+
+##### 7.ソフトウェア再利用プロセス(Software Reuse Processes)
+
+| プロセス | 内容 |
+|---|---|
+| ドメインエンジニアリングプロセス | 特定分野向けの再利用可能な資産を開発する |
+| 再利用資産管理プロセス | 再利用資産の登録・管理を行う |
+| 再利用プログラム管理プロセス | 組織的な再利用の推進・計画を行う |  
+
+                            </div>
+<!--
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+
+    A --- > J
+    B --- > I
+    C --- > H
+    D --- > G
+    E --- > F
+
+    A["システム<br>要求分析"] ===> B["システム<br>方式設計"]
+    B ===> C["ソフトウェア<br>要求分析"]
+    C ===> D["ソフトウェア<br>方式設計"]
+    D ===> E["ソフトウェア<br>詳細設計"]
+    E ===> F["ソフトウェア<br>構築"]
+    F ===> G["ソフトウェア<br>結合"]
+    G ===> H["ソフトウェア<br>適格性<br>確認テスト"]
+    H ===> I["システム結合"]
+    I ===> J["システム<br>適格性<br>確認テスト"]
+
+-->
+                            <img class ="pt-4" src="/img/slcp.svg" width = "100%"/>
+                            
+                            <ul class ="pt-4">
+                                <li>
+                                    検証 (Verification) : 「仕様どおりに正しく作られているか」を確認する
+                                </li>
+                                <li>
+                                    妥当性確認 (Validation) : 「利用者にとって正しいものが作られているか」を確認する
+                                </li>
+                                <li>
+                                    修整 (テーラリング) : プロジェクト計画時、及び契約締結前に、プロジェクトの規模・種類・契約形態に合わせてライフサイクルプロセスを最適化する<br>
+                                                        ※ 発注者・受注者双方の合意のもとで実施し、契約トラブル(「言った/言わない」問題)を防ぐ必要がある
+                                </li>
+                                <li>
+                                    リファクタリング : 外部から見た振る舞い(機能)を変えずに、内部のソースコード構造を整理・改善する作業
+                                    <ul>
+                                        <li>可読性・保守性の向上</li>
+                                        <li>バグの予防</li>
+                                    </ul>
+                                    <p>例</p>
+                                    <ul>
+                                        <li>
+                                            メソッドの抽出 : 長い処理の一部を切り出し、意味のある名前のメソッドにする
+                                        </li>
+                                        <li>
+                                            変数名・メソッド名の変更 : 意図が伝わる名前に変更し可読性を高める
+                                        </li>
+                                        <li>
+                                            重複コードの統合 : 同じ処理を共通化し、単一箇所で管理できるようにする
+                                        </li>
+                                        <li>
+                                            クラスの分割・統合 : 責務が肥大化したクラスを分割し、単一責任にする
+                                        </li>
+                                        <li>
+                                            条件式の単純化 : 複雑な条件分岐を整理し、意図を明確にする
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                開発モデル
+                            </h4>
+                            <div id="md-soft-dev-model">
+
+| モデル名 | 特徴 | メリット | デメリット |
+|---|---|---|---|
+| ウォーターフォールモデル | <ul><li>要件定義</li><li>設計</li><li>実装</li><li>テスト</li><li>運用</li></ul> の工程を順番に進める<br>・後戻りしない前提の開発モデル <br>・各工程の成果物を明確にし、<br>工程完了後(レビューで確認後)に次工程へ進む | 進捗管理がしやすい<br>大規模開発で工程の分業がしやすい | 手戻りコストが大きい<br>途中の仕様変更に弱い |
+| V字モデル | ウォーターフォールモデルを拡張し、<br>開発工程(要件定義・設計・実装)と対応する<br>テスト工程(受入テスト・システムテスト・単体テスト)を<br>V字型で対応付けたモデル | 各開発工程に対応するテスト工程が明確<br> テストの抜け漏れを防ぎやすい <br> 品質保証がしやすい | ウォーターフォールと同様、手戻りに弱い |
+| プロトタイピングモデル | 開発の早い段階で試作品(プロトタイプ)を作成し、<br>利用者の確認を得ながら開発を進める | 早期にユーザーレビューを得られる <br> 要件の認識齟齬を早期に発見できる | プロトタイプ作成のコストがかかる<br>大規模開発には不向き |
+| エボリューショナルモデル<br>進化型モデル<br>成長モデル | ・最初から完全な要件定義を行わず、<br>試作を重ねながら要件を明確化し、<br>システムを進化させていくモデル<br> ・プロトタイピングを繰り返しながら<br>段階的に完成度を高める | 要件が不明確な開発でも対応しやすい | 開発の終了時期が見えにくい<br>全体管理が難しい |
+| RAD<br>(Rapid Application <br>Development) | ・ツールや部品(コンポーネント)を再利用しながら、<br>短期間でシステムを開発する手法 <br> ・プロトタイピングと反復開発を組み合わせ、<br>開発ツールで自動生成を活用 | 開発期間を大幅に短縮できる | 大規模・複雑なシステムには不向き<br>品質がツールに依存 |
+| スパイラルモデル | システムを複数のサブシステムに分割し、<ul><li>設計</li><li>実装</li><li>評価</li></ul>を繰り返しながら段階的に完成度を高める <br> <ul><li>計画</li> <li>リスク分析</li> <li>開発</li> <li>評価</li></ul> のサイクルを繰り返す | リスクを早期に発見・低減できる | 管理が複雑になりやすい<br>コスト見積りが難しい |
+| ラウンドトリップ開発 | ・分析・設計とプログラミング(実装)を、<br>ツール(CASEツールなど)を用いて双方向に反映させながら<br>並行して進める開発モデル <br> ・設計モデルとソースコードの一方を変更すると<br>他方にも自動的に反映される<br>(順方向・逆方向の両エンジニアリング) | 設計とコードの整合性を保ちやすい<br>手戻りの手間を軽減できる | 対応するツールの導入・習熟が必要 |
+| アジャイル開発 | ・短い開発サイクル(イテレーション)を繰り返し、<br>要件変更に柔軟に対応しながら開発を進める <br> <ul><li>スクラム</li><li>XP</li></ul>などの手法を用いる<br>・顧客と密に連携 | 仕様変更に強い<br>リリースまでの期間を短縮できる | 進捗や全体像の把握が難しい<br>大規模開発では調整コストが増す |
+| XP <br>(エクストリームプログラミング)<br><br>**アジャイル開発手法**の一つ | <ul><li>コミュニケーション</li> <li>シンプル</li> <li>フィードバック</li> <li>勇気</li> <li>尊重</li> </ul>に価値が置かれる<br> <ul><li>ペアプログラミング</li><li>リファクタリング</li><li>継続的インテグレーション</li><li>テスト駆動開発</li></ul>などのプラクティスを採用 | 変化に強い<br>コード品質を保ちやすい | ペア作業などにより工数・コストが増える場合がある |
+| TDD<br>(テスト駆動開発)<br><br>**XPのプラクティス**の一つ | ・実装コードを書く前にテストコードを先に作成し、<br>そのテストが通るように実装を進める開発手法 <ul><li>テスト作成</li><li>実装</li><li>リファクタリング</li></ul>のサイクルを繰り返す | バグを早期に発見できる<br>リファクタリングしやすい | テストコード作成の工数がかかる |
+| スクラム<br><br>**アジャイル開発手法**の一つ | 短期間(単位 : スプリント)で開発を繰り返し、<br>その都度成果物をレビュー・改善する <br><br>スクラムチームの役割<ul><li>プロダクトオーナー (責任 : 作成するプロダクト)</li><li>スクラムマスター (責任 : プロジェクトの推進)</li><li>開発チーム</li></ul> <br>開発サイクル<ol><li>スプリントプランニング(計画)</li><li>デイリースクラム(毎日の確認)</li><li>スプリントレビュー(成果物の確認)</li><li>スプリントレトロスペクティブ(振り返り)</li></ol> | チームの自己組織化が進む<br>進捗の可視化がしやすい | チームの成熟度に成果が左右される |
+| インクリメンタルモデル | ・システムを機能単位に分割し、<br>優先度の高い機能から順に<ul><li>設計</li><li>実装</li><li>リリース</li></ul>を繰り返して段階的に<br>システムを完成させるモデル <br> ・機能単位で開発とリリースを繰り返す | 早期に一部機能を利用開始できる<br>リスクを分散できる | 機能間の整合性・全体設計の管理が難しい |
+| DevOps | ・開発(Development)と運用(Operations)が連携し、<br>CI/CDなどにより開発から運用までを<br>迅速かつ継続的に行う考え方・体制 <br> ・自動化された<ul><li>ビルド</li><li>テスト</li><li>デプロイ</li></ul>のパイプラインを活用 | リリース頻度と品質を両立できる | 組織文化・体制の変革が必要<br>導入コストがかかる |  
+
+                            </div>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ソフトウェア品質(SQuaRE <a href="/html/about/security/security-laws.html#md-isoiec">ISO/IEC 25010:2011</a>)
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                製品品質モデル
+                            </h5>
+                            <p>
+                                要件定義・システム設計
+                            </p>
+
+                            <div id="md-model-product">
+
+| 品質特性 | 副特性 | 概要 |
+|---|---|---|
+| 機能適合性    | <ul><li>機能完全性</li><li>機能正確性</li><li>機能適切性</li></ul> | 明示的・暗黙的なニーズを満たす機能が提供されている度合い |
+| 性能効率性    | <ul><li>時間効率性</li><li>資源効率性</li><li>容量満足性</li></ul> | 与えられた資源を用いて要求された性能を発揮している度合い |
+| 互換性        | <ul><li>共存性</li><li>相互運用性</li></ul> | 他の製品やシステムと情報を交換し、共存・連携できる度合い |
+| 使用性        | <ul><li>適切度認識性</li><li>習得性</li><li>運用操作性</li><li>ユーザエラー防止性</li><li>ユーザインタフェース快美性</li><li>アクセシビリティ</li></ul> | 明示された利用状況で、目的を達成するために効果的・効率的・満足に利用できる度合い |
+| 信頼性        | <ul><li>成熟性</li><li>可用性</li><li>障害許容性(耐故障性)</li><li>回復性</li></ul> | 機能が正常動作し続ける度合い |
+| セキュリティ  | <ul><li>機密性</li><li>インテグリティ</li><li>否認防止性</li><li>責任追跡性</li><li>真正性</li></ul> | システムや情報、データを不正アクセス等から保護する度合い |
+| 保守性        | <ul><li>モジュール性</li><li>再利用性</li><li>解析性</li><li>修正性</li><li>試験性</li></ul> | 保守作業に必要な努力の度合い |
+| 移植性        | <ul><li>適応性</li><li>設置性</li><li>置換性</li></ul> | 異なる環境(ハードウェア・ソフトウェア)へ移行してもそのまま動作する度合い |  
+
+                            </div>
+                            <h5 class="pt-4 fw-bold">
+                                利用時の品質モデル
+                            </h5>
+
+                            <div id="md-model-use">
+
+| 品質特性 | 副特性 | 概要 |
+|---|---|---|
+| 有効性            | - | 目標を達成する上での正確さ及び完全さの度合い |
+| 効率性            | - | 目標達成のために費やす資源(時間・労力等)に対する効果の度合い |
+| 満足性            | <ul><li>実用性</li><li>信用性</li><li>快感性</li><li>快適性</li></ul> | 製品・システムが明示された利用状況において使用される時、利用者のニーズが満足される度合い |
+| リスク回避性      | <ul><li>経済リスク緩和性</li><li>健康・安全リスク緩和性</li><li>環境リスク緩和性</li></ul> | 経済状況・人の生命・健康・環境への潜在的リスクを緩和する度合い |
+| 利用状況網羅性    | <ul><li>利用状況完全性</li><li>柔軟性</li></ul> | 有効性・効率性・リスク回避性・満足性を伴って製品又はシステムが使用できる度合い |
+
+
+                            </div>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                システム保守
+                            </h4>
+                            <div id="md-maintenance">
+
+| 保守区分 | 概要 |
+|---|---|
+| 是正保守 | 障害の発生後、原因を特定し不具合を修正する保守 |
+| 予防保守 | 障害が発生する前に、劣化や異常の兆候を検知・対処し未然に防ぐ保守 |
+| 事後保守 | 故障が発生してから対応する、受動的な保守(予防保守と対をなす考え方) |
+| 定期保守 | あらかじめ定めたスケジュールに従い、周期的に点検・部品交換等を行う保守 |
+| 日常点検 | 日々の運用の中でルーチンとして行う、異常の有無を確認する点検 |
+| オンサイト保守 | 保守員が現地(設置場所)に赴いて機器やシステムに対応する保守 |
+| 遠隔保守 | ネットワークを経由し、現地に赴かずに遠隔から診断・復旧などを行う保守 |  
+
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="cloud">
+                                クラウド形態
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap">
+                                    <tr class="text-center">
+                                        <th>管理内容</th>
+                                        <th>SaaS<br>Software as a Service</th>
+                                        <th>PaaS<br>Platform as a Service</th>
+                                        <th>IaaS<br>Infrastructure as a Service</th>
+                                        <th>オンプレミス<br>完全自社管理</th>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            アプリケーション
+                                        </th>
+                                        <td>
+                                            ベンダー
+                                        </td>
+                                        <td>
+                                            自社
+                                        </td>
+                                        <td>
+                                            自社
+                                        </td>
+                                        <td>
+                                            自社
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            OS・ミドルウェア
+                                        </th>
+                                        <td>
+                                            ベンダー
+                                        </td>
+                                        <td>
+                                            ベンダー
+                                        </td>
+                                        <td>
+                                            自社/ベンダー
+                                        </td>
+                                        <td>
+                                            自社
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            ハードウェア・ネットワーク管理
+                                        </th>
+                                        <td>
+                                            ベンダー
+                                        </td>
+                                        <td>
+                                            ベンダー
+                                        </td>
+                                        <td>
+                                            ベンダー
+                                        </td>
+                                        <td>
+                                            自社
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="protocol">
+                                プロトコルについて
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap" style="border: #212529;">
+                                    <tr class="text-center">
+                                        <th>層</th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                        <th>4</th>
+                                        <th>5</th>
+                                        <th>6</th>
+                                        <th>7</th>
+                                        <th>8</th>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="7">
+                                            物理層<br>
+                                            8[Byte]
+                                        </td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 2px dashed #ccc;">SFD</td>
+                                        <td >0</td><td >1</td><td >0</td><td >1</td>
+                                        <td >0</td><td >1</td><td >1</td><td >1</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="12">データリンク層<br>(Ethernetヘッダ)<br>14[Byte]</td>
+                                        <td colspan="8">宛先MACアドレス 48[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">XX:XX:XX : XX:XX:XX</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">上位 24[bit] : 製造会社 (OUI)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">下位 24[bit] : 製品番号</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ARP前 : FF:FF:FF:FF:FF:FF とする</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ビッグエンディアンで格納すること</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">送信元MACアドレス 48[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">AB:CD:EF : GH:IJ:KL</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">上位 24[bit] : 製造会社 (OUI)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">下位 24[bit] : 製品番号</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ランダムMAC : Bの下位2[bit]目を1にする</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ビッグエンディアンで格納すること</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" style="border-top: 2px dashed #ccc;">タイプ (EtherType) : 16[bit]<br>IPv4 : 0x0800</td>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
+                                        <td >1</td><td >0</td><td >0</td><td >0</td>
+                                    </tr>
+                                    <tr>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td>バージョン情報 : 4[bit]</td>
+                                        <td >0</td><td >1</td><td >0</td><td >0</td>
+                                        <td colspan="4">IHL / ヘッダ長 4[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="8" style="border-top: 2px dashed #ccc;">ネットワーク層<br>(IPv4)<br>20[Byte]～60[Byte]</td>
+                                        <td colspan="8">サービスタイプ 8[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">全長 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ネットワーク層 + トランスポート層 + ペイロード</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">識別子 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パケット分割前のシリアル番号</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">フラグ 3[bit]</td>
+                                        <td colspan="5">フラグメントオフセット 13[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right:0px none;" class="text-end">ネットワーク機器がパケット</td>
+                                        <td colspan="5" style="border-top: 2px dashed #ccc; border-left:0px none;" class="text-start">分割した際の順序 (8[Byte]単位で分割)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">生存時間 (TTL) 8[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 2px dashed #ccc;"><a href="#md-protocol">プロトコル番号</a> 8[bit] (TCP)</td>
+                                        <td >0</td><td >0</td><td >0</td><td >0</td>
+                                        <td >0</td><td >1</td><td >1</td><td >0</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="10" style="border-top: 2px dashed #ccc;"></td>
+                                        <td colspan="8">チェックサム 16[bit]  1の補数和 交換法則・結合法則成立 ※オーバーフロー時 最下位に足し戻す</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">IPヘッダ内の値のみ16[bit]ずつ区切り全て加算後、全桁1になれば正常</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">送信元IPアドレス 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">XXX.XXX.XXX.XXX : xxxx&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;xxxx&nbsp;&nbsp;&nbsp;&nbsp;xxxx&nbsp;xxxx</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ビッグエンディアンで格納すること</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">192.0.2.2 : 1100&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0010&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0010</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">宛先IPアドレス 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">YYY.YYY.YYY.YYY : yyyy&nbsp;yyyy&nbsp;&nbsp;&nbsp;&nbsp;yyyy&nbsp;yyyy&nbsp;&nbsp;&nbsp;&nbsp;yyyy&nbsp;yyyy&nbsp;&nbsp;&nbsp;&nbsp;yyyy&nbsp;yyyy</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">ビッグエンディアンで格納すること</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">192.0.2.3 : 1100&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0000&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0010&nbsp;&nbsp;&nbsp;&nbsp;0000&nbsp;0011</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" style="border-top: 2px dashed #ccc;">IPヘッダオプション</td>
+                                        <td colspan="8">オプション 可変長 (最大40[Byte]) ※IHL(ヘッダ長)が5より大きい場合のみ存在</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング  4[Byte]境界に満たない端数は0埋めして揃える</td>
+                                    </tr>
+
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="13">トランスポート層<br>(TCP)<br> 20[Byte]～60[Byte]</td>
+                                        <td colspan="8">送信元ポート番号 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">1～65535 (0 : エニーポート)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">宛先ポート番号 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">1～65535 (0 : エニーポート)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">シーケンス番号 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">アプリケーションがデータを分割した際のデータの位置</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">1[Byte]単位で分割</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">データの順序保証と再送制御</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">確認応答番号 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">次に何Byte目のデータを送ってほしいか</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">送達確認</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">一定時間 確認応答番号(ACK)が返ってこない場合、データが途中で紛失したと判断して再送</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">データオフセット 4[bit]</td>
+                                        <td colspan="4">予約領域 4[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 2px dashed #ccc;">コードビット : 8[bit]</td>
+                                        <td>CWR</td>
+                                        <td>ECE</td>
+                                        <td>URG</td>
+                                        <td>ACK</td>
+                                        <td>PSH</td>
+                                        <td>RST</td>
+                                        <td>SYN</td>
+                                        <td>FIN</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: 2px dashed #ccc;" rowspan="6"></td>
+                                        <td colspan="8">ウィンドウサイズ 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">一度に受け取れる未確認データの最大Byte数</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">チェックサム 16[bit] 1の補数和 交換法則・結合法則成立 ※オーバーフロー時 最下位に足し戻す データを16[bit]ずつに区切る</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">送信元IPアドレス 宛先IPアドレス 擬似ヘッダ用予約領域(0x00 (8[bit])) プロトコル番号 TCPセグメント長(TCPヘッダサイズ + ペイロードサイズ) TCPヘッダ ペイロード</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">緊急ポインタ 16[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">コードビットのURGフラグが1の場合有効</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" style="border-top: 2px dashed #ccc;">TCPオプション</td>
+                                        <td colspan="8">オプション 可変長 (最大40[Byte]) ※データオフセットが5より大きい場合のみ存在</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング 4[Byte]境界に満たない端数は0埋めして揃える</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="2">アプリケーション層 <br>最小値 <br> 46[Byte] - (ネットワーク層 + トランスポート層) <br><br> 最大値MTU <br> 1500[Byte] - (ネットワーク層 + トランスポート層)</td>
+                                        <td colspan="8">
+                                            <strong>ペイロード (データ本体)</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">パディング <br>最小値に足りない場合0埋め</td>
+                                    </tr>
+                                    <tr style="border-top: 3px solid #212529;">
+                                        <td rowspan="4">データリンク層<br>(トレーラ)</td>
+                                        <td colspan="8">FCS (フレームチェックシーケンス) 32[bit]</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">CRC-32によるフレーム全体の誤り検出符号</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">生成多項式(0x04C11DB7等)とXOR演算によるビット計算を実行</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-top: 2px dashed #ccc;">通信ノイズによるビット化けを防ぐため、計算の前後でビット反転処理を適用</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <h4 class="pt-4 fw-bold">
+                                プロトコル番号
+                            </h4>
+
+                            <div id = "md-protocol">
+
+| 番号 | プロトコル名 | 説明 |
+|---|---|---|
+| 1 | ICMP | Internet Control Message Protocol (IPv4用の制御・エラー通知)  |
+| 2 | IGMP | Internet Group Management Protocol (マルチキャストグループ管理)  |
+| 6 | TCP | Transmission Control Protocol |
+| 8 | EGP | Exterior Gateway Protocol |
+| 9 | IGP | (Cisco独自) Interior Gateway Protocol |
+| 17 | UDP | User Datagram Protocol |
+| 41 | IPv6 | IPv6をIPv4上にカプセル化 (6to4等)  |
+| 43 | IPv6-Route | IPv6 Routing Header |
+| 44 | IPv6-Frag | IPv6 Fragment Header |
+| 46 | RSVP | Resource Reservation Protocol |
+| 47 | GRE | Generic Routing Encapsulation |
+| 50 | ESP | Encapsulating Security Payload (IPsec)  |
+| 51 | AH | Authentication Header (IPsec)  |
+| 58 | ICMPv6 | IPv6用のICMP |
+| 59 | IPv6-NoNxt | IPv6 No Next Header |
+| 60 | IPv6-Opts | IPv6 Destination Options Header |
+| 88 | EIGRP | Enhanced Interior Gateway Routing Protocol |
+| 89 | OSPF | Open Shortest Path First |
+| 94 | IPIP | IP-within-IP Encapsulation |
+| 103 | PIM | Protocol Independent Multicast |
+| 112 | VRRP | Virtual Router Redundancy Protocol |
+| 115 | L2TP | Layer 2 Tunneling Protocol |
+| 132 | SCTP | Stream Control Transmission Protocol |
+| 136 | UDPLite | Lightweight User Datagram Protocol |
+| 137 | MPLS-in-IP | MPLS-in-IP |
+
+                            </div>
+
+                        </article>
+                        <article class="pt-4 mt-4 blog-post" id="article_top">
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                バグ・脆弱性
+                            </h2>
+                            <div id="md-bug">
+
+| 事象名 | 概要 | 主な原因 | セキュリティ上の影響 | 主な対策 |
+|---|---|---|---|---|
+| バッファオーバーフロー | 確保した領域を超えてデータを書き込む | 境界チェック不足                                                                                                  | <ul><li>任意コード実行</li><li>クラッシュ</li></ul>                        | <ul><li>境界チェック</li><li>安全な関数の使用</li><li>ASLR/DEP</li></ul> |
+| スタックオーバーフロー | スタック領域の確保サイズを超えて使用する | <ul><li>再帰呼び出しの終了条件不備</li><li>巨大なローカル変数</li><li>スタック上でのバッファオーバーフロー</li></ul> | <ul><li>リターンアドレス改ざんによる任意コード実行</li><li>サービス停止</li></ul>   | <ul><li>再帰の深さ制限</li><li>スタック保護(カナリア)</li><li>境界チェック</li></ul> |
+| ヒープオーバーフロー | ヒープ領域上のバッファ境界を超えて書き込む | <ul><li>動的確保サイズの計算誤り</li><li>境界チェック不足</li></ul>                                               | ヒープ管理情報の破壊による任意コード実行                                  | <ul><li>境界チェック</li><li>ヒープ保護機構</li></ul> |
+| Use-After-Free<br>(解放後使用) | 解放済みメモリ領域への参照・書き込みを行う | 解放後にポインタを初期化していない<br>(ダングリングポインタ)                                            | <ul><li>任意コード実行</li><li>情報漏えい</li></ul>                                   | <ul><li>解放後のポインタをNULL化</li><li>スマートポインタの利用</li></ul> |
+| 二重解放<br>(Double Free) | 同一メモリ領域を2回解放する | <ul><li>解放処理の重複</li><li>エラー処理の不備</li></ul>                                                               | <ul><li>ヒープ破壊</li><li>任意コード実行</li></ul>                       | <ul><li>解放後のポインタをNULL化</li><li>所有権管理の徹底</li></ul> |
+| ヌルポインタアクセス<br>(NULLポインタ参照外し) | NULLを指すポインタを参照する | 戻り値・確保結果の未チェック                                                                          | <ul><li>サービス停止(クラッシュ)</li><li>DoS </li></ul>                   | <ul><li>NULLチェックの徹底</li><li>Optional型等の活用</li></ul> |
+| ダングリングポインタ | 解放済み・無効な領域を指し続けるポインタ | <ul><li>解放後の初期化漏れ</li><li>スコープ外変数へのポインタ保持</li></ul>                                             | <ul><li>Use-After-Freeの誘発</li><li>不正な動作</li></ul>             | <ul><li>解放後のNULL代入</li><li>スコープ管理の徹底</li></ul> |
+| 未初期化変数の使用 | 初期化前の変数値を読み取る | 変数の初期化漏れ                                                                                                                    | <ul><li>不定動作</li><li>情報漏洩(メモリ内容の漏洩)</li></ul>         | <ul><li>変数の宣言時初期化</li><li>静的解析</li></ul> |
+| 整数オーバーフロー<br>アンダーフロー | 数値型の表現範囲を超えた演算結果になる | サイズ計算等での桁あふれチェック不足                                                                      | バッファサイズ誤計算経由でのオーバーフロー誘発                            | <ul><li>オーバーフロー検知</li><li>安全な整数演算ライブラリ</li></ul> |
+| オフバイワンエラー | ループや配列の境界を1つ誤る | ループ条件<br>添字の誤り(&lt;と&lt;=の混同等)                                                                                          | <ul><li>境界外アクセス</li><li>バッファオーバーフロー</li></ul>               | <ul><li>境界条件のレビュー</li><li>テスト強化</li></ul> |
+| メモリリーク | 不要になったメモリが解放されず蓄積する | 解放処理の記述漏れ                                                                                                                | メモリ枯渇によるサービス停止(DoS)                                 | <ul><li>確保と解放の対応管理</li><li>ガベージコレクション</li><li>静的解析</li></ul> |
+| レースコンディション | 複数スレッド/プロセスの実行順序により結果が変わる | 共有資源への排他制御不足                                                                                       | <ul><li>データ不整合</li><li>権限昇格</li><li>二重処理</li></ul> | <ul><li>排他制御(ロック、セマフォ)</li><li>アトミック操作</li></ul> |
+| TOCTOU<br>(Time-of-Check to Time-of-Use) | チェック時点と使用時点の間に状態が変化する | チェックと使用の間に処理の隙間(間隙)がある                                                        | <ul><li>権限のないファイルへのアクセス</li><li>シンボリックリンク攻撃</li></ul> | <ul><li>アトミックなチェック＆使用</li><li>ファイルロック</li></ul> |
+| デッドロック | 複数の処理が互いにロック解放を待ち続け停止する | ロック取得順序の不統一                                                                                                    | サービス停止(可用性低下) | <ul><li>ロック取得順序の統一</li><li>タイムアウト設定</li></ul> |  
+
+                            </div>
+
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                メモリマップ
+                            </h2>
+
+                            <div id="md-addr">
+
+| Pico W アドレス(デフォルト) | 使用方法 |
+| --- | --- |
+| 0x20000000 - 0x200000BF | 静的データ |
+| 0x200000C0 - アプリ依存 | 命令コード |
+| アプリ依存 | 静的データ |
+| アプリ依存 - 0x20040000 | ヒープ |
+| 0x20040000 - アプリ依存 | 未使用領域 |
+| アプリ依存 - 0x20041000 | スタック : LIFO (コア1用) |
+| 0x20041000 - アプリ依存 | 未使用領域 |
+| アプリ依存 - 0x20041F00 | スタック : LIFO (コア0用) |
+| 0x20041F00 - 0x20042000 | システム予約 |
+
+                            </div>
+                        </article>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#software">ソフトウェア</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-soft-dev-model">開発モデル</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-model-product">ソフトウェア品質</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-maintenance">システム保守</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cloud">クラウド形態</a>
+                                    </li>
+                                    <li>
+                                        <a href="#protocol">プロトコルについて</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-protocol">プロトコル番号</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-bug">バグ・脆弱性</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-addr">メモリマップ</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "securityTip", "serverTip"]);
+            new Pagination(1, appBuildModel.page, "pagination");
+            const mdLists = [
+                "md-slcp", 
+                "md-soft-dev-model", 
+                "md-maintenance",
+                "md-model-product",
+                "md-model-use",
+                "md-protocol",
+                "md-bug",
+                "md-addr",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>
+
+
