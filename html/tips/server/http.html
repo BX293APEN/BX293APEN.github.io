@@ -563,6 +563,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
 | Web Storage <br>localStorage <br> sessionStorage | ブラウザ内にキーと値の形式でデータを保存するJavaScript API<br>Cookieと異なりサーバーへ自動送信されない |
 | Same-Origin Policy <br>(SOP) | 異なるオリジン(スキーム・ホスト・ポートの組)間での<br>リソースアクセスを制限するブラウザの基本的なセキュリティ機構 |
 | CORS <br> (Cross-Origin Resource Sharing) | Same-Origin Policyを緩和し、許可されたオリジン間の通信を可能にする仕組み |
+| HSTS <br>(HTTP Strict Transport Security) | <ul><li>一度Webサイトにアクセスすると、サーバーがレスポンスヘッダ(Strict-Transport-Security)で、<br>ブラウザに対し指定期間はHTTPSでのみ接続するよう指示する仕組み</li><li>SSLストリッピング等のHTTPへのダウングレード攻撃や中間者攻撃の防止に有効</li></ul> |
 | iframe | 別のHTML文書を現在のページ内に埋め込むためのHTML要素<br>クリックジャッキング等の攻撃にも利用され得る |
 | WebSocket | サーバーとブラウザ間で双方向・リアルタイムの通信を行うためのプロトコル・API |
 | SPA <br>(Single Page Application) | 初回読み込み後、JavaScriptによる画面遷移・再描画のみで動作するWebアプリケーションの形態 |
