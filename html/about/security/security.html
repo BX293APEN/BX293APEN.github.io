@@ -437,109 +437,147 @@
                             </h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>バージョン</th>
-                                            <th>規格</th>
-                                            <th>利用可能暗号形式</th>
-                                            <th>暗号スイート</th>
-                                            <th>変更点</th>
-                                            <th>利用状況</th>
-                                            <th>脆弱性</th>
-                                            <th>攻撃手法</th>
-                                            <th>対策</th>
-                                            <th>公開年</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th class="text-nowrap">バージョン</th>
+                                                <th>変更点</th>
+                                                <th>暗号スイート</th>
+                                                <th>利用可能暗号形式</th>
+                                                <th class="text-nowrap">利用状況</th>
+                                                <th>脆弱性</th>
+                                                <th>攻撃手法</th>
+                                                <th>対策</th>
+                                                <th>規格</th>
+                                                <th>公開年</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                         <tr>
                                             <td>SSL 1.0</td>
-                                            <td>
-                                                <ul class="mb-0 ps-3">
-                                                    <li>なし(未公開)</li>
-                                                </ul>
-                                            </td>
-                                            <td>
-                                                <ul class="mb-0 ps-3">
-                                                    <li>(未公開のためなし)</li>
-                                                </ul>
-                                            </td>
-                                            <td>
-                                                <ul class="mb-0 ps-3">
-                                                    <li>(未公開のためなし)</li>
-                                                </ul>
-                                            </td>
                                             <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>Netscape社内で設計された最初の版</li>
                                                     <li>一般に入手できる仕様書・実装は存在しない</li>
                                                 </ul>
                                             </td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>(未公開のためなし)</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>(未公開のためなし)</li>
+                                                </ul>
+                                            </td>
                                             <td class="text-center">✖</td>
-                                            <td>設計段階で重大な欠陥が見つかった(データ完全性の保護不足等とされるが、一次資料がなく詳細は不明)</td>
+                                            <td class="text-nowrap">
+                                                設計段階で重大な欠陥が見つかった<br>
+                                                (データ完全性の保護不足等とされるが、一次資料がなく詳細は不明)
+                                            </td>
                                             <td>未公開のため攻撃事例なし</td>
-                                            <td>公開を見送り、SSL 2.0として設計し直した</td>
+                                            <td>公開見送り</td>
+                                            <td>
+                                                <table class="table table-sm table-bordered mb-0 w-auto">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>規格名</th>
+                                                            <th>内容</th>
+                                                            <th>年</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-nowrap">-</td>
+                                                            <td>-</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
                                             <td>未公開</td>
                                         </tr>
                                         <tr>
-                                            <td rowspan="6">SSL 2.0</td>
-                                            <td rowspan="6">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>RFCなし(Netscape社の仕様書)</li>
-                                                    <li>RFC 6176(2011年): 使用禁止</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="6">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>鍵交換方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>署名方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>暗号化方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RC4(128bit / 輸出用40bit)</li>
-                                                            <li>RC2-CBC(128bit / 輸出用40bit)</li>
-                                                            <li>IDEA-CBC(128bit)</li>
-                                                            <li>DES-CBC(56bit)</li>
-                                                            <li>3DES-CBC(168bit)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>ハッシュ方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>MD5</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="6">
-                                                <ul class="mb-0 ps-3">
-                                                    <li><code>SSL_CK_[暗号化方式]_WITH_[ハッシュ関数方式]</code></li>
-                                                    <li>鍵交換・署名はRSA固定のため名称に含まれない</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="6">
+                                            <td rowspan="5">SSL 2.0</td>
+                                            <td rowspan="5">
                                                 <ul class="mb-0 ps-3">
                                                     <li>Netscape社がNavigator 1.1向けに初めて公開した版</li>
-                                                    <li>鍵交換はRSAのみで、前方秘匿性なし</li>
-                                                    <li>MACはMD5のみ</li>
-                                                    <li>輸出規制対応の40ビット鍵が使える</li>
+                                                    <li>前方秘匿性なし</li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="6" class="text-center">✖</td>
+                                            <td rowspan="5">
+                                                <pre><code>SSL_CK_[暗号化方式]_WITH_[ハッシュ関数方式]</code></pre>
+                                            </td>
+                                            <td rowspan="5">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>鍵交換方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RC4(128bit / 輸出用40bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>RC2-CBC(128bit / 輸出用40bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>IDEA-CBC(128bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>DES-CBC(56bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>3DES-CBC(168bit)</code></pre></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>MD5</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="5" class="text-center text-nowrap">✖<br>RFC 6176</td>
                                             <td>ハンドシェイクメッセージが認証されない</td>
                                             <td>ロールバック攻撃: 中間者が暗号スイート一覧を改ざんし、弱い暗号へ誘導</td>
                                             <td>SSL 3.0でFinishedメッセージによりハンドシェイク全体を検証</td>
-                                            <td rowspan="6">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>1995年</li>
-                                                </ul>
+                                            <td rowspan="5">
+                                                <table class="table table-sm table-bordered mb-0 w-auto">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>規格名</th>
+                                                            <th>内容</th>
+                                                            <th>年</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-nowrap">仕様</td>
+                                                            <td>Netscape社の仕様書</td>
+                                                            <td class="text-nowrap">1995年</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </td>
+                                            <td rowspan="5" class="text-nowrap">1995年～2011年</td>
                                         </tr>
                                         <tr>
                                             <td>接続終了が認証されない</td>
@@ -553,7 +591,7 @@
                                         </tr>
                                         <tr>
                                             <td>輸出規制向けの40ビット鍵が使える</td>
-                                            <td>総当たり(ブルートフォース)攻撃</td>
+                                            <td class="text-nowrap">総当たり(ブルートフォース)攻撃</td>
                                             <td>128ビット以上の鍵長の暗号スイートのみ許可</td>
                                         </tr>
                                         <tr>
@@ -562,170 +600,270 @@
                                             <td>SSL 2.0を無効化し、SSL 2.0対応サーバとRSA鍵を共有しない</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">上記を含む設計全体の安全性不足</td>
-                                            <td>2011年、RFC 6176で使用禁止(MUST NOT)</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="3">SSL 3.0</td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>RFC 6101(2011年): SSL 3.0の仕様(歴史的文書の位置づけ)</li>
-                                                    <li>RFC 7507(2015年): TLS_FALLBACK_SCSV</li>
-                                                    <li>RFC 7568(2015年): 使用禁止</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>鍵交換方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DH(固定DH)</li>
-                                                            <li>DHE(一時DH)</li>
-                                                            <li>DH_anon(匿名DH)</li>
-                                                            <li>Fortezza KEA(米国政府向けのFortezzaカードによる鍵交換)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>署名方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DSS</li>
-                                                            <li>Fortezza(Fortezzaカードによる署名)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>暗号化方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>NULL(暗号化なし)</li>
-                                                            <li>RC4(128bit / 輸出用40bit)</li>
-                                                            <li>RC2-CBC(輸出用40bit)</li>
-                                                            <li>IDEA-CBC(128bit)</li>
-                                                            <li>DES-CBC(56bit / 輸出用40bit)</li>
-                                                            <li>3DES-CBC(168bit)</li>
-                                                            <li>FORTEZZA-CBC(SKIPJACK 80bit)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>ハッシュ方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>MD5</li>
-                                                            <li>SHA-1(SSL 3.0独自MAC)</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li><code>SSL_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
-                                                    <li>RSA鍵交換では署名方式を省略</li>
-                                                    <li>Fortezza KEAは鍵交換・署名が一体のため<code>SSL_FORTEZZA_KEA_WITH_[暗号化方式]_SHA</code>となる</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="3">
+                                            <td rowspan="2">SSL 3.0</td>
+                                            <td rowspan="2">
                                                 <ul class="mb-0 ps-3">
                                                     <li>SSL 2.0の欠陥を踏まえてほぼ全面的に再設計</li>
                                                     <li>ハンドシェイク全体のハッシュ(MD5+SHA-1)をFinishedで相互検証</li>
                                                     <li>close_notifyアラートの追加</li>
                                                     <li>暗号化鍵とMAC鍵を分離して導出</li>
-                                                    <li>DH(DHE)鍵交換、DSS署名、証明書チェーンに対応</li>
+                                                    <li>証明書チェーンに対応</li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="3" class="text-center">✖</td>
+                                            <td rowspan="2">
+                                                <pre><code>SSL_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
+                                                <p>
+                                                    ※ RSA鍵交換では署名方式を省略
+                                                </p>
+                                                <p>
+                                                    Fortezza KEA (鍵交換・署名が一体)
+                                                </p>
+                                                <pre><code>SSL_FORTEZZA_KEA_WITH_[暗号化方式]_SHA</code></pre>
+                                            </td>
+                                            <td rowspan="2">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>鍵交換方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DH(固定DH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DHE(一時DH)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>DH_anon(匿名DH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>Fortezza KEA</code></pre></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <p>
+                                                            ※ Fortezza KEA : 米国政府向けのFortezzaカードによる鍵交換
+                                                        </p>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DSS</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>Fortezza</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                            </table>
+                                                        <p>
+                                                                ※ Fortezza : Fortezzaカードによる署名
+                                                            </p>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>NULL(暗号化なし)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>RC4(128bit / 輸出用40bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>RC2-CBC(輸出用40bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>IDEA-CBC(128bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DES-CBC(56bit / 輸出用40bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>3DES-CBC(168bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>FORTEZZA-CBC(SKIPJACK 80bit)</code></pre></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>MD5</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SHA-1(SSL 3.0独自MAC)</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="2" class="text-center">✖<br>RFC 7568</td>
                                             <td>CBCのパディング内容がMACで保護されない(MAC-then-Encrypt)</td>
                                             <td>POODLE攻撃(2014年, CVE-2014-3566): パディングオラクルでCookie等を1バイトずつ復号</td>
                                             <td>SSL 3.0を無効化し、TLS 1.1以上を利用</td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>1996年</li>
-                                                </ul>
+                                            <td rowspan="2">
+                                                <table class="table table-sm table-bordered mb-0 w-auto">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>規格名</th>
+                                                            <th>内容</th>
+                                                            <th>年</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 6101</td>
+                                                            <td>SSL 3.0の仕様(歴史的文書の位置づけ)</td>
+                                                            <td class="text-nowrap">2011年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 7507</td>
+                                                            <td>TLS_FALLBACK_SCSV</td>
+                                                            <td class="text-nowrap">2015年</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </td>
+                                            <td rowspan="2" class="text-nowrap">1996年～2015年</td>
                                         </tr>
                                         <tr>
                                             <td>バージョンのフォールバックを許容</td>
                                             <td>ダウングレード攻撃: 攻撃者がフォールバックを強制し、SSL 3.0へ落とす</td>
-                                            <td>TLS_FALLBACK_SCSV(RFC 7507)</td>
+                                            <td>TLS_FALLBACK_SCSV</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">上記を含む設計全体の安全性不足</td>
-                                            <td>2015年、RFC 7568で使用禁止(MUST NOT)</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="4">TLS 1.0</td>
-                                            <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>RFC 2246(1999年): TLS 1.0の仕様</li>
-                                                    <li>RFC 2104: HMAC</li>
-                                                    <li>RFC 3268(2002年): AES暗号スイートの追加</li>
-                                                    <li>RFC 3546(2003年): TLS拡張(SNI等)</li>
-                                                    <li>RFC 4492(2006年): ECC(ECDH/ECDHE/ECDSA)暗号スイートの追加</li>
-                                                    <li>RFC 4132(2005年): Camellia暗号スイート</li>
-                                                    <li>RFC 4162(2005年): SEED暗号スイート</li>
-                                                    <li>RFC 5469(2009年): DES・IDEA暗号スイート(歴史的文書)</li>
-                                                    <li>RFC 8996(2021年): 使用禁止</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>鍵交換方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DH(固定DH)</li>
-                                                            <li>DHE(一時DH)</li>
-                                                            <li>ECDH(固定ECDH)</li>
-                                                            <li>ECDHE(一時ECDH)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>署名方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DSS</li>
-                                                            <li>ECDSA</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>暗号化方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>NULL(暗号化なし)</li>
-                                                            <li>RC4(128bit / 輸出用40bit)</li>
-                                                            <li>RC2-CBC(輸出用40bit)</li>
-                                                            <li>IDEA-CBC(128bit)</li>
-                                                            <li>DES-CBC(56bit / 輸出用40bit)</li>
-                                                            <li>3DES-CBC(168bit)</li>
-                                                            <li>AES-CBC(128bit / 256bit)</li>
-                                                            <li>Camellia-CBC(128bit / 256bit): RFC 4132</li>
-                                                            <li>SEED-CBC(128bit): RFC 4162</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>ハッシュ方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>MD5(HMAC)</li>
-                                                            <li>SHA-1(HMAC)</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
-                                                    <li>RSA鍵交換では署名方式を省略</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="4">
+                                            <td rowspan="3">TLS 1.0</td>
+                                            <td rowspan="3">
                                                 <ul class="mb-0 ps-3">
                                                     <li>IETFがSSL 3.0をベースに標準化した最初のTLS</li>
                                                     <li>MACを標準的なHMACに置き換え</li>
                                                     <li>鍵導出にPRFを導入(MD5とSHA-1の出力をXORし、一方が破られても安全性を保つ設計)</li>
                                                     <li>Finishedの検証データ計算をPRFベースに変更</li>
                                                     <li>パディング形式の明確化、アラートの整理</li>
-                                                    <li>AES暗号スイートとTLS拡張(SNI等)は後から追加</li>
-                                                    <li>SSL 3.0へのフォールバックで接続可能</li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="4" class="text-center">✖</td>
+                                            <td rowspan="3">
+                                                <pre><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
+                                                <p>
+                                                    ※ RSA鍵交換では署名方式を省略
+                                                </p>
+                                            </td>
+                                            <td rowspan="3">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>鍵交換方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DH(固定DH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DHE(一時DH)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>ECDH(固定ECDH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ECDHE(一時ECDH)</code></pre></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DSS</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ECDSA</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>NULL(暗号化なし)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>RC4(128bit / 輸出用40bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>RC2-CBC(輸出用40bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>IDEA-CBC(128bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DES-CBC(56bit / 輸出用40bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>3DES-CBC(168bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>AES-CBC(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>Camellia-CBC(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SEED-CBC(128bit)</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>MD5(HMAC)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SHA-1(HMAC)</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="3" class="text-center">✖<br>RFC 8996</td>
                                             <td>CBCのIVが直前レコードの暗号文末尾ブロック(連鎖IV)で予測可能</td>
                                             <td>BEAST攻撃(2011年, CVE-2011-3389): 選択平文攻撃でCookie等を復号</td>
                                             <td>クライアント側の1/n-1レコード分割、TLS 1.1以上(明示的IV)の利用</td>
-                                            <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>1999年</li>
-                                                </ul>
+                                            <td rowspan="3">
+                                                <table class="table table-sm table-bordered mb-0 w-auto">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>規格名</th>
+                                                            <th>内容</th>
+                                                            <th>年</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 2246</td>
+                                                            <td>TLS 1.0の仕様</td>
+                                                            <td class="text-nowrap">1999年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 2104</td>
+                                                            <td>HMAC</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 3268</td>
+                                                            <td>AES暗号スイートの追加</td>
+                                                            <td class="text-nowrap">2002年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 3546</td>
+                                                            <td>TLS拡張(SNI等)</td>
+                                                            <td class="text-nowrap">2003年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4492</td>
+                                                            <td>ECC(ECDH/ECDHE/ECDSA)暗号スイートの追加</td>
+                                                            <td class="text-nowrap">2006年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4132</td>
+                                                            <td>Camellia暗号スイート</td>
+                                                            <td class="text-nowrap">2005年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4162</td>
+                                                            <td>SEED暗号スイート</td>
+                                                            <td class="text-nowrap">2005年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 5469</td>
+                                                            <td>DES・IDEA暗号スイート(歴史的文書)</td>
+                                                            <td class="text-nowrap">2009年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 7507</td>
+                                                            <td>TLS_FALLBACK_SCSV</td>
+                                                            <td class="text-nowrap">2015年</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </td>
+                                            <td rowspan="3" class="text-nowrap">1999年～2021年</td>
                                         </tr>
                                         <tr>
                                             <td>パディングエラーの種類がアラートで区別でき、復号の可否が漏れる</td>
@@ -735,69 +873,11 @@
                                         <tr>
                                             <td>SSL 3.0へのフォールバックを許容</td>
                                             <td>POODLE攻撃(ダウングレード経由)</td>
-                                            <td>TLS_FALLBACK_SCSV(RFC 7507)、SSL 3.0の無効化</td>
+                                            <td>TLS_FALLBACK_SCSV、SSL 3.0の無効化</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">上記を含む設計全体の安全性不足</td>
-                                            <td>2021年、RFC 8996でTLS 1.0/1.1ともに使用禁止(MUST NOT)</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="3">TLS 1.1</td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>RFC 4346(2006年): TLS 1.1の仕様</li>
-                                                    <li>RFC 4492(2006年): ECC(ECDH/ECDHE/ECDSA)暗号スイートの追加</li>
-                                                    <li>RFC 4132(2005年): Camellia暗号スイート</li>
-                                                    <li>RFC 4162(2005年): SEED暗号スイート</li>
-                                                    <li>RFC 5469(2009年): DES・IDEA暗号スイート(歴史的文書)</li>
-                                                    <li>RFC 8996(2021年): 使用禁止</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>鍵交換方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DH(固定DH)</li>
-                                                            <li>DHE(一時DH)</li>
-                                                            <li>ECDH(固定ECDH)</li>
-                                                            <li>ECDHE(一時ECDH)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>署名方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DSS</li>
-                                                            <li>ECDSA</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>暗号化方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>NULL(暗号化なし)</li>
-                                                            <li>RC4(128bit)</li>
-                                                            <li>IDEA-CBC(128bit)</li>
-                                                            <li>DES-CBC(56bit)</li>
-                                                            <li>3DES-CBC(168bit)</li>
-                                                            <li>AES-CBC(128bit / 256bit)</li>
-                                                            <li>Camellia-CBC(128bit / 256bit): RFC 4132</li>
-                                                            <li>SEED-CBC(128bit): RFC 4162</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>ハッシュ方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>MD5(HMAC)</li>
-                                                            <li>SHA-1(HMAC)</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
-                                                    <li>RSA鍵交換では署名方式を省略</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="3">
+                                            <td rowspan="2">TLS 1.1</td>
+                                            <td rowspan="2">
                                                 <ul class="mb-0 ps-3">
                                                     <li>TLS 1.0の小規模な改訂</li>
                                                     <li>明示的IV(Explicit IV)の導入: レコードごとにIVを付加し、連鎖IVの予測攻撃を防止</li>
@@ -806,15 +886,117 @@
                                                     <li>IANAのパラメータレジストリを整備</li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="3" class="text-center">✖</td>
+                                            <td rowspan="2">
+                                                <pre><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
+                                                <p>
+                                                    ※ RSA鍵交換では署名方式を省略
+                                                </p>
+                                            </td>
+                                            <td rowspan="2">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>鍵交換方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DH(固定DH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DHE(一時DH)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>ECDH(固定ECDH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ECDHE(一時ECDH)</code></pre></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DSS</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ECDSA</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>NULL(暗号化なし)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>RC4(128bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>IDEA-CBC(128bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>DES-CBC(56bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>3DES-CBC(168bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>AES-CBC(128bit / 256bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>Camellia-CBC(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SEED-CBC(128bit)</code></pre></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>MD5(HMAC)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SHA-1(HMAC)</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="2" class="text-center">✖<br>RFC 8996</td>
                                             <td>MAC-then-Encryptのまま(CBC)</td>
                                             <td>Lucky13攻撃(2013年): CBCのタイミング攻撃</td>
                                             <td>実装側の定時間処理、AEAD(TLS 1.2以上)への移行</td>
-                                            <td rowspan="3">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>2006年</li>
-                                                </ul>
+                                            <td rowspan="2">
+                                                <table class="table table-sm table-bordered mb-0 w-auto">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>規格名</th>
+                                                            <th>内容</th>
+                                                            <th>年</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4346</td>
+                                                            <td>TLS 1.1の仕様</td>
+                                                            <td class="text-nowrap">2006年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4492</td>
+                                                            <td>ECC(ECDH/ECDHE/ECDSA)暗号スイートの追加</td>
+                                                            <td class="text-nowrap">2006年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4132</td>
+                                                            <td>Camellia暗号スイート</td>
+                                                            <td class="text-nowrap">2005年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4162</td>
+                                                            <td>SEED暗号スイート</td>
+                                                            <td class="text-nowrap">2005年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 5469</td>
+                                                            <td>DES・IDEA暗号スイート(歴史的文書)</td>
+                                                            <td class="text-nowrap">2009年</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </td>
+                                            <td rowspan="2" class="text-nowrap">2006年～2021年</td>
                                         </tr>
                                         <tr>
                                             <td>PRFがMD5+SHA-1併用のまま、AEAD未対応</td>
@@ -822,84 +1004,15 @@
                                             <td>TLS 1.2でPRFを暗号スイートごとに指定可能にし、AEADに対応</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">上記を含む設計全体の安全性不足(普及せず、TLS 1.0から1.2へ直接移行する例が多かった)</td>
-                                            <td>2021年、RFC 8996で使用禁止(MUST NOT)</td>
-                                        </tr>
-                                        <tr>
                                             <td rowspan="10">TLS 1.2</td>
-                                            <td rowspan="10">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>RFC 5246(2008年): TLS 1.2の仕様</li>
-                                                    <li>RFC 5288: AES-GCM暗号スイート</li>
-                                                    <li>RFC 7905: ChaCha20-Poly1305暗号スイート</li>
-                                                    <li>RFC 8422(旧RFC 4492): ECC(ECDH/ECDHE/ECDSA)暗号スイート</li>
-                                                    <li>RFC 5746: 再ネゴシエーション指示拡張(renegotiation_info)</li>
-                                                    <li>RFC 7366: Encrypt-then-MAC拡張</li>
-                                                    <li>RFC 7627: Extended Master Secret拡張</li>
-                                                    <li>RFC 7465: RC4の使用禁止</li>
-                                                    <li>RFC 4162 / RFC 5932 / RFC 6367: SEED・Camellia暗号スイート</li>
-                                                    <li>RFC 6209: ARIA暗号スイート</li>
-                                                    <li>RFC 6655: AES-CCM暗号スイート</li>
-                                                    <li>RFC 5469: DES・IDEA暗号スイート(TLS 1.2で削除)</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="10">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>鍵交換方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DH(固定DH)</li>
-                                                            <li>DHE(一時DH)</li>
-                                                            <li>ECDH(固定ECDH)</li>
-                                                            <li>ECDHE(一時ECDH)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>署名方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA</li>
-                                                            <li>DSS</li>
-                                                            <li>ECDSA</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>暗号化方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>NULL(暗号化なし)</li>
-                                                            <li>RC4(128bit): RFC 7465で使用禁止</li>
-                                                            <li>3DES-CBC(168bit)</li>
-                                                            <li>AES-CBC(128bit / 256bit)</li>
-                                                            <li>AES-GCM(128bit / 256bit)</li>
-                                                            <li>ChaCha20-Poly1305</li>
-                                                            <li>Camellia-CBC(128bit / 256bit): RFC 5932</li>
-                                                            <li>Camellia-GCM(128bit / 256bit): RFC 6367</li>
-                                                            <li>SEED-CBC(128bit): RFC 4162</li>
-                                                            <li>ARIA-CBC / ARIA-GCM(128bit / 256bit): RFC 6209</li>
-                                                            <li>AES-CCM(128bit / 256bit): RFC 6655</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>ハッシュ方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>MD5(HMAC)</li>
-                                                            <li>SHA-1(HMAC)</li>
-                                                            <li>SHA-256(HMAC / PRF)</li>
-                                                            <li>SHA-384(HMAC / PRF)</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="10">
-                                                <ul class="mb-0 ps-3">
-                                                    <li><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
-                                                    <li>RSA鍵交換では署名方式を省略</li>
-                                                    <li>AEAD(GCM / ChaCha20-Poly1305)のハッシュ関数方式はPRF用で、MACは使わない</li>
-                                                </ul>
-                                            </td>
                                             <td rowspan="10">
                                                 <ul class="mb-0 ps-3">
                                                     <li>PRFを暗号スイートごとに指定可能にし、MD5/SHA-1併用を廃止(最低SHA-256)</li>
                                                     <li>signature_algorithms拡張で署名のハッシュ/署名アルゴリズムをネゴシエーション</li>
                                                     <li>AEAD暗号スイートに対応。機密性・完全性・認証を一括で処理し、CBCのMAC-then-Encrypt構造の弱点を解消</li>
+                                                    <li>AEAD(GCM / ChaCha20-Poly1305)のハッシュ関数方式はPRF用で、MACは使わない</li>
                                                     <li>ECDHE/ECDSA暗号スイートの利用が一般化</li>
-                                                    <li>DES・IDEAの暗号スイートを削除(RFC 5469で歴史的文書化)</li>
+                                                    <li>DES・IDEAの暗号スイートを削除</li>
                                                     <li>ハンドシェイク(2-RTT)
                                                         <ol class="mb-0 ps-3">
                                                             <li>ClientHello</li>
@@ -917,15 +1030,163 @@
                                                     <li>暗号スイート名の例: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 = 鍵交換ECDHE / 署名RSA / 暗号AES-128-GCM / PRFハッシュSHA-256</li>
                                                 </ul>
                                             </td>
+                                            <td rowspan="10">
+                                                <pre><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
+                                                <p>
+                                                    ※ RSA鍵交換では署名方式を省略
+                                                </p>
+                                            </td>
+                                            <td rowspan="10">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>鍵交換方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DH(固定DH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DHE(一時DH)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>ECDH(固定ECDH)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ECDHE(一時ECDH)</code></pre></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>DSS</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ECDSA</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>NULL(暗号化なし)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>RC4(128bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>3DES-CBC(168bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>AES-CBC(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>AES-GCM(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ChaCha20-Poly1305</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>Camellia-CBC(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>Camellia-GCM(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SEED-CBC(128bit)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>ARIA-CBC / ARIA-GCM(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>AES-CCM(128bit / 256bit)</code></pre></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>MD5(HMAC)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SHA-1(HMAC)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SHA-256(HMAC / PRF)</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>SHA-384(HMAC / PRF)</code></pre></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
                                             <td rowspan="10" class="text-center">〇</td>
                                             <td>CBCのMAC-then-Encrypt</td>
                                             <td>Lucky13攻撃(2013年): CBCのタイミング攻撃</td>
-                                            <td>AEAD(AES-GCM/ChaCha20-Poly1305)のみ許可。Encrypt-then-MAC拡張(RFC 7366)</td>
+                                            <td>AEAD(AES-GCM/ChaCha20-Poly1305)のみ許可。Encrypt-then-MAC拡張</td>
                                             <td rowspan="10">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>2008年</li>
-                                                </ul>
+                                                <table class="table table-sm table-bordered mb-0 w-auto">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>規格名</th>
+                                                            <th>内容</th>
+                                                            <th>年</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 5246</td>
+                                                            <td>TLS 1.2の仕様</td>
+                                                            <td class="text-nowrap">2008年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 5288</td>
+                                                            <td>AES-GCM暗号スイート</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 7905</td>
+                                                            <td>ChaCha20-Poly1305暗号スイート</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 8422(旧RFC 4492)</td>
+                                                            <td>ECC(ECDH/ECDHE/ECDSA)暗号スイート</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 5746</td>
+                                                            <td>再ネゴシエーション指示拡張(renegotiation_info)</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 7366</td>
+                                                            <td>Encrypt-then-MAC拡張</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 7627</td>
+                                                            <td>Extended Master Secret拡張</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 7465</td>
+                                                            <td>RC4の使用禁止</td>
+                                                            <td class="text-nowrap">2015年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 4162 / RFC 5932 / RFC 6367</td>
+                                                            <td>SEED・Camellia暗号スイート</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 6209</td>
+                                                            <td>ARIA暗号スイート</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 6655</td>
+                                                            <td>AES-CCM暗号スイート</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 5469</td>
+                                                            <td>DES・IDEA暗号スイート(歴史的文書)</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </td>
+                                            <td rowspan="10">2008年</td>
                                         </tr>
                                         <tr>
                                             <td>64ビットブロック暗号(3DES等)の利用</td>
@@ -935,7 +1196,7 @@
                                         <tr>
                                             <td>RC4の出力バイアス</td>
                                             <td>統計的な偏りを利用した平文の推測</td>
-                                            <td>2015年、RFC 7465でRC4使用禁止</td>
+                                            <td>RC4の使用禁止</td>
                                         </tr>
                                         <tr>
                                             <td>TLS圧縮・HTTP圧縮の併用</td>
@@ -945,7 +1206,7 @@
                                         <tr>
                                             <td>再ネゴシエーションが既存の接続と結び付けて検証されない</td>
                                             <td>再ネゴシエーション攻撃(2009年): 中間者が接続の先頭に平文を注入</td>
-                                            <td>renegotiation_info拡張(RFC 5746)</td>
+                                            <td>renegotiation_info拡張</td>
                                         </tr>
                                         <tr>
                                             <td>RSA鍵交換(PKCS#1 v1.5)のパディング検証</td>
@@ -965,7 +1226,7 @@
                                         <tr>
                                             <td>マスターシークレットがハンドシェイク全体と結び付かない</td>
                                             <td>Triple Handshake攻撃(2014年): 異なる接続間でセッション鍵を一致させ、再開・再ネゴシエーション時の認証を悪用</td>
-                                            <td>Extended Master Secret拡張(RFC 7627)</td>
+                                            <td>Extended Master Secret拡張</td>
                                         </tr>
                                         <tr>
                                             <td>OpenSSLのHeartbeat拡張の実装バグ(プロトコルの欠陥ではない)</td>
@@ -974,52 +1235,6 @@
                                         </tr>
                                         <tr>
                                             <td rowspan="4">TLS 1.3</td>
-                                            <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>RFC 8446(2018年): TLS 1.3の仕様</li>
-                                                    <li>RFC 5869: HKDF(鍵導出)</li>
-                                                    <li>RFC 9001: QUICでのTLS 1.3の利用</li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>鍵交換方式(暗号スイートとは別にネゴシエーション)
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>(EC)DHE</li>
-                                                            <li>PSK(psk_ke / psk_dhe_ke)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>署名方式(暗号スイートとは別にネゴシエーション)
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>RSA-PSS</li>
-                                                            <li>ECDSA</li>
-                                                            <li>EdDSA</li>
-                                                            <li>SM2(RFC 8998)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>暗号化方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>AES-GCM(128bit / 256bit)</li>
-                                                            <li>ChaCha20-Poly1305</li>
-                                                            <li>AES-CCM(128bit / 128bit・認証タグ8バイト)</li>
-                                                            <li>SM4-GCM / SM4-CCM(128bit / RFC 8998・中国商用暗号)</li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>ハッシュ方式
-                                                        <ul class="mb-0 ps-3">
-                                                            <li>SHA-256(HKDF)</li>
-                                                            <li>SHA-384(HKDF)</li>
-                                                            <li>SM3(HKDF / RFC 8998)</li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                            <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li><code>TLS_[暗号化方式]_[ハッシュ関数方式]</code></li>
-                                                    <li>鍵交換方式・署名方式は暗号スイートに含まれない</li>
-                                                </ul>
-                                            </td>
                                             <td rowspan="4">
                                                 <ul class="mb-0 ps-3">
                                                     <li>HTTP/3の基盤であるQUICも、暗号化・鍵交換の仕組みとしてTLS 1.3を内部で利用。QUICはTLSのレコード層は使わず、ハンドシェイクのみを利用</li>
@@ -1041,9 +1256,12 @@
                                                     </li>
                                                     <li>暗号アルゴリズムの絞り込み
                                                         <ul class="mb-0 ps-3">
-                                                            <li>AEADのみ許可。CBC、RC4、3DES、MAC-then-Encryptはすべて廃止(RC2・IDEA・DES・SEED等の旧暗号、Camellia・ARIAも標準スイートに含まれない)</li>
-                                                            <li>暗号スイートは「AEAD + HKDFのハッシュ」だけを指定する形式(例: TLS_AES_128_GCM_SHA256)になり、鍵交換・認証の方式は暗号スイートから分離</li>
-                                                            <li>署名(CertificateVerify)はRSA-PSS / ECDSA / EdDSAに限定し、PKCS#1 v1.5は不可</li>
+                                                            <li>AEAD(認証暗号アルゴリズム)のみ許可</li>
+                                                            <li>
+                                                                CBC、RC4、3DES、MAC-then-Encryptはすべて廃止(RC2・IDEA・DES・SEED等の旧暗号、Camellia・ARIAも標準スイートに含まれない)
+                                                            </li>
+                                                            <li>暗号スイートは「AEAD + HKDFのハッシュ」だけを指定する形式(例: TLS_AES_128_GCM_SHA256)</li>
+                                                            <li>署名(CertificateVerify)でPKCS#1 v1.5は不可</li>
                                                         </ul>
                                                     </li>
                                                     <li>鍵交換
@@ -1071,15 +1289,97 @@
                                                     </li>
                                                 </ul>
                                             </td>
+                                            <td rowspan="4">
+                                                <pre><code>TLS_[暗号化方式]_[ハッシュ関数方式]</code></pre>
+                                                <p>
+                                                    <small>※ 鍵交換方式・署名方式は暗号スイートに含まれない</small>
+                                                </p>
+                                            </td>
+                                            <td rowspan="4">
+                                                <ul class="mb-0 ps-3">
+                                                    <li>鍵交換方式(暗号スイートとは別にネゴシエーション)
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>(EC)DHE</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>PSK(psk_ke / psk_dhe_ke)</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>署名方式(暗号スイートとは別にネゴシエーション)
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>RSA-PSS</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ECDSA</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>EdDSA</code></pre></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>SM2</code></pre></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>AES-GCM(128bit / 256bit)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>ChaCha20-Poly1305</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>AES-CCM(128bit / 128bit・認証タグ8バイト)</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <table class="table table-sm table-bordered mb-0 w-auto">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><pre class="mb-0"><code>SHA-256(HKDF)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SHA-384(HKDF)</code></pre></td>
+                                                                    <td><pre class="mb-0"><code>SM3(HKDF)</code></pre></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
                                             <td rowspan="4" class="text-center">〇</td>
                                             <td>0-RTT(early data)にリプレイ耐性がない</td>
                                             <td>リプレイ攻撃: 盗聴したearly dataを再送し、処理を重複実行させる</td>
                                             <td>冪等な要求のみ0-RTTで送る。サーバ側でリプレイ検出(チケットの使い捨て等)、または0-RTTを無効化</td>
                                             <td rowspan="4">
-                                                <ul class="mb-0 ps-3">
-                                                    <li>2018年</li>
-                                                </ul>
+                                                <table class="table table-sm table-bordered mb-0 w-auto">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>規格名</th>
+                                                            <th>内容</th>
+                                                            <th>年</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 8446</td>
+                                                            <td>TLS 1.3の仕様</td>
+                                                            <td class="text-nowrap">2018年</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 5869</td>
+                                                            <td>HKDF(鍵導出)</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-nowrap">RFC 9001</td>
+                                                            <td>QUICでのTLS 1.3の利用</td>
+                                                            <td class="text-nowrap">-</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </td>
+                                            <td rowspan="4">2018年</td>
                                         </tr>
                                         <tr>
                                             <td>0-RTTのearly dataはPSK由来の鍵で暗号化され、前方秘匿性がない</td>
@@ -1096,7 +1396,7 @@
                                             <td>実装バグ・設定ミスを突いた攻撃</td>
                                             <td>修正パッチの適用、設定の見直し</td>
                                         </tr>
-                                    </tbody>
+                                        </tbody>
                                 </table>
 
                             </div>
