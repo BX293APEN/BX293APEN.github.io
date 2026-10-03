@@ -883,6 +883,7 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             <th scope="col">方式</th>
                                             <th scope="col">正式名称</th>
                                             <th scope="col">規格</th>
+                                            <th scope="col">証明書・鍵</th>
                                             <th scope="col">手順</th>
                                             <th scope="col">概要</th>
                                         </tr>
@@ -890,15 +891,22 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                     <tbody>
                                         <!-- ## 本文の暗号化・電子署名 -->
                                         <tr class="table-secondary">
-                                            <th colspan="5" scope="colgroup">本文の暗号化・電子署名</th>
+                                            <th colspan="6" scope="colgroup">本文の暗号化・電子署名</th>
                                         </tr>
                                         <tr>
                                             <th scope="row">S/MIME</th>
                                             <td>Secure/Multipurpose Internet Mail Extensions</td>
                                             <td>RFC 8551</td>
                                             <td>
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: X.509証明書+秘密鍵</li>
+                                                    <li><strong>単位</strong>: メールアドレス(個人)</li>
+                                                    <li><strong>取得元</strong>: 公的CA・社内CA</li>
+                                                    <li><strong>公開</strong>: 署名メールに同梱</li>
+                                                </ul>
+                                            </td>
+                                            <td>
                                                 <ol class="mb-0">
-                                                    <li class="text-nowrap">CAから証明書(X.509)を取得</li>
                                                     <li>送信者が受信者の証明書の公開鍵で本文を暗号化</li>
                                                     <li>送信者が自分の秘密鍵で電子署名を付与</li>
                                                     <li>受信者が自分の秘密鍵で復号し、署名を検証</li>
@@ -920,8 +928,15 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                                 RFC 4880 <br> RFC 9580
                                             </td>
                                             <td>
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: OpenPGP鍵ペア</li>
+                                                    <li><strong>単位</strong>: 利用者(1つの鍵に複数アドレスを紐づけ可)</li>
+                                                    <li><strong>取得元</strong>: 自分で生成(GnuPG等)</li>
+                                                    <li><strong>公開</strong>: 鍵サーバー・WKD・直接交換</li>
+                                                </ul>
+                                            </td>
+                                            <td>
                                                 <ol class="mb-0">
-                                                    <li>利用者が自分で鍵ペアを生成</li>
                                                     <li>公開鍵を相手と交換</li>
                                                     <li>送信者が受信者の公開鍵で暗号化し、自分の秘密鍵で署名</li>
                                                     <li>受信者が秘密鍵で復号し、署名を検証</li>
@@ -939,12 +954,19 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                     
                                         <!-- ## 送信ドメイン認証 -->
                                         <tr class="table-secondary">
-                                            <th colspan="5" scope="colgroup">送信ドメイン認証</th>
+                                            <th colspan="6" scope="colgroup">送信ドメイン認証</th>
                                         </tr>
                                         <tr>
                                             <th scope="row">SPF</th>
                                             <td>Sender Policy Framework</td>
                                             <td>RFC 7208</td>
+                                            <td>
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: 不要(DNSのTXTレコードのみ)</li>
+                                                    <li><strong>単位</strong>: ドメイン</li>
+                                                    <li><strong>公開</strong>: DNS(TXT)</li>
+                                                </ul>
+                                            </td>
                                             <td>
                                                 <ol class="mb-0">
                                                     <li>送信側ドメインのDNSにTXTレコードで許可IPリストを登録</li>
@@ -965,6 +987,14 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             <td>Authenticated Received Chain</td>
                                             <td>RFC 8617</td>
                                             <td>
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: 署名用の鍵ペア</li>
+                                                    <li><strong>単位</strong>: 中継者のドメイン</li>
+                                                    <li><strong>取得元</strong>: 自分で生成</li>
+                                                    <li><strong>公開</strong>: DNS(TXT)に公開鍵を登録</li>
+                                                </ul>
+                                            </td>
+                                            <td>
                                                 <ol class="mb-0">
                                                     <li>転送・中継を行う者が、受信時のSPF/DKIM認証結果を確認</li>
                                                     <li>認証結果を記録し、中継者の署名を付与</li>
@@ -981,12 +1011,20 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                     
                                         <!-- ## 通信路の暗号化 -->
                                         <tr class="table-secondary">
-                                            <th colspan="5" scope="colgroup">通信路の暗号化</th>
+                                            <th colspan="6" scope="colgroup">通信路の暗号化</th>
                                         </tr>
                                         <tr>
-                                            <th rowspan="3" scope="row">STARTTLS</th>
-                                            <td>SMTP: STARTTLS</td>
+                                            <th rowspan="3" scope="row">STARTTLS<br>(Explicit TLS)</th>
+                                            <td>SMTP: STARTTLS<br>(25 / 587)</td>
                                             <td>RFC 3207</td>
+                                            <td rowspan="3">
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: サーバー証明書+秘密鍵</li>
+                                                    <li><strong>単位</strong>: ホスト名(FQDN)。メールアドレスとは無関係で、1サーバー1枚でよい</li>
+                                                    <li><strong>取得元</strong>: 公的CA(Let's Encrypt等)</li>
+                                                    <li><strong>公開</strong>: 接続時にサーバーが提示</li>
+                                                </ul>
+                                            </td>
                                             <td rowspan="3">
                                                 <ol class="mb-0">
                                                     <li>平文でSMTP/POP3/IMAPの接続を確立</li>
@@ -999,20 +1037,119 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                                 <ul class="mb-0">
                                                     <li>平文の接続をTLS接続へ昇格させるコマンド</li>
                                                     <li>SMTP・POP3・IMAPで利用</li>
+                                                    <li>途中経路でSTARTTLSの案内を消されるダウングレード攻撃のリスクがある</li>
                                                 </ul>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>POP3: STLS</td>
+                                            <td>POP3: STLS<br>(110)</td>
                                             <td>RFC 2595</td>
                                         </tr>
                                         <tr>
-                                            <td>IMAP: STARTTLS</td>
+                                            <td>IMAP: STARTTLS<br>(143)</td>
                                             <td>RFC 2595 <br> RFC 9051</td>
+                                        </tr>
+                                        <tr>
+                                            <th rowspan="3" scope="row">Implicit TLS</th>
+                                            <td>SMTP(メール提出): SMTPS<br>(465)</td>
+                                            <td>RFC 8314</td>
+                                            <td rowspan="3">
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: サーバー証明書+秘密鍵</li>
+                                                    <li><strong>単位</strong>: ホスト名(FQDN)。STARTTLSと同じ証明書を共用できる</li>
+                                                    <li><strong>取得元</strong>: 公的CA(Let's Encrypt等)</li>
+                                                    <li><strong>公開</strong>: 接続時にサーバーが提示</li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="3">
+                                                <ol class="mb-0">
+                                                    <li>TCP接続の確立直後にTLSハンドシェイクを行う</li>
+                                                    <li>暗号化された通信路上でSMTP/POP3/IMAPを開始</li>
+                                                </ol>
+                                            </td>
+                                            <td rowspan="3">
+                                                <ul class="mb-0">
+                                                    <li>接続の最初からTLSで保護する方式</li>
+                                                    <li>平文を経由しないため、ダウングレード攻撃を受けない</li>
+                                                    <li>RFC 8314 が現在の推奨</li>
+                                                    <li>サーバー間のSMTP(25)では実質使われない</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>POP3S<br>(995)</td>
+                                            <td>RFC 8314</td>
+                                        </tr>
+                                        <tr>
+                                            <td>IMAPS<br>(993)</td>
+                                            <td>RFC 8314</td>
+                                        </tr>
+                                    
+                                        <!-- ## 通信路暗号化の強制(ダウングレード対策) -->
+                                        <tr class="table-secondary">
+                                            <th colspan="6" scope="colgroup">通信路暗号化の強制(ダウングレード対策)</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">MTA-STS</th>
+                                            <td>SMTP MTA Strict Transport Security</td>
+                                            <td>RFC 8461</td>
+                                            <td>
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: MTA-STSポリシー配信用のHTTPSサーバー証明書、およびMXホストのサーバー証明書</li>
+                                                    <li><strong>単位</strong>: ホスト名(FQDN)</li>
+                                                    <li><strong>取得元</strong>: 公的CA</li>
+                                                    <li><strong>公開</strong>: DNS(TXT)+HTTPSでポリシーを配信</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>受信側ドメインがDNS(TXT)でポリシーの存在とIDを公開</li>
+                                                    <li>HTTPSでポリシーファイルを配置</li>
+                                                    <li>送信側MTAがポリシーを取得してキャッシュ</li>
+                                                    <li>ポリシーに合致するMXへ、有効な証明書のTLSでのみ配送</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>サーバー間SMTPでTLSを強制する仕組み</li>
+                                                    <li>TLS確立や証明書検証に失敗した場合は平文配送にフォールバックしない</li>
+                                                    <li>DNSSECが不要で導入しやすい</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">DANE</th>
+                                            <td>DNS-based Authentication of Named Entities</td>
+                                            <td>
+                                                RFC 6698<br>
+                                                RFC 7672 (SMTP)
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li><strong>種類</strong>: 既存のサーバー証明書(またはその公開鍵)のハッシュをTLSAレコードに登録。DNSSEC署名が必須</li>
+                                                    <li><strong>単位</strong>: ホスト名(FQDN)・ポート</li>
+                                                    <li><strong>公開</strong>: DNS(TLSA)</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>受信側ドメインがDNSSEC署名済みのDNSにTLSAレコードを登録</li>
+                                                    <li>送信側MTAがDNSSEC検証付きでTLSAレコードを取得</li>
+                                                    <li>サーバーが提示した証明書をTLSAレコードと照合し、一致した場合のみ配送</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>証明書の正当性をDNSSECで保証する仕組み</li>
+                                                    <li>CAに依存せずサーバー証明書を検証できる</li>
+                                                    <li>DNSSECの運用が前提</li>
+                                                </ul>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+
                         </article>
 
                     </div>
