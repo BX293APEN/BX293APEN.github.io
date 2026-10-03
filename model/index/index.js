@@ -241,6 +241,9 @@ class Model extends LoadModel {
             "iperf3" : {
                 "href" : "/html/tips/server/iperf3.html",
             },
+            "mailserver" : {
+                "href" : "/html/tips/server/mail.html",
+            },
         }
 
         this.sitemapIndex = Object.keys(this.sitemap);
@@ -326,6 +329,9 @@ class Model extends LoadModel {
             '回線速度測定' : {
                 "href" : "https://fast.com/ja/#", 
             },
+            'speedtest' : {
+                "href" : "https://www.speedtest.net/ja", 
+            },
             'Yahoo finance' : {
                 "href" : "https://finance.yahoo.com/", 
             },
@@ -337,6 +343,9 @@ class Model extends LoadModel {
             },
             "J-PlatPat" : {
                 "href" : "https://www.j-platpat.inpit.go.jp/t0100", 
+            },
+            "モンスト" : {
+                "href" : "https://webshop.monster-strike.com/serial-code", 
             },
             
         }

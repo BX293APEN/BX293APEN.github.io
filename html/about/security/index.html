@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="ようこそ - とあるペンギンの実験室" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/about/security/index.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="とあるペンギンの実験室へようこそ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/about/securityTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>情報セキュリティについて</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="pt-3 ps-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                セキュリティ
+                            </h2>
+                            <ul>
+                                <li>
+                                    安全
+                                </li>
+                                <li>
+                                    守らなければならない大切なモノが危害や損害を受けない正常な状態
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="blog-post" id="security">
+                            <h2 class="border-bottom fw-bold">
+                                情報セキュリティ
+                            </h2>
+                            <p>
+                                以下の項目を維持すること
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">項目</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            機密性 [C]
+                                        </td>
+                                        <td>
+                                            アクセス権限
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            完全性 [I]
+                                        </td>
+                                        <td>
+                                            情報が正確・改竄されていない
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            可用性 [A]
+                                        </td>
+                                        <td>
+                                            必要な時使える
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            真正性
+                                        </td>
+                                        <td>
+                                            利用者・プロセス・システム・情報が本物であると証明
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            責任追跡性
+                                        </td>
+                                        <td>
+                                            ログの記録
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            否認防止
+                                        </td>
+                                        <td>
+                                            事後に「やっていない」と言えなくする (タイムスタンプ, 電子署名等)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            信頼性
+                                        </td>
+                                        <td>
+                                            意図した通りに矛盾なく動作
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+                            <h3 class="border-bottom fw-bold">
+                                情報セキュリティに関する計画
+                            </h3>
+                            <div id="md-plan">
+
+| 名称 | 内容 |
+| --- | --- |
+| 事業継続マネジメント(BCM) | BCPの策定・維持・改善を含む継続的なマネジメント活動 |
+| **事業継続計画 (BCP)** | 大規模災害やシステム障害などの緊急事態が発生した場合でも、重要業務を中断させない、または中断しても<br>目標復旧時間内に再開できるようにするための、組織全体を対象とした包括的な計画<br>方針・体制・優先業務・復旧手順などを事前に定めておく |
+| **緊急時対応計画 <br>(コンティンジェンシープラン)** | 火災・システム障害・情報漏えいなど、特定の緊急事態が発生した際の初動対応を目的とした計画<br>個別の事象に焦点を当て、発見から初期対応・状況把握・復旧までの具体的な対応手順・連絡体制・代替策を定める<br>BCPが組織全体を対象とする包括的な計画であるのに対し、局所的なリスクに特化している点が異なる |
+| 復旧計画 | 被災・障害等によって停止したシステムや業務を、目標復旧時点(RPO)・目標復旧時間(RTO)に基づいて<br>元の状態まで回復させるための具体的な手順を定めた計画<br>代替設備への切替え、バックアップからのデータ復元などの技術的な復旧手順が中心となる |
+| 障害計画 | システムやネットワークに障害が発生した場合を想定し、影響範囲の特定・切り分け・応急対応・恒久対策までの<br>一連の対応手順や体制をあらかじめ定めておく計画 |
+| **リスクマネジメント** | <ul><li>P : **リスクアセスメント**</li><li>D : リスク対応</li><li>C : モニタリング</li><li>A : 改善</li></ul>のPDCAサイクルを継続的に回すことで、組織のリスクを許容可能な水準まで低減・維持・管理する活動<br>リスクについて、組織を指揮統制するための調整された活動全般 |  
+| リスク対応計画 | リスク対応(低減・回避・移転・保有等)の具体的な実施内容、担当者、期限、必要な資源等を定めた計画。 |
+
+                            </div>
+                            <ul>
+                                <li>RPO(目標復旧時点) : 災害発生時に許容できるデータ損失の時点(どこまで遡ってデータを復旧するか)</li>
+                                <li>RTO(目標復旧時間) : 災害発生後、システムを復旧させるまでの目標時間</li>
+                            </ul>
+                        </article>
+
+                        <article class="blog-post" id="risk">
+                            <h2 class="border-bottom fw-bold">
+                                リスク
+                            </h2>
+                            <p>
+                                発生した場合情報資産に影響を与える事象や状態
+                            </p>
+                            <div id="md-risk-word">
+
+| 用語 | 説明 |
+|---|---|
+| 情報資産 | 企業・組織が保有する、保護すべき価値のある情報<br>データ・書類・システム・ノウハウなど |
+| 情報資産台帳 | 組織が保有する情報資産を洗い出し、その重要度・管理責任者・保管場所などを一覧化した台帳 |
+| 脅威 | 情報資産に損害を与える可能性のある事象や行為(不正アクセス、災害、人的ミスなど)の原因 |
+| 脆弱性 | 脅威によって影響を受ける可能性のある、情報資産や管理策上の弱点。 |
+| リスク源(リスクソース) | それ自体又は他との組み合わせによって、リスクを生じさせる力を潜在的に持っている要素。 |
+| リスク所有者 | リスクを管理する責任及び権限を持つ人又は主体。 |
+| リスク定量化 | リスクの大きさを金額や発生確率など数値で表すこと<br>年間予想損失額の算出・得点法 |
+| リスク基準 | リスクの重大性を評価するための、目安とする条件(組織の目的や外部・内部の状況等に基づいて設定)。 |
+| リスク受容基準 | リスクを受容できるかどうかを判断するための基準 |
+| リスク選好(リスクアペタイト) | 組織が目的を達成するために、進んで受け入れようとするリスクの種類と量。 |
+| 残留リスク | リスク対応後に残っているリスク |
+| リスクコミュニケーション | リスクの管理について、意思決定に役立てるために、利害関係者との間で情報を交換・共有すること。 |  
+| リスク登録簿(リスクレジスタ) | 識別されたリスク、その分析・評価結果、対応状況等を一覧化して管理する文書。 |
+| リスクコントロール | リスクの発生を防止したり、発生時の被害を抑えたりするための、物理的・技術的・人的な対策。 |
+| リスクファイナンス | 保険や準備金の積立等、リスクが顕在化した際の損失に金銭面で備える対策。 |
+| リスクヘッジ | 将来起こりうるリスクによる損失を回避・軽減するために、あらかじめ対策を講じること。 |
+
+                            </div>
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                リスクの種類
+                            </h2>
+                            <div id="md-risk-kind">
+
+| 種類 | 説明 |
+|---|---|
+| 財産損失 | 情報資産の破壊・盗難・消失などにより組織の財産が失われるリスク |
+| 収入損失 | 事業活動の停止・中断等により、得られるはずの収入が得られなくなるリスク |
+| 責任損失 | 情報漏洩等により、損害賠償責任や法的責任を負うリスク |
+| 人的損失 | 事故・災害等により、人員(従業員等)が被害を受けるリスク |  
+
+                            </div>
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                脅威分析
+                            </h2>
+                            <p>
+                                情報資産に対してどのような脅威が存在するかを洗い出し、その内容を分析するプロセス。
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">手法</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            STRIDE分析
+                                        </td>
+                                        <td>
+                                            Microsoftが提唱した脅威分析手法<br>
+                                            脅威を<br>
+                                            <ul>
+                                                <li>なりすまし(Spoofing)</li>
+                                                <li>改竄(Tampering)</li>
+                                                <li>否認(Repudiation)</li>
+                                                <li>情報漏洩(Information Disclosure)</li>
+                                                <li>サービス妨害(Denial of Service)</li>
+                                                <li>権限昇格(Elevation of Privilege)</li>
+                                            </ul>
+                                            の6種類に分類して分析する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            アタックツリー分析(ATA)
+                                        </td>
+                                        <td>
+                                            攻撃者の最終目的を頂点(ルート)に置き、それを達成するための攻撃手段や経路をツリー状に分解して分析する手法。
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                リスクレベル
+                            </h2>
+                            <p>
+                                リスクの優先度<br>
+                                重大度(重篤度) と 発生の可能性 の組み合わせとして表される、リスクの大きさ<br>
+                                リスクマトリックスで決める
+                            </p>
+                            <div id="md-risk-level">
+
+### リスクマトリックス
+
+発生確率と影響度をそれぞれ軸にとった表を用いて、リスクの大きさを可視化・評価する手法。  
+
+| 可能性 ＼ 重大度 | 重大 | 中程度 | 軽度 |
+| --- | --- | --- | --- |
+| 高い | Ⅲ | Ⅲ | Ⅱ |
+| 可能性が有る | Ⅲ | Ⅱ | Ⅰ |
+| ほとんど無い | Ⅱ | Ⅰ | Ⅰ |
+
+                            </div>
+
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                リスクアセスメント (P)
+                            </h2>
+                            <p>
+                                リスク特定、リスク分析及びリスク評価を行うプロセス全体のこと
+                            </p>
+                            <div id="md-risk-assessment">
+
+| プロセス | 説明 |
+|---|---|
+| リスク特定 | リスクを発見、認識及び記述するプロセス |
+| リスク分析 | リスクの特質を理解し、リスクレベルを決定するプロセス |
+| リスク評価 | リスク及び／又はその大きさが、受容可能か又は許容可能かを決定するために、リスク分析の結果をリスク基準と比較するプロセス。 |
+
+<br>
+
+### リスク分析
+
+| 用語 | 説明 |
+|---|---|
+| 定性的リスク分析 | 高・中・低といった尺度を用いて、リスクの大きさを相対的に評価する分析手法。 |
+| 定量的リスク分析 | 被害額や発生確率などの数値を用いて、リスクの大きさを客観的に評価する分析手法。 |
+
+<br>
+
+#### リスク分析の手法
+
+| 分析方法 | 説明 |
+| --- | --- |
+| ベースラインアプローチ | 既存の基準(ベースライン)を参照して、一律に対策水準を決定する分析手法。 |
+| 詳細リスク分析 | 情報資産ごとに脅威・脆弱性・影響を詳細に分析する手法。 |
+| 非形式的アプローチ | 分析者の経験や判断力に基づいて、簡易にリスクを分析する手法。 |
+| 組合せアプローチ | ベースラインアプローチと詳細リスク分析などを組み合わせて行う手法。 |
+
+
+                            </div>
+
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                リスク対応 (D)
+                            </h2>
+                            <p>
+                                リスクを修正するためのプロセス<br>
+                                低減、回避、移転、保有等の選択を含む
+                            </p>
+
+                            <div id="md-risk-treatment">
+
+| 方法 | 説明 |
+|---|---|
+| リスクテイク | リスクを認識した上で、目的達成や機会獲得のために、あえてそのリスクを取って行動すること。 |
+| リスク回避(リスク忌避) | リスクの原因となる活動を開始又は継続しないと決定すること、あるいはリスクを生じさせる状況から撤退すること。 |
+| リスク共有(リスク移転・リスク分散) | 保険契約や外部委託等により、リスクの全部又は一部を他者と共有すること。 |
+| リスク保有(リスク受容) | 現状のリスクレベルを許容し、特段の対策を取らずに受け入れること。 |
+| リスク低減(リスク軽減) | 好ましくない結果の起こりやすさや影響度を小さくするために対策を講じること。 |
+
+                            </div>
+                        </article>
+                        
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="ftri">
+                                不正の発生原因
+                            </h2>
+                            <!--
+flowchart RL
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    B(["正当化<br>(理由・言い訳)"]) === C(["機会(環境)"])
+    C === A(["動機(事情)"])
+    A === B
+                            -->
+                            <img src="/img/about/ftri.svg" width = "100%"/>
+                            <figcaption class="figure-caption text-end">不正のトライアングル</figcaption>
+
+                            <h4 class="pt-4 fw-bold">
+                                動機
+                            </h4>
+                            <ul>
+                                <li>
+                                    金銭奪取
+                                </li>
+                                <li>
+                                    ハクティビズム (政治的・社会的思想)
+                                </li>
+                                <li>
+                                    サイバーテロリズム
+                                </li>
+
+                            </ul>
+
+                            <h3 class="pt-4 fw-bold">
+                                サイバーキルチェーン (攻撃の手順)
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">段階</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            1. 偵察
+                                        </td>
+                                        <td>
+                                            インターネットなどから組織や人物を調査し、対象組織に関する情報を取得する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            2. 武器化
+                                        </td>
+                                        <td>
+                                            エクスプロイトやマルウェアを作成する 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            3. デリバリ
+                                        </td>
+                                        <td>
+                                            なりすましメール (マルウェアを添付) を送付する<br>
+                                            なりすましメール (マルウェア設置サイトに誘導) を送付し、ユーザにクリックするように誘導する 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            4. エクスプロイト
+                                        </td>
+                                        <td>
+                                            ユーザにマルウェア添付ファイルを実行させる<br>
+                                            ユーザをマルウェア設置サイトに誘導し、脆弱性を使用したエクスプロイトコードを実行させる 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            5. インストール
+                                        </td>
+                                        <td>
+                                            エクスプロイトの成功により、標的がマルウェアに感染する 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            6. C&C
+                                        </td>
+                                        <td>
+                                            マルウェアとC&Cサーバを通信させて、感染PC を遠隔操作する<br>
+                                            新たなマルウェアやツールのダウンロード等により、感染拡大や内部情報の探索を試みる 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            7. 目的の実行
+                                        </td>
+                                        <td>
+                                            探し出した内部情報を、加工 (圧縮や暗号化等) した後、情報を持ち出す
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                <div class="text-end">
+                                    <a href="https://www.jpcert.or.jp/research/APT-loganalysis_Report_20151117.pdf">高度サイバー攻撃への対処におけるログの活用と分析方法</a> より
+                                </div>
+                            </div>
+                        </article>
+                        <article class="blog-post" id="service">
+                            <h2 class="border-bottom fw-bold">
+                                組織・サービス名
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">組織・サービス名</th>
+                                        <th scope="col">正式名称</th>
+                                        <th scope="col">日本語名</th>
+                                        <th scope="col">詳細</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ANSI
+                                        </td>
+                                        <td>
+                                            American National Standards Institute
+                                        </td>
+                                        <td>
+                                            米国国家規格協会
+                                        </td>
+                                        <td>
+                                            米国における工業製品・技術等の標準化を推進する非営利団体<br>
+                                            国際標準化機構(ISO)における米国代表機関でもあり、<br>
+                                            各分野の標準化団体(NISTなど)が策定した規格を国家規格として認定する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            CISCO
+                                        </td>
+                                        <td>
+                                            Cisco Systems, Inc.
+                                        </td>
+                                        <td class = "text-nowrap">
+                                            シスコシステムズ
+                                        </td>
+                                        <td class = "text-nowrap">
+                                            米国に本社を置くネットワーク機器・セキュリティ製品大手ベンダー<br>
+                                            ルータやファイアウォール製品などを提供する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            COSO
+                                        </td>
+                                        <td>
+                                            Committee of Sponsoring Organizations of the Treadway Commission
+                                        </td>
+                                        <td>
+                                            トレッドウェイ委員会支援組織委員会
+                                        </td>
+                                        <td>
+                                            内部統制やリスクマネジメントに関するフレームワーク(COSOキューブ等)を策定する米国の民間団体
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            COBIT
+                                        </td>
+                                        <td>
+                                            Control Objectives for Information and Related Technology
+                                        </td>
+                                        <td>
+                                            コビット
+                                        </td>
+                                        <td>
+                                            ISACAが策定するITガバナンス・マネジメントのためのフレームワーク
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            CRYPTREC
+                                        </td>
+                                        <td>
+                                            Cryptography Research and Evaluation Committees
+                                        </td>
+                                        <td>
+                                            暗号技術検討会
+                                        </td>
+                                        <td>
+                                            デジタル庁・総務省・経済産業省が共同で運営する、電子政府で利用する暗号技術の安全性を評価するプロジェクト「CRYPTREC暗号リスト」を策定する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            CSIRT
+                                        </td>
+                                        <td>
+                                            Computer Security Incident Response Team
+                                        </td>
+                                        <td>
+                                            コンピュータセキュリティインシデント対応チーム
+                                        </td>
+                                        <td>
+                                            コンピュータセキュリティインシデントの検知・対応・調整を行うチームの総称
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ Internal CSIRT
+                                        </td>
+                                        <td>
+                                            Internal Computer Security Incident Response Team
+                                        </td>
+                                        <td>
+                                            組織内CSIRT
+                                        </td>
+                                        <td>
+                                            企業や官公庁など、自組織内に設置され、自組織内のインシデント対応にあたるCSIRT
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ National CSIRT
+                                        </td>
+                                        <td>
+                                            National Computer Security Incident Response Team
+                                        </td>
+                                        <td>
+                                            国際連携CSIRT
+                                        </td>
+                                        <td>
+                                            国・地域を代表し、他国のCSIRTや国際機関との連携窓口となるCSIRT(日本ではJPCERT/CCが該当)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ JPCERT/CC
+                                        </td>
+                                        <td>
+                                            Japan Computer Emergency Response Team Coordination Center
+                                        </td>
+                                        <td>
+                                            一般社団法人JPCERTコーディネーションセンター
+                                        </td>
+                                        <td>
+                                            日本におけるNational CSIRTとして、インシデント対応の調整や脆弱性情報のハンドリング、注意喚起などを行う中立的組織
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            CSMS
+                                        </td>
+                                        <td>
+                                            Cyber Security Management System
+                                        </td>
+                                        <td>
+                                            サイバーセキュリティマネジメントシステム(認証制度)
+                                        </td>
+                                        <td>
+                                            国際標準IEC 62443-2-1に基づき、制御システムを保有・運用する事業者のセキュリティマネジメント体制を評価する認証制度<br>
+                                            JIPDECが認証機関として運営する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            CVE
+                                        </td>
+                                        <td>
+                                            Common Vulnerabilities and Exposures
+                                        </td>
+                                        <td>
+                                            共通脆弱性識別子<br>
+                                            (製品に含まれる脆弱性を識別するための識別子)
+                                        </td>
+                                        <td>
+                                            米国MITRE社が管理する、個々の脆弱性に一意の識別番号(CVE-ID)を付与し、共通の名称で参照できるようにする仕組み
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            CWE
+                                        </td>
+                                        <td>
+                                            Common Weakness Enumeration
+                                        </td>
+                                        <td>
+                                            共通脆弱性タイプ一覧
+                                        </td>
+                                        <td>
+                                            米国MITRE社が管理する、ソフトウェアやハードウェアに存在しうる脆弱性の「種類(弱点)」を体系的に分類・識別するための一覧<br>
+                                            <ul>
+                                                <li>
+                                                    ビュー (View)
+                                                </li>
+                                                <li>
+                                                    カテゴリ (Category)
+                                                </li>
+                                                <li>
+                                                    脆弱性 (Weakness)
+                                                </li>
+                                                <li>
+                                                    複合要因 (Compound Element)
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            MITRE ATT&CK
+                                        </td>
+                                        <td>
+                                            Adversarial Tactics, Techniques, and Common Knowledge
+                                        </td>
+                                        <td>
+                                            マイター アタック
+                                        </td>
+                                        <td>
+                                            米国MITRE社が公開する、実際の観測事例に基づき攻撃者の戦術・技術・手順(TTP)を体系化したナレッジベース<br>
+                                            脅威分析やセキュリティ対策の指針として広く活用される
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            CVSS
+                                        </td>
+                                        <td>
+                                            Common Vulnerability Scoring System
+                                        </td>
+                                        <td>
+                                            共通脆弱性評価システム<br>
+                                            (脆弱性の深刻度を評価するための識別子)
+                                        </td>
+                                        <td>
+                                            FIRSTが策定する、脆弱性の深刻度を0.0～10.0のスコアで定量的・共通的に評価するための基準<br>
+
+                                            <div id="md-cvss">
+- 基本評価基準 (Base Metrics)
+- 現状評価基準 (Temporal Metrics)
+  - 攻撃コードの成熟度 (Exploitability)
+  - 利用可能な対策のレベル (Remediation Level)
+  - 脆弱性情報の信頼性 (Report Confidence)
+- 環境評価基準 (Environmental Metrics)
+  - 二次被害の可能性 (Collateral Damage Potential)
+  - 影響を受ける対象システムの範囲 (Target Distribution)
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            EPSS
+                                        </td>
+                                        <td>
+                                            Exploit Prediction Scoring System
+                                        </td>
+                                        <td>
+                                            エクスプロイト予測スコアリングシステム
+                                        </td>
+                                        <td>
+                                            FIRSTが策定する、脆弱性が今後一定期間内に実際に悪用される確率を0～1のスコアで予測する仕組み<br>
+                                            CVSSと組み合わせて対応優先度の判断に用いられる<br>
+                                            機械学習アルゴリズムを用いてスコアを算出
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ETSI
+                                        </td>
+                                        <td>
+                                            European Telecommunications Standards Institute
+                                        </td>
+                                        <td class = "text-nowrap">
+                                            欧州電気通信標準化機構
+                                        </td>
+                                        <td class = "text-nowrap">
+                                            フランスに本部を置く欧州の電気通信・ICT分野の標準化団体<br>
+                                            GSMや5G、NFV、MECなどの標準仕様を策定する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            FIDO
+                                        </td>
+                                        <td>
+                                            Fast IDentity Online
+                                        </td>
+                                        <td>
+                                            ファイド
+                                        </td>
+                                        <td>
+                                            パスワードに依存しない認証方式の標準化を推進する業界団体、およびその技術仕様
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            FIPS
+                                        </td>
+                                        <td>
+                                            Federal Information Processing Standards
+                                        </td>
+                                        <td>
+                                            連邦情報処理標準
+                                        </td>
+                                        <td>
+                                            米国政府機関が調達・使用する情報システムのために策定する技術標準(暗号モジュール認証等)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ICANN
+                                        </td>
+                                        <td>
+                                            Internet Corporation for Assigned Names and Numbers
+                                        </td>
+                                        <td>
+                                            アイキャン(インターネット・アドレス・ネーム管理機関)
+                                        </td>
+                                        <td>
+                                            ドメイン名やIPアドレス、プロトコル番号など、インターネット資源の割り当て・管理を行う非営利法人
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            IEC
+                                        </td>
+                                        <td>
+                                            International Electrotechnical Commission
+                                        </td>
+                                        <td>
+                                            国際電気標準会議
+                                        </td>
+                                        <td>
+                                            スイス・ジュネーブに本部を置く電気・電子技術分野の国際標準化団体<br>
+                                            ISOと合同でISO/IEC JTC 1(情報技術に関する合同技術委員会)を運営し、情報セキュリティ規格などを共同で策定する
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ISO
+                                        </td>
+                                        <td>
+                                            International Organization for Standardization
+                                        </td>
+                                        <td>
+                                            国際標準化機構
+                                        </td>
+                                        <td>
+                                            スイス・ジュネーブに本部を置く非政府の国際標準化団体<br>
+                                            ISO/IEC 27000シリーズなど、工業・品質・情報セキュリティ分野の国際規格を策定する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ITU
+                                        </td>
+                                        <td>
+                                            International Telecommunication Union
+                                        </td>
+                                        <td>
+                                            国際電気通信連合
+                                        </td>
+                                        <td>
+                                            電気通信に関する国際規格の策定や周波数の割当調整等を行う国連の専門機関
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            IEEE
+                                        </td>
+                                        <td>
+                                            Institute of Electrical and Electronics Engineers
+                                        </td>
+                                        <td>
+                                            米国電気電子学会
+                                        </td>
+                                        <td>
+                                            電気・電子工学分野の世界最大級の学会無線LAN規格「IEEE 802.11」など、幅広い技術標準の策定を行っている
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            IETF
+                                        </td>
+                                        <td>
+                                            Internet Engineering Task Force
+                                        </td>
+                                        <td>
+                                            インターネット技術特別調査委員会
+                                        </td>
+                                        <td>
+                                            インターネットで利用される技術の標準化を行う組織<br>
+                                            TCP/IPやTLSなどの仕様をRFC(Request for Comments)として発行する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            IPA
+                                        </td>
+                                        <td>
+                                            Information-technology Promotion Agency, Japan
+                                        </td>
+                                        <td>
+                                            独立行政法人情報処理推進機構
+                                        </td>
+                                        <td>
+                                            日本のIT国家戦略を技術面・人材面から支える経済産業省所管の独立行政法人<br>
+                                            情報セキュリティの普及啓発や脆弱性対策情報の発信などを行う
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ J-CRAT
+                                        </td>
+                                        <td>
+                                            Cyber Rescue and Advice Team against targeted attack of Japan
+                                        </td>
+                                        <td>
+                                            サイバーレスキュー隊
+                                        </td>
+                                        <td>
+                                            IPAが運営する組織<br>
+                                            標的型サイバー攻撃に関する相談を受け付け、被害の低減と攻撃の連鎖・拡大防止のための助言や支援を行う
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ J-CSIP
+                                        </td>
+                                        <td>
+                                            Initiative for Cyber Security Information sharing Partnership of Japan
+                                        </td>
+                                        <td>
+                                            サイバー情報共有イニシアティブ
+                                        </td>
+                                        <td>
+                                            IPAが情報ハブとなり、重要インフラ関連の業界ごとに参加企業間でサイバー攻撃に関する情報を迅速に共有する取組
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ JCMVP
+                                        </td>
+                                        <td>
+                                            Japan Cryptographic Module Validation Program
+                                        </td>
+                                        <td>
+                                            暗号モジュール試験及び認証制度
+                                        </td>
+                                        <td>
+                                            IPAが運営する、暗号モジュール製品がセキュリティ要件(ISO/IEC 19790等)に適合しているかを試験・認証する制度
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ JISEC
+                                        </td>
+                                        <td>
+                                            Japan Information Technology Security Evaluation and Certification Scheme
+                                        </td>
+                                        <td>
+                                            ITセキュリティ評価及び認証制度
+                                        </td>
+                                        <td>
+                                            国際標準ISO/IEC 15408(コモンクライテリア)に基づき、IT製品のセキュリティ機能を第三者機関が評価し、IPAが認証する制度<br>
+                                            政府調達等で活用される
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ JVN
+                                        </td>
+                                        <td>
+                                            Japan Vulnerability Notes
+                                        </td>
+                                        <td>
+                                            脆弱性対策情報ポータルサイト
+                                        </td>
+                                        <td>
+                                            JPCERT/CCとIPAが共同運営する、日本国内で利用されているソフトウェア等の脆弱性関連情報とその対策情報を提供するポータルサイト
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-nowrap">
+                                            └ SECURITY ACTION
+                                        </td>
+                                        <td>
+                                            SECURITY ACTION
+                                        </td>
+                                        <td>
+                                            セキュリティ対策自己宣言
+                                        </td>
+                                        <td>
+                                            IPAが創設した、中小企業が情報セキュリティ対策への取組みを自ら宣言する制度<br>
+                                            取組み内容に応じて「一つ星」「二つ星」の宣言段階がある
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            IFAC
+                                        </td>
+                                        <td>
+                                            International Federation of Accountants
+                                        </td>
+                                        <td>
+                                            国際会計士連盟
+                                        </td>
+                                        <td>
+                                            会計士業界の国際的な職業団体で、監査・保証業務等に関する国際基準の策定を統括する組織
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ISAC
+                                        </td>
+                                        <td>
+                                            Information Sharing and Analysis Center
+                                        </td>
+                                        <td>
+                                            情報共有分析センター
+                                        </td>
+                                        <td>
+                                            金融、電力、通信など業界単位でサイバー攻撃・脅威に関する情報を収集・分析・共有する組織の総称(例：金融ISAC)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ISMS
+                                        </td>
+                                        <td>
+                                            Information Security Management System
+                                        </td>
+                                        <td>
+                                            情報セキュリティマネジメントシステム
+                                        </td>
+                                        <td>
+                                            組織が情報資産を守るためのリスクマネジメントの枠組み<br>
+                                            国際規格ISO/IEC 27001に基づく認証制度としても運用されている
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ITSMS
+                                        </td>
+                                        <td>
+                                            IT Service Management System
+                                        </td>
+                                        <td>
+                                            ITサービスマネジメントシステム
+                                        </td>
+                                        <td>
+                                            ITサービスの計画・提供・運用・改善を体系的に管理する仕組み<br>
+                                            <div id="md-itsms">
+
+| 主要プロセス領域 | 概要 |
+|---|---|
+| サービスレベル管理 | 顧客と合意したサービス品質(SLA)を維持・改善する |
+| インシデント管理 | サービス中断を迅速に解消し、通常運用へ復旧させる |
+| 問題管理 | インシデントの根本原因を特定し、再発を防止する |
+| 変更管理 | システムへの変更を統制し、リスクを抑えて実施する |
+| 構成管理 | ITサービスを構成する資産・関係情報を正確に把握・維持する |
+| キャパシティ管理 | 将来の需要を見据え、必要な処理能力を計画・確保する |
+| 継続的改善(PDCA) | サービスマネジメントの仕組み自体を継続的に見直し改善する |
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ISMAP
+                                        </td>
+                                        <td>
+                                            Information system Security Management and Assessment Program
+                                        </td>
+                                        <td>
+                                            政府情報システムのためのセキュリティ評価制度
+                                        </td>
+                                        <td>
+                                            政府が求めるセキュリティ要求を満たしているクラウドサービスをあらかじめ評価・登録する日本の制度
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            ISAE
+                                        </td>
+                                        <td>
+                                            International Standard on Assurance Engagements
+                                        </td>
+                                        <td>
+                                            国際保証業務基準
+                                        </td>
+                                        <td>
+                                            IAASBが策定する保証業務全般に関する国際基準(受託業務の内部統制報告書ISAE3402等)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            JISC
+                                        </td>
+                                        <td>
+                                            Japanese Industrial Standards Committee
+                                        </td>
+                                        <td>
+                                            日本産業標準調査会
+                                        </td>
+                                        <td>
+                                            経済産業省に設置された審議会で、日本産業規格(JIS)の制定・改正等の審議を行う<br>
+                                            国際標準化機構(ISO)および国際電気標準会議(IEC)における日本の会員機関として国際標準化活動に参加する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            SSAE
+                                        </td>
+                                        <td>
+                                            Statement on Standards for Attestation Engagements
+                                        </td>
+                                        <td>
+                                            証明業務基準書
+                                        </td>
+                                        <td>
+                                            米国AICPAが策定する証明業務に関する基準(SOC報告書の基礎となるSSAE18等)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            JIPDEC
+                                        </td>
+                                        <td>
+                                            Japan Information Processing Development Center
+                                        </td>
+                                        <td>
+                                            一般財団法人日本情報経済社会推進協会
+                                        </td>
+                                        <td>
+                                            個人情報保護(プライバシーマーク)や情報セキュリティ関連の認証・普及啓発を行う日本の団体
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            KEVカタログ
+                                        </td>
+                                        <td>
+                                            Known Exploited Vulnerabilities Catalog
+                                        </td>
+                                        <td>
+                                            既知の悪用された脆弱性カタログ
+                                        </td>
+                                        <td>
+                                            米国CISAが公開する、実際にサイバー攻撃で悪用が確認された脆弱性の一覧<br>
+                                            米連邦機関には掲載製品への優先的な対応が義務付けられている
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            NICTER
+                                        </td>
+                                        <td>
+                                            Network Incident analysis Center for Tactical Emergency Response
+                                        </td>
+                                        <td>
+                                            ネットワーク攻撃観測・分析システム
+                                        </td>
+                                        <td>
+                                            NICTが運用する大規模サイバー攻撃観測網<br>
+                                            ダークネット観測などにより、マルウェア感染機器の探索行為やDDoS攻撃等を捉え、注意喚起や情報提供に活用する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            NOTICE
+                                        </td>
+                                        <td>
+                                            National Operation Towards IoT Clean Environment
+                                        </td>
+                                        <td>
+                                            IoT機器調査及び利用者への注意喚起の取組
+                                        </td>
+                                        <td>
+                                            総務省とNICT、ICT-ISACが連携し、容易なID・パスワードのまま使われるなど脆弱なIoT機器を調査し、インターネットプロバイダを通じて利用者に注意喚起を行う取組
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            NISC
+                                        </td>
+                                        <td>
+                                            National center of Incident readiness and Strategy for Cybersecurity
+                                        </td>
+                                        <td>
+                                            内閣サイバーセキュリティセンター
+                                        </td>
+                                        <td>
+                                            日本政府のサイバーセキュリティ戦略の司令塔として、内閣官房に設置されている組織<br>
+                                            政府機関の対策基準策定などを行う
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            NIST
+                                        </td>
+                                        <td>
+                                            National Institute of Standards and Technology
+                                        </td>
+                                        <td>
+                                            米国国立標準技術研究所
+                                        </td>
+                                        <td>
+                                            米国商務省傘下の政府機関<br>
+                                            サイバーセキュリティフレームワークやNIST SP800シリーズなど、情報セキュリティ関連の標準・ガイドラインを策定する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ SCAP
+                                        </td>
+                                        <td>
+                                            Security Content Automation Protocol
+                                        </td>
+                                        <td>
+                                            セキュリティ設定共通化手順
+                                        </td>
+                                        <td>
+                                            米国NISTが策定する、CVEやCVSS、CWEなどの各種セキュリティ標準仕様を組み合わせ、脆弱性管理やセキュリティ設定のチェックを自動化・標準化するための技術仕様群
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ CCE<br>
+                                            (セキュリティ設定を識別するための識別子)
+                                        </td>
+                                        <td>
+                                            Common Configuration Enumeration
+                                        </td>
+                                        <td>
+                                            共通セキュリティ設定一覧
+                                        </td>
+                                        <td>
+                                            米国NISTが管理する、OSやミドルウェアなどのセキュリティ設定項目に一意の識別番号(CCE-ID)を付与し、共通の名称で参照できるようにする仕組み<br>
+                                            SCAPの構成要素の一つ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ CPE<br>
+                                            (製品を識別するための識別子)
+                                        </td>
+                                        <td>
+                                            Common Platform Enumeration
+                                        </td>
+                                        <td>
+                                            共通プラットフォーム一覧
+                                        </td>
+                                        <td>
+                                            米国NISTが管理する、OSやアプリケーションなどIT製品の名称・バージョンを一意の識別子で体系的に表記するための命名規約<br>
+                                            SCAPの構成要素の一つ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            └ CSF
+                                        </td>
+                                        <td>
+                                            Cybersecurity Framework
+                                        </td>
+                                        <td>
+                                            サイバーセキュリティフレームワーク
+                                        </td>
+                                        <td>
+                                            米国NISTが策定した、組織のサイバーセキュリティリスク管理のための指針・枠組み<br>
+                                            機能<br>
+                                            <ul>
+                                                <li>識別 (IDENTIFY)</li>
+                                                <li>防御 (PROTECT)</li>
+                                                <li>検知 (DETECT)</li>
+                                                <li>対応 (RESPOND)</li>
+                                                <li>復旧 (RECOVER)</li>
+                                                <li>統治 (GOVERN) (2.0)</li>
+                                            </ul>
+                                            要素<br>
+                                            <ul>
+                                                <li>コア (Core)</li>
+                                                <li>ティア (Tier)</li>
+                                                <li>プロファイル (Profile)</li>
+                                            </ul>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            OECD
+                                        </td>
+                                        <td>
+                                            Organisation for Economic Co-operation and Development
+                                        </td>
+                                        <td>
+                                            経済協力開発機構
+                                        </td>
+                                        <td>
+                                            経済成長、貿易、開発などの分野で国際協力を推進する国際機関。加盟国は主に先進国で構成される
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            OWASP
+                                        </td>
+                                        <td>
+                                            Open Worldwide Application Security Project
+                                        </td>
+                                        <td>
+                                            オワスプ
+                                        </td>
+                                        <td>
+                                            Webアプリケーションセキュリティの向上を目的とした国際的な非営利団体<br>
+                                            「OWASP Top 10」などのガイドラインを公開している
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            PCI DSS
+                                        </td>
+                                        <td>
+                                            Payment Card Industry Data Security Standard
+                                        </td>
+                                        <td>
+                                            クレジットカード業界データセキュリティ基準
+                                        </td>
+                                        <td>
+                                            クレジットカード情報を取り扱う事業者が遵守すべきセキュリティ基準<br>
+                                            国際カードブランド5社が設立したPCI SSCが策定・管理する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
+                                            SOC
+                                        </td>
+                                        <td>
+                                            Security Operation Center
+                                        </td>
+                                        <td>
+                                            セキュリティオペレーションセンタ
+                                        </td>
+                                        <td>
+                                            ネットワークやシステムを24時間365日監視し、サイバー攻撃の検知・分析を行う専門組織・拠点
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                        </article>
+                        
+                        <article class="blog-post" id="framework">
+                            <h2 class="border-bottom fw-bold">
+                                フレームワーク・仕様
+                            </h2>
+                            <div id="md-framework">
+
+| 名称 | 正式名称 | 日本語名 | 内容 |
+| --- | --- | --- | --- |
+| PDCA | Plan-Do-Check-Act | 計画・実行・評価・改善 | 業務プロセスを継続的に改善するためのマネジメント手法<br>「Plan(計画)→ Do(実行)→ Check(評価)→ Act(改善)」の<br>4段階を繰り返すサイクル |
+| KPT | Keep-Problem-Try | 継続・課題・改善 | チームの振り返り(レトロスペクティブ)に用いられるフレームワーク<br>「Keep(継続すること)」「Problem(問題点)」「Try(次に試すこと)」の<br>3つの観点で振り返りを行う |
+| STIX | Structured Threat <br>Information eXpression | 構造化脅威情報表現 | サイバー攻撃者の手口や被害の兆候(脅威インテリジェンス)を、<br>構造化されたデータ形式で記述するための言語・仕様<br>現行版は STIX 2.1(JSON ベース) |
+| TAXII | Trusted Automated Exchange of <br>Intelligence Information | 検知指標情報自動交換手順 | STIX で記述された脅威情報を、組織間で HTTPS を経由して<br>自動的に交換するためのプロトコル<br>STIX とセットで用いられる |
+| XCCDF | eXtensible Configuration Checklist <br>Description Format | セキュリティ設定チェックリスト記述形式 | OS やアプリケーションのセキュリティ設定チェックリスト・ベンチマークを <br>XML で構造化して記述するためのフォーマット |
+| OVAL | Open Vulnerability and <br>Assessment Language | セキュリティ検査言語 | システムの脆弱性・設定・パッチ適用状況などの状態を<br>機械的に検査するための共通言語 |
+| SIM3 | Security Incident <br>Management Maturity Model | セキュリティインシデント管理成熟度モデル | Open CSIRT Foundation が提唱する CSIRT の成熟度評価モデル<br>「組織」「人材」「ツール」「プロセス」の4カテゴリ・44項目をレベル0~5で評価<br>ENISA や日本シーサート協議会(NCA)でも採用されている |
+| OECD8原則 | OECD Guidelines on the Protection of Privacy <br>and Transborder Flows of Personal Data | プライバシー保護と個人データの<br>国際流通についてのガイドライン | OECD(経済協力開発機構)が1980年に採択した個人情報保護の基本原則<br>日本の個人情報保護法のベースとなっている<br> <ul><li>収集制限の原則</li> <li>データ内容の原則</li> <li>目的明確化の原則</li> <li>利用制限の原則</li> <li>安全保護の原則</li> <li>公開の原則</li> <li>個人参加の原則</li> <li>責任の原則</li></ul> |
+| COSOフレームワーク | Internal Control - Integrated Framework | 内部統制の統合的フレームワーク | COSO(トレッドウェイ委員会支援組織委員会)が策定した内部統制の<br>基本的な枠組み<br>日本の内部統制報告制度(J-SOX)のベースにもなっている<br> <p>目的</p><ul> <li>業務の有効性及び効率性</li> <li>財務報告の信頼性</li> <li>事業活動に関する法令等の遵守</li> <li>資産の保全</li></ul><p>基本的要素</p><ul><li>統制環境</li> <li>リスク評価と対応</li> <li>統制活動 : 職務分掌等の方針や手続き等</li> <li>情報と伝達</li> <li>モニタリング活動</li> <li>(ITへの対応)</li></ul> |  
+| CMMI | Capability Maturity Model Integration | 能力成熟度モデル統合 | 組織のプロセス改善の成熟度を5段階のレベルで評価するモデル <table><tr><th> 成熟度レベル </th><th> 名称 </th><th> 概要 </th></tr><tr><td> レベル1 </td><td> 初期段階(Initial) </td><td> プロセスが場当たり的・無秩序で、成功は個人の力量に依存する </td></tr><tr><td> レベル2 </td><td> 管理された段階(Managed) </td><td> プロジェクト単位で計画・実施・監視が行われ、基本的な管理がなされる </td></tr><tr><td> レベル3 </td><td> 定義された段階(Defined) </td><td> 組織標準プロセスが確立され、各プロジェクトはそれを適合させて運用する </td></tr><tr><td> レベル4 </td><td> 定量的に管理された段階(Quantitatively Managed) </td><td> プロセスやサブプロセスが統計的手法等により定量的に管理される </td></tr><tr><td> レベル5 </td><td> 最適化している段階(Optimizing) </td><td> 定量的データに基づき継続的にプロセスを改善し続ける </td></tr></table> |
+| SOA | Service Oriented Architecture | サービス指向アーキテクチャ | 業務機能を「サービス」という独立した単位に分割し、<br>それらを組み合わせて(疎結合に連携させて)システムを構築する設計思想 <ul><li> 疎結合性 : サービス間の依存を最小限にし、個別に変更・置換しやすくする </li><li> 再利用性 : 一度作成したサービスを複数の業務・システムで再利用する </li><li> 標準化されたインタフェース : Web APIなど標準的なプロトコル・仕様でサービスを公開する </li><li> ビジネスとの整合性 : サービスを業務プロセスの単位に合わせて設計する </li><li> 自律性 : 各サービスが独立して動作・管理される </li></ul>|
+| SPF | Sender Policy Framework | 送信ドメイン認証<br>(送信元IPアドレス認証) | 送信元ドメインを詐称した「なりすましメール」を検知するための送信ドメイン認証技術(RFC 7208)<br>送信を許可するメールサーバのIPアドレス等を DNS の TXT レコードに登録しておき、<br>受信側が SMTP の Envelope From(MAIL FROM)のドメインと送信元IPアドレスを照合して判定する<br>記述例 : <code>v=spf1 ip4:192.0.2.0/24 include:_spf.example.com ~all</code><table><tr><th> 修飾子 </th><th> 判定結果 </th><th> 概要 </th></tr><tr><td> + (省略時) </td><td> Pass </td><td> 送信を許可されたサーバからの送信である </td></tr><tr><td> - </td><td> Fail </td><td> 許可されていないサーバからの送信である(拒否を推奨) </td></tr><tr><td> ~ </td><td> SoftFail </td><td> 許可されていない可能性が高い(受信は許容し、迷惑メール扱い等にする) </td></tr><tr><td> ? </td><td> Neutral </td><td> 許可・不許可のいずれとも断定しない </td></tr></table>DKIM・DMARC と組み合わせて用いられる<br>転送メールでは送信元IPが変わるため Fail になりやすい |
+
+                            </div>
+                            <p>
+                                ※ 職務分掌(SoD) : 不正防止のため、業務の実行・承認・記録などの職務を複数人で分離すること
+                            </p>
+
+                        </article>
+                        
+                            
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                セキュリティ・バイ・デザイン
+                            </h3>
+                            <p>
+                                システムの企画・設計段階からセキュリティ対策を組み込み、後付けではなく作り込みによって安全性を確保する考え方。
+                            </p>
+                            <div id="md-sec-des">
+
+<br>
+
+#### 設計原則 :  **Saltzer & Schroeder の8原則**
+
+| 原則 | 概要 |
+|---|---|
+| 効率的なメカニズム(Economy of Mechanism) | 設計はできる限り単純・小規模にし、検証しやすくする |
+| フェールセーフなデフォルト(Fail-safe Defaults) | 許可を明示したものだけにアクセスを許し、既定はすべて拒否とする |
+| 完全な仲介(Complete Mediation) | すべてのアクセスに対して、そのつど権限チェックを行う |
+| オープンな設計(Open Design) | 設計を秘密にすることに安全性を依存しない(鍵やパスワードなど秘密情報自体の保護には依存してよい) |
+| 権限の分離(Separation of Privilege) | 重要な操作は複数の条件・複数の主体の合意がないと実行できないようにする |
+| 最小権限(Least Privilege) | 各主体には、業務遂行に必要最小限の権限のみを与える |
+| 共通メカニズムの最小化(Least Common Mechanism) | 複数の利用者が共有する機構・資源は最小限にとどめ、相互の影響を抑える |
+| 心理的受容性(Psychological Acceptability) | 利用者が抵抗なく使える、直感的で分かりやすい保護機構にする |  
+  
+<br>  
+  
+#### 実装原則 : **SEI CERT Top 10 Secure Coding Practices**
+
+| 実践項目 | 概要 |
+|---|---|
+| 1. 入力を検証する<br>(Validate Input) | 信頼できないすべてのデータソースからの入力を検証する |
+| 2. 他システムに渡すデータを無害化(サニタイズ)する<br>(Sanitize Data Sent to Other Systems) | シェルやDBなど外部コンポーネントへ渡す前にデータを無害化し、インジェクションを防ぐ |
+| 3. コンパイラの警告に注意する<br>(Heed Compiler Warnings) | 警告レベルを高く設定し、出た警告はコードを修正して解消する |
+| 4. セキュリティポリシー実現のための実装と設計を行う<br>(Architect and Design for Security Policies) | 必要な権限ごとにサブシステムを分けるなど、方針を反映した設計を行う |
+| 5. シンプルを維持する<br>(Keep It Simple) | 設計・実装をできるだけ単純・小規模にし、誤りの混入を減らす |
+| 6. デフォルトで拒否する<br>(Default Deny) | 許可を根拠にアクセスを認め、既定はすべて拒否とする |
+| 7. 最小権限の原則を守る<br>(Adhere to the Principle of Least Privilege) | 各プロセスに必要最小限の権限のみを持たせる |
+| 8. 多層防御を行う<br>(Practice Defense in Depth) | 複数の防御層を組み合わせ、一つが破られても被害を限定する |
+| 9. 効果的な品質保証テクニックを使用する<br>(Use Effective Quality Assurance Techniques) | ペネトレーションテスト、ファジング、コードレビュー等で脆弱性を洗い出す |
+| 10. セキュアコーディング標準を採用する<br>(Adopt a Secure Coding Standard) | 対象言語・プラットフォーム向けのセキュアコーディング標準を策定・適用する |  
+
+<br>
+                            </div>
+                        </article>
+                        <article class="blog-post" id="drm">
+                            <h2 class="pt-3 border-bottom fw-bold">
+                                障害対策の手法
+                            </h2>
+                            <h3 class="pt-4 fw-bold">
+                                Fault : 故障・障害 (障害発生前に準備)
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">名前</th>
+                                        <th scope="col">読み方</th>
+                                        <th scope="col">種別</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Fault Tolerant</strong>
+                                        </td>
+                                        <td>
+                                            <strong>フォールト トレラント</strong>
+                                        </td>
+                                        <td>
+                                            考え方
+                                        </td>
+                                        <td>
+                                            障害発生時、機能を縮小せずに継続させる<br>
+                                            <strong>多重化</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fault Masking
+                                        </td>
+                                        <td>
+                                            フォールト マスキング
+                                        </td>
+                                        <td>
+                                            手法
+                                        </td>
+                                        <td>
+                                            障害の影響を他に与えないようにする<br>
+                                            <strong>フォールト トレラント</strong>を実現するための手法
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>
+                                            Fault Avoidance
+                                        </td>
+                                        <td>
+                                            フォールト アボイダンス
+                                        </td>
+                                        <td>
+                                            手法
+                                        </td>
+                                        <td>
+                                            事前対策により、障害を回避する<br>
+                                            高級な部品にする等...
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <h3 class="pt-4 fw-bold">
+                                Fool : 愚かな (人間の過ち)
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">名前</th>
+                                        <th scope="col">読み方</th>
+                                        <th scope="col">種別</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fool Proof
+                                        </td>
+                                        <td>
+                                            フール プルーフ
+                                        </td>
+                                        <td>
+                                            考え方
+                                        </td>
+                                        <td>
+                                            ユーザが誤操作しても安全に稼働させる
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <h3 class="pt-4 fw-bold">
+                                Fail : 失敗する (障害発生後の処理)
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">名前</th>
+                                        <th scope="col">読み方</th>
+                                        <th scope="col">種別</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fail Safe
+                                        </td>
+                                        <td>
+                                            フェイル セーフ
+                                        </td>
+                                        <td>
+                                            考え方
+                                        </td>
+                                        <td>
+                                            機械が異常・故障の際に安全側に作動する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Fail Soft</strong>
+                                        </td>
+                                        <td>
+                                            <strong>フェイル ソフト</strong>
+                                        </td>
+                                        <td>
+                                            考え方
+                                        </td>
+                                        <td>
+                                            障害発生時、機能を縮小してでも稼働継続を優先する
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fail Over
+                                        </td>
+                                        <td>
+                                            フェイル オーバー
+                                        </td>
+                                        <td>
+                                            機能
+                                        </td>
+                                        <td>
+                                            障害発生時、自動的に予備システムに切り替える
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            ↳ Fail Back
+                                        </td>
+                                        <td>
+                                            フェイル バック
+                                        </td>
+                                        <td>
+                                            機能
+                                        </td>
+                                        <td>
+                                            フェイル オーバー(Fail Over)した予備から再度本来の構成に戻すこと
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <h3 class="pt-4 fw-bold">
+                                Fall : 落とす
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">名前</th>
+                                        <th scope="col">読み方</th>
+                                        <th scope="col">種別</th>
+                                        <th scope="col">内容</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Fall Back
+                                        </td>
+                                        <td>
+                                            フォール バック
+                                        </td>
+                                        <td>
+                                            機能
+                                        </td>
+                                        <td>
+                                            障害発生時、機能や性能を落として稼働させること<br>
+                                            異常個所を<strong>切り離し</strong>、予備の機材を使用すること等<br>
+                                            <strong>縮退運転</strong><br>
+                                            <strong>フェイル ソフト</strong>を実現するための手法
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                            <h2 class="pt-3 border-bottom fw-bold">
+                                稼働率計算等
+                            </h2>
+
+                            <div id="md-mt">
+
+| 用語 | 正式名称(英語) | 日本語 | 意味 |
+|---|---|---|---|
+| MTBF | Mean Time Between Failures | 平均故障間隔 | 復旧完了後から次に故障するまでの平均時間<br>稼働時間の平均 |
+| MTTR | Mean Time To Repair | 平均修復時間 | 故障してから修理が完了するまでの平均時間 |
+| MTTF | Mean Time To Failure | 平均故障時間 | 稼働開始から故障するまでの平均時間<br>修理不可能な部品向け |
+| 稼働率 | Availability | 可用性・アベイラビリティ | システムが正常に稼働している時間の割合<br>\[\begin{flalign}& \frac{\textbf{MTBF}}{\textbf{MTBF} + \textbf{MTTR}} &\end{flalign}\] |
+| 不稼働率 | Unavailability | 非稼働率 | 稼働率の逆<br>停止している時間の割合<br>\[\begin{flalign}& 1 - \text{稼働率} = \frac{\textbf{MTTR}}{\textbf{MTBF} + \textbf{MTTR}} &\end{flalign}\] |
+| 故障率 | Failure Rate(λ) | 故障率 | 単位時間あたりに故障が発生する割合<br>\[\begin{flalign}& \frac{1}{\textbf{MTBF}} &\end{flalign}\] |
+
+
+                            </div>
+
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#security">情報セキュリティ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-plan">情報セキュリティに関する計画</a>
+                                    </li>
+                                    <li>
+                                        <a href="#ftri">不正の発生原因</a>
+                                    </li>
+                                    <li>
+                                        <a href="#service">組織・サービス名</a>
+                                    </li>
+                                    <li>
+                                        <a href="#framework">フレームワーク・仕様</a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="#md-sec-des">セキュリティ・バイ・デザイン</a>
+                                    </li>
+                                    <li>
+                                        <a href="#drm">障害対策の手法</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-mt">稼働率計算等</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/md.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/tex.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("about"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "dockerTip", "serverTip", "appTip"]);
+            
+            const mdLists = [
+                "md-plan", 
+                "md-framework", 
+                "md-risk-word", 
+                "md-risk-kind", 
+                "md-risk-assessment", 
+                "md-cvss", 
+                "md-risk-treatment", 
+                "md-risk-level", 
+                "md-sec-des", 
+                "md-mt", 
+                "md-itsms",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+            new Pagination(1, securityModel.page, "pagination");
+        </script>
+    </footer>
+    
+</html>

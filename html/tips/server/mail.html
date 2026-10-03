@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/mail.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="検証用メールサーバ" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>検証用メールサーバ</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class ="pt-4 ps-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                検証環境用メールサーバの構築
+                            </h2>
+                            <!--
+    S["送信者"] -- > MUA1["MUA<br>(Outlook / Gmail)"]
+    MUA1        -- >|SMTP| MSA["MSA"]
+    MSA         -- > MTA1[("MTA<br>(Postfix)")]
+    MTA1        -- >|SMTP| MTA2[("MTA")]
+    MTA2        -- >|SMTP| MTA3[("MTA")]
+    MTA3        -- >|SMTP| MDA["MDA"]
+    MDA         -- > MB[("メールボックス")]
+    MB          -- > MRA["MRA<br>(Dovecot)"]
+    MRA         -- >|POP3 / IMAP4| MUA2["MUA<br>(Outlook / Gmail)"]
+    MUA2        -- > R["受信者"]
+
+送信者からMTA1までDT
+MTA1からMTA3までLR
+MTA3から受信者までTD
+                            -->
+                            <img src="/img/server/mail.svg" width = "75%"/>
+                            <div id="md-mail-components" class="pt-4 mt-4">
+
+| 要素 | 正式名称 | 役割 | ソフトウェア | 受信プロトコル | 受信ポート番号 | 送信プロトコル | 送信ポート番号 | 説明 |
+|---|---|---|---|---|---|---|---|---|
+| MUA (送信) | Mail User Agent | メール送信アプリ | <ul><li>Outlook</li><li>Thunderbird</li></ul> | HTTPS (Webメールの場合) | 443 (Webメールの場合) | SMTP (Submission) | 587 | <ul><li>利用者が使うメールクライアント</li><li>メールの送信時はMSAへ渡す</li></ul> |
+| MSA | Mail Submission Agent | メール送信受付 | Postfix (submission) | SMTP (Submission) | 587 | SMTP | 25 | クライアントからのメール送信を受け付けるサーバ |
+| MTA | Mail Transfer Agent | メール中継・配送 | <ul><li>Postfix</li><li>sendmail</li></ul> | SMTP | 25 | SMTP | 25 | メールを中継・配送するサーバソフトウェア |
+| MDA | Mail Delivery Agent | メールボックスへの配送 | <ul><li>Dovecot LDA</li><li>procmail</li></ul> | <ul><li>SMTP (MTAから引き渡し)</li><li>LMTP (MTAから引き渡し)</li></ul> | <ul><li>25 (SMTP)</li><li>ローカルソケット (LMTP)</li></ul> | ファイルシステム経由 <br>(メールボックスへ書き込み) | なし | MTAから受け取ったメールを利用者のメールボックスへ振り分けて格納する |
+| メールボックス | Mailbox | メール保管 | <ul><li>Maildir 形式</li><li>mbox 形式</li></ul> | ファイルシステム経由 <br>(MDAからの書き込みを受ける) | なし | ファイルシステム経由 <br>(MRAからの読み出しに応じる) | なし | 利用者ごとの受信メールを保管する領域 |
+| MRA | Mail Retrieval Agent | メール取得の窓口 | Dovecot | ファイルシステム経由 <br>(メールボックスから読み出し) | なし | <ul><li>POP3</li><li>IMAP4</li></ul> | <ul><li>110</li><li>143</li></ul> | メールボックスのメールをMUAへ引き渡すサーバ |
+| MUA (受信) | Mail User Agent | メール受信アプリ | <ul><li>Outlook</li><li>Thunderbird</li></ul> | <ul><li>POP3</li><li>IMAP4</li></ul> | <ul><li>110</li><li>143</li></ul> | HTTPS (Webメールの場合) | 443 (Webメールの場合) | <ul><li>利用者が使うメールクライアント</li><li>メールの受信時はMRAから取得する</li></ul> |
+
+                            </div>
+                            <h3 class="pt-4 border-bottom fw-bold" id="postfix">
+                                送信サーバ (Postfix)
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h4>
+                            <p>
+                                <div id="md-main_mailer_type">
+##### **General mail configuration type** (main_mailer_type)
+
+| タイプ | 内容 |
+|---|---|
+| No configuration | 設定を一切行わない。`main.cf` などを手動で作成する場合に選ぶ |
+| Internet Site | SMTP で直接メールを送受信する。インターネット上のサーバと直接やり取りする一般的な構成 |
+| Internet with smarthost | 受信は直接 SMTP で行い、送信は外部のリレーサーバ (smarthost) 経由にする。ISP の SMTP サーバなどを経由する場合に使う |
+| Satellite system | 送受信ともにすべて外部の smarthost に任せる。ローカルには配送しない端末向け |
+| **Local only** | 同一マシン内のユーザ間のみメールを配送する。外部との送受信は行わない |
+
+                                </div>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">echo "postfix postfix/main_mailer_type select Local only" | sudo debconf-set-selections
+echo "postfix postfix/mailname string [ドメイン名]" | sudo debconf-set-selections
+sudo DEBIAN_FRONTEND=noninteractive apt install postfix -y</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash"># 変数の設定
+DOMAIN="[ドメイン名]"
+INIF="loopback-only"                        # 待受IPアドレス/ホスト名 (loopback-only / all / 127.0.0.1 ...)
+MAILRELAY="127.0.0.0/8"                     # リレーを許可するネットワーク (127.0.0.0/8 ...)
+
+MAIL_ROOT=""                                # デフォルト値 : /Programs/Maildir/
+# MAIL_ROOT="[メールの保存先フォルダ]"        # 任意のフォルダに保存する場合は、この行を有効にする
+
+: "${MAIL_ROOT:=/Programs/Maildir/}"
+HOST_SHORT=$(hostname -s)
+
+# 基本設定
+# ' : $の展開防止
+# default_transport / relay_transport : error → 外部への送信を拒否 : Local Only
+# inet_interfaces
+#   all : 全インターフェースで待ち受け
+#   loopback-only : 自分のみ待ち受け
+sudo postconf -e \
+    "myhostname                     = $HOST_SHORT.$DOMAIN" \
+    "mydomain                       = $DOMAIN" \
+    'mydestination                  = $myhostname, localhost.$mydomain, localhost, $mydomain' \
+    "mynetworks                     = ${MAILRELAY}" \
+    "inet_interfaces                = ${INIF}" \
+    "inet_protocols                 = ipv4" \
+    "default_transport              = error" \
+    "relay_transport                = error" \
+    "smtpd_recipient_restrictions   = permit_mynetworks,reject_unauth_destination"
+
+# メールの保存先
+
+sudo mkdir -p "$MAIL_ROOT"
+sudo chown root:mail "$MAIL_ROOT"
+sudo chmod 1777 "$MAIL_ROOT"
+sudo postconf -e "home_mailbox =" "mail_spool_directory = $MAIL_ROOT/"
+
+sudo chmod 777 /var/mail    # 注意 : 775 に変更推奨
+
+
+# 反映
+sudo postfix check
+sudo newaliases
+sudo systemctl enable postfix
+sudo systemctl restart postfix</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold" id="dovecot">
+                                受信サーバ (Dovecot)
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install dovecot-core dovecot-imapd dovecot-pop3d -y</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash"># 設定フォルダ
+cd /etc/dovecot
+
+# 変数の設定
+LISTENIF="127.0.0.1, ::1"                         # 待受アドレス (閉じた環境以外では 127.0.0.1 推奨)
+# MAIL_ROOT="[送信サーバと同じ値にする]"            # メールの保存先フォルダ
+
+: "${MAIL_ROOT:=/Programs/Maildir/}"
+LOC="$MAIL_ROOT/%{user}";
+
+
+if grep -q "^listen *=" dovecot.conf; then                                  \
+    sudo sed -i "s|^listen *=.*|listen = ${LISTENIF}|" dovecot.conf;        \
+else                                                                        \
+    echo "listen = ${LISTENIF}" | sudo tee -a dovecot.conf;                 \
+fi
+
+# メールの保存先
+if grep -q "^mail_home *=" conf.d/10-mail.conf; then                                    \
+    sudo sed -i "s|^mail_home *=.*|mail_home = $LOC|" conf.d/10-mail.conf;              \
+else                                                                                    \
+    echo "mail_home = $LOC" | sudo tee -a conf.d/10-mail.conf;                          \
+fi
+
+if grep -q "^mail_driver *=" conf.d/10-mail.conf; then                                  \
+    sudo sed -i "s|^mail_driver *=.*|mail_driver = maildir|" conf.d/10-mail.conf;       \
+else                                                                                    \
+    echo "mail_driver = maildir" | sudo tee -a conf.d/10-mail.conf;                     \
+fi
+
+if grep -q "^mail_path *=" conf.d/10-mail.conf; then                                    \
+    sudo sed -i "s|^mail_path *=.*|mail_path = $LOC|" conf.d/10-mail.conf;              \
+else                                                                                    \
+    echo "mail_path = $LOC" | sudo tee -a conf.d/10-mail.conf;                          \
+fi
+
+
+# 平文認証を許可 (検証環境のみ : パスワードが平文で流れる)
+if grep -q "^auth_allow_cleartext *=" conf.d/10-auth.conf; then                                     \
+    sudo sed -i "s|^auth_allow_cleartext *=.*|auth_allow_cleartext = yes|" conf.d/10-auth.conf;     \
+else                                                                                                \
+    echo "auth_allow_cleartext = yes" | sudo tee -a conf.d/10-auth.conf;                            \
+fi
+
+# TLS を無効化 (検証環境のみ : 通信が暗号化されない)
+if grep -q "^ssl *=" conf.d/10-ssl.conf; then               \
+    sudo sed -i "s|^ssl *=.*|ssl = no|" conf.d/10-ssl.conf; \
+else                                                        \
+    echo "ssl = no" | sudo tee -a conf.d/10-ssl.conf;       \
+fi
+
+# 反映
+sudo systemctl enable dovecot
+sudo systemctl restart dovecot
+sudo systemctl status dovecot --no-pager</code></pre>
+
+                            </p>
+
+                            
+                            
+                        </article>
+                        <article class="blog-post" id="sample">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                メール送受信プログラム
+                            </h2>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                受信コード
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-python">#!/usr/bin/env python3
+
+import base64, email, poplib, imaplib
+from email.header import decode_header, make_header
+# https://docs.python.jp/3/library/poplib.html
+
+class POP3():
+    def __init__(
+        self, 
+        account, 
+        password, 
+        host = "localhost", 
+        port = 110
+    ):
+        self.popclient = poplib.POP3(host, port)
+        self.popclient.user(account)
+        self.popclient.pass_(password)
+    
+    def recv_mail(self):
+        msgList = [] # 取得したMIMEメッセージを格納するリスト
+        msgNum = self.popclient.stat()[0]  # POP3サーバに存在するメールの数を取得
+        for i in range(msgNum):
+            msgBytes = b""
+            for line in self.popclient.retr(i+1)[1]:  # i+1から始まる
+                msgBytes += line + b"\n"
+            msgList.append(email.message_from_bytes(msgBytes))
+        
+        return msgList
+    
+    def del_mail(self, num = 0):
+        self.popclient.dele(num + 1)
+        
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, *args):
+        self.popclient.quit()
+
+class IMAP4():
+    def __init__(
+        self, 
+        account, 
+        password, 
+        host = "localhost", 
+        port = 143
+    ):
+        self.imapclient = imaplib.IMAP4(host, port)
+        self.imapclient.debug = 3  # 各命令をトレースする
+        
+        self.imapclient.login(account, password)
+        self.sel_box()
+    
+    def sel_box(self, box = "INBOX"):
+        self.imapclient.select(box) # メールボックスの選択
+        
+    def recv_mail(self):
+        typ, data = self.imapclient.search(None, "ALL")  # data = [b"1 2 3 4 ..."]
+        datas = data[0].split()
+        fetchNum = len(datas)
+        msgList = []  # 取得したMIMEメッセージを格納するリスト
+        for num in datas:
+            typ, data = self.imapclient.fetch(num, '(RFC822)')
+            msg = email.message_from_bytes(data[0][1])
+            msgList.append(msg)
+            
+        return msgList
+    
+    def del_mail(self, num = 0):
+        typ, data = self.imapclient.uid('search', None, 'ALL')
+        datas = data[0].split()
+        self.imapclient.uid('STORE', datas[num], '+FLAGS', '\\Deleted')
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, *args):
+        self.imapclient.close()
+        self.imapclient.logout()
+        
+        
+if __name__ == "__main__":
+    mode = input("mode : pop/imap ")
+    if mode == "pop":
+        with POP3(
+            account     = "[自分のアカウント名]",
+            password    = "[自分のパスワード]",
+            host        = "[受信サーバのホスト名]"
+        ) as emailRecv:
+            msgList = emailRecv.recv_mail()
+            # for i in range(len(msgList)):
+            #     emailRecv.del_mail(i)
+    else:
+        with IMAP4(
+            account     = "[自分のアカウント名]",
+            password    = "[自分のパスワード]",
+            host        = "[受信サーバのホスト名]"
+        ) as emailRecv:
+            msgList = emailRecv.recv_mail()
+            # for i in range(len(msgList)):
+            #     emailRecv.del_mail(i)
+            
+    for iii, msg in enumerate(msgList):
+        # ヘッダ
+        fromAddr = str(make_header(decode_header(msg["From"])))
+        subject = str(make_header(decode_header(msg["Subject"])))
+        print(f"No.{iii}, From:{fromAddr}, Subject:{subject}")
+        
+        # 本文
+        payload = msg.get_payload(decode=True)
+        charset = msg.get_content_charset()
+        if charset is not None:
+            payload = payload.decode(charset, "ignore")
+        print(payload)</code></pre>
+
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                送信コード
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-python">#!/usr/bin/env python3
+
+import os
+import smtplib
+from email.mime.text import MIMEText
+
+class SendMail():
+    def __init__(
+        self, 
+        account = None, 
+        password = None, 
+        server = "smtp.gmail.com", 
+        port = 25
+    ):
+        self.smtpobj = smtplib.SMTP(server, port)   # SMTPオブジェクト作成
+        self.smtpobj.ehlo()                         # SMTPサーバとの接続を確立
+        
+        if self.smtpobj.has_extn('STARTTLS'):
+            self.smtpobj.starttls()
+            self.smtpobj.ehlo()
+        
+        if account is not None:
+            self.smtpobj.login(account, password)       # SMTPサーバーへログイン
+        
+    def __enter__(self):
+        return self
+    
+    def send_mail(
+        self, 
+        mail_from, 
+        mail_to, 
+        mail_subject, 
+        mail_body
+    ):
+        """ メッセージのオブジェクト """
+        msg = MIMEText(mail_body, "plain", "utf-8")
+        msg['Subject'] = mail_subject
+        msg['From'] = mail_from
+        msg['To'] = mail_to
+        
+        try:
+            self.smtpobj.sendmail(mail_from, mail_to, msg.as_string())
+            return "メール送信完了"
+        
+        except:
+            return "失敗"
+    
+    def __exit__(self, *args):
+        self.smtpobj.quit()
+        
+        
+if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
+    with SendMail(
+        #account     = "[自分のアカウント名]",
+        #password    = "[自分のパスワード]",
+        server      = '[SMTPサーバのホスト名]',
+        port        = [SMTPサーバのポート番号 デフォルト : 25]
+    ) as email:
+        
+        """ メール設定 """
+        mail_from       = "[自分のアカウント名]@localhost"               # 送信元アドレス
+        mail_to         = "[送信先のアカウント名]@localhost"               # 送信先アドレス(To)
+        mail_subject    = input("件名を入力 : ")        # メール件名
+        mail_body       = input("本文を入力 : ")        # メール本文
+
+        """ send_mail関数実行 """
+        result = email.send_mail(mail_from, mail_to, mail_subject, mail_body)
+        print(result)</code></pre>
+
+                            </p>
+                        </article>
+                        
+                        <article class="blog-post" id="header">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                メールヘッダ
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <thead class="table-secondary">
+                                        <tr><th>ヘッダ</th><th>サブ</th><th>説明</th><th>例</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- **Return-Path**: サブなし → ヘッダ列を `colspan="2"` で結合 -->
+                                        <tr>
+                                            <td colspan="2">Return-Path</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>エンベロープ送信者 (SMTP <code>MAIL FROM</code>)</li>
+                                                    <li>最終配送MTAが付与</li>
+                                                    <li>バウンス返送先</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap">
+                                                <pre class="mb-0"><code>Return-Path: &lt;bounce@example.com&gt;</code></pre>
+                                            </td>
+                                        </tr>
+
+                                        <!-- **Received #1**: 最上段 = 最後に受信したサーバが付与。最も信頼できる。サブ行と例を `rowspan="6"` で結合し、ヘッダ全体を1つの `pre` に記載 -->
+                                        <tr class="table-primary">
+                                            <td rowspan="6">Received #1<br>(最新)</td>
+                                            <td>from</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>送信側が名乗った名前 (HELO/EHLO)</li>
+                                                    <li><strong>詐称可能</strong></li>
+                                                </ul>
+                                            </td>
+                                            <td rowspan="6"><pre class="mb-0"><code>Received: from mail.example.com (mx1.example.com [192.0.2.1])
+    by mx.example.net
+    with ESMTPS
+    for &lt;user@example.net&gt;; Thu, 1 Oct 2026 10:00:05 +0900</code></pre></td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>()</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>()</code> 内は<strong>受信側サーバが接続から自ら記録</strong>した逆引きホスト名と接続元IP</li>
+                                                    <li>送信者は書き換えられず、<strong>最新 (#1) のみ詐称不可</strong></li>
+                                                    <li>ただしホスト名はPTR管理者次第のため、決め手はIP</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>by</td>
+                                            <td>受信したサーバ名</td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>with</td>
+                                            <td>使用したプロトコル</td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>for</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>宛先アドレス</li>
+                                                    <li>省略されることもある</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td>日時</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>;</code> 以降</li>
+                                                    <li>受信した日時</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                        <!-- **Received #2**: 1つ前の中継。自組織外のサーバが付与した分は偽造される可能性あり。構成は #1 と同じ -->
+                                        <tr class="table-warning">
+                                            <td rowspan="6" class="text-nowrap">Received #2<br>(1つ前)</td>
+                                            <td>from</td>
+                                            <td>同上</td>
+                                            <td rowspan="6"><pre class="mb-0"><code>Received: from smtp.example.com ([198.51.100.7])
+    by mx1.example.com
+    with ESMTP
+    for &lt;user@example.net&gt;; Thu, 1 Oct 2026 10:00:03 +0900</code></pre></td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>()</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>同上</li>
+                                                    <li>ただし詐称不可なのは最新 (#1) のみ</li>
+                                                    <li>#2 以前の行は、送信者が最初から偽の Received 行を差し込める</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>by</td>
+                                            <td>同上</td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>with</td>
+                                            <td>同上</td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>for</td>
+                                            <td>同上</td>
+                                        </tr>
+                                        <tr class="table-warning">
+                                            <td>日時</td>
+                                            <td>同上</td>
+                                        </tr>
+
+                                        <!-- **From / To / Subject**: Return-Path と同じ結合 -->
+                                        <tr>
+                                            <td colspan="2">From</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>本文ヘッダの差出人 (RFC 5322)</li>
+                                                    <li>表示用で<strong>詐称可能</strong></li>
+                                                    <li>Return-Path と異なることがある</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>From: sender@example.com</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">To</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>本文ヘッダの宛先</li>
+                                                    <li class="text-nowrap">実際の配送先 (エンベロープ <code>RCPT TO</code>) とは別</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>To: user@example.net</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Subject</td>
+                                            <td>件名</td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>Subject: 件名</code></pre></td>
+                                        </tr>
+                                        <!-- **Date / 空行 / 本文**: ヘッダ列とサブ列を `colspan="2"` で結合。Date は送信者のメールソフトが付与。空行はヘッダと本文の区切り -->
+                                        <tr>
+                                            <td colspan="2">Date</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>メッセージの作成日時 (RFC 5322)</li>
+                                                    <li>送信者のメールソフトが付与するため<strong>詐称可能</strong></li>
+                                                    <li>Received の日時と大きくずれていれば調査の手がかり</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>Date: Thu, 1 Oct 2026 10:00:00 +0900</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">空行</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ヘッダと本文の区切り</li>
+                                                    <li>改行コードのみの行 (CRLF)</li>
+                                                </ul>
+                                            </td>
+                                            <td class="text-nowrap"><pre class="mb-0"><code>\r\n</code></pre></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">本文</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>空行の次の行から始まる</li>
+                                                    <li>メッセージ本体</li>
+                                                </ul>
+                                            </td>
+                                            <td>本文</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="blog-post" id="spam">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                迷惑メール対策
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">対策</th>
+                                            <th scope="col" style="width: 14%;">正式名称</th>
+                                            <th scope="col" style="width: 24%;">仕組み</th>
+                                            <th scope="col" class="text-nowrap" style="width: 7%;">利用状況</th>
+                                            <th scope="col">概要</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">SMTP-AUTH</th>
+                                            <td>SMTP Service Extension for Authentication</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li>クライアントがSMTPセッション内でID/パスワードを送る</li>
+                                                    <li>サーバがユーザーを認証する</li>
+                                                    <li>認証に成功したセッションのみ送信(中継)を許可する</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-success">〇</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>送信サーバ側の送信認証</li>
+                                                    <li>認証済みユーザー以外の送信を拒否する</li>
+                                                    <li>標準ポートは587(サブミッション)・465(SMTPS)</li>
+                                                    <li>許可はセッション単位</li>
+                                                    <li>認証情報の漏洩対策としてTLSが必須</li>
+                                                    <li>OP25Bとの相性が良い(587番を使用)</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">POP before SMTP</th>
+                                            <td>ポップ ビフォア エスエムティーピー</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li>クライアントがPOP3認証を行う</li>
+                                                    <li>認証に成功したクライアントのIPアドレスを許可対象とする</li>
+                                                    <li>そのIPアドレスからのSMTP送信を一定時間許可する</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-danger">✖</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>送信認証</li>
+                                                    <li>認証対象はクライアントのIPアドレス</li>
+                                                    <li>標準ポートは25のため、OP25Bとの相性が悪い</li>
+                                                    <li>許可の持続は数分〜数十分</li>
+                                                    <li>NAT配下の共有IPでは他者にも許可が及ぶ</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">OP25B</th>
+                                            <td>Outbound Port 25 Blocking</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li class = "text-nowrap">ISPが動的IP等からの通信を監視する</li>
+                                                    <li>外部ネットワーク宛のポート25(SMTP)通信を遮断する</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-success">〇</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>ネットワークレベルの送信ポート制限</li>
+                                                    <li>迷惑メールの発信元となるスパム送信ボットの通信を遮断する</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="text-nowrap">中継制限</th>
+                                            <td>オープンリレーの防止</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li>第三者からの中継要求を判定する</li>
+                                                    <li>許可されていない中継を拒否する</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-success">〇</td>
+                                            <td>
+                                                <strong>オープンリレー(Open Relay)</strong>
+                                                第三者による任意宛先へのメール中継を許可しているSMTPサーバ<br>
+                                                スパムの踏み台にされる
+                                                <ul class="mb-0 ps-3">
+                                                    <li>送信サーバ側の設定変更が必要</li>
+                                                    <li>第三者中継を禁止する</li>
+                                                </ul>
+                                               
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">DKIM</th>
+                                            <td>DomainKeys Identified Mail</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li>送信側MTAが電子署名をヘッダ(<code>DKIM-Signature</code>)に付与する</li>
+                                                    <li>受信側がDNS上の公開鍵を取得する</li>
+                                                    <li>公開鍵で署名を検証する</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-success">〇</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>送信ドメイン認証 / 送信元の検証</li>
+                                                    <li>送信元ドメインの正当性を確認できる</li>
+                                                    <li>ヘッダ・本文の改ざんを検知できる</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">DMARC</th>
+                                            <td>Domain-based Message Authentication, Reporting, and Conformance</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li>SPF/DKIMの認証結果を取得する</li>
+                                                    <li><code>From</code>ドメインとの整合性(アライメント)を評価する</li>
+                                                    <li>失敗時は送信ドメイン側が指定したポリシーに従って処理する</li>
+                                                    <li>集計レポートを送信ドメイン側へ送る</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-success">〇</td>
+                                            <td>
+                                                <ul class="mb-2 ps-3">
+                                                    <li>送信ドメイン認証 / 送信元の検証</li>
+                                                    <li class="text-nowrap">失敗時の扱い(ポリシー)と集計レポートを送信ドメイン側が指定できる</li>
+                                                    <li>
+                                                        DMARCポリシー(<code>p=</code>タグ)
+                                                        <table class="table table-sm table-bordered mt-1 mb-0">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th scope="col">値</th>
+                                                                    <th scope="col">動作</th>
+                                                                    <th scope="col">用途</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><code>none</code></td>
+                                                                    <td>認証失敗でも何もしない(レポートのみ受け取る)</td>
+                                                                    <td class="text-nowrap">導入初期の監視</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><code>quarantine</code></td>
+                                                                    <td>認証失敗メールを隔離する(迷惑メールフォルダ等)</td>
+                                                                    <td>段階的な強化</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><code>reject</code></td>
+                                                                    <td>認証失敗メールを受信拒否する</td>
+                                                                    <td>本格運用</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">ベイジアンフィルタリング</th>
+                                            <td>Bayesian Filtering</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li>迷惑メール・通常メールから単語の出現頻度を学習する</li>
+                                                    <li>受信メールの単語の出現頻度を調べる</li>
+                                                    <li>迷惑メールらしさを確率で算出して判定する</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-success">〇</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>内容ベースの判定の受信側フィルタ</li>
+                                                    <li>
+                                                        ベイズ理論(ナイーブベイズ)を利用する(最終行は、∩と余事象のバーだけで書き換えた式)
+                                                        \[
+                                                        \begin{aligned}
+                                                        P(A \mid \; B)  &= \frac{P(B \mid \; A)\,P(A)}{P(B)} \\
+                                                                        &= \frac{P(A \cap \; B)}{P(B)} \\
+                                                                        &= \frac{P(A \cap \; B)}{P(A \cap \; B) + P(\bar{A} \cap \; B)}
+                                                        \end{aligned}
+                                                        \]
+                                                        <table class="table table-sm table-bordered mt-1 mb-2">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th scope="col">変形</th>
+                                                                    <th scope="col">根拠</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="text-nowrap">1行目 → 2行目</td>
+                                                                    <td>乗法定理 \(P(B \mid \; A)\,P(A) = P(A \cap \; B)\)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2行目 → 3行目</td>
+                                                                    <td>全確率の定理 \(P(B) = P(A \cap \; B) + P(\bar{A} \cap \; B)\)</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <table class="table table-sm table-bordered mt-1 mb-2">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th scope="col">記号</th>
+                                                                    <th scope="col">意味</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>\(A\)</td>
+                                                                    <td>メールが迷惑メールである事象</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>\(\bar{A}\)</td>
+                                                                    <td>\(A\) の余事象(メールが正常である事象)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>\(B\)</td>
+                                                                    <td>メールに特定の単語が含まれる事象</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>\(P(A \mid \; B)\)</td>
+                                                                    <td>その単語を含むメールが迷惑メールである確率</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                    <li>学習により精度が向上する</li>
+                                                    <li>
+                                                        誤判定に注意が必要(学習データの偏り・不足や、しきい値の設定で発生する)
+                                                        <table class="table table-sm table-bordered mt-1 mb-0">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th scope="col">種類</th>
+                                                                    <th scope="col">別名</th>
+                                                                    <th scope="col">内容</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="text-nowrap">フォールス<br>ポジティブ</td>
+                                                                    <td>誤検知<br>過検知</td>
+                                                                    <td class="text-nowrap">正常なメールを迷惑メールと誤判定する<br>(重要なメールを見落とす恐れがある)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-nowrap">フォールス<br>ネガティブ</td>
+                                                                    <td class="text-nowrap">検知漏れ</td>
+                                                                    <td class="text-nowrap">迷惑メールを正常なメールと誤判定し、<br>受信箱に届いてしまう</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+                        <article class="blog-post" id="mail-auth">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                メールの認証・暗号方式
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th scope="col">方式</th>
+                                            <th scope="col">正式名称</th>
+                                            <th scope="col">規格</th>
+                                            <th scope="col">手順</th>
+                                            <th scope="col">概要</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- ## 本文の暗号化・電子署名 -->
+                                        <tr class="table-secondary">
+                                            <th colspan="5" scope="colgroup">本文の暗号化・電子署名</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">S/MIME</th>
+                                            <td>Secure/Multipurpose Internet Mail Extensions</td>
+                                            <td>RFC 8551</td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li class="text-nowrap">CAから証明書(X.509)を取得</li>
+                                                    <li>送信者が受信者の証明書の公開鍵で本文を暗号化</li>
+                                                    <li>送信者が自分の秘密鍵で電子署名を付与</li>
+                                                    <li>受信者が自分の秘密鍵で復号し、署名を検証</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0 text-nowrap">
+                                                    <li>X.509証明書でメール本文の暗号化と電子署名を行う</li>
+                                                    <li>認証局(CA)による階層型PKIで信頼を担保</li>
+                                                    <li>Outlook、Thunderbird、Apple Mail等で標準対応が多い</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">PGP</th>
+                                            <td>Pretty Good Privacy</td>
+                                            <td>
+                                                OpenPGP<br>
+                                                RFC 4880 <br> RFC 9580
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>利用者が自分で鍵ペアを生成</li>
+                                                    <li>公開鍵を相手と交換</li>
+                                                    <li>送信者が受信者の公開鍵で暗号化し、自分の秘密鍵で署名</li>
+                                                    <li>受信者が秘密鍵で復号し、署名を検証</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>公開鍵暗号によるメールの暗号化・署名方式</li>
+                                                    <li>代表的実装はGnuPG</li>
+                                                    <li>信頼モデルはWeb of Trust(相互署名による信頼の輪)</li>
+                                                    <li>GnuPG連携やプラグインが必要な場合が多い</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    
+                                        <!-- ## 送信ドメイン認証 -->
+                                        <tr class="table-secondary">
+                                            <th colspan="5" scope="colgroup">送信ドメイン認証</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">SPF</th>
+                                            <td>Sender Policy Framework</td>
+                                            <td>RFC 7208</td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>送信側ドメインのDNSにTXTレコードで許可IPリストを登録</li>
+                                                    <li>受信側がメール受信時に送信元IPアドレスを確認</li>
+                                                    <li>送信ドメインのTXTレコードを参照して照合し、結果(pass/fail等)を判定</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>送信元IPアドレスが、DNS(TXTレコード)の許可リストに含まれるかを検証</li>
+                                                    <li>送信ドメイン認証の一種</li>
+                                                    <li><a href="/html/tips/server/dns.html">参考</a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">ARC</th>
+                                            <td>Authenticated Received Chain</td>
+                                            <td>RFC 8617</td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>転送・中継を行う者が、受信時のSPF/DKIM認証結果を確認</li>
+                                                    <li>認証結果を記録し、中継者の署名を付与</li>
+                                                    <li>次の中継者・最終受信者が、署名のチェーンを検証</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>メーリングリスト等の転送経由で崩れるSPF/DKIM認証結果を引き継ぐ</li>
+                                                    <li>中継者が署名付きで認証結果を保証</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    
+                                        <!-- ## 通信路の暗号化 -->
+                                        <tr class="table-secondary">
+                                            <th colspan="5" scope="colgroup">通信路の暗号化</th>
+                                        </tr>
+                                        <tr>
+                                            <th rowspan="3" scope="row">STARTTLS</th>
+                                            <td>SMTP: STARTTLS</td>
+                                            <td>RFC 3207</td>
+                                            <td rowspan="3">
+                                                <ol class="mb-0">
+                                                    <li>平文でSMTP/POP3/IMAPの接続を確立</li>
+                                                    <li>クライアントが対応を確認し、STARTTLSコマンドを送る</li>
+                                                    <li>サーバーが了承し、TLSハンドシェイクを行う</li>
+                                                    <li>以降の通信を暗号化</li>
+                                                </ol>
+                                            </td>
+                                            <td rowspan="3">
+                                                <ul class="mb-0">
+                                                    <li>平文の接続をTLS接続へ昇格させるコマンド</li>
+                                                    <li>SMTP・POP3・IMAPで利用</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>POP3: STLS</td>
+                                            <td>RFC 2595</td>
+                                        </tr>
+                                        <tr>
+                                            <td>IMAP: STARTTLS</td>
+                                            <td>RFC 2595 <br> RFC 9051</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4 text-nowrap">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-mail-components">検証環境用メールサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#postfix">送信サーバ (Postfix)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#dovecot">受信サーバ (Dovecot)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sample">メール送受信プログラム</a>
+                                    </li>
+                                    <li>
+                                        <a href="#header">メールヘッダ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#spam">迷惑メール対策</a>
+                                    </li>
+                                    <li>
+                                        <a href="#mail-auth">メールの認証・暗号方式</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script src="/view/tex.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
+            new Pagination(10, serverModel.page, "pagination");
+
+            const mdLists = [
+                "md-mail-components", 
+                "md-main_mailer_type",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>

@@ -19,6 +19,8 @@
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
+        <link href="/css/bootstrap-treeview.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
         </div>
@@ -34,6 +36,37 @@
                         <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
                             Linuxセットアップガイド
                         </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="permission">
+                                権限管理
+                            </h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">ユーザ</th>
+                                            <th scope="colgroup" colspan="3">所有者</th>
+                                            <th scope="colgroup" colspan="3">グループ</th>
+                                            <th scope="colgroup" colspan="3">その他</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">権限</th>
+                                            <td>r</td><td>w</td><td>x</td>
+                                            <td>r</td><td>w</td><td>x</td>
+                                            <td>r</td><td>w</td><td>x</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">0b<br>0:無効<br>1:有効</th>
+                                            <td>0</td><td>0</td><td>0</td>
+                                            <td>0</td><td>0</td><td>0</td>
+                                            <td>0</td><td>0</td><td>0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </article>
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="update">
                                 更新方法
@@ -77,6 +110,9 @@ ip -s link                                      # パケット統計(RX/TX bytes
 ss -s                                           # ソケット統計
 ss -tupn    | grep [ポート番号]                  # 自端末の指定ポートの状態を調べる
 ss -tulpn   | grep [ポート番号]                  # 自端末の指定ポートがLISTENしているか調べる
+
+ss -tulpn | awk '/LISTEN/ {print $5}' | awk -F: '{print $NF}' | sort -nu
+
 tc -s qdisc                                     # キュー制御 (遅延・ドロップ)
 
 # CPU名取得
@@ -128,19 +164,87 @@ cat /proc/net/dev                               # 各ネットワークインタ
 cat /proc/net/wireless                          # Wi-Fiの品質情報
 cat /proc/net/arp                               # ARPテーブル
 cat /proc/net/softnet_stat                      # カーネルのパケット処理統計
-cat /proc/net/nf_conntrack                      # コネクション数</code></pre>
+cat /proc/net/nf_conntrack                      # コネクション数
+
+# ==================== プロセス確認 ps =================================
+
+# STAT 
+#  R : 実行中 / 実行待ち 
+#  S : スリープ中 (割り込み可能)
+#  D : スリープ中 (割り込み不可、主にI/O待ち)
+#  T : 停止中
+#  Z : ゾンビ
+#  s : セッションリーダー
+#  l : マルチスレッド
+#  + : フォアグラウンドプロセスグループ
+
+ps aux                                                                      # 全プロセスの一覧
+ps aux --sort=-%cpu | head -n 11                                            # CPU使用率の高い上位10プロセス
+ps aux --sort=-%mem | head -n 11                                            # メモリ使用率の高い上位10プロセス
+ps -eo pid,ppid,user,%cpu,%mem,stat,etime,cmd --sort=-%cpu | head -n 11     # 表示項目を指定して上位10プロセスを表示
+ps -ef --forest                                                             # プロセスツリー表示
+ps -p [PID] -o pid,ppid,%cpu,%mem,etime,cmd                                 # 指定PIDの詳細
+ps -eo stat,pid,ppid,cmd | awk '$1 ~ /^Z/'                                  # ゾンビプロセスの検索
+ps -eLf | wc -l                                                             # スレッド総数
+
+# ======================================================================
+
+# ============================ top =====================================
+
+# P : CPU使用率順でソート
+# M : メモリ使用率順でソート
+# T : 実行時間順でソート
+# 1 : CPUコアごとの使用率を表示 / 非表示
+# H : スレッド表示の切り替え
+# c : コマンドのフルパス表示の切り替え
+# k : プロセスにシグナルを送信 (kill)
+# q : 終了
+
+top                                             # リアルタイムでプロセス・リソースを監視 (qで終了)
+top -d [秒]                                     # [秒]間隔でプロセス・リソースを監視
+top -b -n 1                                     # バッチモード(非対話) で1回だけ出力
+top -o [フィールド]                              # [フィールド]でソートして起動
+top -o %MEM                                     # メモリ使用率順でソートして起動
+top -u [ユーザー名]                              # 指定ユーザーのプロセスのみ表示
+top -p [PID]                                    # 指定PIDのみ監視
+top -H -p [PID]                                 # 指定PIDのスレッド単位で表示
+top -d 1                                        # 更新間隔を1秒に変更
+
+top -b -n 1 | head -n 3 | tail -n 1
+# 例 : %Cpu(s):  0.0 us, 25.0 sy,  0.0 ni, 75.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+# us : ユーザー空間の使用率
+# sy : カーネル空間の使用率
+# ni : nice値変更プロセスの使用率
+# id : アイドル
+# wa : I/O待ち
+# hi : ハード割り込み
+# si : ソフト割り込み
+# st : 仮想環境でホストに奪われた時間
+
+# ======================================================================
+
+</code></pre>
                             </p>
 
+                            
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="linux-folder">
+                                システムフォルダ
+                            </h3>
+                            <div id="context-tree"></div>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                仮想フォルダ(RAM上に構築されたフォルダ等)
+                            </h3>
                             <p>
-                                <div class="fw-bold">
-                                    仮想フォルダ(RAM上に構築されたフォルダ等)
-                                </div>
                                 <pre><code class="language-bash">/proc       # カーネル内部状態をファイルとして見せる
 /sys        # デバイス・カーネルオブジェクトの設定・状態
 /dev        # デバイスファイル
 /run        # 早期ブート用の揮発性ランタイムデータ
 /tmp        # 一時ファイル</code></pre>
                             </p>
+
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="hostname">
@@ -264,11 +368,31 @@ break-system-packages = true</code></pre>
                             </p>
                             
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="ssh">
-                                SSH
+                                SSH (Secure Shell)
                             </h3>
+                            <p>
+                                &emsp;ネットワーク経由での安全なリモートログイン・コマンド実行・ファイル転送等をするためのプロトコル
+                            </p>
                             <h4 class="pt-4 border-bottom fw-bold">
                                 鍵作成 (エドワード曲線)
                             </h4>
+                            <p>
+                                <strong>Ed25519</strong>
+                                <ul>
+                                    <li>
+                                        EdDSAの一種
+                                    </li>
+                                    <li>
+                                        鍵長 : 256[bit]
+                                    </li>
+                                    <li>
+                                        署名サイズ : 512[bit]
+                                    </li>
+                                    <li>
+                                        高速・安全性を兼ね備える
+                                    </li>
+                                </ul>
+                            </p>
                             <p>
                                 <div class="fw-bold">
                                     Windows ターミナル
@@ -278,6 +402,10 @@ break-system-packages = true</code></pre>
                             <h4 class="pt-4 border-bottom fw-bold">
                                 公開鍵認証
                             </h4>
+                            <p>
+                                &emsp;クライアントで公開鍵と秘密鍵のペアを生成し、その公開鍵をサーバに置いておくことで認証する方式<br>
+                                &emsp;秘密鍵を持つ本人だけがログインできる
+                            </p>
                             <p>
                                 <div class="fw-bold">
                                     Windows ターミナル
@@ -557,10 +685,16 @@ sudo umount -R /Programs/mnt</code></pre>
                                         <a href="#article_top">Top</a>
                                     </li>
                                     <li>
+                                        <a href="#permission">権限管理</a>
+                                    </li>
+                                    <li>
                                         <a href="#update">Linuxの更新</a>
                                     </li>
                                     <li>
                                         <a href="#state">状態の確認</a>
+                                    </li>
+                                    <li>
+                                        <a href="#linux-folder">システムフォルダ</a>
                                     </li>
                                     <li>
                                         <a href="#hostname">ホスト名の変更</a>
@@ -614,6 +748,8 @@ sudo umount -R /Programs/mnt</code></pre>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/pagination.js"></script>
         <script src="/view/md.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/view/bootstrap-treeview.min.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -625,6 +761,20 @@ sudo umount -R /Programs/mnt</code></pre>
             new MarkDownMaker(
                 id              = "md-text",
             )
+
+            $('#context-tree').treeview({
+                data: linuxModel.treeData,
+                showTags: true,
+                expandIcon: "fa-solid fa-chevron-right",  // 展開アイコン
+                collapseIcon: "fa-solid fa-chevron-down", // 折りたたみアイコン
+                showBorder: false,
+                levels: 2
+            });
+
+            // ノードクリック時に開閉
+            $('#context-tree').on('nodeSelected', function(event, data) {
+                $('#context-tree').treeview('toggleNodeExpanded', [data.nodeId, { silent: false }]);
+            });
         </script>
     </footer>
 </html>

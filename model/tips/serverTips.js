@@ -29,6 +29,18 @@ class ServerModel{
                 "page" : 7,
                 "href" : "/html/tips/server/iperf3.html"
             },
+            {
+                "page" : 8,
+                "href" : "/html/tips/server/emqx.html"
+            },
+            {
+                "page" : 9,
+                "href" : "/html/tips/server/db.html"
+            },
+            {
+                "page" : 10,
+                "href" : "/html/tips/server/mail.html"
+            },
         ]
     }
 }

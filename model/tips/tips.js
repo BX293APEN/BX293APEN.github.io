@@ -20,8 +20,8 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
             "rn4020Tip" : {
                 "href"      : "/html/tips/RN4020.html",
                 "imgSrc"    : "/img/RN4020_design.jpg", 
-                "title"     : "RN4020の簡易マニュアル",
-                "text"      : "&emsp;RN4020は、マイクロチップ社によって開発されたBluetooth Low Energy(BLE)通信モジュールです",
+                "title"     : "データシート",
+                "text"      : "&emsp;電子回路の設計を行う際はデータシートを読みましょう",
                 "svg"       : false
 
             },
@@ -68,7 +68,7 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "href"      : "/html/tips/ascii-code.html",
                 "imgSrc"    : "/img/bin.svg", 
                 "title"     : "文字コード",
-                "text"      : "&emsp;ASCIIコード表",
+                "text"      : "&emsp;ASCIIコード表<br>&emsp;正規表現...",
                 "svg"       : true
             },
             "opencvTip" :{
@@ -118,6 +118,13 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
                 "imgSrc"    : "/img/chrome.svg", 
                 "title"     : "アプリのビルド",
                 "text"      : "&emsp;オープンソースアプリを書き換え、独自のアプリケーションを作成してみましょう",
+                "svg"       : true
+            },
+            "securityTip" : {
+                "href"      : "/html/about/security/index.html",
+                "imgSrc"    : "/img/ipa.svg", 
+                "title"     : "セキュリティガイド",
+                "text"      : "&emsp;セキュリティを高める工夫を知ることは重要です",
                 "svg"       : true
             }
 

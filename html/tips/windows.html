@@ -37,6 +37,101 @@
                             Windows機能集
                         </h2>
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="wininfo">
+                                Windowsの情報を確認
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">ipconfig                                    # 現在のIPアドレス・サブネットマスク・デフォルトゲートウェイを表示
+ipconfig /all                               # 全アダプタの詳細情報を表示 (MACアドレス, DHCP有効/無効, DNSサーバ, リース期間等)
+ipconfig /release                           # DHCPで取得したIPアドレスを解放
+ipconfig /renew                             # DHCPサーバから新しいIPアドレスを再取得
+systeminfo                                  # OSのバージョン, ビルド, インストール日時, 起動時間, CPU, メモリ, ホットフィックス, ネットワークカード等を一覧表示
+tasklist                                    # 実行中のプロセス一覧 (イメージ名, PID, セッション名, メモリ使用量) を表示
+net user                                    # ユーザーアカウントの一覧表示・追加・変更・削除
+net localgroup [対象グループ]                # ローカルグループの管理
+net share                                   # 共有リソースの表示・作成・削除
+net use [ドライブ文字:] [NASフォルダ]         # ネットワークドライブの接続・切断
+net start [サービス名]                       # サービスの開始
+net stop [サービス名]                        # サービスの停止
+net view                                    # ネットワーク上のコンピュータ・共有の一覧表示
+
+findstr [検索対象文字列] [検索対象ファイル]    # ファイル内の文字列を検索 (grep相当)
+dir /b                                      # ファイル・フォルダ名を一覧表示 (ls相当)
+type [ファイル]                              # ファイル内容を表示(cat相当)
+move [元ファイル] [新ファイル]                # 移動・名前変更(mv相当)
+del [削除対象]                               # ファイル削除(rm相当)
+rmdir /s /q [削除対象]                       # 確認無し削除(rm -rf相当)
+copy [コピー元] [コピー先]                    # ファイルコピー(cp相当)
+robocopy [コピー元] [コピー先] /E            # フォルダごとコピー(cp -r相当)
+
+netstat -ano                                # ネットワーク接続状態と、それを使っているプログラムのPIDを一覧表示
+# プロトコル  ローカル アドレス      外部アドレス           状態            PID
+
+netstat -ano | findstr "8080"               # netstat -anoの結果から8080が含まれている行を探す
+</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="tpm">
+                                TPM (Trusted Platform Module)
+                            </h3>
+                            <p>
+                                &emsp;暗号鍵の生成・保管、ハッシュ計算、プラットフォーム状態の検証などを行う高い<b>耐タンパ性</b>を備えたセキュリティチップ(またはファームウェア実装)<br>
+                                <ul>
+                                    <li>BitLocker</li>
+                                    <li>Windows Hello</li>
+                                    <li>セキュアブート</li>
+                                    <li>デバイス認証</li>
+                                </ul>
+                                に使われる<br>
+                                <code>tpm.msc</code>で確認可能
+                            </p>
+                            <h4 class="pt-4 fw-bold">
+                                耐タンパ性 (Tamper Resistance)
+                            </h4>
+                            <p>
+                                &emsp;外部からの不正な解析・改ざん・情報抜き取りに対する耐性<br>
+                                &emsp;物理的・論理的な攻撃を受けても内部の秘密情報を守る性質
+                            </p>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="win11-setup">
+                                Windows 11 セットアップ
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ネットワークが無い状態
+                            </h4>
+                            <ol>
+                                <li>
+                                    <code>Shift</code> + <code>F10</code> でコマンドプロンプトを開く
+                                </li>
+                                <li>
+                                    <div class="fw-bold">
+                                        コマンドプロンプト
+                                    </div>
+                                    <pre><code class="language-bash">cd oobe            # OOBE用フォルダ (C:\Windows\System32\oobe) へ移動</code></pre>
+                                </li>
+                                <li>
+                                    <div class="fw-bold">
+                                        コマンドプロンプト
+                                    </div>
+                                    <pre><code class="language-bash">BypassNRO.cmd</code></pre>
+                                    又は<br>
+                                    新規アカウント作成でステップ4をスキップ : <br>
+                                    <div class="fw-bold">
+                                        コマンドプロンプト
+                                    </div>
+                                    <pre><code class="language-bash">start ms-cxh:localonly</code></pre>
+                                </li>
+                                <li>
+                                    再起動後、ネットワーク接続画面で「インターネットに接続していません」を選択
+                                </li>
+                            </ol>
+                        </article>
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="nettcp">
                                 TCPポートが開いているかを確認
                             </h3>
@@ -453,6 +548,15 @@ bootrec /rebuildbcd                 # Boot Configuration Data (Windows の起動
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#wininfo">Windowsの情報を確認</a>
+                                    </li>
+                                    <li>
+                                        <a href="#win11-setup">Windows 11 セットアップ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tpm">TPMの確認</a>
                                     </li>
                                     <li>
                                         <a href="#nettcp">TCPポートが開いているかを確認</a>
