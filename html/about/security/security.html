@@ -491,23 +491,37 @@
                                             </td>
                                             <td rowspan="6">
                                                 <ul class="mb-0 ps-3">
-                                                    <li>RC4</li>
-                                                    <li>DES</li>
-                                                    <li>3DES</li>
+                                                    <li>鍵交換方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RC4(128bit / 輸出用40bit)</li>
+                                                            <li>RC2-CBC(128bit / 輸出用40bit)</li>
+                                                            <li>IDEA-CBC(128bit)</li>
+                                                            <li>DES-CBC(56bit)</li>
+                                                            <li>3DES-CBC(168bit)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>MD5</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
                                             <td rowspan="6">
-                                                <table class="table table-sm table-bordered mb-0">
-                                                    <thead class="table-light">
-                                                        <tr><th>暗号スイート</th><th>鍵交換</th><th>認証</th><th>暗号</th><th>完全性</th><th>PFS</th></tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr><td>SSL_CK_RC4_128_WITH_MD5</td><td>RSA</td><td>RSA</td><td>RC4 128bit</td><td>MD5</td><td>✖</td></tr>
-                                                        <tr><td>SSL_CK_RC4_128_EXPORT40_WITH_MD5</td><td>RSA</td><td>RSA</td><td>RC4 40bit(輸出用)</td><td>MD5</td><td>✖</td></tr>
-                                                        <tr><td>SSL_CK_DES_64_CBC_WITH_MD5</td><td>RSA</td><td>RSA</td><td>DES-CBC</td><td>MD5</td><td>✖</td></tr>
-                                                        <tr><td>SSL_CK_DES_192_EDE3_CBC_WITH_MD5</td><td>RSA</td><td>RSA</td><td>3DES-CBC</td><td>MD5</td><td>✖</td></tr>
-                                                    </tbody>
-                                                </table>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>SSL_CK_[暗号化方式]_WITH_[ハッシュ関数方式]</code></li>
+                                                    <li>鍵交換・署名はRSA固定のため名称に含まれない</li>
+                                                </ul>
                                             </td>
                                             <td rowspan="6">
                                                 <ul class="mb-0 ps-3">
@@ -562,21 +576,47 @@
                                             </td>
                                             <td rowspan="3">
                                                 <ul class="mb-0 ps-3">
-                                                    <li>RC4</li>
-                                                    <li>3DES</li>
+                                                    <li>鍵交換方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DH(固定DH)</li>
+                                                            <li>DHE(一時DH)</li>
+                                                            <li>DH_anon(匿名DH)</li>
+                                                            <li>Fortezza KEA(米国政府向けのFortezzaカードによる鍵交換)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DSS</li>
+                                                            <li>Fortezza(Fortezzaカードによる署名)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>NULL(暗号化なし)</li>
+                                                            <li>RC4(128bit / 輸出用40bit)</li>
+                                                            <li>RC2-CBC(輸出用40bit)</li>
+                                                            <li>IDEA-CBC(128bit)</li>
+                                                            <li>DES-CBC(56bit / 輸出用40bit)</li>
+                                                            <li>3DES-CBC(168bit)</li>
+                                                            <li>FORTEZZA-CBC(SKIPJACK 80bit)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>MD5</li>
+                                                            <li>SHA-1(SSL 3.0独自MAC)</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
                                             <td rowspan="3">
-                                                <table class="table table-sm table-bordered mb-0">
-                                                    <thead class="table-light">
-                                                        <tr><th>暗号スイート</th><th>鍵交換</th><th>認証</th><th>暗号</th><th>完全性</th><th>PFS</th></tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr><td>TLS_RSA_WITH_RC4_128_SHA</td><td>RSA</td><td>RSA</td><td>RC4 128bit</td><td>SHA-1(SSL 3.0独自MAC)</td><td>✖</td></tr>
-                                                        <tr><td>TLS_RSA_WITH_3DES_EDE_CBC_SHA</td><td>RSA</td><td>RSA</td><td>3DES-CBC</td><td>SHA-1(SSL 3.0独自MAC)</td><td>✖</td></tr>
-                                                        <tr><td>TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA</td><td>DHE</td><td>RSA</td><td>3DES-CBC</td><td>SHA-1(SSL 3.0独自MAC)</td><td>〇</td></tr>
-                                                    </tbody>
-                                                </table>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>SSL_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
+                                                    <li>RSA鍵交換では署名方式を省略</li>
+                                                    <li>Fortezza KEAは鍵交換・署名が一体のため<code>SSL_FORTEZZA_KEA_WITH_[暗号化方式]_SHA</code>となる</li>
+                                                </ul>
                                             </td>
                                             <td rowspan="3">
                                                 <ul class="mb-0 ps-3">
@@ -614,28 +654,57 @@
                                                     <li>RFC 2104: HMAC</li>
                                                     <li>RFC 3268(2002年): AES暗号スイートの追加</li>
                                                     <li>RFC 3546(2003年): TLS拡張(SNI等)</li>
+                                                    <li>RFC 4492(2006年): ECC(ECDH/ECDHE/ECDSA)暗号スイートの追加</li>
+                                                    <li>RFC 4132(2005年): Camellia暗号スイート</li>
+                                                    <li>RFC 4162(2005年): SEED暗号スイート</li>
+                                                    <li>RFC 5469(2009年): DES・IDEA暗号スイート(歴史的文書)</li>
                                                     <li>RFC 8996(2021年): 使用禁止</li>
                                                 </ul>
                                             </td>
                                             <td rowspan="4">
                                                 <ul class="mb-0 ps-3">
-                                                    <li>RC4</li>
-                                                    <li>3DES</li>
-                                                    <li>AES-CBC</li>
+                                                    <li>鍵交換方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DH(固定DH)</li>
+                                                            <li>DHE(一時DH)</li>
+                                                            <li>ECDH(固定ECDH)</li>
+                                                            <li>ECDHE(一時ECDH)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DSS</li>
+                                                            <li>ECDSA</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>NULL(暗号化なし)</li>
+                                                            <li>RC4(128bit / 輸出用40bit)</li>
+                                                            <li>RC2-CBC(輸出用40bit)</li>
+                                                            <li>IDEA-CBC(128bit)</li>
+                                                            <li>DES-CBC(56bit / 輸出用40bit)</li>
+                                                            <li>3DES-CBC(168bit)</li>
+                                                            <li>AES-CBC(128bit / 256bit)</li>
+                                                            <li>Camellia-CBC(128bit / 256bit): RFC 4132</li>
+                                                            <li>SEED-CBC(128bit): RFC 4162</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>MD5(HMAC)</li>
+                                                            <li>SHA-1(HMAC)</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
                                             <td rowspan="4">
-                                                <table class="table table-sm table-bordered mb-0">
-                                                    <thead class="table-light">
-                                                        <tr><th>暗号スイート</th><th>鍵交換</th><th>認証</th><th>暗号</th><th>完全性</th><th>PFS</th></tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr><td>TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA(必須実装)</td><td>DHE</td><td>DSS</td><td>3DES-CBC</td><td>HMAC-SHA1</td><td>〇</td></tr>
-                                                        <tr><td>TLS_RSA_WITH_RC4_128_SHA</td><td>RSA</td><td>RSA</td><td>RC4 128bit</td><td>HMAC-SHA1</td><td>✖</td></tr>
-                                                        <tr><td>TLS_RSA_WITH_3DES_EDE_CBC_SHA</td><td>RSA</td><td>RSA</td><td>3DES-CBC</td><td>HMAC-SHA1</td><td>✖</td></tr>
-                                                        <tr><td>TLS_RSA_WITH_AES_128_CBC_SHA</td><td>RSA</td><td>RSA</td><td>AES-128-CBC</td><td>HMAC-SHA1</td><td>✖</td></tr>
-                                                    </tbody>
-                                                </table>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
+                                                    <li>RSA鍵交換では署名方式を省略</li>
+                                                </ul>
                                             </td>
                                             <td rowspan="4">
                                                 <ul class="mb-0 ps-3">
@@ -677,26 +746,56 @@
                                             <td rowspan="3">
                                                 <ul class="mb-0 ps-3">
                                                     <li>RFC 4346(2006年): TLS 1.1の仕様</li>
+                                                    <li>RFC 4492(2006年): ECC(ECDH/ECDHE/ECDSA)暗号スイートの追加</li>
+                                                    <li>RFC 4132(2005年): Camellia暗号スイート</li>
+                                                    <li>RFC 4162(2005年): SEED暗号スイート</li>
+                                                    <li>RFC 5469(2009年): DES・IDEA暗号スイート(歴史的文書)</li>
                                                     <li>RFC 8996(2021年): 使用禁止</li>
                                                 </ul>
                                             </td>
                                             <td rowspan="3">
                                                 <ul class="mb-0 ps-3">
-                                                    <li>3DES</li>
-                                                    <li>AES-CBC</li>
+                                                    <li>鍵交換方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DH(固定DH)</li>
+                                                            <li>DHE(一時DH)</li>
+                                                            <li>ECDH(固定ECDH)</li>
+                                                            <li>ECDHE(一時ECDH)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DSS</li>
+                                                            <li>ECDSA</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>NULL(暗号化なし)</li>
+                                                            <li>RC4(128bit)</li>
+                                                            <li>IDEA-CBC(128bit)</li>
+                                                            <li>DES-CBC(56bit)</li>
+                                                            <li>3DES-CBC(168bit)</li>
+                                                            <li>AES-CBC(128bit / 256bit)</li>
+                                                            <li>Camellia-CBC(128bit / 256bit): RFC 4132</li>
+                                                            <li>SEED-CBC(128bit): RFC 4162</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>MD5(HMAC)</li>
+                                                            <li>SHA-1(HMAC)</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
                                             <td rowspan="3">
-                                                <table class="table table-sm table-bordered mb-0">
-                                                    <thead class="table-light">
-                                                        <tr><th>暗号スイート</th><th>鍵交換</th><th>認証</th><th>暗号</th><th>完全性</th><th>PFS</th></tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr><td>TLS_RSA_WITH_3DES_EDE_CBC_SHA(必須実装)</td><td>RSA</td><td>RSA</td><td>3DES-CBC</td><td>HMAC-SHA1</td><td>✖</td></tr>
-                                                        <tr><td>TLS_RSA_WITH_AES_128_CBC_SHA</td><td>RSA</td><td>RSA</td><td>AES-128-CBC</td><td>HMAC-SHA1</td><td>✖</td></tr>
-                                                        <tr><td>TLS_DHE_RSA_WITH_AES_128_CBC_SHA</td><td>DHE</td><td>RSA</td><td>AES-128-CBC</td><td>HMAC-SHA1</td><td>〇</td></tr>
-                                                    </tbody>
-                                                </table>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
+                                                    <li>RSA鍵交換では署名方式を省略</li>
+                                                </ul>
                                             </td>
                                             <td rowspan="3">
                                                 <ul class="mb-0 ps-3">
@@ -733,34 +832,66 @@
                                                     <li>RFC 5246(2008年): TLS 1.2の仕様</li>
                                                     <li>RFC 5288: AES-GCM暗号スイート</li>
                                                     <li>RFC 7905: ChaCha20-Poly1305暗号スイート</li>
-                                                    <li>RFC 8422(旧RFC 4492): ECC(ECDHE/ECDSA)暗号スイート</li>
+                                                    <li>RFC 8422(旧RFC 4492): ECC(ECDH/ECDHE/ECDSA)暗号スイート</li>
                                                     <li>RFC 5746: 再ネゴシエーション指示拡張(renegotiation_info)</li>
                                                     <li>RFC 7366: Encrypt-then-MAC拡張</li>
                                                     <li>RFC 7627: Extended Master Secret拡張</li>
                                                     <li>RFC 7465: RC4の使用禁止</li>
+                                                    <li>RFC 4162 / RFC 5932 / RFC 6367: SEED・Camellia暗号スイート</li>
+                                                    <li>RFC 6209: ARIA暗号スイート</li>
+                                                    <li>RFC 6655: AES-CCM暗号スイート</li>
+                                                    <li>RFC 5469: DES・IDEA暗号スイート(TLS 1.2で削除)</li>
                                                 </ul>
                                             </td>
                                             <td rowspan="10">
                                                 <ul class="mb-0 ps-3">
-                                                    <li>AES-CBC</li>
-                                                    <li>AES-GCM</li>
-                                                    <li>ChaCha20-Poly1305</li>
+                                                    <li>鍵交換方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DH(固定DH)</li>
+                                                            <li>DHE(一時DH)</li>
+                                                            <li>ECDH(固定ECDH)</li>
+                                                            <li>ECDHE(一時ECDH)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>署名方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA</li>
+                                                            <li>DSS</li>
+                                                            <li>ECDSA</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>NULL(暗号化なし)</li>
+                                                            <li>RC4(128bit): RFC 7465で使用禁止</li>
+                                                            <li>3DES-CBC(168bit)</li>
+                                                            <li>AES-CBC(128bit / 256bit)</li>
+                                                            <li>AES-GCM(128bit / 256bit)</li>
+                                                            <li>ChaCha20-Poly1305</li>
+                                                            <li>Camellia-CBC(128bit / 256bit): RFC 5932</li>
+                                                            <li>Camellia-GCM(128bit / 256bit): RFC 6367</li>
+                                                            <li>SEED-CBC(128bit): RFC 4162</li>
+                                                            <li>ARIA-CBC / ARIA-GCM(128bit / 256bit): RFC 6209</li>
+                                                            <li>AES-CCM(128bit / 256bit): RFC 6655</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>MD5(HMAC)</li>
+                                                            <li>SHA-1(HMAC)</li>
+                                                            <li>SHA-256(HMAC / PRF)</li>
+                                                            <li>SHA-384(HMAC / PRF)</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
                                             <td rowspan="10">
-                                                <table class="table table-sm table-bordered mb-0">
-                                                    <thead class="table-light">
-                                                        <tr><th>暗号スイート</th><th>鍵交換</th><th>認証</th><th>暗号</th><th>完全性</th><th>PFS</th></tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr><td>TLS_RSA_WITH_AES_128_CBC_SHA(必須実装)</td><td>RSA</td><td>RSA</td><td>AES-128-CBC</td><td>HMAC-SHA1</td><td>✖</td></tr>
-                                                        <tr><td>TLS_RSA_WITH_AES_128_CBC_SHA256</td><td>RSA</td><td>RSA</td><td>AES-128-CBC</td><td>HMAC-SHA256</td><td>✖</td></tr>
-                                                        <tr><td>TLS_DHE_RSA_WITH_AES_128_GCM_SHA256</td><td>DHE</td><td>RSA</td><td>AES-128-GCM</td><td>AEAD(PRF: SHA-256)</td><td>〇</td></tr>
-                                                        <tr><td>TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</td><td>ECDHE</td><td>RSA</td><td>AES-128-GCM</td><td>AEAD(PRF: SHA-256)</td><td>〇</td></tr>
-                                                        <tr><td>TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</td><td>ECDHE</td><td>ECDSA</td><td>AES-256-GCM</td><td>AEAD(PRF: SHA-384)</td><td>〇</td></tr>
-                                                        <tr><td>TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256</td><td>ECDHE</td><td>RSA</td><td>ChaCha20-Poly1305</td><td>AEAD(PRF: SHA-256)</td><td>〇</td></tr>
-                                                    </tbody>
-                                                </table>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></li>
+                                                    <li>RSA鍵交換では署名方式を省略</li>
+                                                    <li>AEAD(GCM / ChaCha20-Poly1305)のハッシュ関数方式はPRF用で、MACは使わない</li>
+                                                </ul>
                                             </td>
                                             <td rowspan="10">
                                                 <ul class="mb-0 ps-3">
@@ -768,6 +899,7 @@
                                                     <li>signature_algorithms拡張で署名のハッシュ/署名アルゴリズムをネゴシエーション</li>
                                                     <li>AEAD暗号スイートに対応。機密性・完全性・認証を一括で処理し、CBCのMAC-then-Encrypt構造の弱点を解消</li>
                                                     <li>ECDHE/ECDSA暗号スイートの利用が一般化</li>
+                                                    <li>DES・IDEAの暗号スイートを削除(RFC 5469で歴史的文書化)</li>
                                                     <li>ハンドシェイク(2-RTT)
                                                         <ol class="mb-0 ps-3">
                                                             <li>ClientHello</li>
@@ -779,7 +911,7 @@
                                                     <li>前方秘匿性(PFS)は暗号スイート依存
                                                         <ul class="mb-0 ps-3">
                                                             <li>ECDHE/DHE: あり</li>
-                                                            <li>RSA鍵交換: なし</li>
+                                                            <li>RSA鍵交換・固定DH/ECDH: なし</li>
                                                         </ul>
                                                     </li>
                                                     <li>暗号スイート名の例: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 = 鍵交換ECDHE / 署名RSA / 暗号AES-128-GCM / PRFハッシュSHA-256</li>
@@ -851,24 +983,42 @@
                                             </td>
                                             <td rowspan="4">
                                                 <ul class="mb-0 ps-3">
-                                                    <li>AES-GCM</li>
-                                                    <li>ChaCha20-Poly1305</li>
-                                                    <li>AES-CCM</li>
+                                                    <li>鍵交換方式(暗号スイートとは別にネゴシエーション)
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>(EC)DHE</li>
+                                                            <li>PSK(psk_ke / psk_dhe_ke)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>署名方式(暗号スイートとは別にネゴシエーション)
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>RSA-PSS</li>
+                                                            <li>ECDSA</li>
+                                                            <li>EdDSA</li>
+                                                            <li>SM2(RFC 8998)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>暗号化方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>AES-GCM(128bit / 256bit)</li>
+                                                            <li>ChaCha20-Poly1305</li>
+                                                            <li>AES-CCM(128bit / 128bit・認証タグ8バイト)</li>
+                                                            <li>SM4-GCM / SM4-CCM(128bit / RFC 8998・中国商用暗号)</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>ハッシュ方式
+                                                        <ul class="mb-0 ps-3">
+                                                            <li>SHA-256(HKDF)</li>
+                                                            <li>SHA-384(HKDF)</li>
+                                                            <li>SM3(HKDF / RFC 8998)</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
                                             <td rowspan="4">
-                                                <table class="table table-sm table-bordered mb-0">
-                                                    <thead class="table-light">
-                                                        <tr><th>暗号スイート</th><th>鍵交換</th><th>認証</th><th>暗号</th><th>完全性</th><th>PFS</th></tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr><td>TLS_AES_128_GCM_SHA256</td><td rowspan="5">(EC)DHE または PSK(暗号スイートとは別にネゴシエーション)</td><td rowspan="5">署名アルゴリズムを別途ネゴシエーション</td><td>AES-128-GCM</td><td>AEAD(HKDF: SHA-256)</td><td rowspan="5">〇(psk_keを除く)</td></tr>
-                                                        <tr><td>TLS_AES_256_GCM_SHA384</td><td>AES-256-GCM</td><td>AEAD(HKDF: SHA-384)</td></tr>
-                                                        <tr><td>TLS_CHACHA20_POLY1305_SHA256</td><td>ChaCha20-Poly1305</td><td>AEAD(HKDF: SHA-256)</td></tr>
-                                                        <tr><td>TLS_AES_128_CCM_SHA256</td><td>AES-128-CCM</td><td>AEAD(HKDF: SHA-256)</td></tr>
-                                                        <tr><td>TLS_AES_128_CCM_8_SHA256</td><td>AES-128-CCM(認証タグ8バイト)</td><td>AEAD(HKDF: SHA-256)</td></tr>
-                                                    </tbody>
-                                                </table>
+                                                <ul class="mb-0 ps-3">
+                                                    <li><code>TLS_[暗号化方式]_[ハッシュ関数方式]</code></li>
+                                                    <li>鍵交換方式・署名方式は暗号スイートに含まれない</li>
+                                                </ul>
                                             </td>
                                             <td rowspan="4">
                                                 <ul class="mb-0 ps-3">
@@ -891,7 +1041,7 @@
                                                     </li>
                                                     <li>暗号アルゴリズムの絞り込み
                                                         <ul class="mb-0 ps-3">
-                                                            <li>AEADのみ許可。CBC、RC4、3DES、MAC-then-Encryptはすべて廃止</li>
+                                                            <li>AEADのみ許可。CBC、RC4、3DES、MAC-then-Encryptはすべて廃止(RC2・IDEA・DES・SEED等の旧暗号、Camellia・ARIAも標準スイートに含まれない)</li>
                                                             <li>暗号スイートは「AEAD + HKDFのハッシュ」だけを指定する形式(例: TLS_AES_128_GCM_SHA256)になり、鍵交換・認証の方式は暗号スイートから分離</li>
                                                             <li>署名(CertificateVerify)はRSA-PSS / ECDSA / EdDSAに限定し、PKCS#1 v1.5は不可</li>
                                                         </ul>
@@ -948,6 +1098,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
                             </div>
 
                             <h4 class="pt-4 mt-4 fw-bold">
