@@ -438,13 +438,13 @@ sudo systemctl enable [Project Name].service</code></pre>
                             </h4>
                             <div id="md-http-method">
 
-| メソッド名 | 内容 | CRUD特性 |
-| --- | --- | --- |
-| GET | リソースの取得 | Read |
-| POST | リソースの新規作成・データの送信 | Create |
-| HEAD | リソースヘッダ情報のみ取得 | - |
-| PUT | リソースの置換・更新<br>(存在しなければ作成) | Update |
-| DELETE | リソースの削除 | Delete |
+| メソッド名 | 内容 | CRUD特性 | 一般的なデータの置き場所 | 冪等 |
+| --- | --- | --- | --- | --- |
+| GET | リソースの取得 | Read | リクエスト行(クエリ文字列) | ○ |
+| POST | リソースの新規作成・データの送信 | Create | メッセージボディ | × |
+| HEAD | リソースヘッダ情報のみ取得 | - | リクエスト行(クエリ文字列) | ○ |
+| PUT | リソースの置換・更新<br>(存在しなければ作成) | Update | メッセージボディ | ○ |
+| DELETE | リソースの削除 | Delete | リクエスト行(対象はURLのパスで指定) | ○ |
 
                             </div>
                             <h4 class="pt-4 border-bottom fw-bold">
@@ -486,7 +486,7 @@ sudo systemctl enable [Project Name].service</code></pre>
 
                             </div>
                             <h4 class="pt-4 border-bottom fw-bold" id="req-header">
-                                リクエストヘッダ
+                                リクエスト行(1行目) + リクエストヘッダ
                             </h4>
                             <p>
                                 <pre><code class="language-html">[method] [URI] HTTP/[プロトコルバージョン]
@@ -509,7 +509,7 @@ Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(�
                             </p>
 
                             <h4 class="pt-4 border-bottom fw-bold" id="res-header">
-                                レスポンスヘッダ
+                                ステータス行(1行目) + レスポンスヘッダ
                             </h4>
                             <p>
                                 <pre><code class="language-html">HTTP/[プロトコルバージョン] [ステータスコード] &lt;ステータスコードの説明(任意文字列可能 HTTP/2以降廃止)&gt;
