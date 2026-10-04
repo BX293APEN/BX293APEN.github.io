@@ -346,13 +346,104 @@
 
 ### ハッシュ関数
 
-| 名称 | 分類 | CRYPTREC種別 | PQC<br>(ポスト量子暗号) | 鍵長・生成ビット数<br>(出力長) | 仕組みの概要 |
-|---|---|---|---|---|---|
-| SHA-256<br>SHA-384<br>SHA-512<br>SHA-512/256 | ハッシュ関数 | 電子政府推奨暗号 | ○ | 256/384/512/256bit<br>(名称の数字が出力長) | Merkle-Damgård構造で圧縮関数を連鎖適用し、固定長ダイジェストを生成する |
-| SHA3-256<br>SHA3-384<br>SHA3-512 | ハッシュ関数 | 電子政府推奨暗号 | ○ | 256/384/512bit | スポンジ構造(Keccak)で<ul><li>吸収(absorb)</li><li>絞り出し(squeeze)</li></ul>を行いダイジェストを生成する |
-| SHAKE128<br>SHAKE256 | 拡張可能出力関数(XOF) | 電子政府推奨暗号 | ○ | 任意長<br>(セキュリティ強度は128/256bit) | SHA-3と同じスポンジ構造で、任意長の出力を得られる |
-| RIPEMD-160 | ハッシュ関数 | 運用監視暗号 | ○ | 160bit | Merkle-Damgård構造で並列2系統の演算を統合する<br>160bit出力は現代基準で短い |
-| SHA-1 | ハッシュ関数 | 運用監視暗号 | ○ | 160bit | Merkle-Damgård構造、160bit出力<br>実用的な衝突攻撃が発見済みで非推奨 |
+<div class="table-responsive">
+    <table class="table table-bordered align-middle table-nostriped">
+        <thead class="table-light text-center">
+            <tr>
+                <th scope="col">名称</th>
+                <th scope="col">分類</th>
+                <th scope="col">CRYPTREC種別</th>
+                <th scope="col">PQC<br>(ポスト量子暗号)</th>
+                <th scope="col">鍵長・生成ビット数<br>(出力長)</th>
+                <th scope="col">仕組みの概要</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ## SHA-2 系(4行) -->
+            <tr>
+                <th scope="row">SHA-256</th>
+                <td rowspan="4">ハッシュ関数</td>
+                <td rowspan="4">電子政府推奨暗号</td>
+                <td rowspan="4" class="text-center">○</td>
+                <td>256bit</td>
+                <td rowspan="4">Merkle-Damgård構造で圧縮関数を連鎖適用し、<br>固定長ダイジェストを生成する</td>
+            </tr>
+            <tr>
+                <th scope="row">SHA-384</th>
+                <td>384bit</td>
+            </tr>
+            <tr>
+                <th scope="row">SHA-512</th>
+                <td>512bit</td>
+            </tr>
+            <tr>
+                <th scope="row">SHA-512/256</th>
+                <td>256bit</td>
+            </tr>
+            <!-- ## SHA-3 系(3行) -->
+            <tr>
+                <th scope="row">SHA3-256</th>
+                <td rowspan="3">ハッシュ関数</td>
+                <td rowspan="3">電子政府推奨暗号</td>
+                <td rowspan="3" class="text-center">○</td>
+                <td>256bit</td>
+                <td rowspan="3">
+                    スポンジ構造(Keccak)で
+                    <ul class="mb-0 ps-3">
+                        <li>吸収(absorb)</li>
+                        <li>絞り出し(squeeze)</li>
+                    </ul>
+                    を行いダイジェストを生成する
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">SHA3-384</th>
+                <td>384bit</td>
+            </tr>
+            <tr>
+                <th scope="row">SHA3-512</th>
+                <td>512bit</td>
+            </tr>
+            <!-- ## SHAKE 系(2行) -->
+            <tr>
+                <th scope="row">SHAKE128</th>
+                <td rowspan="2">拡張可能出力関数(XOF)</td>
+                <td rowspan="2">電子政府推奨暗号</td>
+                <td rowspan="2" class="text-center">○</td>
+                <td>任意長<br>(セキュリティ強度 128bit)</td>
+                <td rowspan="2">SHA-3と同じスポンジ構造で、任意長の出力を得られる</td>
+            </tr>
+            <tr>
+                <th scope="row">SHAKE256</th>
+                <td>任意長<br>(セキュリティ強度 256bit)</td>
+            </tr>
+            <!-- ## RIPEMD-160(単独) -->
+            <tr>
+                <th scope="row">RIPEMD-160</th>
+                <td>ハッシュ関数</td>
+                <td>運用監視暗号</td>
+                <td class="text-center">○</td>
+                <td>160bit</td>
+                <td>
+                    Merkle-Damgård構造で並列2系統の演算を統合する<br>
+                    160bit出力は現代基準で短い
+                </td>
+            </tr>
+            <!-- ## SHA-1(単独) -->
+            <tr>
+                <th scope="row">SHA-1</th>
+                <td>ハッシュ関数</td>
+                <td>運用監視暗号</td>
+                <td class="text-center">○</td>
+                <td>160bit</td>
+                <td>
+                    Merkle-Damgård構造、160bit出力<br>
+                    実用的な衝突攻撃が発見済みで非推奨
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <br>
 <br>
