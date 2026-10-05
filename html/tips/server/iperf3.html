@@ -336,9 +336,9 @@ traceroute [オプション] [宛先IPアドレス/ホスト名] [パケット�
                                     <li>
                                         <a href="#article_top">Top</a>
                                     </li>
-                                </ol>
-                                <div id = "toc"></div>
-                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#md-iperf3">iperf3コマンド使い方</a>
+                                    </li>
                                     <li>
                                         <a href="#md-traceroute">tracerouteコマンド使い方</a>
                                     </li>
@@ -380,11 +380,8 @@ traceroute [オプション] [宛先IPアドレス/ホスト名] [パケット�
             new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
             new Pagination(7, serverModel.page, "pagination");
             
-            const mdInst        = new MarkDownMaker(
-                id              = "md-iperf3",
-            )
-            
             const mdLists = [
+                "md-iperf3",
                 "md-source",
                 "md-traceroute",
                 "md-icmpv4",
@@ -396,12 +393,6 @@ traceroute [オプション] [宛先IPアドレス/ホスト名] [パケット�
                     id              = mdID,
                 )
             }
-
-            new MarkDownTOC(
-                mdInstance      = mdInst,
-                id              = "toc",
-                mdid            = "md-iperf3",
-            )
         </script>
     </footer>
 </html>
