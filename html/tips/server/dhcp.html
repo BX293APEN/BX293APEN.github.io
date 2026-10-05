@@ -6,13 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <meta property="og:title" content="サーバの構築" />
-        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/vnc.html" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/dhcp.html" />
         <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="とあるペンギンの実験室" />
-        <meta property="og:description" content="ディスプレイを付けない場合のTigerVNCの設定方法について" />
+        <meta property="og:description" content="DHCPサーバの設定方法について" />
         <meta name="theme-color" content="#FF0000" />
-
         
         <script src="/model/tips/tips.js"></script>
         <script src="/model/index/index.js"></script>
@@ -32,108 +31,96 @@
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
-                        <h1 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
-                            サーバの構築手順
-                        </h1>
 
-                        <article class="blog-post">
-                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="vnc">
-                                xfce4 + TigerVNCサーバの構築(ディスプレイが無い場合)
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dnsmasq">
+                                dnsmasqによるDHCPサーバの構築
                             </h2>
+                            <p>
+                                ※ dhcpdは開発が終わったため、dnsmasqで設定
+                            </p>
                             <h3 class="pt-4 border-bottom fw-bold">
-                                TigerVNCのインストール
+                                dnsmasqのインストール
                             </h3>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo apt install -y tigervnc-standalone-server tigervnc-common tigervnc-tools xfce4 xfce4-goodies dbus-x11 firefox-esr</code></pre> 
+                                <pre><code class="language-bash">sudo apt install dnsmasq</code></pre> 
                             </p>
 
                             <h3 class="pt-4 border-bottom fw-bold">
-                                パスワード設定
+                                設定ファイル
                             </h3>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">vncpasswd</code></pre> 
-                            </p>
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                設定の変更
-                            </h3>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">mkdir -p ~/.config/tigervnc
-nano ~/.config/tigervnc/xstartup</code></pre> 
+                                <pre><code class="language-bash">sudo nano /etc/dnsmasq.d/lan.conf</code></pre> 
                             </p>
                             <p>
                                 <div class="fw-bold">
                                     エディタ
                                 </div>
-                                <pre><code class="language-bash">#!/bin/sh
+                                <pre><code class="language-bash"># /etc/dnsmasq.d/lan.conf
 
-export XMODIFIERS="@im=fcitx"
-export GTK_IM_MODULE=fcitx5
-export QT_IM_MODULE=fcitx
-export SDL_IM_MODULE=fcitx
-export DISPLAY=:1
+# ※設定項目のスペースを勝手に空けると構文チェックに通らなくなる
 
-xsetroot -solid grey
-xhost +SI:localuser:$(whoami)
+# =================================================================
+# 共通・インターフェース設定
+# =================================================================
+interface=eth0          # 待ち受けインターフェース
+interface=lo            # 待ち受けインターフェース
+domain-needed           # ドット無しの名前を上流DNSへ転送しない
+bogus-priv              # プライベートIPの逆引きを上流へ転送しない
+local=/lan/             # ローカル専用ドメイン
+local=/local.lan/       # ローカル専用ドメイン
+domain=lan
 
-# スタートアップアプリの追加
-# xfce4-terminal &
+# =================================================================
+# DNSサーバー設定
+# =================================================================
 
-exec startxfce4</code></pre> 
-                            </p>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">chmod +x ~/.config/tigervnc/xstartup</code></pre> 
+# port=0                # DNS 機能の無効化
+no-resolv               # サーバー本体の /etc/resolv.conf (上流DNS設定)を無視
+server=1.1.1.1          # 上流DNS
+server=8.8.8.8          # 上流DNS
+
+# =================================================================
+# 独自ゾーン設定
+# =================================================================
+no-hosts                # /etc/hosts を 読み込まない (名前解決はhost-recordのみ)
+host-record=gateway.lan,gateway,192.168.10.1
+host-record=raspi5.lan,raspi5,192.168.10.64
+host-record=raspi5.local.lan,192.168.10.64
+
+# =================================================================
+# DHCPサーバー設定
+# =================================================================
+
+# DHCP範囲 : 192.168.10.100/24 - 192.168.10.200/24
+# リース期間 : 24時間
+dhcp-range=192.168.10.100,192.168.10.200,255.255.255.0,24h
+
+
+dhcp-option=option:router,192.168.10.1          # デフォルトゲートウェイ
+dhcp-option=option:dns-server,192.168.10.64     # DNSサーバ
+# dhcp-option=option:ntp-server,192.168.10.99   # NTPサーバ
+# dnsmasq --help dhcpでオプション名確認
+</code></pre> 
                             </p>
                             <h3 class="pt-4 border-bottom fw-bold">
-                                起動設定
+                                設定の適用
                             </h3>
                             <p>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">sudo nano /etc/systemd/system/tigervnc@:1.service</code></pre>
+                                <pre><code class="language-bash">dnsmasq --test                      # 構文チェック
+sudo systemctl restart dnsmasq      # 設定の適用
+sudo journalctl -u dnsmasq -n 20    # 動作ログチェック</code></pre> 
                             </p>
-                            <p>
-                                <div class="fw-bold">
-                                    エディタ
-                                </div>
-                                <pre><code class="language-bash">[Unit]
-Description=TigerVNC Server for %i
-After=network.target
-
-[Service]
-Type=forking
-User=[ユーザ名]
-Group=[ユーザ名]
-WorkingDirectory=/home/[ユーザ名]
-
-ExecStart=/usr/bin/vncserver %i -localhost no
-ExecStop=/usr/bin/vncserver -kill %i
-
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target</code></pre> 
-                            </p>
-                            <p>
-                                <div class="fw-bold">
-                                    ターミナル
-                                </div>
-                                <pre><code class="language-bash">sudo systemctl daemon-reload
-sudo systemctl enable tigervnc@:1.service
-sudo systemctl restart tigervnc@:1.service</code></pre>
-                            </p>
+                            
                         </article>
                     </div>
 
@@ -146,7 +133,7 @@ sudo systemctl restart tigervnc@:1.service</code></pre>
                                         <a href="#article_top">Top</a>
                                     </li>
                                     <li>
-                                        <a href="#vnc">VNCサーバの構築</a>
+                                        <a href="#dnsmasq">NTPサーバの構築</a>
                                     </li>
     
                                 </ol>
@@ -176,8 +163,8 @@ sudo systemctl restart tigervnc@:1.service</code></pre>
             embedded_html("/template/header.html", "header-contents");
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
-            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "appTip"]);
-            new Pagination(7, serverModel.page, "pagination");
+            new TipsView(tipsModel, "tips", "tips", ["UEFITip", "windowsTip", "vimTip"]);
+            new Pagination(3, serverModel.page, "pagination");
         </script>
     </footer>
 </html>

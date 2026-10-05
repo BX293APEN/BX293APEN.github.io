@@ -647,7 +647,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
-            new Pagination(4, serverModel.page, "pagination");
+            new Pagination(5, serverModel.page, "pagination");
 
             const mdLists = [
                 "md-text",

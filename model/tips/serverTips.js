@@ -11,34 +11,38 @@ class ServerModel{
             },
             {
                 "page" : 3,
-                "href" : "/html/tips/server/ftp.html"
+                "href" : "/html/tips/server/dhcp.html"
             },
             {
                 "page" : 4,
-                "href" : "/html/tips/server/http.html"
+                "href" : "/html/tips/server/ftp.html"
             },
             {
                 "page" : 5,
-                "href" : "/html/tips/server/ntp.html"
+                "href" : "/html/tips/server/http.html"
             },
             {
                 "page" : 6,
-                "href" : "/html/tips/server/vnc.html"
+                "href" : "/html/tips/server/ntp.html"
             },
             {
                 "page" : 7,
-                "href" : "/html/tips/server/iperf3.html"
+                "href" : "/html/tips/server/vnc.html"
             },
             {
                 "page" : 8,
-                "href" : "/html/tips/server/emqx.html"
+                "href" : "/html/tips/server/iperf3.html"
             },
             {
                 "page" : 9,
-                "href" : "/html/tips/server/db.html"
+                "href" : "/html/tips/server/emqx.html"
             },
             {
                 "page" : 10,
+                "href" : "/html/tips/server/db.html"
+            },
+            {
+                "page" : 11,
                 "href" : "/html/tips/server/mail.html"
             },
         ]
