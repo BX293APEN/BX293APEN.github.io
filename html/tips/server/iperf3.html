@@ -224,10 +224,10 @@ traceroute [オプション] [宛先IPアドレス/ホスト名] [パケット�
 | 3 | 14 | Destination Unreachable<br>Host Precedence Violation<br> (ホスト優先度違反)  |
 | 3 | 15 | Destination Unreachable<br>Precedence Cutoff in Effect<br> (優先度カットオフ有効)  |
 | 4 | 0 | Source Quench<br> (送信抑制) <br>廃止 |
-| 5 | 0 | Redirect<br>Redirect Datagram for the Network<br> (ネットワーク宛てのリダイレクト)  |
-| 5 | 1 | Redirect<br>Redirect Datagram for the Host<br> (ホスト宛てのリダイレクト)  |
-| 5 | 2 | Redirect<br>Redirect Datagram for the ToS & Network<br> (ToSとネットワーク宛てのリダイレクト)  |
-| 5 | 3 | Redirect<br>Redirect Datagram for the ToS & Host<br> (ToSとホスト宛てのリダイレクト)  |
+| 5 | 0 | Redirect<br>Redirect Datagram for the Network<br> (ネットワーク宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
+| 5 | 1 | Redirect<br>Redirect Datagram for the Host<br> (ホスト宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
+| 5 | 2 | Redirect<br>Redirect Datagram for the ToS & Network<br> (ToSとネットワーク宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
+| 5 | 3 | Redirect<br>Redirect Datagram for the ToS & Host<br> (ToSとホスト宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
 | 6 | 0 | Alternate Host Address<br> (代替ホストアドレス) <br>廃止 |
 | 8 | 0 | Echo Request<br> (エコー要求) <br>`ping`で使用 |
 | 9 | 0 | Router Advertisement<br>Normal Router Advertisement<br> (ルータ通知)  |
@@ -286,7 +286,7 @@ traceroute [オプション] [宛先IPアドレス/ホスト名] [パケット�
 | 134 | 0 | Router Advertisement<br> (ルータ通知)  |
 | 135 | 0 | Neighbor Solicitation<br> (近隣要請) <br>アドレス解決・DADで使用 |
 | 136 | 0 | Neighbor Advertisement<br> (近隣通知)  |
-| 137 | 0 | Redirect Message<br> (リダイレクト)  |
+| 137 | 0 | Redirect Message<br> (経路変更通知) <br>より適切なネクストホップを通知 |
 | 138 | 0 | Router Renumbering<br>Command<br> (ルータ番号再設定：コマンド)  |
 | 138 | 1 | Router Renumbering<br>Result<br> (ルータ番号再設定：結果)  |
 | 138 | 255 | Router Renumbering<br>Sequence Number Reset<br> (ルータ番号再設定：シーケンス番号リセット)  |
