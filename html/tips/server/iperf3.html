@@ -28,12 +28,16 @@
     </head>
     <body>
         <div id="header-contents"></div>
-        <div class ="container pt-3">
+        <div class ="ps-4 pt-4">
             <main>
-                <div class = "row">
-                    <div id="md-text" class ="col-md-8 pt-4">
-# iperf3コマンド使い方
-  
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-3 border-bottom fw-bold">
+                                iperf3コマンド使い方
+                            </h2>
+                            <div id="md-iperf3">
+
 <br>
   
 ## 共通
@@ -124,8 +128,75 @@
 | --linux-congestion [algo] | TCPの輻輳制御アルゴリズムを指定<br>Linux : iperf3.0～<br>FreeBSD : iperf3.1～ |
 | --get-server-output       | 測定用の通信終了後、サーバの出力を取得<br>※サーバで-Jオプションが指定されている場合はJSON形式となる |
 | --bidir                   | 双方向計測 |
-                    </div>
 
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="py-3 border-bottom fw-bold">
+                                tracerouteコマンド使い方
+                            </h2>
+                            <div id="md-traceroute">
+**ターミナル**
+```bash
+traceroute [オプション] [宛先IPアドレス/ホスト名] [パケット長]
+```
+<p>
+    ※ <b>パケット長</b> <br> 送信パケット長(バイト)を指定<br>デフォルト : `60` (IPv4) / `80` (IPv6)
+</p>
+<br>
+<br>
+
+### オプション一覧
+| オプション                | 説明 |
+| -                         | - |
+| --help                    | ヘルプを出力 |
+| -V                        | バージョンを出力 |
+| --version                 | バージョンを出力 |
+| (指定なし)                | UDPデータグラムを使用<br>宛先ポートはデフォルト `33434` から1ずつ増加 |
+| -4                        | IPv4を使用 |
+| -6                        | IPv6を使用 |
+| -n                        | ホスト名の逆引きをしない(IPアドレスのみ表示)<br>DNSの待ち時間がなくなり高速になる |
+| -A                        | 各ホップのAS番号を問い合わせて表示 |
+| --as-path-lookups         | 各ホップのAS番号を問い合わせて表示 |
+| -e                        | ICMP拡張情報を表示 |
+| --extensions              | ICMP拡張情報を表示 |
+| -I                        | ICMP ECHOを使用 |
+| --icmp                    | ICMP ECHOを使用 |
+| -T                        | TCP SYNを使用<br>宛先ポートのデフォルト : `80`<br>ファイアウォールを通過しやすい<br>※通常root権限が必要 |
+| --tcp                     | TCP SYNを使用<br>宛先ポートのデフォルト : `80`<br>ファイアウォールを通過しやすい<br>※通常root権限が必要 |
+| -U                        | UDPを使用(ポート指定なしの場合は `53` ) |
+| --udp                     | UDPを使用(ポート指定なしの場合は `53` ) |
+| -p          [n]           | UDP/TCP : 宛先ポートを指定<br>ICMP : 初期シーケンス番号を指定 |
+| --port      [n]           | UDP/TCP : 宛先ポートを指定<br>ICMP : 初期シーケンス番号を指定 |
+| -f          [n]           | 開始するTTLを指定<br>デフォルト : `1` |
+| --first     [n]           | 開始するTTLを指定<br>デフォルト : `1` |
+| -m          [n]           | 最大TTL(最大ホップ数)を指定<br>デフォルト : `30` |
+| --max-hops  [n]           | 最大TTL(最大ホップ数)を指定<br>デフォルト : `30` |
+| -q          [n]           | 1ホップあたりに送信するプローブ数<br>デフォルト : `3` |
+| --queries   [n]           | 1ホップあたりに送信するプローブ数<br>デフォルト : `3` |
+| -w          [n]           | 応答を待つ秒数<br>デフォルト : `3.0` 秒 |
+| --wait      [n]           | 応答を待つ秒数<br>デフォルト : `3.0` 秒 |
+| -z          [n]           | プローブ間の送信間隔<br>`n` が `10` 未満なら秒、`10` 以上ならミリ秒として扱う<br>デフォルト : `0` |
+| --sendwait  [n]           | プローブ間の送信間隔<br>`n` が `10` 未満なら秒、`10` 以上ならミリ秒として扱う<br>デフォルト : `0` |
+| -N          [n]           | 同時に送信するプローブ数<br>デフォルト : `16` |
+| --sim-queries [n]         | 同時に送信するプローブ数<br>デフォルト : `16` |
+| -i          [dev]         | 使用するネットワークインタフェースを指定 |
+| --interface [dev]         | 使用するネットワークインタフェースを指定 |
+| -s          [addr]        | 送信元IPアドレスを指定<br>NICが複数ある場合に使用 |
+| --source    [addr]        | 送信元IPアドレスを指定<br>NICが複数ある場合に使用 |
+| -g          [gate]        | ルーティングヘッダのゲートウェイ(経由ルータ)を指定 |
+| --gateway   [gate]        | ルーティングヘッダのゲートウェイ(経由ルータ)を指定 |
+| -t          [n]           | IPv4のTOS / IPv6のTraffic Classを指定 |
+| --tos       [n]           | IPv4のTOS / IPv6のTraffic Classを指定 |
+| -l          [n]           | IPv6のフローラベルを指定 |
+| --flowlabel [n]           | IPv6のフローラベルを指定 |
+| -F                        | DF(Don't Fragment)ビットを立てて送信 |
+| --dont-fragment           | DF(Don't Fragment)ビットを立てて送信 |
+| -r                        | ルーティングテーブルを無視し、直接接続されたネットワークのホストへ送信 |
+
+                            </div>
+                        </article>
+                    </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4">
@@ -136,7 +207,17 @@
                             </div>
                             <div class="p-4">
                                 <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                </ol>
                                 <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#md-traceroute">tracerouteコマンド使い方</a>
+                                    </li>
+                                </ol>
                             </div>
                             <div id="tips"></div>
                         </div>
@@ -169,17 +250,24 @@
             new Pagination(7, serverModel.page, "pagination");
             
             const mdInst        = new MarkDownMaker(
-                id              = "md-text",
+                id              = "md-iperf3",
             )
             
-            new MarkDownMaker(
-                id              = "md-source",
-            )
+            const mdLists = [
+                "md-source",
+                "md-traceroute",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
 
             new MarkDownTOC(
                 mdInstance      = mdInst,
                 id              = "toc",
-                mdid            = "md-text",
+                mdid            = "md-iperf3",
             )
         </script>
     </footer>
