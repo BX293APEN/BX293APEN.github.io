@@ -27,7 +27,7 @@
     </head>
     <body>
         <div id="header-contents"></div>
-        <div class="container pt-3">
+        <div class="ps-4 pt-4">
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
@@ -122,6 +122,21 @@ sudo journalctl -u dnsmasq -n 20    # 動作ログチェック</code></pre>
                             </p>
                             
                         </article>
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ルーティングプロトコル比較
+                            </h2>
+                            <div id="md-route">
+
+| プロトコル | プロトコル番号<br>ポート番号 | IPv6 | 規格 | 分類 | アルゴリズム | メトリック | 経路計算 | 更新方式 | 概要 | メリット | デメリット | 使用用途 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| RIP-1 | 17 (UDP)<br>520 | <ul><li>非対応</li></ul> | <ul><li>RFC 1058</li></ul> | <ul><li>IGP</li><li>クラスフル</li></ul> | <ul><li>ディスタンスベクタ型</li></ul> | <ul><li>ホップ数</li><li>最大15</li><li>16で到達不能</li></ul> | <ul><li>隣接ルータの経路にホップ数を加算</li><li>最小値の経路を採用</li></ul> | <ul><li>30秒ごとに全経路を送信</li><li>ブロードキャスト</li><li>トリガードアップデート</li></ul> | <ul><li>最も古い部類のIGP</li><li>サブネットマスク情報を持たない</li></ul> | <ul><li>設定が非常に簡単</li><li>負荷が低い</li></ul> | <ul><li>VLSM/CIDR非対応</li><li>認証なし</li><li>収束が遅い</li><li>ブロードキャストで余計な負荷</li></ul> | <ul><li>ごく小規模なネットワーク</li><li>レガシー機器との接続</li></ul> |
+| RIP-2 | 17 (UDP)<br>520 | <ul><li>RIPngで対応</li><li>UDP 521</li><li>ff02::9宛</li></ul> | <ul><li>RFC 2453</li><li>RIPng: RFC 2080</li></ul> | <ul><li>IGP</li><li>クラスレス</li></ul> | <ul><li>ディスタンスベクタ型</li></ul> | <ul><li>ホップ数</li><li>最大15</li><li>16で到達不能</li></ul> | <ul><li>隣接ルータの経路にホップ数を加算</li><li>最小値の経路を採用</li></ul> | <ul><li>30秒ごとに全経路を送信</li><li>マルチキャスト 224.0.0.9</li><li>トリガードアップデート</li></ul> | <ul><li>RIP-1の拡張版</li><li>サブネットマスクを経路に付加</li></ul> | <ul><li>VLSM/CIDR対応</li><li>認証に対応</li><li>ネクストホップ指定が可能</li><li>設定が簡単</li></ul> | <ul><li>ホップ数15の制限</li><li>収束が遅い</li><li>帯域や遅延を考慮しない</li></ul> | <ul><li>小規模ネットワーク</li><li>検証環境</li><li>小規模拠点間の接続</li></ul> |
+| OSPF | 89 (IP直接)<br>なし | <ul><li>OSPFv3で対応</li></ul> | <ul><li>OSPFv2: RFC 2328</li><li>OSPFv3: RFC 5340</li></ul> | <ul><li>IGP</li><li>クラスレス</li></ul> | <ul><li>リンクステート型</li></ul> | <ul><li>コスト</li><li>参照帯域幅 ÷ インターフェース帯域幅</li></ul> | <ol><li>LSDBを構築</li><li>ダイクストラ法でSPFツリーを計算</li><li>ルーティングテーブルへ登録</li></ol> | <ul><li>変化時のみLSAをフラッディング</li><li>マルチキャスト 224.0.0.5 / 224.0.0.6</li><li>LSAを30分ごとに再送</li></ul> | <ul><li>全ルータが同一のトポロジ情報を保持</li><li>エリアで階層化</li></ul> | <ul><li>収束が速い</li><li>ループフリー</li><li>エリア分割で拡張性が高い</li><li>帯域を考慮した経路選択</li></ul> | <ul><li>設計と設定が複雑</li><li>CPUとメモリの負荷が高い</li><li>エリア0が必須</li></ul> | <ul><li>企業内ネットワーク</li><li>データセンター</li><li>ISPの内部ネットワーク</li></ul> |
+| BGP | 6 (TCP)<br>179 | <ul><li>MP-BGPで対応</li><li>RFC 4760</li></ul> | <ul><li>BGP-4: RFC 4271</li></ul> | <ul><li>EGP</li><li>eBGPとiBGP</li></ul> | <ul><li>パスベクタ型</li></ul> | <ul><li>経路属性の組み合わせ</li></ul><ol><li>Weight (Cisco独自)</li><li>LOCAL_PREF</li><li>AS_PATH長</li><li>ORIGIN</li><li>MED</li></ol> | <ul><li>ベストパス選択アルゴリズム</li><li>AS_PATHでループを検出</li></ul> | <ul><li>TCPセッション上で差分のみ送信</li><li>ネイバーを手動設定</li><li>KEEPALIVE 60秒 / HOLD 180秒</li></ul> | <ul><li>AS間の経路情報を交換</li><li>インターネットの基盤</li></ul> | <ul><li>ポリシー制御が非常に柔軟</li><li>数十万経路まで対応</li><li>AS間で安定した運用</li></ul> | <ul><li>設定と運用が難しい</li><li>収束が比較的遅い</li><li>誤設定の影響が大きい</li></ul> | <ul><li>ISP間の接続</li><li>マルチホーミング</li><li>大規模ネットワークの外部接続</li></ul> |
+
+                            </div>
+                        </article>
                     </div>
 
                     <div class="col-md-4">
@@ -135,7 +150,9 @@ sudo journalctl -u dnsmasq -n 20    # 動作ログチェック</code></pre>
                                     <li>
                                         <a href="#dnsmasq">NTPサーバの構築</a>
                                     </li>
-    
+                                    <li>
+                                        <a href="#md-route">ルーティングプロトコル比較</a>
+                                    </li>
                                 </ol>
                             </div>
 
@@ -157,6 +174,7 @@ sudo journalctl -u dnsmasq -n 20    # 動作ログチェック</code></pre>
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -165,6 +183,16 @@ sudo journalctl -u dnsmasq -n 20    # 動作ログチェック</code></pre>
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["UEFITip", "windowsTip", "vimTip"]);
             new Pagination(3, serverModel.page, "pagination");
+
+            const mdLists = [
+                "md-route",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
         </script>
     </footer>
 </html>
