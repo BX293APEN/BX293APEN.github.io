@@ -1996,15 +1996,313 @@
                             <h3 class="pt-4 border-bottom fw-bold" id="sec-service">
                                 セキュリティサービス・製品の説明
                             </h3>
-                            <h4 class="pt-4 fw-bold">アプリケーションによるセキュリティ</h4>
+                            <h4 class="pt-4 fw-bold">ネットワーク防御</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
                                     <colgroup>
-                                        <col style="width: 14%">
-                                        <col style="width: 18%">
                                         <col style="width: 12%">
-                                        <col style="width: 44%">
+                                        <col style="width: 16%">
                                         <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="4"><strong>ファイアウォール</strong></td>
+                                            <td rowspan="4">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ネットワークの境界でパケットの送受信を制御し、不正な通信を遮断する基本的な防御機構</li>
+                                                    <li>あらかじめ定めたルール(許可/拒否)に基づいて通信を制御する</li>
+                                                    <li>ルールの考え方には、原則許可して一部を拒否するブラックリスト方式と、原則拒否して一部のみ許可するホワイトリスト方式がある(「共通の考え方・基盤技術」を参照)</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>パケットフィルタリング型</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>パケットのヘッダ情報(送信元/宛先IPアドレス、ポート番号、プロトコル等)のみでルールベースの許可・拒否を判定する、最も基本的な方式</li>
+                                                    <li>OSI参照モデルの第3層(ネットワーク層)・第4層(トランスポート層)で動作し、高速だがパケットの中身(ペイロード)は検査しない</li>
+                                                    <li>通信ごとの状態は見ないため、戻りパケット用のルールをあらかじめ固定的に開けておく必要がある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ダイナミックパケットフィルタリング型</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>通信の往路(要求)を監視し、その戻りパケットのみを動的に許可する等、通信状況に応じてフィルタリングルールを自動生成する</li>
+                                                    <li>通信が終了したらそのルールを削除するため、ポートを開けたままにするリスクを減らせる</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>ステートフルパケットフィルタリング型</strong><br>
+                                                <small class="text-muted">ステートフルインスペクションFW</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>セッション(コネクション)の状態を管理・追跡し、同一セッションに属する通信のみを許可することで、なりすましや不正な戻りパケットを排除する</li>
+                                                    <li>通信の開始から終了までの状態をテーブルで管理し、TCPの接続手順等に沿わない通信を遮断する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>アプリケーションゲートウェイ型</strong><br>
+                                                <small class="text-muted">プロキシ型FW</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>アプリケーション層(OSI第7層)の内容まで解析し、通信を代理(プロキシ)する</li>
+                                                    <li>内部と外部の通信を直接つながず、クライアント側とサーバ側で別々のセッションを張って中継するため、厳密な制御ができる</li>
+                                                    <li>処理負荷が高く、プロトコルごとに対応するプロキシが必要だが、検査精度が高い</li>
+                                                    <li>プロキシの考え方は、「Web・メール防御」のプロキシサーバを参照</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>UTM</strong><br>
+                                                <small class="text-muted">統合脅威管理</small>
+                                            </td>
+                                            <td>ファイアウォール、IDS/IPS、アンチウイルス、アンチスパム、URLフィルタリング等の複数のセキュリティ機能を1台に統合した製品</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ネットワークの出入口(ゲートウェイ)に設置し、一括で防御する</li>
+                                                    <li>運用・管理の一元化やコスト削減ができる一方、1台に集中するため障害時の影響が大きく(単一障害点)、全機能を有効にすると処理性能が低下しやすい</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="6">
+                                                <strong>IDS / IPS</strong><br>
+                                                <small class="text-muted">不正侵入検知システム /<br>不正侵入防止システム</small>
+                                            </td>
+                                            <td rowspan="6">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ネットワークやホスト上の不正な兆候を検知し、管理者に通知する(IDS)</li>
+                                                    <li>IPSは、検知に加えて不正な通信をリアルタイムに遮断する</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>IDS</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ネットワークやホスト上の不正な兆候を検知し、管理者に通知する(通信の遮断はしない)</li>
+                                                    <li>監視対象により、ネットワーク型の「NIDS」とホスト型の「HIDS」(「エンドポイント防御」を参照)に分けられる</li>
+                                                </ul>
+                                            </td>
+                                            <td>Snort</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>NIDS</strong><br>
+                                                <small class="text-muted">ネットワーク型IDS</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ネットワーク上を流れるパケットを監視し、ネットワークセグメント全体に対する不正アクセスの兆候を検知する</li>
+                                                    <li>1台のセンサで複数のホストを監視できる一方、暗号化された通信(HTTPS等)の中身は検査できない</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>IPS</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>IDSの機能に加え、検知した不正な通信をリアルタイムに遮断する機能を持つ</li>
+                                                    <li>設置方法(動作モード)によって、遮断できるかどうかが変わる(下記の2つ)</li>
+                                                </ul>
+                                            </td>
+                                            <td>Snort</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>IPSインラインモード</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>通信経路上に直接設置し、通過するすべての通信を検査した上で転送する</li>
+                                                    <li>不正な通信をリアルタイムに遮断できる</li>
+                                                    <li>通信経路上にあるため、IPS自体の障害や性能不足が通信全体に影響する(単一障害点)</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>IPSプロミスキャスモード</strong><br>
+                                                <small class="text-muted">パッシブモード</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>スイッチのミラーポート(SPAN)やタップ等から通信のコピーを受け取って監視する</li>
+                                                    <li>通信経路上には存在しないため、不正な通信そのものを遮断することはできず、検知(IDS的な用途)にとどまる</li>
+                                                    <li>TCPリセットの送信等で接続の切断を試みる製品もあるが、確実な遮断とはいえない</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>検知方式</strong><br>
+                                                <small class="text-muted">IDS・IPS共通</small>
+                                            </td>
+                                            <td>
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th scope="col">方式</th>
+                                                            <th scope="col">判定の基準</th>
+                                                            <th scope="col">長所</th>
+                                                            <th scope="col">短所</th>
+                                                            <th scope="col">誤検知した場合の影響</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">シグネチャ型<br>(ミスユース検知)</th>
+                                                            <td>既知の攻撃パターンと照合し、一致したものを不正と判定する(ブラックリスト的)</td>
+                                                            <td>既知の攻撃には確実</td>
+                                                            <td>未知の攻撃には対応できない</td>
+                                                            <td rowspan="2"><strong>IDS・IPSプロミスキャスモード</strong>: 通知が増えるだけで通信は止まらない<br><strong>IPSインラインモード</strong>: 正常な通信まで遮断され、業務への影響が大きい</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">アノマリ型<br>(異常検知)</th>
+                                                            <td>正常時の状態を基準とし、そこから逸脱したものを不正と判定する(ホワイトリスト的)</td>
+                                                            <td>未知の攻撃にも対応できる可能性がある</td>
+                                                            <td>誤検知が起こりやすい</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>アノマリ型は誤検知が起こりやすいため、基準の調整・学習段階は、通信が止まらないプロミスキャスモード(通知のみ)で運用するのに向く</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>NDR</strong><br>
+                                                <small class="text-muted">Network Detection and Response</small>
+                                            </td>
+                                            <td>ネットワークトラフィックを分析し、異常な通信パターンや侵害の兆候を検知して、対応を支援する仕組み</td>
+                                            <td>-</td>
+                                            <td>EDRを導入できない機器(IoT・OT機器、未管理の端末等)の監視や、侵入後の内部での横展開(ラテラルムーブメント)の検知に有効</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>検疫ネットワーク</strong><br>
+                                                <small class="text-muted">検疫ネットワークシステム</small>
+                                            </td>
+                                            <td>社内ネットワークへの接続前に、パターンファイルの更新状況やパッチ適用状況等、端末のセキュリティ状態を検査する専用の隔離ネットワーク</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>基準を満たさない端末は、本番ネットワークへの接続を許可しない
+                                                        <ol class="ps-3 mb-0">
+                                                            <li>端末が接続しようとすると、まず検疫用の隔離ネットワークに接続させる</li>
+                                                            <li>OSのパッチやウイルス対策ソフトのパターンファイル等の状態を検査する</li>
+                                                            <li>基準を満たさない端末は、隔離環境で修復(パッチ適用・パターンファイル更新等)する</li>
+                                                            <li>基準を満たしたことを確認してから、本番ネットワークへの接続を許可する</li>
+                                                        </ol>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>ZTNA</strong><br>
+                                                <small class="text-muted">ゼロトラストネットワークアクセス</small>
+                                            </td>
+                                            <td>「何も信頼しない」ことを前提に、通信のたびにアクセス主体(ユーザ・デバイス)を検証・認可する仕組み</td>
+                                            <td>-</td>
+                                            <td>従来のVPNが接続後に社内ネットワーク全体へアクセスできてしまいがちなのに対し、許可されたアプリケーションにのみ接続させる</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2"><strong>DDoS対策</strong></td>
+                                            <td rowspan="2">大量の通信によるサービス停止攻撃に対する耐性を高める</td>
+                                            <td>
+                                                <strong>DDoS対策サービス</strong><br>
+                                                <small class="text-muted">スクラビングサービス</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>大量トラフィックを専用設備(スクラビングセンタ)で吸収・選別し、正常な通信のみをオリジンサーバへ転送する</li>
+                                                    <li>DNSの切り替えやBGP経路の広告により、通信をスクラビングセンタへ迂回させる</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>CDN</strong><br>
+                                                <small class="text-muted">コンテンツデリバリネットワーク</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>コンテンツを世界各地のエッジサーバに分散配置(キャッシュ)し、利用者に近いサーバから配信する</li>
+                                                    <li>負荷分散やDDoS攻撃に対する耐性を高められる</li>
+                                                    <li>エッジサーバがリバースプロキシとして応答するため、オリジンサーバを直接公開せずに済む</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td><strong>DNSSEC</strong></td>
+                                            <td>DNS応答に電子署名を付与し、DNSキャッシュポイズニング等の改ざんを検知可能にする仕組み</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>権威DNSサーバが署名し、キャッシュDNSサーバ(フルサービスリゾルバ)が検証する</li>
+                                                    <li>応答の真正性・完全性を確認できるが、通信内容の暗号化(秘匿)は行わない</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">Web・メール防御</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
                                     </colgroup>
                                     <thead class="table-light">
                                         <tr>
@@ -2022,30 +2320,47 @@
                                                 <small class="text-muted">Web Application Firewall<br>Web Application and API Protection</small>
                                             </td>
                                             <td rowspan="2">
-                                                Webアプリケーション(およびAPI)への攻撃を検知・遮断する<br>
-                                                通常のFWやIPSでは見分けにくい「正規のHTTP通信に見える攻撃」(SQLインジェクション、XSS等)が対象
-                                            </td>
-                                            <td><strong>WAF</strong></td>
-                                            <td colspan="2">
-                                                HTTP/HTTPS通信の内容を検査し、Webアプリケーション層への攻撃を検知・遮断する専用のファイアウォール<br>
-                                                HTTPS通信は、復号(TLS終端)した上で検査する<br>
-                                                検知のモデルには以下の2つがある
                                                 <ul class="ps-3 mb-0">
-                                                    <li><strong>ネガティブセキュリティモデル</strong>: 既知の攻撃パターンを遮断する(ブラックリスト的)</li>
-                                                    <li><strong>ポジティブセキュリティモデル</strong>: 正規のリクエストの形式のみを許可する(ホワイトリスト的)</li>
+                                                    <li>Webアプリケーション(およびAPI)への攻撃を検知・遮断する</li>
+                                                    <li>通常のFWやIPSでは見分けにくい「正規のHTTP通信に見える攻撃」(SQLインジェクション、XSS等)が対象</li>
                                                 </ul>
                                             </td>
+                                            <td><strong>WAF</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-2">
+                                                    <li>HTTP/HTTPS通信の内容を検査し、Webアプリケーション層への攻撃を検知・遮断する専用のファイアウォール</li>
+                                                    <li>HTTPS通信は、復号(TLS終端)した上で検査する</li>
+                                                    <li>検知のモデルには以下の2つがある</li>
+                                                </ul>
+                                                <table class="table table-sm table-bordered small mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">ネガティブセキュリティモデル</th>
+                                                            <td>既知の攻撃パターンを遮断する(ブラックリスト的)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">ポジティブセキュリティモデル</th>
+                                                            <td>正規のリクエストの形式のみを許可する(ホワイトリスト的)</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td><strong>WAAP</strong></td>
-                                            <td colspan="2">
-                                                WAFの機能に加え、以下の機能を統合したサービス
+                                            <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>API保護(APIの可視化と、不正なAPI呼び出しの遮断)</li>
-                                                    <li>ボット対策(不正な自動化アクセスの識別・遮断)</li>
-                                                    <li>アプリケーション層(L7)のDDoS対策</li>
+                                                    <li>WAFの機能に加え、以下の機能を統合したサービス
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>API保護(APIの可視化と、不正なAPI呼び出しの遮断)</li>
+                                                            <li>ボット対策(不正な自動化アクセスの識別・遮断)</li>
+                                                            <li>アプリケーション層(L7)のDDoS対策</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2055,50 +2370,98 @@
                                                 <small class="text-muted">Content Security Policy</small>
                                             </td>
                                             <td>実行を許可するスクリプトの読み込み元等を指定し、XSS等の被害を軽減するHTTPヘッダベースの仕組み</td>
-                                            <td colspan="3">
-                                                WebサーバがContent-Security-Policyレスポンスヘッダでポリシーを通知し、ブラウザが許可されていないリソースの読み込み・実行を拒否する<br>
-                                                読み込みを許可する配信元を限定する点で、ホワイトリスト方式の一種
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>WebサーバがContent-Security-Policyレスポンスヘッダでポリシーを通知し、ブラウザが許可されていないリソースの読み込み・実行を拒否する</li>
+                                                    <li>読み込みを許可する配信元を限定する点で、ホワイトリスト方式の一種</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
                                         <tr>
                                             <td rowspan="4"><strong>プロキシサーバ</strong></td>
                                             <td rowspan="4">
-                                                クライアントとサーバの間に立ち、通信を代理中継する中継サーバ<br>
-                                                設置位置によって守る対象が変わる(クライアント側ならクライアント、サーバ側ならサーバ)<br>
-                                                代理中継の考え方は、アプリケーションゲートウェイ型FWにも使われる(「ネットワーク層によるセキュリティ」を参照)
+                                                <ul class="ps-3 mb-0">
+                                                    <li>クライアントとサーバの間に立ち、通信を代理中継する中継サーバ</li>
+                                                    <li>設置位置によって守る対象が変わる(クライアント側ならクライアント、サーバ側ならサーバ)</li>
+                                                    <li>代理中継の考え方は、アプリケーションゲートウェイ型FWにも使われる(「ネットワーク防御」のファイアウォールを参照)</li>
+                                                </ul>
                                             </td>
                                             <td><strong>フォワードプロキシ</strong></td>
                                             <td>
-                                                クライアントの代理として外部のサーバと通信する<br>
-                                                クライアント側(組織内)とインターネットの間に設置し、<strong>悪意あるサーバ(マルウェア配布サイト・フィッシングサイト・C2サーバ等)からクライアントを守る</strong>
                                                 <ul class="ps-3 mb-2">
-                                                    <li><strong>クライアントの隠蔽</strong>: 外部サーバにはプロキシのIPアドレスしか見えず、クライアントに直接接続されない</li>
-                                                    <li><strong>アクセス制御</strong>: URLフィルタリングや認証により、危険・不要なサイトへのアクセスを制限する</li>
-                                                    <li><strong>コンテンツ検査</strong>: ダウンロードされるファイルのマルウェアスキャンや、TLS通信の復号検査(SSLインスペクション)を行う</li>
-                                                    <li><strong>ログ取得</strong>: 誰がどこにアクセスしたかを記録し、インシデント調査や監査に利用する</li>
-                                                    <li><strong>キャッシュ</strong>: 同じコンテンツの再取得を省き、帯域を節約する</li>
+                                                    <li>クライアントの代理として外部のサーバと通信する</li>
+                                                    <li>クライアント側(組織内)とインターネットの間に設置し、<strong>悪意あるサーバ(マルウェア配布サイト・フィッシングサイト・C2サーバ等)からクライアントを守る</strong></li>
                                                 </ul>
-                                                プロキシを迂回する通信は検査できないため、FWで直接の外部通信を禁止して経由を強制する<br>
-                                                クラウド型や高機能化したものは、SWG(Secure Web Gateway)とも呼ばれる
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">クライアントの隠蔽</th>
+                                                            <td>外部サーバにはプロキシのIPアドレスしか見えず、クライアントに直接接続されない</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">アクセス制御</th>
+                                                            <td>URLフィルタリングや認証により、危険・不要なサイトへのアクセスを制限する</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">コンテンツ検査</th>
+                                                            <td>ダウンロードされるファイルのマルウェアスキャンや、TLS通信の復号検査(SSLインスペクション)を行う</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">ログ取得</th>
+                                                            <td>誰がどこにアクセスしたかを記録し、インシデント調査や監査に利用する</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">キャッシュ</th>
+                                                            <td>同じコンテンツの再取得を省き、帯域を節約する</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>プロキシを迂回する通信は検査できないため、FWで直接の外部通信を禁止して経由を強制する</li>
+                                                    <li>クラウド型や高機能化したものは、SWG(Secure Web Gateway)とも呼ばれる</li>
+                                                </ul>
                                             </td>
                                             <td>Squid</td>
                                         </tr>
                                         <tr>
                                             <td><strong>リバースプロキシ</strong></td>
                                             <td>
-                                                サーバの代理として外部クライアントからのリクエストを受け付け、内部のWebサーバ等へ中継する<br>
-                                                Webサーバ等の前段(DMZやクラウドの入口)に設置し、<strong>悪意あるクライアント(攻撃者)からサーバを守る</strong><br>
-                                                フォワードプロキシとは通信の向きが逆で、代理する相手・守る対象が「サーバ側」になる
                                                 <ul class="ps-3 mb-2">
-                                                    <li><strong>サーバの隠蔽</strong>: 内部サーバのIPアドレス・構成・ソフトウェアのバージョン等が外部から見えず、直接攻撃されない</li>
-                                                    <li><strong>攻撃の遮断</strong>: WAF機能と組み合わせ、不正なリクエストを内部サーバへ到達させない</li>
-                                                    <li><strong>TLS終端</strong>: 暗号化・復号をプロキシが代行し、サーバの負荷を軽減するとともに、復号後の通信を検査できる</li>
-                                                    <li><strong>負荷分散</strong>: 複数のサーバへ振り分け、可用性を高める</li>
-                                                    <li><strong>キャッシュ</strong>: 静的コンテンツをプロキシが応答し、サーバの負荷を下げる</li>
+                                                    <li>サーバの代理として外部クライアントからのリクエストを受け付け、内部のWebサーバ等へ中継する</li>
+                                                    <li>Webサーバ等の前段(DMZやクラウドの入口)に設置し、<strong>悪意あるクライアント(攻撃者)からサーバを守る</strong></li>
+                                                    <li>フォワードプロキシとは通信の向きが逆で、代理する相手・守る対象が「サーバ側」になる</li>
                                                 </ul>
-                                                CDNのエッジサーバは、リバースプロキシを世界中に分散配置した仕組みといえる
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">サーバの隠蔽</th>
+                                                            <td>内部サーバのIPアドレス・構成・ソフトウェアのバージョン等が外部から見えず、直接攻撃されない</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">攻撃の遮断</th>
+                                                            <td>WAF機能と組み合わせ、不正なリクエストを内部サーバへ到達させない</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">TLS終端</th>
+                                                            <td>暗号化・復号をプロキシが代行し、サーバの負荷を軽減するとともに、復号後の通信を検査できる</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">負荷分散</th>
+                                                            <td>複数のサーバへ振り分け、可用性を高める</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">キャッシュ</th>
+                                                            <td>静的コンテンツをプロキシが応答し、サーバの負荷を下げる</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>CDNのエッジサーバは、リバースプロキシを世界中に分散配置した仕組みといえる</li>
+                                                </ul>
                                             </td>
                                             <td>Nginx、HAProxy等</td>
                                         </tr>
@@ -2107,18 +2470,32 @@
                                                 <strong>メールプロキシ</strong><br>
                                                 <small class="text-muted">SMTPプロキシ</small>
                                             </td>
-                                            <td colspan="2">
-                                                プロキシの考え方をメール(SMTP)通信に応用したもの<br>
-                                                メールサーバの前段に設置し、送受信されるメールの内容検査・フィルタリングや送信元の正当性確認を代理で行う
-                                                <ul class="ps-3 mb-0">
-                                                    <li><strong>受信方向(リバースプロキシ的)</strong>: 外部から届くメールを内部メールサーバの代わりに受け取り、スパム・ウイルス・フィッシングメールを検査・排除してから転送する</li>
-                                                    <li><strong>送信方向(フォワードプロキシ的)</strong>: 社内から外部へ送るメールを検査し、情報漏えい(誤送信・不正な持ち出し)やウイルスの拡散を防ぐ</li>
+                                            <td>
+                                                <ul class="ps-3 mb-2">
+                                                    <li>プロキシの考え方をメール(SMTP)通信に応用したもの</li>
+                                                    <li>メールサーバの前段に設置し、送受信されるメールの内容検査・フィルタリングや送信元の正当性確認を代理で行う</li>
                                                 </ul>
+                                                <table class="table table-sm table-bordered small mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">受信方向(リバースプロキシ的)</th>
+                                                            <td>外部から届くメールを内部メールサーバの代わりに受け取り、スパム・ウイルス・フィッシングメールを検査・排除してから転送する</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">送信方向(フォワードプロキシ的)</th>
+                                                            <td>社内から外部へ送るメールを検査し、情報漏えい(誤送信・不正な持ち出し)やウイルスの拡散を防ぐ</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3">
-                                                <strong>プロキシ・RBI・VDIの比較</strong>
+                                            <td>
+                                                <strong>比較表</strong><br>
+                                                <small class="text-muted">プロキシ・RBI・VDI</small>
+                                            </td>
+                                            <td>
                                                 <table class="table table-sm table-bordered small mb-0">
                                                     <thead class="table-light">
                                                         <tr>
@@ -2168,6 +2545,7 @@
                                                     </tbody>
                                                 </table>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2177,11 +2555,15 @@
                                                 <small class="text-muted">Webフィルタリング</small>
                                             </td>
                                             <td>危険・不要なWebサイトへのアクセスを、URLのレピュテーション情報やカテゴリ分類に基づいて制限する仕組み</td>
-                                            <td colspan="3">
-                                                制限の対象は、業務上不要・危険なカテゴリのWebサイト(悪意あるサイト、危険なダウンロード元、フィッシングサイト等)<br>
-                                                フォワードプロキシ(SWG)やUTM等の機能として実装されることが多い<br>
-                                                ブラックリスト方式・ホワイトリスト方式のどちらでも運用できる(「全層によるセキュリティ」を参照)
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>制限の対象は、業務上不要・危険なカテゴリのWebサイト(悪意あるサイト、危険なダウンロード元、フィッシングサイト等)</li>
+                                                    <li>フォワードプロキシ(SWG)やUTM等の機能として実装されることが多い</li>
+                                                    <li>ブラックリスト方式・ホワイトリスト方式のどちらでも運用できる(「共通の考え方・基盤技術」を参照)</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2191,58 +2573,75 @@
                                                 <small class="text-muted">Remote Browser Isolation</small>
                                             </td>
                                             <td>Webブラウザを利用者の端末ではなく隔離環境で実行し、端末には画面のみを転送することで、Web経由の脅威を遮断する仕組み</td>
-                                            <td colspan="3">
-                                                <strong>Webサイトのスクリプトやコンテンツが端末上で実行されない</strong>ため、ドライブバイダウンロードやゼロデイ攻撃、フィッシングサイト閲覧による被害を抑えられる
-                                                <ol class="ps-3 mb-2">
-                                                    <li>利用者がURLにアクセスすると、クラウド上等の隔離環境のブラウザがそのサイトを読み込む</li>
-                                                    <li>Webコンテンツ(スクリプト等)は隔離環境側で実行される</li>
-                                                    <li>端末には描画結果(画面の映像、または無害化した描画データ)のみが送られる</li>
-                                                    <li>端末でのキーボード・マウス操作は、隔離環境へ送り返される</li>
-                                                </ol>
-                                                URLフィルタリングが「許可/ブロック」の二択であるのに対し、RBIは「許可するが隔離して閲覧させる」ことができる<br>
-                                                未分類サイトやリスクの高いサイトのみRBI経由に振り分ける運用が多い(プロキシ/SWGと連携)<br>
-                                                コピー・貼り付け、ファイルのダウンロード、印刷等はポリシーで制御できる<br>
-                                                課題は、操作の遅延、導入コスト、一部サイトの表示互換性<br>
-                                                デスクトップ全体を隔離するVDI(「クライアント(エンドポイント)のセキュリティ」を参照)に対し、ブラウザだけを隔離する方式
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li><strong>Webサイトのスクリプトやコンテンツが端末上で実行されない</strong>ため、ドライブバイダウンロードやゼロデイ攻撃、フィッシングサイト閲覧による被害を抑えられる
+                                                        <ol class="ps-3 mb-0">
+                                                            <li>利用者がURLにアクセスすると、クラウド上等の隔離環境のブラウザがそのサイトを読み込む</li>
+                                                            <li>Webコンテンツ(スクリプト等)は隔離環境側で実行される</li>
+                                                            <li>端末には描画結果(画面の映像、または無害化した描画データ)のみが送られる</li>
+                                                            <li>端末でのキーボード・マウス操作は、隔離環境へ送り返される</li>
+                                                        </ol>
+                                                    </li>
+                                                    <li>URLフィルタリングが「許可/ブロック」の二択であるのに対し、RBIは「許可するが隔離して閲覧させる」ことができる</li>
+                                                    <li>未分類サイトやリスクの高いサイトのみRBI経由に振り分ける運用が多い(プロキシ/SWGと連携)</li>
+                                                    <li>コピー・貼り付け、ファイルのダウンロード、印刷等はポリシーで制御できる</li>
+                                                    <li>課題は、操作の遅延、導入コスト、一部サイトの表示互換性</li>
+                                                    <li>デスクトップ全体を隔離するVDI(「エンドポイント防御」を参照)に対し、ブラウザだけを隔離する方式</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
                                         <tr>
                                             <td rowspan="3"><strong>迷惑メール対策</strong></td>
                                             <td rowspan="3">
-                                                迷惑メールを判定し、拒否・隔離する方式の総称<br>
-                                                単独ではなく、複数を組み合わせて使われる
+                                                <ul class="ps-3 mb-0">
+                                                    <li>迷惑メールを判定し、拒否・隔離する方式の総称</li>
+                                                    <li>単独ではなく、複数を組み合わせて使われる</li>
+                                                </ul>
                                             </td>
                                             <td>
                                                 <strong>ブラックリスト方式</strong><br>
                                                 <small class="text-muted">メールでの適用例</small>
                                             </td>
-                                            <td colspan="2">
-                                                既知の迷惑メール送信元(IPアドレス・ドメイン等)の一覧と照合し、該当するメールを拒否・隔離する<br>
-                                                DNSBL(RBL)として公開されているリストを利用することもある<br>
-                                                考え方や他の適用例は、「全層によるセキュリティ」のブラックリスト/ホワイトリスト方式を参照
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>既知の迷惑メール送信元(IPアドレス・ドメイン等)の一覧と照合し、該当するメールを拒否・隔離する</li>
+                                                    <li>DNSBL(RBL)として公開されているリストを利用することもある</li>
+                                                    <li>考え方や他の適用例は、「共通の考え方・基盤技術」のブラックリスト/ホワイトリスト方式を参照</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td><strong>ベイジアンフィルタ</strong></td>
-                                            <td colspan="2">
-                                                過去の迷惑メール・正常メールの単語出現傾向を学習し、確率的に迷惑メールかどうかを判定する(ベイズの定理を利用)<br>
-                                                未知の迷惑メールにも対応でき、利用者ごとに学習させることで精度が向上する<br>
-                                                学習データが少ないうちは精度が低く、誤判定も起こりうる
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>過去の迷惑メール・正常メールの単語出現傾向を学習し、確率的に迷惑メールかどうかを判定する(ベイズの定理を利用)</li>
+                                                    <li>未知の迷惑メールにも対応でき、利用者ごとに学習させることで精度が向上する</li>
+                                                    <li>学習データが少ないうちは精度が低く、誤判定も起こりうる</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td><strong>グレーリスティング</strong></td>
-                                            <td colspan="2">
-                                                未知の送信元からの初回メールを一時的に拒否し、再送してくるかどうかで正規のメールサーバかを判別する
-                                                <ol class="ps-3 mb-2">
-                                                    <li>未知の送信元(IPアドレス・送信者・宛先の組)からの初回の配送を、SMTPの一時エラー(4xx)で拒否する</li>
-                                                    <li>正規のメールサーバには再送の仕組みがあるため、一定時間後に再送してくる</li>
-                                                    <li>再送を確認できた送信元を許可リストに登録し、以降のメールを受け付ける</li>
-                                                </ol>
-                                                再送機能を持たない迷惑メール送信プログラムを排除できる一方、初回の配送が遅れる
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>未知の送信元からの初回メールを一時的に拒否し、再送してくるかどうかで正規のメールサーバかを判別する
+                                                        <ol class="ps-3 mb-0">
+                                                            <li>未知の送信元(IPアドレス・送信者・宛先の組)からの初回の配送を、SMTPの一時エラー(4xx)で拒否する</li>
+                                                            <li>正規のメールサーバには再送の仕組みがあるため、一定時間後に再送してくる</li>
+                                                            <li>再送を確認できた送信元を許可リストに登録し、以降のメールを受け付ける</li>
+                                                        </ol>
+                                                    </li>
+                                                    <li>再送機能を持たない迷惑メール送信プログラムを排除できる一方、初回の配送が遅れる</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2252,348 +2651,52 @@
                                                 <small class="text-muted">SPF / DKIM / DMARC</small>
                                             </td>
                                             <td rowspan="3">
-                                                送信元ドメインのなりすましを検知し、正規の送信元からのメールであることを検証する<br>
-                                                なりすましメール(フィッシング等)対策の代表技術で、受信側が検証して結果に応じた処理を行う
+                                                <ul class="ps-3 mb-0">
+                                                    <li>送信元ドメインのなりすましを検知し、正規の送信元からのメールであることを検証する</li>
+                                                    <li>なりすましメール(フィッシング等)対策の代表技術で、受信側が検証して結果に応じた処理を行う</li>
+                                                </ul>
                                             </td>
                                             <td>
                                                 <strong>SPF</strong><br>
                                                 <small class="text-muted">Sender Policy Framework</small>
                                             </td>
-                                            <td colspan="2">送信元ドメインのDNSに登録された正規の送信サーバのIPアドレスと、実際の送信元IPアドレスを照合する</td>
+                                            <td>送信元ドメインのDNSに登録された正規の送信サーバのIPアドレスと、実際の送信元IPアドレスを照合する</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>DKIM</strong><br>
                                                 <small class="text-muted">DomainKeys Identified Mail</small>
                                             </td>
-                                            <td colspan="2">送信側がメールに電子署名を付与し、受信側がDNSで公開された公開鍵で署名を検証する(メールの改ざんも検知できる)</td>
+                                            <td>送信側がメールに電子署名を付与し、受信側がDNSで公開された公開鍵で署名を検証する(メールの改ざんも検知できる)</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>DMARC</strong><br>
                                                 <small class="text-muted">Domain-based Message Authentication,<br>Reporting and Conformance</small>
                                             </td>
-                                            <td colspan="2">SPF/DKIMの検証結果とFromヘッダのドメインとの整合性に基づき、認証失敗時の扱い(何もしない/隔離/拒否)を送信側が宣言する。認証結果のレポートも受け取れる</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td rowspan="3">
-                                                <strong>多要素認証</strong><br>
-                                                <small class="text-muted">MFA</small>
-                                            </td>
-                                            <td rowspan="3">
-                                                次の3種類の認証要素のうち、<strong>異なる種類を2つ以上</strong>組み合わせて認証強度を高める<br>
-                                                パスワードと秘密の質問のように、同じ種類(知識情報)を2つ使っても多要素認証にはならない
-                                            </td>
-                                            <td><strong>知識情報</strong></td>
-                                            <td colspan="2">パスワード・PIN等</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>所持情報</strong></td>
-                                            <td colspan="2">ワンタイムパスワード生成トークン・ICカード・スマートフォン・USBキー(USBトークン)等</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>生体情報</strong></td>
-                                            <td colspan="2">指紋・顔・虹彩等</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
                                             <td>
-                                                <strong>CASB</strong><br>
-                                                <small class="text-muted">Cloud Access Security Broker</small>
-                                            </td>
-                                            <td>クラウドサービスの利用状況を可視化し、セキュリティポリシーを適用・統制する仕組み</td>
-                                            <td colspan="3">
-                                                利用者とクラウドサービスの間に位置し、許可されていないクラウドサービスの利用(シャドーIT)の検出、機密データのアップロード制限、不審な操作の検知等を行う<br>
-                                                自組織が構築したクラウド環境の設定不備を検出するCSPMとは対象が異なる(「全層によるセキュリティ」を参照)
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>SBOM</strong><br>
-                                                <small class="text-muted">Software Bill of Materials</small>
-                                            </td>
-                                            <td>ソフトウェアを構成するオープンソースライブラリ等のコンポーネント名・バージョン・依存関係を一覧化した部品表</td>
-                                            <td colspan="3">
-                                                脆弱性が発覚した際の影響範囲の早期特定や、サプライチェーンリスクの管理に利用される<br>
-                                                代表的なフォーマットにSPDXやCycloneDXがある
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        
-                            <h4 class="pt-4 fw-bold">ネットワーク層によるセキュリティ</h4>
-                            <div class="table-responsive">
-                                <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 14%">
-                                        <col style="width: 18%">
-                                        <col style="width: 12%">
-                                        <col style="width: 44%">
-                                        <col style="width: 12%">
-                                    </colgroup>
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th scope="col">サービス</th>
-                                            <th scope="col">概要</th>
-                                            <th scope="col">種類</th>
-                                            <th scope="col">説明</th>
-                                            <th scope="col">製品例</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td rowspan="4"><strong>ファイアウォール</strong></td>
-                                            <td rowspan="4">
-                                                ネットワークの境界でパケットの送受信を制御し、不正な通信を遮断する基本的な防御機構<br>
-                                                あらかじめ定めたルール(許可/拒否)に基づいて通信を制御する<br>
-                                                ルールの考え方には、原則許可して一部を拒否するブラックリスト方式と、原則拒否して一部のみ許可するホワイトリスト方式がある(「全層によるセキュリティ」を参照)
-                                            </td>
-                                            <td><strong>パケットフィルタリング型</strong></td>
-                                            <td colspan="2">
-                                                パケットのヘッダ情報(送信元/宛先IPアドレス、ポート番号、プロトコル等)のみでルールベースの許可・拒否を判定する、最も基本的な方式<br>
-                                                OSI参照モデルの第3層(ネットワーク層)・第4層(トランスポート層)で動作し、高速だがパケットの中身(ペイロード)は検査しない<br>
-                                                通信ごとの状態は見ないため、戻りパケット用のルールをあらかじめ固定的に開けておく必要がある
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>ダイナミックパケットフィルタリング型</strong></td>
-                                            <td colspan="2">
-                                                通信の往路(要求)を監視し、その戻りパケットのみを動的に許可する等、通信状況に応じてフィルタリングルールを自動生成する<br>
-                                                通信が終了したらそのルールを削除するため、ポートを開けたままにするリスクを減らせる
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>ステートフルパケットフィルタリング型</strong><br>
-                                                <small class="text-muted">ステートフルインスペクションFW</small>
-                                            </td>
-                                            <td colspan="2">
-                                                セッション(コネクション)の状態を管理・追跡し、同一セッションに属する通信のみを許可することで、なりすましや不正な戻りパケットを排除する<br>
-                                                通信の開始から終了までの状態をテーブルで管理し、TCPの接続手順等に沿わない通信を遮断する
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>アプリケーションゲートウェイ型</strong><br>
-                                                <small class="text-muted">プロキシ型FW</small>
-                                            </td>
-                                            <td colspan="2">
-                                                アプリケーション層(OSI第7層)の内容まで解析し、通信を代理(プロキシ)する<br>
-                                                内部と外部の通信を直接つながず、クライアント側とサーバ側で別々のセッションを張って中継するため、厳密な制御ができる<br>
-                                                処理負荷が高く、プロトコルごとに対応するプロキシが必要だが、検査精度が高い<br>
-                                                プロキシの考え方は、「アプリケーションによるセキュリティ」のプロキシサーバを参照
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>UTM</strong><br>
-                                                <small class="text-muted">統合脅威管理</small>
-                                            </td>
-                                            <td>ファイアウォール、IDS/IPS、アンチウイルス、アンチスパム、URLフィルタリング等の複数のセキュリティ機能を1台に統合した製品</td>
-                                            <td colspan="3">
-                                                ネットワークの出入口(ゲートウェイ)に設置し、一括で防御する<br>
-                                                運用・管理の一元化やコスト削減ができる一方、1台に集中するため障害時の影響が大きく(単一障害点)、全機能を有効にすると処理性能が低下しやすい
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td rowspan="6">
-                                                <strong>IDS / IPS</strong><br>
-                                                <small class="text-muted">不正侵入検知システム /<br>不正侵入防止システム</small>
-                                            </td>
-                                            <td rowspan="6">
-                                                ネットワークやホスト上の不正な兆候を検知し、管理者に通知する(IDS)<br>
-                                                IPSは、検知に加えて不正な通信をリアルタイムに遮断する
-                                            </td>
-                                            <td><strong>IDS</strong></td>
-                                            <td>
-                                                ネットワークやホスト上の不正な兆候を検知し、管理者に通知する(通信の遮断はしない)<br>
-                                                監視対象により、ネットワーク型の「NIDS」とホスト型の「HIDS」(「クライアント(エンドポイント)のセキュリティ」を参照)に分けられる
-                                            </td>
-                                            <td>Snort</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>NIDS</strong><br>
-                                                <small class="text-muted">ネットワーク型IDS</small>
-                                            </td>
-                                            <td colspan="2">
-                                                ネットワーク上を流れるパケットを監視し、ネットワークセグメント全体に対する不正アクセスの兆候を検知する<br>
-                                                1台のセンサで複数のホストを監視できる一方、暗号化された通信(HTTPS等)の中身は検査できない
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>IPS</strong></td>
-                                            <td>
-                                                IDSの機能に加え、検知した不正な通信をリアルタイムに遮断する機能を持つ<br>
-                                                設置方法(動作モード)によって、遮断できるかどうかが変わる(下記の2つ)
-                                            </td>
-                                            <td>Snort</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>IPSインラインモード</strong></td>
-                                            <td colspan="2">
-                                                通信経路上に直接設置し、通過するすべての通信を検査した上で転送する<br>
-                                                不正な通信をリアルタイムに遮断できる<br>
-                                                通信経路上にあるため、IPS自体の障害や性能不足が通信全体に影響する(単一障害点)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>IPSプロミスキャスモード</strong><br>
-                                                <small class="text-muted">パッシブモード</small>
-                                            </td>
-                                            <td colspan="2">
-                                                スイッチのミラーポート(SPAN)やタップ等から通信のコピーを受け取って監視する<br>
-                                                通信経路上には存在しないため、不正な通信そのものを遮断することはできず、検知(IDS的な用途)にとどまる<br>
-                                                TCPリセットの送信等で接続の切断を試みる製品もあるが、確実な遮断とはいえない
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3">
-                                                <strong>検知方式(IDS・IPS共通)</strong>
-                                                <table class="table table-sm table-bordered small mb-2">
-                                                    <thead class="table-light">
-                                                        <tr>
-                                                            <th scope="col">方式</th>
-                                                            <th scope="col">判定の基準</th>
-                                                            <th scope="col">長所</th>
-                                                            <th scope="col">短所</th>
-                                                            <th scope="col">誤検知した場合の影響</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th scope="row">シグネチャ型<br>(ミスユース検知)</th>
-                                                            <td>既知の攻撃パターンと照合し、一致したものを不正と判定する(ブラックリスト的)</td>
-                                                            <td>既知の攻撃には確実</td>
-                                                            <td>未知の攻撃には対応できない</td>
-                                                            <td rowspan="2"><strong>IDS・IPSプロミスキャスモード</strong>: 通知が増えるだけで通信は止まらない<br><strong>IPSインラインモード</strong>: 正常な通信まで遮断され、業務への影響が大きい</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">アノマリ型<br>(異常検知)</th>
-                                                            <td>正常時の状態を基準とし、そこから逸脱したものを不正と判定する(ホワイトリスト的)</td>
-                                                            <td>未知の攻撃にも対応できる可能性がある</td>
-                                                            <td>誤検知が起こりやすい</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                                アノマリ型は誤検知が起こりやすいため、基準の調整・学習段階は、通信が止まらないプロミスキャスモード(通知のみ)で運用するのに向く
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>NDR</strong><br>
-                                                <small class="text-muted">Network Detection and Response</small>
-                                            </td>
-                                            <td>ネットワークトラフィックを分析し、異常な通信パターンや侵害の兆候を検知して、対応を支援する仕組み</td>
-                                            <td colspan="3">EDRを導入できない機器(IoT・OT機器、未管理の端末等)の監視や、侵入後の内部での横展開(ラテラルムーブメント)の検知に有効</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>検疫ネットワーク</strong><br>
-                                                <small class="text-muted">検疫ネットワークシステム</small>
-                                            </td>
-                                            <td>社内ネットワークへの接続前に、パターンファイルの更新状況やパッチ適用状況等、端末のセキュリティ状態を検査する専用の隔離ネットワーク</td>
-                                            <td colspan="3">
-                                                基準を満たさない端末は、本番ネットワークへの接続を許可しない
-                                                <ol class="ps-3 mb-0">
-                                                    <li>端末が接続しようとすると、まず検疫用の隔離ネットワークに接続させる</li>
-                                                    <li>OSのパッチやウイルス対策ソフトのパターンファイル等の状態を検査する</li>
-                                                    <li>基準を満たさない端末は、隔離環境で修復(パッチ適用・パターンファイル更新等)する</li>
-                                                    <li>基準を満たしたことを確認してから、本番ネットワークへの接続を許可する</li>
-                                                </ol>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>ZTNA</strong><br>
-                                                <small class="text-muted">ゼロトラストネットワークアクセス</small>
-                                            </td>
-                                            <td>「何も信頼しない」ことを前提に、通信のたびにアクセス主体(ユーザ・デバイス)を検証・認可する仕組み</td>
-                                            <td colspan="3">従来のVPNが接続後に社内ネットワーク全体へアクセスできてしまいがちなのに対し、許可されたアプリケーションにのみ接続させる</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td rowspan="2"><strong>DDoS対策</strong></td>
-                                            <td rowspan="2">大量の通信によるサービス停止攻撃に対する耐性を高める</td>
-                                            <td>
-                                                <strong>DDoS対策サービス</strong><br>
-                                                <small class="text-muted">スクラビングサービス</small>
-                                            </td>
-                                            <td colspan="2">
-                                                大量トラフィックを専用設備(スクラビングセンタ)で吸収・選別し、正常な通信のみをオリジンサーバへ転送する<br>
-                                                DNSの切り替えやBGP経路の広告により、通信をスクラビングセンタへ迂回させる
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <strong>CDN</strong><br>
-                                                <small class="text-muted">コンテンツデリバリネットワーク</small>
-                                            </td>
-                                            <td colspan="2">
-                                                コンテンツを世界各地のエッジサーバに分散配置(キャッシュ)し、利用者に近いサーバから配信する<br>
-                                                負荷分散やDDoS攻撃に対する耐性を高められる<br>
-                                                エッジサーバがリバースプロキシとして応答するため、オリジンサーバを直接公開せずに済む
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td><strong>DNSSEC</strong></td>
-                                            <td>DNS応答に電子署名を付与し、DNSキャッシュポイズニング等の改ざんを検知可能にする仕組み</td>
-                                            <td colspan="3">
-                                                権威DNSサーバが署名し、キャッシュDNSサーバ(フルサービスリゾルバ)が検証する<br>
-                                                応答の真正性・完全性を確認できるが、通信内容の暗号化(秘匿)は行わない
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>ダークネット監視</strong><br>
-                                                <small class="text-muted">観測用センサ</small>
-                                            </td>
-                                            <td>インターネット上で到達可能でありながら、実際には利用されていないIPアドレス空間(観測用の意味での「ダークネット」)にセンサを設置し、そこに届く通信を観測する仕組み</td>
-                                            <td colspan="2">
-                                                正規の通信は本来届かない領域のため、届いた通信は不正な通信である可能性が高く、攻撃の予兆把握に活用される
-                                                <ul class="ps-3 mb-2">
-                                                    <li>ワームやボットによる無差別なスキャン(ランダムスキャン)</li>
-                                                    <li>バックスキャッター: 送信元を詐称したDDoS攻撃の被害ホストが返した応答パケット</li>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>SPF/DKIMの検証結果とFromヘッダのドメインとの整合性に基づき、認証失敗時の扱い(何もしない/隔離/拒否)を送信側が宣言する</li>
+                                                    <li>認証結果のレポートも受け取れる</li>
                                                 </ul>
-                                                ※闇市場としての「ダークウェブ」とは異なる用語
                                             </td>
-                                            <td>NICTER(NICT)等</td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         
-                            <h4 class="pt-4 fw-bold">クライアント(エンドポイント)のセキュリティ</h4>
+                            <h4 class="pt-4 fw-bold">エンドポイント防御</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
                                     <colgroup>
-                                        <col style="width: 14%">
-                                        <col style="width: 18%">
                                         <col style="width: 12%">
-                                        <col style="width: 44%">
+                                        <col style="width: 16%">
                                         <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
                                     </colgroup>
                                     <thead class="table-light">
                                         <tr>
@@ -2608,27 +2711,35 @@
                                         <tr>
                                             <td rowspan="5"><strong>アンチウイルスソフト</strong></td>
                                             <td rowspan="5">
-                                                既知のマルウェアのパターン(シグネチャ)や挙動を検知・駆除するソフトウェア<br>
-                                                検知手法の違いにより、右の方式に分けられる(組み合わせて使われる)
+                                                <ul class="ps-3 mb-0">
+                                                    <li>既知のマルウェアのパターン(シグネチャ)や挙動を検知・駆除するソフトウェア</li>
+                                                    <li>検知手法の違いにより、右の方式に分けられる(組み合わせて使われる)</li>
+                                                </ul>
                                             </td>
                                             <td>
                                                 <strong>パターンマッチング法</strong><br>
                                                 <small class="text-muted">シグネチャ法</small>
                                             </td>
-                                            <td colspan="2">
-                                                既知のマルウェアの特徴的なコードパターン(シグネチャ)をデータベース化し、検査対象と照合して検知する<br>
-                                                既知のマルウェアには有効だが、未知のマルウェア(ゼロデイ攻撃等)には対応できない<br>
-                                                パターンファイルを常に最新に保つ必要がある
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>既知のマルウェアの特徴的なコードパターン(シグネチャ)をデータベース化し、検査対象と照合して検知する</li>
+                                                    <li>既知のマルウェアには有効だが、未知のマルウェア(ゼロデイ攻撃等)には対応できない</li>
+                                                    <li>パターンファイルを常に最新に保つ必要がある</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td><strong>ヒューリスティック法</strong></td>
-                                            <td colspan="2">
-                                                マルウェアに共通する特徴的なコード構造・命令列・動作を経験則(ルール)に基づいて評価し、疑わしさの度合いで悪意の有無を判定する
+                                            <td>
                                                 <ul class="ps-3 mb-2">
-                                                    <li>シグネチャ(パターンファイル)に依存しないため、未知のマルウェアや既存マルウェアの亜種にも対応可能</li>
-                                                    <li>正常なプログラムを誤って不正と判定する「フォールスポジティブ」が起こりやすい</li>
-                                                    <li>検査方法により「静的ヒューリスティック」と「動的ヒューリスティック」に大別される(下表)</li>
+                                                    <li>マルウェアに共通する特徴的なコード構造・命令列・動作を経験則(ルール)に基づいて評価し、疑わしさの度合いで悪意の有無を判定する
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>シグネチャ(パターンファイル)に依存しないため、未知のマルウェアや既存マルウェアの亜種にも対応可能</li>
+                                                            <li>正常なプログラムを誤って不正と判定する「フォールスポジティブ」が起こりやすい</li>
+                                                            <li>検査方法により「静的ヒューリスティック」と「動的ヒューリスティック」に大別される(下表)</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                                 <table class="table table-sm table-bordered small mb-2">
                                                     <thead class="table-light">
@@ -2661,36 +2772,48 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                動的ヒューリスティックは、ビヘイビア法(振る舞い検知)に近い考え方
+                                                <ul class="ps-3 mb-0">
+                                                    <li>動的ヒューリスティックは、ビヘイビア法(振る舞い検知)に近い考え方</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>ビヘイビア法</strong><br>
                                                 <small class="text-muted">振る舞い検知</small>
                                             </td>
-                                            <td colspan="2">
-                                                プログラムを実際に、または模擬環境(サンドボックス)で動作させ、その挙動(不審なファイル操作・通信等)を監視して悪意の有無を判定する<br>
-                                                未知のマルウェアにも対応可能
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>プログラムを実際に、または模擬環境(サンドボックス)で動作させ、その挙動(不審なファイル操作・通信等)を監視して悪意の有無を判定する</li>
+                                                    <li>未知のマルウェアにも対応可能</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td><strong>コンペア法</strong></td>
-                                            <td colspan="2">
-                                                検査対象ファイルを、あらかじめ保管しておいた原本(感染前のクリーンな状態のファイル)と比較し、差異の有無から感染を判定する<br>
-                                                原本を安全に保管・管理する必要があり、正規の更新による変更との区別も必要になる
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>検査対象ファイルを、あらかじめ保管しておいた原本(感染前のクリーンな状態のファイル)と比較し、差異の有無から感染を判定する</li>
+                                                    <li>原本を安全に保管・管理する必要があり、正規の更新による変更との区別も必要になる</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>チェックサム法</strong><br>
                                                 <small class="text-muted">インテグリティチェック法</small>
                                             </td>
-                                            <td colspan="2">
-                                                ファイルのハッシュ値(チェックサム)をあらかじめ算出・保管しておき、定期的に再計算した値と比較することで改ざんや感染の有無を検知する<br>
-                                                原本全体を保管するコンペア法に比べ、保管するデータが小さくて済む<br>
-                                                ハッシュ値自体を攻撃者に書き換えられないよう、安全な場所に保管する必要がある
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ファイルのハッシュ値(チェックサム)をあらかじめ算出・保管しておき、定期的に再計算した値と比較することで改ざんや感染の有無を検知する</li>
+                                                    <li>原本全体を保管するコンペア法に比べ、保管するデータが小さくて済む</li>
+                                                    <li>ハッシュ値自体を攻撃者に書き換えられないよう、安全な場所に保管する必要がある</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2700,10 +2823,14 @@
                                                 <small class="text-muted">Endpoint Detection and Response</small>
                                             </td>
                                             <td>エンドポイント(PC・サーバ)上の挙動を監視し、侵害の検知・調査・封じ込め(端末のネットワーク隔離等)を行う仕組み</td>
-                                            <td colspan="3">
-                                                プロセス・ファイル操作・通信等の挙動を継続的に監視・記録する<br>
-                                                アンチウイルス等の入口対策をすり抜けた脅威への対応(侵入後の対策)に有効
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>プロセス・ファイル操作・通信等の挙動を継続的に監視・記録する</li>
+                                                    <li>アンチウイルス等の入口対策をすり抜けた脅威への対応(侵入後の対策)に有効</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2713,20 +2840,9 @@
                                                 <small class="text-muted">ホスト型IDS</small>
                                             </td>
                                             <td>サーバやPC等、個々のホスト上にエージェントを常駐させ、ログの改ざんやファイルの変更、プロセスの異常等を監視する方式</td>
-                                            <td colspan="3">ホスト内部の変化を直接監視できる一方、監視対象ごとにエージェントの導入・管理が必要</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>DLP</strong><br>
-                                                <small class="text-muted">Data Loss Prevention</small>
-                                            </td>
-                                            <td>機密情報の外部送信・持ち出しを検知・防止する仕組み</td>
-                                            <td colspan="3">
-                                                機密情報のキーワードやデータ形式・ラベル等に基づいて検知し、メール送信・USBメモリへの書き出し・クラウドへのアップロード等を警告・ブロックする<br>
-                                                監視する場所により、エンドポイント型・ネットワーク型(メール/Web)・クラウド型等がある
-                                            </td>
+                                            <td>-</td>
+                                            <td>ホスト内部の変化を直接監視できる一方、監視対象ごとにエージェントの導入・管理が必要</td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2736,31 +2852,17 @@
                                                 <small class="text-muted">USBデバイス制御</small>
                                             </td>
                                             <td>USBメモリ等の外部記憶媒体や周辺機器の接続・利用を、端末上のソフトウェア(エージェント)で制御する仕組み</td>
-                                            <td colspan="3">
-                                                <ul class="ps-3 mb-2">
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
                                                     <li>許可した機器(登録済みのUSBメモリ等)のみ利用を認める(ホワイトリスト方式)</li>
                                                     <li>書き込みのみ禁止(読み取り専用)にする等、操作単位で制限する</li>
                                                     <li>機器の利用ログを記録する</li>
-                                                </ul>
-                                                情報の持ち出しやマルウェアの侵入を防止する<br>
-                                                物理的にポートを塞ぐ方法は、「物理層・その他のセキュリティ」のUSBポートロックを参照
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>PAM</strong><br>
-                                                <small class="text-muted">特権アクセス管理</small>
-                                            </td>
-                                            <td>管理者権限等の特権アカウントの利用を制御・監視・記録する仕組み</td>
-                                            <td colspan="3">
-                                                <ul class="ps-3 mb-0">
-                                                    <li>特権IDの貸出・払い出しとパスワードの管理(必要なときだけ利用させる)</li>
-                                                    <li>承認ワークフローによる利用許可</li>
-                                                    <li>操作ログ・画面操作の記録(証跡の取得)</li>
+                                                    <li>情報の持ち出しやマルウェアの侵入を防止する</li>
+                                                    <li>物理的にポートを塞ぐ方法は、「物理的対策」のUSBポートロックを参照</li>
                                                 </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2770,31 +2872,451 @@
                                                 <small class="text-muted">Virtual Desktop Infrastructure</small>
                                             </td>
                                             <td>サーバ上の仮想マシンにデスクトップ環境を構築し、利用者の端末からは画面転送プロトコルで操作する仕組み(仮想デスクトップ)</td>
-                                            <td colspan="3">
-                                                アプリケーションやデータは端末ではなくサーバ側にあり、端末とはキーボード・マウス操作と画面情報のみをやり取りする
+                                            <td>-</td>
+                                            <td>
                                                 <ul class="ps-3 mb-2">
-                                                    <li><strong>情報漏えい対策</strong>: 端末にデータが残らず、紛失・盗難時の漏えいリスクを下げられる。コピー・貼り付けやファイルの持ち出しもポリシーで制御できる</li>
-                                                    <li><strong>マルウェア対策</strong>: 端末が感染しても、業務データのあるサーバ側へ影響が及びにくい。終了時にクリーンな状態へ戻す「使い捨て」の運用もできる</li>
-                                                    <li><strong>一元管理</strong>: OS・アプリケーション・パッチをサーバ側で一括管理できる</li>
-                                                    <li><strong>インターネット分離</strong>: インターネット接続用のデスクトップを隔離された環境(VDI)で動かし、手元の端末には画面だけを転送する。プロキシ経由のWeb閲覧を隔離環境で行う形になる</li>
+                                                    <li>アプリケーションやデータは端末ではなくサーバ側にあり、端末とはキーボード・マウス操作と画面情報のみをやり取りする</li>
                                                 </ul>
-                                                デスクトップ全体を隔離するのがVDI、ブラウザだけを隔離するのがRBI(「アプリケーションによるセキュリティ」を参照)<br>
-                                                課題は、サーバ・ネットワークの導入・運用コストと、画面転送による操作の遅延
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">情報漏えい対策</th>
+                                                            <td>端末にデータが残らず、紛失・盗難時の漏えいリスクを下げられる<br>コピー・貼り付けやファイルの持ち出しもポリシーで制御できる</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">マルウェア対策</th>
+                                                            <td>端末が感染しても、業務データのあるサーバ側へ影響が及びにくい<br>終了時にクリーンな状態へ戻す「使い捨て」の運用もできる</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">一元管理</th>
+                                                            <td>OS・アプリケーション・パッチをサーバ側で一括管理できる</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">インターネット分離</th>
+                                                            <td>インターネット接続用のデスクトップを隔離された環境(VDI)で動かし、手元の端末には画面だけを転送する<br>プロキシ経由のWeb閲覧を隔離環境で行う形になる</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>デスクトップ全体を隔離するのがVDI、ブラウザだけを隔離するのがRBI(「Web・メール防御」を参照)</li>
+                                                    <li>課題は、サーバ・ネットワークの導入・運用コストと、画面転送による操作の遅延</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2">
+                                                <strong>資産管理</strong><br>
+                                                <small class="text-muted">IT資産管理 / MDM</small>
+                                            </td>
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>組織が保有するPC・サーバ・スマートフォン・ソフトウェア等のIT資産を把握し、構成や状態を管理する取り組み</li>
+                                                    <li>把握できていない資産は守れないため、他のあらゆる対策の前提となる</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>IT資産管理ツール</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>端末のハードウェア構成、OS・ソフトウェアのバージョン、ライセンス情報等をエージェントで自動収集し、台帳(インベントリ)として管理する
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>パッチ未適用の端末や、禁止・不要なソフトウェアのインストールの検出</li>
+                                                            <li>台帳に載っていない未管理端末(シャドーIT)の発見</li>
+                                                            <li>操作ログの取得や、ソフトウェアの配布・インストールの制限</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>MDM</strong><br>
+                                                <small class="text-muted">Mobile Device Management</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>スマートフォン・タブレット等のモバイル端末を遠隔から一元管理する
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>パスコードや端末の暗号化の強制</li>
+                                                            <li>紛失・盗難時のリモートロックやデータ消去(ワイプ)</li>
+                                                            <li>利用できるアプリの制限・配布</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td><strong>パッチ管理</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>OS・ソフトウェアの脆弱性を修正するパッチ(更新プログラム)を、適用状況を把握しながら計画的に配布・適用する運用</li>
+                                                    <li>既知の脆弱性を放置した端末・サーバが攻撃の入口になりやすく、適用の遅れが被害に直結する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                            <td>
+                                                <ol class="ps-3 mb-2">
+                                                    <li>脆弱性情報の収集(ベンダの公開情報、CVE等)と、自組織の資産への該当確認</li>
+                                                    <li>緊急度の評価(悪用の有無、影響度、CVSS等)による優先順位付け</li>
+                                                    <li>検証環境での動作確認(業務アプリケーションへの影響確認)</li>
+                                                    <li>配布・適用(WSUSやIT資産管理ツール等による一括配布)</li>
+                                                    <li>適用状況の確認と、未適用端末のフォロー(検疫ネットワークとの連携)</li>
+                                                </ol>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>すぐに適用できない場合は、IPS・WAFによる仮想パッチや該当機能の無効化等の暫定対策(緩和策)で被害を抑える</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         
-                            <h4 class="pt-4 fw-bold">全層によるセキュリティ</h4>
+                            <h4 class="pt-4 fw-bold">認証強化</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
                                     <colgroup>
-                                        <col style="width: 14%">
-                                        <col style="width: 18%">
                                         <col style="width: 12%">
-                                        <col style="width: 44%">
+                                        <col style="width: 16%">
                                         <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="3">
+                                                <strong>多要素認証</strong><br>
+                                                <small class="text-muted">MFA</small>
+                                            </td>
+                                            <td rowspan="3">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>次の3種類の認証要素のうち、<strong>異なる種類を2つ以上</strong>組み合わせて認証強度を高める</li>
+                                                    <li>パスワードと秘密の質問のように、同じ種類(知識情報)を2つ使っても多要素認証にはならない</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>知識情報</strong></td>
+                                            <td>パスワード・PIN等</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>所持情報</strong></td>
+                                            <td>ワンタイムパスワード生成トークン・ICカード・スマートフォン・USBキー(USBトークン)等</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>生体情報</strong></td>
+                                            <td>指紋・顔・虹彩等</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2"><strong>パスワードレス認証</strong></td>
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>パスワードを使わず、端末内の秘密鍵・生体情報・電子証明書等で認証する方式</li>
+                                                    <li>パスワードの使い回し・漏えい、フィッシングによる窃取、パスワードリスト攻撃といった、パスワード自体に起因するリスクをなくす</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>FIDO2 / パスキー</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>公開鍵暗号を利用した認証</li>
+                                                    <li>端末内で秘密鍵を作成し、サービス側には公開鍵のみを登録する</li>
+                                                    <li>認証時は、サービスからの問い合わせ(チャレンジ)に端末が秘密鍵で署名して応答し、サービス側が公開鍵で検証する
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>秘密鍵や生体情報は端末の外に出ないため、サービス側から漏えいしても悪用されにくい</li>
+                                                            <li>秘密鍵は登録した正規のドメインでのみ使われるため、偽サイト(フィッシング)では認証が成立しない</li>
+                                                            <li>端末のロック解除(生体認証・PIN)と組み合わせることで、「所持情報+生体情報/知識情報」の多要素認証にもなる</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>クライアント証明書認証</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>利用者の端末に配布したデジタル証明書(秘密鍵)で認証する</li>
+                                                    <li>社内システム・VPN・無線LAN(IEEE 802.1X)等で使われる</li>
+                                                    <li>証明書の発行・失効・更新を管理する仕組み(PKI)の運用が必要</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>PAM</strong><br>
+                                                <small class="text-muted">特権アクセス管理</small>
+                                            </td>
+                                            <td>管理者権限等の特権アカウントの利用を制御・監視・記録する仕組み</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>特権IDの貸出・払い出しとパスワードの管理(必要なときだけ利用させる)</li>
+                                                    <li>承認ワークフローによる利用許可</li>
+                                                    <li>操作ログ・画面操作の記録(証跡の取得)</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">データ保護</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>DLP</strong><br>
+                                                <small class="text-muted">Data Loss Prevention</small>
+                                            </td>
+                                            <td>機密情報の外部送信・持ち出しを検知・防止する仕組み</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>機密情報のキーワードやデータ形式・ラベル等に基づいて検知し、メール送信・USBメモリへの書き出し・クラウドへのアップロード等を警告・ブロックする</li>
+                                                    <li>監視する場所により、エンドポイント型・ネットワーク型(メール/Web)・クラウド型等がある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="3"><strong>暗号化</strong></td>
+                                            <td rowspan="3">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>データを第三者が読めない形に変換し、盗難・盗聴・漏えいが起きても内容を読まれないようにする</li>
+                                                    <li>「保管中のデータ」と「通信中のデータ」の両方を対象とし、あわせて暗号鍵を管理する</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <strong>保管データの暗号化</strong><br>
+                                                <small class="text-muted">データ at rest</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ディスク・ファイル・データベース・バックアップ等に保存されたデータを暗号化する</li>
+                                                    <li>端末の紛失・盗難や、サーバからのデータ持ち出しによる情報漏えいに備える</li>
+                                                    <li>ディスク全体を暗号化する方式のほか、ファイル単位・データベース単位(列・表領域)の暗号化がある</li>
+                                                </ul>
+                                            </td>
+                                            <td>BitLocker等</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>通信の暗号化</strong><br>
+                                                <small class="text-muted">データ in transit</small>
+                                            </td>
+                                            <td>
+                                                <ul class="ps-3 mb-2">
+                                                    <li>ネットワーク上を流れるデータを暗号化し、盗聴・改ざんを防ぐ</li>
+                                                </ul>
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">Web</th>
+                                                            <td>TLS(HTTPS)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">リモート接続</th>
+                                                            <td>VPN(IPsec・TLS-VPN)、SSH</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">メール</th>
+                                                            <td>STARTTLS等によるSMTP通信の暗号化</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>暗号化された通信の中身はFWやIDS/IPSでは検査できないため、WAF・プロキシ等で復号(TLS終端)して検査する構成がとられる</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>鍵管理</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>暗号鍵の生成・保管・更新(ローテーション)・失効・廃棄を管理する</li>
+                                                    <li>鍵が漏えいすると暗号化の効果が失われるため、データとは別の場所で厳重に保管する</li>
+                                                    <li>鍵管理サービス(KMS)や、耐タンパ性を持つ専用装置(HSM)が使われる</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="3"><strong>バックアップ</strong></td>
+                                            <td rowspan="3">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>データやシステムの複製を別の場所に保管し、障害・誤操作・ランサムウェア等による被害からの復旧を可能にする</li>
+                                                    <li>取得するだけでなく、確実に復元できることまで確認して初めて有効な対策となる</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>3-2-1ルール</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-2">
+                                                    <li>バックアップ設計の基本的な考え方</li>
+                                                </ul>
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">3</th>
+                                                            <td>データを3つ持つ(原本+バックアップ2つ)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">2</th>
+                                                            <td>2種類以上の異なる媒体に保存する(例: ディスクとテープ・クラウド)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">1</th>
+                                                            <td>1つは遠隔地(オフサイト・クラウド)に保管する</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ランサムウェア対策として、さらに「1つはオフライン/変更不可とし、復元テストでエラーが0であることを確認する」ことを加えた「3-2-1-1-0」という考え方もある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>オフライン・イミュータブル保管</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ネットワークから切り離した保管(オフライン)や、書き換え・削除ができない設定(イミュータブル)により、バックアップ自体の暗号化・削除を防ぐ</li>
+                                                    <li>ネットワークに常時接続したバックアップは、ランサムウェアに原本と一緒に暗号化・削除されるおそれがある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>復元テスト</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>定期的に、実際に復元できることを確認する</li>
+                                                    <li>目標復旧時点(RPO: どの時点まで戻せるか)と目標復旧時間(RTO: いつまでに復旧するか)をあらかじめ定め、バックアップの頻度・方式を決める</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">クラウドセキュリティ</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>CASB</strong><br>
+                                                <small class="text-muted">Cloud Access Security Broker</small>
+                                            </td>
+                                            <td>クラウドサービスの利用状況を可視化し、セキュリティポリシーを適用・統制する仕組み</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>利用者とクラウドサービスの間に位置し、許可されていないクラウドサービスの利用(シャドーIT)の検出、機密データのアップロード制限、不審な操作の検知等を行う</li>
+                                                    <li>自組織が構築したクラウド環境の設定不備を検出するCSPMとは対象が異なる(同じ「クラウドセキュリティ」のCSPMを参照)</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>CSPM</strong><br>
+                                                <small class="text-muted">Cloud Security Posture Management</small>
+                                            </td>
+                                            <td>IaaS/PaaS等のクラウド環境の設定を継続的に監視し、設定不備(ミスコンフィグレーション)を検出・是正する仕組み</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>クラウドでは設定ミスが情報漏えいに直結するため、設定状態を自動でチェックする</li>
+                                                    <li>クラウド事業者との責任共有モデルにおいて、利用者側が責任を負う設定部分が対象となる
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>インターネットに公開されたオブジェクトストレージの検出</li>
+                                                            <li>過剰な権限、不要な公開ポート、暗号化の無効化、ログ未取得等の検出</li>
+                                                            <li>CISベンチマーク等の基準やコンプライアンス要件との照合、リスクの優先順位付け</li>
+                                                            <li>是正手順の提示、自動修復</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>CASBが「利用者によるクラウドサービスの使い方」を統制するのに対し、CSPMは「自組織が構築したクラウド環境の設定状態」を監視する点が異なる</li>
+                                                    <li>ワークロード保護(CWPP)等と統合した「CNAPP」として提供されることも多い</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">検知・分析基盤</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
                                     </colgroup>
                                     <thead class="table-light">
                                         <tr>
@@ -2809,67 +3331,202 @@
                                         <tr>
                                             <td rowspan="3"><strong>SIEM / SOAR / XDR</strong></td>
                                             <td rowspan="3">
-                                                ログや検知情報を集約・分析して脅威を早期に発見し、対応を効率化する仕組み<br>
-                                                SIEMが「見つける」、SOARが「自動で対応する」、XDRが「複数レイヤの情報を束ねる」役割
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ログや検知情報を集約・分析して脅威を早期に発見し、対応を効率化する仕組み</li>
+                                                    <li>SIEMが「見つける」、SOARが「自動で対応する」、XDRが「複数レイヤの情報を束ねる」役割</li>
+                                                </ul>
                                             </td>
                                             <td>
                                                 <strong>SIEM</strong><br>
                                                 <small class="text-muted">Security Information and Event Management</small>
                                             </td>
-                                            <td colspan="2">各種機器・システム(FW・サーバ・認証基盤・クラウド等)のログを収集・正規化し、相関分析することで、インシデントの早期発見を支援する</td>
+                                            <td>各種機器・システム(FW・サーバ・認証基盤・クラウド等)のログを収集・正規化し、相関分析することで、インシデントの早期発見を支援する</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>SOAR</strong><br>
                                                 <small class="text-muted">Security Orchestration, Automation and Response</small>
                                             </td>
-                                            <td colspan="2">
-                                                インシデント対応プロセス(プレイブック)を自動化・オーケストレーションし、対応の迅速化を図る<br>
-                                                SIEM等のアラートを起点に、以下のような対応を自動で実行する
+                                            <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>不審なIPアドレスの遮断</li>
-                                                    <li>侵害が疑われる端末のネットワーク隔離</li>
-                                                    <li>チケットの起票・担当者への通知</li>
+                                                    <li>インシデント対応プロセス(プレイブック)を自動化・オーケストレーションし、対応の迅速化を図る</li>
+                                                    <li>SIEM等のアラートを起点に、以下のような対応を自動で実行する
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>不審なIPアドレスの遮断</li>
+                                                            <li>侵害が疑われる端末のネットワーク隔離</li>
+                                                            <li>チケットの起票・担当者への通知</li>
+                                                        </ul>
+                                                    </li>
                                                 </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>XDR</strong><br>
                                                 <small class="text-muted">Extended Detection and Response</small>
                                             </td>
-                                            <td colspan="2">
-                                                エンドポイント(EDR)に加え、ネットワーク・メール・クラウド・ID等の複数のレイヤの情報を統合・相関分析して脅威を検知・対応する<br>
-                                                個別の製品ごとにバラバラだったアラートを関連付けることで、攻撃の全体像を把握しやすくする
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>エンドポイント(EDR)に加え、ネットワーク・メール・クラウド・ID等の複数のレイヤの情報を統合・相関分析して脅威を検知・対応する</li>
+                                                    <li>個別の製品ごとにバラバラだったアラートを関連付けることで、攻撃の全体像を把握しやすくする</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
                                         <tr>
+                                            <td rowspan="2"><strong>サンドボックス / ハニーポット</strong></td>
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>隔離された環境で、マルウェアの挙動や攻撃者の手口を、本番環境に被害を出さずに観察する</li>
+                                                    <li>どちらも、仮想化サーバ上に構築されることが多い</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>サンドボックス</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>疑わしいファイルやプログラムを、本番環境から隔離された仮想環境で実行し、その挙動を観察して安全性を検証する</li>
+                                                    <li>ファイルシステム・レジストリ・ネットワーク通信等、アクセスできるリソースや利用できる機能を制限しているため、マルウェアが動作しても本番環境に被害が及ばない</li>
+                                                    <li>メールの添付ファイル検査、Web閲覧、エンドポイントなど、様々な製品に組み込まれる</li>
+                                                    <li>ビヘイビア法(振る舞い検知)の実行環境として利用されるが、仮想環境を検知して動作を隠すマルウェアもある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ハニーポット</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>攻撃者を誘引するため、わざと脆弱に見せかけたシステム・機器を設置し、攻撃の手口や痕跡を観察・収集するための「おとり」</li>
+                                                    <li>正規の利用者はアクセスしないため、アクセスがあれば攻撃の可能性が高い</li>
+                                                    <li>踏み台にされないよう、業務システムとは切り離して設置する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>ダークネット監視</strong><br>
+                                                <small class="text-muted">観測用センサ</small>
+                                            </td>
+                                            <td>インターネット上で到達可能でありながら、実際には利用されていないIPアドレス空間(観測用の意味での「ダークネット」)にセンサを設置し、そこに届く通信を観測する仕組み</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>正規の通信は本来届かない領域のため、届いた通信は不正な通信である可能性が高く、攻撃の予兆把握に活用される
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>ワームやボットによる無差別なスキャン(ランダムスキャン)</li>
+                                                            <li>バックスキャッター: 送信元を詐称したDDoS攻撃の被害ホストが返した応答パケット</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>※闇市場としての「ダークウェブ」とは異なる用語</li>
+                                                </ul>
+                                            </td>
+                                            <td>NICTER(NICT)等</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">運用・組織対策</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
                                             <td rowspan="2"><strong>SOC / CSIRT</strong></td>
                                             <td rowspan="2">
-                                                セキュリティの監視やインシデント対応を担う専門組織<br>
-                                                SOCが検知・初動対応、CSIRTが全体の対応(調査・復旧・連絡調整)を担う
+                                                <ul class="ps-3 mb-0">
+                                                    <li>セキュリティの監視やインシデント対応を担う専門組織</li>
+                                                    <li>SOCが検知・初動対応、CSIRTが全体の対応(調査・復旧・連絡調整)を担う</li>
+                                                </ul>
                                             </td>
                                             <td>
                                                 <strong>SOC</strong><br>
                                                 <small class="text-muted">Security Operation Center</small>
                                             </td>
-                                            <td colspan="2">
-                                                組織のセキュリティ状況を24時間365日監視し、インシデントの検知・分析・初動対応を行う<br>
-                                                SIEM等を用いて監視する<br>
-                                                自組織内に設置する場合と、外部に委託する場合がある
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>組織のセキュリティ状況を24時間365日監視し、インシデントの検知・分析・初動対応を行う</li>
+                                                    <li>SIEM等を用いて監視する</li>
+                                                    <li>自組織内に設置する場合と、外部に委託する場合がある</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>CSIRT</strong><br>
                                                 <small class="text-muted">Computer Security Incident Response Team</small>
                                             </td>
-                                            <td colspan="2">
-                                                セキュリティインシデント発生時の対応・調査・復旧を専門に行う組織内チーム<br>
-                                                平時は対策の企画・教育・情報収集を行い、有事は対応の指揮や社内外との連絡調整を担う
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>セキュリティインシデント発生時の対応・調査・復旧を専門に行う組織内チーム</li>
+                                                    <li>平時は対策の企画・教育・情報収集を行い、有事は対応の指揮や社内外との連絡調整を担う</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2">
+                                                <strong>インシデント対応計画</strong><br>
+                                                <small class="text-muted">インシデントレスポンス計画</small>
+                                            </td>
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>セキュリティインシデントの発生時に、誰が・何を・どの順番で行うかをあらかじめ定めた計画・手順</li>
+                                                    <li>事前に決めておくことで、混乱の中でも初動の遅れや判断ミスを減らし、被害の拡大を抑える</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>計画・手順書</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>インシデント対応は、一般に次の流れで進める
+                                                        <ol class="ps-3 mb-0">
+                                                            <li>準備(体制・連絡網・手順の整備)</li>
+                                                            <li>検知・分析(影響範囲・重大度の判断)</li>
+                                                            <li>封じ込め・根絶・復旧(端末の隔離、マルウェアの除去、システムの復旧)</li>
+                                                            <li>事後対応(原因分析・再発防止・報告)</li>
+                                                        </ol>
+                                                    </li>
+                                                    <li>あわせて、重大度の判断基準、経営層・顧客・関係機関(監督官庁・警察等)への報告基準と連絡先、証拠保全の手順を定めておく</li>
+                                                    <li>CSIRT・SOCが活動する際の拠り所となる</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>訓練・演習</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>計画が実際に機能するかを確かめ、改善するために行う</li>
+                                                    <li>シナリオに沿って対応を議論する机上演習や、実機を用いた実践的な演習がある</li>
+                                                    <li>演習の結果を、計画・手順書の見直しに反映する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2877,22 +3534,27 @@
                                             <td rowspan="2"><strong>脅威インテリジェンス</strong></td>
                                             <td rowspan="2">最新の攻撃手法・攻撃者情報・侵害指標等を収集・提供し、防御に活用する</td>
                                             <td><strong>脅威インテリジェンスサービス</strong></td>
-                                            <td colspan="2">最新の攻撃手法・攻撃者情報・IoC(侵害指標)等を収集・提供し、防御に活用するサービス</td>
+                                            <td>最新の攻撃手法・攻撃者情報・IoC(侵害指標)等を収集・提供し、防御に活用するサービス</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>IoC</strong><br>
                                                 <small class="text-muted">Indicator of Compromise / 侵害指標</small>
                                             </td>
-                                            <td colspan="2">
-                                                システムがマルウェア感染や不正アクセス等の侵害を受けたことを示す痕跡情報
-                                                <ul class="ps-3 mb-2">
-                                                    <li>不審な通信先のIPアドレス・ドメイン</li>
-                                                    <li>ファイルのハッシュ値</li>
-                                                    <li>レジストリの変更 等</li>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>システムがマルウェア感染や不正アクセス等の侵害を受けたことを示す痕跡情報
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>不審な通信先のIPアドレス・ドメイン</li>
+                                                            <li>ファイルのハッシュ値</li>
+                                                            <li>レジストリの変更 等</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>脅威インテリジェンスサービス等で収集・共有され、SIEMやEDRでの照合を通じて、侵害の早期検知や対応に活用される</li>
                                                 </ul>
-                                                脅威インテリジェンスサービス等で収集・共有され、SIEMやEDRでの照合を通じて、侵害の早期検知や対応に活用される
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -2900,43 +3562,398 @@
                                             <td rowspan="2"><strong>セキュリティ診断</strong></td>
                                             <td rowspan="2">システムの弱点を能動的に検証し、リスクを可視化するサービス</td>
                                             <td><strong>脆弱性診断サービス</strong></td>
-                                            <td colspan="2">
-                                                システムやアプリケーションの脆弱性(設定不備・未適用パッチ・実装上の欠陥等)を網羅的に検査し、リスクを可視化する<br>
-                                                対象により、プラットフォーム診断(OS・ミドルウェア・ネットワーク機器)やWebアプリケーション診断等に分かれる
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>システムやアプリケーションの脆弱性(設定不備・未適用パッチ・実装上の欠陥等)を網羅的に検査し、リスクを可視化する</li>
+                                                    <li>対象により、プラットフォーム診断(OS・ミドルウェア・ネットワーク機器)やWebアプリケーション診断等に分かれる</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td><strong>ペネトレーションテスト</strong></td>
-                                            <td colspan="2">
-                                                実際の攻撃者の視点でシステムへの侵入を試み、セキュリティ上の弱点を実証的に検証する<br>
-                                                脆弱性診断が「脆弱性を網羅的に洗い出す」ことを目的とするのに対し、ペネトレーションテストは、シナリオに沿って「実際に侵入・目的達成(情報の窃取等)ができるか」を検証する
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>実際の攻撃者の視点でシステムへの侵入を試み、セキュリティ上の弱点を実証的に検証する</li>
+                                                    <li>脆弱性診断が「脆弱性を網羅的に洗い出す」ことを目的とするのに対し、ペネトレーションテストは、シナリオに沿って「実際に侵入・目的達成(情報の窃取等)ができるか」を検証する</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
                                         <tr>
-                                            <td rowspan="2"><strong>サンドボックス / ハニーポット</strong></td>
                                             <td rowspan="2">
-                                                隔離された環境で、マルウェアの挙動や攻撃者の手口を、本番環境に被害を出さずに観察する<br>
-                                                どちらも、仮想化サーバ上に構築されることが多い
+                                                <strong>セキュリティ教育</strong><br>
+                                                <small class="text-muted">教育・訓練</small>
                                             </td>
-                                            <td><strong>サンドボックス</strong></td>
-                                            <td colspan="2">
-                                                疑わしいファイルやプログラムを、本番環境から隔離された仮想環境で実行し、その挙動を観察して安全性を検証する<br>
-                                                ファイルシステム・レジストリ・ネットワーク通信等、アクセスできるリソースや利用できる機能を制限しているため、マルウェアが動作しても本番環境に被害が及ばない<br>
-                                                メールの添付ファイル検査、Web閲覧、エンドポイントなど、様々な製品に組み込まれる<br>
-                                                ビヘイビア法(振る舞い検知)の実行環境として利用されるが、仮想環境を検知して動作を隠すマルウェアもある
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>利用者の知識と意識を高め、人の操作ミスやだましの手口を起点とする被害(標的型攻撃メールの開封・誤送信・不正な持ち出し等)を減らす</li>
+                                                    <li>技術的対策をすり抜けた攻撃への最後の砦が「人」になるため、全従業員を対象に継続して実施する</li>
+                                                </ul>
                                             </td>
+                                            <td><strong>研修・eラーニング</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>入社時や定期的に、全従業員向けの基礎教育を行う</li>
+                                                    <li>経営層・管理者・開発者・システム管理者等、役割に応じた内容の教育も実施する</li>
+                                                    <li>セキュリティポリシーの内容や、インシデント発生時の報告方法を周知する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>ハニーポット</strong></td>
-                                            <td colspan="2">
-                                                攻撃者を誘引するため、わざと脆弱に見せかけたシステム・機器を設置し、攻撃の手口や痕跡を観察・収集するための「おとり」<br>
-                                                正規の利用者はアクセスしないため、アクセスがあれば攻撃の可能性が高い<br>
-                                                踏み台にされないよう、業務システムとは切り離して設置する
+                                            <td><strong>標的型攻撃メール訓練</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>模擬の標的型攻撃メール・フィッシングメールを従業員に送信し、開封・リンクのクリック・添付ファイルの実行を体験させる</li>
+                                                    <li>不審なメールを受け取った際の報告のしかたを身に付けさせる</li>
+                                                    <li>開封率だけでなく、報告率も指標にする</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2">
+                                                <strong>運用ルール</strong><br>
+                                                <small class="text-muted">離席時の対策</small>
+                                            </td>
+                                            <td rowspan="2">利用者の運用ルールにより、盗み見・不正操作・持ち出しを防ぐ</td>
+                                            <td><strong>クリアデスク</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>離席時や退勤時に机上へ書類・記録媒体を放置しないようにする</li>
+                                                    <li>盗み見や持ち出しを防止する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>クリアスクリーン</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>離席時に画面をロックし、他者による覗き見や不正操作を防止する</li>
+                                                    <li>一定時間操作がない場合の自動ロックや、のぞき見防止フィルタ等と併用される</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">ガバナンス</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="3">
+                                                <strong>セキュリティポリシー</strong><br>
+                                                <small class="text-muted">情報セキュリティポリシー</small>
+                                            </td>
+                                            <td rowspan="3">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>組織としての情報セキュリティに対する方針・ルールを文書化したもの</li>
+                                                    <li>個々の対策や運用ルールの根拠となり、全従業員が守るべき基準を示す</li>
+                                                    <li>「方針→基準→手順」の階層で構成し、全従業員への周知と、定期的な見直し(PDCA)・遵守状況の確認が必要</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>基本方針</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>経営層が示す、情報セキュリティに取り組む姿勢・目的・適用範囲・責任体制を定めた文書</li>
+                                                    <li>組織の内外に向けて宣言する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>対策基準</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>基本方針を実現するために、遵守すべき事項(対策の基準)を定める</li>
+                                                    <li>例: アクセス制御、パスワード、端末の持ち出し、委託先管理に関する基準</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>実施手順</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>対策基準に基づく、具体的な作業手順・マニュアルを定める</li>
+                                                    <li>例: アカウント発行の手順、インシデント発生時の連絡手順</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2">
+                                                <strong>ISMS</strong><br>
+                                                <small class="text-muted">Information Security Management System</small>
+                                            </td>
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>組織が情報セキュリティを継続的に管理・改善するための仕組み(体制・ルール・運用の枠組み)</li>
+                                                    <li>国際規格ISO/IEC 27001(国内ではJIS Q 27001)に基づく認証制度もある</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>ISMS(ISO/IEC 27001)</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>リスクアセスメントの結果に基づいて管理策を選び、運用・監視・見直し・改善を繰り返すPDCAサイクルを回す
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>管理策は、組織的・人的・物理的・技術的の4つのテーマに分類される(ISO/IEC 27001:2022 附属書A)</li>
+                                                            <li>第三者の認証機関による審査を受け、規格への適合を認証してもらう(認証取得)</li>
+                                                            <li>認証の取得は、取引先や顧客へのセキュリティ水準の説明にも使える</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>内部監査・マネジメントレビュー</strong></td>
+                                            <td>
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">内部監査</th>
+                                                            <td>ISMSが規格や自組織のルール通りに運用されているかを確認する</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">マネジメントレビュー</th>
+                                                            <td>経営層がISMSの運用状況を評価し、見直し・改善を指示する</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>不適合が見つかった場合は、是正処置を行う</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2"><strong>リスクアセスメント</strong></td>
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>守るべき情報資産に対する脅威と脆弱性を洗い出し、リスクの大きさを評価して、対策の優先順位を決める活動</li>
+                                                    <li>限られた予算・人員で対策するため、リスクに応じた優先順位付けが必要になる</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>リスクアセスメント</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>リスク特定・リスク分析・リスク評価の総称
+                                                        <ol class="ps-3 mb-0">
+                                                            <li>情報資産の洗い出しと、価値・重要度の評価</li>
+                                                            <li>脅威・脆弱性の特定</li>
+                                                            <li>リスクの算定(影響度と発生可能性の組み合わせ)</li>
+                                                            <li>あらかじめ定めた受容基準との比較(評価)</li>
+                                                        </ol>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>リスク対応</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-2">
+                                                    <li>評価の結果、受容できないリスクに対して、次のいずれかを選ぶ</li>
+                                                </ul>
+                                                <table class="table table-sm table-bordered small mb-2">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">低減</th>
+                                                            <td>対策を実施して、発生可能性や影響を減らす</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">回避</th>
+                                                            <td>リスクの原因となる業務・システムをやめる</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">移転(共有)</th>
+                                                            <td>保険への加入や外部委託により、リスクを他者と分担する</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row" class="w-25">保有(受容)</th>
+                                                            <td>影響が小さい等の理由で、対策せずに受け入れる</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>対策後に残るリスク(残留リスク)は、経営層が承認する</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="2">
+                                                <strong>委託先管理</strong><br>
+                                                <small class="text-muted">サプライチェーン管理</small>
+                                            </td>
+                                            <td rowspan="2">
+                                                <ul class="ps-3 mb-0">
+                                                    <li>業務・システムの開発や運用を外部へ委託する際に、委託先(開発ベンダ・クラウド事業者等)のセキュリティ水準を確認・管理する取り組み</li>
+                                                    <li>委託先の対策不備や、委託先を経由した攻撃(サプライチェーン攻撃)が、自組織の被害につながるため</li>
+                                                </ul>
+                                            </td>
+                                            <td><strong>選定・契約</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>委託先の選定時に、セキュリティ体制・対策状況を確認する(チェックシート、ISMS等の認証の有無、第三者評価の結果等)</li>
+                                                    <li>契約書に、守るべきセキュリティ要件を明記する
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>秘密保持、再委託の制限・承認</li>
+                                                            <li>インシデント発生時の報告義務</li>
+                                                            <li>監査の受け入れ(監査権)</li>
+                                                            <li>契約終了時のデータの返却・消去</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>継続的な監督</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>契約後も、定期的な報告・監査・チェックシートの再確認等で、対策が維持されていることを確認する</li>
+                                                    <li>委託先に渡す情報・付与する権限は、必要最小限にする</li>
+                                                    <li>クラウドサービスでは、責任共有モデルに基づき、事業者側と利用者側の責任範囲を確認する</li>
+                                                    <li>ソフトウェアの委託・調達では、SBOMの提出を求めることもある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td>
+                                                <strong>SBOM</strong><br>
+                                                <small class="text-muted">Software Bill of Materials</small>
+                                            </td>
+                                            <td>ソフトウェアを構成するオープンソースライブラリ等のコンポーネント名・バージョン・依存関係を一覧化した部品表</td>
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>脆弱性が発覚した際の影響範囲の早期特定や、サプライチェーンリスクの管理に利用される</li>
+                                                    <li>代表的なフォーマットにSPDXやCycloneDXがある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">物理的対策</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <tr>
+                                            <td rowspan="3"><strong>物理的対策</strong></td>
+                                            <td rowspan="3">設備・入退室・機器の物理的な管理による対策</td>
+                                            <td><strong>監視カメラ</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>執務エリアやサーバルーム等にカメラを設置し、不正な操作や情報の持ち出しを記録・抑止する</li>
+                                                    <li>映像が証跡になるほか、「見られている」ことによる抑止効果もある</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>USBポートロック</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>USBポートを物理的に塞ぐ(ポートロック用のキャップや金具等)ことで、許可されていない外部記憶媒体の接続を防ぎ、情報の持ち出しやマルウェアの侵入を防止する</li>
+                                                    <li>端末のソフトウェアで制御する方法は、「エンドポイント防御」のデバイス制御を参照</li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ピギーバック(共連れ)対策</strong></td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>認証済みの正規利用者に付いて、未認証の者が入退室してしまう「ピギーバック」を防ぐ(テールゲーティングとほぼ同義で用いられる)
+                                                        <ul class="ps-3 mb-0">
+                                                            <li>1人ずつ入退室する運用の徹底(1人1認証)</li>
+                                                            <li>アンチパスバック機構: 入退室の履歴を管理し、入室記録のないカードによる退室や、退室記録のないカードによる再入室を拒否する</li>
+                                                            <li>1人ずつしか通れないセキュリティゲートの設置</li>
+                                                            <li>警備員による目視確認、監視カメラによる記録</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        
+                            <h4 class="pt-4 fw-bold">共通の考え方・基盤技術</h4>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <colgroup>
+                                        <col style="width: 12%">
+                                        <col style="width: 16%">
+                                        <col style="width: 12%">
+                                        <col style="width: 50%">
+                                        <col style="width: 10%">
+                                    </colgroup>
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">サービス</th>
+                                            <th scope="col">概要</th>
+                                            <th scope="col">種類</th>
+                                            <th scope="col">説明</th>
+                                            <th scope="col">製品例</th>
+                                        </tr>
+                                    </thead>
                                     <tbody class="table-group-divider">
                                         <tr>
                                             <td>
@@ -2944,11 +3961,14 @@
                                                 <small class="text-muted">近年は「ブロックリスト / 許可リスト」とも呼ばれる</small>
                                             </td>
                                             <td>
-                                                通信・実行・アクセスの可否を、一覧(リスト)との照合で判定する考え方<br>
-                                                メールに限らず、FW・URLフィルタリング・アプリケーション制御・WAF・デバイス制御等、様々な対策で使われる
+                                                <ul class="ps-3 mb-0">
+                                                    <li>通信・実行・アクセスの可否を、一覧(リスト)との照合で判定する考え方</li>
+                                                    <li>メールに限らず、FW・URLフィルタリング・アプリケーション制御・WAF・デバイス制御等、様々な対策で使われる</li>
+                                                </ul>
                                             </td>
-                                            <td colspan="3">
-                                                <strong>基本的な違い</strong>
+                                            <td>-</td>
+                                            <td>
+                                                <strong class="d-block mb-1">基本的な違い</strong>
                                                 <table class="table table-sm table-bordered small mb-2">
                                                     <thead class="table-light">
                                                         <tr>
@@ -2985,7 +4005,7 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <strong>主な適用例</strong>
+                                                <strong class="d-block mb-1">主な適用例</strong>
                                                 <table class="table table-sm table-bordered small mb-0">
                                                     <thead class="table-light">
                                                         <tr>
@@ -3033,156 +4053,61 @@
                                                     </tbody>
                                                 </table>
                                             </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td>
-                                                <strong>CSPM</strong><br>
-                                                <small class="text-muted">Cloud Security Posture Management</small>
-                                            </td>
-                                            <td>IaaS/PaaS等のクラウド環境の設定を継続的に監視し、設定不備(ミスコンフィグレーション)を検出・是正する仕組み</td>
-                                            <td colspan="3">
-                                                クラウドでは設定ミスが情報漏えいに直結するため、設定状態を自動でチェックする<br>
-                                                クラウド事業者との責任共有モデルにおいて、利用者側が責任を負う設定部分が対象となる
-                                                <ul class="ps-3 mb-2">
-                                                    <li>インターネットに公開されたオブジェクトストレージの検出</li>
-                                                    <li>過剰な権限、不要な公開ポート、暗号化の無効化、ログ未取得等の検出</li>
-                                                    <li>CISベンチマーク等の基準やコンプライアンス要件との照合、リスクの優先順位付け</li>
-                                                    <li>是正手順の提示、自動修復</li>
-                                                </ul>
-                                                CASBが「利用者によるクラウドサービスの使い方」を統制するのに対し、CSPMは「自組織が構築したクラウド環境の設定状態」を監視する点が異なる<br>
-                                                ワークロード保護(CWPP)等と統合した「CNAPP」として提供されることも多い
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        
-                            <h4 class="pt-4 fw-bold">物理層・その他のセキュリティ</h4>
-                            <div class="table-responsive">
-                                <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 14%">
-                                        <col style="width: 18%">
-                                        <col style="width: 12%">
-                                        <col style="width: 44%">
-                                        <col style="width: 12%">
-                                    </colgroup>
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th scope="col">サービス</th>
-                                            <th scope="col">概要</th>
-                                            <th scope="col">種類</th>
-                                            <th scope="col">説明</th>
-                                            <th scope="col">製品例</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td rowspan="3"><strong>物理的対策</strong></td>
-                                            <td rowspan="3">設備・入退室・機器の物理的な管理による対策</td>
-                                            <td><strong>監視カメラ</strong></td>
-                                            <td colspan="2">
-                                                執務エリアやサーバルーム等にカメラを設置し、不正な操作や情報の持ち出しを記録・抑止する<br>
-                                                映像が証跡になるほか、「見られている」ことによる抑止効果もある
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>USBポートロック</strong></td>
-                                            <td colspan="2">
-                                                USBポートを物理的に塞ぐ(ポートロック用のキャップや金具等)ことで、許可されていない外部記憶媒体の接続を防ぎ、情報の持ち出しやマルウェアの侵入を防止する<br>
-                                                端末のソフトウェアで制御する方法は、「クライアント(エンドポイント)のセキュリティ」のデバイス制御を参照
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>ピギーバック(共連れ)対策</strong></td>
-                                            <td colspan="2">
-                                                認証済みの正規利用者に付いて、未認証の者が入退室してしまう「ピギーバック」を防ぐ(テールゲーティングとほぼ同義で用いられる)
-                                                <ul class="ps-3 mb-0">
-                                                    <li>1人ずつ入退室する運用の徹底(1人1認証)</li>
-                                                    <li>アンチパスバック機構: 入退室の履歴を管理し、入室記録のないカードによる退室や、退室記録のないカードによる再入室を拒否する</li>
-                                                    <li>1人ずつしか通れないセキュリティゲートの設置</li>
-                                                    <li>警備員による目視確認、監視カメラによる記録</li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="table-group-divider">
-                                        <tr>
-                                            <td rowspan="2">
-                                                <strong>運用ルール</strong><br>
-                                                <small class="text-muted">離席時の対策</small>
-                                            </td>
-                                            <td rowspan="2">利用者の運用ルールにより、盗み見・不正操作・持ち出しを防ぐ</td>
-                                            <td><strong>クリアデスク</strong></td>
-                                            <td colspan="2">
-                                                離席時や退勤時に机上へ書類・記録媒体を放置しないようにする<br>
-                                                盗み見や持ち出しを防止する
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>クリアスクリーン</strong></td>
-                                            <td colspan="2">
-                                                離席時に画面をロックし、他者による覗き見や不正操作を防止する<br>
-                                                一定時間操作がない場合の自動ロックや、のぞき見防止フィルタ等と併用される
-                                            </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
                                         <tr>
                                             <td rowspan="2"><strong>誤検知・検知漏れ</strong></td>
                                             <td rowspan="2">
-                                                検知システムの判定誤りを表す用語<br>
-                                                トレードオフの関係にあり、検知を厳しくすると誤検知が増え、緩くすると検知漏れが増える
+                                                <ul class="ps-3 mb-0">
+                                                    <li>検知システムの判定誤りを表す用語</li>
+                                                    <li>トレードオフの関係にあり、検知を厳しくすると誤検知が増え、緩くすると検知漏れが増える</li>
+                                                </ul>
                                             </td>
                                             <td>
                                                 <strong>フォールスポジティブ</strong><br>
                                                 <small class="text-muted">誤検知・過検知</small>
                                             </td>
-                                            <td colspan="2">
-                                                正常な通信・行為を誤って不正と判定してしまうこと<br>
-                                                業務への影響(正常な通信の遮断)や、アラート対応による運用負荷の増大を招く
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>正常な通信・行為を誤って不正と判定してしまうこと</li>
+                                                    <li>業務への影響(正常な通信の遮断)や、アラート対応による運用負荷の増大を招く</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <strong>フォールスネガティブ</strong><br>
                                                 <small class="text-muted">検知漏れ</small>
                                             </td>
-                                            <td colspan="2">
-                                                実際には不正な通信・行為であるにもかかわらず、正常と判定して見逃してしまうこと<br>
-                                                被害の直接的な原因となりうる
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>実際には不正な通信・行為であるにもかかわらず、正常と判定して見逃してしまうこと</li>
+                                                    <li>被害の直接的な原因となりうる</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
                                         <tr>
                                             <td><strong>仮想化サーバ</strong></td>
                                             <td>1台の物理サーバ上に複数の仮想マシンを構築する技術</td>
-                                            <td colspan="3">
-                                                ハニーポットやサンドボックスの実行基盤、VDIの基盤、検証環境の迅速な構築・破棄等に活用される<br>
-                                                ハイパーバイザの脆弱性や設定不備が、その上で動くすべての仮想マシンに影響する点に注意が必要
+                                            <td>-</td>
+                                            <td>
+                                                <ul class="ps-3 mb-0">
+                                                    <li>ハニーポットやサンドボックスの実行基盤、VDIの基盤、検証環境の迅速な構築・破棄等に活用される</li>
+                                                    <li>ハイパーバイザの脆弱性や設定不備が、その上で動くすべての仮想マシンに影響する点に注意が必要</li>
+                                                </ul>
                                             </td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
 
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                基本的な対策
-                            </h3>
-                            <div id="md-basic-policy">
-| 対策カテゴリ | 代表例 |
-|---|---|
-| ネットワーク防御 | <ul><li>ファイアウォール</li><li>IDS/IPS</li><li>WAF</li><li>UTM</li><li>NDR</li></ul> |
-| エンドポイント防御 | <ul><li>アンチウイルス</li><li>EDR/XDR</li><li>資産管理</li><li>パッチ管理</li></ul> |
-| 認証強化 | <ul><li>多要素認証(MFA)</li><li>パスワードレス認証</li><li>特権アクセス管理(PAM)</li></ul> |
-| データ保護 | <ul><li>暗号化</li><li>DLP</li><li>バックアップ(3-2-1ルール)</li></ul> |
-| 運用・組織対策 | <ul><li>SOC/CSIRT</li><li>脆弱性診断</li><li>インシデント対応計画</li><li>セキュリティ教育</li><li>脅威インテリジェンス</li></ul> |
-| ガバナンス | <ul><li>ISMS(ISO/IEC 27001)</li><li>リスクアセスメント</li><li>委託先管理</li><li>SBOM管理</li></ul> |
-
-                            </div>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 サイバー攻撃一覧
                             </h3>
@@ -3432,9 +4357,6 @@
                                         <a href="#sec-service">セキュリティサービス・製品の説明</a>
                                     </li>
                                     <li>
-                                        <a href="#md-basic-policy">基本的な対策</a>
-                                    </li>
-                                    <li>
                                         <a href="#md-cyber-attack">サイバー攻撃一覧</a>
                                     </li>
                                     <li>
@@ -3481,7 +4403,6 @@
                 "md-tls",
                 "md-attacker", 
                 "md-weakness-check", 
-                "md-basic-policy", 
                 "md-cyber-attack", 
                 "md-copy-protect", 
             ];
