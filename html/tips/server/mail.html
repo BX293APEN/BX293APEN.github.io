@@ -1010,6 +1010,169 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             </td>
                                         </tr>
                                     
+                                        <!-- ## ユーザー認証(ログイン認証) -->
+                                        <tr class="table-secondary">
+                                            <th colspan="6" scope="colgroup">ユーザー認証(ログイン認証)</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">PLAIN / LOGIN</th>
+                                            <td>SASL PLAIN / LOGIN</td>
+                                            <td>RFC 4616<br>RFC 4954<br>RFC 3501</td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>証明書・鍵は不要</li>
+                                                    <li>ユーザー名+パスワード</li>
+                                                    <li>サーバー側のアカウントDBで管理</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>TLSで通信路を暗号化(必須)</li>
+                                                    <li>クライアントがユーザー名とパスワードをそのまま(Base64符号化のみ)送信</li>
+                                                    <li>サーバーがアカウントDBと照合</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>最も一般的な認証方式</li>
+                                                    <li>Base64は暗号化ではないため、TLSなしでは盗聴で漏洩する</li>
+                                                    <li>POP3のUSER/PASS、IMAPのLOGINコマンドも同等</li>
+                                                    <li>サーバー側はパスワードをハッシュ化して保存可能</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">APOP</th>
+                                            <td>Authenticated Post Office Protocol</td>
+                                            <td>RFC 1939</td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>証明書・鍵は不要</li>
+                                                    <li>ユーザー名+パスワード</li>
+                                                    <li>サーバー側に平文(または復元可能な形)のパスワードが必要</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>サーバーが接続時にチャレンジ文字列(タイムスタンプ付き)を送信</li>
+                                                    <li>クライアントが「チャレンジ+パスワード」のMD5ダイジェストを計算して送信</li>
+                                                    <li>サーバーが同じ計算を行い、一致すれば認証成功</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>POP3専用のチャレンジレスポンス認証</li>
+                                                    <li>パスワード自体は流れないが、MD5の脆弱性により衝突攻撃でパスワード回復が可能と報告されている</li>
+                                                    <li>TLSの普及により現在は非推奨</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">CRAM-MD5</th>
+                                            <td>Challenge-Response Authentication Mechanism (MD5)</td>
+                                            <td>RFC 2195</td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>証明書・鍵は不要</li>
+                                                    <li>ユーザー名+パスワード</li>
+                                                    <li>サーバー側に平文(または復元可能な形)のパスワードが必要</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>サーバーがチャレンジ文字列を送信</li>
+                                                    <li>クライアントがパスワードを鍵にHMAC-MD5を計算して送信</li>
+                                                    <li>サーバーが同じ計算を行い、一致すれば認証成功</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>SMTP AUTH・POP3・IMAPのSASL機構として利用</li>
+                                                    <li>パスワードは流れないが、辞書攻撃への耐性が弱く、サーバー側の保存方式にも制約がある</li>
+                                                    <li>現在は非推奨(RFC 8314等はTLS上の認証を前提とする)</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">SCRAM</th>
+                                            <td>Salted Challenge Response Authentication Mechanism</td>
+                                            <td>RFC 5802<br>RFC 7677</td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>証明書・鍵は不要</li>
+                                                    <li>ユーザー名+パスワード</li>
+                                                    <li>サーバー側にはソルト付きハッシュ(検証用の値)のみ保存</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>クライアントとサーバーがnonceを交換</li>
+                                                    <li>クライアントがパスワードから導出した鍵でHMACによる証明を送信</li>
+                                                    <li>サーバーが検証し、サーバー自身の証明も返す(相互認証)</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>SCRAM-SHA-256等が利用可能</li>
+                                                    <li>パスワードもサーバー保存値の漏洩だけでは直接なりすませない</li>
+                                                    <li>TLSと組み合わせ、チャネルバインディング(-PLUS)にも対応</li>
+                                                    <li>メール系では対応クライアントがまだ限られる</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">OAuth 2.0</th>
+                                            <td>XOAUTH2 / OAUTHBEARER</td>
+                                            <td>RFC 7628<br>RFC 6750</td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>アクセストークン(有効期限あり)</li>
+                                                    <li>トークンはIdP(Google、Microsoft等)が発行</li>
+                                                    <li>パスワードはメールサーバーに渡さない</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>ユーザーがIdPの画面で認証・同意(MFA対応可)</li>
+                                                    <li>クライアントがアクセストークンを取得</li>
+                                                    <li>SASLでアクセストークンを送信し、サーバーが検証</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>Gmail、Microsoft 365等でパスワード認証の代替として必須化が進む</li>
+                                                    <li>XOAUTH2は事業者独自仕様、OAUTHBEARERは標準仕様</li>
+                                                    <li>SMTP・IMAP・POP3で利用</li>
+                                                    <li>クライアント側にOAuth対応が必要</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">GSSAPI / NTLM</th>
+                                            <td>Generic Security Services API (Kerberos) / NT LAN Manager</td>
+                                            <td>RFC 4752<br>RFC 4120</td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>Kerberosチケット(GSSAPI)</li>
+                                                    <li>KDC(Active Directory等)が発行</li>
+                                                    <li>NTLMはパスワードハッシュで認証</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ol class="mb-0">
+                                                    <li>クライアントがKDCでチケットを取得</li>
+                                                    <li>SASLでチケットをサーバーに提示</li>
+                                                    <li>サーバーが検証し、シングルサインオンで認証成功</li>
+                                                </ol>
+                                            </td>
+                                            <td>
+                                                <ul class="mb-0">
+                                                    <li>社内(Active Directory等)環境での統合認証に利用</li>
+                                                    <li>パスワードの再入力が不要</li>
+                                                    <li>NTLMは旧式のため、Kerberosへの移行が推奨される</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
                                         <!-- ## 通信路の暗号化 -->
                                         <tr class="table-secondary">
                                             <th colspan="6" scope="colgroup">通信路の暗号化</th>
@@ -1161,7 +1324,6 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                             </div>
 
                         </article>
-
                     </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
