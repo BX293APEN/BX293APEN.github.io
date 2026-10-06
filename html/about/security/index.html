@@ -132,10 +132,11 @@
 | **緊急時対応計画 <br>(コンティンジェンシープラン)** | 火災・システム障害・情報漏えいなど、特定の緊急事態が発生した際の初動対応を目的とした計画<br>個別の事象に焦点を当て、発見から初期対応・状況把握・復旧までの具体的な対応手順・連絡体制・代替策を定める<br>BCPが組織全体を対象とする包括的な計画であるのに対し、局所的なリスクに特化している点が異なる |
 | 復旧計画 | 被災・障害等によって停止したシステムや業務を、目標復旧時点(RPO)・目標復旧時間(RTO)に基づいて<br>元の状態まで回復させるための具体的な手順を定めた計画<br>代替設備への切替え、バックアップからのデータ復元などの技術的な復旧手順が中心となる |
 | 障害計画 | システムやネットワークに障害が発生した場合を想定し、影響範囲の特定・切り分け・応急対応・恒久対策までの<br>一連の対応手順や体制をあらかじめ定めておく計画 |
+| **インシデント対応計画**<br><small class="text-muted">インシデントレスポンス計画</small> | <ul class="ps-3 mb-0"><li>セキュリティインシデントの発生時に誰が・何を<br>・どの順番で行うかをあらかじめ定めた<br>計画・手順</li><li>事前に決めておく</li><li>混乱の中でも<ul class="ps-3 mb-0"><li>初動の遅れ</li><li>判断ミス</li></ul>を減らす</li><li>被害の拡大を抑える</li></ul> |
+| └ **計画・手順書** | <ul class="ps-3 mb-0"><li>インシデント対応は一般に次の流れで進める<ol class="ps-3 mb-0"><li>準備(体制・連絡網・手順の整備)</li><li>検知・分析(影響範囲・重大度の判断)</li><li>封じ込め・根絶・復旧<ul class="ps-3 mb-0"><li>端末の隔離</li><li>マルウェアの除去</li><li>システムの復旧</li></ul></li><li>事後対応(原因分析・再発防止・報告)</li></ol></li><li>あわせて<ul class="ps-3 mb-0"><li>重大度の判断基準</li><li>経営層・顧客・関係機関<br>(監督官庁・警察等)への報告基準と連絡先</li><li>証拠保全の手順</li></ul>を定めておく</li><li>CSIRT・SOCが活動する際の拠り所となる</li></ul> |
+| └ **訓練・演習** | <ul class="ps-3 mb-0"><li>計画が実際に機能するかを確かめる</li><li>改善するために行う</li><li><ul class="ps-3 mb-0"><li>シナリオに沿って対応を議論する机上演習</li><li>実機を用いた実践的な演習</li></ul>がある</li><li>演習の結果を計画・手順書の見直しに反映する</li></ul> |
 | **リスクマネジメント** | <ul><li>P : **リスクアセスメント**</li><li>D : リスク対応</li><li>C : モニタリング</li><li>A : 改善</li></ul>のPDCAサイクルを継続的に回すことで、組織のリスクを許容可能な水準まで低減・維持・管理する活動<br>リスクについて、組織を指揮統制するための調整された活動全般 |  
 | リスク対応計画 | リスク対応(低減・回避・移転・保有等)の具体的な実施内容、担当者、期限、必要な資源等を定めた計画。 |
-| CPS<br>認証運用規定<br>(Certification Practices <br> Statement) | PKI(公開鍵基盤)において、**認証局(CA)が**<br>電子証明書の発行・管理・失効などを<br>どのような手順・体制で運用するかを**認証局(CA)が**記述した文書 |
-| CPS<br>サイバーフィジカルシステム<br>(Cyber-Physical System) | <ul><li>センサー等でフィジカル空間(現実世界)の情報を収集し、<br>サイバー空間で分析・処理した結果を<br>フィジカル空間へフィードバックする仕組み</li><li>サイバーフィジカル融合社会(Society 5.0)の基盤概念</li></ul> |
 
                             </div>
                             <ul>
@@ -255,13 +256,31 @@
                             <p>
                                 リスク特定、リスク分析及びリスク評価を行うプロセス全体のこと
                             </p>
+                            <ul class="ps-3 mb-0">
+                                <li>守るべき情報資産に対する脅威と脆弱性を<br>洗い出す</li>
+                                <li>リスクの大きさを評価する</li>
+                                <li>対策の優先順位を決める活動</li>
+                                <li>限られた予算・人員で対策する</li>
+                                <li>リスクに応じた優先順位付けが必要になる</li>
+                            </ul> 
+                            <ul class="ps-3 mb-0">
+                                <li>リスク特定・リスク分析・リスク評価の総称
+                                    <ol class="ps-3 mb-0">
+                                        <li>情報資産の洗い出し</li>
+                                        <li>価値・重要度の評価</li>
+                                        <li>脅威・脆弱性の特定</li>
+                                        <li>リスクの算定(影響度と<br>発生可能性の組み合わせ)</li>
+                                        <li>あらかじめ定めた受容基準との比較(評価)</li>
+                                    </ol>
+                                </li>
+                            </ul>
                             <div id="md-risk-assessment">
 
 | プロセス | 説明 |
 |---|---|
 | リスク特定 | リスクを発見、認識及び記述するプロセス |
 | リスク分析 | リスクの特質を理解し、リスクレベルを決定するプロセス |
-| リスク評価 | リスク及び／又はその大きさが、受容可能か又は許容可能かを決定するために、リスク分析の結果をリスク基準と比較するプロセス。 |
+| リスク評価 | リスク及び／又はその大きさが、受容可能か又は許容可能かを決定するために、リスク分析の結果をリスク基準と比較するプロセス |
 
 <br>
 
@@ -293,7 +312,6 @@
                                 リスクを修正するためのプロセス<br>
                                 低減、回避、移転、保有等の選択を含む
                             </p>
-
                             <div id="md-risk-treatment">
 
 | 方法 | 説明 |
@@ -522,6 +540,68 @@ flowchart RL
                                         </td>
                                         <td>
                                             コンピュータセキュリティインシデントの検知・対応・調整を行うチームの総称
+                                            <br>
+                                            <ul class="ps-3 mb-0">
+                                            <li>
+                                                セキュリティの監視・インシデント対応・<br>
+                                                自社製品の脆弱性対応を担う専門組織
+                                            </li>
+                                            <li>
+                                                役割分担
+                                                <table class="table table-sm table-bordered small mb-0 mt-1 text-nowrap">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th scope="col">組織</th>
+                                                            <th scope="col">担当</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">SOC</th>
+                                                            <td>検知・初動対応</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">CSIRT</th>
+                                                            <td>全体の対応(調査・復旧・連絡調整)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">PSIRT</th>
+                                                            <td>自社製品・サービスの脆弱性対応<br>
+                                                                (受付・調査・修正・公表)
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </li>
+                                            </ul>
+                                            <br>
+                                            <ul class="ps-3 mb-0">
+                                                <li>
+                                                    セキュリティインシデント発生時の対応・調査・<br>
+                                                    復旧を専門に行う組織内チーム]
+                                                </li>
+                                                <li>
+                                                    活動内容
+                                                    <table class="table table-sm table-bordered small mb-0 mt-1 text-nowrap">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th scope="col">時期</th>
+                                                                <th scope="col">内容</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">平時</th>
+                                                                <td>対策の企画・教育・情報収集</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">有事</th>
+                                                                <td>対応の指揮や社内外との連絡調整</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </li>
+                                            </ul>
                                         </td>
                                     </tr>
                                     <tr>
@@ -955,6 +1035,73 @@ flowchart RL
                                         <td>
                                             組織が情報資産を守るためのリスクマネジメントの枠組み<br>
                                             国際規格ISO/IEC 27001に基づく認証制度としても運用されている
+                                            <br>
+                                            <ul class="ps-3 mb-0">
+                                                <li>
+                                                    組織が情報セキュリティを継続的に<br>
+                                                    管理・改善するための仕組み<br>
+                                                    (体制・ルール・運用の枠組み)
+                                                </li>
+                                                <li>
+                                                    ISO/IEC 27001 (JIS Q 27001)<br>
+                                                    に基づく認証制度もある
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <strong>ISMS(ISO/IEC 27001)</strong><br>
+                                            <ul class="ps-3 mb-0">
+                                                <li>
+                                                    リスクアセスメントの結果に<br>
+                                                    基づいて管理策を選ぶ
+                                                </li>
+                                                <li>
+                                                    運用・監視・見直し・改善を<br>
+                                                    繰り返すPDCAサイクルを回す
+                                                    <ul class="ps-3 mb-0">
+                                                        <li>
+                                                            管理策は4つのテーマに分類される<br>
+                                                            (ISO/IEC 27001:2022 附属書A)
+                                                            <ul class="ps-3 mb-0">
+                                                                <li>組織的</li>
+                                                                <li>人的</li>
+                                                                <li>物理的</li>
+                                                                <li>技術的</li>
+                                                            </ul>
+                                                        </li>
+                                                        <li>第三者の認証機関による審査を受ける</li>
+                                                        <li>規格への適合を認証してもらう(認証取得)</li>
+                                                        <li>
+                                                            認証の取得は取引先や<br>
+                                                            顧客へのセキュリティ水準の説明にも使える
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <br>
+                                            <strong>内部監査・マネジメントレビュー</strong><br>
+                                            <table class="table table-sm table-bordered small mb-2 text-nowrap">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="w-25" scope="row">内部監査</th>
+                                                        <td>
+                                                            ISMSが規格や自組織のルール通りに<br>
+                                                            運用されているかを確認する
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="w-25" scope="row">マネジメントレビュー</th>
+                                                        <td>
+                                                            <ul class="ps-3 mb-0">
+                                                                <li>経営層がISMSの運用状況を評価する</li>
+                                                                <li>見直し・改善を指示する</li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <ul class="ps-3 mb-0">
+                                            <li>不適合が見つかった場合は是正処置を行う</li>
+                                            </ul>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1251,6 +1398,92 @@ flowchart RL
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">
+                                            PSIRT
+                                        </td>
+                                        <td>
+                                            Product Security Incident Response Team
+                                        </td>
+                                        <td>
+                                            -
+                                        </td>
+                                        <td>
+                                            <ul class="ps-3 mb-0">
+                                                <li>
+                                                    自社が開発・提供する製品・サービスの<br>
+                                                    脆弱性への対応を専門に行う組織内チーム
+                                                </li>
+                                                <li>
+                                                    <b>CSIRTとの違い</b>
+                                                    <table class="table table-sm table-bordered small mb-0 mt-1 text-nowrap">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th scope="col">組織</th>
+                                                                <th scope="col">対象</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">CSIRT</th>
+                                                                <td>自社の情報システムで発生したインシデント</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">PSIRT</th>
+                                                                <td>
+                                                                    自社が提供する製品・サービスに<br>
+                                                                    見つかった脆弱性
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </li>
+                                                <li>
+                                                    対応の流れ
+                                                    <table class="table table-sm table-bordered small mb-0 mt-1 text-nowrap">
+                                                        <thead class="table-light">
+                                                            <tr>
+                                                                <th scope="col">段階</th>
+                                                                <th scope="col">内容</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">受付</th>
+                                                                <td>
+                                                                    外部の研究者・利用者等からの脆弱性の報告を<br>
+                                                                    受け付ける
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">調査・検証</th>
+                                                                <td>
+                                                                    脆弱性の再現確認と影響範囲・深刻度<br>
+                                                                    (CVSS等)の評価を行う
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">修正</th>
+                                                                <td>パッチ・回避策を開発して提供する</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">公表・通知</th>
+                                                                <td>
+                                                                    アドバイザリを公開して利用者へ周知する<br>
+                                                                    (CVE採番等)
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </li>
+                                                <li>
+                                                    報告者・調整機関(IPA・JPCERT/CC等)と<br>
+                                                    連携し、修正が整うまで公開時期を調整する<br>
+                                                    (協調的な脆弱性開示)
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">
                                             SOC
                                         </td>
                                         <td>
@@ -1260,12 +1493,22 @@ flowchart RL
                                             セキュリティオペレーションセンタ
                                         </td>
                                         <td>
-                                            ネットワークやシステムを24時間365日監視し、サイバー攻撃の検知・分析を行う専門組織・拠点
+                                            ネットワークやシステムを24時間365日監視し、サイバー攻撃の検知・分析を行う専門組織・拠点<br>
+                                            <ul class="ps-3 mb-0">
+                                                <li>組織のセキュリティ状況を24時間365日監視する</li>
+                                                <li>インシデントの検知・分析・初動対応を行う</li>
+                                                <li>SIEM等を用いて監視する</li>
+                                                <li>
+                                                    <ul class="ps-3 mb-0">
+                                                        <li>自組織内に設置する</li>
+                                                        <li>外部に委託する</li>
+                                                    </ul>
+                                                    の場合がある
+                                                </li>
+                                            </ul>
                                         </td>
                                     </tr>
                                 </table>
-
-
                             </div>
                         </article>
                         
@@ -1289,6 +1532,9 @@ flowchart RL
 | CMMI | Capability Maturity Model Integration | 能力成熟度モデル統合 | 組織のプロセス改善の成熟度を5段階のレベルで評価するモデル <table><tr><th> 成熟度レベル </th><th> 名称 </th><th> 概要 </th></tr><tr><td> レベル1 </td><td> 初期段階(Initial) </td><td> プロセスが場当たり的・無秩序で、成功は個人の力量に依存する </td></tr><tr><td> レベル2 </td><td> 管理された段階(Managed) </td><td> プロジェクト単位で計画・実施・監視が行われ、基本的な管理がなされる </td></tr><tr><td> レベル3 </td><td> 定義された段階(Defined) </td><td> 組織標準プロセスが確立され、各プロジェクトはそれを適合させて運用する </td></tr><tr><td> レベル4 </td><td> 定量的に管理された段階(Quantitatively Managed) </td><td> プロセスやサブプロセスが統計的手法等により定量的に管理される </td></tr><tr><td> レベル5 </td><td> 最適化している段階(Optimizing) </td><td> 定量的データに基づき継続的にプロセスを改善し続ける </td></tr></table> |
 | SOA | Service Oriented Architecture | サービス指向アーキテクチャ | 業務機能を「サービス」という独立した単位に分割し、<br>それらを組み合わせて(疎結合に連携させて)システムを構築する設計思想 <ul><li> 疎結合性 : サービス間の依存を最小限にし、個別に変更・置換しやすくする </li><li> 再利用性 : 一度作成したサービスを複数の業務・システムで再利用する </li><li> 標準化されたインタフェース : Web APIなど標準的なプロトコル・仕様でサービスを公開する </li><li> ビジネスとの整合性 : サービスを業務プロセスの単位に合わせて設計する </li><li> 自律性 : 各サービスが独立して動作・管理される </li></ul>|
 | SPF | Sender Policy Framework | 送信ドメイン認証<br>(送信元IPアドレス認証) | 送信元ドメインを詐称した「なりすましメール」を検知するための送信ドメイン認証技術(RFC 7208)<br>送信を許可するメールサーバのIPアドレス等を DNS の TXT レコードに登録しておき、<br>受信側が SMTP の Envelope From(MAIL FROM)のドメインと送信元IPアドレスを照合して判定する<br>記述例 : <code>v=spf1 ip4:192.0.2.0/24 include:_spf.example.com ~all</code><table><tr><th> 修飾子 </th><th> 判定結果 </th><th> 概要 </th></tr><tr><td> + (省略時) </td><td> Pass </td><td> 送信を許可されたサーバからの送信である </td></tr><tr><td> - </td><td> Fail </td><td> 許可されていないサーバからの送信である(拒否を推奨) </td></tr><tr><td> ~ </td><td> SoftFail </td><td> 許可されていない可能性が高い(受信は許容し、迷惑メール扱い等にする) </td></tr><tr><td> ? </td><td> Neutral </td><td> 許可・不許可のいずれとも断定しない </td></tr></table>DKIM・DMARC と組み合わせて用いられる<br>転送メールでは送信元IPが変わるため Fail になりやすい |
+| SBOM | Software Bill of Materials | - | ソフトウェアを構成する<br>オープンソースライブラリ等の<br>コンポーネント名・バージョン・依存関係を<br>一覧化した部品表<br><ul class="ps-3 mb-0"><li><ul class="ps-3 mb-0"><li>脆弱性が発覚した際の影響範囲の早期特定</li><li>サプライチェーンリスクの管理</li></ul>に利用される</li><li>代表的なフォーマットにSPDXや<br>CycloneDXがある</li></ul> |
+| CPS | Certification Practices Statement | 認証運用規定 | PKI(公開鍵基盤)において、**認証局(CA)が**<br>電子証明書の発行・管理・失効などを<br>どのような手順・体制で運用するかを**認証局(CA)が**記述した文書 |
+| CPS | Cyber-Physical System | サイバーフィジカルシステム | <ul><li>センサー等でフィジカル空間(現実世界)の情報を収集し、<br>サイバー空間で分析・処理した結果を<br>フィジカル空間へフィードバックする仕組み</li><li>サイバーフィジカル融合社会(Society 5.0)の基盤概念</li></ul> |
 
                             </div>
                             <p>
