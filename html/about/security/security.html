@@ -1999,13 +1999,6 @@
                             <h4 class="pt-4 fw-bold">ネットワーク防御</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -2017,13 +2010,13 @@
                                     </thead>
                                     <tbody class="table-group-divider">
                                         <tr>
-                                            <td rowspan="4"><strong>ファイアウォール</strong></td>
+                                            <td rowspan="4" class="text-nowrap"><strong>ファイアウォール</strong></td>
                                             <td rowspan="4">
                                                 <ul class="ps-3 mb-0">
                                                     <li>基本的な防御機構</li>
                                                     <li>ネットワークの境界でパケットの送受信を制御する</li>
                                                     <li>不正な通信を遮断する</li>
-                                                    <li>あらかじめ定めたルール(許可/拒否)に基づいて通信を制御する</li>
+                                                    <li class="text-nowrap">あらかじめ定めたルール(許可/拒否)に基づいて通信を制御する</li>
                                                     <li>ルールの考え方(「共通の考え方・基盤技術」を参照)
                                                         <table class="table table-sm table-bordered small mb-0 mt-1">
                                                             <thead class="table-light">
@@ -2034,39 +2027,40 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <th scope="row">ブラックリスト方式</th>
-                                                                    <td>原則許可して一部を拒否する</td>
+                                                                    <th scope="row" class="text-nowrap">ブラックリスト方式</th>
+                                                                    <td class="text-nowrap">原則許可して一部を拒否する</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th scope="row">ホワイトリスト方式</th>
-                                                                    <td>原則拒否して一部のみ許可する</td>
+                                                                    <th scope="row" class="text-nowrap">ホワイトリスト方式</th>
+                                                                    <td class="text-nowrap">原則拒否して一部のみ許可する</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </li>
                                                 </ul>
                                             </td>
-                                            <td><strong>パケットフィルタリング型</strong></td>
+                                            <td class="text-nowrap"><strong>パケットフィルタリング型</strong></td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>最も基本的な方式</li>
-                                                    <li>パケットのヘッダ情報のみでルールベースの許可・拒否を判定する
+                                                    <li class="text-nowrap">パケットのヘッダ情報のみでルールベースの許可・拒否を判定する
                                                         <ul class="ps-3 mb-0">
                                                             <li>送信元/宛先IPアドレス</li>
                                                             <li>ポート番号</li>
                                                             <li>プロトコル等</li>
                                                         </ul>
                                                     </li>
-                                                    <li>OSI参照モデルの以下の層で動作する
+                                                    <li>OSI参照モデルの
                                                         <ul class="ps-3 mb-0">
                                                             <li>第3層(ネットワーク層)</li>
                                                             <li>第4層(トランスポート層)</li>
                                                         </ul>
+                                                        で動作する
                                                     </li>
                                                     <li>高速</li>
                                                     <li>パケットの中身(ペイロード)は検査しない</li>
                                                     <li>通信ごとの状態は見ない</li>
-                                                    <li>戻りパケット用のルールをあらかじめ固定的に開けておく必要がある</li>
+                                                    <li class="text-nowrap">戻りパケット用のルールをあらかじめ固定的に開けておく必要がある</li>
                                                 </ul>
                                             </td>
                                             <td>-</td>
@@ -2132,14 +2126,15 @@
                                             </td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>以下の複数のセキュリティ機能を1台に統合した製品
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>ファイアウォール</li>
                                                             <li>IDS/IPS</li>
                                                             <li>アンチウイルス</li>
                                                             <li>アンチスパム</li>
-                                                            <li>URLフィルタリング等</li>
+                                                            <li>URLフィルタリング</li>
                                                         </ul>
+                                                        等の複数のセキュリティ機能を1台に統合した製品
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2201,10 +2196,11 @@
                                                             <li>管理者に通知する</li>
                                                         </ul>
                                                     </li>
-                                                    <li>IPSは検知に加えて以下を行う
+                                                    <li>IPSは検知に加えて
                                                         <ul class="ps-3 mb-0">
                                                             <li>不正な通信をリアルタイムに遮断する</li>
                                                         </ul>
+                                                        を行う
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2214,11 +2210,12 @@
                                                     <li>ネットワークやホスト上の不正な兆候を検知する</li>
                                                     <li>管理者に通知する</li>
                                                     <li>通信の遮断はしない</li>
-                                                    <li>監視対象により以下に分けられる
+                                                    <li>監視対象により
                                                         <ul class="ps-3 mb-0">
                                                             <li>ネットワーク型の「NIDS」</li>
                                                             <li>ホスト型の「HIDS」(「エンドポイント防御」を参照)</li>
                                                         </ul>
+                                                        に分けられる
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2243,10 +2240,11 @@
                                             <td><strong>IPS</strong></td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>IDSの機能に加えて以下の機能を持つ
+                                                    <li>IDSの機能に加えて
                                                         <ul class="ps-3 mb-0">
                                                             <li>検知した不正な通信をリアルタイムに遮断する機能</li>
                                                         </ul>
+                                                        を持つ
                                                     </li>
                                                     <li>設置方法(動作モード)によって遮断できるかどうかが変わる(下記の2つ)</li>
                                                 </ul>
@@ -2260,11 +2258,12 @@
                                                     <li>通信経路上に直接設置する</li>
                                                     <li>通過するすべての通信を検査した上で転送する</li>
                                                     <li>不正な通信をリアルタイムに遮断できる</li>
-                                                    <li>通信経路上にあるため以下が通信全体に影響する(単一障害点)
+                                                    <li>通信経路上にあるため
                                                         <ul class="ps-3 mb-0">
                                                             <li>IPS自体の障害</li>
                                                             <li>性能不足</li>
                                                         </ul>
+                                                        が通信全体に影響する(単一障害点)
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2340,10 +2339,11 @@
                                                     </tbody>
                                                 </table>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>アノマリ型は誤検知が起こりやすいため基準の調整・学習段階は以下で運用するのに向く
+                                                    <li>アノマリ型は誤検知が起こりやすいため基準の調整・学習段階は
                                                         <ul class="ps-3 mb-0">
                                                             <li>通信が止まらないプロミスキャスモード(通知のみ)</li>
                                                         </ul>
+                                                        で運用するのに向く
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2366,7 +2366,7 @@
                                             <td>-</td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>以下に有効
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>EDRを導入できない機器の監視
                                                                 <ul class="ps-3 mb-0">
@@ -2376,6 +2376,7 @@
                                                             </li>
                                                             <li>侵入後の内部での横展開(ラテラルムーブメント)の検知</li>
                                                         </ul>
+                                                        に有効
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2462,11 +2463,12 @@
                                                 <ul class="ps-3 mb-0">
                                                     <li>大量トラフィックを専用設備(スクラビングセンタ)で吸収・選別する</li>
                                                     <li>正常な通信のみをオリジンサーバへ転送する</li>
-                                                    <li>以下により通信をスクラビングセンタへ迂回させる
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>DNSの切り替え</li>
                                                             <li>BGP経路の広告</li>
                                                         </ul>
+                                                        により通信をスクラビングセンタへ迂回させる
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2516,13 +2518,6 @@
                             <h4 class="pt-4 fw-bold">Web・メール防御</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -2576,7 +2571,7 @@
                                             <td><strong>WAAP</strong></td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>WAFの機能に加えて以下の機能を統合したサービス
+                                                    <li>WAFの機能に加えて
                                                         <ul class="ps-3 mb-0">
                                                             <li>API保護
                                                                 <ul class="ps-3 mb-0">
@@ -2587,6 +2582,7 @@
                                                             <li>ボット対策(不正な自動化アクセスの識別・遮断)</li>
                                                             <li>アプリケーション層(L7)のDDoS対策</li>
                                                         </ul>
+                                                        の機能を統合したサービス
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2655,11 +2651,12 @@
                                                             <th scope="row" class="w-25">アクセス制御</th>
                                                             <td>
                                                                 <ul class="ps-3 mb-0">
-                                                                    <li>以下により危険・不要なサイトへのアクセスを制限する
+                                                                    <li>
                                                                         <ul class="ps-3 mb-0">
                                                                             <li>URLフィルタリング</li>
                                                                             <li>認証</li>
                                                                         </ul>
+                                                                        により危険・不要なサイトへのアクセスを制限する
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -2668,11 +2665,12 @@
                                                             <th scope="row" class="w-25">コンテンツ検査</th>
                                                             <td>
                                                                 <ul class="ps-3 mb-0">
-                                                                    <li>以下を行う
+                                                                    <li>
                                                                         <ul class="ps-3 mb-0">
                                                                             <li>ダウンロードされるファイルのマルウェアスキャン</li>
                                                                             <li>TLS通信の復号検査(SSLインスペクション)</li>
                                                                         </ul>
+                                                                        を行う
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -2722,12 +2720,13 @@
                                                             <th scope="row" class="w-25">サーバの隠蔽</th>
                                                             <td>
                                                                 <ul class="ps-3 mb-0">
-                                                                    <li>内部サーバの以下が外部から見えず直接攻撃されない
+                                                                    <li>内部サーバの
                                                                         <ul class="ps-3 mb-0">
                                                                             <li>IPアドレス</li>
                                                                             <li>構成</li>
                                                                             <li>ソフトウェアのバージョン等</li>
                                                                         </ul>
+                                                                        が外部から見えず直接攻撃されない
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -2791,11 +2790,12 @@
                                                 <ul class="ps-3 mb-2">
                                                     <li>プロキシの考え方をメール(SMTP)通信に応用したもの</li>
                                                     <li>メールサーバの前段に設置する</li>
-                                                    <li>以下を代理で行う
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>送受信されるメールの内容検査・フィルタリング</li>
                                                             <li>送信元の正当性確認</li>
                                                         </ul>
+                                                        を代理で行う
                                                     </li>
                                                 </ul>
                                                 <table class="table table-sm table-bordered small mb-0">
@@ -2931,11 +2931,12 @@
                                             </td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>危険・不要なWebサイトへのアクセスを以下に基づいて制限する仕組み
+                                                    <li>危険・不要なWebサイトへのアクセスを
                                                         <ul class="ps-3 mb-0">
                                                             <li>URLのレピュテーション情報</li>
                                                             <li>カテゴリ分類</li>
                                                         </ul>
+                                                        に基づいて制限する仕組み
                                                     </li>
                                                 </ul>
                                             </td>
@@ -2972,20 +2973,22 @@
                                             <td>-</td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li><strong>Webサイトのスクリプトやコンテンツが端末上で実行されない</strong>ため以下の被害を抑えられる
+                                                    <li><strong>Webサイトのスクリプトやコンテンツが端末上で実行されない</strong>ため
                                                         <ul class="ps-3 mb-0">
                                                             <li>ドライブバイダウンロード</li>
                                                             <li>ゼロデイ攻撃</li>
                                                             <li>フィッシングサイト閲覧による被害</li>
                                                         </ul>
+                                                        の被害を抑えられる
                                                         <ol class="ps-3 mb-0">
                                                             <li>利用者がURLにアクセスするとクラウド上等の隔離環境のブラウザがそのサイトを読み込む</li>
                                                             <li>Webコンテンツ(スクリプト等)は隔離環境側で実行される</li>
-                                                            <li>端末には描画結果のみが送られる(以下のいずれか)
+                                                            <li>端末には
                                                                 <ul class="ps-3 mb-0">
                                                                     <li>画面の映像</li>
                                                                     <li>無害化した描画データ</li>
                                                                 </ul>
+                                                                の描画結果のみが送られる
                                                             </li>
                                                             <li>端末でのキーボード・マウス操作は隔離環境へ送り返される</li>
                                                         </ol>
@@ -3011,12 +3014,13 @@
                                                         </table>
                                                     </li>
                                                     <li>未分類サイトやリスクの高いサイトのみRBI経由に振り分ける運用が多い(プロキシ/SWGと連携)</li>
-                                                    <li>以下はポリシーで制御できる
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>コピー・貼り付け</li>
                                                             <li>ファイルのダウンロード</li>
                                                             <li>印刷等</li>
                                                         </ul>
+                                                        はポリシーで制御できる
                                                     </li>
                                                     <li>課題
                                                         <ul class="ps-3 mb-0">
@@ -3148,13 +3152,6 @@
                             <h4 class="pt-4 fw-bold">エンドポイント防御</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -3276,11 +3273,12 @@
                                             </td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>プログラムを以下のいずれかで動作させる
+                                                    <li>プログラムを
                                                         <ul class="ps-3 mb-0">
                                                             <li>実際の環境</li>
                                                             <li>模擬環境(サンドボックス)</li>
                                                         </ul>
+                                                        のいずれかで動作させる
                                                     </li>
                                                     <li>挙動(不審なファイル操作・通信等)を監視する</li>
                                                     <li>悪意の有無を判定する</li>
@@ -3326,12 +3324,13 @@
                                             </td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>エンドポイント(PC・サーバ)上の挙動を監視し以下を行う仕組み
+                                                    <li>エンドポイント(PC・サーバ)上の挙動を監視し
                                                         <ul class="ps-3 mb-0">
                                                             <li>侵害の検知</li>
                                                             <li>調査</li>
                                                             <li>封じ込め(端末のネットワーク隔離等)</li>
                                                         </ul>
+                                                        を行う仕組み
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3354,12 +3353,13 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>サーバやPC等個々のホスト上にエージェントを常駐させる</li>
-                                                    <li>以下を監視する方式
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>ログの改ざん</li>
                                                             <li>ファイルの変更</li>
                                                             <li>プロセスの異常等</li>
                                                         </ul>
+                                                        を監視する方式
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3479,12 +3479,13 @@
                                             <td><strong>IT資産管理ツール</strong></td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>以下の情報をエージェントで自動収集し台帳(インベントリ)として管理する
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>端末のハードウェア構成</li>
                                                             <li>OS・ソフトウェアのバージョン</li>
-                                                            <li>ライセンス情報等</li>
+                                                            <li>ライセンス情報</li>
                                                         </ul>
+                                                        等の情報をエージェントで自動収集し台帳(インベントリ)として管理する
                                                         <ul class="ps-3 mb-0">
                                                             <li>パッチ未適用の端末の検出</li>
                                                             <li>禁止・不要なソフトウェアのインストールの検出</li>
@@ -3566,13 +3567,6 @@
                             <h4 class="pt-4 fw-bold">認証強化</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -3614,19 +3608,21 @@
                                             <td rowspan="2"><strong>パスワードレス認証</strong></td>
                                             <td rowspan="2">
                                                 <ul class="ps-3 mb-0">
-                                                    <li>パスワードを使わず以下で認証する方式
+                                                    <li>パスワードを使わず
                                                         <ul class="ps-3 mb-0">
                                                             <li>端末内の秘密鍵</li>
                                                             <li>生体情報</li>
                                                             <li>電子証明書等</li>
                                                         </ul>
+                                                        で認証する方式
                                                     </li>
-                                                    <li>パスワード自体に起因する以下のリスクをなくす
+                                                    <li>パスワード自体に起因する
                                                         <ul class="ps-3 mb-0">
                                                             <li>パスワードの使い回し・漏えい</li>
                                                             <li>フィッシングによる窃取</li>
                                                             <li>パスワードリスト攻撃</li>
                                                         </ul>
+                                                        のリスクをなくす
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3687,13 +3683,6 @@
                             <h4 class="pt-4 fw-bold">データ保護</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -3714,19 +3703,21 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>機密情報のキーワードやデータ形式・ラベル等に基づいて検知する</li>
-                                                    <li>以下を警告・ブロックする
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>メール送信</li>
                                                             <li>USBメモリへの書き出し</li>
-                                                            <li>クラウドへのアップロード等</li>
+                                                            <li>クラウドへのアップロード</li>
                                                         </ul>
+                                                        等を警告・ブロックする
                                                     </li>
-                                                    <li>監視する場所により以下の型がある
+                                                    <li>監視する場所により
                                                         <ul class="ps-3 mb-0">
                                                             <li>エンドポイント型</li>
                                                             <li>ネットワーク型(メール/Web)</li>
-                                                            <li>クラウド型等</li>
+                                                            <li>クラウド型</li>
                                                         </ul>
+                                                        等の型がある
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3751,17 +3742,20 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>ディスク・ファイル・データベース・バックアップ等に保存されたデータを暗号化する</li>
-                                                    <li>以下による情報漏えいに備える
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>端末の紛失・盗難</li>
                                                             <li>サーバからのデータ持ち出し</li>
                                                         </ul>
+                                                        による情報漏えいに備える
                                                     </li>
-                                                    <li>ディスク全体を暗号化する方式のほか以下の暗号化がある
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
+                                                            <li>ディスク全体を暗号化</li>
                                                             <li>ファイル単位</li>
                                                             <li>データベース単位(列・表領域)</li>
                                                         </ul>
+                                                        の暗号化がある
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3812,11 +3806,12 @@
                                                     <li>暗号鍵の生成・保管・更新(ローテーション)・失効・廃棄を管理する</li>
                                                     <li>鍵が漏えいすると暗号化の効果が失われる</li>
                                                     <li>データとは別の場所で厳重に保管する</li>
-                                                    <li>以下が使われる
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>鍵管理サービス(KMS)</li>
                                                             <li>耐タンパ性を持つ専用装置(HSM)</li>
                                                         </ul>
+                                                        が使われる
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3855,11 +3850,12 @@
                                                     </tbody>
                                                 </table>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>ランサムウェア対策としてさらに以下を加えた「3-2-1-1-0」という考え方もある
+                                                    <li>ランサムウェア対策としてさらに
                                                         <ul class="ps-3 mb-0">
                                                             <li>1つはオフライン/変更不可とする</li>
                                                             <li>復元テストでエラーが0であることを確認する</li>
                                                         </ul>
+                                                        を加えた「3-2-1-1-0」という考え方もある
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3869,11 +3865,12 @@
                                             <td><strong>オフライン・イミュータブル保管</strong></td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>バックアップ自体の暗号化・削除を以下により防ぐ
+                                                    <li>バックアップ自体の暗号化・削除を
                                                         <ul class="ps-3 mb-0">
                                                             <li>ネットワークから切り離した保管(オフライン)</li>
                                                             <li>書き換え・削除ができない設定(イミュータブル)</li>
                                                         </ul>
+                                                        により防ぐ
                                                     </li>
                                                     <li>ネットワークに常時接続したバックアップは</li>
                                                     <li>ランサムウェアに原本と一緒に暗号化・削除されるおそれがある</li>
@@ -3886,7 +3883,7 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>定期的に実際に復元できることを確認する</li>
-                                                    <li>以下をあらかじめ定めバックアップの頻度・方式を決める
+                                                    <li>
                                                         <table class="table table-sm table-bordered small mb-0 mt-1">
                                                             <thead class="table-light">
                                                                 <tr>
@@ -3905,6 +3902,7 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
+                                                        をあらかじめ定めバックアップの頻度・方式を決める
                                                     </li>
                                                 </ul>
                                             </td>
@@ -3917,13 +3915,6 @@
                             <h4 class="pt-4 fw-bold">クラウドセキュリティ</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -3949,12 +3940,13 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>利用者とクラウドサービスの間に位置する</li>
-                                                    <li>以下を行う
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>許可されていないクラウドサービスの利用(シャドーIT)の検出</li>
                                                             <li>機密データのアップロード制限</li>
                                                             <li>不審な操作の検知等</li>
                                                         </ul>
+                                                        を行う
                                                     </li>
                                                     <li>自組織が構築したクラウド環境の設定不備を検出するCSPMとは対象が異なる(同じ「クラウドセキュリティ」のCSPMを参照)</li>
                                                 </ul>
@@ -3982,13 +3974,14 @@
                                                     <li>クラウド事業者との責任共有モデルにおいて利用者側が責任を負う設定部分が対象となる
                                                         <ul class="ps-3 mb-0">
                                                             <li>インターネットに公開されたオブジェクトストレージの検出</li>
-                                                            <li>以下等の検出
+                                                            <li>
                                                                 <ul class="ps-3 mb-0">
                                                                     <li>過剰な権限</li>
                                                                     <li>不要な公開ポート</li>
                                                                     <li>暗号化の無効化</li>
                                                                     <li>ログ未取得</li>
                                                                 </ul>
+                                                                等の検出
                                                             </li>
                                                             <li>CISベンチマーク等の基準やコンプライアンス要件との照合</li>
                                                             <li>リスクの優先順位付け</li>
@@ -4028,13 +4021,6 @@
                             <h4 class="pt-4 fw-bold">検知・分析基盤</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -4098,12 +4084,13 @@
                                                 <ul class="ps-3 mb-0">
                                                     <li>インシデント対応プロセス(プレイブック)を自動化・オーケストレーションする</li>
                                                     <li>対応の迅速化を図る</li>
-                                                    <li>SIEM等のアラートを起点に以下のような対応を自動で実行する
+                                                    <li>SIEM等のアラートを起点に
                                                         <ul class="ps-3 mb-0">
                                                             <li>不審なIPアドレスの遮断</li>
                                                             <li>侵害が疑われる端末のネットワーク隔離</li>
                                                             <li>チケットの起票・担当者への通知</li>
                                                         </ul>
+                                                        のような対応を自動で実行する
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4116,13 +4103,15 @@
                                             </td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>エンドポイント(EDR)に加え以下の複数のレイヤの情報を統合・相関分析して脅威を検知・対応する
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
+                                                            <li>エンドポイント(EDR)</li>
                                                             <li>ネットワーク</li>
                                                             <li>メール</li>
                                                             <li>クラウド</li>
                                                             <li>ID等</li>
                                                         </ul>
+                                                        の複数のレイヤの情報を統合・相関分析して脅威を検知・対応する
                                                     </li>
                                                     <li>個別の製品ごとにバラバラだったアラートを関連付ける</li>
                                                     <li>攻撃の全体像を把握しやすくする</li>
@@ -4136,11 +4125,12 @@
                                             <td rowspan="2"><strong>サンドボックス / ハニーポット</strong></td>
                                             <td rowspan="2">
                                                 <ul class="ps-3 mb-0">
-                                                    <li>隔離された環境で以下を観察する
+                                                    <li>隔離された環境で
                                                         <ul class="ps-3 mb-0">
                                                             <li>マルウェアの挙動</li>
                                                             <li>攻撃者の手口</li>
                                                         </ul>
+                                                        を観察する
                                                     </li>
                                                     <li>本番環境に被害を出さない</li>
                                                     <li>どちらも仮想化サーバ上に構築されることが多い</li>
@@ -4159,12 +4149,13 @@
                                                         </ul>
                                                     </li>
                                                     <li>マルウェアが動作しても本番環境に被害が及ばない</li>
-                                                    <li>以下等の様々な製品に組み込まれる
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>メールの添付ファイル検査</li>
                                                             <li>Web閲覧</li>
                                                             <li>エンドポイント</li>
                                                         </ul>
+                                                        等の様々な製品に組み込まれる
                                                     </li>
                                                     <li>ビヘイビア法(振る舞い検知)の実行環境として利用される</li>
                                                     <li>仮想環境を検知して動作を隠すマルウェアもある</li>
@@ -4220,13 +4211,6 @@
                             <h4 class="pt-4 fw-bold">運用・組織対策</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -4273,11 +4257,12 @@
                                                     <li>組織のセキュリティ状況を24時間365日監視する</li>
                                                     <li>インシデントの検知・分析・初動対応を行う</li>
                                                     <li>SIEM等を用いて監視する</li>
-                                                    <li>以下の場合がある
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>自組織内に設置する</li>
                                                             <li>外部に委託する</li>
                                                         </ul>
+                                                        の場合がある
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4326,11 +4311,12 @@
                                                 <ul class="ps-3 mb-0">
                                                     <li>セキュリティインシデントの発生時に誰が・何を・どの順番で行うかをあらかじめ定めた計画・手順</li>
                                                     <li>事前に決めておく</li>
-                                                    <li>混乱の中でも以下を減らす
+                                                    <li>混乱の中でも
                                                         <ul class="ps-3 mb-0">
                                                             <li>初動の遅れ</li>
                                                             <li>判断ミス</li>
                                                         </ul>
+                                                        を減らす
                                                     </li>
                                                     <li>被害の拡大を抑える</li>
                                                 </ul>
@@ -4352,7 +4338,7 @@
                                                             <li>事後対応(原因分析・再発防止・報告)</li>
                                                         </ol>
                                                     </li>
-                                                    <li>あわせて以下を定めておく
+                                                    <li>あわせて
                                                         <ul class="ps-3 mb-0">
                                                             <li>重大度の判断基準</li>
                                                             <li>経営層・顧客・関係機関(監督官庁・警察等)への報告基準と連絡先
@@ -4361,6 +4347,7 @@
                                                             </li>
                                                             <li>証拠保全の手順</li>
                                                         </ul>
+                                                        を定めておく
                                                     </li>
                                                     <li>CSIRT・SOCが活動する際の拠り所となる</li>
                                                 </ul>
@@ -4373,11 +4360,12 @@
                                                 <ul class="ps-3 mb-0">
                                                     <li>計画が実際に機能するかを確かめる</li>
                                                     <li>改善するために行う</li>
-                                                    <li>以下がある
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>シナリオに沿って対応を議論する机上演習</li>
                                                             <li>実機を用いた実践的な演習</li>
                                                         </ul>
+                                                        がある
                                                     </li>
                                                     <li>演習の結果を計画・手順書の見直しに反映する</li>
                                                 </ul>
@@ -4390,24 +4378,26 @@
                                             <td rowspan="2"><strong>脅威インテリジェンス</strong></td>
                                             <td rowspan="2">
                                                 <ul class="ps-3 mb-0">
-                                                    <li>以下を収集・提供し防御に活用する
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>最新の攻撃手法</li>
                                                             <li>攻撃者情報</li>
                                                             <li>侵害指標等</li>
                                                         </ul>
+                                                        を収集・提供し防御に活用する
                                                     </li>
                                                 </ul>
                                             </td>
                                             <td><strong>脅威インテリジェンスサービス</strong></td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>以下を収集・提供し防御に活用するサービス
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>最新の攻撃手法</li>
                                                             <li>攻撃者情報</li>
                                                             <li>IoC(侵害指標)等</li>
                                                         </ul>
+                                                        を収集・提供し防御に活用するサービス
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4428,11 +4418,12 @@
                                                         </ul>
                                                     </li>
                                                     <li>脅威インテリジェンスサービス等で収集・共有される</li>
-                                                    <li>SIEMやEDRでの照合を通じて以下に活用される
+                                                    <li>SIEMやEDRでの照合を通じて
                                                         <ul class="ps-3 mb-0">
                                                             <li>侵害の早期検知</li>
                                                             <li>対応</li>
                                                         </ul>
+                                                        に活用される
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4453,11 +4444,12 @@
                                                 <ul class="ps-3 mb-0">
                                                     <li>システムやアプリケーションの脆弱性(設定不備・未適用パッチ・実装上の欠陥等)を網羅的に検査する</li>
                                                     <li>リスクを可視化する</li>
-                                                    <li>対象により以下等に分かれる
+                                                    <li>対象により
                                                         <ul class="ps-3 mb-0">
                                                             <li>プラットフォーム診断(OS・ミドルウェア・ネットワーク機器)</li>
                                                             <li>Webアプリケーション診断</li>
                                                         </ul>
+                                                        等に分かれる
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4526,11 +4518,12 @@
                                                             <li>システム管理者等</li>
                                                         </ul>
                                                     </li>
-                                                    <li>以下を周知する
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>セキュリティポリシーの内容</li>
                                                             <li>インシデント発生時の報告方法</li>
                                                         </ul>
+                                                        を周知する
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4541,12 +4534,13 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>模擬の標的型攻撃メール・フィッシングメールを従業員に送信する</li>
-                                                    <li>以下を体験させる
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>開封</li>
                                                             <li>リンクのクリック</li>
                                                             <li>添付ファイルの実行</li>
                                                         </ul>
+                                                        を体験させる
                                                     </li>
                                                     <li>不審なメールを受け取った際の報告のしかたを身に付けさせる</li>
                                                     <li>開封率だけでなく報告率も指標にする</li>
@@ -4563,12 +4557,13 @@
                                             </td>
                                             <td rowspan="2">
                                                 <ul class="ps-3 mb-0">
-                                                    <li>利用者の運用ルールにより以下を防ぐ
+                                                    <li>利用者の運用ルールにより
                                                         <ul class="ps-3 mb-0">
                                                             <li>盗み見</li>
                                                             <li>不正操作</li>
                                                             <li>持ち出し</li>
                                                         </ul>
+                                                        を防ぐ
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4587,11 +4582,12 @@
                                                 <ul class="ps-3 mb-0">
                                                     <li>離席時に画面をロックする</li>
                                                     <li>他者による覗き見や不正操作を防止する</li>
-                                                    <li>以下と併用される
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>一定時間操作がない場合の自動ロック</li>
                                                             <li>のぞき見防止フィルタ等</li>
                                                         </ul>
+                                                        と併用される
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4604,13 +4600,6 @@
                             <h4 class="pt-4 fw-bold">ガバナンス</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -4632,12 +4621,13 @@
                                                     <li>個々の対策や運用ルールの根拠となる</li>
                                                     <li>全従業員が守るべき基準を示す</li>
                                                     <li>「方針→基準→手順」の階層で構成する</li>
-                                                    <li>以下が必要
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>全従業員への周知</li>
                                                             <li>定期的な見直し(PDCA)</li>
                                                             <li>遵守状況の確認</li>
                                                         </ul>
+                                                        が必要
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4645,13 +4635,14 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>経営層が示す</li>
-                                                    <li>以下を定めた文書
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>情報セキュリティに取り組む姿勢</li>
                                                             <li>目的</li>
                                                             <li>適用範囲</li>
                                                             <li>責任体制</li>
                                                         </ul>
+                                                        を定めた文書
                                                     </li>
                                                     <li>組織の内外に向けて宣言する</li>
                                                 </ul>
@@ -4807,11 +4798,12 @@
                                                             <th scope="row" class="w-25">移転(共有)</th>
                                                             <td>
                                                                 <ul class="ps-3 mb-0">
-                                                                    <li>以下によりリスクを他者と分担する
+                                                                    <li>
                                                                         <ul class="ps-3 mb-0">
                                                                             <li>保険への加入</li>
                                                                             <li>外部委託</li>
                                                                         </ul>
+                                                                        によりリスクを他者と分担する
                                                                     </li>
                                                                 </ul>
                                                             </td>
@@ -4844,11 +4836,12 @@
                                                 <ul class="ps-3 mb-0">
                                                     <li>業務・システムの開発や運用を外部へ委託する際の取り組み</li>
                                                     <li>委託先(開発ベンダ・クラウド事業者等)のセキュリティ水準を確認・管理する</li>
-                                                    <li>以下が自組織の被害につながるため必要
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>委託先の対策不備</li>
                                                             <li>委託先を経由した攻撃(サプライチェーン攻撃)</li>
                                                         </ul>
+                                                        が自組織の被害につながるため必要
                                                     </li>
                                                 </ul>
                                             </td>
@@ -4879,12 +4872,13 @@
                                             <td><strong>継続的な監督</strong></td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>契約後も以下等で対策が維持されていることを確認する
+                                                    <li>契約後も
                                                         <ul class="ps-3 mb-0">
                                                             <li>定期的な報告</li>
                                                             <li>監査</li>
                                                             <li>チェックシートの再確認</li>
                                                         </ul>
+                                                        等で対策が維持されていることを確認する
                                                     </li>
                                                     <li>委託先に渡す情報・付与する権限は必要最小限にする</li>
                                                     <li>クラウドサービスでは責任共有モデルに基づき責任範囲を確認する
@@ -4909,11 +4903,12 @@
                                             <td>-</td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>以下に利用される
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>脆弱性が発覚した際の影響範囲の早期特定</li>
                                                             <li>サプライチェーンリスクの管理</li>
                                                         </ul>
+                                                        に利用される
                                                     </li>
                                                     <li>代表的なフォーマットにSPDXやCycloneDXがある</li>
                                                 </ul>
@@ -4927,13 +4922,6 @@
                             <h4 class="pt-4 fw-bold">物理的対策</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -4963,11 +4951,12 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>USBポートを物理的に塞ぐ(ポートロック用のキャップや金具等)</li>
-                                                    <li>以下を防止する
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>許可されていない外部記憶媒体の接続</li>
                                                             <li>情報の持ち出しやマルウェアの侵入</li>
                                                         </ul>
+                                                        を防止する
                                                     </li>
                                                     <li>端末のソフトウェアで制御する方法は「エンドポイント防御」のデバイス制御を参照</li>
                                                 </ul>
@@ -4984,11 +4973,12 @@
                                                             <li>アンチパスバック機構
                                                                 <ul class="ps-3 mb-0">
                                                                     <li>入退室の履歴を管理する</li>
-                                                                    <li>以下を拒否する
+                                                                    <li>
                                                                         <ul class="ps-3 mb-0">
                                                                             <li>入室記録のないカードによる退室</li>
                                                                             <li>退室記録のないカードによる再入室</li>
                                                                         </ul>
+                                                                        を拒否する
                                                                     </li>
                                                                 </ul>
                                                             </li>
@@ -5008,13 +4998,6 @@
                             <h4 class="pt-4 fw-bold">共通の考え方・基盤技術</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered align-top">
-                                    <colgroup>
-                                        <col style="width: 12%">
-                                        <col style="width: 16%">
-                                        <col style="width: 12%">
-                                        <col style="width: 50%">
-                                        <col style="width: 10%">
-                                    </colgroup>
                                     <thead class="table-light">
                                         <tr>
                                             <th scope="col">サービス</th>
@@ -5185,11 +5168,12 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>正常な通信・行為を誤って不正と判定してしまうこと</li>
-                                                    <li>以下を招く
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>業務への影響(正常な通信の遮断)</li>
                                                             <li>アラート対応による運用負荷の増大</li>
                                                         </ul>
+                                                        を招く
                                                     </li>
                                                 </ul>
                                             </td>
@@ -5216,18 +5200,20 @@
                                             <td>-</td>
                                             <td>
                                                 <ul class="ps-3 mb-0">
-                                                    <li>以下等に活用される
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>ハニーポットやサンドボックスの実行基盤</li>
                                                             <li>VDIの基盤</li>
                                                             <li>検証環境の迅速な構築・破棄</li>
                                                         </ul>
+                                                        等に活用される
                                                     </li>
-                                                    <li>以下がその上で動くすべての仮想マシンに影響する点に注意が必要
+                                                    <li>
                                                         <ul class="ps-3 mb-0">
                                                             <li>ハイパーバイザの脆弱性</li>
                                                             <li>設定不備</li>
                                                         </ul>
+                                                        がその上で動くすべての仮想マシンに影響する点に注意が必要
                                                     </li>
                                                 </ul>
                                             </td>
