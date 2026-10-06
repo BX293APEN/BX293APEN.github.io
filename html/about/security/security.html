@@ -2043,11 +2043,12 @@
                                             <td>
                                                 <ul class="ps-3 mb-0">
                                                     <li>最も基本的な方式</li>
-                                                    <li class="text-nowrap">パケットのヘッダ情報のみでルールベースの許可・拒否を判定する
+                                                    <li class="text-nowrap">
                                                         <ul class="ps-3 mb-0">
                                                             <li>送信元/宛先IPアドレス</li>
                                                             <li>ポート番号</li>
-                                                            <li>プロトコル等</li>
+                                                            <li>プロトコル</li>
+                                                            等のパケットのヘッダ情報のみでルールベースの許可・拒否を判定する
                                                         </ul>
                                                     </li>
                                                     <li>OSI参照モデルの
@@ -2530,12 +2531,12 @@
                                     <tbody class="table-group-divider">
                                         <tr>
                                             <td rowspan="2">
-                                                <strong>WAF / WAAP</strong><br>
+                                                <strong class="text-nowrap">WAF / WAAP</strong><br>
                                                 <small class="text-muted">Web Application Firewall<br>Web Application and API Protection</small>
                                             </td>
                                             <td rowspan="2">
                                                 <ul class="ps-3 mb-0">
-                                                    <li>Webアプリケーション(およびAPI)への攻撃を検知・遮断する</li>
+                                                    <li class="text-nowrap">Webアプリケーション(およびAPI)への攻撃を検知・遮断する</li>
                                                     <li>通常のFWやIPSでは見分けにくい「正規のHTTP通信に見える攻撃」が対象
                                                         <ul class="ps-3 mb-0">
                                                             <li>SQLインジェクション</li>
@@ -2549,7 +2550,7 @@
                                                 <ul class="ps-3 mb-2">
                                                     <li>HTTP/HTTPS通信の内容を検査する</li>
                                                     <li>Webアプリケーション層への攻撃を検知・遮断する専用のファイアウォール</li>
-                                                    <li>HTTPS通信は復号(TLS終端)した上で検査する</li>
+                                                    <li class="text-nowrap">HTTPS通信は復号(TLS終端)した上で検査する</li>
                                                     <li>検知のモデルには以下の2つがある</li>
                                                 </ul>
                                                 <table class="table table-sm table-bordered small mb-0">
@@ -2841,12 +2842,12 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <th scope="row">フォワードプロキシ</th>
-                                                            <td>クライアント側(組織内)とインターネットの間</td>
-                                                            <td>クライアント</td>
-                                                            <td>悪意あるサーバ(マルウェア配布サイト・フィッシングサイト・C2サーバ等)</td>
+                                                            <th class="text-nowrap" scope="row">フォワードプロキシ</th>
+                                                            <td class="text-nowrap">クライアント側(組織内)とインターネットの間</td>
+                                                            <td class="text-nowrap">クライアント</td>
+                                                            <td class="text-nowrap">悪意あるサーバ<br>マルウェア配布サイト<br>フィッシングサイト<br>C2サーバ等</td>
                                                             <td>
-                                                                <ul class="ps-3 mb-0">
+                                                                <ul class="text-nowrap" class="ps-3 mb-0">
                                                                     <li>URLフィルタリング</li>
                                                                     <li>マルウェアスキャン</li>
                                                                     <li>クライアントの隠蔽</li>
@@ -3163,14 +3164,14 @@
                                     </thead>
                                     <tbody class="table-group-divider">
                                         <tr>
-                                            <td rowspan="5"><strong>アンチウイルスソフト</strong></td>
+                                            <td rowspan="5" class="text-nowrap"><strong>アンチウイルスソフト</strong></td>
                                             <td rowspan="5">
                                                 <ul class="ps-3 mb-0">
                                                     <li>既知のマルウェアのパターン(シグネチャ)や挙動を検知・駆除するソフトウェア</li>
                                                     <li>検知手法の違いにより右の方式に分けられる(組み合わせて使われる)</li>
                                                 </ul>
                                             </td>
-                                            <td>
+                                            <td class="text-nowrap">
                                                 <strong>パターンマッチング法</strong><br>
                                                 <small class="text-muted">シグネチャ法</small>
                                             </td>
@@ -3203,13 +3204,13 @@
                                                     <thead class="table-light">
                                                         <tr>
                                                             <th scope="col">項目</th>
-                                                            <th scope="col">静的ヒューリスティック</th>
-                                                            <th scope="col">動的ヒューリスティック</th>
+                                                            <th scope="col" class="text-nowrap">静的ヒューリスティック</th>
+                                                            <th scope="col" class="text-nowrap">動的ヒューリスティック</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <th scope="row">実行の有無</th>
+                                                            <th class="text-nowrap" scope="row">実行の有無</th>
                                                             <td>実行しない(コードそのものを解析する)</td>
                                                             <td>実行する(エミュレータ等の仮想環境で動作させる)</td>
                                                         </tr>
