@@ -330,11 +330,11 @@
 | ビュー | 仮想テーブル | View | クエリ結果を仮想的なテーブルとして扱えるようにしたもの | 有効な顧客だけを抽出した `active_customers` |
 | トランザクション | - | Transaction | 複数の処理を1つのまとまりとして扱う仕組み(全て成功か全て失敗) | 送金処理(出金と入金を1つの単位として実行) |
 | 正規化 | - | Normalization | データの重複を排除して整合性を保つようテーブルを分割する設計手法 | 注文テーブルから顧客情報を切り出し `customers` テーブルに分離 |
-| ETL | - | Extract Transform Load | 次の順でデータを処理する方式<ol><li>データを抽出</li><li>データを変換</li><li>格納先へロード</li></ol> | 基幹システムのデータを整形してからDWHへ格納 |
-| ELT | - | Extract Load Transform | 次の順でデータを処理する方式<ol><li>データを抽出</li><li>格納先へロード</li><li>格納先で変換</li></ol>DWHやデータレイクで多く使われる | 生データをデータレイクへ格納した後にDWH上のSQLで変換 |
+| ETL | - | Extract Transform Load | <ol><li>データを抽出</li><li>データを変換</li><li>格納先へロード</li></ol>の順でデータを処理する方式 | 基幹システムのデータを整形してからDWHへ格納 |
+| ELT | - | Extract Load Transform | <ol><li>データを抽出</li><li>格納先へロード</li><li>格納先で変換</li></ol>の順でデータを処理する方式<br><br>DWHやデータレイクで多く使われる | 生データをデータレイクへ格納した後にDWH上のSQLで変換 |
 | メタデータ | 属性情報 | Metadata | データそのものではなくデータに関する情報(定義・作成日・所有者など) | <ul><li>テーブル定義</li><li>カラムの型</li><li>最終更新日時</li></ul> |
 | データカタログ | - | Data Catalog | 組織内のデータ資産のメタデータを一覧化し<br>検索・理解しやすくする仕組み | <ul><li>社内データの検索ポータル</li><li>用語集</li></ul> |
-| データディクショナリ | <ul><li>データ辞書</li><li>データ定義書</li></ul> | Data Dictionary | <ul>><li>テーブル</li><li>カラムの名称</li><li>データ型</li><li>桁数</li><li>制約</li><li>意味</li></ul>などの管理情報を詳細に定義した資料<br>主に設計・開発者向け | `customers.email` の定義<ul><li>型: `VARCHAR(255)`</li><li>制約: `NOT NULL`</li><li>意味: 連絡用メールアドレス</li></ul> |
+| データディクショナリ | <ul><li>データ辞書</li><li>データ定義書</li></ul> | Data Dictionary | <ul><li>テーブル</li><li>カラムの名称</li><li>データ型</li><li>桁数</li><li>制約</li><li>意味</li></ul>などの管理情報を詳細に定義した資料<br><br>主に設計・開発者向け | `customers.email` の定義<ul><li>型: `VARCHAR(255)`</li><li>制約: `NOT NULL`</li><li>意味: 連絡用メールアドレス</li></ul> |
 | ビジネスグロッサリ | <ul><li>用語集</li><li>業務用語集</li></ul> | Business Glossary | 業務上の用語とその定義を統一的に整理したもの<br>業務部門とIT部門の認識を合わせる | 「有効顧客」= 過去1年以内に購入のある顧客 |
 | マスタデータ | マスタ | Master Data | 業務の基準となる更新頻度の低い共通データ<br>トランザクションデータから参照される | <ul><li>顧客マスタ</li><li>商品マスタ</li><li>組織マスタ</li></ul> |
 | データガバナンス | - | Data Governance | データの品質・セキュリティ・利用ルールを組織として管理・統制する取り組み | <ul><li>データ責任者の設定</li><li>アクセス権限管理</li><li>品質基準の策定</li></ul> |
@@ -343,7 +343,7 @@
 | データクレンジング | <ul><li>データ洗浄</li><li>データクリーニング</li></ul> | Data Cleansing | データ中の誤り・重複・欠損・表記ゆれを検出して修正または除去し品質を高める処理 | <ul><li>「株式会社」と「(株)」の表記統一</li><li>重複顧客レコードの統合</li><li>欠損値の補完</li></ul> |
 | OLTP | オンライントランザクション処理 | Online Transaction Processing | 多数の短い更新(登録・更新・削除)を高速かつ正確に処理する方式<br>基幹システムなど業務処理向け | <ul><li>ECサイトの注文登録</li><li>銀行の入出金処理</li></ul> |
 | OLAP | オンライン分析処理 | Online Analytical Processing | 大量データを多角的に集計・分析する方式<br>参照中心で分析向け | <ul><li>地域別・商品別・月別の売上集計</li><li>ドリルダウン分析</li></ul> |
-| データモデリング<br>(ER図) | <ul><li>データモデル設計</li><li>ER図作成</li></ul> | Data Modeling<br>Entity-Relationship Diagram <br>(ERD) | 業務で扱うデータの構造と関係を整理して設計する作業<br>ER図で表現することが多い<br>次の順で段階的に具体化する<ol><li>概念モデル</li><li>論理モデル</li><li>物理モデル</li></ol> | 顧客と注文の関係を「1対多」で表現 |
+| データモデリング<br>(ER図) | <ul><li>データモデル設計</li><li>ER図作成</li></ul> | Data Modeling<br>Entity-Relationship Diagram <br>(ERD) | 業務で扱うデータの構造と関係を整理して設計する作業<br>ER図で表現することが多い<br><ol><li>概念モデル</li><li>論理モデル</li><li>物理モデル</li></ol>の順で段階的に具体化する | 顧客と注文の関係を「1対多」で表現 |
 
                             </div>
                         </article>
