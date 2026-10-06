@@ -324,8 +324,8 @@
 | データマート | マート | Data Mart | DWHから特定の部門・目的向けに切り出した小規模なデータ集合 | <ul><li>営業部門向け分析</li><li>マーケティング分析など</li></ul> |
 | データリネージ | <ul><li>データ系譜</li><li>リネージ</li></ul> | Data Lineage | データの発生源から加工・移動を経て最終的な利用先に至るまでの流れ(系譜)を追跡できる情報 | <ul><li>影響範囲調査</li><li>データ品質管理</li><li>監査・コンプライアンス対応</li></ul> |
 | スキーマ | 構造定義 | Schema | テーブル構造・カラムの型・制約など<br>データベースの設計情報 | `customers(id INT, name VARCHAR, email VARCHAR)` |
-| 主キー | <ul><li>PK</li><li>プライマリキー</li></ul> | Primary Key (PK) | テーブル内のレコードを一意に識別するカラム(またはその組み合わせ) | `customers.id` |
-| 外部キー | <ul><li>FK</li><li>フォーリンキー</li></ul> | Foreign Key (FK) | 他テーブルの主キーを参照するカラム<br>テーブル間の関連を表す | `orders.customer_id` が `customers.id` を参照 |
+| 主キー | <ul><li>PK</li><li>プライマリキー</li></ul> | Primary Key | テーブル内のレコードを一意に識別するカラム(またはその組み合わせ) | `customers.id` |
+| 外部キー | <ul><li>FK</li><li>フォーリンキー</li></ul> | Foreign Key | 他テーブルの主キーを参照するカラム<br>テーブル間の関連を表す | `orders.customer_id` が `customers.id` を参照 |
 | インデックス | 索引 | Index | 検索を高速化するために作成する索引 | `email` カラムに作成して顧客検索を高速化 |
 | ビュー | 仮想テーブル | View | クエリ結果を仮想的なテーブルとして扱えるようにしたもの | 有効な顧客だけを抽出した `active_customers` |
 | トランザクション | - | Transaction | 複数の処理を1つのまとまりとして扱う仕組み(全て成功か全て失敗) | 送金処理(出金と入金を1つの単位として実行) |
@@ -338,11 +338,11 @@
 | ビジネスグロッサリ | <ul><li>用語集</li><li>業務用語集</li></ul> | Business Glossary | 業務上の用語とその定義を統一的に整理したもの<br>業務部門とIT部門の認識を合わせる | 「有効顧客」= 過去1年以内に購入のある顧客 |
 | マスタデータ | マスタ | Master Data | 業務の基準となる更新頻度の低い共通データ<br>トランザクションデータから参照される | <ul><li>顧客マスタ</li><li>商品マスタ</li><li>組織マスタ</li></ul> |
 | データガバナンス | - | Data Governance | データの品質・セキュリティ・利用ルールを組織として管理・統制する取り組み | <ul><li>データ責任者の設定</li><li>アクセス権限管理</li><li>品質基準の策定</li></ul> |
-| BI | ビジネスインテリジェンス | Business Intelligence (BI) | 蓄積したデータを集計・可視化して意思決定に活用する仕組みやツール | <ul><li>売上ダッシュボード</li><li>定型レポート</li><li>Tableau・Power BI・Looker などのBIツール</li></ul> |
+| BI | ビジネスインテリジェンス | Business Intelligence | 蓄積したデータを集計・可視化して意思決定に活用する仕組みやツール | <ul><li>売上ダッシュボード</li><li>定型レポート</li><li>Tableau・Power BI・Looker などのBIツール</li></ul> |
 | データパイプライン | パイプライン | Data Pipeline | データの収集・変換・格納といった一連の処理を自動で連結して流す仕組み<br>ETLやELTを含む広い概念 | 基幹DBから毎晩データを抽出してDWHへ自動反映 |
 | データクレンジング | <ul><li>データ洗浄</li><li>データクリーニング</li></ul> | Data Cleansing | データ中の誤り・重複・欠損・表記ゆれを検出して修正または除去し品質を高める処理 | <ul><li>「株式会社」と「(株)」の表記統一</li><li>重複顧客レコードの統合</li><li>欠損値の補完</li></ul> |
-| OLTP | オンライントランザクション処理 | Online Transaction Processing (OLTP) | 多数の短い更新(登録・更新・削除)を高速かつ正確に処理する方式<br>基幹システムなど業務処理向け | <ul><li>ECサイトの注文登録</li><li>銀行の入出金処理</li></ul> |
-| OLAP | オンライン分析処理 | Online Analytical Processing (OLAP) | 大量データを多角的に集計・分析する方式<br>参照中心で分析向け | <ul><li>地域別・商品別・月別の売上集計</li><li>ドリルダウン分析</li></ul> |
+| OLTP | オンライントランザクション処理 | Online Transaction Processing | 多数の短い更新(登録・更新・削除)を高速かつ正確に処理する方式<br>基幹システムなど業務処理向け | <ul><li>ECサイトの注文登録</li><li>銀行の入出金処理</li></ul> |
+| OLAP | オンライン分析処理 | Online Analytical Processing | 大量データを多角的に集計・分析する方式<br>参照中心で分析向け | <ul><li>地域別・商品別・月別の売上集計</li><li>ドリルダウン分析</li></ul> |
 | データモデリング<br>(ER図) | <ul><li>データモデル設計</li><li>ER図作成</li></ul> | Data Modeling<br>Entity-Relationship Diagram <br>(ERD) | 業務で扱うデータの構造と関係を整理して設計する作業<br>ER図で表現することが多い<br>次の順で段階的に具体化する<ol><li>概念モデル</li><li>論理モデル</li><li>物理モデル</li></ol> | 顧客と注文の関係を「1対多」で表現 |
 
                             </div>
