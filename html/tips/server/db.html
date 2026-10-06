@@ -312,28 +312,38 @@
                             </div>
                         </article>
                         <article class="blog-post">
-                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="db">データ基盤の構成要素</h2>
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">データ基盤の構成要素</h2>
                             <div id="md-data">
 
 | 用語 | 別名 | 英語 | 概要 | 例 |
 |------|------|------|------|----|
-| テーブル(表) | 表 | Table | データを行と列の二次元で格納する、データベースの基本単位 | `customers`(顧客テーブル) |
-| レコード(行) | 行 / タプル | Record / Row / Tuple | テーブル内の1件分のデータ | 顧客1人分の情報 |
-| カラム(列) | 列 / 属性 | Column / Attribute | テーブル内の項目。データ型を持つ | `name` / `email` / `created_at` |
-| フィールド(セル) | セル / 値 | Field / Cell | 行と列が交差する1つの値 | 顧客ID=1 の `name` が「山田太郎」 |
-| データマート | マート | Data Mart | DWHから特定の部門・目的向けに切り出した小規模なデータ集合 | 営業部門向け分析 / マーケティング分析など |
-| データリネージ | データ系譜 / リネージ | Data Lineage | データの発生源から加工・移動を経て最終的な利用先に至るまでの流れ(系譜)を追跡できる情報 | 影響範囲調査 / データ品質管理 / 監査・コンプライアンス対応 |
-| スキーマ | 構造定義 | Schema | テーブル構造、カラムの型、制約など、データベースの設計情報 | `customers(id INT, name VARCHAR, email VARCHAR)` |
-| 主キー | PK / プライマリキー | Primary Key (PK) | テーブル内のレコードを一意に識別するカラム(またはその組み合わせ) | `customers.id` |
-| 外部キー | FK / フォーリンキー | Foreign Key (FK) | 他テーブルの主キーを参照するカラム。テーブル間の関連を表す | `orders.customer_id` が `customers.id` を参照 |
+| テーブル(表) | 表 | Table | データを行と列の二次元で格納するデータベースの基本単位 | `customers`(顧客テーブル) |
+| レコード(行) | <ul><li>行</li><li>タプル</li></ul> | Record<br>Row<br>Tuple | テーブル内の1件分のデータ | 顧客1人分の情報 |
+| カラム(列) | <ul><li>列</li><li>属性</li></ul> | Column<br>Attribute | テーブル内の項目<br>データ型を持つ | <ul><li>`name`</li><li>`email`</li><li>`created_at`</li></ul> |
+| フィールド(セル) | <ul><li>セル</li><li>値</li></ul> | Field<br>Cell | 行と列が交差する1つの値 | 顧客ID=1 の `name` が「山田太郎」 |
+| データマート | マート | Data Mart | DWHから特定の部門・目的向けに切り出した小規模なデータ集合 | <ul><li>営業部門向け分析</li><li>マーケティング分析など</li></ul> |
+| データリネージ | <ul><li>データ系譜</li><li>リネージ</li></ul> | Data Lineage | データの発生源から加工・移動を経て最終的な利用先に至るまでの流れ(系譜)を追跡できる情報 | <ul><li>影響範囲調査</li><li>データ品質管理</li><li>監査・コンプライアンス対応</li></ul> |
+| スキーマ | 構造定義 | Schema | テーブル構造・カラムの型・制約など<br>データベースの設計情報 | `customers(id INT, name VARCHAR, email VARCHAR)` |
+| 主キー | <ul><li>PK</li><li>プライマリキー</li></ul> | Primary Key (PK) | テーブル内のレコードを一意に識別するカラム(またはその組み合わせ) | `customers.id` |
+| 外部キー | <ul><li>FK</li><li>フォーリンキー</li></ul> | Foreign Key (FK) | 他テーブルの主キーを参照するカラム<br>テーブル間の関連を表す | `orders.customer_id` が `customers.id` を参照 |
 | インデックス | 索引 | Index | 検索を高速化するために作成する索引 | `email` カラムに作成して顧客検索を高速化 |
 | ビュー | 仮想テーブル | View | クエリ結果を仮想的なテーブルとして扱えるようにしたもの | 有効な顧客だけを抽出した `active_customers` |
 | トランザクション | - | Transaction | 複数の処理を1つのまとまりとして扱う仕組み(全て成功か全て失敗) | 送金処理(出金と入金を1つの単位として実行) |
-| 正規化 | - | Normalization | データの重複を排除し、整合性を保つようにテーブルを分割する設計手法 | 注文テーブルから顧客情報を切り出し `customers` テーブルに分離 |
-| ETL | - | Extract / Transform / Load | データを抽出し、変換して、格納先にロードする処理 | 基幹システムのデータを整形してからDWHへ格納 |
-| ELT | - | Extract / Load / Transform | データを先にロードし、格納先で変換する処理。DWHやデータレイクで多く使われる | 生データをデータレイクへ格納後、DWH上のSQLで変換 |
-| メタデータ | 属性情報 | Metadata | データそのものではなく、データに関する情報(定義、作成日、所有者など) | テーブル定義 / カラムの型 / 最終更新日時 |
-| データカタログ | - | Data Catalog | 組織内のデータ資産のメタデータを一覧化し、検索・理解しやすくする仕組み | 社内データの検索ポータル / 用語集 |
+| 正規化 | - | Normalization | データの重複を排除して整合性を保つようテーブルを分割する設計手法 | 注文テーブルから顧客情報を切り出し `customers` テーブルに分離 |
+| ETL | - | Extract Transform Load | 次の順でデータを処理する方式<ol><li>データを抽出</li><li>データを変換</li><li>格納先へロード</li></ol> | 基幹システムのデータを整形してからDWHへ格納 |
+| ELT | - | Extract Load Transform | 次の順でデータを処理する方式<ol><li>データを抽出</li><li>格納先へロード</li><li>格納先で変換</li></ol>DWHやデータレイクで多く使われる | 生データをデータレイクへ格納した後にDWH上のSQLで変換 |
+| メタデータ | 属性情報 | Metadata | データそのものではなくデータに関する情報(定義・作成日・所有者など) | <ul><li>テーブル定義</li><li>カラムの型</li><li>最終更新日時</li></ul> |
+| データカタログ | - | Data Catalog | 組織内のデータ資産のメタデータを一覧化し<br>検索・理解しやすくする仕組み | <ul><li>社内データの検索ポータル</li><li>用語集</li></ul> |
+| データディクショナリ | <ul><li>データ辞書</li><li>データ定義書</li></ul> | Data Dictionary | テーブルやカラムの名称・データ型・桁数・制約・意味などを詳細に定義した資料<br>主に設計・開発者向け | `customers.email` の定義<ul><li>型: `VARCHAR(255)`</li><li>制約: `NOT NULL`</li><li>意味: 連絡用メールアドレス</li></ul> |
+| ビジネスグロッサリ | <ul><li>用語集</li><li>業務用語集</li></ul> | Business Glossary | 業務上の用語とその定義を統一的に整理したもの<br>業務部門とIT部門の認識を合わせる | 「有効顧客」= 過去1年以内に購入のある顧客 |
+| マスタデータ | マスタ | Master Data | 業務の基準となる更新頻度の低い共通データ<br>トランザクションデータから参照される | <ul><li>顧客マスタ</li><li>商品マスタ</li><li>組織マスタ</li></ul> |
+| データガバナンス | - | Data Governance | データの品質・セキュリティ・利用ルールを組織として管理・統制する取り組み | <ul><li>データ責任者の設定</li><li>アクセス権限管理</li><li>品質基準の策定</li></ul> |
+| BI | ビジネスインテリジェンス | Business Intelligence (BI) | 蓄積したデータを集計・可視化して意思決定に活用する仕組みやツール | <ul><li>売上ダッシュボード</li><li>定型レポート</li><li>Tableau・Power BI・Looker などのBIツール</li></ul> |
+| データパイプライン | パイプライン | Data Pipeline | データの収集・変換・格納といった一連の処理を自動で連結して流す仕組み<br>ETLやELTを含む広い概念 | 基幹DBから毎晩データを抽出してDWHへ自動反映 |
+| データクレンジング | <ul><li>データ洗浄</li><li>データクリーニング</li></ul> | Data Cleansing | データ中の誤り・重複・欠損・表記ゆれを検出して修正または除去し品質を高める処理 | <ul><li>「株式会社」と「(株)」の表記統一</li><li>重複顧客レコードの統合</li><li>欠損値の補完</li></ul> |
+| OLTP | オンライントランザクション処理 | Online Transaction Processing (OLTP) | 多数の短い更新(登録・更新・削除)を高速かつ正確に処理する方式<br>基幹システムなど業務処理向け | <ul><li>ECサイトの注文登録</li><li>銀行の入出金処理</li></ul> |
+| OLAP | オンライン分析処理 | Online Analytical Processing (OLAP) | 大量データを多角的に集計・分析する方式<br>参照中心で分析向け | <ul><li>地域別・商品別・月別の売上集計</li><li>ドリルダウン分析</li></ul> |
+| データモデリング<br>(ER図) | <ul><li>データモデル設計</li><li>ER図作成</li></ul> | Data Modeling<br>Entity-Relationship Diagram <br>(ERD) | 業務で扱うデータの構造と関係を整理して設計する作業<br>ER図で表現することが多い<br>次の順で段階的に具体化する<ol><li>概念モデル</li><li>論理モデル</li><li>物理モデル</li></ol> | 顧客と注文の関係を「1対多」で表現 |
 
                             </div>
                         </article>
@@ -346,7 +356,10 @@
                                 <div id = "toc"></div>
                                 <ol class="list-unstyled mb-0">
                                     <li>
-                                        <a href="#db">データベースの分類</a>
+                                        <a href="#db">データ基盤の分類</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-data">データ基盤の構成要素</a>
                                     </li>
                                 </ol>
                             </div>
