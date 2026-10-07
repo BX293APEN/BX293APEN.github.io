@@ -2357,6 +2357,60 @@
                                 </table>
                             </div>
                         </article>
+
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                IPアドレス
+                            </h2>
+                            <div id="md-ip">
+
+| 項目 | IPv4 | IPv6 |
+|------|------|------|
+| 規格 | <ul><li>RFC 791<br>(1981年)</li></ul> | <ul><li>RFC 8200<br>(RFC 2460 の後継)</li></ul> |
+| アドレス長 | <ul><li>32 ビット</li></ul> | <ul><li>128 ビット</li></ul> |
+| アドレス総数 | <ul><li>約 43 億<br>(2^32)</li></ul> | <ul><li>約 3.4×10^38<br>(2^128)</li></ul> |
+| 表記法 | <ul><li>10進ドット区切り<br>(例: `192.168.0.1`)</li></ul> | <ul><li>16進コロン区切り<br>(例: `2001:db8::1`)</li></ul> |
+| 省略表記 | <ul><li>なし</li></ul> | <ul><li>先頭の 0 を省略可能</li><li>連続する 0 のブロックを `::` に省略可能</li></ul> |
+| ループバック | <ul><li>`127.0.0.1`</li></ul> | <ul><li>`::1`</li></ul> |
+| ヘッダ長 | <ul><li>可変<br>(20〜60 バイト)</li><li>IHL フィールドで 4 バイト単位で指定</li><li>オプション部は 4 バイトの整数倍にパディング</li></ul> | <ul><li>基本ヘッダは固定<br>(40 バイト)</li><li>拡張ヘッダを連結して可変長にできる</li><li>ヘッダ長フィールドはなし</li></ul> |
+| チェックサム | <ul><li>あり</li></ul> | <ul><li>なし</li><li>上位層・リンク層に委ねる</li></ul> |
+| 拡張機能 | <ul><li>オプションフィールド<br>(最大 40 バイト)</li></ul> | <ul><li>拡張ヘッダ<br>(Next Header で数珠つなぎに連結)</li><li>各拡張ヘッダ長は 8 オクテットの整数倍</li><li>Hdr Ext Len は<br>先頭 8 オクテットを除いた長さを 8 オクテット単位で表す</li><li>推奨順序は<br>Hop-by-Hop → Routing → Fragment → Destination Options → AH → ESP</li><li>Hop-by-Hop は途中の全ルータが処理するため先頭に置く</li><li>Fragment Header は固定 8 オクテット</li><li>中継ルータは基本的に Hop-by-Hop 以外を処理しない</li></ul> |
+| サービス種別 | <ul><li>ToS<br>(8 bit)</li></ul> | <ul><li>Traffic Class<br>(8 bit)</li></ul> |
+| 長さフィールド | <ul><li>Total Length<br>(ヘッダ含む)</li></ul> | <ul><li>Payload Length<br>(ヘッダ含まず)</li></ul> |
+| フロー制御 | <ul><li>なし</li></ul> | <ul><li>Flow Label<br>(20 bit)</li></ul> |
+| 分割制御 | <ul><li>Identification</li><li>Flags</li><li>Fragment Offset</li></ul> | <ul><li>拡張ヘッダ<br>(Fragment Header)</li></ul> |
+| 生存時間 | <ul><li>TTL</li></ul> | <ul><li>Hop Limit</li></ul> |
+| 上位プロトコル識別 | <ul><li>Protocol</li></ul> | <ul><li>Next Header</li></ul> |
+| アドレス設定方法 | <ul><li>手動</li><li>DHCP</li></ul> | <ul><li>手動</li><li>SLAAC</li><li>DHCPv6</li></ul> |
+| アドレス枯渇対策 | <ul><li>NAT</li><li>CIDR</li><li>プライベートアドレス</li></ul> | <ul><li>枯渇しにくい</li><li>NAT は原則不要</li></ul> |
+| 通信方式 | <ul><li>ユニキャスト</li><li>ブロードキャスト</li><li>マルチキャスト</li></ul> | <ul><li>ユニキャスト</li><li>マルチキャスト</li><li>エニーキャスト</li><li>ブロードキャストは廃止</li></ul> |
+| アドレス解決 | <ul><li>ARP</li></ul> | <ul><li>NDP<br>(近隣探索プロトコル)</li></ul> |
+| ループ検知<br>(L3: パケット) | <ul><li>TTL を 1 ずつ減算</li><li>0 で破棄して ICMP Time Exceeded を返す</li></ul> | <ul><li>Hop Limit を 1 ずつ減算</li><li>0 で破棄して ICMPv6 Time Exceeded を返す</li></ul> |
+| ルーティングプロトコル<br>(ループ回避) | <ul><li>RIP<br>(スプリットホライズン等)</li><li>OSPF<br>(SPF 計算)</li><li>BGP<br>(AS_PATH)</li></ul> | <ul><li>RIPng</li><li>OSPFv3</li><li>BGP<br>(MP-BGP で IPv6 を扱う)</li></ul> |
+| ルータでのフラグメント化 | <ul><li>可能</li></ul> | <ul><li>不可</li><li>送信元ホストのみ</li></ul> |
+| Path MTU Discovery | <ul><li>任意</li></ul> | <ul><li>必須</li></ul> |
+| 最小 MTU | <ul><li>576 バイト<br>(推奨)</li></ul> | <ul><li>1280 バイト</li></ul> |
+| DNS レコード | <ul><li>A レコード</li></ul> | <ul><li>AAAA レコード</li></ul> |
+| デフォルトゲートウェイの通知 | <ul><li>DHCP オプション 3 で配布</li><li>手動設定</li></ul> | <ul><li>ルータが RA<br>(Router Advertisement) で通知</li><li>ゲートウェイはルータの<br>リンクローカルアドレス (`fe80::/10`)</li></ul> |
+| ホストが保持するゲートウェイ数 | <ul><li>原則 1 つ</li><li>障害時は VIP の引き継ぎが必要</li></ul> | <ul><li>複数のデフォルトルータを保持可能</li><li>Router Lifetime で有効期間を管理</li><li>Router Preference<br>(RFC 4191) で優先度を指定</li></ul> |
+| 障害検出 | <ul><li>FHRP のヘルスチェック<br>(Hello / Advertisement)</li></ul> | <ul><li>FHRP のヘルスチェック</li><li>ホスト側の NUD<br>(近隣到達不能検出)</li><li>RA 途絶による Lifetime 切れ</li></ul> |
+| 冗長化プロトコル | <ul><li>VRRPv2<br>(RFC 3768)</li><li>VRRPv3<br>(RFC 5798)</li><li>HSRP<br>(Cisco)</li><li>GLBP<br>(Cisco)</li></ul> | <ul><li>VRRPv3<br>(RFC 5798)</li><li>HSRPv2<br>(Cisco)</li><li>GLBP for IPv6<br>(Cisco)</li><li>VRRPv2 は IPv6 非対応</li></ul> |
+| 仮想アドレス | <ul><li>仮想 IP (VIP)<br>(グローバル / プライベート)</li></ul> | <ul><li>仮想リンクローカルアドレス (`fe80::`) をゲートウェイにする</li><li>VIP は RA の送信元として使用</li></ul> |
+| 仮想 MAC (VRRP) | <ul><li>`00-00-5E-00-01-{VRID}`</li></ul> | <ul><li>`00-00-5E-00-02-{VRID}`</li></ul> |
+| 制御パケット宛先 (VRRP) | <ul><li>`224.0.0.18`</li><li>IP プロトコル番号 112</li></ul> | <ul><li>`ff02::12`</li><li>Next Header 112</li></ul> |
+| 注意点 | <ul><li>VIP の切替のみで完結</li></ul> | <ul><li>RA の設定<br>(間隔 / Lifetime) と FHRP の整合が必要</li><li>RA 間隔を短くすると切替が速くなる</li></ul> |
+| セキュリティ<br>(IPsec) | <ul><li>当初から任意のオプション</li><li>後付けで追加された仕組み</li><li>VPN などで広く利用</li></ul> | <ul><li>当初は IPsec の実装が必須<br>(RFC 4294 / 2006年)</li><li>のちに推奨へ格下げ<br>(RFC 6434 / 2011年)</li><li>現在も推奨のまま<br>(RFC 8504 / 2018年)</li><li>格下げの理由<br>(IoT 等の小型機器での実装負荷 / TLS・SSH など上位層での暗号化が主流化)</li><li>暗号化は必須ではなく可能という位置づけ</li></ul> |
+| セキュリティ<br>(IPsec の組み込み方) | <ul><li>IP オプションや別プロトコルとして追加</li></ul> | <ul><li>AH / ESP を拡張ヘッダとして設計に組み込み</li></ul> |
+| セキュリティ<br>(NAT との相性) | <ul><li>NAT 越えは相性が悪い</li><li>NAT-T<br>(UDP カプセル化)が必要</li></ul> | <ul><li>NAT を使わない前提</li><li>エンドツーエンドで IPsec を張りやすい</li></ul> |
+| QoS | <ul><li>ToS フィールド</li></ul> | <ul><li>Traffic Class</li><li>Flow Label</li></ul> |
+| モバイル対応 | <ul><li>Mobile IPv4<br>(三角経路などの課題)</li></ul> | <ul><li>Mobile IPv6<br>(経路最適化が可能)</li></ul> |
+| 長所 | <ul><li>普及率が高い</li><li>互換性が高い</li></ul> | <ul><li>アドレス空間が膨大</li><li>ヘッダが簡素</li><li>自動設定が容易</li></ul> |
+| 短所 | <ul><li>アドレス枯渇</li><li>NAT による複雑化</li></ul> | <ul><li>移行コストが高い</li><li>IPv4 との直接互換性がない</li></ul> |
+| 移行技術 | <ul><li>-</li></ul> | <ul><li>デュアルスタック</li><li>トンネリング</li><li>NAT64 / DNS64</li></ul> |
+
+                            </div>
+                        </article>
+                        
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 IPv4 / IPv6 アドレスの用途一覧
@@ -2589,6 +2643,9 @@
                                         <a href="#network-congestion">輻輳制御方式</a>
                                     </li>
                                     <li>
+                                        <a href="#md-ip">IPアドレス</a>
+                                    </li>
+                                    <li>
                                         <a href="#md-ipv4">IPv4割り当て</a>
                                     </li>
                                     <li>
@@ -2637,6 +2694,7 @@
             const mdLists = [
                 "md-vpn-tunnel",
                 "md-vpn-term",
+                "md-ip",
                 "md-ipv4",
                 "md-ipv6",
                 "md-tcp",
