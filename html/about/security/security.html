@@ -43,7 +43,7 @@
 | PAP<br>(Password Authentication<br>Protocol) | プロトコル<br>(固定式パスワード型) | PPP接続等で使われる、<br>ID/パスワードを平文のまま送信する最も単純な認証プロトコル<br>盗聴により容易にパスワードが漏洩するため<br>CHAP等のチャレンジレスポンス方式への移行が推奨される | <ol><li>クライアントがIDとパスワードを平文で送信する</li><li>サーバが登録済みの文字列と照合する</li><li>一致すれば認証成功とする</li></ol> | <ul><li>リモートアクセス認証<br>(ダイヤルアップ等、現在はほぼ非推奨)</li></ul> |
 | チャレンジレスポンス認証 | 認証方式<br>(総称) | パスワード等の秘密情報をネットワーク上に<br>平文で流さずに認証する方式 | <ol><li>サーバがランダムな「チャレンジ」(乱数)を送付する</li><li>クライアントはチャレンジとパスワードから<br>ハッシュ値等を計算し「レスポンス」として返送する</li><li>サーバも同じ計算を行い一致を確認する</li></ol> | <ul><li>リプレイ攻撃対策になる</li><li>APOP、CHAP等で利用</li></ul> |
 | CHAP<br>(Challenge Handshake<br>Authentication Protocol) | プロトコル<br>(チャレンジレスポンス型) | PPP接続等で使われる<br>チャレンジレスポンス方式の代表的プロトコル | <ol><li>接続開始時にチャレンジレスポンス認証を行う</li><li>接続中も定期的に再認証を行う</li><li>PAPと異なりパスワードを平文で送らない</li></ol> | <ul><li>リモートアクセス認証<br>(ダイヤルアップ、VPN等)</li></ul> |
-| XMLデジタル署名<br>(XML Signature) | 署名規格<br>(W3C勧告) | XML文書(全体・一部の要素・外部リソース)に対するデジタル署名の標準規格<br>署名情報自体もXML(&lt;Signature&gt;要素)で表現される<br>形式の違いは「署名と署名対象の<b>位置関係</b>」で決まり、直下の3形式に分かれる<br>なお1つの&lt;Signature&gt;は複数の&lt;Reference&gt;を持てるため、<br>1対1・1対多といった数の関係は形式ではなく&lt;Reference&gt;の数で決まる<br>XMLは意味が同じでも空白・属性順等の表記が変わりうるため、<br>署名・検証の前に「正規化(C14N : Canonicalization)」を行う<br>主な構成要素 : <ul><li>&lt;SignedInfo&gt; : 署名対象の情報のまとまり(実際に署名される要素)</li><li>&lt;Reference&gt; : 署名対象1件分の参照(URI、Transforms、DigestMethod、DigestValue)。複数指定可</li><li>&lt;SignatureValue&gt; : &lt;SignedInfo&gt;に対する署名値</li><li>&lt;KeyInfo&gt; : 検証用の公開鍵・証明書(省略可)</li><li>&lt;Object&gt; : エンベロピング署名で対象データを格納する要素</li></ul> | <ol><li>署名対象を&lt;Reference&gt;のURIで指定する</li><li>対象に変換(Transform : 正規化等)を適用し、ダイジェストを計算して&lt;DigestValue&gt;に格納する</li><li>&lt;SignedInfo&gt;を正規化し、秘密鍵で署名して&lt;SignatureValue&gt;を生成する</li><li>&lt;KeyInfo&gt;を付与し、&lt;Signature&gt;要素を形式に応じた位置に配置する</li><li>検証時はDigestValueの再計算と、SignatureValueの公開鍵による検証の両方を行う</li></ol> | <ul><li>デジタル署名・証跡</li><li>SOAPメッセージ(WS-Security)</li><li>電子申請システム等</li><li>XAdES(XML署名にタイムスタンプ等を加えた長期署名の拡張規格)</li><li>XML Encryption(XMLの暗号化規格)とは別規格</li></ul> |
+| XMLデジタル署名<br>(XML Signature) | 署名規格<br>(W3C勧告) | XML文書(全体・一部の要素・外部リソース)に対するデジタル署名の標準規格<br>署名情報自体もXML(&lt;Signature&gt;要素)で表現される<br>形式の違いは「署名と署名対象の<b>位置関係</b>」で決まり、直下の3形式に分かれる<br>なお1つの&lt;Signature&gt;は複数の&lt;Reference&gt;を持てるため、<br>1対1・1対多といった数の関係は形式ではなく&lt;Reference&gt;の数で決まる<br>XMLは意味が同じでも空白・属性順等の表記が変わりうるため、<br>署名・検証の前に「正規化(C14N : Canonicalization)」を行う<br>主な構成要素 : <ul><li>&lt;SignedInfo&gt; : 署名対象の情報のまとまり(実際に署名される要素)</li><li>&lt;Reference&gt; : <br>署名対象1件分の参照(URI、Transforms、DigestMethod、DigestValue)<br>複数指定可</li><li>&lt;SignatureValue&gt; : &lt;SignedInfo&gt;に対する署名値</li><li>&lt;KeyInfo&gt; : 検証用の公開鍵・証明書(省略可)</li><li>&lt;Object&gt; : エンベロピング署名で対象データを格納する要素</li></ul> | <ol><li>署名対象を&lt;Reference&gt;のURIで指定する</li><li>対象に変換(Transform : 正規化等)を適用し、ダイジェストを計算して&lt;DigestValue&gt;に格納する</li><li>&lt;SignedInfo&gt;を正規化し、秘密鍵で署名して&lt;SignatureValue&gt;を生成する</li><li>&lt;KeyInfo&gt;を付与し、&lt;Signature&gt;要素を形式に応じた位置に配置する</li><li>検証時はDigestValueの再計算と、SignatureValueの公開鍵による検証の両方を行う</li></ol> | <ul><li>デジタル署名・証跡</li><li>SOAPメッセージ(WS-Security)</li><li>電子申請システム等</li><li>XAdES(XML署名にタイムスタンプ等を加えた長期署名の拡張規格)</li><li>XML Encryption(XMLの暗号化規格)とは別規格</li></ul> |
 | &emsp;└ エンベローピド署名<br>(Enveloped Signature) | XML署名の形式 | <ul><li>署名が、対象に<b>包まれる</b>(対象の内側に署名を書く)</li></ul><br><b>対象</b><ul><li>署名を含む文書全体(URI="")</li><li>署名を含む特定の親要素(URI="#id")</li></ul><br><b>署名関係</b><ul><li><b>基本</b><br>1署名 : 1文書(1対1)</li><li><b>署名者が複数</b><br>署名を追加して多対1も可能<br>(他の署名を対象に含めるかの設計が必要)</li></ul><br><b>署名場所</b><ul><li><b>対象の内部</b>に書く<br>(「属する文書」が対象)</li><li>署名自身が対象に含まれてしまうため、<br>署名要素を対象から除外する変換(enveloped-signature)が必須</li></ul><br><b>構造イメージ</b><br><code>Invoice&emsp;←署名対象<br>&nbsp;├ Amount<br>&nbsp;└ Signature&emsp;←対象の内側</code> | <ol><li>署名対象(通常は文書全体 : URI="")を&lt;Reference&gt;で指定する</li><li>Transformsに「enveloped-signature変換」と正規化を指定する</li><li>ダイジェストを計算し、&lt;SignedInfo&gt;に署名する</li><li>&lt;Signature&gt;要素を対象文書の内部に挿入する</li></ol> | <ul><li>1ファイルで署名と文書を完結させたい場合</li><li>SAMLアサーション・レスポンスの署名</li><li>電子申請の署名付きXML文書</li></ul> |
 | &emsp;└ エンベロピング署名<br>(Enveloping Signature) | XML署名の形式 | <ul><li>署名が、対象を<b>包む</b>(署名の内側に対象を書く)</li></ul><br><b>対象</b><ul><li>&lt;Signature&gt;内の&lt;Object&gt;要素に格納したデータ</li><li>XML以外のデータ(Base64化したバイナリ等)も対象にできる</li></ul><br><b>署名関係</b><ul><li>1署名 : 1つ以上の&lt;Object&gt;</li><li>Objectを複数入れれば1署名で複数データを署名(1対多)</li></ul><br><b>署名場所</b><ul><li><b>署名が親、対象が子</b>(対象は署名の内部に書く)</li><li>&lt;Reference&gt;でURI="#id"により内側のObjectを参照</li><li>元データを使うには署名要素から取り出す</li></ul><br><b>構造イメージ</b><br><code>Signature&emsp;←署名が外側<br>&nbsp;└ Object&emsp;←対象が内側<br>&nbsp;&nbsp;&nbsp;└ 対象データ</code> | <ol><li>署名対象データを&lt;Signature&gt;内の&lt;Object&gt;要素に格納する</li><li>&lt;Reference&gt;でそのObject要素をID参照(URI="#id")する</li><li>ダイジェストを計算し、&lt;SignedInfo&gt;に署名する</li></ol> | <ul><li>バイナリや任意データを1つのXMLにまとめて署名する用途</li></ul> |
 | &emsp;└ デタッチ署名<br>(Detached Signature) | XML署名の形式 | <ul><li>署名と対象が、互いに包まず<b>別々</b>(署名は対象を参照するだけ)</li></ul><br><b>対象</b><ul><li>同一XML文書内の特定要素(URI="#id")</li><li>外部ファイル(URI="https://…")</li><li>混在(文書の一部だけを対象にできる)</li></ul><br><b>署名関係</b><ul><li>1署名で複数の要素・リソースをまとめて署名(1対多)</li><li>複数署名者が同じ対象に署名(多対1)</li><li>多対多</li><li>3形式中最も柔軟</li></ul><br><b>署名場所</b><ul><li><b>対象の外側</b>に書き、対象を参照する</li><li>同一文書内の別要素への署名なら、<b>同じXML文書に含める</b>ことも可能(対象の兄弟要素などに配置)</li><li>対象を改変せずに署名できるが、署名と対象が分離すると検証できない</li></ul><br><b>構造イメージ</b><br><code>Order&emsp;←署名対象①(id=o1)<br>Item&emsp;←署名対象②(id=i1)<br>Signature&emsp;←対象の外側から参照<br>&nbsp;├ Reference URI="#o1"<br>&nbsp;└ Reference URI="#i1"</code> | <ol><li>署名対象の要素・リソースを&lt;Reference&gt;のURI(#idまたは外部URI)で指定する</li><li>ダイジェストを計算し、&lt;SignedInfo&gt;に署名する</li><li>&lt;Signature&gt;要素を対象の外側(別ファイル、または同一文書内の別の位置)に配置する</li></ol> | <ul><li>文書の一部の要素だけに署名する用途</li><li>SOAPメッセージのヘッダ・ボディ等の個別要素の署名(WS-Security)</li><li>注意 : ID参照方式では、署名済み要素を別の位置へ移して偽要素を差し込む<br>XML Signature Wrapping攻撃に備え、署名された要素そのものを処理に使うこと</li></ul> |
@@ -310,7 +310,7 @@
             <td>量子鍵配送(QKD)<br>+ ワンタイムパッド暗号</td>
             <td>-</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>不確定性原理</li><li>量子複製不可能定理</li></ul></td>
@@ -332,7 +332,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>プリペア&メジャー方式<br>(単一光子の偏光・位相に符号化)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>不確定性原理</li><li>量子複製不可能定理</li></ul></td>
@@ -346,7 +346,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>エンタングルメント方式<br>(もつれ光子対)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>量子もつれ(エンタングルメント)</li><li>ベルの不等式</li></ul></td>
@@ -360,7 +360,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>連続変数方式<br>(光の振幅・位相の連続量を符号化)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>不確定性原理</li><li>量子複製不可能定理</li></ul></td>
@@ -374,7 +374,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>プリペア&メジャー方式<br>(非直交な2状態を使用)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>非直交な量子状態は確実に判別できない</li><li>量子複製不可能定理</li></ul></td>
@@ -388,7 +388,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>プリペア&メジャー方式<br>(BB84と同じ4状態を使用)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>不確定性原理</li><li>量子複製不可能定理</li></ul></td>
@@ -402,7 +402,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>プリペア&メジャー方式<br>(3基底・6状態を使用)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>不確定性原理</li><li>量子複製不可能定理</li></ul></td>
@@ -416,7 +416,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>エンタングルメント方式<br>(もつれ光子対、ベルの不等式の検定なし)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>量子もつれ(エンタングルメント)</li><li>不確定性原理</li></ul></td>
@@ -430,7 +430,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>分散位相参照方式<br>(連続するパルスの位相差に符号化)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>量子複製不可能定理</li><li>光パルス間のコヒーレンス(位相相関)</li></ul></td>
@@ -444,7 +444,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>分散位相参照方式<br>(時間ビン符号化)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>量子複製不可能定理</li><li>光パルス間のコヒーレンス(位相相関)</li></ul></td>
@@ -458,7 +458,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>測定器非依存方式<br>(第三者がベル状態測定)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>量子もつれの測定(ベル状態測定)</li><li>量子複製不可能定理</li></ul></td>
@@ -472,7 +472,7 @@
             <td>量子鍵配送(QKD)</td>
             <td>ツインフィールド方式<br>(中間ノードで単一光子干渉)</td>
             <td>対象外</td>
-            <td>○<br>(物理法則に基づくため量子計算機でも解読不能。<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
+            <td>○<br>(物理法則に基づくため量子計算機でも解読不能<br>ただし数学的困難性を用いる狭義のPQCとは別系統)</td>
             <td>可変<br>(誤り訂正・プライバシー増幅後の最終鍵長に依存)</td>
             <td>○<br>(セッションごとに鍵を新規生成するため)</td>
             <td>なし<br>(数学的問題に依存しない)<br>量子力学の原理を利用する<ul class="mb-0 ps-3"><li>単一光子干渉</li><li>量子複製不可能定理</li></ul></td>
@@ -503,7 +503,11 @@
 <ul>
     <li>QKDは「鍵を安全に共有する」技術であり、データの暗号化自体は別途AESやワンタイムパッド等で行う</li>
     <li>量子状態は測定すると乱れるため、盗聴があると誤り率が上昇し、検知できる</li>
-    <li>古典チャネルの認証が別途必要<br>(事前共有鍵やPQC署名等を用いる。認証が破られると中間者攻撃を受ける)</li>
+    <li>
+        古典チャネルの認証が別途必要<br>
+        事前共有鍵やPQC署名等を用いる<br>
+        認証が破られると中間者攻撃を受ける
+    </li>
     <li>専用の量子通信機器が必要で、光ファイバでは通信距離や鍵生成速度に制約がある</li>
     <li>実機の検出器等を狙う実装攻撃(サイドチャネル)が課題</li>
     <li>デコイ状態法は個別のプロトコルではなく、弱いコヒーレント光を使う実システムで光子数分離攻撃(PNS攻撃)を防ぐ技術<br>(BB84等と組み合わせて用いる)</li>
@@ -1534,7 +1538,10 @@
                                             <td rowspan="10" class="text-center">〇</td>
                                             <td>CBCのMAC-then-Encrypt</td>
                                             <td>Lucky13攻撃(2013年): CBCのタイミング攻撃</td>
-                                            <td>AEAD(AES-GCM/ChaCha20-Poly1305)のみ許可。Encrypt-then-MAC拡張</td>
+                                            <td>
+                                                AEAD(AES-GCM/ChaCha20-Poly1305)のみ許可<br>
+                                                Encrypt-then-MAC拡張
+                                            </td>
                                             <td rowspan="10">
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
@@ -1623,7 +1630,11 @@
                                         <tr>
                                             <td>TLS圧縮・HTTP圧縮の併用</td>
                                             <td>CRIME攻撃(2012年, TLS圧縮)、BREACH攻撃(2013年, HTTP圧縮): 圧縮後のサイズの差からCookie等を推測</td>
-                                            <td>TLS圧縮を無効化。BREACHは秘密情報を含む応答のHTTP圧縮の回避、CSRFトークンのリクエストごとのマスク等</td>
+                                            <td>
+                                                TLS圧縮を無効化<br>
+                                                BREACHは秘密情報を含む応答のHTTP圧縮の回避<br>
+                                                CSRFトークンのリクエストごとのマスク等
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>再ネゴシエーションが既存の接続と結び付けて検証されない</td>
@@ -1783,10 +1794,21 @@
                                                 <ul class="mb-0 ps-3">
                                                     <li>ハンドシェイク(1-RTT)
                                                         <ol class="mb-0 ps-3">
-                                                            <li>ClientHello(supported_versions / key_share / signature_algorithms等)。鍵共有の素材を最初から送る</li>
-                                                            <li>ServerHello(key_share)。ここで鍵が確定し、以降はすべて暗号化される</li>
-                                                            <li>EncryptedExtensions / Certificate / CertificateVerify / Finished(暗号化済み)</li>
-                                                            <li>クライアントのFinished。サーバの最初の応答直後からアプリケーションデータを送信可能</li>
+                                                            <li>
+                                                                ClientHello(supported_versions / key_share / signature_algorithms等)<br>
+                                                                鍵共有の素材を最初から送る
+                                                            </li>
+                                                            <li>
+                                                                ServerHello(key_share)<br>
+                                                                ここで鍵が確定し、以降はすべて暗号化される
+                                                            </li>
+                                                            <li>
+                                                                EncryptedExtensions / Certificate / CertificateVerify / Finished(暗号化済み)
+                                                            </li>
+                                                            <li>
+                                                                クライアントのFinished<br>
+                                                                サーバの最初の応答直後からアプリケーションデータを送信可能
+                                                            </li>
                                                         </ol>
                                                     </li>
                                                 </ul>
@@ -1853,8 +1875,15 @@
                                             </td>
                                             <td rowspan="4" class="text-center">〇</td>
                                             <td>0-RTT(early data)にリプレイ耐性がない</td>
-                                            <td>リプレイ攻撃: 盗聴したearly dataを再送し、処理を重複実行させる</td>
-                                            <td>冪等な要求のみ0-RTTで送る。サーバ側でリプレイ検出(チケットの使い捨て等)、または0-RTTを無効化</td>
+                                            <td>
+                                                リプレイ攻撃: <br>
+                                                盗聴したearly dataを再送し、処理を重複実行させる
+                                            </td>
+                                            <td>
+                                                冪等な要求のみ0-RTTで送る<br>
+                                                サーバ側でリプレイ検出(チケットの使い捨て等)<br>
+                                                0-RTTを無効化
+                                            </td>
                                             <td rowspan="4">
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
@@ -1888,12 +1917,18 @@
                                         <tr>
                                             <td>0-RTTのearly dataはPSK由来の鍵で暗号化され、前方秘匿性がない</td>
                                             <td>PSK(チケット鍵)が漏洩すると、記録済みのearly dataを復号</td>
-                                            <td>機密性の高いデータを0-RTTで送らない。PSKはDHE併用(psk_dhe_ke)にする</td>
+                                            <td>
+                                                機密性の高いデータを0-RTTで送らない<br>
+                                                PSKはDHE併用(psk_dhe_ke)にする
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>旧バージョン(TLS 1.2以下)にも対応するサーバでのバージョン交渉</td>
                                             <td>ダウングレード攻撃: 旧バージョンへ誘導</td>
-                                            <td>ServerHello.randomの末尾8バイトに固定値(DOWNGRD + 0x01/0x00)を入れて検知。バージョンはsupported_versions拡張で決定(legacy_versionは1.2相当で固定)</td>
+                                            <td>
+                                                ServerHello.randomの末尾8バイトに固定値(DOWNGRD + 0x01/0x00)を入れて検知<br>
+                                                バージョンはsupported_versions拡張で決定(legacy_versionは1.2相当で固定)
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>実装上の脆弱性やサーバ設定の不備</td>
@@ -4970,10 +5005,10 @@
 |---|---|---|---|---|---|---|
 | コピーガード<br>(コピープロテクト)        | 複製・利用の防止 | <ul><li>音楽CD</li><li>DVD</li><li>ゲームソフトのプロテクト</li></ul>                     | メディア・ファイルの複製行為                                                                  | 複製時                        | <ol><li>物理メディアに意図的な傷・特殊フォーマットを付与</li><li>暗号化してコピー先での再生・実行を不能にする</li></ol> | 複製という行為そのものを<br>技術的に阻止・困難化する仕組み |
 | DRM<br>(Digital Rights Management)    | 複製・利用の防止 | <ul><li>音楽</li><li>電子書籍</li><li>動画配信サービス</li><li>Windows Media DRM</li></ul> | コンテンツの利用行為全般<ul><li>複製</li><li>再生</li><li>閲覧</li><li>印刷</li><li>転送</li></ul> | 利用(再生・アクセス)の都度  | <ol><li>コンテンツを暗号化</li><li>正規のライセンス(鍵)を持つ再生ソフト・端末でのみ復号・利用可能にする</li></ol>利用期限・再生回数・デバイス数の制限も可能 | 著作権者の許諾範囲内に<br>コンテンツ利用を制限する<br>権利管理技術全般<br>(主にB2Cのコンテンツ配信向け) |
-| CPRM<br>(Content Protection for Recordable Media) | 複製・利用の防止 | <ul><li>SDメモリーカード<br>(デジタル放送の録画・音楽・動画)</li><li>DVD-RAM / DVD-R / DVD-RW<br>(VRモード録画)</li></ul> | 記録メディアに保存されたコンテンツ<ul><li>デジタル放送の録画番組<br>(ダビング10等のコピー制御情報付き)</li><li>音楽・動画</li></ul> | 記録(ムーブ・コピー)時<br>再生時 | <ol><li>メディアごとに固有のメディアIDを、通常領域からは読み書きできない保護領域に記録</li><li>コンテンツをタイトルキーで暗号化し、タイトルキーはメディアID等から生成した鍵で暗号化して保存</li><li>ファイルだけを別メディアにコピーしてもメディアIDが異なるため復号・再生できない</li><li>MKB(Media Key Block)により、不正な機器の鍵を失効させられる</li><li>保護領域へアクセスできるのは、ライセンスを受けた対応機器のみ</li></ol> | 記録メディア上のコンテンツをそのメディア個体に紐付けて暗号化し、<br>ファイル単位のコピーによる不正複製を防ぐ技術<br>(4C Entityが策定。SDカードではSD Security仕様の保護領域を利用) |
-| CPPM<br>(Content Protection for Pre-Recorded Media) | 複製・利用の防止 | <ul><li>DVD-Audio</li></ul> | 再生専用(プリレコード)メディアに収録された音楽コンテンツ | 再生時 | <ol><li>ディスク製造時にコンテンツを暗号化し、MKB(Media Key Block)とアルバムIDを記録</li><li>対応プレーヤーが自身のデバイス鍵でMKBを処理してメディア鍵を得て復号</li><li>MKBの更新により、不正な機器の鍵を失効できる</li></ol> | CPRMの姉妹技術で、記録済み(ROM)メディア向けのコンテンツ保護<br>(4C Entityが策定。メディア固有IDを使うCPRMと異なり、ディスク共通のアルバムIDを使う) |
+| CPRM<br>(Content Protection for Recordable Media) | 複製・利用の防止 | <ul><li>SDメモリーカード<br>(デジタル放送の録画・音楽・動画)</li><li>DVD-RAM / DVD-R / DVD-RW<br>(VRモード録画)</li></ul> | 記録メディアに保存されたコンテンツ<ul><li>デジタル放送の録画番組<br>(ダビング10等のコピー制御情報付き)</li><li>音楽・動画</li></ul> | 記録(ムーブ・コピー)時<br>再生時 | <ol><li>メディアごとに固有のメディアIDを、通常領域からは読み書きできない保護領域に記録</li><li>コンテンツをタイトルキーで暗号化し、タイトルキーはメディアID等から生成した鍵で暗号化して保存</li><li>ファイルだけを別メディアにコピーしてもメディアIDが異なるため復号・再生できない</li><li>MKB(Media Key Block)により、不正な機器の鍵を失効させられる</li><li>保護領域へアクセスできるのは、ライセンスを受けた対応機器のみ</li></ol> | 記録メディア上のコンテンツをそのメディア個体に紐付けて暗号化し、<br>ファイル単位のコピーによる不正複製を防ぐ技術<br>4C Entityが策定<br>SDカードではSD Security仕様の保護領域を利用 |
+| CPPM<br>(Content Protection for Pre-Recorded Media) | 複製・利用の防止 | <ul><li>DVD-Audio</li></ul> | 再生専用(プリレコード)メディアに収録された音楽コンテンツ | 再生時 | <ol><li>ディスク製造時にコンテンツを暗号化し、MKB(Media Key Block)とアルバムIDを記録</li><li>対応プレーヤーが自身のデバイス鍵でMKBを処理してメディア鍵を得て復号</li><li>MKBの更新により、不正な機器の鍵を失効できる</li></ol> | CPRMの姉妹技術で、記録済み(ROM)メディア向けのコンテンツ保護<br>4C Entityが策定<br>メディア固有IDを使うCPRMと異なり、ディスク共通のアルバムIDを使う |
 | CSS<br>(Content Scramble System) | 複製・利用の防止 | <ul><li>DVD-Video</li></ul> | DVD-Videoの映像・音声コンテンツ | 再生時<br>(ドライブと再生機器・ソフトの認証・復号) | <ol><li>ディスク鍵・タイトル鍵でコンテンツをスクランブル(暗号化)</li><li>ライセンスを受けた再生機器・ドライブのみが鍵を持ち、相互認証を経て復号</li><li>ライセンスを受けていない機器では再生できない</li></ol> | DVD-Videoの不正コピーや非対応機器での再生を防ぐ技術<br>(1999年にDeCSSで解読された) |
-| AACS<br>(Advanced Access Content System) | 複製・利用の防止 | <ul><li>Blu-ray Disc</li><li>UHD Blu-ray</li><li>HD DVD(終了)</li></ul> | 高精細な映像コンテンツ<br>(ROMメディア・録画用メディア) | 再生時<br>録画時 | <ol><li>AES-128でコンテンツを暗号化</li><li>MKBとデバイス鍵、ボリュームID等から復号鍵を導出</li><li>流出した機器の鍵は、MKBの更新で失効できる</li></ol> | CSSの後継にあたる光ディスク向けのコンテンツ保護技術<br>(AACS LAが管理。Blu-rayではBD+・BD-ROM Markと併用される) |
+| AACS<br>(Advanced Access Content System) | 複製・利用の防止 | <ul><li>Blu-ray Disc</li><li>UHD Blu-ray</li><li>HD DVD(終了)</li></ul> | 高精細な映像コンテンツ<br>(ROMメディア・録画用メディア) | 再生時<br>録画時 | <ol><li>AES-128でコンテンツを暗号化</li><li>MKBとデバイス鍵、ボリュームID等から復号鍵を導出</li><li>流出した機器の鍵は、MKBの更新で失効できる</li></ol> | CSSの後継にあたる光ディスク向けのコンテンツ保護技術<br>AACS LAが管理<br>Blu-rayではBD+・BD-ROM Markと併用される |
 | B-CAS<br>(BS Conditional Access Systems) | 複製・利用の防止 | <ul><li>地上デジタル放送</li><li>BS/CSデジタル放送</li><li>B-CASカード</li></ul> | デジタル放送コンテンツ<br>(スクランブル放送) | 受信・視聴時<br>録画時 | <ol><li>放送波をスクランブル(暗号化)して送信</li><li>受信機に挿したICカードの鍵情報で復号し、視聴を可能にする</li><li>コピー制御情報(コピーワンス・ダビング10等)を放送に付与し、録画機器の動作を制御</li></ol> | 日本のデジタル放送における限定受信・コピー制御の仕組み<br>(新4K8K衛星放送ではACASを使用) |
 | DTCP<br>(Digital Transmission Content Protection)<br>※IPネットワーク向けはDTCP-IP | 複製・利用の防止 | <ul><li>DLNA(ホームネットワーク)</li><li>レコーダーとテレビ・スマホ間のネットワーク視聴</li><li>IEEE 1394 / USB</li></ul> | 機器間で伝送されるデジタルコンテンツ | 機器間の伝送・転送時 | <ol><li>送受信機器が相互認証・鍵交換を行う</li><li>コピー制御情報(CCI)に応じてコンテンツを暗号化して伝送</li><li>認証できない機器・不正な機器には伝送しない</li><li>CCIにより、コピー禁止・1世代のみ可・コピー済み・制限なし等を制御</li></ol> | 家庭内ネットワーク等の伝送経路でコンテンツを保護する技術<br>(5C(日立・インテル・パナソニック・ソニー・東芝)が策定、DTLAが管理) |
 | HDCP<br>(High-bandwidth Digital Content Protection) | 複製・利用の防止 | <ul><li>HDMI</li><li>DisplayPort</li><li>DVI</li></ul> | 映像・音声の出力経路を流れるデジタル信号 | 機器接続時<br>伝送中 | <ol><li>送信側と受信側が相互認証・鍵交換を行う</li><li>認証後、伝送路上の映像・音声を暗号化して送信</li><li>失効リスト(SRM)により、不正な機器を排除できる</li></ol> | 出力経路での不正なキャプチャ・複製を防ぐ技術<br>(Intelが開発し、DCP LLCが管理) |
