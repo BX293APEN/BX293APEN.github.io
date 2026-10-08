@@ -395,6 +395,12 @@
 | ROE | Return On Equity | 自己資本利益率 | \[\begin{flalign}& \dfrac{当期純利益}{自己資本} \times 100 \\ \\ & = 売上高純利益率 \times 総資産回転率 \times 財務レバレッジ &\end{flalign}\] | 株主が出した資本でどれだけ利益を稼いだか<br>財務諸表全体の指標として使われる |
 | ROA | Return On Assets | 総資産利益率 | \[\begin{flalign}& \dfrac{当期純利益}{総資産} \times 100 &\end{flalign}\] | 負債も含めた総資産全体の運用効率<br>財務諸表全体の指標として使われる |
 | ROAS | Return On Advertising Spend | 広告費用対効果 | \[\begin{flalign}& \dfrac{広告経由の売上}{広告費} \times 100 &\end{flalign}\] | 投じた広告費に対する売上の割合(利益ではなく売上ベースな点に注意) |  
+| TCO | Total Cost of Ownership | 総所有費用 | \[\begin{flalign}& 初期費用 + \sum_{t=1}^{n} 運用費用_t (+ 廃棄費用) &\end{flalign}\] | 導入から運用・廃棄までの全期間にかかる費用の総額<br>購入価格だけでなく保守・人件費・教育費等も含めて比較する<br>費用側のみの評価 (低いほど良い) |
+| TVO | Total Value of Ownership | 総所有価値 | \[\begin{flalign}& 総便益 - TCO &\end{flalign}\] | TCO (費用) に加えて得られる便益 (価値) も評価する指標<br>費用だけでなく効果まで含めて比較できる<br>定義は文献により異なる |
+| TEI | Total Economic Impact | 総経済効果 | \[\begin{flalign}& PV(リスク調整後便益) + PV(柔軟性) - PV(リスク調整後コスト) &\end{flalign}\] <br> PV : 現在価値 | Forrester社が提唱する投資評価の手法<br>便益・コスト・柔軟性・リスクの4要素で評価する<br>算出したNPVやROIを投資判断に用いる |
+| PP | Payback Period | 投資回収期間 | \[\begin{flalign}& \dfrac{初期投資額}{年間回収額 (年間CF)} [年] &\end{flalign}\] | 投資額を回収するのに必要な期間 (短いほど良い)<br>年ごとにCFが異なる場合は累積CFが0を超える年で求める<br>貨幣の時間価値を考慮しない |
+| NPV | Net Present Value | 正味現在価値 | \[\begin{flalign}& \sum_{t=1}^{n} \dfrac{CF_t}{(1+r)^t} - 初期投資額 &\end{flalign}\] <br> \[\begin{flalign}& CF_t : t年目のキャッシュフロー \\ & r : 割引率 (資本コスト) &\end{flalign}\] | 将来のCFを割引率で現在価値に直した合計から投資額を引いた値<br>NPV > 0 なら投資価値あり (大きいほど良い)<br>貨幣の時間価値を考慮する |
+| IRR | Internal Rate of Return | 内部収益率 | \[\begin{flalign}& \sum_{t=1}^{n} \dfrac{CF_t}{(1+IRR)^t} - 初期投資額 = 0 &\end{flalign}\] <br> NPV = 0 となる割引率が IRR | 投資の期待収益率<br>IRR > 資本コスト (要求収益率) なら投資価値あり (高いほど良い) |
 
 <br>
 <br>

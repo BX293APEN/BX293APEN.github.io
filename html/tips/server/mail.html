@@ -685,6 +685,26 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                                             </td>
                                         </tr>
                                         <tr>
+                                            <th scope="row">IP25B</th>
+                                            <td>Inbound Port 25 Blocking</td>
+                                            <td>
+                                                <ol class="mb-0 ps-3">
+                                                    <li>受信側MTAが接続元IPアドレスを確認する</li>
+                                                    <li>動的IPアドレスの範囲からの接続かを判定する</li>
+                                                    <li>動的IPからの直接のポート25(SMTP)接続を拒否する</li>
+                                                </ol>
+                                            </td>
+                                            <td class="text-center fs-4 text-success">〇</td>
+                                            <td>
+                                                <ul class="mb-0 ps-3">
+                                                    <li>受信サーバ側の受信ポート制限(OP25Bの受信側版)</li>
+                                                    <li>動的IPの範囲は、DULやPBLなどのリストで判定する</li>
+                                                    <li>正規のメールサーバは固定IPを使うため影響を受けにくい</li>
+                                                    <li>OP25Bと併用することで、ボットからの直接送信を送信側・受信側の両面から防げる</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row" class="text-nowrap">中継制限</th>
                                             <td>オープンリレーの防止</td>
                                             <td>
