@@ -45,7 +45,7 @@
                             <div id = "md-text">
 ##### ※注意
 - Python 3.12 以降では `cgi`  `cgitb` モジュールが削除されています  
-  **古い** CGIスクリプトは動作しないため、 **環境変数** と **stdin** を使ったフォーム処理に書き換える必要があります。  
+  **古い** CGIスクリプトは動作しないため、 **環境変数** と **stdin** を使ったフォーム処理に書き換える必要があります  
   → **代替モジュール** [`libcgipy`](https://pypi.org/project/libcgipy/) を作成しました
 
                             </div>
@@ -557,7 +557,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                 </table>
                             </div>
 
-                            <div class="table-responsive text-nowrap">
+                            <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr><th>フィールド名</th><th>種別</th><th>説明</th><th>属性</th><th>説明</th><th>値</th><th>説明</th></tr>
@@ -571,7 +571,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>application/x-www-form-urlencoded</code></pre></td><td>XHR/Fetch: フォーム形式の送信</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>application/json</code></pre></td><td>XHR/Fetch: JSONの送受信 (クロスオリジンではプリフライト対象)</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>multipart/form-data</code></pre></td><td>XHR/Fetch: ファイル送信 (<code>FormData</code> 使用時はブラウザが自動付与)</td></tr>
-                                        <tr><td><pre class="language-html"><code>charset</code></pre></td><td>文字エンコーディング (テキスト系で指定)</td><td><pre class="language-html"><code>UTF-8</code></pre></td><td>Unicode (UTF-8)</td></tr>
+                                        <tr><td><pre class="language-html"><code>charset</code></pre></td><td class="text-nowrap">文字エンコーディング (テキスト系で指定)</td><td><pre class="language-html"><code>UTF-8</code></pre></td><td>Unicode (UTF-8)</td></tr>
                                         <tr><td><pre class="language-html"><code>boundary</code></pre></td><td>multipartの区切り文字列 (<code>multipart/form-data</code> 時に必須)</td><td><pre class="language-html"><code>[文字列]</code></pre></td><td>区切りに使う任意の文字列</td></tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
@@ -593,7 +593,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <tr><td><pre class="language-html"><code>max-age</code></pre></td><td>有効期間</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>有効期間の秒数 (例: <code>max-age=3600</code>)</td></tr>
                                         <tr><td><pre class="language-html"><code>s-maxage</code></pre></td><td>共有キャッシュ向けの有効期間</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>共有キャッシュ向け有効期間の秒数</td></tr>
                                         <tr><td><pre class="language-html"><code>must-revalidate</code></pre></td><td>期限切れなら必ず確認</td><td class="text-center">-</td><td class="text-center">-</td></tr>
-                                        <tr><td><pre class="language-html"><code>immutable</code></pre></td><td>有効期間中は更新されない (再検証不要)</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>immutable</code></pre></td><td class="text-nowrap">有効期間中は更新されない (再検証不要)</td><td class="text-center">-</td><td class="text-center">-</td></tr>
                                         <tr><td><pre class="language-html"><code>no-transform</code></pre></td><td>中継が内容を変換することを禁止</td><td class="text-center">-</td><td class="text-center">-</td></tr>
                                     </tbody>
                                     <!-- ## リクエスト -->
@@ -602,7 +602,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <tr><td><pre class="language-html"><code>Bearer</code></pre></td><td>トークン認証 (OAuth 2.0 / JWT 等)</td><td><pre class="language-html"><code>[アクセストークン]</code></pre></td><td>発行されたトークン文字列</td></tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
-                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Host</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>接続先サーバ (HTTP/1.1では必須)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[host]:[port]</code></pre></td><td>ホスト名 + ポート番号 (既定ポートは省略可)</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Host</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td class="text-nowrap">接続先サーバ (HTTP/1.1では必須)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[host]:[port]</code></pre></td><td>ホスト名 + ポート番号 (既定ポートは省略可)</td></tr>
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>Referer</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>リンク元のURL (綴りは仕様上 Referer)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[URL]</code></pre></td><td>直前のページURL</td></tr>
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>User-Agent</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>クライアントソフトウェアの情報</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[名称/バージョン]</code></pre></td><td>ブラウザ等の名称・バージョン・OS情報</td></tr>
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>Cookie</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>サーバから受け取ったCookieを返送する (複数は <code>;</code> 区切り)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[name]=[value]; ...</code></pre></td><td>返送するCookie名と値</td></tr>
@@ -611,7 +611,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Accept</code></pre></th><td rowspan="4" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="4">受信可能なメディアタイプ<br>(コンマ区切りで複数列挙)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>text/html</code></pre></td><td>HTML文書</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>application/xml</code></pre></td><td>XML文書</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>*/*</code></pre></td><td>すべてのメディアタイプ</td></tr>
-                                        <tr><td><pre class="language-html"><code>q</code></pre></td><td>優先度 (品質値、省略時 1.0。大きいほど優先)</td><td><pre class="language-html"><code>0.0 ～ 1.0</code></pre></td><td>優先度 (例: <code>text/html;q=0.9</code>)</td></tr>
+                                        <tr><td><pre class="language-html"><code>q</code></pre></td><td>優先度 (品質値)<br>省略時 : 1.0 <br> 大きいほど優先)</td><td><pre class="language-html"><code>0.0 ～ 1.0</code></pre></td><td>優先度 (例: <code>text/html;q=0.9</code>)</td></tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
                                         <tr><th rowspan="5" scope="rowgroup"><pre class="language-html"><code>Accept-Language</code></pre></th><td rowspan="5" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="5">受信可能な言語<br>(言語タグをコンマ区切りで列挙)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>ja-JP</code></pre></td><td>日本語 (日本)</td></tr>
@@ -637,12 +637,12 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>X-Forwarded-Host</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>プロキシ/LB経由前の <code>Host</code></td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[host]</code></pre></td><td>元のホスト名</td></tr>
                                     </tbody>
                                     <tbody class="table-group-divider">
-                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Requested-With</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>XHRによるリクエストの識別 <br>jQuery等が付与<br>Fetch APIは付与しない<br>サーバ側でAjax判定に利用。CSRF対策としては単独で不十分</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>XMLHttpRequest</code></pre></td><td>XHRによるリクエストを示す固定値</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Requested-With</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>XHRによるリクエストの識別 <br>jQuery等が付与<br>Fetch APIは付与しない<br>サーバ側でAjax判定に利用<br>CSRF対策としては単独で不十分</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>XMLHttpRequest</code></pre></td><td>XHRによるリクエストを示す固定値</td></tr>
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>X-CSRF-Token</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>CSRF対策トークン (XHR/Fetchで付与する慣例)<br>フレームワークにより名称が異なる (<code>X-XSRF-TOKEN</code> 等)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[トークン]</code></pre></td><td>サーバが発行したCSRFトークン</td></tr>
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>Origin</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>リクエスト発行元のオリジン (CORS / POSTで付与)<br>CSRF検証にも利用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[scheme]://[host]:[port]</code></pre></td><td>パスを含まないオリジン</td></tr>
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>Access-Control-Request-Method</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>本リクエストで使うメソッドの事前通知 (プリフライト)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[method]</code></pre></td><td>使用予定のHTTPメソッド (例: <code>PUT</code>)</td></tr>
                                         <tr><th scope="rowgroup"><pre class="language-html"><code>Access-Control-Request-Headers</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>本リクエストで使う独自ヘッダの事前通知 (プリフライト)<br>コンマ区切り</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ヘッダ名], ...</code></pre></td><td>使用予定のヘッダ名 (例: <code>content-type, x-requested-with</code>)</td></tr>
-                                        <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Sec-Fetch-Site</code></pre></th><td rowspan="4" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="4">発行元との関係 (ブラウザが自動付与。改ざん不可)<br>CSRF対策の判定材料</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-origin</code></pre></td><td>同一オリジン</td></tr>
+                                        <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Sec-Fetch-Site</code></pre></th><td rowspan="4" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="4">発行元との関係 <br>ブラウザが自動付与<br>改竄不可<br>CSRF対策の判定材料</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-origin</code></pre></td><td>同一オリジン</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-site</code></pre></td><td>同一サイト (オリジンは異なる)</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>cross-site</code></pre></td><td>別サイト</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>none</code></pre></td><td>ユーザ操作による直接アクセス</td></tr>
@@ -690,10 +690,10 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <tr><td><pre class="language-html"><code>SameSite</code></pre></td><td>クロスサイト送信の制限 (CSRF対策)</td><td><pre class="language-html"><code>Strict</code></pre></td><td>同一サイトのリクエストのみ送信</td></tr>
                                         <tr><td><pre class="language-html"><code>SameSite</code></pre></td><td>クロスサイト送信の制限 (CSRF対策)</td><td><pre class="language-html"><code>Lax</code></pre></td><td>同一サイト + トップレベル遷移 (GET) で送信</td></tr>
                                         <tr><td><pre class="language-html"><code>SameSite</code></pre></td><td>クロスサイト送信の制限 (CSRF対策)</td><td><pre class="language-html"><code>None</code></pre></td><td>常に送信 (<code>Secure</code> 必須)</td></tr>
-                                        <tr><td><pre class="language-html"><code>Domain</code></pre></td><td>Cookieを共有するドメイン<br>指定でサブドメインにも共有。省略時は発行元のみ</td><td><pre class="language-html"><code>[ドメイン]</code></pre></td><td>共有するドメイン名</td></tr>
+                                        <tr><td><pre class="language-html"><code>Domain</code></pre></td><td>Cookieを共有するドメイン<br>指定でサブドメインにも共有<br>省略時は発行元のみ</td><td><pre class="language-html"><code>[ドメイン]</code></pre></td><td>共有するドメイン名</td></tr>
                                         <tr><td><pre class="language-html"><code>Path</code></pre></td><td>Cookieが有効なパス</td><td><pre class="language-html"><code>[パス]</code></pre></td><td>有効なパス (例: <code>/</code>)</td></tr>
                                         <tr><td><pre class="language-html"><code>Expires</code></pre></td><td>保持期限 (日時)<br>省略時はセッションCookie</td><td><pre class="language-html"><code>[ddd, dd MMM yyyy HH:mm:ss GMT]</code></pre></td><td>保持期限の日時</td></tr>
-                                        <tr><td><pre class="language-html"><code>Max-Age</code></pre></td><td>保持期限 (秒数)<br><code>Expires</code> より優先。<code>0</code> 以下で削除</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>保持期間の秒数</td></tr>
+                                        <tr><td><pre class="language-html"><code>Max-Age</code></pre></td><td>保持期限 (秒数)<br><code>Expires</code> より優先<br><code>0</code> 以下で削除</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>保持期間の秒数</td></tr>
                                         <tr><td><pre class="language-html"><code>Partitioned</code></pre></td><td>トップサイトごとにCookieを分離 (CHIPS)</td><td class="text-center">-</td><td class="text-center">-</td></tr>
                                         <tr><td><pre class="language-html"><code>Priority</code></pre></td><td>削除時の優先度 (Chromium)</td><td><pre class="language-html"><code>Low</code></pre></td><td>低</td></tr>
                                         <tr><td><pre class="language-html"><code>Priority</code></pre></td><td>削除時の優先度 (Chromium)</td><td><pre class="language-html"><code>Medium</code></pre></td><td>中</td></tr>
@@ -738,7 +738,7 @@ Content-Security-Policy-Report-Only</code></pre></th><td rowspan="15" class="bg-
                                     <tbody class="table-group-divider">
                                         <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Referrer-Policy</code></pre></th><td rowspan="3" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="3"><code>Referer</code> の送信範囲</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>no-referrer</code></pre></td><td><code>Referer</code> を送信しない</td></tr>
                                         <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-origin</code></pre></td><td>同一オリジンにのみ送信</td></tr>
-                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>strict-origin-when-cross-origin</code></pre></td><td>同一オリジンはフルURL、クロスオリジンはオリジンのみ (HTTPS→HTTPは送信しない)。既定値</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>strict-origin-when-cross-origin</code></pre></td><td>同一オリジン : フルURL<br>クロスオリジン(既定値) : オリジンのみ <br>(HTTPS→HTTPは送信しない)</td></tr>
                                         <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>Permissions-Policy</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">ブラウザ機能 (カメラ等) の許可制御<br>機能名=(許可オリジン) の形式</td><td><pre class="language-html"><code>camera</code></pre></td><td>カメラ</td><td><pre class="language-html"><code>()</code></pre></td><td>すべてのオリジンで禁止</td></tr>
                                         <tr><td><pre class="language-html"><code>geolocation</code></pre></td><td>位置情報</td><td><pre class="language-html"><code>(self)</code></pre></td><td>同一オリジンのみ許可</td></tr>
                                     </tbody>
@@ -772,7 +772,7 @@ Content-Security-Policy-Report-Only</code></pre></th><td rowspan="15" class="bg-
 | JavaScript | ECMAScriptを実装したプログラミング言語<br>ブラウザ上で動作し、DOM操作やイベント処理により動的なWebページを実現する |
 | TypeScript | JavaScriptに静的型付けの機能を追加した言語<br>コンパイルによりJavaScriptに変換されて実行される |
 | JSON | JavaScriptのオブジェクト表記法をベースにしたデータ交換フォーマット<br>テキストベースで軽量なため、API通信等で広く使われる |
-| Ajax | ページ全体を再読み込みせずに、JavaScriptから非同期でサーバーとデータをやり取りする手法。 |
+| Ajax | ページ全体を再読み込みせずに、JavaScriptから非同期でサーバーとデータをやり取りする手法 |
 | XMLHttpRequest (XHR) | JavaScriptから非同期通信を行うための旧来のAPI<br>Ajaxの実現に用いられてきた |
 | CORBA <br>(Common Object Request Broker Architecture) | 異なるプログラミング言語・OS間でオブジェクトを分散連携させるための<br>ミドルウェア標準規格(ORBを介してリモートオブジェクトを呼び出す) |
 | SOAP <br>(Simple Object Access Protocol) | XML形式のメッセージを用いてネットワーク越しに情報交換を行うための<br>プロトコル<br>主にHTTP上でWebサービス間の連携に利用されてきた |
