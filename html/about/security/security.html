@@ -1576,6 +1576,17 @@
                             <h3 class="pt-4 border-bottom fw-bold">
                                 セキュリティサービス・製品の説明
                             </h3>
+                            <div id="md-sec-service">
+
+| 用語 | 特徴 | 利用 |
+|---|---|---|
+| <strong>ブラックリスト方式</strong><br><small class="text-muted">拒否リスト</small> | <ul class="ps-3 mb-0"><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを<br>拒否する</li><li><strong>リストの内容</strong><br>既知の不正なもの<br>(IPアドレス・ドメイン・URL・ファイル等)</li><li><strong>未知の脅威</strong><br>リストに無いため防げない<br>リストを常に更新する必要がある</li><li><strong>運用面</strong><br>運用が容易<br>正常な業務への影響が小さい</li><li><strong>誤りの影響</strong><br>誤登録すると正常な通信まで<br>遮断される</li></ul> | <ul class="ps-3 mb-0"><li>メールに限らず様々な対策で使われる<ul class="ps-3 mb-0"><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></li></ul> |
+| <strong>ホワイトリスト方式</strong><br><small class="text-muted">許可リスト</small> | <ul class="ps-3 mb-0"><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを<br>許可する</li><li><strong>リストの内容</strong><br>許可する正当なもの<br>(通信・サイト・プログラム・機器等)</li><li><strong>未知の脅威</strong><br>リストに載らないため基本的に防げる<br>(最小権限の考え方に合う)</li><li><strong>運用面</strong><br>リストの整備や申請の運用負荷が大きい</li><li><strong>誤りの影響</strong><br>登録漏れがあると正常な業務が<br>止まる</li></ul> | <ul class="ps-3 mb-0"><li>メールに限らず様々な対策で使われる<ul class="ps-3 mb-0"><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></li></ul> |
+| <strong>フォールスポジティブ</strong><br><small class="text-muted">誤検知・過検知</small> | <ul class="ps-3 mb-0"><li>正常な通信・行為を誤って不正と<br>判定してしまうこと</li><li>検知を厳しくすると増える<br>(検知漏れとトレードオフ)</li></ul> | <ul class="ps-3 mb-0"><li>検知システムの判定誤りの評価に使う</li><li>以下を招く<ul class="ps-3 mb-0"><li><strong>業務への影響(正常な通信の遮断)</strong></li><li>アラート対応による運用負荷の増大</li></ul></li></ul> |
+| <strong>フォールスネガティブ</strong><br><small class="text-muted">検知漏れ</small> | <ul class="ps-3 mb-0"><li>実際には不正な通信・行為であるにも<br>かかわらず正常と判定して<br>見逃してしまうこと</li><li>検知を緩くすると増える<br>(誤検知とトレードオフ)</li></ul> | <ul class="ps-3 mb-0"><li>検知システムの判定誤りの評価に使う</li><li>被害の直接的な原因となりうる</li></ul> |
+| <strong>仮想化サーバ</strong> | <ul class="ps-3 mb-0"><li>1台の物理サーバ上に複数の仮想マシンを<br>構築する技術</li><li>以下がその上で動くすべての仮想マシンに<br>影響する点に注意が必要<ul class="ps-3 mb-0"><li>ハイパーバイザの脆弱性</li><li>設定不備</li></ul></li></ul> | <ul class="ps-3 mb-0"><li><strong>ハニーポットやサンドボックスの実行基盤</strong></li><li>VDIの基盤</li><li>検証環境の迅速な構築・破棄</li></ul> |
+
+                            </div>
                             <div id="sec-service"></div>
                             
                             <h3 class="pt-4 border-bottom fw-bold">
@@ -1831,7 +1842,7 @@
                                         <a href="#md-weakness-check">脆弱性検査</a>
                                     </li>
                                     <li>
-                                        <a href="#sec-service">セキュリティサービス・製品の説明</a>
+                                        <a href="#md-sec-service">セキュリティサービス・製品の説明</a>
                                     </li>
                                     <li>
                                         <a href="#md-cyber-attack">サイバー攻撃一覧</a>
@@ -1894,6 +1905,7 @@
                 "md-cyber-attack", 
                 "md-copy-protect", 
                 "md-source",
+                "md-sec-service",
             ];
 
             for (const mdID of mdLists) {
