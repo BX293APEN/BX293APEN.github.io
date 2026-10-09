@@ -1570,6 +1570,20 @@
 | プラットフォーム診断 | Nessus等 | エンドポイント層 | サーバのOS・ミドルウェアの設定やパッチ適用状況を確認する診断 |
 | 構成管理監査(コンフィグレーションチェック) | - | エンドポイント層 | OS・ミドルウェアの設定値がセキュリティ基準(ベースライン)に適合しているかを確認する検査 |
 | リバースエンジニアリング | 逆コンパイラ<br>コールグラフ | エンドポイント層 | ソフトウェアを解析し、ソースコードや設計情報がない状態から内部構造・動作原理・アルゴリズムを明らかにする手法<br>マルウェア解析や脆弱性調査等に利用される<br>※知的財産権の侵害に注意 |
+| 能動的サイバー防御<br>(アクティブ・サイバー・ディフェンス) | - | 全層 | <ul><li>被害が生じる前の段階から脅威を監視・探知し、攻撃の阻止や無害化といった措置を講じる防御の考え方</li><li>侵入後の対処が中心の受動的な防御に対し、攻撃を未然に防ぐことを狙う</li><li>検査対象 <ul><li>自組織内</li><li>攻撃者のインフラ(C2サーバ・踏み台など)</li><li>官民で共有する通信情報</li></ul></li><li>日本では官民連携による情報共有、通信情報の分析、攻撃元サーバ等への必要な措置を柱に法制化が進められている</li></ul> |
+| ┗ シグネチャ検査 | <ul><li>Snort</li><li>Suricata</li><li>各社IPS</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>ネットワークパケットを検査対象とする</li><li>既知の攻撃パターン(シグネチャ)と照合する</li><li>一致した通信を検知・遮断する</li></ul> |
+| ┗ アノマリ(振る舞い)検知 | <ul><li>Darktrace</li><li>Vectra AI</li><li>その他NDR製品</li></ul> | ネットワーク層〜トランスポート層 | <ul><li>ネットワークトラフィック全体を検査対象とする</li><li>平常時の通信の振る舞いを学習する</li><li>通信量・宛先などの逸脱を検知する</li></ul> |
+| ┗ エンドポイント検査 | <ul><li>CrowdStrike Falcon</li><li>Microsoft Defender for Endpoint</li><li>その他EDR製品</li></ul> | アプリケーション層 | <ul><li>端末のプロセス・ファイル・レジストリ・メモリを常時監視する</li><li>不審な挙動を検知する</li><li>隔離・調査を行う</li></ul> |
+| ┗ サンドボックス検査 | <ul><li>FireEye (Trellix)</li><li>Palo Alto WildFire</li></ul> | アプリケーション層 | <ul><li>メール添付ファイル・ダウンロードファイル・URLを検査対象とする</li><li>隔離された仮想環境で実行する</li><li>マルウェア特有の挙動を解析する</li></ul> |
+| ┗ ログ相関分析 | <ul><li>Splunk</li><li>Microsoft Sentinel</li><li>Elastic Security</li><li>その他SIEM製品</li></ul> | アプリケーション層 | <ul><li>サーバ・FW・認証基盤などの各種ログを集約する</li><li>複数のログを相関分析する</li><li>攻撃の予兆や侵入の痕跡を検知する</li></ul> |
+| ┗ デセプション(おとり) | <ul><li>Cowrie・T-Potなどのハニーポット</li><li>SentinelOne Singularity Hologram</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>おとりのサーバ・端末・認証情報を配置する</li><li>接触した攻撃者の手口を把握する</li><li>侵入経路を把握する</li></ul> |
+| ┗ 脅威インテリジェンス照合 | <ul><li>MISP</li><li>Recorded Future</li><li>Mandiant Threat Intelligence</li></ul> | ネットワーク層(IP)<br>アプリケーション層(ドメイン・ハッシュ) | <ul><li>通信先IP・ドメイン・ファイルハッシュ(IoC)を照合する</li><li>既知の悪性IoCと自組織の通信・ログを突き合わせる</li><li>侵害の有無を確認する</li></ul> |
+| ┗ DNS検査 | <ul><li>Cisco Umbrella</li><li>Cloudflare Gateway</li></ul> | アプリケーション層 | <ul><li>DNSクエリ・応答を検査対象とする</li><li>悪性ドメインや不審な名前解決(C2通信・DGAなど)を検知する</li><li>該当する通信をブロックする</li></ul> |
+| ┗ メール検査 | <ul><li>Proofpoint</li><li>Microsoft Defender for Office 365</li></ul> | アプリケーション層 | <ul><li>メール本文・ヘッダ・添付・URLを検査対象とする</li><li>フィッシングや標的型攻撃メールを検知する</li><li>該当するメールを隔離する</li></ul> |
+| ┗ Webアプリケーション検査 | <ul><li>AWS WAF</li><li>Cloudflare WAF</li><li>ModSecurity</li></ul> | アプリケーション層 | <ul><li>HTTP/HTTPSリクエスト・レスポンスを検査対象とする</li><li>SQLインジェクションやXSSなどのWeb攻撃を検知する</li><li>該当する通信を遮断する</li></ul> |
+| ┗ 脅威ハンティング | <ul><li>Velociraptor</li><li>OSquery</li><li>各社XDR</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>端末・ネットワーク・クラウド全域を検査対象とする</li><li>仮説に基づいて能動的に探索する</li><li>検知をすり抜けた潜伏中の脅威を発見する</li></ul> |
+| ┗ ユーザ行動分析 (UEBA) | <ul><li>Exabeam</li><li>Microsoft Entra ID Protection</li></ul> | アプリケーション層 | <ul><li>認証ログ・アクセス履歴を検査対象とする</li><li>ユーザや機器の通常行動との差異を分析する</li><li>内部不正やアカウント侵害を検知する</li></ul> |
+
 
                             </div>
 
