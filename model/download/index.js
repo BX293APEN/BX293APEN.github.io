@@ -76,6 +76,14 @@ class DownloadModel {
                 "text"      : "&emsp;7-Zipのインストールリンク",
                 "content"   : '<a href="https://www.7-zip.org/"><figcaption class = "btn btn-bd-primary figure-caption text-end">7-Zip</figcaption></a><br><br> <a href="https://7-zip.opensource.jp/"><figcaption class = "btn btn-bd-primary figure-caption text-end">7-Zip 日本語サイト</figcaption></a>',
             },
+            "aviutl" : {
+                "imgType"   : ".svg",
+                "imgSrc"    : "/img/DLC/aviutl.svg", 
+                "title"     : "AviUtlのお部屋",
+                "text"      : "&emsp;AviUtlで動画を作成する",
+                "href"      : "https://spring-fragrance.mints.ne.jp/aviutl/",
+                
+            },
         }
         this.dlIndex = Object.keys(this.dlData);
         this.dlIndex.sort();
