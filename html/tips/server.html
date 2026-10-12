@@ -2583,13 +2583,14 @@
 | アドレス枯渇対策 | <ul><li>NAT</li><li>CIDR</li><li>プライベートアドレス</li></ul> | <ul><li>枯渇しにくい</li><li>NAT は原則不要</li></ul> |
 | 通信方式 | <ul><li>ユニキャスト</li><li>ブロードキャスト</li><li>マルチキャスト</li></ul> | <ul><li>ユニキャスト</li><li>マルチキャスト</li><li>エニーキャスト</li><li>ブロードキャストは廃止</li></ul> |
 | アドレス解決 | <ul><li>ARP</li></ul> | <ul><li>NDP<br>(近隣探索プロトコル)</li></ul> |
+| 逆アドレス解決<br>L2 アドレス(MACアドレス) → IP | <ul><li>RARP<br>(RFC 903 / 現在は事実上使われない)</li><li>BOOTP<br>(RFC 951 / RARP の後継)</li><li>DHCP<br>(RFC 2131 / 現在の主流)</li><li>Inverse ARP<br>(RFC 2390 / Frame Relay・ATM(非同期転送モード)等の PVC 向け)</li></ul> | <ul><li>RARP に相当する専用プロトコルはなし</li><li>アドレスは SLAAC / DHCPv6 で取得</li><li>Inverse ND<br>(RFC 3122 / Frame Relay・ATM(非同期転送モード)等向けで一般 LAN では未使用)</li></ul> |
 | ループ検知<br>(L2: スイッチ間) | <ul><li>STP / RSTP / MSTP<br>(IEEE 802.1D / 802.1w / 802.1s)</li></ul> | <ul><li>IPv4 と同じ</li><li>STP は L2 の仕組みで IP バージョンに依存しない</li><li>IPv6 でも L2 ループは STP 系で防ぐ</li></ul> |
 | ループ検知<br>(L3: パケット) | <ul><li>TTL を 1 ずつ減算</li><li>0 で破棄して ICMP Time Exceeded を返す</li></ul> | <ul><li>Hop Limit を 1 ずつ減算</li><li>0 で破棄して ICMPv6 Time Exceeded を返す</li></ul> |
 | ルーティングプロトコル<br>(ループ回避) | <ul><li>RIP<br>(スプリットホライズン等)</li><li>OSPF<br>(SPF 計算)</li><li>BGP<br>(AS_PATH)</li></ul> | <ul><li>RIPng</li><li>OSPFv3</li><li>BGP<br>(MP-BGP で IPv6 を扱う)</li></ul> |
 | ルータでのフラグメント化 | <ul><li>可能</li></ul> | <ul><li>不可</li><li>送信元ホストのみ</li></ul> |
 | Path MTU Discovery | <ul><li>任意</li></ul> | <ul><li>必須</li></ul> |
 | 最小 MTU | <ul><li>576 バイト<br>(推奨)</li></ul> | <ul><li>1280 バイト</li></ul> |
-| DNS レコード | <ul><li>A レコード</li></ul> | <ul><li>AAAA レコード</li></ul> |
+| DNS レコード | <ul><li>A レコード<br>(名前 → IP)</li><li>PTR レコード<br>(IP → 名前 / `in-addr.arpa`)</li></ul> | <ul><li>AAAA レコード<br>(名前 → IP)</li><li>PTR レコード<br>(IP → 名前 / `ip6.arpa`)</li><li>アドレスをニブル(4 ビット)単位で逆順に並べる</li></ul> |
 | デフォルトゲートウェイの<br>通知 | <ul><li>DHCP オプション 3 で配布</li><li>手動設定</li></ul> | <ul><li>ルータが RA<br>(Router Advertisement) で通知</li><li>ゲートウェイはルータの<br>リンクローカルアドレス (`fe80::/10`)</li></ul> |
 | デフォルトゲートウェイの<br>保持数<br>(ホスト側) | <ul><li>原則 1 つ</li><li>障害時は VIP の引き継ぎが必要</li></ul> | <ul><li>複数のデフォルトルータを保持可能</li><li>Router Lifetime で有効期間を管理</li><li>Router Preference<br>(RFC 4191) で優先度を指定</li></ul> |
 | デフォルトゲートウェイの<br>障害検出 | <ul><li>FHRP のヘルスチェック<br>(Hello / Advertisement)</li></ul> | <ul><li>FHRP のヘルスチェック</li><li>ホスト側の NUD<br>(近隣到達不能検出)</li><li>RA 途絶による Lifetime 切れ</li></ul> |
