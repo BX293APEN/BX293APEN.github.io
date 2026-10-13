@@ -39,6 +39,28 @@
                         </article>
                         <article class="blog-post">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                乱数値
+                            </h2>
+                            <div id="md-num">
+
+| 値 | 日本語名 | 分類 | 概要 | 用途 |
+|---|---|---|---|---|
+| nonce | ナンス | 使い捨て乱数 | <ul><li>Number used ONCE の略</li><li>一度だけ使う値</li><li>秘密である必要はない</li><li>同じ鍵では一意であること (再利用不可)</li><li>予測不能性は不要な場合が多い</li></ul> | <ul><li>ワンタイムパスワード</li><li>リプレイ攻撃対策</li><li>AES-GCM / ChaCha20 の入力</li><li>CSP の nonce 属性</li></ul> |
+| salt | ソルト | ハッシュ化前データに付ける乱数 | <ul><li>パスワードに付加するランダム値</li><li>秘密でなくてよい</li><li>ユーザーごとに異なる値にする</li><li>同一入力から同一ハッシュができるのを防ぐ</li></ul> | <ul><li>パスワードハッシュ (bcrypt / Argon2 / scrypt)</li><li>鍵導出 (PBKDF2 / HKDF)</li><li>レインボーテーブル対策</li></ul> |
+| IV <br>(Initialization Vector) | 初期化ベクトル | 暗号化の初期状態を決める乱数 | <ul><li>ブロック暗号の利用モードで最初のブロックに与える初期値</li><li>秘密でなくてよい</li><li>モードにより一意性が必須</li><li>CBC では予測不能であること</li><li>同一平文から同一暗号文ができるのを防ぐ</li></ul> | <ul><li>AES-CBC</li><li>AES-CTR (カウンタ初期値)</li></ul> |
+| pepper | ペッパー | ハッシュ化に加える全体共通の秘密値 | <ul><li>全ユーザー共通の秘密値</li><li>DB とは別の場所 (HSM・環境変数等) に保管する</li></ul> | <ul><li>パスワードハッシュの追加強化</li><li>DB 漏洩時の総当たり対策</li></ul> |
+| challenge | チャレンジ | サーバーが送る使い捨て乱数 | <ul><li>認証時にサーバーがクライアントへ送る乱数</li><li>毎回異なる値を使う</li></ul> | <ul><li>チャレンジレスポンス認証</li><li>WebAuthn / FIDO2</li><li>デジタル署名によるリプレイ対策</li></ul> |
+| seed | シード (種) | 乱数生成器の初期値 | <ul><li>PRNG / DRBG の初期状態を決める値</li><li>同じ seed からは同じ乱数列ができる</li></ul> | <ul><li>擬似乱数の生成</li><li>再現可能なテスト</li><li>決定的な鍵導出 (BIP-39 など)</li></ul> |
+| session ID | セッションID | 利用者を識別する推測困難な乱数 | <ul><li>ログイン状態を識別するランダム値</li><li>推測されないよう十分な長さが必要</li></ul> | <ul><li>Web セッション管理</li><li>Cookie による状態保持</li></ul> |
+| CSRF token | CSRFトークン | リクエストの正当性を確認する乱数 | <ul><li>正規の画面から送られたことを確認するランダム値</li><li>セッションごとまたはリクエストごとに発行する</li></ul> | <ul><li>フォーム送信の検証</li><li>クロスサイトリクエストフォージェリ対策</li></ul> |
+| tweak | ツイーク | 暗号の挙動を変える公開パラメータ | <ul><li>ブロック位置などで暗号の出力を変える値</li><li>秘密にしなくてよい</li></ul> | <ul><li>XTS-AES (ディスク暗号化のセクタ番号)</li><li>調整可能ブロック暗号</li></ul> |
+| key | 鍵 | 暗号処理に使う秘密の値 | <ul><li>暗号化・復号・署名に使う</li><li>十分なエントロピーが必要</li><li>漏洩すると安全性が失われる</li></ul> | <ul><li>共通鍵暗号 (AES)</li><li>HMAC</li><li>公開鍵暗号の秘密鍵</li></ul> |
+
+
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
                                 正規表現
                             </h2>
                             <p>
@@ -245,6 +267,9 @@
                                         <a href="#ascii">ASCIIコード</a>
                                     </li>
                                     <li>
+                                        <a href="#md-num">乱数値</a>
+                                    </li>
+                                    <li>
                                         <a href="#regex">正規表現</a>
                                     </li>
                                     <li>
@@ -282,6 +307,7 @@
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
             const mdLists = [
+                "md-num",
                 "regex",
                 "validation",
                 "sanitize",
