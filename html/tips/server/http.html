@@ -795,6 +795,42 @@ Content-Security-Policy-Report-Only</code></pre></th><td rowspan="15" class="bg-
 
                             </div>
                         </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                サーバー証明書の警告
+                            </h2>
+                            <div id="md-tls-alert">
+
+| エラーコード | 分類 | 警告の種類 | 内容 | 原因 | 対処 |
+|---|---|---|---|---|---|
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_DATE_INVALID`</li><li>Firefox: `SEC_ERROR_EXPIRED_CERTIFICATE`</li><li>OpenSSL: `X509_V_ERR_CERT_HAS_EXPIRED` (10)</li></ul> | 有効期間 | 有効期限切れ | <ul><li>証明書の `notAfter` を過ぎている</li></ul> | <ul><li>更新忘れ</li><li>自動更新(ACME等)の失敗</li></ul> | <ol><li>証明書を更新・再発行する</li><li>更新の自動化と期限監視を行う</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_DATE_INVALID`</li><li>Firefox: `MOZILLA_PKIX_ERROR_NOT_YET_VALID_CERTIFICATE`</li><li>OpenSSL: `X509_V_ERR_CERT_NOT_YET_VALID` (9)</li></ul> | 有効期間 | 有効期間前 | <ul><li>証明書の `notBefore` より前の時刻で検証した</li></ul> | <ul><li>サーバー・クライアントの時計ずれ</li><li>発行直後の時刻差</li></ul> | <ol><li>NTPで時刻を同期する</li></ol> |
+| <ul><li>Firefox: `SEC_ERROR_EXPIRED_ISSUER_CERTIFICATE`</li><li>Chrome/Edge: `NET::ERR_CERT_DATE_INVALID`</li></ul> | 有効期間 | 発行元証明書の期限切れ | <ul><li>中間CA・ルートCAの証明書が期限切れ</li></ul> | <ul><li>古い中間証明書を配置している</li><li>CA側の証明書更新</li></ul> | <ol><li>最新の中間証明書に差し替える</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_VALIDITY_TOO_LONG`</li></ul> | 有効期間 | 有効期間が長すぎる | <ul><li>許容される最大有効期間(398日等)を超えている</li></ul> | <ul><li>古い方針で発行された証明書</li></ul> | <ol><li>規定内の有効期間で再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_REVOKED`</li><li>Firefox: `SEC_ERROR_REVOKED_CERTIFICATE`</li><li>OpenSSL: `X509_V_ERR_CERT_REVOKED` (23)</li></ul> | 失効 | 失効 | <ul><li>CRL/OCSPで失効済みと判定された</li></ul> | <ul><li>秘密鍵の漏洩</li><li>誤発行</li><li>認証局による失効</li></ul> | <ol><li>新しい鍵ペアで再発行する</li><li>旧証明書を撤去する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_UNABLE_TO_CHECK_REVOCATION`</li><li>OpenSSL: `X509_V_ERR_UNABLE_TO_GET_CRL` (3)</li></ul> | 失効 | 失効確認不可 | <ul><li>CRL/OCSPに到達できず失効状態を確認できない</li></ul> | <ul><li>失効情報サーバーの停止</li><li>FW・プロキシによる遮断</li></ul> | <ol><li>通信経路を確認する</li><li>OCSP Staplingを導入する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_NO_REVOCATION_MECHANISM`</li></ul> | 失効 | 失効確認手段なし | <ul><li>証明書にCRL/OCSPの情報がない</li></ul> | <ul><li>失効情報を含まない証明書の発行</li></ul> | <ol><li>CRL配布点・OCSP情報を含む証明書で再発行する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_CRL_HAS_EXPIRED` (12)</li></ul> | 失効 | CRL期限切れ | <ul><li>取得したCRLが有効期限切れ</li></ul> | <ul><li>CA側のCRL更新の停止</li><li>古いCRLのキャッシュ</li></ul> | <ol><li>最新のCRLを取得する</li><li>CA側の更新状況を確認する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_AUTHORITY_INVALID`</li><li>Firefox: `MOZILLA_PKIX_ERROR_SELF_SIGNED_CERT`</li><li>OpenSSL: `X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT` (18)</li></ul> | 発行元(信頼) | 自己署名証明書 | <ul><li>発行者と主体者が同一で、信頼済みCAでもない</li></ul> | <ul><li>開発・社内機器のオレオレ証明書を流用</li></ul> | <ol><li>正規CAの証明書に置き換える</li><li>社内CAのルートを信頼登録する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_SELF_SIGNED_CERT_IN_CHAIN` (19)</li></ul> | 発行元(信頼) | チェーン内に自己署名証明書 | <ul><li>チェーンの途中に未信頼の自己署名証明書がある</li></ul> | <ul><li>チェーン構成のミス</li><li>ルートCAが未登録</li></ul> | <ol><li>チェーンを正しく構成する</li><li>ルートCAをトラストストアに登録する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_AUTHORITY_INVALID`</li><li>Firefox: `SEC_ERROR_UNKNOWN_ISSUER`</li><li>OpenSSL: `X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT_LOCALLY` (20)</li></ul> | 発行元(信頼) | 不明な発行元 | <ul><li>発行元CAがトラストストアにない</li></ul> | <ul><li>未知のCA</li><li>ルートCAが未導入</li></ul> | <ol><li>ルート証明書を導入する</li><li>広く信頼されるCAを利用する</li></ol> |
+| <ul><li>Firefox: `SEC_ERROR_UNTRUSTED_ISSUER`</li><li>OpenSSL: `X509_V_ERR_CERT_UNTRUSTED` (27)</li></ul> | 発行元(信頼) | 信頼されない発行元 | <ul><li>発行元CAが明示的に信頼されていない</li></ul> | <ul><li>CAの信頼取り消し</li><li>信頼設定の不足</li></ul> | <ol><li>別のCAで再発行する</li><li>信頼設定を見直す</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_AUTHORITY_INVALID`</li><li>Firefox: `SEC_ERROR_UNKNOWN_ISSUER`</li><li>OpenSSL: `X509_V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE` (21)</li></ul> | 発行元(信頼) | 中間証明書の不足 | <ul><li>チェーンが途中で途切れ、検証できない</li></ul> | <ul><li>サーバーに中間証明書を載せ忘れ</li></ul> | <ol><li>中間証明書を含むフルチェーンを配置する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_COMMON_NAME_INVALID`</li><li>Firefox: `SSL_ERROR_BAD_CERT_DOMAIN`</li><li>OpenSSL: `X509_V_ERR_HOSTNAME_MISMATCH` (62)</li></ul> | 名前 | ホスト名不一致 | <ul><li>CN/SANにアクセス先ホスト名が含まれない</li></ul> | <ul><li>別ドメイン用の証明書を流用</li><li>IPアドレスでアクセス</li><li>SANの不足</li></ul> | <ol><li>SANに正しいFQDNを含めて再発行する</li><li>FQDNでアクセスする</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_NAME_CONSTRAINT_VIOLATION`</li></ul> | 名前 | 名前制約違反 | <ul><li>中間CAの名前制約に反する名前が含まれる</li></ul> | <ul><li>CAの名前制約設定との不整合</li></ul> | <ol><li>制約に合う名前で再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_INVALID`</li><li>OpenSSL: `X509_V_ERR_CERT_SIGNATURE_FAILURE` (7)</li></ul> | 署名・暗号 | 署名検証失敗 | <ul><li>証明書の署名が不正、または改ざんされている</li></ul> | <ul><li>改ざん</li><li>中間者(MITM)攻撃</li><li>証明書ファイルの破損</li></ul> | <ol><li>通信経路と証明書の完全性を確認する</li><li>証明書を再取得する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_WEAK_SIGNATURE_ALGORITHM`</li><li>Firefox: `MOZILLA_PKIX_ERROR_ADDITIONAL_POLICY_CONSTRAINT_FAILED`</li></ul> | 署名・暗号 | 弱い署名アルゴリズム | <ul><li>MD5・SHA-1など脆弱な署名方式が使われている</li></ul> | <ul><li>古い証明書の継続利用</li></ul> | <ol><li>SHA-256以上で再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_WEAK_KEY`</li></ul> | 署名・暗号 | 弱い公開鍵 | <ul><li>RSA 1024bit以下など鍵長が不足している</li></ul> | <ul><li>古い証明書の継続利用</li></ul> | <ol><li>RSA 2048bit以上またはECDSAで再発行する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_INVALID_PURPOSE` (26)</li></ul> | 用途・拡張 | 用途不正 | <ul><li>`keyUsage` / `extendedKeyUsage` が用途に合わない</li></ul> | <ul><li>サーバー認証用でない証明書の流用</li></ul> | <ol><li>`serverAuth` を含む証明書を使用する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_PATH_LENGTH_EXCEEDED` (25)</li></ul> | 用途・拡張 | パス長制約の超過 | <ul><li>`basicConstraints` のパス長制約を超えている</li></ul> | <ul><li>チェーンの段数が多すぎる</li><li>CA証明書の制約設定ミス</li></ul> | <ol><li>チェーンを正しく構成する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERTIFICATE_TRANSPARENCY_REQUIRED`</li></ul> | 用途・拡張 | 証明書の透明性(CT)不備 | <ul><li>SCT(署名付き証明書タイムスタンプ)がない</li></ul> | <ul><li>CTログへの未登録</li></ul> | <ol><li>CT対応のCAで再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_CONTAINS_ERRORS`</li></ul> | 用途・拡張 | 証明書エラー(汎用) | <ul><li>証明書に複数の不備が含まれる</li></ul> | <ul><li>構造不正や複合的な設定ミス</li></ul> | <ol><li>`openssl x509 -text` 等で内容を確認し再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `ERR_SSL_VERSION_OR_CIPHER_MISMATCH`</li><li>Firefox: `SSL_ERROR_NO_CYPHER_OVERLAP`</li></ul> | プロトコル | TLSバージョン・暗号スイート不一致 | <ul><li>双方で共通のTLSバージョンや暗号がない</li></ul> | <ul><li>TLS 1.0/1.1のみ有効</li><li>弱い暗号のみ許可</li></ul> | <ol><li>TLS 1.2/1.3を有効化する</li><li>暗号スイートを見直す</li></ol> |
+| <ul><li>Chrome/Edge: `ERR_SSL_PROTOCOL_ERROR`</li></ul> | プロトコル | TLSプロトコルエラー | <ul><li>ハンドシェイクが失敗した</li></ul> | <ul><li>サーバー設定の誤り</li><li>非TLSポートへの接続</li><li>中間装置の干渉</li></ul> | <ol><li>サーバーのTLS設定とポートを確認する</li></ol> |
+
+
+                            </div>
+                        </article>
                     </div>
 
                     <div class="col-md-4">
@@ -842,6 +878,13 @@ Content-Security-Policy-Report-Only</code></pre></th><td rowspan="15" class="bg-
                                     <li>
                                         <a href="#md-html">HTMLに関する用語</a>
                                     </li>
+                                    <li>
+                                        <a href="#md-tls-alert">サーバー証明書の警告</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+
                                 </ol>
                             </div>
 
@@ -878,6 +921,7 @@ Content-Security-Policy-Report-Only</code></pre></th><td rowspan="15" class="bg-
                 "md-html",
                 "md-http-method",
                 "md-http-status",
+                "md-tls-alert",
             ];
 
             for (const mdID of mdLists) {
