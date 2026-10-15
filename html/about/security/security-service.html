@@ -1994,13 +1994,40 @@
         </thead>
         <tbody class="table-group-divider">
             <tr>
-                <td rowspan="3"><strong>SIEM / SOAR / XDR</strong></td>
-                <td rowspan="3">
+                <td rowspan="4"><strong>SIEM / SOAR / SCAP / XDR</strong></td>
+                <td rowspan="4">
                     <ul class="ps-3 mb-0">
                         <li>ログや検知情報を集約・分析して脅威を早期に<br>
                             発見する</li>
                         <li>対応を効率化する仕組み</li>
                     </ul>
+
+                    <table class="table table-bordered mt-2 mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">サービス</th>
+                                <th scope="col">役割</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SIEM</strong></td>
+                                <td>「見つける」</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SOAR</strong></td>
+                                <td>「自動で対応する」</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SCAP</strong></td>
+                                <td>「脆弱性・設定不備を標準化された方法で評価する」</td>
+                            </tr>
+                            <tr>
+                                <td><strong>XDR</strong></td>
+                                <td>「複数レイヤの情報を束ねる」</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
                 <td>
                     <strong>SIEM</strong><br>
@@ -2013,8 +2040,6 @@
                             クラウド等)のログを収集・正規化する</li>
                         <li>相関分析することでインシデントの早期発見を<br>
                             支援する</li>
-                        <li><strong>役割</strong><br>
-                            「見つける」</li>
                     </ul>
                 </td>
             </tr>
@@ -2037,8 +2062,30 @@
                             </ul>
                             のような対応を自動で実行する
                         </li>
-                        <li><strong>役割</strong><br>
-                            「自動で対応する」</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>SCAP</strong><br>
+                    <small class="text-muted">Security Content Automation Protocol</small>
+                </td>
+                <td>-</td>
+                <td>
+                    <ul class="ps-3 mb-0">
+                        <li>米国NISTが策定した、脆弱性管理・セキュリティ設定の<br>
+                            評価を自動化するための標準仕様群</li>
+                        <li>共通の識別子・評価基準を用いて
+                            <ul class="ps-3 mb-0">
+                                <li>脆弱性(CVE / CVSS)</li>
+                                <li>製品・プラットフォーム(CPE)</li>
+                                <li>設定項目(CCE)</li>
+                                <li>チェックリスト・検査手順(XCCDF / OVAL)</li>
+                            </ul>
+                            を機械的に扱えるようにする
+                        </li>
+                        <li>脆弱性スキャナや構成管理ツール間で結果を<br>
+                            共通の形式でやり取りできる</li>
                     </ul>
                 </td>
             </tr>
@@ -2064,8 +2111,6 @@
                         <li>個別の製品ごとにバラバラだったアラートを<br>
                             関連付ける</li>
                         <li>攻撃の全体像を把握しやすくする</li>
-                        <li><strong>役割</strong><br>
-                            「複数レイヤの情報を束ねる」</li>
                     </ul>
                 </td>
             </tr>
