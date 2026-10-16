@@ -732,17 +732,41 @@ flowchart RL
                                         </td>
                                         <td>
                                             FIRSTが策定する、脆弱性の深刻度を0.0～10.0のスコアで定量的・共通的に評価するための基準<br>
+                                            <strong>影響度</strong>を測定<br>
+                                            EPSSで絞り込んでからCVSSを参照
 
                                             <div id="md-cvss">
-- 基本評価基準 (Base Metrics)
-- 現状評価基準 (Temporal Metrics)
+
+#### CVSS v3.1
+- 基本評価基準 (Base Metrics) (基本変動しない)
+- **現状評価基準** (Temporal Metrics) (時間経過で変動)
   - 攻撃コードの成熟度 (Exploitability)
   - 利用可能な対策のレベル (Remediation Level)
   - 脆弱性情報の信頼性 (Report Confidence)
-- 環境評価基準 (Environmental Metrics)
+- 環境評価基準 (Environmental Metrics) (組織ごとに変わる)
   - 二次被害の可能性 (Collateral Damage Potential)
   - 影響を受ける対象システムの範囲 (Target Distribution)
+
+#### CVSS v4.0
+- 基本評価基準 (Base Metrics) (基本変動しない)
+  - 攻撃要件 (Attack Requirements: AT) を新設
+  - ユーザー関与 (UI) を「なし / 受動的 / 能動的」の3段階に細分化
+  - 影響範囲 (Scope) を廃止し、**脆弱性のあるシステム** (VC/VI/VA) と **後続システム** (SC/SI/SA) の機密性・完全性・可用性に分離
+- **脅威評価基準** (Threat Metrics) (時間経過で変動)
+  - 攻撃コードの成熟度 (Exploit Maturity: E) のみに簡素化
+- 環境評価基準 (Environmental Metrics) (組織ごとに変わる)
+  - セキュリティ要求度 (CR/IR/AR)
+  - 基本評価基準の修正 (Modified Base Metrics)
+- 補足評価基準 (Supplemental Metrics) (**スコアには影響しない**)
+  - 安全性 (Safety)
+  - 自動化可能性 (Automatable)
+  - 回復性 (Recovery)
+  - 価値密度 (Value Density)
+  - 対応工数 (Vulnerability Response Effort)
+  - 提供者の緊急度 (Provider Urgency)
+
                                             </div>
+                                            <strong>現状評価基準</strong>(脅威評価基準)は、攻撃方法等の情報を多くの公開サイトにある情報から判断する必要がある(ツールを使う)
                                         </td>
                                     </tr>
                                     <tr>
@@ -758,7 +782,9 @@ flowchart RL
                                         <td>
                                             FIRSTが策定する、脆弱性が今後一定期間内に実際に悪用される確率を0～1のスコアで予測する仕組み<br>
                                             CVSSと組み合わせて対応優先度の判断に用いられる<br>
-                                            機械学習アルゴリズムを用いてスコアを算出
+                                            機械学習アルゴリズムを用いてスコアを算出<br>
+                                            FIRSTのサイトで値が公開されている<br>
+                                            <strong>緊急度</strong>(優先度)を測定
                                         </td>
                                     </tr>
                                     <tr>
