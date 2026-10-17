@@ -444,9 +444,349 @@ sudo systemctl enable [Project Name].service</code></pre>
 | POST | リソースの新規作成・データの送信 | Create | メッセージボディ | × |
 | HEAD | リソースヘッダ情報のみ取得 | - | リクエスト行(クエリ文字列) | ○ |
 | PUT | リソースの置換・更新<br>(存在しなければ作成) | Update | メッセージボディ | ○ |
+| PATCH | リソースの部分更新 | Update | メッセージボディ | ×<br>(実装次第) |
 | DELETE | リソースの削除 | Delete | リクエスト行(対象はURLのパスで指定) | ○ |
+| OPTIONS | 対象リソースが対応するメソッドや通信オプションの問い合わせ<br>(CORSのプリフライトでも使用) | - | リクエスト行(対象URL。サーバ全体への問い合わせは `*`) | ○ |
+| TRACE | 経路のループバック試験<br>(受信したリクエストをそのまま返す) | - | リクエスト行(ボディは送らない) | ○ |
+| CONNECT | プロキシ経由でのトンネル確立<br>(HTTPS通信などで使用) | - | リクエスト行(接続先を `host:port` 形式で指定) | × |
 
                             </div>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                プロキシを介した接続方法
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                CONNECTトンネル方式
+                            </h5>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    %% # プロキシ経由(HTTP CONNECT)の TCP + TLS 1.2 通信
+    %%
+    %% ## 登場人物
+    %%
+    %% | 参加者 | 役割 |
+    %% |---|---|
+    %% | クライアント | ブラウザ等。プロキシ経由で `https://bx293apen.github.io/` にアクセスする |
+    %% | プロキシサーバ | `CONNECT` でトンネルを作り、TLSの暗号文をそのまま中継する |
+    %% | bx293apen.github.io | 宛先のWebサーバ(443番ポート) |
+    %%
+    %% ## フェーズ構成
+    %%
+    %% | フェーズ | 概要 |
+    %% |---|---|
+    %% | 1. TCP 3-way (クライアント - プロキシ) | プロキシへのTCPコネクションを確立する |
+    %% | 2. HTTP CONNECT トンネル確立 | プロキシが宛先へTCP接続し、トンネルを開通する |
+    %% | 3. TLS 1.2 Handshake | クライアントと宛先サーバが直接TLSを確立する(プロキシは中継のみ) |
+    %% | 4. Application Data | トンネル内で暗号化したHTTPリクエスト/レスポンスを送受信する |
+    %% | 5. TLS 切断 | close_notify アラートで暗号化通信を正常終了する |
+    %% | 6. TCP 4-way 切断 | クライアント側・サーバ側の2本のTCPを閉じる |
+
+    autonumber
+    participant C as クライアント
+    participant P as プロキシサーバ
+    participant S as bx293apen.github.io
+
+    %% ## Phase 1: TCP 3-way Handshake (クライアント - プロキシ)
+    rect rgb(230, 240, 255)
+        Note over C,P: TCP 3ウェイハンドシェイク(クライアント - プロキシ)
+        C->>P: SYN (seq=x)
+        P->>C: SYN + ACK (seq=y, ack=x+1)
+        C->>P: ACK (ack=y+1)
+        Note over C,P: TCPコネクション確立
+    end
+
+    %% ## Phase 2: HTTP CONNECT トンネル確立
+    rect rgb(255, 250, 220)
+        Note over C,S: HTTP CONNECT によるトンネル確立
+        C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Host: bx293apen.github.io:443)
+
+        opt プロキシが認証を要求する場合
+            P->>C: 407 Proxy Authentication Required
+            C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Proxy-Authorization: ...)
+        end
+
+        Note over P: 宛先のホスト名をDNSで名前解決
+
+        Note over P,S: TCP 3ウェイハンドシェイク(プロキシ - 宛先サーバ)
+        P->>S: SYN
+        S->>P: SYN + ACK
+        P->>S: ACK
+
+        P->>C: HTTP/1.1 200 Connection Established
+        Note over C,S: トンネル開通<br/>以降プロキシはバイト列をそのまま中継する
+    end
+
+    %% ## Phase 3: TLS 1.2 Handshake (クライアント - 宛先サーバ)
+    rect rgb(235, 255, 235)
+        Note over C,S: TLS 1.2 フルハンドシェイク(プロキシは暗号文を中継するのみ)
+
+        C->>S: ClientHello<br/>(TLSバージョン / 暗号スイート一覧 / Client Random / SNI: bx293apen.github.io)
+        S->>C: ServerHello<br/>(TLSバージョン / 暗号スイート / Server Random)
+        S->>C: Certificate<br/>(サーバ証明書・公開鍵)
+
+        opt 鍵交換方式によって送信(例: ECDHE)
+            S->>C: ServerKeyExchange<br/>(鍵交換の追加パラメータ)
+        end
+
+        S->>C: ServerHelloDone
+
+        Note left of C: 証明書を検証<br/>(署名・有効期限・ホスト名 bx293apen.github.io・信頼チェーン)
+
+        C->>S: ClientKeyExchange<br/>(プリマスタシークレットを公開鍵等で暗号化)
+
+        Note over C,S: プリマスタシークレット + Client/Server Random<br/>→ マスターシークレット → セッション鍵(クライアントと宛先サーバで生成)
+
+        C->>S: ChangeCipherSpec
+        C->>S: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+        S->>C: ChangeCipherSpec
+        S->>C: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+
+        Note over C,S: 相互にFinishedを検証し、改ざんがないことを確認
+    end
+
+    %% ## Phase 4: Application Data
+    rect rgb(255, 245, 225)
+        C->>S: Application Data<br/>(GET / HTTP/1.1 をセッション鍵で暗号化)
+        S->>C: Application Data<br/>(HTTPレスポンスをセッション鍵で暗号化)
+        Note over P: プロキシは内容を復号できない
+    end
+
+    %% ## Phase 5: TLS 切断
+    rect rgb(245, 235, 255)
+        Note over C,S: TLS 切断(クライアントから切断する例)
+        C->>S: close_notify (Alert)<br/>(以降このTLSセッションでは送信しない通知)
+        S->>C: close_notify (Alert)<br/>(切断通知に対する応答)
+        Note over C,S: TLSセッション終了(セッション鍵は破棄)
+    end
+
+    %% ## Phase 6: TCP 4-way 切断 (クライアント側・サーバ側の2本)
+    rect rgb(255, 235, 235)
+        Note over C,S: TCP 4ウェイ切断(トンネルの2本のTCPを順に閉じる)
+
+        Note over C,P: クライアント - プロキシ間(クライアント側が先に切断)
+        C->>P: FIN
+        P->>C: ACK
+
+        Note over P,S: プロキシ - 宛先サーバ間(プロキシがFINを中継)
+        P->>S: FIN
+        S->>P: ACK
+        S->>P: FIN
+        P->>S: ACK
+
+        Note over C,P: クライアント側の残りのFINを返す
+        P->>C: FIN
+        C->>P: ACK
+
+        Note left of C: TIME_WAIT<br/>(一定時間待機後にクローズ)
+        Note over C,S: すべてのTCPコネクション切断
+    end
+                            -->
+
+                            <h5 class="pt-4 fw-bold">
+                                TLSインスペクション方式
+                            </h5>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    %% # TLSインスペクション型プロキシ(TLS終端)の TCP + TLS 1.2 通信
+    %%
+    %% ## 通常の CONNECT トンネルとの違い
+    %%
+    %% | 項目 | 通常の CONNECT トンネル | TLSインスペクション型(本図) |
+    %% |---|---|---|
+    %% | TLSの終端 | クライアントと宛先サーバ(エンドツーエンド) | プロキシで一度終端し、宛先へ別にTLSを張り直す |
+    %% | TLSセッション数 | 1本 | 2本(クライアント - プロキシ、プロキシ - 宛先) |
+    %% | クライアントが見るサーバ証明書 | 宛先サーバ本物の証明書 | プロキシが動的生成した証明書(プロキシのCAが署名) |
+    %% | プロキシによる通信内容の検査 | 不可(暗号文のまま中継) | 可(復号して検査し、再暗号化して転送) |
+    %% | クライアント側の前提 | 特になし | プロキシのルートCA証明書を信頼済みにしておく |
+    %%
+    %% ## フェーズ構成
+    %%
+    %% | フェーズ | 概要 |
+    %% |---|---|
+    %% | 1. TCP 3-way (クライアント - プロキシ) | プロキシへのTCPコネクションを確立する |
+    %% | 2. HTTP CONNECT | 宛先ホストを通知し、プロキシが `200` を返す |
+    %% | 3. TLS Handshake (クライアント - プロキシ) | プロキシが宛先になりすまして、自身のTLSを終端する |
+    %% | 4. TCP + TLS Handshake (プロキシ - 宛先) | プロキシがクライアントとして宛先サーバへ接続する |
+    %% | 5. Application Data | プロキシが復号・検査してから宛先へ転送する |
+    %% | 6. TLS 切断 | 2本のTLSセッションをそれぞれ close_notify で終了する |
+    %% | 7. TCP 4-way 切断 | 2本のTCPコネクションをそれぞれ閉じる |
+
+    autonumber
+    participant C as クライアント
+    participant P as プロキシサーバ
+    participant S as bx293apen.github.io
+
+    %% ## Phase 1: TCP 3-way Handshake (クライアント - プロキシ)
+    rect rgb(230, 240, 255)
+        Note over C,P: TCP 3ウェイハンドシェイク(クライアント - プロキシ)
+        C->>P: SYN (seq=x)
+        P->>C: SYN + ACK (seq=y, ack=x+1)
+        C->>P: ACK (ack=y+1)
+        Note over C,P: TCPコネクション確立
+    end
+
+    %% ## Phase 2: HTTP CONNECT
+    rect rgb(255, 250, 220)
+        Note over C,P: HTTP CONNECT
+        C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Host: bx293apen.github.io:443)
+
+        opt プロキシが認証を要求する場合
+            P->>C: 407 Proxy Authentication Required
+            C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Proxy-Authorization: ...)
+        end
+
+        P->>C: HTTP/1.1 200 Connection Established
+        Note over C,P: ここからクライアントは宛先と話しているつもりでTLSを開始する
+    end
+
+    %% ## Phase 3: TLS 1.2 Handshake (クライアント - プロキシ)
+    rect rgb(235, 255, 235)
+        Note over C,P: TLS 1.2 フルハンドシェイク①(クライアント - プロキシ)
+
+        C->>P: ClientHello<br/>(TLSバージョン / 暗号スイート一覧 / Client Random / SNI: bx293apen.github.io)
+        P->>C: ServerHello<br/>(TLSバージョン / 暗号スイート / Server Random)
+        P->>C: Certificate<br/>(プロキシが動的生成した bx293apen.github.io 用の証明書<br/>プロキシのCAが署名)
+
+        opt 鍵交換方式によって送信(例: ECDHE)
+            P->>C: ServerKeyExchange<br/>(鍵交換の追加パラメータ)
+        end
+
+        P->>C: ServerHelloDone
+
+        Note left of C: 証明書を検証<br/>(ホスト名 bx293apen.github.io・有効期限・署名<br/>→ プロキシのルートCAを信頼済みなので成功)
+
+        C->>P: ClientKeyExchange<br/>(プリマスタシークレットを公開鍵等で暗号化)
+
+        Note over C,P: プリマスタシークレット + Client/Server Random<br/>→ マスターシークレット → セッション鍵A(クライアントとプロキシで生成)
+
+        C->>P: ChangeCipherSpec
+        C->>P: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+        P->>C: ChangeCipherSpec
+        P->>C: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+
+        Note over C,P: TLSセッション①確立(セッション鍵Aで暗号化)
+    end
+
+    %% ## Phase 4: TCP + TLS Handshake (プロキシ - 宛先)
+    rect rgb(225, 250, 250)
+        Note over P,S: TCP 3ウェイハンドシェイク(プロキシ - 宛先サーバ)
+        P->>S: SYN
+        S->>P: SYN + ACK
+        P->>S: ACK
+
+        Note over P,S: TLS 1.2 フルハンドシェイク②(プロキシ - 宛先サーバ)
+
+        P->>S: ClientHello<br/>(TLSバージョン / 暗号スイート一覧 / Client Random / SNI: bx293apen.github.io)
+        S->>P: ServerHello<br/>(TLSバージョン / 暗号スイート / Server Random)
+        S->>P: Certificate<br/>(宛先サーバ本物の証明書・公開鍵)
+
+        opt 鍵交換方式によって送信(例: ECDHE)
+            S->>P: ServerKeyExchange<br/>(鍵交換の追加パラメータ)
+        end
+
+        S->>P: ServerHelloDone
+
+        Note right of P: 本物の証明書を検証<br/>(署名・有効期限・ホスト名・信頼チェーン)
+
+        P->>S: ClientKeyExchange<br/>(プリマスタシークレットを公開鍵等で暗号化)
+
+        Note over P,S: プリマスタシークレット + Client/Server Random<br/>→ マスターシークレット → セッション鍵B(プロキシと宛先サーバで生成)
+
+        P->>S: ChangeCipherSpec
+        P->>S: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+        S->>P: ChangeCipherSpec
+        S->>P: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+
+        Note over P,S: TLSセッション②確立(セッション鍵Bで暗号化)
+    end
+
+    %% ## Phase 5: Application Data (プロキシで復号・検査)
+    rect rgb(255, 245, 225)
+        Note over C,S: アプリケーションデータ(プロキシが復号して検査)
+
+        C->>P: Application Data<br/>(GET / HTTP/1.1 をセッション鍵Aで暗号化)
+        Note over P: 復号 → リクエストを検査<br/>(URLフィルタ / マルウェア / 情報漏えい対策 など)
+
+        alt リクエストが安全と判断された場合
+            P->>S: Application Data<br/>(GET / HTTP/1.1 をセッション鍵Bで再暗号化)
+            S->>P: Application Data<br/>(HTTPレスポンスをセッション鍵Bで暗号化)
+            Note over P: 復号 → レスポンスを検査
+            alt レスポンスも安全と判断された場合
+                P->>C: Application Data<br/>(HTTPレスポンスをセッション鍵Aで再暗号化)
+            else レスポンスが危険と判断された場合
+                P->>C: Application Data<br/>(403 Forbidden などのブロック画面)
+            end
+        else リクエストが危険と判断された場合
+            P->>C: Application Data<br/>(403 Forbidden などのブロック画面)
+            Note over P,S: 宛先サーバへは転送しない
+        end
+    end
+
+    %% ## Phase 6: TLS 切断
+    rect rgb(245, 235, 255)
+        Note over C,S: TLS 切断(クライアントから切断する例)
+
+        Note over C,P: TLSセッション①
+        C->>P: close_notify (Alert)
+        P->>C: close_notify (Alert)
+
+        Note over P,S: TLSセッション②
+        P->>S: close_notify (Alert)
+        S->>P: close_notify (Alert)
+
+        Note over C,S: 2本のTLSセッション終了(セッション鍵A・Bは破棄)
+    end
+
+    %% ## Phase 7: TCP 4-way 切断
+    rect rgb(255, 235, 235)
+        Note over C,S: TCP 4ウェイ切断(2本のTCPを順に閉じる)
+
+        Note over C,P: クライアント - プロキシ間(クライアント側が先に切断)
+        C->>P: FIN
+        P->>C: ACK
+
+        Note over P,S: プロキシ - 宛先サーバ間(プロキシが切断)
+        P->>S: FIN
+        S->>P: ACK
+        S->>P: FIN
+        P->>S: ACK
+
+        Note over C,P: クライアント - プロキシ間の残りのFIN
+        P->>C: FIN
+        C->>P: ACK
+
+        Note left of C: TIME_WAIT<br/>(一定時間待機後にクローズ)
+        Note over C,S: すべてのTCPコネクション切断
+    end
+                            -->
+                            
                             <h4 class="pt-4 border-bottom fw-bold">
                                 HTTPステータスコード
                             </h4>

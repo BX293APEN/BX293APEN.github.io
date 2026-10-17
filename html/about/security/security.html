@@ -197,6 +197,103 @@
 | 10. Application Data | 以降、共有したセッション鍵を用いてアプリケーションデータを暗号化して送受信 |
 
                             </div>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    %% # TCP 3ウェイハンドシェイク + TLS 1.2 フルハンドシェイク + 終了処理
+    %%
+    %% ## フェーズ構成
+    %%
+    %% | フェーズ | 概要 |
+    %% |---|---|
+    %% | 1. TCP 3-way Handshake | TCPコネクションを確立する |
+    %% | 2. TLS 1.2 Handshake | 暗号方式の合意・サーバ認証・鍵共有を行う |
+    %% | 3. Application Data | 共有したセッション鍵で暗号化通信を行う |
+    %% | 4. TLS 切断 | close_notify アラートで暗号化通信を正常終了する |
+    %% | 5. TCP 4-way 切断 | FIN / ACK を双方向に交換してコネクションを閉じる |
+
+    autonumber
+    participant C as クライアント
+    participant S as サーバ
+
+    %% ## Phase 1: TCP 3-way Handshake
+    rect rgb(230, 240, 255)
+        Note over C,S: TCP 3ウェイハンドシェイク
+        C->>S: SYN (seq=x)
+        S->>C: SYN + ACK (seq=y, ack=x+1)
+        C->>S: ACK (ack=y+1)
+        Note over C,S: TCPコネクション確立
+    end
+
+    %% ## Phase 2: TLS 1.2 Handshake
+    rect rgb(235, 255, 235)
+        Note over C,S: TLS 1.2 フルハンドシェイク
+
+        C->>S: ClientHello<br/>(TLSバージョン / 暗号スイート一覧 / Client Random)
+        S->>C: ServerHello<br/>(TLSバージョン / 暗号スイート / Server Random)
+        S->>C: Certificate<br/>(サーバ証明書・公開鍵)
+
+        opt 鍵交換方式によって送信(例: ECDHE)
+            S->>C: ServerKeyExchange<br/>(鍵交換の追加パラメータ)
+        end
+
+        S->>C: ServerHelloDone
+
+        Note left of C: 証明書を検証<br/>(署名・有効期限・ホスト名・信頼チェーン)
+
+        C->>S: ClientKeyExchange<br/>(プリマスタシークレットを公開鍵等で暗号化)
+
+        Note over C,S: プリマスタシークレット + Client/Server Random<br/>→ マスターシークレット → セッション鍵(双方で生成)
+
+        C->>S: ChangeCipherSpec
+        C->>S: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+        S->>C: ChangeCipherSpec
+        S->>C: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+
+        Note over C,S: 相互にFinishedを検証し、改ざんがないことを確認
+    end
+
+    %% ## Phase 3: Application Data
+    rect rgb(255, 245, 225)
+        C->>S: Application Data(セッション鍵で暗号化)
+        S->>C: Application Data(セッション鍵で暗号化)
+    end
+
+    %% ## Phase 4: TLS 切断
+    rect rgb(245, 235, 255)
+        Note over C,S: TLS 切断(クライアントから切断する例)
+        C->>S: close_notify (Alert)<br/>(以降このTLSセッションでは送信しない通知)
+        S->>C: close_notify (Alert)<br/>(切断通知に対する応答)
+        Note over C,S: TLSセッション終了(セッション鍵は破棄)
+    end
+
+    %% ## Phase 5: TCP 4-way 切断
+    rect rgb(255, 235, 235)
+        Note over C,S: TCP 4ウェイ切断
+        C->>S: FIN (seq=u)
+        S->>C: ACK (ack=u+1)
+        Note over S: サーバ側の残データを送信し終えてから FIN を送る
+        S->>C: FIN (seq=v)
+        C->>S: ACK (ack=v+1)
+        Note left of C: TIME_WAIT<br/>(一定時間待機後にクローズ)
+        Note over C,S: TCPコネクション切断
+    end
+
+                            -->
+                            <img src="/img/about/tls.svg" width = "100%"/>
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
                                 バージョン
                             </h3>
