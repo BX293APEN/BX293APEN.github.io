@@ -125,6 +125,108 @@
                                         </thead>
                                         <tbody>
                                         
+                                            <!-- ### 有線LAN (イーサネット / LANケーブル)
+                                            | 列 | 内容 |
+                                            |---|---|
+                                            | 通信サービス・方式 | 有線LAN (イーサネット) |
+                                            | 伝送媒体 | ツイストペアケーブル (UTP / STP) |
+                                            | 規格 | IEEE 802.3 (規格内にカテゴリ別のネスト表 / 4カラム) |
+                                            -->
+                                            <tr>
+                                                <td>
+                                                    有線LAN<br>
+                                                    (イーサネット)
+                                                </td>
+                                                <td>
+                                                    LANケーブル<br>
+                                                    (ツイストペアケーブル)
+                                                </td>
+                                                <td>
+                                                    構内で使用する有線LAN規格。ケーブルのカテゴリにより、対応できる速度と伝送距離が決まる
+                                                    <ul>
+                                                        <li>UTP(Unshielded Twisted Pair) : シールドなし。安価で取り回しやすく、最も普及している</li>
+                                                        <li>STP(Shielded Twisted Pair) : シールドあり。ノイズに強いが、太く曲げにくい。接地(アース)が必要</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    IEEE 802.3<br>
+                                                    (イーサネット)
+                                                    <!-- #### LANケーブルのカテゴリ一覧 (ネスト表 / 4カラム)
+                                                    | カラム | 内容 |
+                                                    |---|---|
+                                                    | カテゴリ | ケーブルのカテゴリ (CAT5 ～ CAT8) |
+                                                    | IEEE | 対応するイーサネット規格名とIEEE 802.3の規格番号 |
+                                                    | 最大伝送速度 | そのカテゴリで利用できる最大の通信速度 |
+                                                    | 伝送距離 | 最大速度で通信できるケーブル長 |
+
+                                                    #### カテゴリ別の対応規格
+                                                    | カテゴリ | 規格名 | IEEE |
+                                                    |---|---|---|
+                                                    | CAT5 | 100BASE-TX | 802.3u |
+                                                    | CAT5e | 1000BASE-T / 2.5GBASE-T | 802.3ab / 802.3bz |
+                                                    | CAT6 | 10GBASE-T / 5GBASE-T | 802.3an / 802.3bz |
+                                                    | CAT6A | 10GBASE-T | 802.3an |
+                                                    | CAT7 / CAT7A | 10GBASE-T | 802.3an |
+                                                    | CAT8 | 25GBASE-T / 40GBASE-T | 802.3bq |
+                                                    -->
+                                                    <table class="table table-sm table-bordered mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="text-nowrap">カテゴリ</th>
+                                                                <th scope="col" class="text-nowrap">IEEE</th>
+                                                                <th scope="col" class="text-nowrap">最大伝送速度</th>
+                                                                <th scope="col" class="text-nowrap">伝送距離</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="text-nowrap">CAT5</td>
+                                                                <td class="text-nowrap">100BASE-TX<br>(IEEE 802.3u)</td>
+                                                                <td class="text-nowrap">100Mbps</td>
+                                                                <td class="text-nowrap">100m</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">CAT5e</td>
+                                                                <td class="text-nowrap">1000BASE-T<br>(IEEE 802.3ab)<br>2.5GBASE-T<br>(IEEE 802.3bz)</td>
+                                                                <td>1Gbps<br>(2.5GBASE-T使用時は2.5Gbps)</td>
+                                                                <td class="text-nowrap">100m</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">CAT6</td>
+                                                                <td class="text-nowrap">10GBASE-T<br>(IEEE 802.3an)<br>5GBASE-T<br>(IEEE 802.3bz)</td>
+                                                                <td>10Gbps<br>(5GBASE-T使用時は5Gbps)</td>
+                                                                <td>10Gbpsは55m以内<br>(5Gbps以下は100m)</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">CAT6A</td>
+                                                                <td class="text-nowrap">10GBASE-T<br>(IEEE 802.3an)</td>
+                                                                <td class="text-nowrap">10Gbps</td>
+                                                                <td class="text-nowrap">100m</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>CAT7 / CAT7A<br>(STPのみ)</td>
+                                                                <td class="text-nowrap">10GBASE-T<br>(IEEE 802.3an)</td>
+                                                                <td class="text-nowrap">10Gbps</td>
+                                                                <td class="text-nowrap">100m</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>CAT8<br>(STPのみ)</td>
+                                                                <td class="text-nowrap">25GBASE-T / 40GBASE-T<br>(IEEE 802.3bq)</td>
+                                                                <td class="text-nowrap">25Gbps / 40Gbps</td>
+                                                                <td class="text-nowrap">30m</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li>2.5GBASE-T / 5GBASE-Tは、既存のCAT5e(2.5Gbps)・CAT6(5Gbps)の配線を流用して高速化するための規格</li>
+                                                        <li>伝送距離は基本的に100mまで(CAT8は30m)</li>
+                                                        <li>CAT7 / CAT7A / CAT8はSTPケーブルのみ</li>
+                                                        <li>長距離や高速・ノイズ環境には光ファイバを使用</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
                                             <!-- ### 電波 -->
                                             <tr>
                                                 <td class="text-nowrap">無線LAN(Wi-Fi)</td>
@@ -132,23 +234,73 @@
                                                 <td>構内で使用する無線LAN規格</td>
                                                 <td>
                                                     IEEE 802.11
-                                                    <ul>
-                                                        <li>Wi-Fi 4 : IEEE 802.11n</li>
-                                                        <li>Wi-Fi 5 : IEEE 802.11ac</li>
-                                                        <li>Wi-Fi 6/6E : IEEE 802.11ax</li>
-                                                        <li>Wi-Fi 7 : IEEE 802.11be</li>
-                                                        <li class="text-nowrap">Wi-Fi 8 : IEEE 802.11bn(策定中)</li>
-                                                    </ul>
+                                                    <!-- #### 無線LAN規格一覧 (ネスト表 / 5カラム)
+                                                    | カラム | 内容 |
+                                                    |---|---|
+                                                    | Wi-Fi | Wi-Fi Allianceが定める世代名 |
+                                                    | IEEE | 対応するIEEE 802.11規格 |
+                                                    | 使用周波数帯 | 利用する周波数帯 |
+                                                    | 理論値速度 | 規格上の最大通信速度 (実効速度は理論値より大幅に低下する) |
+                                                    | 対応暗号化方式 | 対応する暗号化方式 |
+                                                    -->
+                                                    <table class="table table-sm table-bordered mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="text-nowrap">Wi-Fi</th>
+                                                                <th scope="col" class="text-nowrap">IEEE</th>
+                                                                <th scope="col" class="text-nowrap">使用周波数帯</th>
+                                                                <th scope="col" class="text-nowrap">理論値速度</th>
+                                                                <th scope="col" class="text-nowrap">対応暗号化方式</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="text-nowrap">Wi-Fi 4</td>
+                                                                <td class="text-nowrap">IEEE 802.11n</td>
+                                                                <td class="text-nowrap">2.4GHz / 5GHz</td>
+                                                                <td class="text-nowrap">600Mbps</td>
+                                                                <td>WPA2<br>(WPA3は機器依存)</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">Wi-Fi 5</td>
+                                                                <td class="text-nowrap">IEEE 802.11ac</td>
+                                                                <td class="text-nowrap">5GHz</td>
+                                                                <td class="text-nowrap">6.9Gbps</td>
+                                                                <td>WPA2<br>(WPA3は機器依存)</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">Wi-Fi 6</td>
+                                                                <td class="text-nowrap">IEEE 802.11ax</td>
+                                                                <td class="text-nowrap">2.4GHz / 5GHz</td>
+                                                                <td class="text-nowrap">9.6Gbps</td>
+                                                                <td>WPA3 / WPA2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">Wi-Fi 6E</td>
+                                                                <td class="text-nowrap">IEEE 802.11ax</td>
+                                                                <td class="text-nowrap">2.4GHz / 5GHz / 6GHz</td>
+                                                                <td class="text-nowrap">9.6Gbps</td>
+                                                                <td>WPA3 / Enhanced Open<br>(6GHz帯ではどちらかが必須)</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">Wi-Fi 7</td>
+                                                                <td class="text-nowrap">IEEE 802.11be</td>
+                                                                <td class="text-nowrap">2.4GHz / 5GHz / 6GHz</td>
+                                                                <td class="text-nowrap">46Gbps</td>
+                                                                <td>WPA3 / Enhanced Open</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-nowrap">Wi-Fi 8</td>
+                                                                <td class="text-nowrap">IEEE 802.11bn<br>(策定中)</td>
+                                                                <td class="text-nowrap">2.4GHz / 5GHz / 6GHz<br>(想定)</td>
+                                                                <td class="text-nowrap">未確定</td>
+                                                                <td>未確定</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </td>
                                                 <td>
                                                     <ul>
-                                                        <li>使用周波数帯
-                                                            <ul>
-                                                                <li>2.4GHz</li> 
-                                                                <li>5GHz</li> 
-                                                                <li>6GHz帯</li>
-                                                            </ul>
-                                                        </li>
                                                         <li class="text-nowrap">CSMA/CA方式でアクセス制御</li>
                                                         <li>
                                                             隠れ端末問題対策として<br>
