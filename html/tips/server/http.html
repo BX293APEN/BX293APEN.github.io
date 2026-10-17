@@ -451,7 +451,7 @@ sudo systemctl enable [Project Name].service</code></pre>
 | CONNECT | プロキシ経由でのトンネル確立<br>(HTTPS通信などで使用) | - | リクエスト行(接続先を `host:port` 形式で指定) | × |
 
                             </div>
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h4 class="pt-4 border-bottom fw-bold" id="proxy">
                                 プロキシを介した接続方法
                             </h4>
                             <h5 class="pt-4 fw-bold">
@@ -1204,6 +1204,9 @@ Content-Security-Policy-Report-Only</code></pre></th><td rowspan="15" class="bg-
                                     </li>
                                     <li>
                                         <a href="#md-http-method">HTTPメソッド</a>
+                                    </li>
+                                    <li>
+                                        <a href="#proxy">プロキシを介した接続方法</a>
                                     </li>
                                     <li>
                                         <a href="#md-http-status">HTTPステータスコード</a>
