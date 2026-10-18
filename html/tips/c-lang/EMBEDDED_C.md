@@ -1141,7 +1141,7 @@ asm volatile ("dsb" ::: "memory");       // ✅
 | 割り込み制御 | (概念なし) | `cpsid i` / `cpsie i` | `cli` / `sti` ※Ring0 | `cli` / `sti` ※Ring0 |
 | メモリバリア | (概念なし) | `dsb` / `dmb` / `isb` | `mfence` / `lfence` / `sfence` | `mfence` / `lfence` / `sfence` |
 
-> ARM の `SVC` 命令 (Supervisor Call) は CASLⅡ の `SVC` と名前まで同じ
+> ARM の `SVC` 命令 (Supervisor Call) は CASLⅡ の `SVC` と名前まで同じ  
 > どちらも「OS や監視プログラムに処理を委譲する」という同じ目的を持つ
 
 ---
