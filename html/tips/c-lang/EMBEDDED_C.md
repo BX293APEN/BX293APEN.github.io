@@ -30,7 +30,7 @@
 
 ### 標準整数型 (`<stdint.h>`)
 
-C の基本型はプラットフォームによってサイズが変わるため、組み込みでは固定幅型を使うのが鉄則。
+C の基本型はプラットフォームによってサイズが変わるため、組み込みでは固定幅型を使うのが鉄則
 
 | 型 | バイト | 範囲 |
 |---|---|---|
@@ -43,7 +43,7 @@ C の基本型はプラットフォームによってサイズが変わるため
 | `int32_t` | 4 | `-2,147,483,648` 〜 `2,147,483,647` |
 | `int64_t` | 8 | `-9.2×10^18` 〜 `9.2×10^18` |
 
-最大値・最小値マクロ (`UINT8_MAX` / `INT8_MIN` / `INT8_MAX` など) も `<stdint.h>` に定義済み。
+最大値・最小値マクロ (`UINT8_MAX` / `INT8_MIN` / `INT8_MAX` など) も `<stdint.h>` に定義済み
 
 ### オーバーフロー挙動
 
@@ -79,7 +79,8 @@ if (len < size) { }   // ❌ -1 が巨大な正数に変換されて条件が偽
 
 ## 整数リテラルのサフィックス
 
-何もつけないと `int` (符号あり 32 bit) 扱い。大きな値・符号なし・64 bit が必要なときはサフィックスで明示する。
+何もつけないと `int` (符号あり 32 bit) 扱い<br>
+大きな値・符号なし・64 bit が必要なときはサフィックスで明示する
 
 ### サフィックス一覧
 
@@ -94,7 +95,7 @@ if (len < size) { }   // ❌ -1 が巨大な正数に変換されて条件が偽
 | `f` / `F` | `float` | 4 | `3.14f` |
 | なし (小数) | `double` | 8 | `3.14` |
 
-> `long` は環境依存 (Windows 64 bit: 4 バイト / Linux 64 bit: 8 バイト)。組み込みでは `int32_t` / `uint32_t` を使うのが安全。
+> `long` は環境依存 (Windows 64 bit: 4 バイト / Linux 64 bit: 8 バイト) 組み込みでは `int32_t` / `uint32_t` を使うのが安全 
 
 ### なぜサフィックスが必要か
 
@@ -132,7 +133,7 @@ float f2 = 1.0f / 3.0f;  // ✅ float のまま計算
 | 連番自動付与 | ❌ | ✅ |
 
 ```c
-// #define — テキスト置換。型を持たない
+// #define — テキスト置換 型を持たない
 #define MAX_RETRY    3
 #define TIMEOUT_MS   1000
 #define PI_APPROX    3.14159f
@@ -141,7 +142,7 @@ float f2 = 1.0f / 3.0f;  // ✅ float のまま計算
 #define FLAG_BUSY    0x02
 #define ALL_FLAGS    (FLAG_READY | FLAG_BUSY)
 
-// enum — 連番自動付与。デバッガで名前が見える
+// enum — 連番自動付与 デバッガで名前が見える
 typedef enum {
     STATE_IDLE = 0,
     STATE_CONNECTING,   // 1
@@ -191,7 +192,7 @@ typedef enum {
 | `!` | NOT | `#if !defined(RELEASE)` |
 | `defined(SYM)` | 定義されているか (式中で使う) | `#if defined(X) && defined(Y)` |
 
-> `#ifdef X && Y` は NG — `ifdef` は `&&` と組み合わせられない。式中では `defined()` を使う。
+> `#ifdef X && Y` は NG — `ifdef` は `&&` と組み合わせられない 式中では `defined()` を使う 
 
 ### 関数マクロ
 
@@ -284,7 +285,7 @@ _Static_assert(sizeof(RegMap) == 4, "RegMap は 4 バイトである必要があ
 static_assert(sizeof(void *) == 4, "このコードは 32 bit 環境専用です");
 ```
 
-> `assert()` (実行時) と違い、ROM もフラッシュも消費しない。条件が偽だとコンパイルエラー。
+> `assert()` (実行時) と違い、ROM もフラッシュも消費しない 条件が偽だとコンパイルエラー 
 
 ### `_Pragma` — マクロ内からプラグマを発行 (C99)
 
@@ -306,12 +307,12 @@ static_assert(sizeof(void *) == 4, "このコードは 32 bit 環境専用です
 | マクロ | 役割 |
 |---|---|
 | `va_list ap` | 可変引数の「現在位置」を保持する型 |
-| `va_start(ap, last_fixed)` | `ap` を初期化。最後の固定引数名を渡す |
+| `va_start(ap, last_fixed)` | `ap` を初期化 最後の固定引数名を渡す |
 | `va_arg(ap, type)` | 次の引数を指定型で取り出す (取り出すたびに位置が進む) |
 | `va_copy(dst, src)` | `va_list` をコピー (2 回走査したいとき) |
 | `va_end(ap)` | 後始末 (必ず呼ぶ) |
 
-> `va_arg` の型指定は呼び出し側と一致させること。`float` は `double` に昇格されて積まれるため `va_arg(ap, double)` が正しい。
+> `va_arg` の型指定は呼び出し側と一致させること `float` は `double` に昇格されて積まれるため `va_arg(ap, double)` が正しい 
 
 ### `v` 系関数 — `va_list` をそのまま渡せる printf 族
 
@@ -346,7 +347,7 @@ static int safe_vsnprintf(char *buf, size_t size, const char *fmt, va_list ap) {
 }
 ```
 
-> `_vsnprintf_s` は MSVC 拡張。組み込み (pico-sdk / GCC) では使えない。`_TRUNCATE` を渡すと切り捨て許容動作 (= `vsnprintf` 互換) になる。
+> `_vsnprintf_s` は MSVC 拡張 組み込み (pico-sdk / GCC) では使えない `_TRUNCATE` を渡すと切り捨て許容動作 (= `vsnprintf` 互換) になる 
 
 ### 自作フォーマット関数の定石
 
@@ -411,9 +412,9 @@ void log_impl(log_level_t lv, const char *file, int line, const char *fmt, ...)
 | 関数 | 変換方向 | 備考 |
 |---|---|---|
 | `time(NULL)` | → `time_t` | 現在時刻 (Unix エポック秒) |
-| `localtime(&t)` | `time_t` → `struct tm *` | ローカル時刻。静的バッファを返す (スレッド unsafe) |
-| `gmtime(&t)` | `time_t` → `struct tm *` | UTC。同上 |
-| `localtime_r(&t, &tm)` | `time_t` → `struct tm *` | POSIX。スレッドセーフ版 |
+| `localtime(&t)` | `time_t` → `struct tm *` | ローカル時刻 静的バッファを返す (スレッド unsafe) |
+| `gmtime(&t)` | `time_t` → `struct tm *` | UTC 同上 |
+| `localtime_r(&t, &tm)` | `time_t` → `struct tm *` | POSIX スレッドセーフ版 |
 | `mktime(&tm)` | `struct tm` → `time_t` | ローカル時刻として解釈して変換 |
 | `difftime(end, start)` | — | 秒単位の差 (`double`) |
 
@@ -466,11 +467,11 @@ struct tm rtc_time = {
 | `.` | 値 (実体) の場合 | `cfg.port` |
 | `->` | ポインタ経由の場合 | `ptr->port` |
 
-`->` は `(*ptr).port` の糖衣構文。
+`->` は `(*ptr).port` の糖衣構文 
 
 ### 指示子初期化 (Designated Initializer, C99)
 
-フィールド名を明示して初期化する。順番変更に強く、未指定フィールドは自動的に 0 になる。
+フィールド名を明示して初期化する 順番変更に強く、未指定フィールドは自動的に 0 になる 
 
 ```c
 typedef struct {
@@ -566,7 +567,7 @@ void handle_command(uint8_t cmd) {
 | `static int x;` (ローカル) | `.bss`/`.data` | SRAM | プログラム終了まで | ❌ | ✅ |
 | `const int x = 1;` (ローカル) | — | スタック | 関数を抜けるまで | ❌ | ❌ |
 
-> RP2040 では `.rodata` は XIP Flash に置かれる (SRAM を消費しない)。
+> RP2040 では `.rodata` は XIP Flash に置かれる (SRAM を消費しない) 
 
 ### `static` の 2 つの意味
 
@@ -577,7 +578,7 @@ void handle_command(uint8_t cmd) {
 
 ### `static` 変数の初期値
 
-初期化式を省略した `static` 変数は、C 規格により **必ずゼロで初期化される**。ゼロ初期化変数は `.bss` セクションに配置され、起動時にランタイム (crt0 など) がまとめてゼロクリアする。
+初期化式を省略した `static` 変数は、C 規格により **必ずゼロで初期化される** ゼロ初期化変数は `.bss` セクションに配置され、起動時にランタイム (crt0 など) がまとめてゼロクリアする 
 
 | 書き方 | セクション | 初期値 | 備考 |
 |---|---|---|---|
@@ -585,7 +586,7 @@ void handle_command(uint8_t cmd) {
 | `static T x = 0;` | `.bss` | **0** (明示版) | 上と全く同じ意味 |
 | `static T x = 1;` | `.data` | 1 | フラッシュからコピー |
 
-グローバル変数も静的領域に置かれるため同じルールが適用される。
+グローバル変数も静的領域に置かれるため同じルールが適用される 
 
 ```c
 // 初期値を「わざと 1」にする例 — 省略した場合との対比
@@ -608,7 +609,7 @@ uint16_t read_adc_filtered(void) {
 
 ## `volatile`
 
-コンパイラのレジスタキャッシュや命令並べ替えを抑制する。ハードウェアレジスタ・割り込みフラグ・DMA バッファなど、プログラムの外から値が変わりうる変数に必須。
+コンパイラのレジスタキャッシュや命令並べ替えを抑制する ハードウェアレジスタ・割り込みフラグ・DMA バッファなど、プログラムの外から値が変わりうる変数に必須 
 
 ### `volatile` の用途
 
@@ -619,7 +620,7 @@ uint16_t read_adc_filtered(void) {
 | DMA バッファ | CPU 以外がメモリを書き換える領域 |
 | マルチコア共有変数 | 別コアが書き換える変数 (+ atomic も必要) |
 
-> **`volatile` はスレッド安全を保証しない**。マルチコアや割り込みとの共有変数は `volatile` に加えて atomic 操作や spinlock が必要。
+> **`volatile` はスレッド安全を保証しない** マルチコアや割り込みとの共有変数は `volatile` に加えて atomic 操作や spinlock が必要 
 
 ```c
 // ❌ volatile なし → while(true){} に最適化される可能性
@@ -674,7 +675,7 @@ GPIO_OUT = 0x01;   // 最適化で消えない
 __attribute__((weak))
 void board_init(void) { /* 何もしない */ }
 
-// user_board.c — 強い定義。こちらが優先される
+// user_board.c — 強い定義 こちらが優先される
 void board_init(void) {
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
@@ -715,7 +716,7 @@ void better(void) { static uint8_t buf[2048]; ... }  // 静的領域に移動 (�
 // ブロックスコープで大きなバッファの寿命を絞る
 void process(void) {
     { uint8_t parse_buf[512]; parse_data(parse_buf); }
-    // ← ブロックを抜けた時点でスタック解放。以降は再利用可
+    // ← ブロックを抜けた時点でスタック解放 以降は再利用可
     { uint8_t send_buf[512];  build_packet(send_buf); transmit(send_buf); }
     // parse_buf と send_buf が同時にスタックに載らない → 最大消費 512 B
 }
@@ -831,7 +832,7 @@ const uint8_t ca_cert_der[] __attribute__((aligned(4))) = { 0x30, 0x82, ... };
 3. XIP (Execute In Place) → CPU がフラッシュを直接読む (RAM へのコピーなし)
 4. `aligned(4)` → XIP キャッシュの 4 バイト単位アクセスを境界に整列して効率化する
 
-結果として **SRAM を 1 バイトも消費せずにフラッシュ上のデータを参照できる**。
+結果として **SRAM を 1 バイトも消費せずにフラッシュ上のデータを参照できる** 
 
 ### その他の固有設定
 
@@ -853,13 +854,13 @@ const uint8_t ca_cert_der[] __attribute__((aligned(4))) = { 0x30, 0x82, ... };
 |---|---|
 | `asm("命令")` | 基本形 (副作用なし) |
 | `asm volatile("命令")` | 並べ替え・削除を禁止 (ハードウェア操作では必須) |
-| `__asm__ __volatile__("命令")` | 同上。厳密に標準 C に準拠したい場合 |
+| `__asm__ __volatile__("命令")` | 同上 厳密に標準 C に準拠したい場合 |
 
 ### 拡張 `asm` の構造
 
 ```c
 asm volatile (
-    "命令\n\t"          // アセンブリ本体。複数行は "\n\t" で区切る
+    "命令\n\t"          // アセンブリ本体 複数行は "\n\t" で区切る
     : 出力オペランド    // C変数 ← レジスタ
     : 入力オペランド    // レジスタ ← C変数
     : 破壊リスト        // この asm が書き換えるレジスタ・メモリを宣言
@@ -968,8 +969,8 @@ uint32_t n; asm volatile ("clz %0, %1" : "=r"(n) : "r"(x));
 | **高レベルAPI (バリア)** | `__dmb()` (pico-sdk) | `mb()` / `rmb()` / `wmb()` (カーネル) | `MemoryBarrier()` / `_ReadBarrier()` |
 | **高レベルAPI (atomic)** | `pico-sdk: mutex_*` | `atomic_*` / `__sync_*` | `Interlocked*()` (WinAPI) |
 
-> CLI/STI はユーザーランド (Ring3) では特権命令なのでクラッシュする。OS カーネルや特権モードのみ使用可。
-> C11 の `<stdatomic.h>` を使えばアーキテクチャを意識せず書けるため、新規コードでは `atomic_*` を推奨。
+> CLI/STI はユーザーランド (Ring3) では特権命令なのでクラッシュする OS カーネルや特権モードのみ使用可 
+> C11 の `<stdatomic.h>` を使えばアーキテクチャを意識せず書けるため、新規コードでは `atomic_*` を推奨 
 
 #### `__builtin_*` — asm を書かずに済む GCC 組み込み関数
 
@@ -992,7 +993,7 @@ asm volatile ("movl $42, %0" : "=r"(result));
 // Intel 記法 — .intel_syntax noprefix / .att_syntax で囲む
 asm volatile (
     ".intel_syntax noprefix \n\t"
-    "mov %0, 42             \n\t"   // dst, src の順。$ % なし
+    "mov %0, 42             \n\t"   // dst, src の順 $ % なし
     ".att_syntax            \n\t"   // 必ず AT&T に戻す
     : "=r"(result)
 );
@@ -1042,12 +1043,12 @@ asm volatile ("dsb" ::: "memory");       // ✅
 
 ## CASLⅡ — レジスタ・命令対比
 
-> 「第 1 引数」「第 2 引数」のような割り当ては **CPU の命令セットには存在しない**。`%rdi` も `%rax` もハードウェア的にはただの汎用レジスタで、「引数用」という意味は一切持たない。
+> 「第 1 引数」「第 2 引数」のような割り当ては **CPU の命令セットには存在しない** `%rdi` も `%rax` もハードウェア的にはただの汎用レジスタで、「引数用」という意味は一切持たない 
 > これは OS / コンパイラ間で事前に合意された **呼び出し規約 (calling convention) = ABI (Application Binary Interface)** によるソフトウェア上の取り決め:
 > - x86-64 Windows : Microsoft x64 calling convention (Windows用レジスタ使用規約)
 > - x86-64 Linux : System V AMD64 ABI (Linux用レジスタ使用規約)
 >
-> コンパイラがこの規約通りにコードを生成するからこそ、別々にコンパイル・アセンブルされた関数同士が正しく値を受け渡しできる。
+> コンパイラがこの規約通りにコードを生成するからこそ、別々にコンパイル・アセンブルされた関数同士が正しく値を受け渡しできる 
 
 ### レジスタ・フラグ比較
 
@@ -1095,9 +1096,9 @@ asm volatile ("dsb" ::: "memory");       // ✅
 > **caller-saved** = 呼び出し元が保存する責任 (関数呼び出し後に値が壊れていると思え)
 > **callee-saved** = 呼び出された関数が保存・復元する責任 (関数呼び出し後も値が保たれる)
 >
-> `%rsi` / `%rdi` は Linux では引数レジスタのため caller-saved、Windows では非引数の汎用レジスタとして callee-saved という違いがある。
+> `%rsi` / `%rdi` は Linux では引数レジスタのため caller-saved、Windows では非引数の汎用レジスタとして callee-saved という違いがある 
 >
-> **「自由に読み書き可能」** = 命令セットレベルで暗黙の用途を持たないレジスタ (`ENTER`/`LEAVE` (`%rbp`) のようなほぼ使われないレガシー命令は対象外)。
+> **「自由に読み書き可能」** = 命令セットレベルで暗黙の用途を持たないレジスタ (`ENTER`/`LEAVE` (`%rbp`) のようなほぼ使われないレガシー命令は対象外) 
 > - `%rax` ❌: `MUL`/`DIV`/`CDQ` 系の暗黙オペランド
 > - `%rcx` ❌: `LOOP`/`REP` の暗黙カウンタ、可変シフトの回数指定 (`CL`)、加えて `SYSCALL` 命令が戻り先 `RIP` を退避
 > - `%rdx` ❌: `MUL`/`DIV` の上位ビット、`IN`/`OUT` のポート番号指定
@@ -1106,10 +1107,10 @@ asm volatile ("dsb" ::: "memory");       // ✅
 > - `%r11` ❌: `SYSCALL`/`SYSRET` 命令が `RFLAGS` の退避に使用
 > - `%r10` ✅: Linux の syscall 呼び出し規約で第 4 引数に使われるが、これは `SYSCALL` が `%rcx`/`%r11` を破壊するためカーネルがソフトウェア的に代用しているだけで、ハードウェアによる強制ではない
 >
-> **「無条件に自由」** = 自由に読み書き可能 ✅ かつ 呼び出し保存 (両OS) ❌ (= caller-saved) の積。命令的にもABI的にも一切の制約がなく、保存も復元も不要 (`%r8` `%r9` `%r10` のみ)。
+> **「無条件に自由」** = 自由に読み書き可能 ✅ かつ 呼び出し保存 (両OS) ❌ (= caller-saved) の積 命令的にもABI的にも一切の制約がなく、保存も復元も不要 (`%r8` `%r9` `%r10` のみ) 
 >
-> `%eax` など 32 bit 副レジスタへの書き込みは上位 32 bit を自動ゼロクリアする。
-> `%ax` `%al` など 16/8 bit への書き込みは上位ビットを変更しない点に注意。
+> `%eax` など 32 bit 副レジスタへの書き込みは上位 32 bit を自動ゼロクリアする 
+> `%ax` `%al` など 16/8 bit への書き込みは上位ビットを変更しない点に注意 
 
 ### CASLⅡ vs ARM vs x86-64 の対比
 
@@ -1140,7 +1141,20 @@ asm volatile ("dsb" ::: "memory");       // ✅
 | 割り込み制御 | (概念なし) | `cpsid i` / `cpsie i` | `cli` / `sti` ※Ring0 | `cli` / `sti` ※Ring0 |
 | メモリバリア | (概念なし) | `dsb` / `dmb` / `isb` | `mfence` / `lfence` / `sfence` | `mfence` / `lfence` / `sfence` |
 
-> ARM の `SVC` 命令 (Supervisor Call) は CASLⅡ の `SVC` と名前まで同じ。どちらも「OS や監視プログラムに処理を委譲する」という同じ目的を持つ。
+> ARM の `SVC` 命令 (Supervisor Call) は CASLⅡ の `SVC` と名前まで同じ
+> どちらも「OS や監視プログラムに処理を委譲する」という同じ目的を持つ
+
+---
+
+## キャッシュメモリの書き込み方式
+
+| 方式 | 別名 | 使用場面 | 動作 | RAM | キャッシュ | RAMキャッシュデータ一致 | 特徴 | メリット | デメリット | 用途 |
+|------|------|----------|------|-----|------------|--------------------------|------|----------|------------|------|
+| ライトスルー (Write-Through) | ストアスルー | ライトヒット時 | 書き込みのたびにキャッシュとRAMの両方を同時に更新する | 書き込みのたびに即時更新される | 同時に更新される | 常に一致 | ダーティビット不要<br>ライトバッファで待ち時間を隠蔽することが多い | 構成が単純<br>データ整合性を保ちやすい<br>DMA・I/Oとの相性が良い | 書き込みがRAM速度に律速される<br>バス帯域の消費が多い | 組込み機器、メモリマップドI/O領域、小規模システム、L1キャッシュの一部 |
+| ライトバック (Write-Back) | コピーバック (Copy-Back)、ストアイン | ライトヒット時 | キャッシュだけを更新し、ダーティビットを立てる<br>ラインの置換時にRAMへ書き戻す | 置換(追い出し)時まで更新されない | 即時更新される(最新データを保持) | 一時的に不一致(ダーティ状態の間) | ダーティビットが必要<br>マルチコアではMESI等のコヒーレンシプロトコルが必要 | 書き込みが高速<br>RAMアクセスとバス帯域を削減できる | 回路が複雑<br>電源断やDMA時にデータ不整合の恐れがあり、フラッシュ/無効化が必要 | 汎用CPUのL1/L2/L3キャッシュ、高性能システム |
+| ライトアロケート (Write-Allocate) | フェッチオンライト (Fetch on Write) | ライトミス時 | 該当ラインをRAMからキャッシュへ読み込み、その後キャッシュへ書き込む | ライン読み込みのため一度読み出される(書き込み先は組み合わせる方式に依存) | ラインが取り込まれて更新される | 組み合わせる方式に依存(ライトバックなら一時的に不一致、ライトスルーなら一致) | ライトバックと組み合わせるのが一般的 | 以後の同一ラインへの読み書きがキャッシュヒットになる | ラインフィルの読み出しが発生し、1回きりの書き込みでは無駄になる | 書き込み後に再利用される局所性の高いデータ、汎用CPU |
+| ノーライトアロケート (No-Write-Allocate) | ライトアラウンド (Write-Around) | ライトミス時 | キャッシュに取り込まず、RAMへ直接書き込む | 直接更新される | 更新されない(取り込まない) | 一致(キャッシュに存在しないため) | ライトスルーと組み合わせるのが一般的 | ラインフィルが不要で、キャッシュ汚染を防げる | 書き込み後にそのデータを読むとキャッシュミスになる | 1回書いたら再利用しないデータ、ストリーミング書き込み、組込み機器 |
+
 
 ---
 
