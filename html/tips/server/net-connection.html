@@ -57,7 +57,8 @@
                     | カテゴリ | ケーブルのカテゴリ (CAT5 ～ CAT8) |
                     | IEEE | 対応するイーサネット規格名とIEEE 802.3の規格番号 |
                     | 最大伝送速度 | そのカテゴリで利用できる最大の通信速度 |
-                    | 伝送距離 | 最大速度で通信できる
+                    | 伝送距離 | 最大速度で通信できる |
+                    
                     #### カテゴリ別の対応規格
                     | カテゴリ | 規格名 | IEEE |
                     |---|---|---|
@@ -465,69 +466,146 @@
                             (Clear To Send : RTSを受信した局が送信許可を応答する信号)<br>
                             を使用
                         </li>
-                        <li>
-                            セキュリティ機能として
-                            <ul>
-                                <li class="text-nowrap">MACアドレスフィルタリング : 登録されているMACアドレスをもつ機器だけが無線LANに接続可能</li>
-                                <li>
-                                    プライバシセパレータ(アクセスポイントアイソレーション) :<br>
-                                    同じアクセスポイントに接続されている機器同士の通信を禁止にする
-                                </li>
-                                <li>暗号化 : WPA3 / Enhanced Open等</li>
-                            </ul>
-                            がある
-                        </li>
-                        <li>
-                            <strong>変調方式・多重化方式に関する用語</strong><br>
-                            <ul>
-                                <li>
-                                    <strong>QAM(直交振幅変調)</strong><br>
-                                    <ul>
+                    </ul>
+                    <!-- #### 特徴欄のネスト表 (2カラム / 全3表)
+                    | 表 | 1列目 | 2列目 | 掲載項目 |
+                    |---|---|---|---|
+                    | セキュリティ機能 | セキュリティ機能 | 説明 | MACアドレスフィルタリング / プライバシセパレータ / 暗号化 |
+                    | 変調方式 | 変調方式 | 説明 | BPSK・QPSK / QAM / CCK |
+                    | 多重化方式 | 多重化方式 | 説明 | DSSS / OFDM / OFDMA / MIMO / MU-MIMO |
+                    -->
+                    <table class="table table-sm table-bordered mb-2">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">セキュリティ機能</th>
+                                <th scope="col" class="text-nowrap">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>MACアドレスフィルタリング</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>登録されているMACアドレスをもつ機器だけが無線LANに接続可能</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>プライバシセパレータ<br>(アクセスポイントアイソレーション)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>同じアクセスポイントに接続されている機器同士の通信を禁止にする</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>暗号化</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>通信内容を暗号化して盗聴を防ぐ</li>
+                                        <li>WPA3 / Enhanced Open等</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered mb-2">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">変調方式</th>
+                                <th scope="col" class="text-nowrap">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>BPSK / QPSK<br>(DBPSK / DQPSK)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>搬送波の位相でデータを表す変調方式</li>
+                                        <li>BPSK : 1シンボルで1ビット / QPSK : 1シンボルで2ビット</li>
+                                        <li>多値数が小さく低速だが、雑音に強い</li>
+                                        <li>DBPSK / DQPSKは直前の信号との位相差で表す差動方式(802.11bの1 / 2Mbpsで使用)</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>QAM<br>(直交振幅変調)</td>
+                                <td>
+                                    <ul class="mb-0">
                                         <li>振幅と位相の組み合わせでデータを表す変調方式</li>
                                         <li>多値数が大きいほど1シンボルで送れるビット数が増える</li>
                                         <li>256-QAM : 8ビット / 1024-QAM : 10ビット / 4096-QAM : 12ビット</li>
                                         <li>多値数が大きいほど良好な電波環境が必要</li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <strong>CCK(Complementary Code Keying)</strong><br>
-                                    <ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CCK<br>(Complementary Code Keying)</td>
+                                <td>
+                                    <ul class="mb-0">
                                         <li>802.11bの5.5 / 11Mbpsで使われる変調方式</li>
                                         <li>符号系列を用いる</li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <strong>DSSS(Direct Sequence Spread Spectrum : 直接スペクトラム拡散)</strong><br>
-                                    <ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">多重化方式</th>
+                                <th scope="col" class="text-nowrap">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>DSSS<br>(Direct Sequence Spread Spectrum :<br>直接スペクトラム拡散)</td>
+                                <td>
+                                    <ul class="mb-0">
                                         <li>拡散符号を用いてデータを広い周波数帯に拡散して伝送する方式</li>
                                         <li>ノイズ・干渉に強い</li>
                                         <li>CDMA(符号分割多元接続)と同じ拡散符号の考え方を用いる</li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <strong>OFDM(Orthogonal Frequency Division Multiplexing : 直交周波数分割多重)</strong><br>
-                                    <ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OFDM<br>(Orthogonal Frequency Division Multiplexing :<br>直交周波数分割多重)</td>
+                                <td>
+                                    <ul class="mb-0">
                                         <li>データを互いに直交する多数のサブキャリアに分割して並列伝送する方式</li>
                                         <li>マルチパス(反射波)による干渉に強い</li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <strong>OFDMA(Orthogonal Frequency Division Multiple Access)</strong><br>
-                                    <ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OFDMA<br>(Orthogonal Frequency Division Multiple Access)</td>
+                                <td>
+                                    <ul class="mb-0">
                                         <li>OFDMのサブキャリアを複数の端末に分けて割り当て、同時に通信する方式</li>
                                         <li>Wi-Fi 6以降で利用</li>
                                     </ul>
-                                </li>
-                                <li>
-                                    <strong>MIMO(Multiple Input Multiple Output)</strong><br>
-                                    <ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MIMO<br>(Multiple Input Multiple Output)</td>
+                                <td>
+                                    <ul class="mb-0">
                                         <li>複数のアンテナで複数のデータストリームを同時に送受信する空間多重の技術</li>
-                                        <li>MU-MIMOは複数の端末に対して同時に送信する</li>
+                                        <li>Wi-Fi 4以降で利用</li>
                                     </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MU-MIMO<br>(Multi User MIMO)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>複数の端末に対して同時に送信するMIMO</li>
+                                        <li>Wi-Fi 5は下りのみ、Wi-Fi 6以降は上り・下りに対応</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
             <tr>
