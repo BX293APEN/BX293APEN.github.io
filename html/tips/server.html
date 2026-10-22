@@ -2023,13 +2023,19 @@
 | ポート番号 | プロトコル名 | 説明 |
 |---|---|---|
 | 7 | Echo | 受信データをそのまま送り返す疎通確認用 |
+| 9 | Discard | 受信データを破棄する試験用サービス |
+| 13 | Daytime | 人間可読な日時文字列を返す (旧式) |
+| 19 | Chargen | 文字列を延々と送り続けるテスト用 (DDoS増幅攻撃に悪用された) |
 | 20 | FTP-DATA | FTPのデータ転送用コネクション |
 | 21 | FTP | FTPの制御用コネクション |
 | 22 | SSH | Secure Shell (暗号化リモート操作)  |
 | 23 | Telnet | 平文でのリモートログイン |
 | 25 | SMTP | メール送信 (Mail Transfer)  |
 | 37 | Time | 時刻情報の取得 (旧式)  |
+| 43 | WHOIS | ドメイン・IPアドレスの登録情報照会 (RFC 3912) |
+| 49 | TACACS+ | ネットワーク機器の認証・認可・アカウンティング (AAA) |
 | 53 | DNS | ゾーン転送や大きな応答時に使用 |
+| 79 | Finger | ユーザ情報の照会 (旧式) |
 | 80 | HTTP | Webアクセス |
 | 88 | Kerberos | 認証チケットの発行・検証 |
 | 110 | POP3 | メール受信 (Post Office Protocol v3)  |
@@ -2042,7 +2048,9 @@
 | 139 | NetBIOS Session | NetBIOSセッションサービス (ファイル共有等)  |
 | 143 | IMAP | メール受信 (サーバ上で同期管理)  |
 | 179 | BGP | Border Gateway Protocol |
+| 194 | IRC | Internet Relay Chat (公式割り当て、実運用は6667が多い) |
 | 389 | LDAP | 軽量ディレクトリアクセスプロトコル |
+| 427 | SLP | Service Location Protocol (サービス探索) |
 | 443 | HTTPS | HTTP over TLS/SSL |
 | 445 | SMB | Windowsファイル・プリンタ共有 |
 | 464 | Kerberos Password | Kerberosパスワード変更・設定 |
@@ -2051,26 +2059,73 @@
 | 512 | rexec | リモートコマンド実行 (認証は平文パスワード)  |
 | 513 | rlogin | リモートログイン (BSD系)  |
 | 514 | rsh | リモートシェル実行 (BSD系)  |
+| 515 | LPD | Line Printer Daemon (UNIX系の印刷プロトコル) |
+| 548 | AFP | Apple Filing Protocol (macOSのファイル共有、旧式) |
+| 554 | RTSP | Real Time Streaming Protocol (ストリーミング制御、IPカメラ等) |
+| 563 | NNTPS | NNTP over TLS/SSL |
 | 587 | SMTP Submission | クライアントからのメール投稿用 |
 | 631 | IPP | Internet Printing Protocol (ネットワーク印刷)  |
 | 636 | LDAPS | LDAP over TLS/SSL |
+| 749 | Kerberos Admin | Kerberos管理 (kadmin) |
 | 853 | DoT | DNS over TLS (DNSクエリの暗号化)  |
 | 873 | rsync | ファイル同期プロトコル |
+| 989 | FTPS-DATA | FTP over TLS/SSL (データコネクション) |
 | 990 | FTPS | FTP over TLS/SSL (制御コネクション)  |
 | 992 | Telnets | Telnet over TLS/SSL |
 | 993 | IMAPS | IMAP over TLS/SSL |
 | 995 | POP3S | POP3 over TLS/SSL |
+| 1080 | SOCKS | SOCKSプロキシ |
+| 1194 | OpenVPN | OpenVPN (TCPモード) |
 | 1433 | SQL Server | Microsoft SQL Serverへの接続 |
 | 1521 | Oracle DB | Oracle Databaseへの接続 (デフォルトリスナー)  |
 | 1723 | PPTP | Point-to-Point Tunneling Protocol (制御コネクション)  |
+| 1880 | Node-RED | Node-REDのエディタ・Web UI (IoTフロー開発) |
 | 1883 | MQTT | IoT機器向けの軽量Pub/Subメッセージング (平文)  |
+| 2049 | NFS | Network File System |
+| 2375 | Docker (平文) | Docker Remote API (非暗号化、公開は危険) |
+| 2376 | Docker (TLS) | Docker Remote API over TLS |
+| 2379 | etcd (Client) | etcdクライアント接続 (Kubernetesの状態保存等) |
+| 2380 | etcd (Peer) | etcdクラスタ間通信 |
+| 3000 | Grafana | Grafanaの可視化ダッシュボード (Web UI) |
+| 3128 | Squid | Squid等のHTTPプロキシ |
+| 3260 | iSCSI | IPネットワーク経由のブロックストレージ接続 |
 | 3306 | MySQL | MySQL/MariaDBへの接続 |
 | 3389 | RDP | Remote Desktop Protocol (Windowsリモートデスクトップ)  |
+| 3478 | STUN/TURN | NATトラバーサル・メディア中継 (WebRTC等) |
 | 5060 | SIP | セッション制御 (VoIP呼制御、平文)  |
 | 5061 | SIPS | SIP over TLS/SSL |
 | 5222 | XMPP | インスタントメッセージング/一部IoT機器の制御 |
+| 5349 | STUNS/TURNS | STUN/TURN over TLS |
+| 5432 | PostgreSQL | PostgreSQLへの接続 |
+| 5601 | Kibana | Kibanaの可視化ダッシュボード (Web UI) |
+| 5671 | AMQPS | AMQP over TLS/SSL |
+| 5672 | AMQP | メッセージキュー (RabbitMQ等) |
+| 5900 | VNC | Virtual Network Computing (リモートデスクトップ) |
+| 5985 | WinRM (HTTP) | Windowsリモート管理 (PowerShell Remoting) |
+| 5986 | WinRM (HTTPS) | Windowsリモート管理 over TLS/SSL |
+| 6000 | X11 | X Window System (リモート表示) |
+| 6379 | Redis | Redisへの接続 |
+| 6443 | Kubernetes API | Kubernetes APIサーバ |
+| 6514 | Syslog over TLS | TLSで保護されたログ転送 |
+| 6667 | IRC | Internet Relay Chat (一般的な運用ポート) |
+| 6697 | IRCS | IRC over TLS/SSL |
 | 8080 | HTTP Proxy | HTTPの代替ポート・プロキシ用途 |
+| 8083 | EMQX (WS) | EMQXのMQTT over WebSocket (平文) |
+| 8084 | EMQX (WSS) | EMQXのMQTT over WebSocket + TLS/SSL |
+| 8086 | InfluxDB | InfluxDBのHTTP API (時系列データ) |
+| 8443 | HTTPS Alt | HTTPSの代替ポート・管理画面等 |
 | 8883 | MQTTS | MQTT over TLS/SSL |
+| 9001 | MQTT over WebSocket | Mosquittoで一般的に使われるWebSocket用ポート |
+| 9090 | Prometheus | Prometheusサーバ (Web UI/API) |
+| 9092 | Kafka | Apache Kafkaブローカー |
+| 9100 | JetDirect | プリンタへのRAW印刷 (Prometheus node_exporterの既定ポートでもある) |
+| 9200 | Elasticsearch | Elasticsearch REST API |
+| 10050 | Zabbix Agent | Zabbixサーバ/プロキシからのパッシブチェック受信 |
+| 10051 | Zabbix Server | ZabbixサーバがAgentのアクティブチェックやTrapper通信を受信 |
+| 11211 | Memcached | Memcachedへの接続 |
+| 15672 | RabbitMQ Management | RabbitMQの管理Web UI/HTTP API |
+| 18083 | EMQX Dashboard | EMQXのWeb管理画面 (v5ではREST APIも同ポート) |
+| 27017 | MongoDB | MongoDBへの接続 |
 
                             </div>
 
@@ -2082,6 +2137,8 @@
 | ポート番号 | プロトコル名 | 説明 |
 |---|---|---|
 | 7 | Echo | 受信データをそのまま送り返す疎通確認用 |
+| 9 | Discard | 受信データを破棄する試験用サービス |
+| 19 | Chargen | 文字列を送り返すテスト用 (DDoS増幅攻撃に悪用された) |
 | 37 | Time | 時刻情報の取得 (旧式)  |
 | 53 | DNS | ドメイン名解決の問い合わせ・応答 |
 | 67 | DHCP (Server)  | DHCPサーバからの応答 |
@@ -2094,24 +2151,46 @@
 | 138 | NetBIOS Datagram | NetBIOSデータグラム配送 |
 | 161 | SNMP | ネットワーク機器の監視・管理 |
 | 162 | SNMP Trap | SNMPエージェントからの通知 |
+| 427 | SLP | Service Location Protocol (サービス探索) |
 | 443 | HTTP/3 (QUIC)  | QUICベースのHTTP/3通信 |
 | 500 | IKE | Internet Key Exchange (IPsecの鍵交換)  |
 | 514 | Syslog | ログメッセージの転送 |
 | 520 | RIP | Routing Information Protocol |
+| 521 | RIPng | IPv6向けRIP |
 | 546 | DHCPv6 (Client)  | DHCPv6クライアントからの要求 |
 | 547 | DHCPv6 (Server)  | DHCPv6サーバからの応答 |
+| 623 | IPMI (RMCP) | サーバのリモート管理 (BMC) |
 | 631 | IPP | Internet Printing Protocol (ネットワーク印刷)  |
+| 853 | DoQ | DNS over QUIC (DNSクエリの暗号化) |
+| 1194 | OpenVPN | OpenVPN (UDPモード、標準) |
+| 1434 | SQL Server Browser | SQL Serverインスタンスの探索 |
+| 1701 | L2TP | Layer 2 Tunneling Protocol (通常はIPsecと併用) |
 | 1812 | RADIUS | 利用者認証 (Authentication)  |
 | 1813 | RADIUS Accounting | 利用状況のアカウンティング |
 | 1900 | SSDP | Simple Service Discovery Protocol (UPnP)  |
+| 2049 | NFS | Network File System |
+| 2055 | NetFlow | トラフィックフロー情報のエクスポート |
+| 3478 | STUN/TURN | NATトラバーサル・メディア中継 (WebRTC等) |
+| 3702 | WS-Discovery | デバイス・サービス探索 (プリンタ等) |
+| 3784 | BFD | Bidirectional Forwarding Detection (経路障害の高速検出) |
+| 3799 | RADIUS CoA | RADIUSの動的認可変更 |
 | 4500 | IPsec NAT-T | NAT環境下でのIPsec通信 (NATトラバーサル)  |
+| 4739 | IPFIX | IPフロー情報のエクスポート (NetFlow v9の標準化版) |
+| 4789 | VXLAN | L2ネットワークのオーバーレイトンネリング |
 | 5060 | SIP | セッション制御 (VoIP呼制御、平文)  |
+| 5246 | CAPWAP (Control) | 無線LANコントローラとAP間の制御 |
 | 5353 | mDNS | ローカルネットワーク内の名前解決 (Bonjour/Zeroconf)  |
+| 5355 | LLMNR | Windowsのローカル名前解決 |
 | 5683 | CoAP | 省電力IoT機器向け軽量プロトコル (平文)  |
 | 5684 | CoAPS | CoAP over DTLS |
+| 6343 | sFlow | サンプリングによるトラフィック監視 |
+| 11211 | Memcached | Memcachedへの接続 (増幅攻撃に悪用された) |
+| 33434 | Traceroute | tracerouteの既定の開始ポート (33434〜33534) |
+| 51820 | WireGuard | WireGuard VPN (既定ポート) |
 
                             </div>
                         </article>
+
                         <article class="blog-post" id="article_top">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="self-signed_cert">
                                 自己CA証明書のインストール(Linux)
