@@ -174,6 +174,133 @@
                                 <li>片側だけ速度・通信モードを固定設定にすると、自動側が半二重と判断してデュプレックスミスマッチが起き、通信品質が低下することがある</li>
                             </ul>
                         </li>
+                        <li>
+                            <strong>MDI / MDI-X とケーブルの種類</strong><br>
+                            <ul>
+                                <li>ポートの送受信ピンの割り当てには MDI と MDI-X の2種類があり、接続するポートの組み合わせによってストレートケーブルとクロスケーブルを使い分ける</li>
+                                <li>送信側のピンを、相手の受信側のピンに接続する必要がある</li>
+                            </ul>
+                            <!-- #### MDI / MDI-X (3カラム)
+                            | 項目 | MDI | MDI-X |
+                            |---|---|---|
+                            | 送信ピン | 1, 2 | 3, 6 |
+                            | 受信ピン | 3, 6 | 1, 2 |
+                            | 主な機器 | PC・サーバ・ルータ (のNIC) | ハブ・スイッチ |
+                            -->
+                            <p class="mb-1"><strong>MDI / MDI-X</strong></p>
+                            <table class="table table-sm table-bordered mb-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-nowrap">項目</th>
+                                        <th scope="col" class="text-nowrap">MDI</th>
+                                        <th scope="col" class="text-nowrap">MDI-X</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">送信ピン</td>
+                                        <td class="text-nowrap">1, 2</td>
+                                        <td class="text-nowrap">3, 6</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">受信ピン</td>
+                                        <td class="text-nowrap">3, 6</td>
+                                        <td class="text-nowrap">1, 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">主な機器</td>
+                                        <td>PC・サーバ・ルータ<br>(のNIC)</td>
+                                        <td>ハブ・スイッチ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- #### ストレートケーブルとクロスケーブル (3カラム)
+                            | 項目 | ストレートケーブル | クロスケーブル |
+                            |---|---|---|
+                            | 結線 | 両端で同じピン同士を接続 | 送信ペアと受信ペアを入れ替える |
+                            | 配線規格 | 両端とも T568B (または両端とも T568A) | 片端 T568A、反対端 T568B |
+                            | 100BASE-TX以下 | 1-1, 2-2, 3-3, 6-6 | 1-3, 2-6, 3-1, 6-2 |
+                            | 1000BASE-T | 8本すべて同じピン同士 | 上記に加え 4-7, 5-8, 7-4, 8-5 |
+                            -->
+                            <p class="mb-1"><strong>ストレートケーブルとクロスケーブル</strong></p>
+                            <table class="table table-sm table-bordered mb-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-nowrap">項目</th>
+                                        <th scope="col" class="text-nowrap">ストレートケーブル</th>
+                                        <th scope="col" class="text-nowrap">クロスケーブル</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">結線</td>
+                                        <td>両端で同じピン同士を接続</td>
+                                        <td>送信ペアと受信ペアを入れ替える</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">配線規格</td>
+                                        <td>両端とも T568B<br>(または両端とも T568A)</td>
+                                        <td>片端 T568A、反対端 T568B</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">100BASE-TX以下</td>
+                                        <td>1-1, 2-2, 3-3, 6-6</td>
+                                        <td>1-3, 2-6, 3-1, 6-2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">1000BASE-T</td>
+                                        <td>8本すべて同じピン同士</td>
+                                        <td>上記に加え 4-7, 5-8, 7-4, 8-5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="small mb-2">※ ピン番号は「片端のピン-反対端のピン」を表す</p>
+                            <!-- #### ポートの組み合わせとケーブル (3カラム)
+                            | 接続するポート | 使うケーブル | 例 |
+                            |---|---|---|
+                            | MDI ↔ MDI-X | ストレート | PC ↔ スイッチ |
+                            | MDI ↔ MDI | クロス | PC ↔ PC |
+                            | MDI-X ↔ MDI-X | クロス | スイッチ ↔ スイッチ (旧型機器) |
+                            -->
+                            <p class="mb-1"><strong>ポートの組み合わせとケーブル</strong></p>
+                            <table class="table table-sm table-bordered mb-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-nowrap">接続するポート</th>
+                                        <th scope="col" class="text-nowrap">使うケーブル</th>
+                                        <th scope="col" class="text-nowrap">例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">MDI ↔ MDI-X</td>
+                                        <td class="text-nowrap">ストレート</td>
+                                        <td>PC ↔ スイッチ</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">MDI ↔ MDI</td>
+                                        <td class="text-nowrap">クロス</td>
+                                        <td>PC ↔ PC</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">MDI-X ↔ MDI-X</td>
+                                        <td class="text-nowrap">クロス</td>
+                                        <td>スイッチ ↔ スイッチ<br>(旧型機器)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul>
+                                <li>MDI-Xは、機器の内部で送受信を入れ替えているポート。家庭用ルータのLANポートのようにスイッチ機能を内蔵している場合はMDI-Xになる</li>
+                                <li>
+                                    <strong>Auto MDI/MDI-X</strong><br>
+                                    <ul>
+                                        <li>接続相手に合わせて、ポート側が送受信ピンを自動で入れ替える機能</li>
+                                        <li>規格上はオプションだが、現在の機器はほぼ対応しており、ケーブルの種類を意識する必要はほとんどない</li>
+                                    </ul>
+                                </li>
+                                <li>1000BASE-Tは4対すべてを送受信に使うため、100Mbps用のクロスケーブル (2対のみ入れ替え) では1000BASE-Tで通信できず、100Mbpsでしかリンクしない</li>
+                            </ul>
+                        </li>
                     </ul>
                 </td>
             </tr>
