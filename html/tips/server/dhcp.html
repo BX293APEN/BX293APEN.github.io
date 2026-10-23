@@ -39,6 +39,32 @@
                             <p>
                                 ※ dhcpdは開発が終わったため、dnsmasqで設定
                             </p>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant C as クライアント
+    participant S as DHCPサーバー
+
+    C->>S: ① DHCP Discover (カバー / ブロードキャスト / DHCPサーバーの探索)
+    S->>C: ② DHCP Offer (オファー / 割り当て候補のIPアドレスを提示)
+    C->>S: ③ DHCP Request (リクエスト / ブロードキャスト / 提示されたIPアドレスの使用を要求)
+    S->>C: ④ DHCP ACK (確認応答 / 割り当ての確定)
+    Note over C,S: IPアドレスの割り当て完了
+                            -->
+                            <img src="/img/server/dhcp.svg" width = "100%"/>
                             <h3 class="pt-4 border-bottom fw-bold">
                                 dnsmasqのインストール
                             </h3>
