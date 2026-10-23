@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="UML図一覧" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/appbuild/uml.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="UML図一覧" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/appbuildTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>UML図一覧</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="ps-4 pt-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="class">
+                                クラス図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_class" rows = "12">
+classDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    class Animal {
+        +String name
+        #int age
+        +eat() void
+    }
+    class Dog {
+        +bark() void
+    }
+    class Food {
+        +String kind
+    }
+    Animal &lt;|-- Dog : 継承
+    Animal "1" --&gt; "*" Food : eats
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_class">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_class" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>クラスの属性・操作・関係(継承、関連、集約、コンポジション、依存)を表す</li>
+                                <li>多重度や可視性(<code>+</code> <code>-</code> <code>#</code> <code>~</code>)を記述できる</li>
+                                <li>UMLの中で最も利用頻度が高く、静的構造を表現する基本の図</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>オブジェクト指向設計・詳細設計</li>
+                                <li>ドメインモデルの整理</li>
+                                <li>データベース設計(ER図の代わり)の下書き</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="object">
+                                オブジェクト図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_object" rows = "10">
+classDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    class taro["taro : Person"] {
+        name = "Taro"
+        age = 20
+    }
+    class acme["acme : Company"] {
+        name = "ACME"
+    }
+    taro --&gt; acme : worksFor
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_object">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_object" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>classDiagram</code> でインスタンスを表現しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>ある時点でのインスタンス(オブジェクト)とその関係のスナップショットを表す</li>
+                                <li>名前は <code>オブジェクト名 : クラス名</code> の形式で書き、属性には具体的な値を入れる</li>
+                                <li>クラス図の具体例として機能する</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>クラス図の妥当性確認(具体値での検証)</li>
+                                <li>複雑な関連構造の説明</li>
+                                <li>テストデータの構造の可視化</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="component">
+                                コンポーネント図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_component" rows = "16">
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    subgraph Web["&lt;&lt;component&gt;&gt; Webフロント"]
+        UI[UI]
+    end
+    subgraph API["&lt;&lt;component&gt;&gt; APIサーバ"]
+        Ctrl[Controller]
+    end
+    subgraph DB["&lt;&lt;component&gt;&gt; データベース"]
+        Store[(Storage)]
+    end
+    UI -- "REST (提供/要求IF)" --&gt; Ctrl
+    Ctrl -- "SQL" --&gt; Store
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_component">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_component" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>システムを交換可能な部品(コンポーネント)とそのインタフェースで表す</li>
+                                <li>提供インタフェース(ロリポップ)と要求インタフェース(ソケット)で依存関係を示す</li>
+                                <li>実装の詳細を隠蔽し、モジュール間の境界を明確にする</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>アーキテクチャ設計</li>
+                                <li>モジュール分割・サービス分割の検討</li>
+                                <li>外部システム連携の整理</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="composite">
+                                複合構造図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_composite" rows = "12">
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    subgraph Car["Car (クラス)"]
+        direction LR
+        e["engine : Engine"]
+        w["wheels : Wheel [4]"]
+        p(("port: drive"))
+        e --&gt; p
+        p --&gt; w
+    end
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_composite">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_composite" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>クラスやコンポーネントの内部構造(パーツ・ポート・コネクタ)を表す</li>
+                                <li>内部のパーツ同士の連携を示せる</li>
+                                <li>クラス図では表現できない「内部の組み立て」を記述できる</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>組込み・ハードウェア寄りの設計</li>
+                                <li>クラス内部の協調関係の説明</li>
+                                <li>再利用可能なパターンの内部構造の記述</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="deployment">
+                                配置図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_deployment" rows = "18">
+flowchart TB
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    subgraph Client["&lt;&lt;device&gt;&gt; クライアントPC"]
+        Browser["&lt;&lt;artifact&gt;&gt; Browser"]
+    end
+    subgraph Server["&lt;&lt;device&gt;&gt; アプリケーションサーバ"]
+        subgraph Env["&lt;&lt;execution environment&gt;&gt; JVM"]
+            War["&lt;&lt;artifact&gt;&gt; app.war"]
+        end
+    end
+    subgraph DBServer["&lt;&lt;device&gt;&gt; DBサーバ"]
+        DBMS["&lt;&lt;artifact&gt;&gt; PostgreSQL"]
+    end
+    Browser -- HTTPS --&gt; War
+    War -- JDBC --&gt; DBMS
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_deployment">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_deployment" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>ソフトウェア(成果物)がどのハードウェア(ノード)上で動作するかを表す</li>
+                                <li>ノード間の通信経路を示す</li>
+                                <li>物理構成と論理構成の対応が分かる</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>インフラ構成の設計・説明</li>
+                                <li>本番/ステージング環境の配置整理</li>
+                                <li>ネットワーク構成のレビュー</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="package">
+                                パッケージ図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_package" rows = "20">
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    subgraph app["app"]
+        subgraph ui["ui"]
+        end
+        subgraph service["service"]
+        end
+        subgraph domain["domain"]
+        end
+        subgraph infra["infra"]
+        end
+    end
+    ui -.-&gt;|依存| service
+    service -.-&gt;|依存| domain
+    infra -.-&gt;|依存| domain
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_package">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_package" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>クラスやコンポーネントをパッケージ(名前空間)でグループ化して表す</li>
+                                <li>パッケージ間の依存関係を示す</li>
+                                <li>循環依存の発見に役立つ</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>レイヤードアーキテクチャの整理</li>
+                                <li>モジュール依存関係の可視化</li>
+                                <li>大規模システムの全体俯瞰</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="profile">
+                                プロファイル図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_profile" rows = "16">
+classDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    class Metaclass_Class {
+        &lt;&lt;metaclass&gt;&gt;
+    }
+    class Entity {
+        &lt;&lt;stereotype&gt;&gt;
+        +tableName : String
+    }
+    class Service {
+        &lt;&lt;stereotype&gt;&gt;
+        +transactional : Boolean
+    }
+    Entity ..&gt; Metaclass_Class : extends
+    Service ..&gt; Metaclass_Class : extends
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_profile">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_profile" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>classDiagram</code> のステレオタイプ表記で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>ステレオタイプ・タグ付き値・制約を使って UML を特定領域向けに拡張する仕組みを定義する</li>
+                                <li>既存のメタクラスを拡張する形で記述する</li>
+                                <li>UML自体のカスタマイズ(DSL化)に使う</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>ドメイン特化モデリング言語(SysML、MARTEなど)の定義</li>
+                                <li>社内標準のモデリング規約の策定</li>
+                                <li>モデリングツールのカスタマイズ</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="usecase">
+                                ユースケース図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_usecase" rows = "20">
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    user(["👤 利用者"])
+    admin(["👤 管理者"])
+    subgraph System["ECサイト"]
+        uc1(("商品を検索する"))
+        uc2(("注文する"))
+        uc3(("支払いをする"))
+        uc4(("商品を登録する"))
+    end
+    user --- uc1
+    user --- uc2
+    admin --- uc4
+    uc2 -. "&lt;&lt;include&gt;&gt;" .-&gt; uc3
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_usecase">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_usecase" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>システムの利用者(アクター)と、システムが提供する機能(ユースケース)の関係を表す</li>
+                                <li>システム境界で「何をシステムの範囲とするか」を示す</li>
+                                <li><code>&laquo;include&raquo;</code> <code>&laquo;extend&raquo;</code> で機能の共通化・拡張を表現できる</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>要件定義・機能一覧の整理</li>
+                                <li>利用者視点での機能の洗い出し</li>
+                                <li>ステークホルダーとの合意形成</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="activity">
+                                アクティビティ図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_activity" rows = "14">
+flowchart TD
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    st(("●")) --&gt; a["注文を受け付ける"]
+    a --&gt; d{"在庫あり?"}
+    d -- はい --&gt; b["在庫を引き当てる"]
+    d -- いいえ --&gt; c["入荷待ちにする"]
+    b --&gt; f["発送する"]
+    c --&gt; f
+    f --&gt; ed((("◎")))
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_activity">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_activity" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>処理の流れ(アクション、分岐、並行処理、合流)を表す</li>
+                                <li>スイムレーンで責任の所在(誰が行うか)を分けて表現できる</li>
+                                <li>フローチャートに近く、並行処理を表せる点が強み</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>業務フローの可視化</li>
+                                <li>アルゴリズム・処理フローの設計</li>
+                                <li>ユースケースの詳細な手順の記述</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="state">
+                                ステートマシン図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_state" rows = "12">
+stateDiagram-v2
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    [*] --&gt; 未払い
+    未払い --&gt; 支払済み : 入金確認
+    未払い --&gt; キャンセル : 期限切れ
+    支払済み --&gt; 発送済み : 発送処理
+    発送済み --&gt; [*]
+    キャンセル --&gt; [*]
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_state">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_state" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>オブジェクトの状態と、イベントによる状態遷移を表す</li>
+                                <li>ガード条件・アクション(entry / exit / do)を記述できる</li>
+                                <li>複合状態や直交領域で複雑な状態も整理できる</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>注文・申請などのライフサイクル設計</li>
+                                <li>UI画面遷移の設計</li>
+                                <li>組込み機器・プロトコルの動作定義</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="sequence">
+                                シーケンス図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_sequence" rows = "22">
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    actor User as 利用者
+    participant Web as Webアプリ
+    participant API as APIサーバ
+    participant DB as データベース
+
+    User-&gt;&gt;Web: ログイン操作
+    Web-&gt;&gt;API: POST /login
+    API-&gt;&gt;DB: ユーザ照会
+    DB--&gt;&gt;API: ユーザ情報
+    alt 認証成功
+        API--&gt;&gt;Web: トークン
+        Web--&gt;&gt;User: ホーム画面表示
+    else 認証失敗
+        API--&gt;&gt;Web: 401 エラー
+        Web--&gt;&gt;User: エラー表示
+    end
+
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_sequence">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_sequence" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>オブジェクト間のメッセージのやり取りを時間順(上から下)に表す</li>
+                                <li><code>alt</code> <code>loop</code> <code>opt</code> などの複合フラグメントで分岐・繰り返しを表現できる</li>
+                                <li>同期/非同期メッセージ、戻りメッセージを区別して書ける</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>API・システム間連携の設計</li>
+                                <li>ユースケースの処理シナリオの詳細化</li>
+                                <li>障害調査時の処理の流れの共有</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="communication">
+                                コミュニケーション図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_communication" rows = "14">
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    a["a : Client"]
+    b["b : Server"]
+    c["c : Database"]
+    a -- "1: request()" --&gt; b
+    b -- "2: query()" --&gt; c
+    c -- "3: result()" --&gt; b
+    b -- "4: response()" --&gt; a
+
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_communication">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_communication" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">
+                                Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています<br>
+                                メッセージの順序は番号で表しています
+                            </p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>オブジェクト間のつながり(リンク)を軸に、メッセージを番号付きで表す</li>
+                                <li>シーケンス図と意味的にほぼ等価だが、オブジェクトの配置関係を重視する</li>
+                                <li>時間軸がないため、オブジェクト数が少ない場合に見やすい</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>オブジェクト間の協調関係の把握</li>
+                                <li>小規模な相互作用の概要説明</li>
+                                <li>シーケンス図の代替表現</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="timing">
+                                タイミング図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_timing" rows = "18">
+gantt
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    title ドアセンサーとライトの状態推移
+    dateFormat  HH:mm:ss
+    axisFormat  %S秒
+    section ドア
+    閉                :done, d1, 00:00:00, 3s
+    開                :active, d2, after d1, 4s
+    閉                :done, d3, after d2, 3s
+    section ライト
+    消灯              :done, l1, 00:00:00, 4s
+    点灯              :active, l2, after l1, 4s
+    消灯              :done, l3, after l2, 2s
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_timing">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_timing" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js にUMLのタイミング図はないため、<code>gantt</code> で状態の時間変化を近似しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>横軸に時間、縦軸にライフライン(状態)を取り、状態の変化を時間に沿って表す</li>
+                                <li>複数のオブジェクトの状態変化のタイミングを揃えて比較できる</li>
+                                <li>時間制約(○ms以内など)を明示できる</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>組込み・リアルタイムシステムの設計</li>
+                                <li>ハードウェア信号のタイミング設計</li>
+                                <li>応答時間・タイムアウトの検討</li>
+                            </ul>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="interaction">
+                                相互作用概要図
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="sourceUML_interaction" rows = "12">
+flowchart TD
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    st(("●")) --&gt; sd1["ref: sd ログイン"]
+    sd1 --&gt; d{"認証成功?"}
+    d -- はい --&gt; sd2["ref: sd 商品検索"]
+    d -- いいえ --&gt; sd3["ref: sd エラー表示"]
+    sd2 --&gt; ed((("◎")))
+    sd3 --&gt; ed
+                                    </textarea>
+                                    <div class="text-end">
+                                        <button class="btn btn-secondary" id = "umlDownload_interaction">
+                                            保存
+                                        </button>
+                                    </div>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="drawUML_interaction" class = "mermaid"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted">Mermaid.js に専用の記法がないため、<code>flowchart</code> で代用しています</p>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                特徴
+                            </h3>
+                            <ul>
+                                <li>アクティビティ図の形式で、複数のシーケンス図(相互作用)の実行順序を表す</li>
+                                <li>各ノードがシーケンス図などへの参照(<code>ref</code>)になる</li>
+                                <li>全体の流れと詳細な相互作用を階層的に整理できる</li>
+                            </ul>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                用途
+                            </h3>
+                            <ul>
+                                <li>複数のシナリオにまたがる処理の全体像の整理</li>
+                                <li>シーケンス図が大きくなった場合の分割・概観</li>
+                                <li>ユースケース全体の流れの把握</li>
+                            </ul>
+
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4 text-nowrap">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#class">クラス図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#object">オブジェクト図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#component">コンポーネント図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#composite">複合構造図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#deployment">配置図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#package">パッケージ図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#profile">プロファイル図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#usecase">ユースケース図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#activity">アクティビティ図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#state">ステートマシン図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#sequence">シーケンス図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#communication">コミュニケーション図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#timing">タイミング図</a>
+                                    </li>
+                                    <li>
+                                        <a href="#interaction">相互作用概要図</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/mermaid.min.js"></script>
+        <script src="/view/createUML.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
+            new Pagination(2, appBuildModel.page, "pagination");
+
+            const uml = ["class", "object", "component", "composite", "deployment", "package", "profile", "usecase", "activity", "state", "sequence", "communication", "timing", "interaction"]
+            window.addEventListener(
+                "load", 
+                () => {
+                    for(const key of uml) {
+                        setTimeout(
+                            () => {
+                                new MermaidUML(
+                                    {
+                                        "umlPlace"  : "drawUML_" + key,
+                                        "umlSource" : "sourceUML_" + key,
+                                        "dl"        : "umlDownload_" + key,
+                                        "umlName"   : "uml_" + key
+                                    }
+                                );
+                            },
+                            300
+                        )
+                    };
+                }
+            )
+
+        </script>
+    </footer>
+</html>
