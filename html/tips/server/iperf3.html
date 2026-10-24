@@ -28,15 +28,19 @@
     </head>
     <body>
         <div id="header-contents"></div>
-        <div class ="container pt-3">
+        <div class ="ps-4 pt-4">
             <main>
-                <div class = "row">
-                    <div id="md-text" class ="col-md-8 pt-4">
-# iperf3コマンド使い方
-  
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-3 border-bottom fw-bold">
+                                iperf3コマンド使い方
+                            </h2>
+                            <div id="md-iperf3">
+
 <br>
   
-## 共通
+### 共通
 | オプション                | 説明 |
 | -                         | - |
 | -p          [n]           | サーバ : 待ち受けるポート<br>クライアント : 接続先ポートを指定<br>デフォルト : `5201` |
@@ -64,7 +68,7 @@
   
 <br>
   
-## サーバ
+### サーバ
 | オプション                | 説明 |
 | -                         | - |
 | -s                        | iperfサーバを起動 <br>一度に一つのコネクションしか許可しない |
@@ -78,7 +82,7 @@
   
 <br>
   
-## クライアント
+### クライアント
 | オプション                | 説明 |
 | -                         | - |
 | -c          [host]        | iperfクライアントを起動し、[host]に対して接続 |
@@ -124,8 +128,201 @@
 | --linux-congestion [algo] | TCPの輻輳制御アルゴリズムを指定<br>Linux : iperf3.0～<br>FreeBSD : iperf3.1～ |
 | --get-server-output       | 測定用の通信終了後、サーバの出力を取得<br>※サーバで-Jオプションが指定されている場合はJSON形式となる |
 | --bidir                   | 双方向計測 |
-                    </div>
 
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="py-3 border-bottom fw-bold">
+                                tracerouteコマンド使い方
+                            </h2>
+                            <div id="md-traceroute">
+**ターミナル**
+```bash
+sudo apt install traceroute
+traceroute [オプション] [宛先IPアドレス/ホスト名] [パケット長]
+```
+<p>
+    ※ <b>パケット長</b> <br> 送信パケット長(バイト)を指定<br>デフォルト : <code>60</code> (IPv4) / <code>80</code> (IPv6)
+</p>
+<br>
+<br>
+
+### オプション一覧
+| オプション                | 説明 |
+| -                         | - |
+| --help                    | ヘルプを出力 |
+| -V                        | バージョンを出力 |
+| --version                 | バージョンを出力 |
+| (指定なし)                | UDPデータグラムを使用<br>宛先ポートはデフォルト `33434` から1ずつ増加 |
+| -4                        | IPv4を使用 |
+| -6                        | IPv6を使用 |
+| -n                        | ホスト名の逆引きをしない(IPアドレスのみ表示)<br>DNSの待ち時間がなくなり高速になる |
+| -A                        | 各ホップのAS番号を問い合わせて表示 |
+| --as-path-lookups         | 各ホップのAS番号を問い合わせて表示 |
+| -e                        | ICMP拡張情報を表示 |
+| --extensions              | ICMP拡張情報を表示 |
+| -I                        | ICMP ECHOを使用 |
+| --icmp                    | ICMP ECHOを使用 |
+| -T                        | TCP SYNを使用<br>宛先ポートのデフォルト : `80`<br>ファイアウォールを通過しやすい<br>※通常root権限が必要 |
+| --tcp                     | TCP SYNを使用<br>宛先ポートのデフォルト : `80`<br>ファイアウォールを通過しやすい<br>※通常root権限が必要 |
+| -U                        | UDPを使用(ポート指定なしの場合は `53` ) |
+| --udp                     | UDPを使用(ポート指定なしの場合は `53` ) |
+| -p          [n]           | UDP/TCP : 宛先ポートを指定<br>ICMP : 初期シーケンス番号を指定 |
+| --port      [n]           | UDP/TCP : 宛先ポートを指定<br>ICMP : 初期シーケンス番号を指定 |
+| -f          [n]           | 開始するTTLを指定<br>デフォルト : `1` |
+| --first     [n]           | 開始するTTLを指定<br>デフォルト : `1` |
+| -m          [n]           | 最大TTL(最大ホップ数)を指定<br>デフォルト : `30` |
+| --max-hops  [n]           | 最大TTL(最大ホップ数)を指定<br>デフォルト : `30` |
+| -q          [n]           | 1ホップあたりに送信するプローブ数<br>デフォルト : `3` |
+| --queries   [n]           | 1ホップあたりに送信するプローブ数<br>デフォルト : `3` |
+| -w          [n]           | 応答を待つ秒数<br>デフォルト : `3.0` 秒 |
+| --wait      [n]           | 応答を待つ秒数<br>デフォルト : `3.0` 秒 |
+| -z          [n]           | プローブ間の送信間隔<br>`n` が `10` 未満なら秒、`10` 以上ならミリ秒として扱う<br>デフォルト : `0` |
+| --sendwait  [n]           | プローブ間の送信間隔<br>`n` が `10` 未満なら秒、`10` 以上ならミリ秒として扱う<br>デフォルト : `0` |
+| -N          [n]           | 同時に送信するプローブ数<br>デフォルト : `16` |
+| --sim-queries [n]         | 同時に送信するプローブ数<br>デフォルト : `16` |
+| -i          [dev]         | 使用するネットワークインタフェースを指定 |
+| --interface [dev]         | 使用するネットワークインタフェースを指定 |
+| -s          [addr]        | 送信元IPアドレスを指定<br>NICが複数ある場合に使用 |
+| --source    [addr]        | 送信元IPアドレスを指定<br>NICが複数ある場合に使用 |
+| -g          [gate]        | ルーティングヘッダのゲートウェイ(経由ルータ)を指定 |
+| --gateway   [gate]        | ルーティングヘッダのゲートウェイ(経由ルータ)を指定 |
+| -t          [n]           | IPv4のTOS / IPv6のTraffic Classを指定 |
+| --tos       [n]           | IPv4のTOS / IPv6のTraffic Classを指定 |
+| -l          [n]           | IPv6のフローラベルを指定 |
+| --flowlabel [n]           | IPv6のフローラベルを指定 |
+| -F                        | DF(Don't Fragment)ビットを立てて送信 |
+| --dont-fragment           | DF(Don't Fragment)ビットを立てて送信 |
+| -r                        | ルーティングテーブルを無視し、直接接続されたネットワークのホストへ送信 |
+
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="py-3 border-bottom fw-bold">
+                                ICMPタイプ・コード一覧
+                            </h2>
+                            <div id="md-icmpv4">
+
+### ICMP (ICMPv4) タイプ・コード一覧
+
+| タイプ<br>8[bit]<br>10進 | コード<br>8[bit]<br>10進 | 内容 |
+|--------|--------|------|
+| 0 | 0 | Echo Reply<br> (エコー応答)  |
+| 3 | 0 | Destination Unreachable<br>Net Unreachable<br> (ネットワーク到達不能)  |
+| 3 | 1 | Destination Unreachable<br>Host Unreachable<br> (ホスト到達不能)  |
+| 3 | 2 | Destination Unreachable<br>Protocol Unreachable<br> (プロトコル到達不能)  |
+| 3 | 3 | Destination Unreachable<br>Port Unreachable<br> (ポート到達不能)  |
+| 3 | 4 | Destination Unreachable<br>Fragmentation Needed and DF set<br> (フラグメント必要だがDFビット設定済み) <br>Path MTU Discoveryで使用 |
+| 3 | 5 | Destination Unreachable<br>Source Route Failed<br> (ソースルート失敗)  |
+| 3 | 6 | Destination Unreachable<br>Destination Network Unknown<br> (宛先ネットワーク不明)  |
+| 3 | 7 | Destination Unreachable<br>Destination Host Unknown<br> (宛先ホスト不明)  |
+| 3 | 8 | Destination Unreachable<br>Source Host Isolated<br> (送信元ホスト隔離)  |
+| 3 | 9 | Destination Unreachable<br>Network Administratively Prohibited<br> (ネットワークへの通信が管理上禁止)  |
+| 3 | 10 | Destination Unreachable<br>Host Administratively Prohibited<br> (ホストへの通信が管理上禁止)  |
+| 3 | 11 | Destination Unreachable<br>Network Unreachable for ToS<br> (指定ToSでネットワーク到達不能)  |
+| 3 | 12 | Destination Unreachable<br>Host Unreachable for ToS<br> (指定ToSでホスト到達不能)  |
+| 3 | 13 | Destination Unreachable<br>Communication Administratively Prohibited<br> (通信が管理上禁止)  |
+| 3 | 14 | Destination Unreachable<br>Host Precedence Violation<br> (ホスト優先度違反)  |
+| 3 | 15 | Destination Unreachable<br>Precedence Cutoff in Effect<br> (優先度カットオフ有効)  |
+| 4 | 0 | Source Quench<br> (送信抑制) <br>廃止 |
+| 5 | 0 | Redirect<br>Redirect Datagram for the Network<br> (ネットワーク宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
+| 5 | 1 | Redirect<br>Redirect Datagram for the Host<br> (ホスト宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
+| 5 | 2 | Redirect<br>Redirect Datagram for the ToS & Network<br> (ToSとネットワーク宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
+| 5 | 3 | Redirect<br>Redirect Datagram for the ToS & Host<br> (ToSとホスト宛ての経路変更通知) <br>より適切な転送先ルータを通知 |
+| 6 | 0 | Alternate Host Address<br> (代替ホストアドレス) <br>廃止 |
+| 8 | 0 | Echo Request<br> (エコー要求) <br>`ping`で使用 |
+| 9 | 0 | Router Advertisement<br>Normal Router Advertisement<br> (ルータ通知)  |
+| 9 | 16 | Router Advertisement<br>Does Not Route Common Traffic<br> (一般トラフィックを転送しないルータの通知)  |
+| 10 | 0 | Router Solicitation<br> (ルータ要請)  |
+| 11 | 0 | Time Exceeded<br>TTL Exceeded in Transit<br> (転送中にTTLが0になった) <br>`traceroute`で使用 |
+| 11 | 1 | Time Exceeded<br>Fragment Reassembly Time Exceeded<br> (フラグメント再構成時間超過)  |
+| 12 | 0 | Parameter Problem<br>Pointer Indicates the Error<br> (ポインタがエラー位置を示す)  |
+| 12 | 1 | Parameter Problem<br>Missing a Required Option<br> (必須オプションの欠落)  |
+| 12 | 2 | Parameter Problem<br>Bad Length<br> (長さ不正)  |
+| 13 | 0 | Timestamp<br> (タイムスタンプ要求)  |
+| 14 | 0 | Timestamp Reply<br> (タイムスタンプ応答)  |
+| 15 | 0 | Information Request<br> (情報要求) <br>廃止 |
+| 16 | 0 | Information Reply<br> (情報応答) <br>廃止 |
+| 17 | 0 | Address Mask Request<br> (アドレスマスク要求) <br>廃止 |
+| 18 | 0 | Address Mask Reply<br> (アドレスマスク応答) <br>廃止 |
+| 30 | 0 | Traceroute<br> (トレースルート) <br>廃止 |
+| 42 | 0 | Extended Echo Request<br> (拡張エコー要求)  |
+| 43 | 0 | Extended Echo Reply<br>No Error<br> (拡張エコー応答：エラーなし)  |
+| 43 | 1 | Extended Echo Reply<br>Malformed Query<br> (拡張エコー応答：不正なクエリ)  |
+| 43 | 2 | Extended Echo Reply<br>No Such Interface<br> (拡張エコー応答：該当インタフェースなし)  |
+| 43 | 3 | Extended Echo Reply<br>No Such Table Entry<br> (拡張エコー応答：該当テーブルエントリなし)  |
+| 43 | 4 | Extended Echo Reply<br>Multiple Interfaces Satisfy Query<br> (拡張エコー応答：複数インタフェースが該当)  |
+
+                            </div>
+                            <div id="md-icmpv6">
+### ICMPv6 タイプ・コード一覧
+
+| タイプ<br>8[bit]<br>10進 | コード<br>8[bit]<br>10進 | 内容 |
+|--------|--------|------|
+| 1 | 0 | Destination Unreachable<br>No Route to Destination<br> (宛先へのルートなし)  |
+| 1 | 1 | Destination Unreachable<br>Communication with Destination Administratively Prohibited<br> (宛先との通信が管理上禁止)  |
+| 1 | 2 | Destination Unreachable<br>Beyond Scope of Source Address<br> (送信元アドレスのスコープ外)  |
+| 1 | 3 | Destination Unreachable<br>Address Unreachable<br> (アドレス到達不能)  |
+| 1 | 4 | Destination Unreachable<br>Port Unreachable<br> (ポート到達不能)  |
+| 1 | 5 | Destination Unreachable<br>Source Address Failed Ingress/Egress Policy<br> (送信元アドレスが入出力ポリシーに違反)  |
+| 1 | 6 | Destination Unreachable<br>Reject Route to Destination<br> (宛先へのルートを拒否)  |
+| 1 | 7 | Destination Unreachable<br>Error in Source Routing Header<br> (ソースルーティングヘッダのエラー)  |
+| 1 | 8 | Destination Unreachable<br>Headers Too Long<br> (ヘッダが長すぎる)  |
+| 2 | 0 | Packet Too Big<br> (パケットが大きすぎる) <br>Path MTU Discoveryで使用 |
+| 3 | 0 | Time Exceeded<br>Hop Limit Exceeded in Transit<br> (転送中にホップリミットが0になった) <br>`traceroute`で使用 |
+| 3 | 1 | Time Exceeded<br>Fragment Reassembly Time Exceeded<br> (フラグメント再構成時間超過)  |
+| 4 | 0 | Parameter Problem<br>Erroneous Header Field Encountered<br> (ヘッダフィールドの誤り)  |
+| 4 | 1 | Parameter Problem<br>Unrecognized Next Header Type Encountered<br> (未知のNext Headerタイプ)  |
+| 4 | 2 | Parameter Problem<br>Unrecognized IPv6 Option Encountered<br> (未知のIPv6オプション)  |
+| 4 | 3 | Parameter Problem<br>IPv6 First-Fragment Has Incomplete IPv6 Header Chain<br> (最初のフラグメントにIPv6ヘッダチェーンが揃っていない)  |
+| 100 | - | Private Experimentation<br> (私的実験用)  |
+| 101 | - | Private Experimentation<br> (私的実験用)  |
+| 127 | - | Reserved for Expansion of ICMPv6 Error Messages<br> (ICMPv6エラーメッセージ拡張用に予約)  |
+| 128 | 0 | Echo Request<br> (エコー要求) <br>`ping`で使用 |
+| 129 | 0 | Echo Reply<br> (エコー応答)  |
+| 130 | 0 | Multicast Listener Query<br> (マルチキャストリスナー問い合わせ)  |
+| 131 | 0 | Multicast Listener Report<br> (MLDv1 マルチキャストリスナーレポート)  |
+| 132 | 0 | Multicast Listener Done<br> (MLDv1 マルチキャストリスナー離脱)  |
+| 133 | 0 | Router Solicitation<br> (ルータ要請)  |
+| 134 | 0 | Router Advertisement<br> (ルータ通知)  |
+| 135 | 0 | Neighbor Solicitation<br> (近隣要請) <br>アドレス解決・DADで使用 |
+| 136 | 0 | Neighbor Advertisement<br> (近隣通知)  |
+| 137 | 0 | Redirect Message<br> (経路変更通知) <br>より適切なネクストホップを通知 |
+| 138 | 0 | Router Renumbering<br>Command<br> (ルータ番号再設定：コマンド)  |
+| 138 | 1 | Router Renumbering<br>Result<br> (ルータ番号再設定：結果)  |
+| 138 | 255 | Router Renumbering<br>Sequence Number Reset<br> (ルータ番号再設定：シーケンス番号リセット)  |
+| 139 | 0 | ICMP Node Information Query<br>Subject Is an IPv6 Address<br> (ノード情報問い合わせ：対象がIPv6アドレス)  |
+| 139 | 1 | ICMP Node Information Query<br>Subject Is a Name<br> (ノード情報問い合わせ：対象が名前)  |
+| 139 | 2 | ICMP Node Information Query<br>Subject Is an IPv4 Address<br> (ノード情報問い合わせ：対象がIPv4アドレス)  |
+| 140 | 0 | ICMP Node Information Response<br>Successful Reply<br> (ノード情報応答：成功)  |
+| 140 | 1 | ICMP Node Information Response<br>Responder Refuses to Supply the Answer<br> (ノード情報応答：応答を拒否)  |
+| 140 | 2 | ICMP Node Information Response<br>Qtype of the Query Is Unknown to the Responder<br> (ノード情報応答：問い合わせのQtypeが未知)  |
+| 141 | 0 | Inverse Neighbor Discovery Solicitation<br> (逆近隣探索要請)  |
+| 142 | 0 | Inverse Neighbor Discovery Advertisement<br> (逆近隣探索通知)  |
+| 143 | 0 | Multicast Listener Discovery Report (MLDv2)<br> (MLDv2 リスナーレポート)  |
+| 144 | 0 | Home Agent Address Discovery Request<br> (ホームエージェントアドレス探索要求)  |
+| 145 | 0 | Home Agent Address Discovery Reply<br> (ホームエージェントアドレス探索応答)  |
+| 146 | 0 | Mobile Prefix Solicitation<br> (モバイルプレフィックス要請)  |
+| 147 | 0 | Mobile Prefix Advertisement<br> (モバイルプレフィックス通知)  |
+| 148 | 0 | Certification Path Solicitation<br> (認証パス要請) <br>SENDで使用 |
+| 149 | 0 | Certification Path Advertisement<br> (認証パス通知) <br>SENDで使用 |
+| 151 | 0 | Multicast Router Advertisement<br> (マルチキャストルータ通知)  |
+| 152 | 0 | Multicast Router Solicitation<br> (マルチキャストルータ要請)  |
+| 153 | 0 | Multicast Router Termination<br> (マルチキャストルータ終了)  |
+| 155 | - | RPL Control Message<br> (RPL制御メッセージ)  |
+| 157 | - | Duplicate Address Request<br> (重複アドレス要求)  |
+| 158 | - | Duplicate Address Confirmation<br> (重複アドレス確認)  |
+| 160 | 0 | Extended Echo Request<br> (拡張エコー要求)  |
+| 161 | 0 | Extended Echo Reply<br>No Error<br> (拡張エコー応答：エラーなし)  |
+| 161 | 1 | Extended Echo Reply<br>Malformed Query<br> (拡張エコー応答：不正なクエリ)  |
+| 161 | 2 | Extended Echo Reply<br>No Such Interface<br> (拡張エコー応答：該当インタフェースなし)  |
+| 161 | 3 | Extended Echo Reply<br>No Such Table Entry<br> (拡張エコー応答：該当テーブルエントリなし)  |
+| 161 | 4 | Extended Echo Reply<br>Multiple Interfaces Satisfy Query<br> (拡張エコー応答：複数インタフェースが該当)  |
+
+
+                            </div>
+                        </article>
+                    </div>
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4">
@@ -136,7 +333,23 @@
                             </div>
                             <div class="p-4">
                                 <h4 class="fst-italic border-bottom">Table of Contents</h4>
-                                <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-iperf3">iperf3コマンド使い方</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-traceroute">tracerouteコマンド使い方</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-icmpv4">ICMP (ICMPv4) タイプ・コード一覧</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-icmpv6">ICMP (ICMPv6) タイプ・コード一覧</a>
+                                    </li>
+                                </ol>
                             </div>
                             <div id="tips"></div>
                         </div>
@@ -166,21 +379,21 @@
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
-            new Pagination(7, serverModel.page, "pagination");
+            new Pagination(8, serverModel.page, "pagination");
             
-            const mdInst        = new MarkDownMaker(
-                id              = "md-text",
-            )
-            
-            new MarkDownMaker(
-                id              = "md-source",
-            )
+            const mdLists = [
+                "md-iperf3",
+                "md-source",
+                "md-traceroute",
+                "md-icmpv4",
+                "md-icmpv6"
+            ];
 
-            new MarkDownTOC(
-                mdInstance      = mdInst,
-                id              = "toc",
-                mdid            = "md-text",
-            )
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
         </script>
     </footer>
 </html>

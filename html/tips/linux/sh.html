@@ -202,6 +202,108 @@ LOG_FAIL(){
 
                             
                         </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="whois">
+                                WHOIS RFC3912
+                            </h3>
+                            <p>
+                                &emsp;インターネット上の資源(ドメイン名・IPアドレス・AS番号など)について、<strong>誰が登録・管理しているか、いつ登録されたか、どこに連絡できるか</strong>といった登録情報を、サーバへ問い合わせて取得するための クエリ/レスポンス型プロトコル<br>
+                                &emsp;ドメインの取得可否確認、管理組織・連絡先の確認、ネットワーク障害や不正アクセス時の管理者調査などに利用される<br>
+                                
+                            </p>
+
+                            <h4 class="pt-4 fw-bold border-bottom">
+                                仕組み
+                            </h4>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant C as クライアント
+    participant S as WHOISサーバ(TCP 43)
+    C->>S: TCP 接続確立
+    C->>S: クエリ文字列 + CRLF
+    S->>C: 応答テキスト(形式は任意)
+    S->>C: 接続切断(FIN)
+    Note over C,S: 接続切断がレスポンスの終端を意味する
+
+                            -->
+
+                            <img src="/img/linux/whois.svg" width = "100%"/>
+                            
+                            <ol>
+                                <li> クライアントがサーバの TCP 43 番ポートへ接続する</li>
+                                <li> クライアントがクエリ文字列 + <code>CRLF</code> を送信する </li>
+                                <li> サーバが応答(任意のテキスト)を返す</li>
+                                <li> サーバが接続を閉じる(<b>接続終了がレスポンス終端の合図</b>) </li>
+                            </ol>
+
+                            <h4 class="pt-4 fw-bold border-bottom">
+                                インストール方法
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install whois</code></pre>
+                            </p>
+                            <h4 class="pt-3 border-bottom fw-bold">
+                                whoisコマンド使い方
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">whois [オプション] [ターゲット]</code></pre>
+                            </p>
+                            <div id="md-whois">
+
+##### オプション一覧
+
+| オプション | 説明 |
+|------------|------|
+| `-h [問い合わせ先WHOISサーバ]`, `--host [問い合わせ先WHOISサーバ]` | 問い合わせ先 WHOIS サーバを指定 |
+| `-p [ポート番号]`, `--port [ポート番号]` | 接続ポートを指定(既定 43) |
+| `-H` | 法的免責事項(disclaimer)を非表示にする |
+| `-I` | `whois.iana.org` に問い合わせる |
+| `-r` | RIPE 系で連絡先情報の表示を抑制 |
+| `-B` | RIPE 系で IP 範囲をフィルタせず全て表示 |
+| `-b` | RIPE 系で IP 範囲のみ簡易表示 |
+| `-i [属性]` | RIPE 系の逆引きルックアップ |
+| `-T [オブジェクト種別]` | RIPE 系で検索するオブジェクト種別を限定 |
+| `-t [オブジェクト種別]` | オブジェクト種別のテンプレートを表示 |
+| `-v [オブジェクト種別]` | オブジェクト種別の詳細テンプレートを表示 |
+| `--verbose` | 接続先など動作の詳細を表示 |
+| `--help` | ヘルプを表示 |
+| `--version` | バージョンを表示 |
+
+<br>
+<br>
+
+### 仕様
+
+- 1接続 1クエリ 1応答 (状態管理無し)
+- クエリ : 1行のクエリ + CRLF
+- 応答フォーマット : 規定なし
+- 文字コード : 規定なし (ASCII/UTF-8/Latin-1 などが混在)
+- 認証・暗号化 : 無し (平文)
+- アクセス制御 : 規定なし(レート制限等は各運営者が実施)
+- 主な情報源 : レジストリ(ドメイン)や RIR(IPアドレス・AS番号の地域レジストリ)が運用する WHOIS サーバ
+
+                            </div>
+                        </article>
 
                     </div>
                     <div class="col-md-4">
@@ -214,6 +316,12 @@ LOG_FAIL(){
                                     </li>
                                     <li>
                                         <a href="#link">シンボリックリンク(ショートカット)の作成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#color">bash カラーコード・便利スクリプト</a>
+                                    </li>
+                                    <li>
+                                        <a href="#whois">WHOISについて</a>
                                     </li>
                                 </ol>
                             </div>
@@ -236,6 +344,7 @@ LOG_FAIL(){
         <script src="/view/activenav.js"></script>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -244,6 +353,16 @@ LOG_FAIL(){
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["pythonTip", "rn4020Tip", "teratermTip"]);
             new Pagination(7, linuxModel.page, "pagination");
+
+            const mdLists = [
+                "md-whois", 
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
         </script>
     </footer>
 </html>

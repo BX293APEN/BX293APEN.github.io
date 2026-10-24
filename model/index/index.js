@@ -124,6 +124,31 @@ class Model extends LoadModel {
             "about" : {
                 "href" : "/html/welcome.html",
             },
+
+            "bios" : {
+                "href" : "/html/tips/UEFI.html",
+            },
+            "appbuild" : {
+                "href" : "/html/tips/appbuild.html",
+            },
+            "文字コード表ascii" : {
+                "href" : "/html/tips/ascii-code.html",
+            },
+            "C++CPPCLANGGCC" : {
+                "href" : "/html/tips/c.html",
+            },
+            "C言語" : {
+                "href" : "/html/tips/c.html",
+            },
+            "msquic" : {
+                "href" : "/html/tips/c-lang/msquic.html",
+            },
+            
+            "wsl" : {
+                "href" : "/html/tips/windows/wsl.html",
+            },
+
+            /* Linux設定 */
             "arch" : {
                 "href" : "/html/tips/linuxMemo.html",
             },
@@ -138,24 +163,6 @@ class Model extends LoadModel {
             },
             "lfs" : {
                 "href" : "/html/tips/linuxMemo/repo.html",
-            },
-            "bios" : {
-                "href" : "/html/tips/UEFI.html",
-            },
-            "appbuild" : {
-                "href" : "/html/tips/appbuild.html",
-            },
-            "文字コード表" : {
-                "href" : "/html/tips/ascii-code.html",
-            },
-            "C++CPPCLANGGCC" : {
-                "href" : "/html/tips/c.html",
-            },
-            "C言語" : {
-                "href" : "/html/tips/c.html",
-            },
-            "msquic" : {
-                "href" : "/html/tips/c-lang/msquic.html",
             },
             "ネットワーク" : {
                 "href" : "/html/tips/linux/network.html",
@@ -214,11 +221,10 @@ class Model extends LoadModel {
             "shln" : {
                 "href" : "/html/tips/linux/sh.html",
             },
-            "wsl" : {
-                "href" : "/html/tips/windows/wsl.html",
-            },
+
+            /* サーバ設定 */
             "emqxmqtt" : {
-                "href" : "/html/tips/server.html",
+                "href" : "/html/tips/server/emqx.html",
             },
             "lanutprj45" : {
                 "href" : "/html/tips/server.html",
@@ -241,8 +247,22 @@ class Model extends LoadModel {
             "iperf3" : {
                 "href" : "/html/tips/server/iperf3.html",
             },
-            "mailserver" : {
+            "mailmimedkimdmark" : {
                 "href" : "/html/tips/server/mail.html",
+            },
+            "dbdatabase" : {
+                "href" : "/html/tips/server/db.html",
+            },
+
+            /* セキュリティ */
+            "securitycyberattack" : {
+                "href" : "/html/about/security/security.html",
+            },
+            "law企業gov" : {
+                "href" : "/html/about/security/security-laws.html",
+            },
+            "securityplan" : {
+                "href" : "/html/about/security/index.html",
             },
         }
 

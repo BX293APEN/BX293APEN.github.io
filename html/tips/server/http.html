@@ -45,7 +45,7 @@
                             <div id = "md-text">
 ##### ※注意
 - Python 3.12 以降では `cgi`  `cgitb` モジュールが削除されています  
-  **古い** CGIスクリプトは動作しないため、 **環境変数** と **stdin** を使ったフォーム処理に書き換える必要があります。  
+  **古い** CGIスクリプトは動作しないため、 **環境変数** と **stdin** を使ったフォーム処理に書き換える必要があります  
   → **代替モジュール** [`libcgipy`](https://pypi.org/project/libcgipy/) を作成しました
 
                             </div>
@@ -438,15 +438,357 @@ sudo systemctl enable [Project Name].service</code></pre>
                             </h4>
                             <div id="md-http-method">
 
-| メソッド名 | 内容 | CRUD特性 |
-| --- | --- | --- |
-| GET | リソースの取得 | Read |
-| POST | リソースの新規作成・データの送信 | Create |
-| HEAD | リソースヘッダ情報のみ取得 | - |
-| PUT | リソースの置換・更新<br>(存在しなければ作成) | Update |
-| DELETE | リソースの削除 | Delete |
+| メソッド名 | 内容 | CRUD特性 | 一般的なデータの置き場所 | 冪等 |
+| --- | --- | --- | --- | --- |
+| GET | リソースの取得 | Read | リクエスト行(クエリ文字列) | ○ |
+| POST | リソースの新規作成・データの送信 | Create | メッセージボディ | × |
+| HEAD | リソースヘッダ情報のみ取得 | - | リクエスト行(クエリ文字列) | ○ |
+| PUT | リソースの置換・更新<br>(存在しなければ作成) | Update | メッセージボディ | ○ |
+| PATCH | リソースの部分更新 | Update | メッセージボディ | ×<br>(実装次第) |
+| DELETE | リソースの削除 | Delete | リクエスト行(対象はURLのパスで指定) | ○ |
+| OPTIONS | 対象リソースが対応するメソッドや通信オプションの問い合わせ<br>(CORSのプリフライトでも使用) | - | リクエスト行(対象URL。サーバ全体への問い合わせは `*`) | ○ |
+| TRACE | 経路のループバック試験<br>(受信したリクエストをそのまま返す) | - | リクエスト行(ボディは送らない) | ○ |
+| CONNECT | プロキシ経由でのトンネル確立<br>(HTTPS通信などで使用) | - | リクエスト行(接続先を `host:port` 形式で指定) | × |
 
                             </div>
+                            <h4 class="pt-4 border-bottom fw-bold" id="proxy">
+                                プロキシを介した接続方法
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                CONNECTトンネル方式
+                            </h5>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    %% # プロキシ経由(HTTP CONNECT)の TCP + TLS 1.2 通信
+    %%
+    %% ## 登場人物
+    %%
+    %% | 参加者 | 役割 |
+    %% |---|---|
+    %% | クライアント | ブラウザ等。プロキシ経由で `https://bx293apen.github.io/` にアクセスする |
+    %% | プロキシサーバ | `CONNECT` でトンネルを作り、TLSの暗号文をそのまま中継する |
+    %% | bx293apen.github.io | 宛先のWebサーバ(443番ポート) |
+    %%
+    %% ## フェーズ構成
+    %%
+    %% | フェーズ | 概要 |
+    %% |---|---|
+    %% | 1. TCP 3-way (クライアント - プロキシ) | プロキシへのTCPコネクションを確立する |
+    %% | 2. HTTP CONNECT トンネル確立 | プロキシが宛先へTCP接続し、トンネルを開通する |
+    %% | 3. TLS 1.2 Handshake | クライアントと宛先サーバが直接TLSを確立する(プロキシは中継のみ) |
+    %% | 4. Application Data | トンネル内で暗号化したHTTPリクエスト/レスポンスを送受信する |
+    %% | 5. TLS 切断 | close_notify アラートで暗号化通信を正常終了する |
+    %% | 6. TCP 4-way 切断 | クライアント側・サーバ側の2本のTCPを閉じる |
+
+    autonumber
+    participant C as クライアント
+    participant P as プロキシサーバ
+    participant S as bx293apen.github.io
+
+    %% ## Phase 1: TCP 3-way Handshake (クライアント - プロキシ)
+    rect rgb(230, 240, 255)
+        Note over C,P: TCP 3ウェイハンドシェイク(クライアント - プロキシ)
+        C->>P: SYN (seq=x)
+        P->>C: SYN + ACK (seq=y, ack=x+1)
+        C->>P: ACK (ack=y+1)
+        Note over C,P: TCPコネクション確立
+    end
+
+    %% ## Phase 2: HTTP CONNECT トンネル確立
+    rect rgb(255, 250, 220)
+        Note over C,S: HTTP CONNECT によるトンネル確立
+        C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Host: bx293apen.github.io:443)
+
+        opt プロキシが認証を要求する場合
+            P->>C: 407 Proxy Authentication Required
+            C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Proxy-Authorization: ...)
+        end
+
+        Note over P: 宛先のホスト名をDNSで名前解決
+
+        Note over P,S: TCP 3ウェイハンドシェイク(プロキシ - 宛先サーバ)
+        P->>S: SYN
+        S->>P: SYN + ACK
+        P->>S: ACK
+
+        P->>C: HTTP/1.1 200 Connection Established
+        Note over C,S: トンネル開通<br/>以降プロキシはバイト列をそのまま中継する
+    end
+
+    %% ## Phase 3: TLS 1.2 Handshake (クライアント - 宛先サーバ)
+    rect rgb(235, 255, 235)
+        Note over C,S: TLS 1.2 フルハンドシェイク(プロキシは暗号文を中継するのみ)
+
+        C->>S: ClientHello<br/>(TLSバージョン / 暗号スイート一覧 / Client Random / SNI: bx293apen.github.io)
+        S->>C: ServerHello<br/>(TLSバージョン / 暗号スイート / Server Random)
+        S->>C: Certificate<br/>(サーバ証明書・公開鍵)
+
+        opt 鍵交換方式によって送信(例: ECDHE)
+            S->>C: ServerKeyExchange<br/>(鍵交換の追加パラメータ)
+        end
+
+        S->>C: ServerHelloDone
+
+        Note left of C: 証明書を検証<br/>(署名・有効期限・ホスト名 bx293apen.github.io・信頼チェーン)
+
+        C->>S: ClientKeyExchange<br/>(プリマスタシークレットを公開鍵等で暗号化)
+
+        Note over C,S: プリマスタシークレット + Client/Server Random<br/>→ マスターシークレット → セッション鍵(クライアントと宛先サーバで生成)
+
+        C->>S: ChangeCipherSpec
+        C->>S: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+        S->>C: ChangeCipherSpec
+        S->>C: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+
+        Note over C,S: 相互にFinishedを検証し、改ざんがないことを確認
+    end
+
+    %% ## Phase 4: Application Data
+    rect rgb(255, 245, 225)
+        C->>S: Application Data<br/>(GET / HTTP/1.1 をセッション鍵で暗号化)
+        S->>C: Application Data<br/>(HTTPレスポンスをセッション鍵で暗号化)
+        Note over P: プロキシは内容を復号できない
+    end
+
+    %% ## Phase 5: TLS 切断
+    rect rgb(245, 235, 255)
+        Note over C,S: TLS 切断(クライアントから切断する例)
+        C->>S: close_notify (Alert)<br/>(以降このTLSセッションでは送信しない通知)
+        S->>C: close_notify (Alert)<br/>(切断通知に対する応答)
+        Note over C,S: TLSセッション終了(セッション鍵は破棄)
+    end
+
+    %% ## Phase 6: TCP 4-way 切断 (クライアント側・サーバ側の2本)
+    rect rgb(255, 235, 235)
+        Note over C,S: TCP 4ウェイ切断(トンネルの2本のTCPを順に閉じる)
+
+        Note over C,P: クライアント - プロキシ間(クライアント側が先に切断)
+        C->>P: FIN
+        P->>C: ACK
+
+        Note over P,S: プロキシ - 宛先サーバ間(プロキシがFINを中継)
+        P->>S: FIN
+        S->>P: ACK
+        S->>P: FIN
+        P->>S: ACK
+
+        Note over C,P: クライアント側の残りのFINを返す
+        P->>C: FIN
+        C->>P: ACK
+
+        Note left of C: TIME_WAIT<br/>(一定時間待機後にクローズ)
+        Note over C,S: すべてのTCPコネクション切断
+    end
+                            -->
+                            <img src="/img/server/proxyCONNECT.svg" width = "100%"/>
+
+                            <h5 class="pt-4 fw-bold">
+                                TLSインスペクション方式
+                            </h5>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    %% # TLSインスペクション型プロキシ(TLS終端)の TCP + TLS 1.2 通信
+    %%
+    %% ## 通常の CONNECT トンネルとの違い
+    %%
+    %% | 項目 | 通常の CONNECT トンネル | TLSインスペクション型(本図) |
+    %% |---|---|---|
+    %% | TLSの終端 | クライアントと宛先サーバ(エンドツーエンド) | プロキシで一度終端し、宛先へ別にTLSを張り直す |
+    %% | TLSセッション数 | 1本 | 2本(クライアント - プロキシ、プロキシ - 宛先) |
+    %% | クライアントが見るサーバ証明書 | 宛先サーバ本物の証明書 | プロキシが動的生成した証明書(プロキシのCAが署名) |
+    %% | プロキシによる通信内容の検査 | 不可(暗号文のまま中継) | 可(復号して検査し、再暗号化して転送) |
+    %% | クライアント側の前提 | 特になし | プロキシのルートCA証明書を信頼済みにしておく |
+    %%
+    %% ## フェーズ構成
+    %%
+    %% | フェーズ | 概要 |
+    %% |---|---|
+    %% | 1. TCP 3-way (クライアント - プロキシ) | プロキシへのTCPコネクションを確立する |
+    %% | 2. HTTP CONNECT | 宛先ホストを通知し、プロキシが `200` を返す |
+    %% | 3. TLS Handshake (クライアント - プロキシ) | プロキシが宛先になりすまして、自身のTLSを終端する |
+    %% | 4. TCP + TLS Handshake (プロキシ - 宛先) | プロキシがクライアントとして宛先サーバへ接続する |
+    %% | 5. Application Data | プロキシが復号・検査してから宛先へ転送する |
+    %% | 6. TLS 切断 | 2本のTLSセッションをそれぞれ close_notify で終了する |
+    %% | 7. TCP 4-way 切断 | 2本のTCPコネクションをそれぞれ閉じる |
+
+    autonumber
+    participant C as クライアント
+    participant P as プロキシサーバ
+    participant S as bx293apen.github.io
+
+    %% ## Phase 1: TCP 3-way Handshake (クライアント - プロキシ)
+    rect rgb(230, 240, 255)
+        Note over C,P: TCP 3ウェイハンドシェイク(クライアント - プロキシ)
+        C->>P: SYN (seq=x)
+        P->>C: SYN + ACK (seq=y, ack=x+1)
+        C->>P: ACK (ack=y+1)
+        Note over C,P: TCPコネクション確立
+    end
+
+    %% ## Phase 2: HTTP CONNECT
+    rect rgb(255, 250, 220)
+        Note over C,P: HTTP CONNECT
+        C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Host: bx293apen.github.io:443)
+
+        opt プロキシが認証を要求する場合
+            P->>C: 407 Proxy Authentication Required
+            C->>P: CONNECT bx293apen.github.io:443 HTTP/1.1<br/>(Proxy-Authorization: ...)
+        end
+
+        P->>C: HTTP/1.1 200 Connection Established
+        Note over C,P: ここからクライアントは宛先と話しているつもりでTLSを開始する
+    end
+
+    %% ## Phase 3: TLS 1.2 Handshake (クライアント - プロキシ)
+    rect rgb(235, 255, 235)
+        Note over C,P: TLS 1.2 フルハンドシェイク①(クライアント - プロキシ)
+
+        C->>P: ClientHello<br/>(TLSバージョン / 暗号スイート一覧 / Client Random / SNI: bx293apen.github.io)
+        P->>C: ServerHello<br/>(TLSバージョン / 暗号スイート / Server Random)
+        P->>C: Certificate<br/>(プロキシが動的生成した bx293apen.github.io 用の証明書<br/>プロキシのCAが署名)
+
+        opt 鍵交換方式によって送信(例: ECDHE)
+            P->>C: ServerKeyExchange<br/>(鍵交換の追加パラメータ)
+        end
+
+        P->>C: ServerHelloDone
+
+        Note left of C: 証明書を検証<br/>(ホスト名 bx293apen.github.io・有効期限・署名<br/>→ プロキシのルートCAを信頼済みなので成功)
+
+        C->>P: ClientKeyExchange<br/>(プリマスタシークレットを公開鍵等で暗号化)
+
+        Note over C,P: プリマスタシークレット + Client/Server Random<br/>→ マスターシークレット → セッション鍵A(クライアントとプロキシで生成)
+
+        C->>P: ChangeCipherSpec
+        C->>P: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+        P->>C: ChangeCipherSpec
+        P->>C: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+
+        Note over C,P: TLSセッション①確立(セッション鍵Aで暗号化)
+    end
+
+    %% ## Phase 4: TCP + TLS Handshake (プロキシ - 宛先)
+    rect rgb(225, 250, 250)
+        Note over P,S: TCP 3ウェイハンドシェイク(プロキシ - 宛先サーバ)
+        P->>S: SYN
+        S->>P: SYN + ACK
+        P->>S: ACK
+
+        Note over P,S: TLS 1.2 フルハンドシェイク②(プロキシ - 宛先サーバ)
+
+        P->>S: ClientHello<br/>(TLSバージョン / 暗号スイート一覧 / Client Random / SNI: bx293apen.github.io)
+        S->>P: ServerHello<br/>(TLSバージョン / 暗号スイート / Server Random)
+        S->>P: Certificate<br/>(宛先サーバ本物の証明書・公開鍵)
+
+        opt 鍵交換方式によって送信(例: ECDHE)
+            S->>P: ServerKeyExchange<br/>(鍵交換の追加パラメータ)
+        end
+
+        S->>P: ServerHelloDone
+
+        Note right of P: 本物の証明書を検証<br/>(署名・有効期限・ホスト名・信頼チェーン)
+
+        P->>S: ClientKeyExchange<br/>(プリマスタシークレットを公開鍵等で暗号化)
+
+        Note over P,S: プリマスタシークレット + Client/Server Random<br/>→ マスターシークレット → セッション鍵B(プロキシと宛先サーバで生成)
+
+        P->>S: ChangeCipherSpec
+        P->>S: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+        S->>P: ChangeCipherSpec
+        S->>P: Finished<br/>(ハンドシェイク全体のハッシュを暗号化)
+
+        Note over P,S: TLSセッション②確立(セッション鍵Bで暗号化)
+    end
+
+    %% ## Phase 5: Application Data (プロキシで復号・検査)
+    rect rgb(255, 245, 225)
+        Note over C,S: アプリケーションデータ(プロキシが復号して検査)
+
+        C->>P: Application Data<br/>(GET / HTTP/1.1 をセッション鍵Aで暗号化)
+        Note over P: 復号 → リクエストを検査<br/>(URLフィルタ / マルウェア / 情報漏えい対策 など)
+
+        alt リクエストが安全と判断された場合
+            P->>S: Application Data<br/>(GET / HTTP/1.1 をセッション鍵Bで再暗号化)
+            S->>P: Application Data<br/>(HTTPレスポンスをセッション鍵Bで暗号化)
+            Note over P: 復号 → レスポンスを検査
+            alt レスポンスも安全と判断された場合
+                P->>C: Application Data<br/>(HTTPレスポンスをセッション鍵Aで再暗号化)
+            else レスポンスが危険と判断された場合
+                P->>C: Application Data<br/>(403 Forbidden などのブロック画面)
+            end
+        else リクエストが危険と判断された場合
+            P->>C: Application Data<br/>(403 Forbidden などのブロック画面)
+            Note over P,S: 宛先サーバへは転送しない
+        end
+    end
+
+    %% ## Phase 6: TLS 切断
+    rect rgb(245, 235, 255)
+        Note over C,S: TLS 切断(クライアントから切断する例)
+
+        Note over C,P: TLSセッション①
+        C->>P: close_notify (Alert)
+        P->>C: close_notify (Alert)
+
+        Note over P,S: TLSセッション②
+        P->>S: close_notify (Alert)
+        S->>P: close_notify (Alert)
+
+        Note over C,S: 2本のTLSセッション終了(セッション鍵A・Bは破棄)
+    end
+
+    %% ## Phase 7: TCP 4-way 切断
+    rect rgb(255, 235, 235)
+        Note over C,S: TCP 4ウェイ切断(2本のTCPを順に閉じる)
+
+        Note over C,P: クライアント - プロキシ間(クライアント側が先に切断)
+        C->>P: FIN
+        P->>C: ACK
+
+        Note over P,S: プロキシ - 宛先サーバ間(プロキシが切断)
+        P->>S: FIN
+        S->>P: ACK
+        S->>P: FIN
+        P->>S: ACK
+
+        Note over C,P: クライアント - プロキシ間の残りのFIN
+        P->>C: FIN
+        C->>P: ACK
+
+        Note left of C: TIME_WAIT<br/>(一定時間待機後にクローズ)
+        Note over C,S: すべてのTCPコネクション切断
+    end
+                            -->
+                            <img src="/img/server/proxytls.svg" width = "100%"/>
+
                             <h4 class="pt-4 border-bottom fw-bold">
                                 HTTPステータスコード
                             </h4>
@@ -486,7 +828,7 @@ sudo systemctl enable [Project Name].service</code></pre>
 
                             </div>
                             <h4 class="pt-4 border-bottom fw-bold" id="req-header">
-                                リクエストヘッダ
+                                リクエスト行(1行目) + リクエストヘッダ
                             </h4>
                             <p>
                                 <pre><code class="language-html">[method] [URI] HTTP/[プロトコルバージョン]
@@ -509,7 +851,7 @@ Cache-Control: [キャッシュの扱い方 (no-cache(毎回確認) / no-store(�
                             </p>
 
                             <h4 class="pt-4 border-bottom fw-bold" id="res-header">
-                                レスポンスヘッダ
+                                ステータス行(1行目) + レスポンスヘッダ
                             </h4>
                             <p>
                                 <pre><code class="language-html">HTTP/[プロトコルバージョン] [ステータスコード] &lt;ステータスコードの説明(任意文字列可能 HTTP/2以降廃止)&gt;
@@ -536,6 +878,227 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
         &lt;head&gt;
 </code></pre>
                             </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="http-header">
+                                HTTPヘッダ
+                            </h4>
+                            <div>
+                                <pre><code>フィールド名 : 属性=値; 値;</code></pre>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm align-middle w-auto">
+                                    <thead>
+                                        <tr><th>要素</th><th>意味</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td><pre><code>フィールド名</code></pre></td><td>ヘッダ名 (<code>:</code> の左側)</td></tr>
+                                        <tr><td><pre><code>属性=値</code></pre></td><td>値を持つ属性 (例: <code>max-age=3600</code>)</td></tr>
+                                        <tr><td><pre><code>値</code></pre></td><td>属性を持たないヘッダ本体の値、または値なしの属性 (フラグ)</td></tr>
+                                        <tr><td><pre><code>;</code></pre></td><td>属性・値の区切り (ヘッダにより <code>,</code> 区切り)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr><th>フィールド名</th><th>種別</th><th>説明</th><th>属性</th><th>説明</th><th>値</th><th>説明</th></tr>
+                                    </thead>
+                                
+                                    <!-- ## 共通 -->
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="8" scope="rowgroup"><pre class="language-html"><code>Content-Type</code></pre></th><td rowspan="8" class="bg-warning text-nowrap fw-bold">共通</td><td rowspan="8">ボディのメディアタイプ</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[type]/[subtype]</code></pre></td><td class="text-nowrap">メディアタイプ (type/subtype形式)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>text/html</code></pre></td><td>HTML文書</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>application/xml</code></pre></td><td>XML文書</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>application/x-www-form-urlencoded</code></pre></td><td>XHR/Fetch: フォーム形式の送信</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>application/json</code></pre></td><td>XHR/Fetch: JSONの送受信 (クロスオリジンではプリフライト対象)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>multipart/form-data</code></pre></td><td>XHR/Fetch: ファイル送信 (<code>FormData</code> 使用時はブラウザが自動付与)</td></tr>
+                                        <tr><td><pre class="language-html"><code>charset</code></pre></td><td class="text-nowrap">文字エンコーディング (テキスト系で指定)</td><td><pre class="language-html"><code>UTF-8</code></pre></td><td>Unicode (UTF-8)</td></tr>
+                                        <tr><td><pre class="language-html"><code>boundary</code></pre></td><td>multipartの区切り文字列 (<code>multipart/form-data</code> 時に必須)</td><td><pre class="language-html"><code>[文字列]</code></pre></td><td>区切りに使う任意の文字列</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Content-Length</code></pre></th><td class="bg-warning text-nowrap fw-bold">共通</td><td>ボディのサイズ (<code>Transfer-Encoding</code> 使用時は付与しない)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[バイト数]</code></pre></td><td>ボディのバイト数</td></tr>
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Content-Encoding</code></pre></th><td rowspan="3" class="bg-warning text-nowrap fw-bold">共通</td><td rowspan="3">ボディに適用された圧縮形式 (<code>Accept-Encoding</code> の中から選択される)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>gzip</code></pre></td><td>gzip圧縮</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>deflate</code></pre></td><td>deflate圧縮</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>br</code></pre></td><td>Brotli圧縮</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Transfer-Encoding</code></pre></th><td class="bg-warning text-nowrap fw-bold">共通</td><td>ボディの転送方式 (HTTP/2以降は不使用)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>chunked</code></pre></td><td>サイズ不明のデータを分割送信</td></tr>
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Connection</code></pre></th><td rowspan="3" class="bg-warning text-nowrap fw-bold">共通</td><td rowspan="3">ネットワーク接続状態の制御 (HTTP/2以降は不使用)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>keep-alive</code></pre></td><td>接続の維持</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>close</code></pre></td><td>接続の切断</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>Upgrade</code></pre></td><td>プロトコル切替</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Date</code></pre></th><td class="bg-warning text-nowrap fw-bold">共通</td><td>メッセージ生成日時</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ddd, dd MMM yyyy HH:mm:ss GMT]</code></pre></td><td>生成日時 (常にGMT)</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="9" scope="rowgroup"><pre class="language-html"><code>Cache-Control</code></pre></th><td rowspan="9" class="bg-warning text-nowrap fw-bold">共通</td><td rowspan="9">キャッシュの扱い方<br>(コンマ区切りで複数指定)</td><td><pre class="language-html"><code>no-cache</code></pre></td><td>使用前に毎回サーバへ検証</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>no-store</code></pre></td><td>キャッシュ禁止 (保存しない)</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>public</code></pre></td><td>共有キャッシュ可</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>private</code></pre></td><td>ブラウザのみ可</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>max-age</code></pre></td><td>有効期間</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>有効期間の秒数 (例: <code>max-age=3600</code>)</td></tr>
+                                        <tr><td><pre class="language-html"><code>s-maxage</code></pre></td><td>共有キャッシュ向けの有効期間</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>共有キャッシュ向け有効期間の秒数</td></tr>
+                                        <tr><td><pre class="language-html"><code>must-revalidate</code></pre></td><td>期限切れなら必ず確認</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>immutable</code></pre></td><td class="text-nowrap">有効期間中は更新されない (再検証不要)</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>no-transform</code></pre></td><td>中継が内容を変換することを禁止</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    </tbody>
+                                    <!-- ## リクエスト -->
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>Authorization</code></pre></th><td rowspan="2" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="2">認証情報をサーバへ提示する</td><td><pre class="language-html"><code>Basic</code></pre></td><td>Basic認証</td><td><pre class="language-html"><code>[BASE64(user:pass)]</code></pre></td><td>ユーザ名:パスワードをBASE64変換した値</td></tr>
+                                        <tr><td><pre class="language-html"><code>Bearer</code></pre></td><td>トークン認証 (OAuth 2.0 / JWT 等)</td><td><pre class="language-html"><code>[アクセストークン]</code></pre></td><td>発行されたトークン文字列</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Host</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td class="text-nowrap">接続先サーバ (HTTP/1.1では必須)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[host]:[port]</code></pre></td><td>ホスト名 + ポート番号 (既定ポートは省略可)</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Referer</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>リンク元のURL (綴りは仕様上 Referer)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[URL]</code></pre></td><td>直前のページURL</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>User-Agent</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>クライアントソフトウェアの情報</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[名称/バージョン]</code></pre></td><td>ブラウザ等の名称・バージョン・OS情報</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Cookie</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>サーバから受け取ったCookieを返送する (複数は <code>;</code> 区切り)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[name]=[value]; ...</code></pre></td><td>返送するCookie名と値</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Accept</code></pre></th><td rowspan="4" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="4">受信可能なメディアタイプ<br>(コンマ区切りで複数列挙)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>text/html</code></pre></td><td>HTML文書</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>application/xml</code></pre></td><td>XML文書</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>*/*</code></pre></td><td>すべてのメディアタイプ</td></tr>
+                                        <tr><td><pre class="language-html"><code>q</code></pre></td><td>優先度 (品質値)<br>省略時 : 1.0 <br> 大きいほど優先)</td><td><pre class="language-html"><code>0.0 ～ 1.0</code></pre></td><td>優先度 (例: <code>text/html;q=0.9</code>)</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="5" scope="rowgroup"><pre class="language-html"><code>Accept-Language</code></pre></th><td rowspan="5" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="5">受信可能な言語<br>(言語タグをコンマ区切りで列挙)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>ja-JP</code></pre></td><td>日本語 (日本)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>ja</code></pre></td><td>日本語</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>en-US</code></pre></td><td>英語 (米国)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>en</code></pre></td><td>英語</td></tr>
+                                        <tr><td><pre class="language-html"><code>q</code></pre></td><td>言語ごとの優先度</td><td><pre class="language-html"><code>0.0 ～ 1.0</code></pre></td><td>優先度 (例: <code>ja;q=0.9,en-US;q=0.8</code>)</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="5" scope="rowgroup"><pre class="language-html"><code>Accept-Encoding</code></pre></th><td rowspan="5" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="5">対応している圧縮形式<br>(コンマ区切り)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>gzip</code></pre></td><td>gzip圧縮に対応</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>deflate</code></pre></td><td>deflate圧縮に対応</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>br</code></pre></td><td>Brotli圧縮に対応</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>zstd</code></pre></td><td>Zstandard圧縮に対応</td></tr>
+                                        <tr><td><pre class="language-html"><code>q</code></pre></td><td>圧縮形式ごとの優先度</td><td><pre class="language-html"><code>0.0 ～ 1.0</code></pre></td><td>優先度 (例: <code>gzip;q=0.8</code>)</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Upgrade-Insecure-Requests</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>HTTPSへのアップグレード要求</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>1</code></pre></td><td>HTTPSでの取得を優先して欲しい意思表示</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>If-Modified-Since</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>キャッシュ検証 (日時)<br>以降に更新されていなければ <code>304</code> を返す</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ddd, dd MMM yyyy HH:mm:ss GMT]</code></pre></td><td>更新確認の基準日時</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>If-None-Match</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>キャッシュ検証 (ETag)<br>一致すれば <code>304</code> を返す</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ETag値]</code></pre></td><td>キャッシュ済みのETag</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>If-Match</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>更新の前提条件 (楽観ロック)<br>一致しなければ <code>412</code> を返す</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ETag値]</code></pre></td><td>更新対象の期待するETag</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Range</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>ボディの一部のみ要求 (部分取得)<br>成功時は <code>206 Partial Content</code></td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>bytes=[開始]-[終了]</code></pre></td><td>取得するバイト範囲</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Forwarded-For</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>プロキシ/LB経由時の送信元情報</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[client], [proxy1], ...</code></pre></td><td>実際の送信元IPアドレス (左端がクライアント)</td></tr>
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>X-Forwarded-Proto</code></pre></th><td rowspan="2" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="2">プロキシ/LB経由前のプロトコル</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>http</code></pre></td><td>HTTPで受信</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>https</code></pre></td><td>HTTPSで受信</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Forwarded-Host</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>プロキシ/LB経由前の <code>Host</code></td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[host]</code></pre></td><td>元のホスト名</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Requested-With</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>XHRによるリクエストの識別 <br>jQuery等が付与<br>Fetch APIは付与しない<br>サーバ側でAjax判定に利用<br>CSRF対策としては単独で不十分</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>XMLHttpRequest</code></pre></td><td>XHRによるリクエストを示す固定値</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-CSRF-Token</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>CSRF対策トークン (XHR/Fetchで付与する慣例)<br>フレームワークにより名称が異なる (<code>X-XSRF-TOKEN</code> 等)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[トークン]</code></pre></td><td>サーバが発行したCSRFトークン</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Origin</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>リクエスト発行元のオリジン (CORS / POSTで付与)<br>CSRF検証にも利用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[scheme]://[host]:[port]</code></pre></td><td>パスを含まないオリジン</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Access-Control-Request-Method</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>本リクエストで使うメソッドの事前通知 (プリフライト)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[method]</code></pre></td><td>使用予定のHTTPメソッド (例: <code>PUT</code>)</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Access-Control-Request-Headers</code></pre></th><td class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td>本リクエストで使う独自ヘッダの事前通知 (プリフライト)<br>コンマ区切り</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ヘッダ名], ...</code></pre></td><td>使用予定のヘッダ名 (例: <code>content-type, x-requested-with</code>)</td></tr>
+                                        <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Sec-Fetch-Site</code></pre></th><td rowspan="4" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="4">発行元との関係 <br>ブラウザが自動付与<br>改竄不可<br>CSRF対策の判定材料</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-origin</code></pre></td><td>同一オリジン</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-site</code></pre></td><td>同一サイト (オリジンは異なる)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>cross-site</code></pre></td><td>別サイト</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>none</code></pre></td><td>ユーザ操作による直接アクセス</td></tr>
+                                        <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Sec-Fetch-Mode</code></pre></th><td rowspan="4" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="4">リクエストのモード</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>cors</code></pre></td><td>CORSリクエスト (XHR / fetch は主にこれ)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>navigate</code></pre></td><td>ページ遷移</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>no-cors</code></pre></td><td>CORSなしのリクエスト (画像・スクリプト読込等)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-origin</code></pre></td><td>同一オリジン限定のリクエスト</td></tr>
+                                        <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Sec-Fetch-Dest</code></pre></th><td rowspan="4" class="bg-primary text-nowrap fw-bold text-white">リクエスト</td><td rowspan="4">取得結果の用途</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>document</code></pre></td><td>HTML文書として使用</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>script</code></pre></td><td>スクリプトとして使用</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>image</code></pre></td><td>画像として使用</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>empty</code></pre></td><td>XHR / fetch で使用</td></tr>
+                                    </tbody>
+                                    <!-- ## レスポンス -->
+                                    <tbody class="table-group-divider">
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Server</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>処理したWebサーバの種類 (バージョン秘匿推奨)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[名称/バージョン]</code></pre></td><td>サーバ名称/バージョン (例: <code>nginx</code>)</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Location</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>リダイレクト先 / 作成リソースのURI<br><code>3xx</code> / <code>201</code> で使用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[URI]</code></pre></td><td>遷移先または作成リソースのURI</td></tr>
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>ETag</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">レスポンス内容の識別子</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>"[ETag値]"</code></pre></td><td>強い検証子</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>W/"[ETag値]"</code></pre></td><td>弱い検証子</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Last-Modified</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>リソースの最終更新日時<br><code>If-Modified-Since</code> の検証に使用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ddd, dd MMM yyyy HH:mm:ss GMT]</code></pre></td><td>最終更新日時</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Expires</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>キャッシュの有効期限 (旧式)<br><code>Cache-Control: max-age</code> があればそちらが優先</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ddd, dd MMM yyyy HH:mm:ss GMT]</code></pre></td><td>有効期限の日時</td></tr>
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Vary</code></pre></th><td rowspan="3" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="3">キャッシュキーに含めるリクエストヘッダ<br>(コンマ区切り)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>Accept-Encoding</code></pre></td><td>圧縮形式ごとにキャッシュを分ける</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>Origin</code></pre></td><td>オリジンごとにキャッシュを分ける (CORS併用時は含める)</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ヘッダ名]</code></pre></td><td>上記以外の任意のリクエストヘッダ</td></tr>
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Allow</code></pre></th><td rowspan="3" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="3">対応メソッド一覧 (コンマ区切り)<br><code>405</code> 時などに返す</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>GET</code></pre></td><td>GETに対応</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>POST</code></pre></td><td>POSTに対応</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>OPTIONS</code></pre></td><td>OPTIONSに対応</td></tr>
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>Retry-After</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">再試行までの待機指示<br><code>429</code> / <code>503</code> / <code>3xx</code> で使用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>待機する秒数</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[日時]</code></pre></td><td>再試行可能になる日時</td></tr>
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>WWW-Authenticate</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">必要な認証方式の通知<br><code>401</code> と共に返す</td><td><pre class="language-html"><code>Basic</code></pre></td><td>Basic認証</td><td><pre class="language-html"><code>realm="[領域名]"</code></pre></td><td>保護領域の名称</td></tr>
+                                        <tr><td><pre class="language-html"><code>Bearer</code></pre></td><td>トークン認証</td><td><pre class="language-html"><code>realm="[領域名]"</code></pre></td><td>保護領域の名称</td></tr>
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>Accept-Ranges</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">部分取得 (Range) の可否<br>対応時は <code>Content-Range: bytes [開始]-[終了]/[全体]</code> を返す</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>bytes</code></pre></td><td>バイト単位の部分取得に対応</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>none</code></pre></td><td>部分取得に非対応</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Runtime</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>サーバ側のリクエスト処理時間 (Rails等)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[秒]</code></pre></td><td>処理時間の秒数 (例: <code>0.012345</code>)</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Request-Id</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>リクエストを一意に識別するID<br>ログの突合・障害調査に利用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[UUID等]</code></pre></td><td>一意なリクエストID</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Content-Disposition</code></pre></th><td rowspan="3" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="3">ボディの扱い方 (表示 / ダウンロード)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>inline</code></pre></td><td>ブラウザ内で表示</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>attachment</code></pre></td><td>ダウンロードさせる</td></tr>
+                                        <tr><td><pre class="language-html"><code>filename</code></pre></td><td>保存時のファイル名 (<code>attachment</code> 時に指定)</td><td><pre class="language-html"><code>"[ファイル名]"</code></pre></td><td>ファイル名</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="14" scope="rowgroup"><pre class="language-html"><code>Set-Cookie</code></pre></th><td rowspan="14" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="14">クライアントにCookieを保存させる<br>(属性は <code>;</code> 区切りで複数指定)</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[name]=[value]</code></pre></td><td>Cookie名と値</td></tr>
+                                        <tr><td><pre class="language-html"><code>Secure</code></pre></td><td>HTTPS接続時のみ送信</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>HttpOnly</code></pre></td><td>JavaScriptからのアクセス禁止 (XSS対策)</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td rowspan="3"><pre class="language-html"><code>SameSite</code></pre></td><td rowspan="3">クロスサイト送信の制限 (CSRF対策)</td><td><pre class="language-html"><code>Strict</code></pre></td><td>同一サイトのリクエストのみ送信</td></tr>
+                                        <tr><td><pre class="language-html"><code>Lax</code></pre></td><td>同一サイト + トップレベル遷移 (GET) で送信</td></tr>
+                                        <tr><td><pre class="language-html"><code>None</code></pre></td><td>常に送信 (<code>Secure</code> 必須)</td></tr>
+                                        <tr><td><pre class="language-html"><code>Domain</code></pre></td><td>Cookieを共有するドメイン<br>指定でサブドメインにも共有<br>省略時は発行元のみ</td><td><pre class="language-html"><code>[ドメイン]</code></pre></td><td>共有するドメイン名</td></tr>
+                                        <tr><td><pre class="language-html"><code>Path</code></pre></td><td>Cookieが有効なパス</td><td><pre class="language-html"><code>[パス]</code></pre></td><td>有効なパス (例: <code>/</code>)</td></tr>
+                                        <tr><td><pre class="language-html"><code>Expires</code></pre></td><td>保持期限 (日時)<br>省略時はセッションCookie</td><td><pre class="language-html"><code>[ddd, dd MMM yyyy HH:mm:ss GMT]</code></pre></td><td>保持期限の日時</td></tr>
+                                        <tr><td><pre class="language-html"><code>Max-Age</code></pre></td><td>保持期限 (秒数)<br><code>Expires</code> より優先<br><code>0</code> 以下で削除</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>保持期間の秒数</td></tr>
+                                        <tr><td><pre class="language-html"><code>Partitioned</code></pre></td><td>トップサイトごとにCookieを分離 (CHIPS)</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td rowspan="3"><pre class="language-html"><code>Priority</code></pre></td><td rowspan="3">削除時の優先度 (Chromium)</td><td><pre class="language-html"><code>Low</code></pre></td><td>低</td></tr>
+                                        <tr><td><pre class="language-html"><code>Medium</code></pre></td><td>中</td></tr>
+                                        <tr><td><pre class="language-html"><code>High</code></pre></td><td>高</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>X-Frame-Options</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">&lt;frame&gt; / &lt;iframe&gt; / &lt;object&gt; での表示制御 (クリックジャッキング対策)<br>CSPの <code>frame-ancestors</code> が後継</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>DENY</code></pre></td><td>全拒否</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>SAMEORIGIN</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>X-XSS-Protection</code></pre></th><td rowspan="3" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="3">ブラウザのXSSフィルタ (非推奨)<br>現在は <code>0</code> 推奨 + CSP利用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>0</code></pre></td><td>無効</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>1</code></pre></td><td>有効</td></tr>
+                                        <tr><td><pre class="language-html"><code>mode</code></pre></td><td>検出時の動作</td><td><pre class="language-html"><code>block</code></pre></td><td>ページ表示自体をブロック</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>X-Content-Type-Options</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>MIMEタイプの推測禁止</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>nosniff</code></pre></td><td><code>Content-Type</code> の指定を常に優先</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Strict-Transport-Security (HSTS)</code></pre></th><td rowspan="3" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="3">HTTPS接続の強制</td><td><pre class="language-html"><code>max-age</code></pre></td><td>強制する有効期間</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>有効期間の秒数 (例: <code>31536000</code> = 1年)</td></tr>
+                                        <tr><td><pre class="language-html"><code>includeSubDomains</code></pre></td><td>サブドメインにも適用</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                        <tr><td><pre class="language-html"><code>preload</code></pre></td><td>ブラウザのプリロードリスト登録を許可</td><td class="text-center">-</td><td class="text-center">-</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="15" scope="rowgroup"><pre class="language-html"><code>Content-Security-Policy
+Content-Security-Policy-Report-Only</code></pre></th><td rowspan="15" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="15">コンテンツセキュリティポリシー (CSP)<br><code>-Report-Only</code> は違反の監視・報告のみで遮断しない<br>ソース式はスペース区切りで列挙</td><td rowspan="3"><pre class="language-html"><code>default-src</code></pre></td><td rowspan="3">他のsrc指定がない場合の既定</td><td><pre class="language-html"><code>'self'</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                        <tr><td><pre class="language-html"><code>'none'</code></pre></td><td>すべて禁止</td></tr>
+                                        <tr><td><pre class="language-html"><code>[URL]</code></pre></td><td>指定URLを許可</td></tr>
+                                        <tr><td rowspan="2"><pre class="language-html"><code>script-src</code></pre></td><td rowspan="2">スクリプトの読み込み元<br>インラインは <code>nonce</code> / hash で許可</td><td><pre class="language-html"><code>'self'</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                        <tr><td><pre class="language-html"><code>'nonce-[値]'</code></pre></td><td>nonce属性が一致するインラインスクリプトを許可</td></tr>
+                                        <tr><td rowspan="2"><pre class="language-html"><code>style-src</code></pre></td><td rowspan="2">CSSの読み込み元</td><td><pre class="language-html"><code>'self'</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                        <tr><td><pre class="language-html"><code>data:</code></pre></td><td><code>data:</code> URIを許可</td></tr>
+                                        <tr><td rowspan="2"><pre class="language-html"><code>img-src</code></pre></td><td rowspan="2">画像の読み込み元</td><td><pre class="language-html"><code>'self'</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                        <tr><td><pre class="language-html"><code>data:</code></pre></td><td><code>data:</code> URIを許可</td></tr>
+                                        <tr><td rowspan="2"><pre class="language-html"><code>connect-src</code></pre></td><td rowspan="2"><strong>XHR / fetch / WebSocket</strong> の接続先<br>Ajax通信先の制限に使用</td><td><pre class="language-html"><code>'self'</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                        <tr><td><pre class="language-html"><code>[URL]</code></pre></td><td>指定URLを許可</td></tr>
+                                        <tr><td rowspan="2"><pre class="language-html"><code>frame-ancestors</code></pre></td><td rowspan="2">自ページを埋め込める親<br><code>X-Frame-Options</code> の後継</td><td><pre class="language-html"><code>'none'</code></pre></td><td>埋め込み禁止</td></tr>
+                                        <tr><td><pre class="language-html"><code>'self'</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                        <tr><td><pre class="language-html"><code>report-uri</code></pre></td><td>違反レポートの送信先 (旧式)</td><td><pre class="language-html"><code>[URI]</code></pre></td><td>レポート送信先URI</td></tr>
+                                        <tr><td><pre class="language-html"><code>report-to</code></pre></td><td>違反レポートの送信先グループ<br><code>Reporting-Endpoints</code> で定義</td><td><pre class="language-html"><code>[グループ名]</code></pre></td><td>送信先グループ名</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="3" scope="rowgroup"><pre class="language-html"><code>Referrer-Policy</code></pre></th><td rowspan="3" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="3"><code>Referer</code> の送信範囲</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>no-referrer</code></pre></td><td><code>Referer</code> を送信しない</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>same-origin</code></pre></td><td>同一オリジンにのみ送信</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>strict-origin-when-cross-origin</code></pre></td><td>同一オリジン : フルURL<br>クロスオリジン(既定値) : オリジンのみ <br>(HTTPS→HTTPは送信しない)</td></tr>
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>Permissions-Policy</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">ブラウザ機能 (カメラ等) の許可制御<br>機能名=(許可オリジン) の形式</td><td><pre class="language-html"><code>camera</code></pre></td><td>カメラ</td><td><pre class="language-html"><code>()</code></pre></td><td>すべてのオリジンで禁止</td></tr>
+                                        <tr><td><pre class="language-html"><code>geolocation</code></pre></td><td>位置情報</td><td><pre class="language-html"><code>(self)</code></pre></td><td>同一オリジンのみ許可</td></tr>
+                                    </tbody>
+                                    <tbody class="table-group-divider">
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>Access-Control-Allow-Origin</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">アクセスを許可するオリジン<br>複数許可時は <code>Vary: Origin</code> 併用</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[オリジン]</code></pre></td><td>指定オリジンを許可</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>*</code></pre></td><td>全オリジンを許可 (認証情報付きでは使用不可)</td></tr>
+                                        <tr><th rowspan="4" scope="rowgroup"><pre class="language-html"><code>Access-Control-Allow-Methods</code></pre></th><td rowspan="4" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="4">許可するメソッド (プリフライト応答)<br>コンマ区切り</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>GET</code></pre></td><td>GETを許可</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>POST</code></pre></td><td>POSTを許可</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>PUT</code></pre></td><td>PUTを許可</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>DELETE</code></pre></td><td>DELETEを許可</td></tr>
+                                        <tr><th rowspan="2" scope="rowgroup"><pre class="language-html"><code>Access-Control-Allow-Headers</code></pre></th><td rowspan="2" class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td rowspan="2">許可するリクエストヘッダ (プリフライト応答)<br>コンマ区切り</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>Content-Type</code></pre></td><td><code>Content-Type</code> を許可</td></tr>
+                                        <tr><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>Authorization</code></pre></td><td><code>Authorization</code> を許可</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Access-Control-Allow-Credentials</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>Cookie等の認証情報付き通信の許可<br>XHRは <code>withCredentials = true</code>、Fetchは <code>credentials: 'include'</code> が必要</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>true</code></pre></td><td>認証情報付き通信を許可</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Access-Control-Max-Age</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>プリフライト結果のキャッシュ期間<br>期間内はプリフライトを省略</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[秒数]</code></pre></td><td>キャッシュ期間の秒数</td></tr>
+                                        <tr><th scope="rowgroup"><pre class="language-html"><code>Access-Control-Expose-Headers</code></pre></th><td class="bg-success text-nowrap fw-bold text-white">レスポンス</td><td>JavaScriptから参照を許可するレスポンスヘッダ<br>未指定の独自ヘッダは <code>getResponseHeader()</code> で取得不可</td><td class="text-center">-</td><td class="text-center">-</td><td><pre class="language-html"><code>[ヘッダ名], ...</code></pre></td><td>参照を許可するヘッダ名 (コンマ区切り)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <h4 class="pt-4 border-bottom fw-bold">
                                 HTML
                             </h4>
@@ -550,7 +1113,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
 | JavaScript | ECMAScriptを実装したプログラミング言語<br>ブラウザ上で動作し、DOM操作やイベント処理により動的なWebページを実現する |
 | TypeScript | JavaScriptに静的型付けの機能を追加した言語<br>コンパイルによりJavaScriptに変換されて実行される |
 | JSON | JavaScriptのオブジェクト表記法をベースにしたデータ交換フォーマット<br>テキストベースで軽量なため、API通信等で広く使われる |
-| Ajax | ページ全体を再読み込みせずに、JavaScriptから非同期でサーバーとデータをやり取りする手法。 |
+| Ajax | ページ全体を再読み込みせずに、JavaScriptから非同期でサーバーとデータをやり取りする手法 |
 | XMLHttpRequest (XHR) | JavaScriptから非同期通信を行うための旧来のAPI<br>Ajaxの実現に用いられてきた |
 | CORBA <br>(Common Object Request Broker Architecture) | 異なるプログラミング言語・OS間でオブジェクトを分散連携させるための<br>ミドルウェア標準規格(ORBを介してリモートオブジェクトを呼び出す) |
 | SOAP <br>(Simple Object Access Protocol) | XML形式のメッセージを用いてネットワーク越しに情報交換を行うための<br>プロトコル<br>主にHTTP上でWebサービス間の連携に利用されてきた |
@@ -563,6 +1126,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
 | Web Storage <br>localStorage <br> sessionStorage | ブラウザ内にキーと値の形式でデータを保存するJavaScript API<br>Cookieと異なりサーバーへ自動送信されない |
 | Same-Origin Policy <br>(SOP) | 異なるオリジン(スキーム・ホスト・ポートの組)間での<br>リソースアクセスを制限するブラウザの基本的なセキュリティ機構 |
 | CORS <br> (Cross-Origin Resource Sharing) | Same-Origin Policyを緩和し、許可されたオリジン間の通信を可能にする仕組み |
+| HSTS <br>(HTTP Strict Transport Security) | <ul><li>一度Webサイトにアクセスすると、サーバーがレスポンスヘッダ(Strict-Transport-Security)で、<br>ブラウザに対し指定期間はHTTPSでのみ接続するよう指示する仕組み</li><li>SSLストリッピング等のHTTPへのダウングレード攻撃や中間者攻撃の防止に有効</li></ul> |
 | iframe | 別のHTML文書を現在のページ内に埋め込むためのHTML要素<br>クリックジャッキング等の攻撃にも利用され得る |
 | WebSocket | サーバーとブラウザ間で双方向・リアルタイムの通信を行うためのプロトコル・API |
 | SPA <br>(Single Page Application) | 初回読み込み後、JavaScriptによる画面遷移・再描画のみで動作するWebアプリケーションの形態 |
@@ -570,6 +1134,42 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
 | Node.js | ブラウザ外でJavaScriptを実行するためのランタイム環境<br>サーバーサイド開発等にも用いられる |
 | npm | JavaScript/Node.jsのパッケージを管理・配布するためのパッケージマネージャー |
 | Web Components | Custom Elements・Shadow DOM・Templateから成る、再利用可能なUI部品を作成するための標準技術群 |
+
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                サーバー証明書の警告
+                            </h2>
+                            <div id="md-tls-alert">
+
+| エラーコード | 分類 | 警告の種類 | 内容 | 原因 | 対処 |
+|---|---|---|---|---|---|
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_DATE_INVALID`</li><li>Firefox: `SEC_ERROR_EXPIRED_CERTIFICATE`</li><li>OpenSSL: `X509_V_ERR_CERT_HAS_EXPIRED` (10)</li></ul> | 有効期間 | 有効期限切れ | <ul><li>証明書の `notAfter` を過ぎている</li></ul> | <ul><li>更新忘れ</li><li>自動更新(ACME等)の失敗</li></ul> | <ol><li>証明書を更新・再発行する</li><li>更新の自動化と期限監視を行う</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_DATE_INVALID`</li><li>Firefox: `MOZILLA_PKIX_ERROR_NOT_YET_VALID_CERTIFICATE`</li><li>OpenSSL: `X509_V_ERR_CERT_NOT_YET_VALID` (9)</li></ul> | 有効期間 | 有効期間前 | <ul><li>証明書の `notBefore` より前の時刻で検証した</li></ul> | <ul><li>サーバー・クライアントの時計ずれ</li><li>発行直後の時刻差</li></ul> | <ol><li>NTPで時刻を同期する</li></ol> |
+| <ul><li>Firefox: `SEC_ERROR_EXPIRED_ISSUER_CERTIFICATE`</li><li>Chrome/Edge: `NET::ERR_CERT_DATE_INVALID`</li></ul> | 有効期間 | 発行元証明書の期限切れ | <ul><li>中間CA・ルートCAの証明書が期限切れ</li></ul> | <ul><li>古い中間証明書を配置している</li><li>CA側の証明書更新</li></ul> | <ol><li>最新の中間証明書に差し替える</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_VALIDITY_TOO_LONG`</li></ul> | 有効期間 | 有効期間が長すぎる | <ul><li>許容される最大有効期間(398日等)を超えている</li></ul> | <ul><li>古い方針で発行された証明書</li></ul> | <ol><li>規定内の有効期間で再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_REVOKED`</li><li>Firefox: `SEC_ERROR_REVOKED_CERTIFICATE`</li><li>OpenSSL: `X509_V_ERR_CERT_REVOKED` (23)</li></ul> | 失効 | 失効 | <ul><li>CRL/OCSPで失効済みと判定された</li></ul> | <ul><li>秘密鍵の漏洩</li><li>誤発行</li><li>認証局による失効</li></ul> | <ol><li>新しい鍵ペアで再発行する</li><li>旧証明書を撤去する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_UNABLE_TO_CHECK_REVOCATION`</li><li>OpenSSL: `X509_V_ERR_UNABLE_TO_GET_CRL` (3)</li></ul> | 失効 | 失効確認不可 | <ul><li>CRL/OCSPに到達できず失効状態を確認できない</li></ul> | <ul><li>失効情報サーバーの停止</li><li>FW・プロキシによる遮断</li></ul> | <ol><li>通信経路を確認する</li><li>OCSP Staplingを導入する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_NO_REVOCATION_MECHANISM`</li></ul> | 失効 | 失効確認手段なし | <ul><li>証明書にCRL/OCSPの情報がない</li></ul> | <ul><li>失効情報を含まない証明書の発行</li></ul> | <ol><li>CRL配布点・OCSP情報を含む証明書で再発行する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_CRL_HAS_EXPIRED` (12)</li></ul> | 失効 | CRL期限切れ | <ul><li>取得したCRLが有効期限切れ</li></ul> | <ul><li>CA側のCRL更新の停止</li><li>古いCRLのキャッシュ</li></ul> | <ol><li>最新のCRLを取得する</li><li>CA側の更新状況を確認する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_AUTHORITY_INVALID`</li><li>Firefox: `MOZILLA_PKIX_ERROR_SELF_SIGNED_CERT`</li><li>OpenSSL: `X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT` (18)</li></ul> | 発行元(信頼) | 自己署名証明書 | <ul><li>発行者と主体者が同一で、信頼済みCAでもない</li></ul> | <ul><li>開発・社内機器のオレオレ証明書を流用</li></ul> | <ol><li>正規CAの証明書に置き換える</li><li>社内CAのルートを信頼登録する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_SELF_SIGNED_CERT_IN_CHAIN` (19)</li></ul> | 発行元(信頼) | チェーン内に自己署名証明書 | <ul><li>チェーンの途中に未信頼の自己署名証明書がある</li></ul> | <ul><li>チェーン構成のミス</li><li>ルートCAが未登録</li></ul> | <ol><li>チェーンを正しく構成する</li><li>ルートCAをトラストストアに登録する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_AUTHORITY_INVALID`</li><li>Firefox: `SEC_ERROR_UNKNOWN_ISSUER`</li><li>OpenSSL: `X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT_LOCALLY` (20)</li></ul> | 発行元(信頼) | 不明な発行元 | <ul><li>発行元CAがトラストストアにない</li></ul> | <ul><li>未知のCA</li><li>ルートCAが未導入</li></ul> | <ol><li>ルート証明書を導入する</li><li>広く信頼されるCAを利用する</li></ol> |
+| <ul><li>Firefox: `SEC_ERROR_UNTRUSTED_ISSUER`</li><li>OpenSSL: `X509_V_ERR_CERT_UNTRUSTED` (27)</li></ul> | 発行元(信頼) | 信頼されない発行元 | <ul><li>発行元CAが明示的に信頼されていない</li></ul> | <ul><li>CAの信頼取り消し</li><li>信頼設定の不足</li></ul> | <ol><li>別のCAで再発行する</li><li>信頼設定を見直す</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_AUTHORITY_INVALID`</li><li>Firefox: `SEC_ERROR_UNKNOWN_ISSUER`</li><li>OpenSSL: `X509_V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE` (21)</li></ul> | 発行元(信頼) | 中間証明書の不足 | <ul><li>チェーンが途中で途切れ、検証できない</li></ul> | <ul><li>サーバーに中間証明書を載せ忘れ</li></ul> | <ol><li>中間証明書を含むフルチェーンを配置する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_COMMON_NAME_INVALID`</li><li>Firefox: `SSL_ERROR_BAD_CERT_DOMAIN`</li><li>OpenSSL: `X509_V_ERR_HOSTNAME_MISMATCH` (62)</li></ul> | 名前 | ホスト名不一致 | <ul><li>CN/SANにアクセス先ホスト名が含まれない</li></ul> | <ul><li>別ドメイン用の証明書を流用</li><li>IPアドレスでアクセス</li><li>SANの不足</li></ul> | <ol><li>SANに正しいFQDNを含めて再発行する</li><li>FQDNでアクセスする</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_NAME_CONSTRAINT_VIOLATION`</li></ul> | 名前 | 名前制約違反 | <ul><li>中間CAの名前制約に反する名前が含まれる</li></ul> | <ul><li>CAの名前制約設定との不整合</li></ul> | <ol><li>制約に合う名前で再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_INVALID`</li><li>OpenSSL: `X509_V_ERR_CERT_SIGNATURE_FAILURE` (7)</li></ul> | 署名・暗号 | 署名検証失敗 | <ul><li>証明書の署名が不正、または改ざんされている</li></ul> | <ul><li>改ざん</li><li>中間者(MITM)攻撃</li><li>証明書ファイルの破損</li></ul> | <ol><li>通信経路と証明書の完全性を確認する</li><li>証明書を再取得する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_WEAK_SIGNATURE_ALGORITHM`</li><li>Firefox: `MOZILLA_PKIX_ERROR_ADDITIONAL_POLICY_CONSTRAINT_FAILED`</li></ul> | 署名・暗号 | 弱い署名アルゴリズム | <ul><li>MD5・SHA-1など脆弱な署名方式が使われている</li></ul> | <ul><li>古い証明書の継続利用</li></ul> | <ol><li>SHA-256以上で再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_WEAK_KEY`</li></ul> | 署名・暗号 | 弱い公開鍵 | <ul><li>RSA 1024bit以下など鍵長が不足している</li></ul> | <ul><li>古い証明書の継続利用</li></ul> | <ol><li>RSA 2048bit以上またはECDSAで再発行する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_INVALID_PURPOSE` (26)</li></ul> | 用途・拡張 | 用途不正 | <ul><li>`keyUsage` / `extendedKeyUsage` が用途に合わない</li></ul> | <ul><li>サーバー認証用でない証明書の流用</li></ul> | <ol><li>`serverAuth` を含む証明書を使用する</li></ol> |
+| <ul><li>OpenSSL: `X509_V_ERR_PATH_LENGTH_EXCEEDED` (25)</li></ul> | 用途・拡張 | パス長制約の超過 | <ul><li>`basicConstraints` のパス長制約を超えている</li></ul> | <ul><li>チェーンの段数が多すぎる</li><li>CA証明書の制約設定ミス</li></ul> | <ol><li>チェーンを正しく構成する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERTIFICATE_TRANSPARENCY_REQUIRED`</li></ul> | 用途・拡張 | 証明書の透明性(CT)不備 | <ul><li>SCT(署名付き証明書タイムスタンプ)がない</li></ul> | <ul><li>CTログへの未登録</li></ul> | <ol><li>CT対応のCAで再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `NET::ERR_CERT_CONTAINS_ERRORS`</li></ul> | 用途・拡張 | 証明書エラー(汎用) | <ul><li>証明書に複数の不備が含まれる</li></ul> | <ul><li>構造不正や複合的な設定ミス</li></ul> | <ol><li>`openssl x509 -text` 等で内容を確認し再発行する</li></ol> |
+| <ul><li>Chrome/Edge: `ERR_SSL_VERSION_OR_CIPHER_MISMATCH`</li><li>Firefox: `SSL_ERROR_NO_CYPHER_OVERLAP`</li></ul> | プロトコル | TLSバージョン・暗号スイート不一致 | <ul><li>双方で共通のTLSバージョンや暗号がない</li></ul> | <ul><li>TLS 1.0/1.1のみ有効</li><li>弱い暗号のみ許可</li></ul> | <ol><li>TLS 1.2/1.3を有効化する</li><li>暗号スイートを見直す</li></ol> |
+| <ul><li>Chrome/Edge: `ERR_SSL_PROTOCOL_ERROR`</li></ul> | プロトコル | TLSプロトコルエラー | <ul><li>ハンドシェイクが失敗した</li></ul> | <ul><li>サーバー設定の誤り</li><li>非TLSポートへの接続</li><li>中間装置の干渉</li></ul> | <ol><li>サーバーのTLS設定とポートを確認する</li></ol> |
+
 
                             </div>
                         </article>
@@ -606,6 +1206,9 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <a href="#md-http-method">HTTPメソッド</a>
                                     </li>
                                     <li>
+                                        <a href="#proxy">プロキシを介した接続方法</a>
+                                    </li>
+                                    <li>
                                         <a href="#md-http-status">HTTPステータスコード</a>
                                     </li>
                                     <li>
@@ -615,8 +1218,18 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <a href="#res-header">レスポンスヘッダ</a>
                                     </li>
                                     <li>
+                                        <a href="#http-header">HTTPヘッダ</a>
+                                    </li>
+                                    <li>
                                         <a href="#md-html">HTMLに関する用語</a>
                                     </li>
+                                    <li>
+                                        <a href="#md-tls-alert">サーバー証明書の警告</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+
                                 </ol>
                             </div>
 
@@ -646,13 +1259,14 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["vimTip", "pythonTip", "visualstudioTip"]);
-            new Pagination(4, serverModel.page, "pagination");
+            new Pagination(5, serverModel.page, "pagination");
 
             const mdLists = [
                 "md-text",
                 "md-html",
                 "md-http-method",
                 "md-http-status",
+                "md-tls-alert",
             ];
 
             for (const mdID of mdLists) {

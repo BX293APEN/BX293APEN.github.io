@@ -243,8 +243,24 @@ MySQLでは`REGEXP`(別名`RLIKE`)演算子や`REGEXP_LIKE()`などの関数で�
 <br>
 <br>
 
-## トランザクション処理
+## データベース制約
 
+| 制約 | 日本語名 | 対象 | 内容 | 整合性 | 整合性内容 | エラー内容 |
+|------|----------|------|------|--------|------------|------------|
+| PRIMARY KEY | 主キー制約 | <ul><li>列</li><li>複数列の組</li><li>1テーブルに1つのみ</li></ul> | <ul><li>行を一意に識別する</li><li><code>UNIQUE</code> かつ <code>NOT NULL</code> を暗黙的に満たす</li></ul> | <ul><li>実体整合性</li></ul> | <ul><li>各行が一意に識別できる</li><li>主キーが NULL でない</li></ul> | <ul><li>重複値の登録や更新で一意性違反 (SQLSTATE <code>23505</code>)</li><li>NULL の登録で NOT NULL 違反 (SQLSTATE <code>23502</code>)</li></ul> |
+| FOREIGN KEY | 外部キー制約 | <ul><li>列</li><li>複数列の組</li></ul> | <ul><li>他テーブル (または自テーブル) の主キーやユニークキーを参照する</li><li>参照先に存在しない値を禁止する</li></ul> | <ul><li>参照整合性</li></ul> | <ul><li>外部キーの値が必ず参照先に存在する</li></ul> | <ul><li>参照先に無い値の登録や更新で外部キー違反 (SQLSTATE <code>23503</code>)</li><li>参照されている親行の削除や更新で外部キー違反 (SQLSTATE <code>23503</code>)</li><li><code>ON DELETE</code> と <code>ON UPDATE</code> の指定により CASCADE や SET NULL 等の動作に変わる</li></ul> |
+| UNIQUE | 一意制約 | <ul><li>列</li><li>複数列の組</li><li>1テーブルに複数定義可能</li></ul> | <ul><li>値の重複を禁止する</li><li>NULL の扱いは DBMS により異なる</li></ul> | <ul><li>実体整合性</li></ul> | <ul><li>重複する行が存在しない</li></ul> | <ul><li>重複値の登録や更新で一意性違反 (SQLSTATE <code>23505</code>)</li></ul> |
+| NOT NULL | 非NULL制約 | <ul><li>列のみ</li></ul> | <ul><li>NULL の格納を禁止する</li></ul> | <ul><li>ドメイン整合性</li></ul> | <ul><li>列に必ず値が入っている</li></ul> | <ul><li>NULL の登録や更新で NOT NULL 違反 (SQLSTATE <code>23502</code>)</li></ul> |
+| CHECK | 検査制約 | <ul><li>列</li><li>テーブル</li></ul> | <ul><li>条件式を満たす値のみ許可する<br>例: <code>CHECK (age &gt;= 0)</code></li></ul> | <ul><li>ドメイン整合性</li><li>ユーザー定義整合性</li></ul> | <ul><li>値が定義された範囲や形式に収まる</li><li>業務ルールが守られる</li></ul> | <ul><li>条件式が偽になる登録や更新で CHECK 違反 (SQLSTATE <code>23514</code>)</li><li>条件式が NULL (不明) になる場合は違反にならない</li></ul> |
+| DEFAULT | 既定値 | <ul><li>列のみ</li></ul> | <ul><li>値が省略された場合に自動設定する値を指定する</li><li>厳密には制約ではなく列属性</li></ul> | <ul><li>ドメイン整合性</li></ul> | <ul><li>省略時にも列に妥当な値が入る</li></ul> | <ul><li>DEFAULT 自体のエラーは無い</li><li>既定値が型や他の制約に反する場合はその制約のエラーになる</li></ul> |
+| EXCLUDE | 排他制約<br>(PostgreSQL 固有) | <ul><li>列</li><li>式 (演算子を指定)</li></ul> | <ul><li>指定した演算子で比較する</li><li>行同士の競合を禁止する<br>例: 範囲の重なり</li></ul> | <ul><li>ユーザー定義整合性</li></ul> | <ul><li>競合する行が存在しない</li></ul> | <ul><li>競合する行の登録や更新で排他制約違反 (SQLSTATE <code>23P01</code>)</li></ul> |
+| ASSERTION | 表明<br>(SQL標準のみ) | <ul><li>複数テーブルにまたがる条件</li></ul> | <ul><li>データベース全体で満たすべき条件を定義する</li><li>主要な DBMS ではほぼ未実装</li></ul> | <ul><li>ユーザー定義整合性</li></ul> | <ul><li>テーブル間にまたがる業務ルールが守られる</li></ul> | <ul><li>条件を偽にする更新でエラー (標準仕様上)</li><li>実装が無いためトリガー等で代替する</li></ul> |  
+
+
+<br>
+<br>
+
+## トランザクション処理
 
 <ol class="border">
     <li class="border-bottom py-4">

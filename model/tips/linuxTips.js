@@ -168,7 +168,10 @@ class LinuxModel{
                             {
                                 text: "/proc/[PID]/",
                                 icon: "fa fa-folder-open",
-                                nodes: [ { text: "各プロセスの情報(cmdline, status, fd/)", icon: "fa fa-file" } ]
+                                nodes: [ 
+                                    { text: "各プロセスの情報(cmdline, status, fd/)", icon: "fa fa-file" },
+                                    { text: "/proc/[PID]/environ", icon: "fa-regular fa-file", nodes: [ { text: "プロセス起動時点の環境変数", icon: "fa fa-file", tags: ["NUL区切り"] } ] }
+                                ]
                             },
                             {
                                 text: "/proc/sys/",

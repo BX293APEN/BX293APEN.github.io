@@ -15,11 +15,16 @@ class MarkDownParent {
                 element.parentNode.insertBefore(divTag, element); 
                 divTag.appendChild(element);
             } 
-            element.classList.add("table", "table-bordered", "table-striped", "text-nowrap");
+            element.classList.add("table", "table-bordered", "text-nowrap");
+            if (!element.classList.contains("table-nostriped")) {
+                element.classList.add("table-striped");
+            }
         }
 
         for (const element of md.querySelectorAll("td")) {
-            element.classList.add("text-nowrap");
+            if (!element.classList.contains("text-wrap")) {
+                element.classList.add("text-nowrap");
+            }
         }
 
         let h1Count = 0;

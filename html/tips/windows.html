@@ -75,6 +75,23 @@ netstat -ano | findstr "8080"               # netstat -anoの結果から8080が
                             </p>
                         </article>
                         <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="unzip">
+                                フォルダ内のzipファイルを全て展開
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    unzip.bat
+                                </div>
+                                <pre><code class="language-bash">@echo off
+cd /d "%~dp0"
+
+for /f "delims=" %%i in ('dir /b *.zip') do (
+    echo unzip : "%%i"
+    powershell -command "Expand-Archive -LiteralPath '%%i' -DestinationPath '%%~ni' -Force"
+)</code></pre>
+                            </p>
+                        </article>
+                        <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="tpm">
                                 TPM (Trusted Platform Module)
                             </h3>
@@ -553,10 +570,13 @@ bootrec /rebuildbcd                 # Boot Configuration Data (Windows の起動
                                         <a href="#wininfo">Windowsの情報を確認</a>
                                     </li>
                                     <li>
-                                        <a href="#win11-setup">Windows 11 セットアップ</a>
+                                        <a href="#unzip">フォルダ内のzipファイルを全て展開</a>
                                     </li>
                                     <li>
                                         <a href="#tpm">TPMの確認</a>
+                                    </li>
+                                    <li>
+                                        <a href="#win11-setup">Windows 11 セットアップ</a>
                                     </li>
                                     <li>
                                         <a href="#nettcp">TCPポートが開いているかを確認</a>
