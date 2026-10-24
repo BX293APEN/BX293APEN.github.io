@@ -112,11 +112,21 @@
                 "md-ram", 
             ];
 
-            for (const mdID of mdLists) {
-                new MarkDownMaker(
-                    id              = mdID,
-                )
-            }
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
         </script>
     </footer>
 </html>
