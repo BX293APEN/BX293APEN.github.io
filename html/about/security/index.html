@@ -1920,11 +1920,22 @@ flowchart RL
                 "md-itsms",
             ];
 
-            for (const mdID of mdLists) {
-                new MarkDownMaker(
-                    id              = mdID,
-                )
-            }
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
+            
             new Pagination(1, securityModel.page, "pagination");
         </script>
     </footer>
