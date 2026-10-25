@@ -1,0 +1,1363 @@
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">通信サービス・方式</th>
+                <th scope="col">伝送媒体</th>
+                <th scope="col">説明</th>
+                <th scope="col">規格</th>
+                <th scope="col">特徴</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+            <!-- ### 有線LAN (イーサネット / LANケーブル)
+            | 列 | 内容 |
+            |---|---|
+            | 通信サービス・方式 | 有線LAN (イーサネット) |
+            | 伝送媒体 | ツイストペアケーブル (UTP / STP) |
+            | 規格 | IEEE 802.3 (規格内にカテゴリ別のネスト表 / 4カラム) |
+            | 特徴 | 伝送距離・STP/UTPの違い・オートネゴシエーション等 |
+            -->
+            <tr>
+                <td>
+                    有線LAN<br>
+                    (イーサネット)
+                </td>
+                <td>
+                    LANケーブル<br>
+                    (ツイストペアケーブル)
+                </td>
+                <td>
+                    構内で使用する有線LAN規格。ケーブルのカテゴリにより、対応できる速度と伝送距離が決まる
+                    <ul>
+                        <li>
+                            <strong>UTP(Unshielded Twisted Pair)</strong><br>
+                            <ul>
+                                <li>シールドなし</li>
+                                <li>安価で取り回しやすく、最も普及している</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>STP(Shielded Twisted Pair)</strong><br>
+                            <ul>
+                                <li>シールドあり</li>
+                                <li>ノイズに強いが、太く曲げにくい</li>
+                                <li>接地(アース)が必要</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    IEEE 802.3<br>
+                    (イーサネット)
+                    <!-- #### LANケーブルのカテゴリ一覧 (ネスト表 / 4カラム)
+                    | カラム | 内容 |
+                    |---|---|
+                    | カテゴリ | ケーブルのカテゴリ (CAT5 ～ CAT8) |
+                    | IEEE | 対応するイーサネット規格名とIEEE 802.3の規格番号 |
+                    | 最大伝送速度 | そのカテゴリで利用できる最大の通信速度 |
+                    | 伝送距離 | 最大速度で通信できる |
+                    
+                    #### カテゴリ別の対応規格
+                    | カテゴリ | 規格名 | IEEE |
+                    |---|---|---|
+                    | CAT5 | 100BASE-TX | 802.3u |
+                    | CAT5e | 1000BASE-T / 2.5GBASE-T | 802.3ab / 802.3bz |
+                    | CAT6 | 10GBASE-T / 5GBASE-T | 802.3an / 802.3bz |
+                    | CAT6A | 10GBASE-T | 802.3an |
+                    | CAT7 / CAT7A | 10GBASE-T | 802.3an |
+                    | CAT8 | 25GBASE-T / 40GBASE-T | 802.3bq |
+                    -->
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">カテゴリ</th>
+                                <th scope="col" class="text-nowrap">IEEE</th>
+                                <th scope="col" class="text-nowrap">最大伝送速度</th>
+                                <th scope="col" class="text-nowrap">伝送距離</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-nowrap">CAT5</td>
+                                <td class="text-nowrap">100BASE-TX<br>(IEEE 802.3u)</td>
+                                <td class="text-nowrap">100Mbps</td>
+                                <td class="text-nowrap">100m</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">CAT5e</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>1000BASE-T<br>(IEEE 802.3ab)</li>
+                                        <li>2.5GBASE-T<br>(IEEE 802.3bz)</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>1Gbps</li>
+                                        <li>2.5Gbps<br>(2.5GBASE-T使用時)</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">100m</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">CAT6</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>10GBASE-T<br>(IEEE 802.3an)</li>
+                                        <li>5GBASE-T<br>(IEEE 802.3bz)</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>10Gbps</li>
+                                        <li>5Gbps<br>(5GBASE-T使用時)</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>10Gbps : 55m以内</li>
+                                        <li>5Gbps以下 : 100m</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">CAT6A</td>
+                                <td class="text-nowrap">10GBASE-T<br>(IEEE 802.3an)</td>
+                                <td class="text-nowrap">10Gbps</td>
+                                <td class="text-nowrap">100m</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>CAT7</li>
+                                        <li>CAT7A</li>
+                                    </ul>
+                                    (STPのみ)
+                                </td>
+                                <td class="text-nowrap">10GBASE-T<br>(IEEE 802.3an)</td>
+                                <td class="text-nowrap">10Gbps</td>
+                                <td class="text-nowrap">100m</td>
+                            </tr>
+                            <tr>
+                                <td>CAT8<br>(STPのみ)</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>25GBASE-T</li>
+                                        <li>40GBASE-T</li>
+                                    </ul>
+                                    (IEEE 802.3bq)
+                                </td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>25Gbps</li>
+                                        <li>40Gbps</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">30m</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <ul>
+                        <li>2.5GBASE-T / 5GBASE-Tは、既存のCAT5e(2.5Gbps)・CAT6(5Gbps)の配線を流用して高速化するための規格</li>
+                        <li>伝送距離は基本的に100mまで(CAT8は30m)</li>
+                        <li>CAT7 / CAT7A / CAT8はSTPケーブルのみ</li>
+                        <li>長距離や高速・ノイズ環境には光ファイバを使用</li>
+                        <li>
+                            <strong>オートネゴシエーション</strong><br>
+                            <ul>
+                                <li>接続した機器同士が、通信速度(10 / 100 / 1000Mbps等)と通信モード(全二重 / 半二重)を自動で交渉して決定する</li>
+                                <li>1000BASE-T以上では必須(100BASE-TXでは任意)</li>
+                                <li>片側だけ速度・通信モードを固定設定にすると、自動側が半二重と判断してデュプレックスミスマッチが起き、通信品質が低下することがある</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>MDI / MDI-X とケーブルの種類</strong><br>
+                            <ul>
+                                <li>ポートの送受信ピンの割り当てには MDI と MDI-X の2種類があり、接続するポートの組み合わせによってストレートケーブルとクロスケーブルを使い分ける</li>
+                                <li>送信側のピンを、相手の受信側のピンに接続する必要がある</li>
+                            </ul>
+                            <!-- #### MDI / MDI-X (3カラム)
+                            | 項目 | MDI | MDI-X |
+                            |---|---|---|
+                            | 送信ピン | 1, 2 | 3, 6 |
+                            | 受信ピン | 3, 6 | 1, 2 |
+                            | 主な機器 | PC・サーバ・ルータ (のNIC) | ハブ・スイッチ |
+                            -->
+                            <p class="mb-1"><strong>MDI / MDI-X</strong></p>
+                            <table class="table table-sm table-bordered mb-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-nowrap">項目</th>
+                                        <th scope="col" class="text-nowrap">MDI</th>
+                                        <th scope="col" class="text-nowrap">MDI-X</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">送信ピン</td>
+                                        <td class="text-nowrap">1, 2</td>
+                                        <td class="text-nowrap">3, 6</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">受信ピン</td>
+                                        <td class="text-nowrap">3, 6</td>
+                                        <td class="text-nowrap">1, 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">主な機器</td>
+                                        <td>PC・サーバ・ルータ<br>(のNIC)</td>
+                                        <td>ハブ・スイッチ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- #### ストレートケーブルとクロスケーブル (3カラム)
+                            | 項目 | ストレートケーブル | クロスケーブル |
+                            |---|---|---|
+                            | 結線 | 両端で同じピン同士を接続 | 送信ペアと受信ペアを入れ替える |
+                            | 配線規格 | 両端とも T568B (または両端とも T568A) | 片端 T568A、反対端 T568B |
+                            | 100BASE-TX以下 | 1-1, 2-2, 3-3, 6-6 | 1-3, 2-6, 3-1, 6-2 |
+                            | 1000BASE-T | 8本すべて同じピン同士 | 上記に加え 4-7, 5-8, 7-4, 8-5 |
+                            -->
+                            <p class="mb-1"><strong>ストレートケーブルとクロスケーブル</strong></p>
+                            <table class="table table-sm table-bordered mb-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-nowrap">項目</th>
+                                        <th scope="col" class="text-nowrap">ストレートケーブル</th>
+                                        <th scope="col" class="text-nowrap">クロスケーブル</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">結線</td>
+                                        <td>両端で同じピン同士を接続</td>
+                                        <td>送信ペアと受信ペアを入れ替える</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">配線規格</td>
+                                        <td>両端とも T568B<br>(または両端とも T568A)</td>
+                                        <td>片端 T568A、反対端 T568B</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">100BASE-TX以下</td>
+                                        <td>1-1, 2-2, 3-3, 6-6</td>
+                                        <td>1-3, 2-6, 3-1, 6-2</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">1000BASE-T</td>
+                                        <td>8本すべて同じピン同士</td>
+                                        <td>上記に加え 4-7, 5-8, 7-4, 8-5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="small mb-2">※ ピン番号は「片端のピン-反対端のピン」を表す</p>
+                            <!-- #### ポートの組み合わせとケーブル (3カラム)
+                            | 接続するポート | 使うケーブル | 例 |
+                            |---|---|---|
+                            | MDI ↔ MDI-X | ストレート | PC ↔ スイッチ |
+                            | MDI ↔ MDI | クロス | PC ↔ PC |
+                            | MDI-X ↔ MDI-X | クロス | スイッチ ↔ スイッチ (旧型機器) |
+                            -->
+                            <p class="mb-1"><strong>ポートの組み合わせとケーブル</strong></p>
+                            <table class="table table-sm table-bordered mb-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="text-nowrap">接続するポート</th>
+                                        <th scope="col" class="text-nowrap">使うケーブル</th>
+                                        <th scope="col" class="text-nowrap">例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">MDI ↔ MDI-X</td>
+                                        <td class="text-nowrap">ストレート</td>
+                                        <td>PC ↔ スイッチ</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">MDI ↔ MDI</td>
+                                        <td class="text-nowrap">クロス</td>
+                                        <td>PC ↔ PC</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">MDI-X ↔ MDI-X</td>
+                                        <td class="text-nowrap">クロス</td>
+                                        <td>スイッチ ↔ スイッチ<br>(旧型機器)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul>
+                                <li>MDI-Xは、機器の内部で送受信を入れ替えているポート。家庭用ルータのLANポートのようにスイッチ機能を内蔵している場合はMDI-Xになる</li>
+                                <li>
+                                    <strong>Auto MDI/MDI-X</strong><br>
+                                    <ul>
+                                        <li>接続相手に合わせて、ポート側が送受信ピンを自動で入れ替える機能</li>
+                                        <li>規格上はオプションだが、現在の機器はほぼ対応しており、ケーブルの種類を意識する必要はほとんどない</li>
+                                    </ul>
+                                </li>
+                                <li>1000BASE-Tは4対すべてを送受信に使うため、100Mbps用のクロスケーブル (2対のみ入れ替え) では1000BASE-Tで通信できず、100Mbpsでしかリンクしない</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### リンクアグリゲーション (有線LANの機能)
+            | 列 | 内容 |
+            |---|---|
+            | 通信サービス・方式 | リンクアグリゲーション (Link Aggregation) |
+            | 伝送媒体 | LANケーブル (ツイストペアケーブル) / 光ファイバ |
+            | 規格 | IEEE 802.1AX (旧 IEEE 802.3ad) |
+            | 特徴 | 帯域の拡大 / 冗長性 / LACPによる動的な束ね / フロー単位の負荷分散 |
+            -->
+            <tr>
+                <td>
+                    リンクアグリゲーション<br>
+                    (Link Aggregation)
+                </td>
+                <td>
+                    LANケーブル<br>
+                    (ツイストペアケーブル)<br>
+                    / 光ファイバ
+                </td>
+                <td>
+                    <ul>
+                        <li>複数の物理ポート(リンク)を束ねて、1本の論理的なリンクとして扱う技術</li>
+                        <li>スイッチ間、スイッチ・サーバ間の接続で利用</li>
+                        <li>Ciscoでは EtherChannel、サーバ(NIC)側ではチーミング / ボンディングとも呼ばれる</li>
+                    </ul>
+                </td>
+                <td>
+                    IEEE 802.1AX<br>
+                    (旧 IEEE 802.3ad)
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            <strong>帯域の拡大</strong><br>
+                            <ul>
+                                <li>束ねた本数分の帯域を利用できる</li>
+                                <li>例 : 1Gbps × 4本 → 合計4Gbps</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>冗長性</strong><br>
+                            <ul>
+                                <li>束ねたリンクの1本が故障しても、残りのリンクで通信を継続できる</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>LACP(Link Aggregation Control Protocol)</strong><br>
+                            <ul>
+                                <li>リンクの束ねを動的にネゴシエーションできる</li>
+                                <li>静的な設定も可能</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>負荷分散</strong><br>
+                            <ul>
+                                <li>フロー単位(送信元・宛先のMACアドレスやIPアドレス等のハッシュ値)でリンクを振り分ける</li>
+                                <li>1つの通信の速度は1本分のまま</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>束ねる条件</strong><br>
+                            <ul>
+                                <li>同じ速度・通信モードのポートに揃える必要がある</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### 電波 -->
+            <tr>
+                <td class="text-nowrap">無線LAN(Wi-Fi)</td>
+                <td>電波</td>
+                <td>構内で使用する無線LAN規格</td>
+                <td>
+                    IEEE 802.11
+                    <!-- #### 無線LAN規格一覧 (ネスト表 / 7カラム)
+                    | カラム | 内容 |
+                    |---|---|
+                    | Wi-Fi | Wi-Fi Allianceが定める世代名 (Wi-Fi 4より前は正式な世代名がないため「-」) |
+                    | IEEE | 対応するIEEE 802.11規格 |
+                    | 使用周波数帯 | 利用する周波数帯 |
+                    | 理論値速度 | 規格上の最大通信速度 (実効速度は理論値より大幅に低下する) |
+                    | 変調方式 | 電波にデータを載せる方式 (QAMは多値数が大きいほど高速だが、良好な電波環境が必要 / 「BPSK〜」は電波状況に応じて低速側へ切り替わることを示す) |
+                    | 多重化方式 | 複数の信号・端末・ストリームを同時に扱う方式 (OFDM / OFDMA / MIMO等 / 11bのみスペクトラム拡散のDSSS) |
+                    | 対応暗号化方式 | 対応する暗号化方式 |
+                    #### 規格別の変調方式・多重化方式
+                    | IEEE | 変調方式 | 多重化方式 |
+                    |---|---|---|
+                    | 802.11a | BPSK〜64-QAM | OFDM |
+                    | 802.11b | CCK / DQPSK / DBPSK | DSSS |
+                    | 802.11g | BPSK〜64-QAM / CCK (11b互換) | OFDM / DSSS (11b互換) |
+                    | 802.11n | BPSK〜64-QAM | OFDM + MIMO (空間多重) |
+                    | 802.11ac | BPSK〜256-QAM | OFDM + MU-MIMO (下りのみ) |
+                    | 802.11ax | BPSK〜1024-QAM | OFDMA + MU-MIMO (上り・下り) |
+                    | 802.11be | BPSK〜4096-QAM | OFDMA + MU-MIMO (最大16ストリーム) |
+                    | 802.11bn | 未確定 | 未確定 |
+                    -->
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">Wi-Fi</th>
+                                <th scope="col" class="text-nowrap">IEEE</th>
+                                <th scope="col" class="text-nowrap">使用周波数帯</th>
+                                <th scope="col" class="text-nowrap">理論値速度</th>
+                                <th scope="col" class="text-nowrap">変調方式</th>
+                                <th scope="col" class="text-nowrap">多重化方式</th>
+                                <th scope="col" class="text-nowrap">対応暗号化方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-nowrap">-</td>
+                                <td class="text-nowrap">IEEE 802.11a</td>
+                                <td class="text-nowrap">5GHz</td>
+                                <td class="text-nowrap">54Mbps</td>
+                                <td class="text-nowrap">BPSK〜64-QAM</td>
+                                <td class="text-nowrap">OFDM</td>
+                                <td>WEP<br>(WPA / WPA2は機器依存)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">-</td>
+                                <td class="text-nowrap">IEEE 802.11b</td>
+                                <td class="text-nowrap">2.4GHz</td>
+                                <td class="text-nowrap">11Mbps</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>CCK (5.5 / 11Mbps)</li>
+                                        <li>DQPSK (2Mbps)</li>
+                                        <li>DBPSK (1Mbps)</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">DSSS<br>(直接スペクトラム拡散)</td>
+                                <td>WEP<br>(WPA / WPA2は機器依存)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">-</td>
+                                <td class="text-nowrap">IEEE 802.11g</td>
+                                <td class="text-nowrap">2.4GHz</td>
+                                <td class="text-nowrap">54Mbps</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>BPSK〜64-QAM</li>
+                                        <li>CCK (11b互換)</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>OFDM</li>
+                                        <li>DSSS (11b互換)</li>
+                                    </ul>
+                                </td>
+                                <td>WEP<br>(WPA / WPA2は機器依存)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">Wi-Fi 4</td>
+                                <td class="text-nowrap">IEEE 802.11n</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>2.4GHz</li>
+                                        <li>5GHz</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">600Mbps</td>
+                                <td class="text-nowrap">BPSK〜64-QAM</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>OFDM</li>
+                                        <li>MIMO (空間多重)</li>
+                                    </ul>
+                                </td>
+                                <td>WPA2<br>(WPA3は機器依存)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">Wi-Fi 5</td>
+                                <td class="text-nowrap">IEEE 802.11ac</td>
+                                <td class="text-nowrap">5GHz</td>
+                                <td class="text-nowrap">6.9Gbps</td>
+                                <td class="text-nowrap">BPSK〜256-QAM</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>OFDM</li>
+                                        <li>MU-MIMO (下りのみ)</li>
+                                    </ul>
+                                </td>
+                                <td>WPA2<br>(WPA3は機器依存)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">Wi-Fi 6</td>
+                                <td class="text-nowrap">IEEE 802.11ax</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>2.4GHz</li>
+                                        <li>5GHz</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">9.6Gbps</td>
+                                <td class="text-nowrap">BPSK〜1024-QAM</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>OFDMA</li>
+                                        <li>MU-MIMO (上り・下り)</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>WPA3</li>
+                                        <li>WPA2</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">Wi-Fi 6E</td>
+                                <td class="text-nowrap">IEEE 802.11ax</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>2.4GHz</li>
+                                        <li>5GHz</li>
+                                        <li>6GHz</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">9.6Gbps</td>
+                                <td class="text-nowrap">BPSK〜1024-QAM</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>OFDMA</li>
+                                        <li>MU-MIMO (上り・下り)</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>WPA3</li>
+                                        <li>Enhanced Open</li>
+                                    </ul>
+                                    (6GHz帯ではどちらかが必須)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">Wi-Fi 7</td>
+                                <td class="text-nowrap">IEEE 802.11be</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>2.4GHz</li>
+                                        <li>5GHz</li>
+                                        <li>6GHz</li>
+                                    </ul>
+                                </td>
+                                <td class="text-nowrap">46Gbps</td>
+                                <td class="text-nowrap">BPSK〜4096-QAM</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>OFDMA</li>
+                                        <li>MU-MIMO (最大16ストリーム)</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>WPA3</li>
+                                        <li>Enhanced Open</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">Wi-Fi 8</td>
+                                <td class="text-nowrap">IEEE 802.11bn<br>(策定中)</td>
+                                <td class="text-nowrap">
+                                    <ul class="mb-0">
+                                        <li>2.4GHz</li>
+                                        <li>5GHz</li>
+                                        <li>6GHz</li>
+                                    </ul>
+                                    (想定)
+                                </td>
+                                <td class="text-nowrap">未確定</td>
+                                <td class="text-nowrap">未確定</td>
+                                <td class="text-nowrap">未確定</td>
+                                <td>未確定</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <ul>
+                        <li class="text-nowrap">CSMA/CA方式でアクセス制御</li>
+                        <li>
+                            隠れ端末問題対策として<br>
+                            RTS / CTS 方式<br>
+                            (Request To Send : 送信局が送信前に受信局へ送信要求を通知する信号)<br>
+                            (Clear To Send : RTSを受信した局が送信許可を応答する信号)<br>
+                            を使用<br>
+                            <br>
+                            <strong>隠れ端末問題</strong><br>
+                            互いの電波が届かない2台の端末(送信側)が、その中間にいる受信側の端末に同時に送信してしまい、受信側で衝突が起きる現象
+                        </li>
+                    </ul>
+                    <!-- #### 特徴欄のネスト表 (2カラム / 全3表)
+                    | 表 | 1列目 | 2列目 | 掲載項目 |
+                    |---|---|---|---|
+                    | セキュリティ機能 | セキュリティ機能 | 説明 | MACアドレスフィルタリング / プライバシセパレータ / 暗号化 |
+                    | 変調方式 | 変調方式 | 説明 | BPSK・QPSK / QAM / CCK |
+                    | 多重化方式 | 多重化方式 | 説明 | DSSS / OFDM / OFDMA / MIMO / MU-MIMO |
+                    -->
+                    <table class="table table-sm table-bordered mb-2">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">セキュリティ機能</th>
+                                <th scope="col" class="text-nowrap">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class = "text-nowrap">MACアドレスフィルタリング</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li class="text-nowrap">登録されているMACアドレスをもつ機器だけが無線LANに接続可能</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>プライバシセパレータ<br>(アクセスポイントアイソレーション)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>同じアクセスポイントに接続されている機器同士の通信を禁止にする</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>暗号化</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>通信内容を暗号化して盗聴を防ぐ</li>
+                                        <li>WPA3 / Enhanced Open等</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered mb-2">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">変調方式</th>
+                                <th scope="col" class="text-nowrap">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>BPSK / QPSK<br>(DBPSK / DQPSK)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>搬送波の位相でデータを表す変調方式</li>
+                                        <li class="text-nowrap">BPSK : 1シンボルで1ビット / QPSK : 1シンボルで2ビット</li>
+                                        <li>多値数が小さく低速だが、雑音に強い</li>
+                                        <li>DBPSK / DQPSKは直前の信号との位相差で表す差動方式<br>(802.11bの1 / 2Mbpsで使用)</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>QAM<br>(直交振幅変調)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>振幅と位相の組み合わせでデータを表す変調方式</li>
+                                        <li>多値数が大きいほど1シンボルで送れるビット数が増える</li>
+                                        <li>256-QAM : 8ビット / 1024-QAM : 10ビット / 4096-QAM : 12ビット</li>
+                                        <li>多値数が大きいほど良好な電波環境が必要</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-nowrap">CCK<br>(Complementary Code Keying)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>802.11bの5.5 / 11Mbpsで使われる変調方式</li>
+                                        <li>符号系列を用いる</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-nowrap">多重化方式</th>
+                                <th scope="col" class="text-nowrap">説明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-nowrap">DSSS<br>(Direct Sequence Spread Spectrum :<br>直接スペクトラム拡散)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>拡散符号を用いてデータを広い周波数帯に拡散して伝送する方式</li>
+                                        <li>ノイズ・干渉に強い</li>
+                                        <li>CDMA(符号分割多元接続)と同じ拡散符号の考え方を用いる</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OFDM<br>(Orthogonal Frequency Division Multiplexing :<br>直交周波数分割多重)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li class="text-nowrap">データを互いに直交する多数のサブキャリアに分割して並列伝送する方式</li>
+                                        <li>マルチパス(反射波)による干渉に強い</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OFDMA<br>(Orthogonal Frequency Division Multiple Access)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>OFDMのサブキャリアを複数の端末に分けて割り当て、同時に通信する方式</li>
+                                        <li>Wi-Fi 6以降で利用</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MIMO<br>(Multiple Input Multiple Output)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>複数のアンテナで複数のデータストリームを同時に送受信する空間多重の技術</li>
+                                        <li>Wi-Fi 4以降で利用</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MU-MIMO<br>(Multi User MIMO)</td>
+                                <td>
+                                    <ul class="mb-0">
+                                        <li>複数の端末に対して同時に送信するMIMO</li>
+                                        <li>Wi-Fi 5は下りのみ、Wi-Fi 6以降は上り・下りに対応</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>公衆無線LAN</td>
+                <td>電波</td>
+                <td>駅・店舗等で提供される無線LANサービス</td>
+                <td>IEEE 802.11</td>
+                <td>
+                    <ul>
+                        <li>不特定多数の利用者が接続</li>
+                        <li>盗聴対策としてVPN利用等のセキュリティ対策が必要</li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### 近距離無線通信 (通信サービス・方式・伝送媒体・説明をセル結合 / 全3行)
+            | 列 | セル結合 |
+            |---|---|
+            | 通信サービス・方式 | rowspan=3 |
+            | 伝送媒体 | rowspan=3 |
+            | 説明 | rowspan=3 |
+            | 規格 | 結合なし (行ごと) |
+            | 特徴 | 結合なし (行ごと) |
+            -->
+            <tr>
+                <td rowspan="3">近距離無線通信</td>
+                <td rowspan="3">電波</td>
+                <td rowspan="3">低速・低消費電力のPAN(Personal Area Network)規格</td>
+                <td>
+                    IEEE 802.15.4<br>
+                    (Zigbee)
+                </td>
+                <td>
+                    <ul>
+                        <li>センサネットワークやIoT機器で利用</li>
+                        <li>通信速度は最大250kbps程度と低速</li>
+                        <li>メッシュネットワークを構成でき、多数の機器を中継して接続できる</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    IEEE 802.15.1<br>
+                    (Bluetooth)
+                </td>
+                <td>
+                    <ul>
+                        <li>2.4GHz帯(ISMバンド)を使用し、周波数ホッピング方式で干渉を軽減する(無線LANの2.4GHz帯と同じ周波数帯を使うため、電波干渉に注意)</li>
+                        <li>通信距離はクラスにより約1m〜100m程度</li>
+                        <li>従来方式(Classic : BR/EDR)と、低消費電力方式(BLE : Bluetooth Low Energy)がある</li>
+                        <li>ヘッドセット・キーボード・マウス等の周辺機器接続や、ウェアラブル機器・ビーコンなどで利用</li>
+                        <li>現在の仕様は業界団体のBluetooth SIGが策定しており、IEEE 802.15.1は初期のBluetoothを標準化したもの</li>
+                        <li>セキュリティ面ではペアリング時の認証・暗号化が重要で、ブルージャッキング(迷惑メッセージの送りつけ)やブルースナーフィング(無断でのデータ窃取)等の攻撃がある</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ISO/IEC 18092<br>
+                    (NFC : Near Field Communication)
+                </td>
+                <td>
+                    <ul>
+                        <li>13.56MHz帯を使用し、通信距離は約10cm以内</li>
+                        <li>非接触ICカード・電子マネー・スマートフォンのタッチ決済などで利用</li>
+                        <li>BluetoothやWi-Fiのペアリング(接続設定)を、かざすだけで簡略化する用途にも使われる</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>WiMAX</td>
+                <td>電波</td>
+                <td>広帯域無線アクセス規格</td>
+                <td>IEEE 802.16</td>
+                <td>
+                    <ul>
+                        <li>広いエリアをカバーする無線通信</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>モバイル回線</td>
+                <td>電波</td>
+                <td>携帯電話網を利用したデータ通信</td>
+                <td>3G / 4G(LTE) / 5G 等</td>
+                <td>
+                    <ul>
+                        <li>広域をカバーし移動中も利用可能</li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### LPWA (通信サービス・方式・伝送媒体・説明をセル結合 / 全3行)
+            | 列 | セル結合 |
+            |---|---|
+            | 通信サービス・方式 | rowspan=3 |
+            | 伝送媒体 | rowspan=3 |
+            | 説明 | rowspan=3 |
+            | 規格 | 結合なし (行ごと) |
+            | 特徴 | 結合なし (行ごと) |
+            -->
+            <tr>
+                <td rowspan="3">
+                    LPWA<br>
+                    (Low Power Wide Area)
+                </td>
+                <td rowspan="3">電波</td>
+                <td rowspan="3">低消費電力で広域(数km〜数十km)をカバーする無線通信の総称。少量のデータを低速で送るIoT向け</td>
+                <td>
+                    LoRaWAN<br>
+                    (LoRa Alliance)
+                </td>
+                <td>
+                    <ul>
+                        <li>LoRa : 物理層の変調方式(チャープスペクトラム拡散)、LoRaWAN : その上位のMAC層プロトコル</li>
+                        <li>免許不要のサブGHz帯(日本では920MHz帯)を使用</li>
+                        <li>通信距離は見通しで数km〜十数km、通信速度は数百bps〜数十kbps程度</li>
+                        <li>ゲートウェイを中心としたスター型で接続する</li>
+                        <li>農業・物流・設備監視などのセンサで利用</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Wi-SUN<br>
+                    (IEEE 802.15.4gベース)
+                </td>
+                <td>
+                    <ul>
+                        <li>サブGHz帯(日本では920MHz帯)を使用</li>
+                        <li>メッシュ型のネットワークを構成できる</li>
+                        <li>スマートメーター(電力・ガス)やHEMS等で利用</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    NB-IoT / LTE-M<br>
+                    (3GPP)
+                </td>
+                <td>
+                    <ul>
+                        <li>携帯電話網(免許帯)を利用するセルラー系のLPWA</li>
+                        <li>既存の基地局を利用できるため、広域を安定してカバーできる</li>
+                        <li>NB-IoT : 狭帯域・低速・超低消費電力</li>
+                        <li>LTE-M : NB-IoTより高速(最大約1Mbps)で、移動体や音声通話(VoLTE)にも対応</li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### 衛星通信 (通信サービス・方式・伝送媒体・説明をセル結合 / 全2行)
+            | 列 | セル結合 |
+            |---|---|
+            | 通信サービス・方式 | rowspan=2 |
+            | 伝送媒体 | rowspan=2 |
+            | 説明 | rowspan=2 |
+            | 規格 | 結合なし (行ごと) |
+            | 特徴 | 結合なし (行ごと) |
+            -->
+            <tr>
+                <td rowspan="2">衛星通信</td>
+                <td rowspan="2">電波</td>
+                <td rowspan="2">通信衛星を経由して地上局・端末間で通信する方式。地上回線を敷設できない場所でも利用可能</td>
+                <td>静止軌道衛星(GEO)</td>
+                <td>
+                    <ul>
+                        <li>高度約36,000kmの静止軌道上にあり、1機で広い範囲をカバーできる</li>
+                        <li>距離が遠いため遅延が大きい(往復で0.5秒以上)</li>
+                        <li>船舶・航空機・山間部・離島や、災害時のバックアップ回線などで利用</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>低軌道衛星(LEO)</td>
+                <td>
+                    <ul>
+                        <li>高度数百km〜約2,000kmを周回する多数の衛星を連携させる(コンステレーション)</li>
+                        <li>距離が近いため、静止軌道衛星より遅延が小さい</li>
+                        <li>衛星が移動するため、地上側は衛星を切り替えながら通信する</li>
+                        <li>例 : Starlink</li>
+                    </ul>
+                </td>
+            </tr>
+        
+            <!-- ### 銅線 / 電話回線 -->
+            <tr>
+                <td>電話回線</td>
+                <td>銅線(メタリック)</td>
+                <td>音声伝送用に設計された回線</td>
+                <td>アナログ電話網(PSTN)</td>
+                <td>
+                    <ul>
+                        <li>モデムを用いることでデータ通信にも流用可能</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>ISDN</td>
+                <td>電話回線(銅線)</td>
+                <td>Integrated Services Digital Network : 音声・データ等をデジタル化して1本の回線で扱う通信網</td>
+                <td>ITU-T勧告(Iシリーズ)</td>
+                <td>
+                    <ul>
+                        <li>基本インタフェースは2B+D(Bチャネル64kbps×2 + Dチャネル16kbps)</li>
+                        <li>一次群速度インタフェースは23B+D(日本)</li>
+                        <li>日本ではINSネットのディジタル通信モードが2024年1月から段階的に提供終了</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>ADSL</td>
+                <td>電話回線(銅線)</td>
+                <td>
+                    Asymmetric Digital Subscriber Line<br>
+                    既存の電話回線を利用したブロードバンド接続
+                </td>
+                <td>-</td>
+                <td>
+                    <ul>
+                        <li>上り・下りで速度が非対称</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>VDSL</td>
+                <td>電話回線(銅線)</td>
+                <td>Very high-speed Digital Subscriber Line : 既存の電話回線を利用した、ADSLより高速なブロードバンド接続</td>
+                <td>ITU-T勧告 G.993.x<br>(VDSL2 : G.993.2)</td>
+                <td>
+                    <ul>
+                        <li>ADSLより高い周波数帯を使うため高速だが、距離が長くなると速度が低下する(数百m〜1km程度)</li>
+                        <li>集合住宅で、建物内までは光ファイバ、各戸へは既存の電話線を使う方式で利用される</li>
+                        <li>日本の集合住宅向けでは最大100Mbps程度</li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### 同軸ケーブル -->
+            <tr>
+                <td>CATV<br>(ケーブルテレビ回線)</td>
+                <td>同軸ケーブル<br>(HFC : 光ファイバ + 同軸ケーブル)</td>
+                <td>ケーブルテレビの回線を利用したインターネット接続サービス</td>
+                <td>DOCSIS</td>
+                <td>
+                    <ul>
+                        <li>ケーブルモデムを用いて接続する</li>
+                        <li>幹線は光ファイバ、加入者宅までは同軸ケーブルのHFC構成が主流</li>
+                        <li>上り・下りで速度が非対称</li>
+                        <li>同じ地域の加入者で帯域を共有するため、混雑時は速度が低下することがある</li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### 電力線 -->
+            <tr>
+                <td>PLC<br>(電力線通信 : Power Line Communication)</td>
+                <td>電力線(屋内配線)</td>
+                <td>電力線(コンセント)を通信回線として利用する技術</td>
+                <td>IEEE 1901<br>(HD-PLC / HomePlug AV 等)</td>
+                <td>
+                    <ul>
+                        <li>コンセント間で通信でき、新たな配線工事が不要</li>
+                        <li>家電のノイズの影響を受けやすく、通信速度が変動しやすい</li>
+                        <li>無線LANが届きにくい場所の補完として利用</li>
+                    </ul>
+                </td>
+            </tr>
+        
+            <!-- ### 銅線 / 光ファイバ -->
+            <tr>
+                <td>専用回線</td>
+                <td>銅線 / 光ファイバ</td>
+                <td>2地点間を1対1で接続する回線</td>
+                <td>-</td>
+                <td>
+                    <ul>
+                        <li>回線を占有するため高品質・高セキュリティ</li>
+                        <li>帯域幅は固定で他者と共有しない</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>フレームリレー</td>
+                <td>銅線 / 光ファイバ</td>
+                <td>パケット交換技術の一種</td>
+                <td>ITU-T勧告</td>
+                <td>
+                    <ul>
+                        <li>可変長フレーム単位で伝送</li>
+                        <li>誤り訂正処理を簡略化し高速化を実現</li>
+                    </ul>
+                </td>
+            </tr>
+        
+            <!-- ### LANケーブル / 光ファイバ (VLAN : 全5行)
+            | 列 | セル結合 |
+            |---|---|
+            | 通信サービス・方式 | rowspan=5 |
+            | 伝送媒体 | rowspan=5 |
+            | 説明 | rowspan=5 |
+            | 規格 | 結合なし (行ごと) |
+            | 特徴 | 結合なし (行ごと) |
+            -->
+            <tr>
+                <td rowspan="5">
+                    VLAN<br>
+                    (Virtual LAN)
+                </td>
+                <td rowspan="5" class="text-nowrap">LANケーブル / 光ファイバ</td>
+                <td rowspan="5">
+                    物理的な配線とは無関係に、スイッチ上で論理的にLANを分割する技術
+                    <ul>
+                        <li>VLANごとにブロードキャストドメインが分割され、ブロードキャストの抑制・セキュリティの向上につながる</li>
+                        <li>異なるVLAN間の通信にはルータまたはL3SW(Inter-VLAN Routing)が必要</li>
+                        <li>端末をどの基準でVLANに所属させるかにより、右記の方式に分類される</li>
+                    </ul>
+                </td>
+                <td>ポートベースVLAN</td>
+                <td>
+                    <ul>
+                        <li>スイッチの物理ポート単位でVLANを割り当てる方式(静的VLAN)</li>
+                        <li>設定が簡単・最も広く使われている</li>
+                        <li>設定 : どのポートにどのVLANを所属させるか</li>
+                        <li>ポートに接続する機器を変更するとVLANの所属も変わってしまうため、機器の移動が多い環境では管理の手間が増える</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>アドレスベースVLAN</td>
+                <td>
+                    <ul>
+                        <li>端末のMACアドレスやIPアドレスに基づいてVLANを割り当てる方式(動的VLAN)</li>
+                        <li>端末単位で所属VLANが決まるため、同じ端末であればポートを差し替えても同じVLANに所属し続ける</li>
+                        <li>あらかじめ端末のアドレスとVLANの対応表をスイッチに登録しておく必要がある</li>
+                        <li>端末数が多い環境では管理負荷が高くなる</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>ポリシーベースVLAN</td>
+                <td>
+                    <ul>
+                        <li>あらかじめ定めたポリシー(規則)に基づいてVLANを割り当てる方式</li>
+                        <li>
+                            ポリシーの例
+                            <ul>
+                                <li>プロトコルベースVLAN : プロトコルの種類(IP, IPXなど)やパケットの内容でVLANを構成</li>
+                                <li>サブネットベースVLAN : サブネットごとにVLANを構成</li>
+                            </ul>
+                        </li>
+                        <li>同一ポートに接続された端末でも、通信の種類ごとに異なるVLANへ振り分け可能</li>
+                        <li>柔軟な条件でVLANを分けられる反面、ポリシーの設計・設定が複雑になりやすく、対応する機器も限られる</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>タグVLAN(IEEE 802.1Q)</td>
+                <td>
+                    <ul>
+                        <li>IEEE 802.1Qで規定された方式</li>
+                        <li>イーサネットフレームにVLANを識別するためのタグ(VLAN ID)を付加する(Cisco独自のISL(Inter-Switch Link)ヘッダを用いる方式もある)</li>
+                        <li>VLANタグは4バイトで、VLAN IDは12ビット(1〜4094)</li>
+                        <li><strong>トランクポート</strong>を使い伝送できるため、スイッチ間やスイッチ・ルータ間の接続で広く利用される</li>
+                        <li>トランクポート : 複数のVLANに所属しているポート(1本のリンクで複数VLANのフレームを伝送できる)</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>VXLAN(RFC 7348)<br>
+                    (Virtual eXtensible LAN)</td>
+                <td>
+                    <ul>
+                        <li>IPネットワーク上にL2セグメントをトンネリングするための技術(オーバーレイ技術)</li>
+                        <li>UDPパケット(宛先ポート4789)の中にオリジナルのイーサネットフレームをカプセル化して伝送する</li>
+                        <li>24ビットのVNI(VXLAN Network Identifier)を用いることで、従来のタグVLAN(12ビット、最大4094個)の上限を超えて、1600万以上の仮想ネットワークを識別できる</li>
+                        <li>データセンター間などL3ネットワークをまたいでL2セグメントを拡張したい場合に利用される</li>
+                        <li>データセンタ内のマルチテナント環境でも利用される</li>
+                    </ul>
+                </td>
+            </tr>
+        
+            <!-- ### LANケーブル(ツイストペアケーブル) -->
+            <tr>
+                <td>PoE</td>
+                <td>LANケーブル(ツイストペアケーブル)</td>
+                <td>
+                    Power over Ethernet<br>
+                    LANケーブル(イーサネットケーブル)を通じて電力を供給する技術
+                </td>
+                <td>
+                    IEEE 802.3
+                    <ul>
+                        <li>PoE : IEEE 802.3af (最大15.4W)</li>
+                        <li>PoE+ : IEEE 802.3at (最大30W)</li>
+                        <li>PoE++ : IEEE 802.3bt (最大60W / 90W)</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>給電側をPSE(スイッチ・PoEインジェクタ等)、受電側をPD(IP電話・AP・カメラ等)と呼ぶ</li>
+                        <li>電源配線が不要になるためIP電話・無線LANアクセスポイント・監視カメラ等の設置に利用</li>
+                    </ul>
+                </td>
+            </tr>
+        
+            <!-- ### 光ファイバ -->
+            <tr>
+                <td>ATM</td>
+                <td>光ファイバ</td>
+                <td>Asynchronous Transfer Mode : 固定長セルで交換・伝送する方式</td>
+                <td>ITU-T勧告</td>
+                <td>
+                    <ul>
+                        <li>53バイト固定長セルで高速・低遅延伝送</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>SONET・SDH</td>
+                <td>光ファイバ</td>
+                <td>光伝送のための多重化規格</td>
+                <td>ITU-T勧告</td>
+                <td>
+                    <ul>
+                        <li>北米 : SONET、国際標準 : SDH</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>広域イーサネット</td>
+                <td>光ファイバ</td>
+                <td>通信事業者網上でイーサネットフレームを転送するサービス</td>
+                <td>イーサネット(レイヤ2)</td>
+                <td>
+                    <ul>
+                        <li>拠点間をLANの延長として接続可能</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>FTTH</td>
+                <td>光ファイバ</td>
+                <td>
+                    Fiber To The Home<br>
+                    加入者宅まで光ファイバを直接敷設する方式
+                </td>
+                <td>-</td>
+                <td>
+                    <ul>
+                        <li>高速・大容量・低遅延</li>
+                    </ul>
+                </td>
+            </tr>
+            <!-- ### PON (通信サービス・方式・伝送媒体・説明をセル結合 / 全3行)
+            | 列 | セル結合 |
+            |---|---|
+            | 通信サービス・方式 | rowspan=3 |
+            | 伝送媒体 | rowspan=3 |
+            | 説明 | rowspan=3 |
+            | 規格 | 結合なし (行ごと) |
+            | 特徴 | 結合なし (行ごと) |
+            -->
+            <tr>
+                <td rowspan="3">
+                    PON<br>
+                    (Passive Optical Network)
+                </td>
+                <td rowspan="3">光ファイバ</td>
+                <td rowspan="3">
+                    FTTHの方式の1つ。光スプリッタ(受動素子)で1本の光ファイバを分岐し、複数の加入者で共有する
+                    <ul>
+                        <li>局側装置をOLT、加入者側装置をONUと呼ぶ</li>
+                        <li>光スプリッタは電源が不要で、設備の保守が容易</li>
+                        <li>加入者ごとに1本ずつ光ファイバを引く方式は、SS(Single Star)方式と呼ぶ</li>
+                    </ul>
+                </td>
+                <td>
+                    GE-PON<br>
+                    (IEEE 802.3ah)
+                </td>
+                <td>
+                    <ul>
+                        <li>上り・下りとも最大1Gbps</li>
+                        <li>イーサネットのフレームをそのまま扱う</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    G-PON<br>
+                    (ITU-T G.984)
+                </td>
+                <td>
+                    <ul>
+                        <li>下り最大約2.4Gbps、上り最大約1.2Gbps</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    10G-EPON (IEEE 802.3av)<br>
+                    XG-PON (ITU-T G.987)
+                </td>
+                <td>
+                    <ul>
+                        <li>GE-PON / G-PONの後継となる、10Gbps級の高速規格</li>
+                    </ul>
+                </td>
+            </tr>
+        
+            <!-- ### 光ファイバ等(通信事業者網) -->
+            <tr>
+                <td>IP-VPN</td>
+                <td>
+                    光ファイバ等<br>
+                    (通信事業者網)
+                </td>
+                <td class="text-nowrap">通信事業者のIP網を利用した閉域網サービス</td>
+                <td>MPLS</td>
+                <td>
+                    <ul>
+                        <li>MPLSラベルにより経路制御・帯域確保を実現</li>
+                        <li>イントラネット・エクストラネットの構築に利用</li>
+                    </ul>
+                </td>
+            </tr>
+        
+            <!-- ### インターネット回線等(共用) (VPN : 全5行)
+            | 列 | セル結合 |
+            |---|---|
+            | 通信サービス・方式 | rowspan=5 |
+            | 伝送媒体 | rowspan=5 |
+            | 説明 | rowspan=5 |
+            | 規格 | 結合なし (行ごと) |
+            | 特徴 | 結合なし (行ごと) |
+            -->
+            <tr>
+                <td rowspan="5">
+                    VPN<br>
+                    (Virtual Private Network : <br>
+                
+                </td>
+                <td rowspan="5">インターネット回線等(共用)</td>
+                <td rowspan="5">
+                    <ul>
+                        <li>インターネットなどの公衆回線上に、暗号化・認証・トンネリングといった技術を用いて仮想的な専用回線を構築し、拠点間やリモート端末からの通信を安全に行うための技術</li>
+                        <li>専用回線と異なり、物理的な回線を占有しない「仮想的」な専用線</li>
+                        <li>専用回線より安価だが、帯域幅は保証されない</li>
+                    </ul>
+                </td>
+                <td>IPsec (ESP / AH)</td>
+                <td>
+                    <ul>
+                        <li>IPsec VPN : ネットワーク層(第3層)でIPsec (ESP/AH) を用いて通信を暗号化・認証する方式 (VPN装置(IPsec-VPN))</li>
+                        <li>IPsecの <strong>ESP(トンネルモード)によるカプセル化・暗号化</strong> がVPNとして働く(ESPのトンネルモードがトンネリングの実体)</li>
+                        <li>拠点間VPN (サイト間VPN) で広く利用される</li>
+                        <li>VPNルータやVPN対応ファイアウォール等の専用機器が必要</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    TLS<br>
+                    (TLS-VPN / SSL-VPN)
+                </td>
+                <td>
+                    <ul>
+                        <li>アプリケーション層(第7層)で動作し、Webブラウザ等からHTTPS (TCP/443) でアクセスするリモートアクセス型VPN (VPN装置(SSL-VPN))</li>
+                        <li>「SSL-VPN」は慣習的な呼称で、実際に使われているプロトコルはTLS (SSLはSSL 2.0/3.0の脆弱性により非推奨・廃止済み)</li>
+                        <li>TLSは暗号化通信路を提供するプロトコルであり、単体にトンネルモード相当の機能はなく、レイヤ2フォワーディング方式等の実装方式と組み合わせることでVPNとして機能する</li>
+                        <li>専用クライアントが不要な場合が多く、外出先からの利用に適する</li>
+                        <li>実装方式として、レイヤ2フォワーディング方式・ポートフォワーディング方式・リバースプロキシ方式がある (下記の各行)</li>
+                        <li>
+                            TLS(TCP)を基盤とするため、
+                            <ul>
+                                <li>音声</li>
+                                <li>動画等のリアルタイム通信</li>
+                                <li>フルトンネル型のL3 VPN</li>
+                            </ul>
+                            等のUDPベースの通信を扱うには、UDP上で動作するDTLS(Datagram TLS)を用いる実装が多い<br>
+                            (例 : Cisco AnyConnectのデータチャネル、OpenVPNのUDPモード)
+                        </li>
+                        <li>UDPアプリケーションをTCP上のTLSでそのままトンネリングすると、輻輳制御が二重にかかり速度低下を招きやすい (TCP over TCP問題)</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    レイヤ2フォワーディング方式<br>
+                    (TLS-VPNの実装方式)
+                </td>
+                <td>
+                    <ul>
+                        <li>データリンク層のフレームをそのままトンネリングし、あたかも社内LANに接続しているかのような通信を実現</li>
+                        <li>TLS(またはDTLS)の暗号化ペイロードの中に、IPパケットやイーサネットフレームをそのまま格納してカプセル化する</li>
+                        <li>専用クライアント (エージェント) のインストールが必要</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ポートフォワーディング方式<br>
+                    (TLS-VPNの実装方式)
+                </td>
+                <td>
+                    <ul>
+                        <li>特定のTCPポート宛の通信をブラウザ経由でトンネリングする方式</li>
+                        <li>対応可能なアプリケーション (ポート) が限定される</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    リバースプロキシ方式<br>
+                    (TLS-VPNの実装方式)
+                </td>
+                <td>
+                    <ul>
+                        <li>パケットのカプセル化を行わない点が他の2方式と異なる</li>
+                        <li>VPNゲートウェイがHTTPSリクエストを一旦終端し、社内Webアプリの内容(URL等)を書き換えてブラウザに返す、アプリケーション層での代理アクセス方式</li>
+                        <li>ブラウザだけで利用できる反面、対応できるのは基本的にWebアプリケーションに限られる</li>
+                    </ul>
+                </td>
+            </tr>
+        
+        </tbody>
+    </table>
+</div>
+<br>
+<br>

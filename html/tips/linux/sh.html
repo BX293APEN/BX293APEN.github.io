@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Linuxセットアップガイド" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/linux/sh.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="便利コマンド" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                便利コマンド
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold" id = "link">
+                                シンボリックリンク(ショートカット)の作成
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">ln -sfn [元ファイルパス] [リンク先パス]</code></pre>
+                            </p>
+                            <p>
+                                ※相対パスリンク : <code>[元ファイルパス]</code>が<code>[リンク先のパス]</code>を基準にした相対パスであるリンク
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id = "color">
+                                bash カラーコード・便利スクリプト
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">RESET=$'\033[0m'
+
+BOLD=$'\033[1m'          # 太字
+DIM=$'\033[2m'           # 薄く
+ITALIC=$'\033[3m'        # 斜体(非対応端末あり)
+UNDER=$'\033[4m'         # 下線
+BLINK=$'\033[5m'         # 点滅
+REVERSE=$'\033[7m'       # 反転
+HIDE=$'\033[8m'          # 非表示
+STRIKE=$'\033[9m'        # 打ち消し線
+
+FG_BLACK=$'\033[30m'
+FG_RED=$'\033[31m'
+FG_GREEN=$'\033[32m'
+FG_YELLOW=$'\033[33m'
+FG_BLUE=$'\033[34m'
+FG_PURPLE=$'\033[35m'
+FG_CYAN=$'\033[36m'
+FG_WHITE=$'\033[37m'
+
+FG_BRIGHT_BLACK=$'\033[90m'
+FG_BRIGHT_RED=$'\033[91m'
+FG_BRIGHT_GREEN=$'\033[92m'
+FG_BRIGHT_YELLOW=$'\033[93m'
+FG_BRIGHT_BLUE=$'\033[94m'
+FG_BRIGHT_PURPLE=$'\033[95m'
+FG_BRIGHT_CYAN=$'\033[96m'
+FG_BRIGHT_WHITE=$'\033[97m'
+
+BG_BLACK=$'\033[40m'
+BG_RED=$'\033[41m'
+BG_GREEN=$'\033[42m'
+BG_YELLOW=$'\033[43m'
+BG_BLUE=$'\033[44m'
+BG_MAGENTA=$'\033[45m'
+BG_CYAN=$'\033[46m'
+BG_WHITE=$'\033[47m'
+
+BG_BRIGHT_BLACK=$'\033[100m'
+BG_BRIGHT_RED=$'\033[101m'
+BG_BRIGHT_GREEN=$'\033[102m'
+BG_BRIGHT_YELLOW=$'\033[103m'
+BG_BRIGHT_BLUE=$'\033[104m'
+BG_BRIGHT_PURPLE=$'\033[105m'
+BG_BRIGHT_CYAN=$'\033[106m'
+BG_BRIGHT_WHITE=$'\033[107m'
+
+# ===== 256色 =====
+FG_256() { printf "\033[38;5;%sm" "$1"; }
+BG_256() { printf "\033[48;5;%sm" "$1"; }
+
+# ===== TrueColor(24bitカラー) =====
+FG_RGB() { printf "\033[38;2;%s;%s;%sm" "$1" "$2" "$3"; }
+BG_RGB() { printf "\033[48;2;%s;%s;%sm" "$1" "$2" "$3"; }
+
+DISP_STR(){
+    for arg in "$@"; do
+        printf "%s" "${arg}"
+    done
+}
+
+trim() {
+    local var="$1"
+    var="${var#"${var%%[![:space:]]*}"}"   # 前
+    var="${var%"${var##*[![:space:]]}"}"   # 後
+    echo "$var"
+}
+
+# ===== ログ出力用 =====
+LOG(){
+    local name=$(trim "${1:-USERAPP}")
+    local state=$(trim "${2:-LOG}")
+    local action=$(trim "${3:-ACTION}")
+    local nowtime="$(date '+%Y/%m/%d %H:%M:%S')"
+    local detail=$(trim "${4:-log detail}")
+    local header="[${name}][${state}][${action}]"
+    local headerSize="${5:-50}"
+    
+    printf "%-${headerSize}s %s %s\n" "${header}" "${nowtime}" "${detail}"
+}
+
+LOG_INFO(){
+    local name="${1:-USERAPP}"
+    local state="INFO"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_BRIGHT_CYAN}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_WARN(){
+    local name="${1:-USERAPP}"
+    local state="WARN"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_YELLOW}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_OK(){
+    local name="${1:-USERAPP}"
+    local state="OK"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_GREEN}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_ERROR(){
+    local name="${1:-USERAPP}"
+    local state="ERROR"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_RED}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_FAIL(){
+    local name="${1:-USERAPP}"
+    local state="FAIL"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "$(FG_RGB 204 51 0)" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}</code></pre>
+                            </p>
+
+                            
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="whois">
+                                WHOIS RFC3912
+                            </h3>
+                            <p>
+                                &emsp;インターネット上の資源(ドメイン名・IPアドレス・AS番号など)について、<strong>誰が登録・管理しているか、いつ登録されたか、どこに連絡できるか</strong>といった登録情報を、サーバへ問い合わせて取得するための クエリ/レスポンス型プロトコル<br>
+                                &emsp;ドメインの取得可否確認、管理組織・連絡先の確認、ネットワーク障害や不正アクセス時の管理者調査などに利用される<br>
+                                
+                            </p>
+
+                            <h4 class="pt-4 fw-bold border-bottom">
+                                仕組み
+                            </h4>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant C as クライアント
+    participant S as WHOISサーバ(TCP 43)
+    C->>S: TCP 接続確立
+    C->>S: クエリ文字列 + CRLF
+    S->>C: 応答テキスト(形式は任意)
+    S->>C: 接続切断(FIN)
+    Note over C,S: 接続切断がレスポンスの終端を意味する
+
+                            -->
+
+                            <img src="/img/linux/whois.svg" width = "100%"/>
+                            
+                            <ol>
+                                <li> クライアントがサーバの TCP 43 番ポートへ接続する</li>
+                                <li> クライアントがクエリ文字列 + <code>CRLF</code> を送信する </li>
+                                <li> サーバが応答(任意のテキスト)を返す</li>
+                                <li> サーバが接続を閉じる(<b>接続終了がレスポンス終端の合図</b>) </li>
+                            </ol>
+
+                            <h4 class="pt-4 fw-bold border-bottom">
+                                インストール方法
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install whois</code></pre>
+                            </p>
+                            <h4 class="pt-3 border-bottom fw-bold">
+                                whoisコマンド使い方
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">whois [オプション] [ターゲット]</code></pre>
+                            </p>
+                            <div id="md-whois">
+
+##### オプション一覧
+
+| オプション | 説明 |
+|------------|------|
+| `-h [問い合わせ先WHOISサーバ]`, `--host [問い合わせ先WHOISサーバ]` | 問い合わせ先 WHOIS サーバを指定 |
+| `-p [ポート番号]`, `--port [ポート番号]` | 接続ポートを指定(既定 43) |
+| `-H` | 法的免責事項(disclaimer)を非表示にする |
+| `-I` | `whois.iana.org` に問い合わせる |
+| `-r` | RIPE 系で連絡先情報の表示を抑制 |
+| `-B` | RIPE 系で IP 範囲をフィルタせず全て表示 |
+| `-b` | RIPE 系で IP 範囲のみ簡易表示 |
+| `-i [属性]` | RIPE 系の逆引きルックアップ |
+| `-T [オブジェクト種別]` | RIPE 系で検索するオブジェクト種別を限定 |
+| `-t [オブジェクト種別]` | オブジェクト種別のテンプレートを表示 |
+| `-v [オブジェクト種別]` | オブジェクト種別の詳細テンプレートを表示 |
+| `--verbose` | 接続先など動作の詳細を表示 |
+| `--help` | ヘルプを表示 |
+| `--version` | バージョンを表示 |
+
+<br>
+<br>
+
+### 仕様
+
+- 1接続 1クエリ 1応答 (状態管理無し)
+- クエリ : 1行のクエリ + CRLF
+- 応答フォーマット : 規定なし
+- 文字コード : 規定なし (ASCII/UTF-8/Latin-1 などが混在)
+- 認証・暗号化 : 無し (平文)
+- アクセス制御 : 規定なし(レート制限等は各運営者が実施)
+- 主な情報源 : レジストリ(ドメイン)や RIR(IPアドレス・AS番号の地域レジストリ)が運用する WHOIS サーバ
+
+                            </div>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#link">シンボリックリンク(ショートカット)の作成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#color">bash カラーコード・便利スクリプト</a>
+                                    </li>
+                                    <li>
+                                        <a href="#whois">WHOISについて</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["pythonTip", "rn4020Tip", "teratermTip"]);
+            new Pagination(7, linuxModel.page, "pagination");
+
+            const mdLists = [
+                "md-whois", 
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>
