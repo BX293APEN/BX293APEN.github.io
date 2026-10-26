@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <meta property="og:title" content="C/C++ Notes" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/c.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="C/C++について" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/cTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>C/C++ Notes</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        
+            <main>
+                <div class="row g-5 pt-3 mx-1">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            C/C++ Notes
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="overview">
+                                Overview
+                            </h3>
+                            <p>
+                                &emsp;C言語は、1972年にAT&Tベル研究所で開発された汎用プログラミング言語である。<br>
+                                &emsp;高級言語の特徴を持ちながら、ハードウェア寄りの記述も可能な低級言語の特徴も併せ持つ。コンパイラ型言語であるため、実行速度が他の言語と比べ速く、資源制約が厳しい場合(組み込み系)や、実行速度性能が要求されるソフトウェア(OS, バックグラウンドアプリケーション等)の開発に用いられることが多い。
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                コンパイラ型言語 (高級言語)
+                            </h4>
+                            <p>
+                                &emsp;プログラムの<b>実行前</b>に<b>コンパイラ</b>(翻訳機)を使い、ソースコードを機械語に変換する言語。一度コンパイルしてしまえば、機械語を実行するだけなので、インタプリタ型言語に比べ、実行速度が速い。<br>
+                            </p>
+                            <figure class="figure w-100">
+                                <img src="/img/C/CCompile.svg" class="figure-img img-fluid rounded" alt="C言語のコンパイル過程">
+                                <figcaption class="figure-caption text-end">C言語のコンパイル過程</figcaption>
+                            </figure><br>
+                            <br>
+                            <p>
+                                C/C++, Java, Rust, Go, COBOL, FORTRAN, Pascal...
+                            </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                インタプリタ型言語 (高級言語)
+                            </h4>
+                            <p>
+                                &emsp;ソースコードを<b>1行ずつ</b>機械語に変換しながら実行する言語。翻訳しながら実行するので、コンパイラ型言語に比べ実行速度が遅いが、不具合箇所を特定しやすい。<br>
+                                <br>
+                                Python, JavaScript, Ruby, PHP...
+                            </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                アセンブリ言語 (低級言語)
+                            </h4>
+                            <p>
+                                &emsp;機械語の命令を人間に分かりやすいようにアルファベットや数字で表現する言語<br>
+                                &emsp;<b>アセンブラ</b>で機械語に翻訳する。
+                            </p>
+                            
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="compile">
+                                コンパイラ (Windows)
+                            </h3>
+                            <a href="https://github.com/niXman/mingw-builds-binaries/releases">
+                                <img class="bd-placeholder-img pt-3 w-50" 
+                                    src="https://github-readme-stats-private-eosin.vercel.app/api/pin/?username=niXman&repo=mingw-builds-binaries" 
+                                    aria-label="参考文献" 
+                                    preserveAspectRatio="xMidYMid slice" focusable="false"
+                                />
+                            </a>
+                            <div class="text-center pb-3">
+                                <a 
+                                    href="https://github.com/niXman/mingw-builds-binaries/releases"
+                                    class="btn btn-bd-primary"
+                                >
+                                    GCC コンパイラ
+                                </a>
+                            </div>
+                            <img src="/img/C/コンパイラ.png" width = "100%">
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="var">
+                                変数
+                            </h3>
+                            <p>
+                                <ul>
+                                    <li><a href="#reserved">予約語</a>以外</li>
+                                    <li>英数字又は<code>_</code>(アンダーバー)</li>
+                                    <li>1文字目は 英字又は<code>_</code> (数字以外)</li>
+                                    <li>31文字以内</li>
+                                </ul>
+                                という条件を満たしていれば宣言をすることが出来る<br>
+                                ※ 英字の大文字と小文字は区別される
+                            </p>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold" id="reserved">
+                                予約語
+                            </h4>
+                            <p>
+                                &emsp;プログラミング言語において、定められた役割が決まっているため、変数名や関数名等にすることが出来ない単語
+                            </p>
+                            <h5 class="pt-4 mt-4 fw-bold">
+                                C言語の予約語
+                            </h5>
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                <div class="col"><pre><code class="language-c">auto</code></pre></div>
+                                <div class="col"><pre><code class="language-c">break</code></pre></div>
+                                <div class="col"><pre><code class="language-c">char</code></pre></div>
+                                <div class="col"><pre><code class="language-c">const</code></pre></div>
+                                <div class="col"><pre><code class="language-c">continue</code></pre></div>
+                                <div class="col"><pre><code class="language-c">default</code></pre></div>
+                                <div class="col"><pre><code class="language-c">do</code></pre></div>
+                                <div class="col"><pre><code class="language-c">double</code></pre></div>
+                                <div class="col"><pre><code class="language-c">else</code></pre></div>
+                                <div class="col"><pre><code class="language-c">enum</code></pre></div>
+                                <div class="col"><pre><code class="language-c">extern</code></pre></div>
+                                <div class="col"><pre><code class="language-c">float</code></pre></div>
+                                <div class="col"><pre><code class="language-c">for</code></pre></div>
+                                <div class="col"><pre><code class="language-c">goto</code></pre></div>
+                                <div class="col"><pre><code class="language-c">if</code></pre></div>
+                                <div class="col"><pre><code class="language-c">int</code></pre></div>
+                                <div class="col"><pre><code class="language-c">long</code></pre></div>
+                                <div class="col"><pre><code class="language-c">register</code></pre></div>
+                                <div class="col"><pre><code class="language-c">return</code></pre></div>
+                                <div class="col"><pre><code class="language-c">short</code></pre></div>
+                                <div class="col"><pre><code class="language-c">signed</code></pre></div>
+                                <div class="col"><pre><code class="language-c">sizeof</code></pre></div>
+                                <div class="col"><pre><code class="language-c">static</code></pre></div>
+                                <div class="col"><pre><code class="language-c">struct</code></pre></div>
+                                <div class="col"><pre><code class="language-c">switch</code></pre></div>
+                                <div class="col"><pre><code class="language-c">typedef</code></pre></div>
+                                <div class="col"><pre><code class="language-c">union</code></pre></div>
+                                <div class="col"><pre><code class="language-c">unsigned</code></pre></div>
+                                <div class="col"><pre><code class="language-c">void</code></pre></div>
+                                <div class="col"><pre><code class="language-c">volatile</code></pre></div>
+                                <div class="col"><pre><code class="language-c">while</code></pre></div>
+                            </div>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="type">
+                                データ型
+                            </h3>
+                            <div id = "cpptype"></div>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="format">
+                                フォーマット指定子
+                            </h3>
+                            <div id = "formatTable"></div>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="preprocess">
+                                プリプロセッサ
+                            </h3>
+                            <p>
+                                &emsp;ソースコードをコンパイルする前に事前処理をさせる。<br>
+                                &emsp;ソースコードの変換や置換を行うことで、開発者の生産性を向上させる。
+                            </p>
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold" id = "include">
+                                #include
+                            </h4>
+                            <p>
+                                &emsp;外部ファイルの取り込み
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-fixed">
+                                    <tr>
+                                        <th scope="col">ライブラリファイル</th>
+                                        <th scope="col">含まれている関数</th>
+                                        <th scope="col">説明</th>
+                                        <th scope="col">戻り値</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="6">
+                                            <pre><code class="language-c">&lt;stdio.h&gt;</code></pre>
+                                            <b>st</b>an<b>d</b>ard <b>i</b>nput <b>o</b>utput<br><br>
+                                            主に入出力を扱うための関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">printf(
+    "フォーマット文字列", 
+    a, 
+    b...
+);</code></pre></td>
+                                        <td>
+                                            第1引数(<code>"フォーマット文字列"</code>)をコマンドプロンプトに表示<br> 
+                                            フォーマット指定子(<code>%~</code>)により、第2引数以降(<code>a, b...</code>)を表示可能
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">sprintf_s(
+    a, 
+    sizeof(a), 
+    "フォーマット文字列", 
+    b, 
+    c...
+);</code></pre></td>
+                                        <td>
+                                            <code>a</code>に<code>sizeof(a)</code>(aの大きさ分)第3引数(<code>"フォーマット文字列"</code>)を代入<br>
+                                            フォーマット指定子(<code>%~</code>)により、第4引数以降(<code>b, c...</code>)を代入可能
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">scanf(
+    "フォーマット文字列", 
+    &a, 
+    &b...
+);</code></pre></td>
+                                        <td>
+                                            第1引数(<code>"フォーマット文字列"</code>)内の型(フォーマット指定子(<code>%~</code>)により指定可能)通りに入力を受け付け、第2引数以降の変数アドレス(<code>&a, &b...</code>)に文字列を代入(空白で区切られる)<br> 
+                                            ※別の入力関数を一緒に使うとエラーの元になることがある
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fgets(
+    char a, 
+    sizeof(a), 
+    f
+);</code></pre></td>
+                                        <td>
+                                            <code>a</code>に<code>sizeof(a)</code>(aの大きさ分)fから読み込む<br>
+                                            キーボード入力の場合 : <code>f</code>を<code>stdin</code>とする
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">char *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fopen(
+    "ファイルのパス", 
+    "モード"
+);</code></pre></td>
+                                        <td>
+                                            <code>"ファイルのパス"</code>のファイルを<code>"モード"</code>に従い開く<br>
+                                            読み取り : <code>r</code><br>
+                                            バイナリ読み取り : <code>rb</code><br>
+                                            書き込み : <code>w</code><br>
+                                            バイナリ書き込み : <code>wb</code><br>
+                                            追記 : <code>a</code><br>
+                                            バイナリ追記 : <code>ab</code><br>
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">FILE *fp</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fclose(FILE *fp);</code></pre></td>
+                                        <td>
+                                            <code>fopen();</code>で開いたファイルを閉じる
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td rowspan="15">
+                                            <pre><code class="language-c">&lt;stdlib.h&gt;</code></pre>
+                                            <b>st</b>an<b>d</b>ard <b>lib</b>rary<br><br>
+                                            汎用的に役立つ関数が含まれている
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">system("コマンド");</code></pre></td>
+                                        <td>
+                                            第一引数<code>"コマンド"</code>(OSのコマンド)を実行
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">atoi("文字列");</code></pre></td>
+                                        <td>
+                                            <code>"文字列"</code>を<code>int</code>型に変換
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">atof("文字列");</code></pre></td>
+                                        <td>
+                                            <code>"文字列"</code>を<code>double</code>型に変換
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">rand();</code></pre></td>
+                                        <td>
+                                            <code>0</code>から<code>RAND_MAX</code>までの範囲の疑似乱数整数を生成
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">srand(unsigned int seed);</code></pre></td>
+                                        <td>
+                                            疑似乱数を生成するための開始点を設定
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">malloc(size_t size);</code></pre></td>
+                                        <td>
+                                            <code>size</code>[Byte]のメモリを確保(最大 16711568[Byte])
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">calloc(
+    size_t size, 
+    size_t type
+);</code></pre></td>
+                                        <td>
+                                            <code>type * size</code>[Byte]のメモリを確保し、<code>0</code>で初期化 (最大 2147483424[Byte])
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">realloc(
+    void *ptr, 
+    size_t size
+);</code></pre></td>
+                                        <td>
+                                            先頭アドレス<code>*ptr</code>から、<code>size</code>[Byte]のメモリを確保
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">free(void *ptr);</code></pre></td>
+                                        <td>
+                                            指定したアドレス<code>*ptr</code>のメモリを解放
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><pre><code class="language-c">exit(int status);</code></pre></td>
+                                        <td>
+                                            エラーコード : <code>status</code>でプログラムを終了
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">abort();</code></pre></td>
+                                        <td>
+                                            プログラムを異常終了させる
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><pre><code class="language-c">qsort(
+    void *base,
+    sizeof(base)/sizeof(type),
+    size_t type,
+    int (*compare)(
+        const void *element1,
+        const void *element2
+    )
+);</code></pre></td>
+                                        <td>
+                                            <code>*base</code>が先頭アドレスの配列をクイックソートする
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-fixed">
+                                                    <tr>
+                                                        <th scope="col">引数</th>
+                                                        <th scope="col">説明</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">void *base</code></pre>
+                                                        </td>
+                                                        <td>ソート対象配列の先頭アドレス</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">size_t type</code></pre>
+                                                        </td>
+                                                        <td>ソート対象配列の各要素のサイズ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">int (*compare)(
+    const void *element1, 
+    const void *element2
+)</code></pre>
+                                                        </td>
+                                                        <td nowrap>
+                                                            比較基準関数 戻り値で大きさを決める<br>
+                                                            <code>0</code>より小さい → <code>element2</code>より、<code>element1</code>が小さい<br>
+                                                            <code>0</code>より大きい → <code>element2</code>より、<code>element1</code>が大きい<br>
+                                                            <code>0</code> → <code>element1</code>と<code>element2</code>は等しい
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><pre><code class="language-c">bsearch(
+    void *key,
+    void *base,
+    sizeof(base)/sizeof(key),
+    sizeof(key),
+    int (*compare)(
+        const void *element1,
+        const void *element2
+    )
+);</code></pre></td>
+                                        <td>
+                                            <code>qsort();</code>等で事前にソートした配列から二分探索を行う
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-fixed">
+                                                    <tr>
+                                                        <th scope="col">引数</th>
+                                                        <th scope="col">説明</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">void *key</code></pre>
+                                                        </td>
+                                                        <td>検索キーのアドレス</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">void *base</code></pre>
+                                                        </td>
+                                                        <td>探索対象配列の先頭アドレス</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <pre><code class="language-c">int (*compare)(
+    const void *element1, 
+    const void *element2
+)</code></pre>
+                                                        </td>
+                                                        <td nowrap>
+                                                            比較基準関数 戻り値で大きさを決める<br>
+                                                            <code>0</code>より小さい → <code>element2</code>より、<code>element1</code>が小さい<br>
+                                                            <code>0</code>より大きい → <code>element2</code>より、<code>element1</code>が大きい<br>
+                                                            <code>0</code> → <code>element1</code>と<code>element2</code>は等しい
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">void *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">getenv("環境変数");</code></pre></td>
+                                        <td>
+                                            <code>"環境変数"</code>に対応する値が入ったアドレスを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">char *</code></pre>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td rowspan="3">
+                                            <pre><code class="language-c" >&lt;string.h&gt;</code></pre>
+                                            <b>string</b><br><br>
+                                            主に文字列操作に関する関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">strcmp(
+    char *string1, 
+    char *string2
+);</code></pre></td>
+                                        <td>
+                                            文字列を比較<br>
+                                            <code>0</code>より小さい → <code>string2</code>より、<code>string1</code>が小さい<br>
+                                            <code>0</code>より大きい → <code>string2</code>より、<code>string1</code>が大きい<br>
+                                            <code>0</code> → <code>string1</code>と<code>string2</code>は等しい
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">strstr(
+    char *string1, 
+    char *string2
+);</code></pre></td>
+                                        <td>
+                                            <code>string1</code>で<code>string2</code> が最初に現れる位置を検索
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">char *</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">strlen("文字列");</code></pre></td>
+                                        <td>
+                                            <code>"文字列"</code>の長さを取得
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="16">
+                                            <pre><code class="language-c" >&lt;math.h&gt;</code></pre>
+                                            <b>math</b>ematics<br><br>
+                                            主に数学的な計算を行うための関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">sin(x);</code></pre></td>
+                                        <td>
+                                            y=sin(<code>x</code>) (正弦)のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">cos(x);</code></pre></td>
+                                        <td>
+                                            y=cos(<code>x</code>) (余弦)のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">tan(x);</code></pre></td>
+                                        <td>
+                                            y=tan(<code>x</code>) (正接)のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">asin(x);</code></pre></td>
+                                        <td>
+                                            y=arcsin(<code>x</code>) (逆正弦)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">acos(x);</code></pre></td>
+                                        <td>
+                                            y=arccos(<code>x</code>) (逆余弦)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">atan(x);</code></pre></td>
+                                        <td>
+                                            y=arctan(<code>x</code>) (逆正接)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">atan2(a, b);</code></pre></td>
+                                        <td>
+                                            y=arctan(a/b) (逆正接)の y[rad]を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">exp(x);</code></pre></td>
+                                        <td>
+                                            y=e<sup><code>x</code></sup>のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">log(x);</code></pre></td>
+                                        <td>
+                                            自然対数 y=ln(<code>x</code>) (= log<sub>e</sub>(<code>x</code>) )のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">log10(x);</code></pre></td>
+                                        <td>
+                                            常用対数 y=log<sub>10</sub>(<code>x</code>) のyを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">sqrt(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>の正の平方根を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">pow(x, y);</code></pre></td>
+                                        <td>
+                                            z=<code>x</code><sup><code>y</code></sup>のzを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double z</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">fabs(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>の絶対値を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">ceil(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>以上の最小の整数値を返す(天井関数)
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">floor(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>以下の最大の整数値を返す(床関数 ガウス記号)
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">round(x);</code></pre></td>
+                                        <td>
+                                            <code>x</code>の小数点以下を四捨五入
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">double y</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="5">
+                                            <pre><code class="language-c" >&lt;ctype.h&gt;</code></pre>
+                                            <b>c</b>haracter <b>type</b><br><br>
+                                            主に文字の分類や変換を行うための関数が含まれている
+                                        </td>
+                                        <td><pre><code class="language-c">islower(int c);</code></pre></td>
+                                        <td>
+                                            cが 英小文字以外:0 英小文字:非0 を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">isupper(int c);</code></pre></td>
+                                        <td>
+                                            cが 英大文字以外:0 英大文字:非0 を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">isdigit(int c);</code></pre></td>
+                                        <td>
+                                            cが 数字以外:0 数字:非0 を返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">tolower(int c);</code></pre></td>
+                                        <td>
+                                            cが大文字なら小文字 大文字以外はそのままにしたものを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">toupper(int c);</code></pre></td>
+                                        <td>
+                                            cが小文字なら大文字 小文字以外はそのままにしたものを返す
+                                        </td>
+                                        <td>
+                                            <pre><code class="language-c">int</code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold" id = "define">
+                                #define (マクロ)
+                            </h4>
+                            <p>
+                                &emsp;ソースコードを置換する。
+                            </p>
+                            
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="escape">
+                                エスケープシーケンス
+                            </h3>
+                            <div id="escapeTable"></div>
+                        </article>
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="comment">
+                                コメント (注釈)
+                            </h3>
+                            <p>
+                                &emsp;プログラムの保守(メンテナンス)をする際、コメントがあると効率を上げることが出来ます。
+                            </p>
+                            
+                            <pre><code class="language-c">// 改行するまでコメントとする
+/* この間をコメントとする */</code></pre>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="operand">
+                                演算順序
+                            </h3>
+                            <p>
+                                &emsp;C言語における演算順序を以下に示す。
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered w-100">
+                                    <tr>
+                                        <th scope="col">演算順序</th>
+                                        <th scope="col">演算子</th>
+                                        <th scope="col">説明</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="6">1</td>
+                                        <td><pre><code class="language-c">()</code></pre></td>
+                                        <td>
+                                            関数呼び出し, 優先
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">[]</code></pre></td>
+                                        <td>
+                                            配列添え字
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">.</code></pre></td>
+                                        <td>
+                                            構造体メンバ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-></code></pre></td>
+                                        <td>
+                                            アロー演算子(ポインタから構造体のメンバを呼び出す)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">++</code></pre></td>
+                                        <td>
+                                            インクリメント(後置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">--</code></pre></td>
+                                        <td>
+                                            デクリメント(後置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="9">2</td>
+                                        <td><pre><code class="language-c">++</code></pre></td>
+                                        <td>
+                                            インクリメント(前置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">--</code></pre></td>
+                                        <td>
+                                            デクリメント(前置)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">sizeof</code></pre></td>
+                                        <td>
+                                            記憶サイズ[Byte]
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&</code></pre></td>
+                                        <td>
+                                            アドレス
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">*</code></pre></td>
+                                        <td>
+                                            ポインタ
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">+</code></pre></td>
+                                        <td>
+                                            正符号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-</code></pre></td>
+                                        <td>
+                                            負符号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">!</code></pre></td>
+                                        <td>
+                                            否定
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">~</code></pre></td>
+                                        <td>
+                                            ビット補数
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">3</td>
+                                        <td><pre><code class="language-c">(型)</code></pre></td>
+                                        <td>
+                                            キャスト
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">4</td>
+                                        <td><pre><code class="language-c">*</code></pre></td>
+                                        <td>
+                                            乗算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">/</code></pre></td>
+                                        <td>
+                                            除算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">%</code></pre></td>
+                                        <td>
+                                            剰余
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">5</td>
+                                        <td><pre><code class="language-c">+</code></pre></td>
+                                        <td>
+                                            加算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-</code></pre></td>
+                                        <td>
+                                            減算
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">6</td>
+                                        <td><pre><code class="language-c">&lt;&lt;</code></pre></td>
+                                        <td>
+                                            ビット左シフト
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&gt;&gt;</code></pre></td>
+                                        <td>
+                                            ビット右シフト
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">7</td>
+                                        <td><pre><code class="language-c">&lt;</code></pre></td>
+                                        <td>
+                                            小なり (左辺が右辺に比べて小さい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&lt;=</code></pre></td>
+                                        <td>
+                                            小なりイコール (左辺が右辺に比べて同じか小さい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&gt;</code></pre></td>
+                                        <td>
+                                            大なり (左辺が右辺に比べて大きい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">&gt;=</code></pre></td>
+                                        <td>
+                                            大なりイコール (左辺が右辺に比べて同じか大きい)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2">8</td>
+                                        <td><pre><code class="language-c">==</code></pre></td>
+                                        <td>
+                                            等号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">!=</code></pre></td>
+                                        <td>
+                                            不等号
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">9</td>
+                                        <td><pre><code class="language-c">&</code></pre></td>
+                                        <td>
+                                            ビット毎論理積(AND)
+                                        </td>
+                                    </tr>
+                                    <tr><td rowspan="1">10</td>
+                                        <td><pre><code class="language-c">^</code></pre></td>
+                                        <td>
+                                            ビット毎排他的論理和(XOR)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">11</td>
+                                        <td><pre><code class="language-c">|</code></pre></td>
+                                        <td>
+                                            ビット毎論理和(OR)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">12</td>
+                                        <td><pre><code class="language-c">&&</code></pre></td>
+                                        <td>
+                                            論理積(AND)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">13</td>
+                                        <td><pre><code class="language-c">||</code></pre></td>
+                                        <td>
+                                            論理和(OR)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">14</td>
+                                        <td><pre><code class="language-c">条件?a:b</code></pre></td>
+                                        <td>
+                                            三項演算子
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4">15</td>
+                                        <td><pre><code class="language-c">=</code></pre></td>
+                                        <td>
+                                            代入
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">+=</code></pre></td>
+                                        <td>
+                                            加算代入
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><pre><code class="language-c">-=</code></pre></td>
+                                        <td>
+                                            減算代入
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end">...</td>
+                                        <td class="text-end">...</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="1">16</td>
+                                        <td><pre><code class="language-c">,</code></pre></td>
+                                        <td>
+                                            コンマ(順次)
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://www.k-cube.co.jp/wakaba/server/format.html">
+                                    <a href="https://www.k-cube.co.jp/wakaba/server/format.html">
+                                        フォーマット指定子一覧
+                                    </a>
+                                </blockquote>
+                            </div>
+
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#overview">Overview</a>
+                                    </li>
+                                    <li>
+                                        <a href="#compile">コンパイラ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#var">変数</a>
+                                    </li>
+                                    <li>
+                                        <a href="#reserved">予約語</a>
+                                    </li>
+                                    <li>
+                                        <a href="#type">データ型</a>
+                                    </li>
+                                    <li>
+                                        <a href="#format">フォーマット指定子</a>
+                                    </li>
+                                    <li>
+                                        <a href="#preprocess">プリプロセッサ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#include">#include</a>
+                                    </li>
+                                    <li>
+                                        <a href="#define">#define</a>
+                                    </li>
+                                    <li>
+                                        <a href="#escape">エスケープシーケンス</a>
+                                    </li>
+                                    <li>
+                                        <a href="#comment">コメント</a>
+                                    </li>
+                                    <li>
+                                        <a href="#operand">演算順序</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/createTable.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            createTable("cpptype", cppModel.type, true);
+            createTable("formatTable", cppModel.format, true);
+            createTable("escapeTable", cppModel.escape, true);
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["visualstudioTip", "pythonTip", "asciiCodeTip", "opencvTip"]);
+            new Pagination(1, cppModel.page, "pagination");
+        </script>
+    </footer>
+</html>
