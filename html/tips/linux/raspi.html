@@ -190,7 +190,11 @@ sudo reboot</code></pre>
                                 <div class="fw-bold">
                                     ターミナル
                                 </div>
-                                <pre><code class="language-bash">nano /home/pi/.local/lib/python3.11/site-packages/adafruit_blinka/microcontroller/generic_linux/lgpio_pin.py</code></pre>
+                                <pre><code class="language-bash"># ユーザ権限で実行する場合
+nano /home/pi/.local/lib/python3.11/site-packages/adafruit_blinka/microcontroller/generic_linux/lgpio_pin.py
+
+# sudo で実行する場合
+sudo nano /usr/local/lib/python3.11/dist-packages/adafruit_blinka/microcontroller/generic_linux/lgpio_pin.py</code></pre>
                             </p>
                             <p>
                                 <div class="fw-bold">
