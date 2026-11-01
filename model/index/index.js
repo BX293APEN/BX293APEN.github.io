@@ -253,6 +253,9 @@ class Model extends LoadModel {
             "dbdatabase" : {
                 "href" : "/html/tips/server/db.html",
             },
+            "snmpzabbix" : {
+                "href" : "/html/tips/server/zabbix.html",
+            },
 
             /* セキュリティ */
             "securitycyberattack" : {
