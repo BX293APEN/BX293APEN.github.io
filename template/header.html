@@ -1,7 +1,15 @@
 <header data-bs-theme="dark">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a 
+                class="navbar-brand" href="#" 
+                onclick="
+                    if (window.scrollY === 0) {
+                        event.preventDefault();
+                        document.getElementById('footer-contents')?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                "
+            >
                 <img src = "/img/pen.svg" height= "40px" width="40px">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
