@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/zabbix.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="システムの監視" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>システムの監視</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class ="pt-4 ps-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                システムの監視
+                            </h2>
+
+                        </article>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4 text-nowrap">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script src="/view/tex.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
+            new Pagination(12, serverModel.page, "pagination");
+
+            const mdLists = [
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>

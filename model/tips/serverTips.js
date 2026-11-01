@@ -45,6 +45,10 @@ class ServerModel{
                 "page" : 11,
                 "href" : "/html/tips/server/mail.html"
             },
+            {
+                "page" : 12,
+                "href" : "/html/tips/server/zabbix.html"
+            },
         ]
     }
 }
