@@ -43,7 +43,7 @@
                                 サーバ・ネットワーク機器・アプリケーションなどの状態を監視するためのオープンソースの統合監視ツール
                             </p>
 
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="zabbix-agent">
                                 Zabbixエージェントの構築
                             </h3>
 
@@ -99,7 +99,7 @@ sudo systemctl restart zabbix-agent2
 sudo systemctl enable zabbix-agent2</code></pre>
                             </p>
 
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="zabbix-server">
                                 Zabbixサーバの構築 (Docker推奨)
                             </h3>
                             <p>
@@ -1396,7 +1396,7 @@ WebServiceURL=http://zabbix-web-service:10053/report
 </code></pre>
                             </p>
 
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="zabbix-proxy">
                                 Zabbixプロキシの構築 (Docker推奨)
                             </h3>
                             <p>
@@ -1739,6 +1739,15 @@ sequenceDiagram
                                     </li>
                                     <li>
                                         <a href="#zabbix">Zabbix</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zabbix-agent">Zabbixエージェントの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zabbix-server">Zabbixサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zabbix-proxy">Zabbixプロキシの構築</a>
                                     </li>
                                     <li>
                                         <a href="#snmp">SNMP</a>
