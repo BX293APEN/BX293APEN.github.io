@@ -1634,6 +1634,98 @@ services:
                             </p>
 
                         </article>
+
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="snmp">
+                                SNMP
+                            </h2>
+                            <p>
+                                <ul>
+                                    <li>SNMP(Simple Network Management Protocol)は、ネットワーク機器を <b>監視・管理するためのプロトコル</b></li> 
+                                    <li>ルータ、スイッチ、サーバ、プリンタなどの状態(トラフィック量、CPU使用率、稼働時間など)を取得・設定できる</li> 
+                                    <li>トランスポートは基本的に <b>UDP</b></li> 
+                                    <li><b>マネージャ(NMS)</b> が <b>エージェント(監視対象機器)</b> に問い合わせる、またはエージェントがマネージャへ通知する</li> 
+                                    <li>管理対象の情報は <b>MIB</b> に木構造で定義され、<b>OID</b> で指定する</li> 
+                                    <li>
+                                        バージョンは v1 / v2c / v3 の3種類<br>
+                                        v1・v2c : 平文<br>
+                                        v3 : 認証・暗号化に対応
+                                    </li> 
+                                </ul>
+                            </p>
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ポート
+                            </h2>
+                            <div id="md-snmp-port">
+| ポート種別 | ポート番号 | ポート名 | 説明 |
+|---|---|---|---|
+| UDP | 161 | snmp | エージェントがマネージャからのリクエスト(Get / GetNext / GetBulk / Set)を受け付ける |
+| UDP | 162 | snmptrap | マネージャがエージェントからの通知(Trap / Inform)を受け付ける |
+| TCP / UDP | 10161 | snmpdtls | TLS / DTLS 上の SNMP(リクエスト受付)、RFC 6353 |
+| TCP / UDP | 10162 | snmpdtls-trap | TLS / DTLS 上の SNMP(通知受付)、RFC 6353 |
+                            </div>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                通信方法
+                            </h2>
+
+<!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant A as エージェント(監視対象機器)
+    participant M as マネージャ(NMS)
+
+    Note over A,M: 1. Trap(エージェントからの一方向通知)
+    A->>M: Trap(UDP 162)例 linkDown
+    Note right of M: 応答なし、届かなくてもエージェントは気づけない
+
+    Note over A,M: 2. Inform(応答つき通知 v2c以降)
+    A->>M: InformRequest(UDP 162)
+    M-- >>A: Response
+    Note left of A: 応答がなければ再送する
+
+    Note over A,M: 3. ポーリング(マネージャからの問い合わせ)
+    M->>A: GetRequest(UDP 161)OIDを指定
+    A-- >>M: Response(値)
+    M->>A: GetNextRequest / GetBulkRequest
+    A-- >>M: Response(次のOIDと値)
+    M->>A: SetRequest
+    A-- >>M: Response(設定結果)
+
+-->
+                            <img src="/img/server/snmp.svg" width = "100%"/>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                用語
+                            </h2>
+                            <div id="md-snmp-word">
+| 用語 | 説明 |
+|---|---|
+| コミュニティ名 | <ul><li>v1 / v2c で使うパスワード代わりの文字列</li><li>一致しないとエージェントは応答しない</li><li>平文で流れるため、既定値のまま運用するのは危険</li></ul><table class="table-nostriped"><tr><th>コミュニティ名</th><th>権限</th><th>説明</th></tr><tr><td>public</td><td>読み取り専用(RO)</td><td><ul><li>読み取り用の既定値として多い</li><li>第三者に機器情報を取得される恐れがある</li></ul></td></tr><tr><td>private</td><td>読み書き(RW)</td><td><ul><li>書き込み用の既定値として多い</li><li>設定を書き換えられる恐れがある</li></ul></td></tr></table> |
+| マネージャ(NMS) | <ul><li>監視する側</li><li>エージェントへ問い合わせを行う</li><li>エージェントからの通知を受信する</li></ul> |
+| エージェント | <ul><li>監視される側</li><li>機器上で動作し、情報を提供・通知する</li></ul> |
+| MIB | <ul><li>管理対象オブジェクトの定義集</li><li>ツリー構造</li><li>標準は MIB-II(`1.3.6.1.2.1`)</li><li>ベンダー独自は enterprises(`1.3.6.1.4.1`)配下</li></ul> |
+| OID | <ul><li>MIB のツリー上の位置を `.` 区切りの数字で表したもの</li><li>末尾の `.0` はスカラー値を表す</li></ul><table class="table-nostriped"><tr><th>名称</th><th>OID</th><th>内容</th></tr><tr><td>sysDescr</td><td>1.3.6.1.2.1.1.1.0</td><td>機器の説明</td></tr><tr><td>sysUpTime</td><td>1.3.6.1.2.1.1.3.0</td><td>起動からの経過時間</td></tr><tr><td>sysName</td><td>1.3.6.1.2.1.1.5.0</td><td>機器名</td></tr><tr><td>ifTable</td><td>1.3.6.1.2.1.2.2</td><td>インターフェース情報</td></tr></table> |
+| Trap | <ul><li>エージェントから能動的に送る通知</li><li>応答がない</li><li>UDP のため欠落しても検知できない</li></ul> |
+| Inform | <ul><li>応答つきの通知(v2c以降)</li><li>マネージャが Response を返す</li><li>応答がなければ再送される</li></ul> |
+| PDU | <ul><li>SNMP のメッセージ単位</li></ul><table class="table-nostriped"><tr><th>PDU</th><th>方向</th><th>内容</th></tr><tr><td>GetRequest</td><td>M → A</td><td>指定OIDの値を取得</td></tr><tr><td>GetNextRequest</td><td>M → A</td><td>次のOIDの値を取得(walkの基本)</td></tr><tr><td>GetBulkRequest</td><td>M → A</td><td>複数の値をまとめて取得(v2c以降)</td></tr><tr><td>SetRequest</td><td>M → A</td><td>値を設定</td></tr><tr><td>Response</td><td>A → M</td><td>各リクエストへの応答</td></tr></table> |
+| バージョン | <table class="table-nostriped"><tr><th>バージョン</th><th>認証</th><th>暗号化</th><th>備考</th></tr><tr><td>v1</td><td>コミュニティ名</td><td>なし</td><td>古い機器向け</td></tr><tr><td>v2c</td><td>コミュニティ名</td><td>なし</td><td>GetBulk / Inform に対応、現在も広く利用</td></tr><tr><td>v3</td><td>ユーザ認証(USM)</td><td>あり</td><td>VACM でアクセス範囲も制御、推奨</td></tr></table> |
+| USM / VACM | <ul><li>v3 のセキュリティ機構</li><li>USM はユーザ認証と暗号化</li><li>VACM はユーザごとのアクセス制御</li></ul> |
+                            </div>
+                        </article>
                         
                     </div>
                     <div class="col-md-4">
@@ -1647,6 +1739,9 @@ services:
                                     </li>
                                     <li>
                                         <a href="#zabbix">Zabbix</a>
+                                    </li>
+                                    <li>
+                                        <a href="#snmp">SNMP</a>
                                     </li>
                                     
                                     <li>
@@ -1684,13 +1779,25 @@ services:
             new Pagination(12, serverModel.page, "pagination");
 
             const mdLists = [
+                "md-snmp-port",
+                "md-snmp-word",
             ];
 
-            for (const mdID of mdLists) {
-                new MarkDownMaker(
-                    id              = mdID,
-                )
-            }
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
         </script>
     </footer>
 </html>

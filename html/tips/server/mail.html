@@ -1415,11 +1415,21 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                 "md-main_mailer_type",
             ];
 
-            for (const mdID of mdLists) {
-                new MarkDownMaker(
-                    id              = mdID,
-                )
-            }
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
         </script>
     </footer>
 </html>
