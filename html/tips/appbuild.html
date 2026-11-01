@@ -31,16 +31,32 @@
             <main>
                 <div class="row g-5">
                     <div class="col-md-8">
-                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
-                            アプリケーション
-                        </h2>
-                        <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="software">
-                                ソフトウェア
-                            </h3>
-                            <h4 class="pt-4 border-bottom fw-bold">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                コンピュータの構成要素
+                            </h2>
+                            <div id="md-ware">
+| 階層 | 役割 | 具体例 |
+|---|---|---|
+| ライブウェア<br>(Liveware) | <ul><li>システムを操作・利用する人間</li><li>最上位の利用者</li></ul> | <ul><li>ユーザー</li><li>システム管理者</li><li>開発者</li></ul> |
+| ソフトウェア<br>(Software) | <ul><li>ユーザーが目的を達成するためのアプリケーション</li></ul> | <ul><li>Webブラウザ</li><li>Word</li><li>Excel</li><li>ゲーム</li></ul> |
+| ミドルウェア<br>(Middleware) | <ul><li>OSとアプリケーションの間に位置する</li><li>共通機能を提供する</li></ul> | <ul><li>データベース (MySQL, PostgreSQL)</li><li>Webサーバ (Apache, nginx)</li><li>JVM</li></ul> |
+| OS<br>(システムソフトウェア) | <ul><li>ハードウェア資源を管理する</li><li>アプリケーションへ実行環境を提供する</li></ul> | <ul><li>Windows</li><li>macOS</li><li>Linux</li><li>Android</li></ul> |
+| ドライバウェア<br>(Driverware) | <ul><li>OSと周辺機器の間を仲介する</li><li>デバイスを制御する</li></ul> | <ul><li>GPUドライバ</li><li>プリンタドライバ</li><li>USBドライバ</li></ul> |
+| ファームウェア<br>(Firmware) | <ul><li>ハードウェアに組み込まれる</li><li>基本動作を制御する</li></ul> | <ul><li>BIOS / UEFI</li><li>ルータのファームウェア</li><li>SSDコントローラのFW</li></ul> |
+| ハードウェア<br>(Hardware) | <ul><li>物理的な機器</li><li>最下層</li></ul> | <ul><li>CPU</li><li>メモリ</li><li>ストレージ</li><li>マザーボード</li><li>GPU</li></ul> |
+
+                            </div>
+                        </article>
+
+                        <article class="blog-post" id="software">
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                ソフトウェア (アプリケーション)
+                            </h2>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
                                 ソフトウェアライフサイクルプロセス
-                            </h4>
+                            </h3>
                             <p>
                                 ソフトウェアの企画・開発・運用・保守・廃棄に至る一連の工程を、共通の枠組み・用語で整理した規格
                             </p>
@@ -252,9 +268,9 @@ flowchart LR
 
                             </div>
                             
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold">
                                 開発モデル
-                            </h4>
+                            </h3>
                             <div id="md-soft-dev-model">
 
 
@@ -295,9 +311,9 @@ flowchart LR
 | デザイン思考<br>(Design Thinking) | <ul><li>利用者の視点に立ち、課題の発見から解決策の検証までを進める手法</li><li>利用者の**潜在的なニーズ**を見つけ出すことを重視する</li><li>プロトタイプを素早く作り、試行錯誤を繰り返す</li></ul>5つのプロセス(行きつ戻りつ繰り返す)<ol><li>共感(利用者を観察・インタビューして理解する)</li><li>問題定義(本当の課題を明確にする)</li><li>アイデア創出(ブレインストーミングなどで解決策を出す)</li><li>プロトタイプ(試作品を作る)</li><li>テスト(利用者に試してもらい、フィードバックを得る)</li></ol> | <ul><li>利用者の潜在ニーズに基づく解決策を得られる</li><li>早期に試作して検証でき、手戻りを小さくできる</li></ul> | <ul><li>成果が出るまでの期間や効果が見えにくい</li><li>アイデアの実現性・事業性は別途検討が必要</li><li>利用者の観察・検証に時間と手間がかかる</li></ul> |
 
                             </div>
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold">
                                 ソフトウェアテスト
-                            </h4>
+                            </h3>
                             <div id="md-soft-test">
 
 ##### テストの網羅基準
@@ -503,12 +519,12 @@ flowchart LR
 
                             </div>
 
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold">
                                 ソフトウェア品質(SQuaRE <a href="/html/about/security/security-laws.html#md-isoiec">ISO/IEC 25010:2011</a>)
-                            </h4>
-                            <h5 class="pt-4 fw-bold">
+                            </h3>
+                            <h4 class="pt-4 fw-bold">
                                 製品品質モデル
-                            </h5>
+                            </h4>
                             <p>
                                 要件定義・システム設計
                             </p>
@@ -527,9 +543,9 @@ flowchart LR
 | 移植性        | <ul><li>適応性</li><li>設置性</li><li>置換性</li></ul> | 異なる環境(ハードウェア・ソフトウェア)へ移行してもそのまま動作する度合い |  
 
                             </div>
-                            <h5 class="pt-4 fw-bold">
+                            <h4 class="pt-4 fw-bold">
                                 利用時の品質モデル
-                            </h5>
+                            </h4>
 
                             <div id="md-model-use">
 
@@ -543,9 +559,9 @@ flowchart LR
 
 
                             </div>
-                            <h4 class="pt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 border-bottom fw-bold">
                                 システム保守
-                            </h4>
+                            </h3>
                             <div id="md-maintenance">
 
 | 保守区分 | 概要 |
@@ -561,9 +577,9 @@ flowchart LR
                             </div>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="cloud">
+                            <h2 class="pt-4 border-bottom fw-bold" id="cloud">
                                 クラウド形態
-                            </h3>
+                            </h2>
                             <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap">
                                     <tr class="text-center">
@@ -659,9 +675,9 @@ flowchart LR
                             <img class ="pt-4" src="/img/appbuild/PricePlan.png" width = "100%"/>
                         </article>
                         <article class="blog-post">
-                            <h3 class="pt-4 border-bottom fw-bold" id="protocol">
+                            <h2 class="pt-4 border-bottom fw-bold" id="protocol">
                                 プロトコルについて
-                            </h3>
+                            </h2>
                             <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap" style="border: #212529;">
                                     <tr class="text-center">
@@ -938,9 +954,9 @@ flowchart LR
                                 </table>
                             </div>
 
-                            <h4 class="pt-4 fw-bold">
+                            <h3 class="pt-4 fw-bold">
                                 プロトコル番号
-                            </h4>
+                            </h3>
 
                             <div id = "md-protocol">
 
@@ -1025,10 +1041,13 @@ flowchart LR
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
                             <div class="p-4">
-                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <h3 class="fst-italic border-bottom">Table of Contents</h3>
                                 <ol class="list-unstyled mb-0">
                                     <li>
                                         <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-ware">コンピュータの構成要素</a>
                                     </li>
                                     <li>
                                         <a href="#software">ソフトウェア</a>
@@ -1090,6 +1109,7 @@ flowchart LR
             new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "securityTip", "serverTip"]);
             new Pagination(1, appBuildModel.page, "pagination");
             const mdLists = [
+                "md-ware",
                 "md-slcp", 
                 "md-soft-dev-model", 
                 "md-soft-test",
