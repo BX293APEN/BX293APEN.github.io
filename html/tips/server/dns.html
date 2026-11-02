@@ -608,7 +608,11 @@ stub["スタブリゾルバ<br>(端末)"]
                                         </tr>
                                         <tr>
                                             <td>DKIM</td>
-                                            <td>電子署名を検証する公開鍵(<code>セレクタ._domainkey</code> に設定)</td>
+                                            <td>
+                                                電子署名を検証する公開鍵<br>
+                                                <code>[セレクタ]._domainkey</code> に設定<br>
+                                                ホスト名 : <code>[セレクタ]._domainkey.[ゾーン名]</code>
+                                            </td>
                                             <td><pre><code>sel1._domainkey IN TXT "v=DKIM1; k=rsa; p=MIGf..."</code></pre></td>
                                         </tr>
                                         <tr>
