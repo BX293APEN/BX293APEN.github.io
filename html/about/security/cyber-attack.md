@@ -88,6 +88,7 @@
 | 攻撃手法 | 代表例 | 内容 | 攻撃者 | 対策サービス・方法 |
 |---|---|---|---|---|
 | SQLインジェクション | sqlmap | 入力値にSQL文を混入させ、DBの不正参照・改ざん・破壊を行う | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>WAF</li><li>プレースホルダ(バインド機構)</li><li>入力値検証</li></ul> |
+| ブラインドSQLインジェクション<br>(Blind SQL Injection) | sqlmap<br>(Boolean/Time-basedの自動検出に対応) | SQLインジェクションの一種で、エラーメッセージやクエリ結果がレスポンスに直接表示されない場合でも、<br>アプリケーションの挙動の違いからDBの内容を1ビット・1文字ずつ推測して取得する攻撃<br><ul><li>Boolean-based(ブール型): 条件式を真/偽にした際の、画面表示・件数・ステータスコード等の差異から推測する(例: AND 1=1 と AND 1=2 の応答比較)</li><li>Time-based(時間差型): 条件が真のときだけ意図的に遅延(SLEEP等)させ、応答時間の差から推測する</li></ul>1回の試行で得られる情報が少ないため、自動化ツールで大量のリクエストを送信することが多い | <ul><li>個人クラッカー</li><li>犯罪組織</li></ul> | <ul><li>**根本対策**: プレースホルダ(バインド機構)</li><li>WAF</li><li>入力値検証</li><li>エラーメッセージの非表示(詳細なDBエラーを画面に出さない)</li><li>DBアカウントの権限最小化</li><li>異常な大量リクエスト・応答遅延を狙った試行の検知(レートリミット等)</li></ul> |
 | クロスサイトスクリプティング<br>(XSS) | BeEF<br>(Browser Exploitation <br>Framework) | Webサイトに悪意あるスクリプトを注入し、<br>閲覧者のブラウザで実行させる | 個人クラッカー | <ul><li>WAF</li><li>出力エスケープ</li><li>CSP(Content Security Policy)</li></ul> |
 | 反射型XSS<br>(Reflected XSS) | BeEF<br>(Browser Exploitation <br>Framework) | 罠のURLを踏ませ、<br>リクエスト内のスクリプトがレスポンスに埋め込まれて実行される<br>(サーバに保存されない) | 個人クラッカー | <ul><li>WAF</li><li>出力エスケープ</li><li>CSP(Content Security Policy)</li></ul> |
 | 格納型XSS<br>(Stored XSS) | BeEF<br>(Browser Exploitation <br>Framework) | 掲示板・コメント欄などにスクリプトを保存させ、<br>閲覧した全員のブラウザで実行される | 個人クラッカー | <ul><li>出力エスケープ</li><li>入力値のサニタイズ</li><li>CSP(Content Security Policy)</li><li>HttpOnly Cookie</li></ul> |
