@@ -93,10 +93,10 @@ flowchart LR
     }
 }%%
 flowchart TD
-    HD["ブロックヘッダ 80byte<ul style='text-align: left; text-wrap: nowrap;'><li>version</li><li>直前ブロックのハッシュ値</li><li>全トランザクションの要約(merkle_root) &emsp;</li><li>ブロック生成時刻(timestamp)</li><li>難易度ターゲット(bits)</li><li>nonce</li></ul>"]
+    HD["ブロックヘッダ 80Byte<ul style='text-align: left; text-wrap: nowrap;'><li>version</li><li>直前ブロックのハッシュ値</li><li>全トランザクションの要約(merkle_root) &emsp;</li><li>ブロック生成時刻(timestamp)</li><li>難易度ターゲット(bits)</li><li>nonce</li></ul>"]
     S1["SHA-256"]
     S2["SHA-256"]
-    R["ブロックハッシュ 32byte<br/>000...000xxx...xxx"]
+    R["ブロックハッシュ 32Byte<br/>000...000xxx...xxx"]
     CK{"ハッシュ値 ≦ ターゲット ?<br/>(bits から算出)"}
     OK["PoW 成立<br/>ブロックとして有効"]
     NG["nonce を変更して再計算"]
@@ -137,7 +137,7 @@ flowchart TD
 flowchart TD
     subgraph BLOCK["ブロック"]
         direction TB
-        subgraph HEADER["ブロックヘッダ (80byte)"]
+        subgraph HEADER["ブロックヘッダ (80Byte)"]
             direction TB
             V["version"]
             PH["prev_block_hash<br/>直前ブロックのハッシュ値"]
@@ -165,12 +165,12 @@ flowchart TD
 
 | フィールド | サイズ | 説明 |
 |---|---|---|
-| version | 4byte | ブロックのバージョン |
-| prev_block_hash | 32byte | **直前ブロックのヘッダのハッシュ値**<br>鎖の連結部分 |
-| merkle_root | 32byte | ブロック内の全TXから作るマークルツリーのルートハッシュ |
-| timestamp | 4byte | ブロック生成時刻 (UNIX時間・秒) |
-| bits | 4byte | 難易度ターゲットのコンパクト表現 |
-| nonce | 4byte | マイナーが探索する値 |
+| version | 4Byte | ブロックのバージョン |
+| prev_block_hash | 32Byte | **直前ブロックのヘッダのハッシュ値**<br>鎖の連結部分 |
+| merkle_root | 32Byte | ブロック内の全TXから作るマークルツリーのルートハッシュ |
+| timestamp | 4Byte | ブロック生成時刻 (UNIX時間・秒) |
+| bits | 4Byte | 難易度ターゲットのコンパクト表現 |
+| nonce | 4Byte | マイナーが探索する値 |
 
 <br>
                             </div>
