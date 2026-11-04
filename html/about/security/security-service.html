@@ -477,6 +477,66 @@
                             </tr>
                         </tbody>
                     </table>
+                    <ul class="ps-3 mb-0 mt-2">
+                        <li><strong>SPA</strong>(Single Packet Authorization)
+                            <ul class="ps-3 mb-0">
+                                <li>ポートノッキングの発展形</li>
+                                <li>認証情報を含む暗号化・署名済みの<br>
+                                    <strong>1パケット</strong>で認可を行う</li>
+                                <li>ZTNAのSDP(Software Defined Perimeter)等で<br>
+                                    接続制御に使われる</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <table class="table table-sm table-bordered small mb-0 mt-2 text-nowrap">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">項目</th>
+                                <th scope="col">ポートノッキング</th>
+                                <th scope="col">SPA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">認証の仕組み</th>
+                                <td>決められたポートへ決められた順序で<br>
+                                    接続を試みる</td>
+                                <td>暗号化・署名された認可パケットを<br>
+                                    1つ送る</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">認証情報</th>
+                                <td>ポートの順序(合言葉のようなもの)</td>
+                                <td>暗号化・署名されたペイロード</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">盗聴・リプレイ攻撃</th>
+                                <td>順序を盗み見られると再利用される</td>
+                                <td>タイムスタンプやナンス等で<br>
+                                    再利用を防げる</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">なりすまし・改ざん</th>
+                                <td>順序を再現されると防げない</td>
+                                <td>HMAC等の署名で検出できる</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">実装例</th>
+                                <td>knockd</td>
+                                <td>fwknop</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol class="ps-3 mb-0 mt-2">
+                        <li>サーバは全ポートを閉じ、応答を返さない<br>
+                            (外部からは存在しないように見える)</li>
+                        <li>クライアントが認可パケットを1つ送る</li>
+                        <li>サーバは<strong>ポートを開けずに</strong><br>
+                            パケットを受け取り検証する</li>
+                        <li>検証に成功した送信元IPに限り、<br>
+                            指定ポートを一時的に開放する</li>
+                        <li>一定時間後にルールを自動で削除する</li>
+                    </ol>
                 </td>
             </tr>
         </tbody>
