@@ -341,22 +341,77 @@ class Pin:
                                 <div class="fw-bold">
                                     Python
                                 </div>
-                                <pre><code class="language-python">import gpiozero
-from time import sleep
+                                <pre><code class="language-python">#!/usr/bin/env python3
 
 import gpiozero.pins.lgpio
 import lgpio
 
-def __patched_init(self, chip=15):
+import glob
+import re
+
+class gpio_open:
+    def __init__(self, chip):
+        self.chip = chip
+
+    def __enter__(self):
+        self.handle = lgpio.gpiochip_open(self.chip)
+        return self
+
+    def get_chip_info(self):
+        return lgpio.gpio_get_chip_info(self.handle)
+
+    def get_chip_label(self):
+        _, _, _, label = self.get_chip_info()
+        return label
+
+    def __exit__(self, *args):
+        lgpio.gpiochip_close(self.handle)
+
+
+def find_gpiochip(
+    GPIO_CHIP_KEYWORD = "pinctrl-",
+    gpio_device_path    = "/dev/gpiochip"
+):
+    chips = []
+    for path in glob.glob(f"{gpio_device_path}*"):
+        m = re.fullmatch(rf"{gpio_device_path}(\d+)", path)
+        if m is None:
+            continue
+        chip = int(m.group(1))
+        try:
+            with gpio_open(chip) as handle:
+                label = handle.get_chip_label()
+                if GPIO_CHIP_KEYWORD in label:
+                    chips.append(chip)
+
+        except lgpio.error:
+            continue
+
+    if not chips:
+        return 0    # 元のgpiozeroの動作
+    else:
+        return min(chips)
+
+def __gpiozero_init__(
+    self, 
+    chip                = None, 
+    GPIO_CHIP_KEYWORD   = "pinctrl-",
+    gpio_device_path    = "/dev/gpiochip"
+):
+    if chip is None:
+        chip = find_gpiochip(GPIO_CHIP_KEYWORD, gpio_device_path)
     gpiozero.pins.lgpio.LGPIOFactory.__bases__[0].__init__(self)
     self._handle = lgpio.gpiochip_open(chip)
     self._chip = chip
     self.pin_class = gpiozero.pins.lgpio.LGPIOPin
 
-gpiozero.pins.lgpio.LGPIOFactory.__init__ = __patched_init
+
+from time import sleep
+import gpiozero
 
 if __name__ == "__main__":
-    led_pin = gpiozero.DigitalOutputDevice(pin=18)
+    gpiozero.pins.lgpio.LGPIOFactory.__init__ = __gpiozero_init__
+    led_pin = gpiozero.DigitalOutputDevice(pin=23)
     led_pin.value = 0
     while True:
         led_pin.value = 1 - led_pin.value
