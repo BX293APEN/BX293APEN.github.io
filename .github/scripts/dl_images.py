@@ -48,7 +48,7 @@ class DownloadImage:
         | 名前 | 型 | 説明 |
         | --- | --- | --- |
         | `dl_image` | `list[dict]` | `{"source": URL, "targetDir": 保存先}` のリスト |
-        | `base_dir` | `str \\| Path` | 保存の基準ディレクトリ (既定 `ROOT`) |
+        | `base_dir` | `str | Path` | 保存の基準ディレクトリ (既定 `ROOT`) |
         """
         self.dl_image = dl_image
         self.base_dir = Path(base_dir)
