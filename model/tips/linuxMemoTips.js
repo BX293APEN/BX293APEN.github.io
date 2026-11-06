@@ -12,7 +12,7 @@ class LinuxMemoModel{
         ]
         this.dlData = {
             "Yocto" : {
-                "href"      : "https://github.com/BX293APEN/Yocto_Docker",
+                "href"      : "https://github.com/BX293APEN/Yocto_Docker.png",
                 "imgSrc"    : "/img/linuxMemo/Yocto_Docker", 
                 "title"     : "Yocto Linux 自動ビルド",
                 "text"      : "&emsp;Docker上でYocto Linuxを構築しUSBに焼くリポジトリです<br>リポジトリをクローンし、<code>docker compose up --build -d</code>を実行<br>寝ている間にrootfsが完成し、USBに焼けば起動できます",
@@ -20,7 +20,7 @@ class LinuxMemoModel{
                 "dltext"    : "Learn More"
             },
             "LFS" : {
-                "href"      : "https://github.com/BX293APEN/LFS_Docker",
+                "href"      : "https://github.com/BX293APEN/LFS_Docker.png",
                 "imgSrc"    : "/img/linuxMemo/LFS_Docker", 
                 "title"     : "Linux From Scratch 自動ビルド",
                 "text"      : "&emsp;Docker上でLinux From Scratchを構築しUSBに焼くリポジトリです<br>リポジトリをクローンし、<code>docker compose up --build -d</code>を実行<br>寝ている間にrootfsが完成し、USBに焼けば起動できます",
@@ -28,7 +28,7 @@ class LinuxMemoModel{
                 "dltext"    : "Learn More"
             },
             "OpenWrt" : {
-                "href"      : "https://github.com/BX293APEN/OpenWrt_Docker",
+                "href"      : "https://github.com/BX293APEN/OpenWrt_Docker.png",
                 "imgSrc"    : "/img/linuxMemo/OpenWrt_Docker", 
                 "imgType"   : ".png",
                 "title"     : "OpenWrt 自動ビルド",
@@ -36,7 +36,7 @@ class LinuxMemoModel{
                 "dltext"    : "Learn More"
             },
             "Gentoo" : {
-                "href"      : "https://github.com/BX293APEN/Gentoo_Docker",
+                "href"      : "https://github.com/BX293APEN/Gentoo_Docker.png",
                 "imgSrc"    : "/img/linuxMemo/Gentoo_Docker", 
                 "imgType"   : ".png",
                 "title"     : "Gentoo Linux 自動ビルド",
