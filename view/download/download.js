@@ -26,6 +26,9 @@ class DownloadView{
                 if(model.dlData[article]["imgType"] == ".svg"){
                     imgTag.classList.add("figure-img", "img-fluid", "rounded", "w-25");
                 }
+                if(model.dlData[article]["imgType"] == ".png"){
+                    imgTag.classList.add("figure-img", "w-50");
+                }
                 aTag.appendChild(imgTag);
                 let aDLTag                  = document.createElement("a");
                 aDLTag.href                 = model.dlData[article]["href"];
