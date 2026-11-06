@@ -17,7 +17,7 @@ class DownloadView{
             let figureTag;
             if(model.dlData[article]["imgType"] != "none"){
                 figureTag                   = document.createElement("figure");
-                figureTag.classList.add("figure");
+                figureTag.classList.add("figure", "w-100");
 
                 let aTag                    = document.createElement("a");
                 aTag.href                   = model.dlData[article]["href"];
