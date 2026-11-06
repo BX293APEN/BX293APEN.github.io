@@ -13,7 +13,7 @@ class LinuxMemoModel{
         this.dlData = {
             "Yocto" : {
                 "href"      : "https://github.com/BX293APEN/Yocto_Docker",
-                "imgSrc"    : "https://opengraph.github.com/1/BX293APEN/Yocto_Docker", 
+                "imgSrc"    : "/img/linuxMemo/Yocto_Docker", 
                 "title"     : "Yocto Linux 自動ビルド",
                 "text"      : "&emsp;Docker上でYocto Linuxを構築しUSBに焼くリポジトリです<br>リポジトリをクローンし、<code>docker compose up --build -d</code>を実行<br>寝ている間にrootfsが完成し、USBに焼けば起動できます",
                 "imgType"   : ".png",
@@ -21,7 +21,7 @@ class LinuxMemoModel{
             },
             "LFS" : {
                 "href"      : "https://github.com/BX293APEN/LFS_Docker",
-                "imgSrc"    : "https://opengraph.github.com/1/BX293APEN/LFS_Docker", 
+                "imgSrc"    : "/img/linuxMemo/LFS_Docker", 
                 "title"     : "Linux From Scratch 自動ビルド",
                 "text"      : "&emsp;Docker上でLinux From Scratchを構築しUSBに焼くリポジトリです<br>リポジトリをクローンし、<code>docker compose up --build -d</code>を実行<br>寝ている間にrootfsが完成し、USBに焼けば起動できます",
                 "imgType"   : ".png",
@@ -29,7 +29,7 @@ class LinuxMemoModel{
             },
             "OpenWrt" : {
                 "href"      : "https://github.com/BX293APEN/OpenWrt_Docker",
-                "imgSrc"    : "https://opengraph.github.com/1/BX293APEN/OpenWrt_Docker", 
+                "imgSrc"    : "/img/linuxMemo/OpenWrt_Docker", 
                 "imgType"   : ".png",
                 "title"     : "OpenWrt 自動ビルド",
                 "text"      : "&emsp;Docker上でOpenWrtを構築しUSBに焼くリポジトリです<br>リポジトリをクローンし、<code>docker compose up --build -d</code>を実行<br>寝ている間にrootfsが完成し、USBに焼けば起動できます",
@@ -37,7 +37,7 @@ class LinuxMemoModel{
             },
             "Gentoo" : {
                 "href"      : "https://github.com/BX293APEN/Gentoo_Docker",
-                "imgSrc"    : "https://opengraph.github.com/1/BX293APEN/Gentoo_Docker", 
+                "imgSrc"    : "/img/linuxMemo/Gentoo_Docker", 
                 "imgType"   : ".png",
                 "title"     : "Gentoo Linux 自動ビルド",
                 "text"      : "&emsp;Docker上でGentoo Linuxを構築しUSBに焼くリポジトリです<br>リポジトリをクローンし、<code>docker compose up --build -d</code>を実行<br>寝ている間にrootfsが完成し、USBに焼けば起動できます",
