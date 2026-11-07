@@ -66,6 +66,7 @@ del [削除対象]                               # ファイル削除(rm相当)
 rmdir /s /q [削除対象]                       # 確認無し削除(rm -rf相当)
 copy [コピー元] [コピー先]                    # ファイルコピー(cp相当)
 robocopy [コピー元] [コピー先] /E            # フォルダごとコピー(cp -r相当)
+robocopy [コピー元] [コピー先] /E /r:0 /w:0 /log:[ログファイル]  # フォルダごとコピー(読めないファイルはリトライせずスキップして続行し、結果をログに出力)
 
 netstat -ano                                # ネットワーク接続状態と、それを使っているプログラムのPIDを一覧表示
 # プロトコル  ローカル アドレス      外部アドレス           状態            PID
@@ -215,7 +216,7 @@ sfc /scannow</code></pre>
                                 <div class="fw-bold">
                                     コマンドプロンプト
                                 </div>
-                                <pre><code class="language-bash">chkdsk [チェックするフォルダパス名] [オプション]</code></pre>
+                                <pre><code class="language-bash">chkdsk [チェックするドライブ名 (FAT系のみフォルダ指定可能)] [オプション]</code></pre>
                             </p>
                             <div class = "table-responsive">
                                 <table class="table table-bordered">
@@ -265,10 +266,7 @@ sfc /scannow</code></pre>
                                 壊れたファイルの救出(recover)
                             </h3>
                             <p>
-                                <strong>
-                                    ※物理的損傷(異音・認識が不安定など)が疑われる場合は、通電時間を増やさないこと<br>
-                                    先に別ドライブへコピーしてから、コピー側で実行する
-                                </strong>
+                                <strong>※物理的損傷(異音・認識が不安定など)が疑われる場合は、通電時間を増やさないこと</strong>
                             </p>
                             <p>
                                 &emsp;不良セクタを含むファイルから、<b>読み出せた部分だけ</b>を回収するコマンド<br>
@@ -280,26 +278,11 @@ sfc /scannow</code></pre>
                                 </div>
                                 <pre><code class="language-bash">recover [ドライブ:][パス]ファイル名</code></pre>
                             </p>
-                            <div class = "table-responsive">
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>項目</th>
-                                        <th>内容</th>
-                                    </tr>
-                                    <tr>
-                                        <td>対象</td>
-                                        <td>ファイル1つずつ (ワイルドカード不可 / ドライブ全体の復旧は不可)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>書き込み先</td>
-                                        <td>元のファイルを回収データで上書きする (失敗しても元に戻せない)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>実行できない場合</td>
-                                        <td>ディレクトリ情報からファイルが見えない / ドライブが認識されない</td>
-                                    </tr>
-                                </table>
-                            </div>
+                            <ul>
+                                <li>対象 : ファイル1つずつ (ワイルドカード不可 / ドライブ全体の復旧は不可)</li>
+                                <li>書き込み先 : 元のファイルを回収データで上書きする (失敗しても元に戻せない)</li>
+                                <li>実行できない場合 : ディレクトリ情報からファイルが見えない / ドライブが認識されない</li>
+                            </ul>
                             <h4 class="pt-4 fw-bold">
                                 ファイルの種類ごとの期待値
                             </h4>
