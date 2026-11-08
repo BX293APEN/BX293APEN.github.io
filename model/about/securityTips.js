@@ -13,6 +13,10 @@ class SecurityModel{
                 "page" : 3,
                 "href" : "/html/about/security/security.html"
             },
+            {
+                "page" : 4,
+                "href" : "/html/about/security/critical-cyber-attack.html"
+            },
         ]
     }
 }
