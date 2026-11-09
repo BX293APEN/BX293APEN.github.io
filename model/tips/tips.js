@@ -102,7 +102,7 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
             "teratermTip" : {
                 "href"      : "/html/tips/teraterm.html",
                 "imgSrc"    : "/img/teraterm.png", 
-                "title"     : "Tera Termのマクロについて",
+                "title"     : "マクロ",
                 "text"      : "&emsp;マクロを利用することにより、高速なセットアップが可能となります",
                 "svg"       : false
             },
