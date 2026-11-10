@@ -39,7 +39,9 @@ class SecurityServiceMD2HTML:
     | `load_words` | OSI 層の割り当てルール・CSS の差分・確認用ページの定義を読み込む |
     | `plain` | HTML タグを除いた文字列にする |
     | `parse` | Markdown の表を行データに変換する |
-    | `osi_of` | 各行の OSI 層を決める |
+    | `inspect_text` | 説明の「検査箇所」の項目(`<li>`)を取り出す |
+    | `layers_in` | 「検査箇所」の文字列を OSI 層の番号に変換する |
+    | `osi_of` | 各行の OSI 層と、その根拠を決める |
     | `tags_of` | 行ごとにタグ(分類・OSI層)を決める |
     | `row_html` | 1行分の `<tr>` を作る |
     | `group` | 上部のタグボタン群を作る |
@@ -66,6 +68,18 @@ class SecurityServiceMD2HTML:
         6: "L6 プレゼンテーション層",
         7: "L7 アプリケーション層",
     }
+
+    # ## 層の名前 → 番号(説明の「検査箇所」の読み取りに使う。「〜層」の「〜」の部分)
+    LAYER_NAMES = {
+        "物理": 1,
+        "データリンク": 2,
+        "ネットワーク": 3,
+        "トランスポート": 4,
+        "セッション": 5,
+        "プレゼンテーション": 6,
+        "アプリケーション": 7,
+    }
+    CHILD_MARKS = "└┗"   # 名前の先頭にこの文字があれば子の項目
 
     def __init__(
         self,
@@ -153,7 +167,24 @@ class SecurityServiceMD2HTML:
         | `self.css_extra` | `str` | CSS の末尾に追加する、このページ固有の指定 |
         | `self.prev` | `str` | 確認用ページの雛形 |
 
-        ## OSI 層の割り当て(判断で決めたもの。自動判定ではない)
+        ## OSI 層の決め方(上から順に優先)
+
+        | 優先 | 方法 | 内容 |
+        |---|---|---|
+        | 1 | 説明の「検査箇所」 | Markdown に `検査箇所：…` と書かれている行は、その記載どおりにする(下の変換表) |
+        | 2 | `osi_rules` | 下の表のとおり、判断で割り当てたもの(自動判定ではない) |
+        | 3 | 親子の関係 | 子の項目(`└` `┗`)は親から引き継ぐ。親の項目は子の層の和集合にする |
+
+        ### 「検査箇所」の変換
+
+        | 記載 | OSI 層 |
+        |---|---|
+        | `ネットワーク層` `トランスポート層` `アプリケーション層` など、OSI の層の名前 | その層(ネットワーク層=L3、トランスポート層=L4、アプリケーション層=L7) |
+        | `A層〜B層` | A から B までのすべての層(例: ネットワーク層〜アプリケーション層 = L3〜L7) |
+        | `全層` | L1〜L7 のすべて |
+        | `エンドポイント層` | OSI の層ではないため「OSI層なし」 |
+
+        ### `osi_rules`(判断で割り当てたもの)
 
         | サービス | 層 | 根拠 |
         |---|---|---|
@@ -169,10 +200,6 @@ class SecurityServiceMD2HTML:
         | ダークネット監視 | L3 | 未使用の IP アドレス空間に届くパケットを観測する |
         | 上記以外 | OSI層なし | 端末・データ・運用・物理が対象で、通信の層に当てはまらない |
 
-        | 規則 | 内容 |
-        |---|---|
-        | 子の項目(`└`) | 自分のルールがなければ、親のルールを引き継ぐ |
-        | 親の項目 | 自分のルールがなければ、子の層の和集合にする |
         """
         self.osi_rules = [
             (r"^(パケットフィルタリング型|ダイナミックパケットフィルタリング型|ステートフルパケットフィルタリング型)", [3, 4]),
@@ -281,9 +308,57 @@ __FRAGMENT__
                 rows.append((sec, cells))
         return rows
 
+    @staticmethod
+    def inspect_text(desc):
+        """
+        ## 説明セルから「検査箇所」の項目(`<li>検査箇所…</li>`)を取り出す
+
+        `<li>検査箇所：ネットワーク層</li>` のほか、
+        `<li>検査箇所<ul><li>ネットワーク層(IP)</li>…</ul></li>` のように入れ子になっている書き方にも対応する。
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `desc` | `str` | 説明セルの HTML |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | HTML | `str` または `None` | 該当する `<li>…</li>`。なければ `None` |
+        """
+        m = re.search(r"<li>\s*検査箇所", desc)
+        if not m:
+            return None
+        depth = 0
+        for t in re.finditer(r"<li\b|</li>", desc[m.start():]):
+            depth += -1 if t.group() == "</li>" else 1
+            if depth == 0:
+                return desc[m.start(): m.start() + t.end()]
+        return desc[m.start():]
+
+    def layers_in(self, text):
+        """
+        ## 「検査箇所」の文字列を OSI 層の番号に変換する
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `text` | `str` | `inspect_text` の戻り値 |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 層のリスト | `list[int]` | OSI 層の番号(昇順)。OSI の層でないもの(エンドポイント層)だけなら空リスト |
+        """
+        t = self.plain(text)
+        if "全層" in t:
+            return sorted(self.LAYERS)
+        names = "|".join(self.LAYER_NAMES)
+        found = set()
+        for a, b in re.findall(rf"({names})層\s*〜\s*({names})層", t):
+            found.update(range(self.LAYER_NAMES[a], self.LAYER_NAMES[b] + 1))
+        found.update(self.LAYER_NAMES[n] for n in re.findall(rf"({names})層", t))
+        return sorted(found)
+
     def osi_of(self, rows):
         """
-        ## 各行の OSI 層を決める
+        ## 各行の OSI 層と、その根拠を決める
 
         | 引数 | 型 | 説明 |
         |---|---|---|
@@ -292,13 +367,25 @@ __FRAGMENT__
         | 戻り値 | 型 | 説明 |
         |---|---|---|
         | 層のリスト | `list[list[int]]` | 行ごとの OSI 層の番号(昇順)。該当なしは空リスト |
+        | 根拠のリスト | `list[str]` | 行ごとの根拠。`検査箇所`・`ルール`・`親から継承`・`子の和集合`・`該当なし` のどれか |
         """
         names = [self.plain(c[0]) for _, c in rows]
-        is_child = [n.startswith("└") for n in names]
-        names = [re.sub(r"^└\s*", "", n) for n in names]
-        own = [next((ly for rx, ly in self.osi_rules if re.search(rx, n)), None) for n in names]
+        mark = f"^[{self.CHILD_MARKS}]"
+        is_child = [bool(re.match(mark, n)) for n in names]
+        names = [re.sub(mark + r"\s*", "", n) for n in names]
 
-        layers, children, parent = [None] * len(rows), {}, None
+        own, basis = [], []
+        for n, (_, c) in zip(names, rows):
+            text = self.inspect_text(c[1])
+            if text is not None:                                  # 1. 説明の「検査箇所」
+                own.append(self.layers_in(text))
+                basis.append("検査箇所")
+                continue
+            rule = next((ly for rx, ly in self.osi_rules if re.search(rx, n)), None)
+            own.append(rule)                                      # 2. osi_rules
+            basis.append("ルール" if rule is not None else None)
+
+        layers, children, parent = [None] * len(rows), {}, None  # 3. 親子の関係
         for i, child in enumerate(is_child):
             if not child:
                 parent = i
@@ -307,11 +394,16 @@ __FRAGMENT__
             else:
                 assert parent is not None, names[i]
                 children[parent].append(i)
-                layers[i] = own[i] if own[i] is not None else list(layers[parent] or [])
+                if own[i] is not None:
+                    layers[i] = own[i]
+                else:
+                    layers[i] = list(layers[parent] or [])
+                    basis[i] = "親から継承" if layers[i] else "該当なし"
         for p, kids in children.items():
             if layers[p] is None:
                 layers[p] = sorted({ly for k in kids for ly in layers[k]})
-        return layers
+                basis[p] = "子の和集合" if layers[p] else "該当なし"
+        return layers, basis
 
     def tags_of(self, sec, layers):
         """
@@ -349,11 +441,11 @@ __FRAGMENT__
         )
         return (
             f"""\
-                <tr data-tags="{esc("|".join(tags))}">
-                    <th scope="row" class="name">{cells[0]}<div class="tags">{badges}</div></th>
-                    <td>{fix(cells[1])}</td>
-                    <td>{fix(cells[2])}</td>
-                </tr>"""
+<tr data-tags="{esc("|".join(tags))}">
+    <th scope="row" class="name">{cells[0]}<div class="tags">{badges}</div></th>
+    <td>{fix(cells[1])}</td>
+    <td>{fix(cells[2])}</td>
+</tr>"""
         )
 
     @staticmethod
@@ -404,7 +496,7 @@ __FRAGMENT__
         行数は `self.rows` に入る。
         """
         rows = self.parse()
-        layers = self.osi_of(rows)
+        layers, _ = self.osi_of(rows)
         body, count = [], {}
         for (sec, c), ly in zip(rows, layers):
             cat, osi = self.tags_of(sec, ly)
@@ -425,13 +517,14 @@ __FRAGMENT__
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | 表 | `str` | `#`・サービス名・OSI 層の3列の Markdown の表 |
+        | 表 | `str` | `#`・サービス名・OSI 層・根拠の4列の Markdown の表 |
         """
         rows = self.parse()
-        lines = ["| # | サービス | OSI層 |", "|---|---|---|"]
-        for i, ((_, c), ly) in enumerate(zip(rows, self.osi_of(rows)), 1):
-            layers = ", ".join(f"L{n}" for n in ly) or "なし"
-            lines.append(f"| {i} | {self.plain(c[0])} | {layers} |")
+        layers, basis = self.osi_of(rows)
+        lines = ["| # | サービス | OSI層 | 根拠 |", "|---|---|---|---|"]
+        for i, ((_, c), ly, b) in enumerate(zip(rows, layers, basis), 1):
+            text = ", ".join(f"L{n}" for n in ly) or "なし"
+            lines.append(f"| {i} | {self.plain(c[0])} | {text} | {b} |")
         return "\n".join(lines)
 
     def save_html(self):

@@ -1581,55 +1581,8 @@ sequenceDiagram
                             </div>
 
                             <h3 class="pt-4 border-bottom fw-bold">
-                                脆弱性検査
-                            </h3>
-                            <div id="md-weakness-check">
-
-| 検査方法 | 製品 | 検査箇所 | 内容 |
-|---|---|---|---|
-| ペネトレーションテスト | - | 全層(共通) | 実際の攻撃者と同じ手法・手順でシステムに侵入を試み、脆弱性が実際に悪用可能かどうかを検証する実践的な検査 |
-| 脆弱性診断(脆弱性スキャナ) | - | 全層(共通) | 既知の脆弱性データベース(CVE 等)と照合し、対象システムに既知の脆弱性が存在しないかを網羅的に確認する検査<br> <table><thead><tr><th>項目</th><th>外部スキャン</th><th>内部スキャン</th></tr></thead><tbody><tr><td>実施位置</td><td>インターネット側(攻撃者と同じ視点)</td><td>社内ネットワーク内、またはホスト上</td></tr><tr><td>主な目的</td><td>外部に公開されている攻撃面の確認</td><td>内部に潜む脆弱性の網羅的な洗い出し</td></tr><tr><td>主な検査対象</td><td><ul><li>Webサーバー</li><li>VPN</li><li>メールサーバー</li><li>公開ポート・サービス</li></ul></td><td><ul><li>社内サーバー</li><li>クライアントPC</li><li>ネットワーク機器</li><li>パッチ未適用のOS・ミドルウェア</li></ul></td></tr><tr><td>認証</td><td>通常は認証なし</td><td>認証あり(エージェント型・認証付きスキャン)が可能</td></tr><tr><td>検出できるもの</td><td>公開サービスの既知の脆弱性<br>不要な開放ポート</td><td>パッチ適用状況<br>ソフトウェア一覧<br>設定不備</td></tr><tr><td>想定する脅威</td><td>外部からの侵入</td><td>侵入後の横展開<br>内部不正</td></tr></tbody></table> |
-| iLogScanner | IPA提供 | アプリケーション層 | IPA(情報処理推進機構)が無償提供するツール<br>Webサーバのアクセスログ・エラーログを解析し、SQLインジェクションやディレクトリトラバーサル等、既知の攻撃パターンによる被害の痕跡がないかを検出する |
-| ソースコード診断(静的解析 / SAST) | SonarQube | アプリケーション層 | プログラムを実行せずソースコードを解析し、脆弱性の原因となるコーディング上の欠陥を検出する手法 |
-| Webアプリケーション診断(動的解析/ DAST) | OWASP ZAP | アプリケーション層 | 実際にアプリケーションを動作させ、外部からリクエストを送って脆弱性(SQLインジェクション、XSS 等)を検出する手法 |
-| アプリケーション診断 | OWASP ZAP等 | アプリケーション層 | Webアプリケーション等、ソフトウェア固有のロジックや実装に起因する脆弱性(SQLインジェクション、認可不備等)を確認する診断 |
-| ファジング | - | アプリケーション層 | 想定外の値・不正な形式のデータ(ファズ)を大量に入力し、ソフトウェアの異常終了や未知の脆弱性を検出する手法 |
-| ポートスキャナ | Nmap | ネットワーク層 | 対象ホストの各ポートに接続要求を送り、開いているポート(稼働しているサービス)を洗い出すツール |
-| ネットワーク診断 | Nessus等 | ネットワーク層 | ネットワーク機器やサーバOSを対象に、既知の脆弱性の有無を確認する診断 |
-| プラットフォーム診断 | Nessus等 | エンドポイント層 | サーバのOS・ミドルウェアの設定やパッチ適用状況を確認する診断 |
-| 構成管理監査(コンフィグレーションチェック) | - | エンドポイント層 | OS・ミドルウェアの設定値がセキュリティ基準(ベースライン)に適合しているかを確認する検査 |
-| リバースエンジニアリング | 逆コンパイラ<br>コールグラフ | エンドポイント層 | ソフトウェアを解析し、ソースコードや設計情報がない状態から内部構造・動作原理・アルゴリズムを明らかにする手法<br>マルウェア解析や脆弱性調査等に利用される<br>※知的財産権の侵害に注意 |
-| 能動的サイバー防御<br>(アクティブ・サイバー・ディフェンス) | - | 全層 | <ul><li>被害が生じる前の段階から脅威を監視・探知し、攻撃の阻止や無害化といった措置を講じる防御の考え方</li><li>侵入後の対処が中心の受動的な防御に対し、攻撃を未然に防ぐことを狙う</li><li>検査対象 <ul><li>自組織内</li><li>攻撃者のインフラ(C2サーバ・踏み台など)</li><li>官民で共有する通信情報</li></ul></li><li>日本では官民連携による情報共有、通信情報の分析、攻撃元サーバ等への必要な措置を柱に法制化が進められている</li></ul> |
-| ┗ シグネチャ検査 | <ul><li>Snort</li><li>Suricata</li><li>各社IPS</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>ネットワークパケットを検査対象とする</li><li>既知の攻撃パターン(シグネチャ)と照合する</li><li>一致した通信を検知・遮断する</li></ul> |
-| ┗ アノマリ(振る舞い)検知 | <ul><li>Darktrace</li><li>Vectra AI</li><li>その他NDR製品</li></ul> | ネットワーク層〜トランスポート層 | <ul><li>ネットワークトラフィック全体を検査対象とする</li><li>平常時の通信の振る舞いを学習する</li><li>通信量・宛先などの逸脱を検知する</li></ul> |
-| ┗ エンドポイント検査 | <ul><li>CrowdStrike Falcon</li><li>Microsoft Defender for Endpoint</li><li>その他EDR製品</li></ul> | アプリケーション層 | <ul><li>端末のプロセス・ファイル・レジストリ・メモリを常時監視する</li><li>不審な挙動を検知する</li><li>隔離・調査を行う</li></ul> |
-| ┗ サンドボックス検査 | <ul><li>FireEye (Trellix)</li><li>Palo Alto WildFire</li></ul> | アプリケーション層 | <ul><li>メール添付ファイル・ダウンロードファイル・URLを検査対象とする</li><li>隔離された仮想環境で実行する</li><li>マルウェア特有の挙動を解析する</li></ul> |
-| ┗ ログ相関分析 | <ul><li>Splunk</li><li>Microsoft Sentinel</li><li>Elastic Security</li><li>その他SIEM製品</li></ul> | アプリケーション層 | <ul><li>サーバ・FW・認証基盤などの各種ログを集約する</li><li>複数のログを相関分析する</li><li>攻撃の予兆や侵入の痕跡を検知する</li></ul> |
-| ┗ デセプション(おとり) | <ul><li>Cowrie・T-Potなどのハニーポット</li><li>SentinelOne Singularity Hologram</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>おとりのサーバ・端末・認証情報を配置する</li><li>接触した攻撃者の手口を把握する</li><li>侵入経路を把握する</li></ul> |
-| ┗ 脅威インテリジェンス照合 | <ul><li>MISP</li><li>Recorded Future</li><li>Mandiant Threat Intelligence</li></ul> | ネットワーク層(IP)<br>アプリケーション層(ドメイン・ハッシュ) | <ul><li>通信先IP・ドメイン・ファイルハッシュ(IoC)を照合する</li><li>既知の悪性IoCと自組織の通信・ログを突き合わせる</li><li>侵害の有無を確認する</li></ul> |
-| ┗ DNS検査 | <ul><li>Cisco Umbrella</li><li>Cloudflare Gateway</li></ul> | アプリケーション層 | <ul><li>DNSクエリ・応答を検査対象とする</li><li>悪性ドメインや不審な名前解決(C2通信・DGAなど)を検知する</li><li>該当する通信をブロックする</li></ul> |
-| ┗ メール検査 | <ul><li>Proofpoint</li><li>Microsoft Defender for Office 365</li></ul> | アプリケーション層 | <ul><li>メール本文・ヘッダ・添付・URLを検査対象とする</li><li>フィッシングや標的型攻撃メールを検知する</li><li>該当するメールを隔離する</li></ul> |
-| ┗ Webアプリケーション検査 | <ul><li>AWS WAF</li><li>Cloudflare WAF</li><li>ModSecurity</li></ul> | アプリケーション層 | <ul><li>HTTP/HTTPSリクエスト・レスポンスを検査対象とする</li><li>SQLインジェクションやXSSなどのWeb攻撃を検知する</li><li>該当する通信を遮断する</li></ul> |
-| ┗ 脅威ハンティング | <ul><li>Velociraptor</li><li>OSquery</li><li>各社XDR</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>端末・ネットワーク・クラウド全域を検査対象とする</li><li>仮説に基づいて能動的に探索する</li><li>検知をすり抜けた潜伏中の脅威を発見する</li></ul> |
-| ┗ ユーザ行動分析 (UEBA) | <ul><li>Exabeam</li><li>Microsoft Entra ID Protection</li></ul> | アプリケーション層 | <ul><li>認証ログ・アクセス履歴を検査対象とする</li><li>ユーザや機器の通常行動との差異を分析する</li><li>内部不正やアカウント侵害を検知する</li></ul> |
-
-
-                            </div>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
                                 セキュリティサービス・製品の説明
                             </h3>
-                            <div id="md-sec-service">
-
-| 用語 | 特徴 | 利用 |
-|---|---|---|
-| <strong>ブラックリスト方式</strong><br><small class="text-muted">拒否リスト</small> | <ul class="ps-3 mb-0"><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを<br>拒否する</li><li><strong>リストの内容</strong><br>既知の不正なもの<br>(IPアドレス・ドメイン・URL・ファイル等)</li><li><strong>未知の脅威</strong><br>リストに無いため防げない<br>リストを常に更新する必要がある</li><li><strong>運用面</strong><br>運用が容易<br>正常な業務への影響が小さい</li><li><strong>誤りの影響</strong><br>誤登録すると正常な通信まで<br>遮断される</li></ul> | <ul class="ps-3 mb-0"><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul> |
-| <strong>ホワイトリスト方式</strong><br><small class="text-muted">許可リスト</small> | <ul class="ps-3 mb-0"><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを<br>許可する</li><li><strong>リストの内容</strong><br>許可する正当なもの<br>(通信・サイト・プログラム・機器等)</li><li><strong>未知の脅威</strong><br>リストに載らないため基本的に防げる<br>(最小権限の考え方に合う)</li><li><strong>運用面</strong><br>リストの整備や申請の運用負荷が大きい</li><li><strong>誤りの影響</strong><br>登録漏れがあると正常な業務が<br>止まる</li></ul> | <ul class="ps-3 mb-0"><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul> |
-| <strong>フォールスポジティブ</strong><br><small class="text-muted">誤検知・過検知</small> | <ul class="ps-3 mb-0"><li>正常な通信・行為を誤って不正と<br>判定してしまうこと</li><li>検知を厳しくすると増える<br>(検知漏れとトレードオフ)</li></ul> | <ul class="ps-3 mb-0"><li>検知システムの判定誤りの評価に使う</li><li>以下を招く<ul class="ps-3 mb-0"><li><strong>業務への影響(正常な通信の遮断)</strong></li><li>アラート対応による運用負荷の増大</li></ul></li></ul> |
-| <strong>フォールスネガティブ</strong><br><small class="text-muted">検知漏れ</small> | <ul class="ps-3 mb-0"><li>実際には不正な通信・行為であるにも<br>かかわらず正常と判定して<br>見逃してしまうこと</li><li>検知を緩くすると増える<br>(誤検知とトレードオフ)</li></ul> | <ul class="ps-3 mb-0"><li>検知システムの判定誤りの評価に使う</li><li>被害の直接的な原因となりうる</li></ul> |
-| <strong>仮想化サーバ</strong> | <ul class="ps-3 mb-0"><li>1台の物理サーバ上に複数の仮想マシンを<br>構築する技術</li><li>以下がその上で動くすべての仮想マシンに<br>影響する点に注意が必要<ul class="ps-3 mb-0"><li>ハイパーバイザの脆弱性</li><li>設定不備</li></ul></li></ul> | <ul class="ps-3 mb-0"><li><strong>ハニーポットやサンドボックスの実行基盤</strong></li><li>VDIの基盤</li><li>検証環境の迅速な構築・破棄</li></ul> |
-
-                            </div>
                             <div id="sec-service"></div>
                             
                             <h3 class="pt-4 border-bottom fw-bold">
@@ -1710,10 +1663,7 @@ sequenceDiagram
                                         <a href="#md-attacker">攻撃者の種類</a>
                                     </li>
                                     <li>
-                                        <a href="#md-weakness-check">脆弱性検査</a>
-                                    </li>
-                                    <li>
-                                        <a href="#md-sec-service">セキュリティサービス・製品の説明</a>
+                                        <a href="#sec-service">セキュリティサービス・製品の説明</a>
                                     </li>
                                     <li>
                                         <a href="#md-cyber-attack">サイバー攻撃一覧</a>
@@ -1780,10 +1730,8 @@ sequenceDiagram
                 "md-list", 
                 "md-tls",
                 "md-attacker", 
-                "md-weakness-check", 
                 "md-copy-protect", 
                 "md-source",
-                "md-sec-service",
             ];
 
             window.addEventListener(
