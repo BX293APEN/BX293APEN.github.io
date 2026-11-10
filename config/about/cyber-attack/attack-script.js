@@ -19,7 +19,7 @@
  *
  * | 引数 | 型 | 例 | 説明 |
  * |---|---|---|---|
- * | `appId` | `string` | `'attack-app'` | 全体を囲む要素の ID。以降の検索はこの中だけで行う |
+ * | `appId` | `string` | `'attack-app'` | 全体を囲む要素の ID 以降の検索はこの中だけで行う |
  * | `inputId` | `string` | `'q'` | キーワード入力欄の ID |
  * | `countId` | `string` | `'count'` | 件数を表示する要素の ID |
  * | `clearId` | `string` | `'clear'` | 絞り込み解除ボタンの ID |
@@ -28,12 +28,14 @@
  * | `rowSelector` | `string` | `'tbody tr'` | 絞り込み対象の行のセレクタ |
  * | `tagAttr` | `string` | `'data-tag'` | タグボタン(上部・表中)に付いている属性名 |
  * | `rowTagsAttr` | `string` | `'data-tags'` | 行に付いている属性名。値は `\|` 区切りのタグ一覧 |
+ * | `selectId` | `string` | `'situation'` | (省略可)リストボックス(`<select>`)の ID。`option` の `value` がタグ名。選べるのは1つだけで、省略すると使わない |
  *
  * ## 動作
  *
  * | 操作 | 条件 |
  * |---|---|
- * | タグをクリック | 選択・解除を切り替える。複数選ぶと AND |
+ * | タグをクリック | 選択・解除を切り替える。複数選ぶと AND(リストボックスのタグは1つだけ。選ぶと前の選択は外れる) |
+ * | リストボックスを選ぶ | その状況のタグで絞り込む。「指定なし」で解除 |
  * | キーワード入力 | 大文字小文字・全角半角を区別しない。空白区切りで AND |
  * | 解除ボタン | タグとキーワードを両方クリアする |
  */
@@ -47,6 +49,7 @@ function createTableSearch({
     rowSelector,
     tagAttr,
     rowTagsAttr,
+    selectId = null,
 }) {
     /** ## 固定値(CSS・HTML 側の決まりと対応している) */
     const ACTIVE_CLASS = 'active';   // 選択中のタグに付けるクラス(attack-style.css の `.active`)
@@ -66,6 +69,7 @@ function createTableSearch({
     const input = must(`#${inputId}`);
     const count = must(`#${countId}`);
     const clear = must(`#${clearId}`);
+    const select = selectId ? must(`#${selectId}`) : null;
     const scroller = must(scrollerSelector);
     const headRow = must(headRowSelector);
     const rows = [...app.querySelectorAll(rowSelector)];
@@ -75,6 +79,9 @@ function createTableSearch({
     const norm = (s) => s.normalize('NFKC').toLowerCase();
 
     const selected = new Set();   // 選択中のタグ
+
+    /** ## リストボックスのタグ名(この群は1つだけ選べる)。リストボックスがなければ空 */
+    const single = new Set(select ? [...select.options].map((o) => o.value).filter(Boolean) : []);
 
     rows.forEach((tr) => {
         tr._text = norm(tr.textContent);
@@ -95,6 +102,7 @@ function createTableSearch({
             if (ok) shown++;
         });
         count.textContent = `${shown} / ${rows.length} 件`;
+        if (select) select.value = [...selected].find((t) => single.has(t)) || '';
         app.querySelectorAll(tagSelector).forEach((b) => {
             b.classList.toggle(ACTIVE_CLASS, selected.has(b.getAttribute(tagAttr)));
         });
@@ -105,10 +113,17 @@ function createTableSearch({
         if (!b) return;
         e.preventDefault();
         const t = b.getAttribute(tagAttr);
-        selected.has(t) ? selected.delete(t) : selected.add(t);
+        const on = selected.has(t);
+        if (single.has(t)) single.forEach((o) => selected.delete(o));   // 同じ群は1つだけ
+        on ? selected.delete(t) : selected.add(t);
         apply();
     });
     input.addEventListener('input', apply);
+    if (select) select.addEventListener('change', () => {
+        single.forEach((o) => selected.delete(o));
+        if (select.value) selected.add(select.value);
+        apply();
+    });
     clear.addEventListener('click', () => {
         selected.clear();
         input.value = '';
@@ -121,17 +136,26 @@ function createTableSearch({
 }
 
 
-/** ## ページ読み込み後に、実際の ID・セレクタを渡して実行する */
-window.addEventListener('load', () => {
-    createTableSearch({
-        appId: 'attack-app',
-        inputId: 'q',
-        countId: 'count',
-        clearId: 'clear',
-        scrollerSelector: '.scroller',
-        headRowSelector: 'thead tr.r1',
-        rowSelector: 'tbody tr',
-        tagAttr: 'data-tag',
-        rowTagsAttr: 'data-tags',
-    });
-});
+window.addEventListener(
+    'load',
+    () => {
+        setTimeout(
+            () => {
+                createTableSearch(
+                        {
+                        appId: 'attack-app',
+                        inputId: 'q',
+                        countId: 'count',
+                        clearId: 'clear',
+                        scrollerSelector: '.scroller',
+                        headRowSelector: 'thead tr.r1',
+                        rowSelector: 'tbody tr',
+                        tagAttr: 'data-tag',
+                        rowTagsAttr: 'data-tags',
+                    }
+                );
+            },
+            300
+        );
+    }
+);
