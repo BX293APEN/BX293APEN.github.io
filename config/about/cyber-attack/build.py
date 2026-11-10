@@ -87,7 +87,7 @@ class CyberAttackMD2HTML:
         """
         self.here = os.path.dirname(os.path.abspath(__file__))
         self.src = self._path(src)
-        self.out = self._path(out) if out else os.path.splitext(self.src)[0] + ".html"
+        self.out = self._path(out) if out else f"{os.path.splitext(self.src)[0]}.html"
         self.template = self._read(template)
         self.css_text = self._read(css_template)
         self.js_text = self._read(js_template)
@@ -273,7 +273,7 @@ class CyberAttackMD2HTML:
         |---|---|---|
         | HTML | `str` | `<ul><li>…</li></ul>` |
         """
-        return "<ul>" + "".join(f"<li>{html.escape(i).replace(chr(10), '<br>')}</li>" for i in items) + "</ul>"
+        return f"""<ul>{"".join(f"<li>{html.escape(i).replace(chr(10), '<br>')}</li>" for i in items)}</ul>"""
 
     def phase_cells(self, sec, topics, measure):
         """
@@ -433,7 +433,7 @@ class CyberAttackMD2HTML:
         |---|---|---|
         | パス | `str` | 書き出したファイルのパス |
         """
-        path = os.path.splitext(self.out)[0] + "-preview.html"
+        path = f"""{os.path.splitext(self.out)[0]}-preview.html"""
         page = (PREVIEW.replace("__CSS__", self.CSS).replace("__JS__", self.JS)
                 .replace("__FRAGMENT__", self.build()))
         with open(path, "w", encoding="utf-8") as f:
