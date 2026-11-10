@@ -327,7 +327,7 @@ __FRAGMENT__
             f'{esc(n)} <span class="badge text-bg-light">{count[n]}</span></button>'
             for n in names if n in count)
         return (f'<div class="d-flex flex-wrap gap-1 align-items-center mb-1">'
-                f'<span class="small text-body-secondary me-1">{title}</span>{btns}</div>')
+                f'<br><span class="small text-body-secondary me-1">{title}</span><br>{btns}</div>')
 
     def build(self):
         """
