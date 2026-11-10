@@ -25,7 +25,10 @@ class APPBuildModel{
                 "page" : 6,
                 "href" : "/html/tips/appbuild/bitcoin.html"
             },
-            
+            {
+                "page" : 7,
+                "href" : "/html/tips/appbuild/jpki.html"
+            },
         ]
     }
 }
