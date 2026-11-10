@@ -159,41 +159,6 @@
   
 <br>
 
-<!--
-
-flowchart TD
-    %%{
-        init: {
-            'theme':'base',
-            'themeVariables': { 
-                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
-                'primaryColor': '#EEE',
-                'primaryTextColor': '#000000',
-                'primaryBorderColor': '#000000',
-                'lineColor': '#000000',
-                'secondaryColor': '#EEE'
-            }
-        }
-    }%%
-    D["ドライバ<br/>(ボトムアップテスト用)"]
-    M["テスト対象モジュール"]
-    S["スタブ<br/>(トップダウンテスト用)"]
-
-    D -- >|"呼び出し<br/>(テストデータ)"| M
-    M -- >|"呼び出し"| S
-    S -.->|"戻り値<br/>(ダミー値)"| M
-    M -.->|"戻り値<br/>(処理結果)"| D
-
--->
-
-
-<img class ="pt-4" src="/img/appbuild/module.svg" width = "50%"/>
-
-<figcaption class="figure-caption text-center">スタブとドライバ</figcaption>
-
-<br>
-<br>
-
 ##### 6. ソフトウェア支援プロセス(Software Support Processes)
 
 ソフトウェア開発を横断的に支えるプロセス
@@ -355,12 +320,13 @@ flowchart LR
 | 命令網羅 | 1 | 1 | 真側の文のみ実行すれば達成 |
 
 <br>
-
+<br>
                             </div>
 
                             <h4 class="pt-4 border-bottom fw-bold">
                                 テスト技法 (設計手法)
                             </h4>
+
                             <div id="soft-test"></div>
 
                             <h3 class="pt-4 border-bottom fw-bold">
