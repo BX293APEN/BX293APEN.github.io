@@ -19,6 +19,7 @@
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
+        <link href="/css/about/attack-style.css" rel="stylesheet">
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
         </div>
@@ -1728,7 +1729,6 @@ sequenceDiagram
                                 <div id="md-source">
 &#62; [認証技術 ソース](/html/about/security/auth.md)  
 &#62; [暗号一覧 ソース](/html/about/security/crypt.md)  
-&#62; [サイバー攻撃一覧 ソース](/html/about/security/cyber-attack.md)  
                                 </div>
                             </div>
 
@@ -1752,6 +1752,7 @@ sequenceDiagram
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
         <script src="/view/tex.js"></script>
+        <script src="/view/about/attack-script.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -1771,10 +1772,7 @@ sequenceDiagram
                 mdFile          = "/html/about/security/auth.md",
             )
 
-            new MarkDownLoader(
-                id              = "md-cyber-attack",
-                mdFile          = "/html/about/security/cyber-attack.md",
-            )
+            embedded_html("/html/about/security/cyber-attack.html", "md-cyber-attack");
 
             const mdLists = [
                 "md-list", 
