@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サイバー攻撃まとめ</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!--
+## 貼り付け方
+
+| 範囲 | 内容 |
+|---|---|
+| `<style id="attack-style">` | CSS(`#attack-app` 配下にのみ適用) |
+| `<div id="attack-app">` | 本体 |
+| `<script id="attack-script">` | 絞り込み処理 |
+
+Bootstrap 5.3 を読み込んだページに、この3つをコピペすればそのまま動く。
+-->
+<style id="attack-style">
+/* ## 表のレイアウト */
+#attack-app .scroller { max-height: 78vh; overflow: auto; border: 1px solid var(--bs-border-color); }
+#attack-app table { border-collapse: separate; border-spacing: 0; width: max-content; min-width: 100%; margin: 0; font-size: .875rem; }
+#attack-app th, #attack-app td { padding: .5rem .65rem; vertical-align: top; border-bottom: 1px solid var(--bs-border-color); border-right: 1px solid var(--bs-border-color); min-width: 17rem; background: var(--bs-body-bg); }
+#attack-app ul { margin: 0; padding-left: 1.1rem; }
+
+/* ## 固定(sticky)の指定
+
+| 対象 | 固定方向 | z-index |
+|---|---|---|
+| `thead th` | 上 | 3 |
+| `.name`(攻撃手法の列) | 左 | 2 |
+| 左上の角 | 上・左 | 4 |
+*/
+#attack-app thead th { position: sticky; z-index: 3; background: var(--bs-tertiary-bg); font-weight: 600; }
+#attack-app thead tr.r1 th { top: 0; }
+#attack-app thead tr.r2 th { top: var(--r1h, 2.4rem); }
+#attack-app .name { position: sticky; left: 0; z-index: 2; min-width: 15rem; max-width: 15rem; background: var(--bs-body-bg); border-right: 2px solid var(--bs-border-color); }
+#attack-app thead th.name { z-index: 4; background: var(--bs-tertiary-bg); }
+#attack-app tbody tr:hover > * { background: var(--bs-primary-bg-subtle); }
+
+/* ## 対策3分割の見た目(①②は標準手順、③は元の表) */
+#attack-app td.std { background: var(--bs-tertiary-bg); color: var(--bs-secondary-color); }
+#attack-app .tags { display: flex; flex-wrap: wrap; gap: .2rem; margin-top: .35rem; }
+#attack-app .tag { border: 0; font-weight: 400; cursor: pointer; }  /* `<button>` のため枠線を消す */
+#attack-app [data-tag].active { background: var(--bs-primary); color: #fff; }
+#attack-app .tag.active { background: var(--bs-primary) !important; }
+</style>
+</head>
+<body>
+<div id="attack-app" class="container-fluid py-3">
+  <h1 class="h4 mb-3">サイバー攻撃まとめ</h1>
+
+  <div class="row g-2 mb-2">
+    <div class="col-md-6">
+      <input id="q" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+    </div>
+    <div class="col-md-6 d-flex align-items-center gap-2">
+      <span id="count" class="small text-body-secondary"></span>
+      <button id="clear" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+    </div>
+  </div>
+
+  <div class="mb-2">
+    __FILTERS__
+    <div class="small text-body-secondary">タグは複数選択するとAND条件で絞り込みます。表中のタグをクリックしても選択できます。</div>
+  </div>
+
+  <div class="scroller">
+    <table>
+      <thead>
+        <tr class="r1">
+          <th class="name" rowspan="2">攻撃手法</th>
+          <th rowspan="2">内容</th><th rowspan="2">成立条件</th><th rowspan="2">想定被害</th><th rowspan="2">代表例</th>
+          <th colspan="3" class="text-center">対策サービス・方法</th>
+          <th rowspan="2">攻撃者</th>
+        </tr>
+        <tr class="r2">
+          <th>① 初動<br><span class="fw-normal small">封じ込め・被害拡大防止</span></th>
+          <th>② 調査・根絶<br><span class="fw-normal small">保全・範囲特定・復旧</span></th>
+          <th>③ 再発防止<br><span class="fw-normal small">恒久対策</span></th>
+        </tr>
+      </thead>
+      <tbody>
+__ROWS__
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-body-secondary mt-2">※ ①②は分類ごとの標準的な手順です。個別の攻撃に合わせて調整してください。③は元の表の内容です。</p>
+</div>
+
+<script id="attack-script">
+/**
+ * ## 絞り込み処理
+ *
+ * | 状態 | 型 | 説明 |
+ * |---|---|---|
+ * | `sel` | `Set<string>` | 選択中のタグ(AND条件) |
+ * | `norm` | `(s) => string` | NFKC正規化+小文字化(大文字小文字・全角半角を区別しない) |
+ */
+(function () {
+  const app = document.getElementById('attack-app');
+  const rows = [...app.querySelectorAll('tbody tr')];
+  const q = app.querySelector('#q'), cnt = app.querySelector('#count');
+  const sel = new Set();
+  const norm = s => s.normalize('NFKC').toLowerCase();
+
+  rows.forEach(tr => {
+    tr._text = norm(tr.textContent);
+    tr._tags = tr.dataset.tags.split('|');
+  });
+
+  /** ヘッダ2段目の固定位置を1段目の高さに合わせる */
+  const r1 = app.querySelector('thead tr.r1');
+  const fit = () => app.querySelector('.scroller').style.setProperty('--r1h', r1.offsetHeight + 'px');
+  fit(); addEventListener('resize', fit);
+
+  function apply() {
+    const words = norm(q.value).split(/\s+/).filter(Boolean);
+    let n = 0;
+    rows.forEach(tr => {
+      const ok = [...sel].every(t => tr._tags.includes(t)) && words.every(w => tr._text.includes(w));
+      tr.hidden = !ok; if (ok) n++;
+    });
+    cnt.textContent = n + ' / ' + rows.length + ' 件';
+    app.querySelectorAll('[data-tag]').forEach(b => b.classList.toggle('active', sel.has(b.dataset.tag)));
+  }
+
+  app.addEventListener('click', e => {
+    const b = e.target.closest('[data-tag]');
+    if (!b) return;
+    e.preventDefault();
+    const t = b.dataset.tag;
+    sel.has(t) ? sel.delete(t) : sel.add(t);
+    apply();
+  });
+  q.addEventListener('input', apply);
+  app.querySelector('#clear').addEventListener('click', () => { sel.clear(); q.value = ''; apply(); });
+  apply();
+})();
+</script>
+</body>
+</html>
