@@ -790,7 +790,7 @@
                 </tr>
                 <tr data-tags="Webアプリ|個人クラッカー">
                     <th scope="row" class="name">ディレクトリトラバーサル<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー">個人クラッカー</button></div></th>
-                    <td class="">相対パス指定でアクセス制御外のファイルを不正取得する</td>
+                    <td class="">相対パス指定でアクセス制御外のファイルを不正取得する<br>../ による遡りに着目した呼称</td>
                     <td class=""><ul><li>入力値(ファイル名・パス)の検証・正規化が不十分で、../ 等の相対パスが通ること</li><li>Webアプリの実行権限が必要以上に強いこと</li></ul></td>
                     <td class=""><ul><li>サーバ内の設定ファイル・パスワードファイル等の漏えい</li><li>ファイルの改ざん・削除</li></ul></td>
                     <td class="">DotDotPwn</td>
@@ -801,9 +801,9 @@
                 </tr>
                 <tr data-tags="Webアプリ|犯罪組織|個人クラッカー">
                     <th scope="row" class="name">パストラバーサル<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="犯罪組織">犯罪組織</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー">個人クラッカー</button></div></th>
-                    <td class="">ファイル名・パスとして受け取った入力値を操作し、公開を意図していないファイルへ不正にアクセスする攻撃<br>相対パス(../)による親ディレクトリへの遡りだけでなく、以下の手口も使われる<ul><li>絶対パスの直接指定(/etc/passwd、C:\Windows\win.ini 等)</li><li>URLエンコード(%2e%2e%2f)・二重エンコードによる検査の回避</li><li>NULLバイト(%00)による拡張子チェックの回避</li><li>Windowsのパス区切り文字(\)の利用</li></ul>ディレクトリトラバーサルとほぼ同義で使われる<br>(../ による遡りに着目した呼称がディレクトリトラバーサル、ファイルパス全般の操作に着目した呼称がパストラバーサル)</td>
+                    <td class="">ファイル名・パスとして受け取った入力値を操作し、公開を意図していないファイルへ不正にアクセスする攻撃<br>ファイルパス全般の操作に着目した呼称<ul><li>相対パス(../)による親ディレクトリへの遡り</li><li>絶対パスの直接指定<ul><li>/etc/passwd</li><li>C:\Windows\win.ini </li></ul>等</li><li>URLエンコード(%2e%2e%2f)・二重エンコードによる検査の回避</li><li>NULLバイト(%00)による拡張子チェックの回避</li><li>Windowsのパス区切り文字(\)の利用</li></ul>※ディレクトリトラバーサルとほぼ同義で使われる</td>
                     <td class=""><ul><li>外部入力が、ファイルパスの一部としてそのまま利用されること</li><li>正規化後のパスが、許可されたディレクトリ配下にあるかの検証がないこと</li><li>../ の除去などブラックリスト方式のみの対策で、エンコード等により回避できること</li><li>Webアプリの実行権限が必要以上に強いこと</li></ul></td>
-                    <td class=""><ul><li>サーバ内の設定ファイル・パスワードファイル・秘密鍵・ソースコードの漏えい</li><li>任意ファイルの書き込み・上書きによるWebシェルの設置、コード実行</li><li>ファイルの改ざん・削除</li></ul></td>
+                    <td class=""><ul><li>サーバ内の<ul><li>設定ファイル</li><li>パスワードファイル</li><li>秘密鍵</li><li>ソースコード</li></ul>の漏えい</li><li>任意ファイルの書き込み・上書きによるWebシェルの設置、コード実行</li><li>ファイルの改ざん・削除</li></ul></td>
                     <td class=""><ul><li>DotDotPwn</li><li>Apache HTTP Server 2.4.49の脆弱性<br>CVE-2021-41773</li><li>Zip Slip<br>(アーカイブ展開時のエントリ名を悪用)</li></ul></td>
                     <td class="std"><ul><li>該当機能・ページを停止、またはWAFで遮断</li><li>影響セッションの失効・パスワード変更</li></ul></td>
                     <td class="std"><ul><li>Web・DB・WAFログを保全して解析</li><li>改ざん・漏えい範囲を特定</li><li>不正ファイル(Webシェル等)の削除と脆弱箇所の特定</li></ul></td>

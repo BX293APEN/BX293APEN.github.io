@@ -1,65 +1,26 @@
-"""
-# cyber-attack.md → Bootstrap 5 用 HTML 変換
-
-## 出力の構成(3ファイル)
-
-| 出力 | 元になるファイル | 内容 |
-|---|---|---|
-| `cyber-attack.html` | `template.html` + `cyber-attack.md` | `<div id="attack-app">` の断片のみ |
-| `attack-style.css` | `template.css` | 見た目 |
-| `attack-script.js` | `template.js` | タグ・キーワードの絞り込み |
-
-**編集は元になるファイル側で行う。** 出力側を直接編集しても、再生成すると上書きされる。
-3ファイルは、`out`(HTML の出力先)と同じフォルダに書き出す。
-
-## 使い方
-
-```python
-CyberAttackMD2HTML("cyber-attack.md").save()
-```
-
-コマンドラインでは `python3 build.py`。確認用ページも作るなら `python3 build.py --preview`。
-
-## クラスの構成
-
-| メソッド | 役割 |
-|---|---|
-| `__init__` | パスの解決・テンプレートの読み込み |
-| `load_words` | タグ・標準手順の定義を読み込む |
-| `parse` | Markdown の表を行データに変換する |
-| `tags_of` | 行ごとにタグを決める |
-| `phase_cells` | 対策列を ①初動 ②調査・根絶 ③再発防止 に分割する |
-| `row_html` | 1行分の `<tr>` を作る |
-| `group` | 上部のタグボタン群を作る |
-| `build` | HTML 全体を組み立てて文字列で返す |
-| `save_html` | HTML の断片を書き出す |
-| `save_css` | CSS を書き出す |
-| `save_js` | JavaScript を書き出す |
-| `save` | 上の3つをまとめて書き出す |
-| `save_preview` | 単体で開ける確認用ページを書き出す(任意) |
-"""
 import re, html, os, sys
 
-
-PREVIEW = """<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>サイバー攻撃まとめ(確認用)</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="__CSS__" rel="stylesheet">
-</head>
-<body class="container-fluid">
-__FRAGMENT__
-<script src="__JS__"></script>
-</body>
-</html>
-"""
-
-
 class CyberAttackMD2HTML:
-    """## Markdown の表を、タグ検索付きの Bootstrap 用 HTML に変換するクラス"""
+    """
+    ## Markdown の表を、タグ検索付きの Bootstrap 用 HTML に変換するクラス
+
+    | メソッド | 役割 |
+    |---|---|
+    | `__init__` | パスの解決・テンプレートの読み込み |
+    | `load_words` | タグ・標準手順の定義を読み込む |
+    | `parse` | Markdown の表を行データに変換する |
+    | `tags_of` | 行ごとにタグを決める |
+    | `phase_cells` | 対策列を ①初動 ②調査・根絶 ③再発防止 に分割する |
+    | `row_html` | 1行分の `<tr>` を作る |
+    | `group` | 上部のタグボタン群を作る |
+    | `build` | HTML 全体を組み立てて文字列で返す |
+    | `save_html` | HTML の断片を書き出す |
+    | `save_css` | CSS を書き出す |
+    | `save_js` | JavaScript を書き出す |
+    | `save` | 上の3つをまとめて書き出す |
+    | `save_preview` | 単体で開ける確認用ページを書き出す(任意) |
+
+    """
 
     CSS = "attack-style.css"   # 出力する CSS のファイル名(確認用ページも読み込む)
     JS = "attack-script.js"    # 出力する JavaScript のファイル名(確認用ページも読み込む)
@@ -204,7 +165,23 @@ class CyberAttackMD2HTML:
                          ["防犯カメラ・入退室ログを確認", "持ち出された資産・情報を特定"]),
         }
         OVERRIDE = ["DoS/DDoS", "DNS", "無線", "サイドチャネル", "量子"]  # 分類より優先して使うキー
-        self.short, self.atk, self.topic, self.ph, self.override = SHORT, ATK, TOPIC, PH, OVERRIDE
+
+        PREVIEW = """<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サイバー攻撃まとめ(確認用)</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="__CSS__" rel="stylesheet">
+</head>
+<body class="container-fluid">
+__FRAGMENT__
+<script src="__JS__"></script>
+</body>
+</html>
+"""
+        self.short, self.atk, self.topic, self.ph, self.override, self.prev = SHORT, ATK, TOPIC, PH, OVERRIDE, PREVIEW
 
     @staticmethod
     def plain(s):
@@ -434,7 +411,7 @@ class CyberAttackMD2HTML:
         | パス | `str` | 書き出したファイルのパス |
         """
         path = f"""{os.path.splitext(self.out)[0]}-preview.html"""
-        page = (PREVIEW.replace("__CSS__", self.CSS).replace("__JS__", self.JS)
+        page = (self.prev.replace("__CSS__", self.CSS).replace("__JS__", self.JS)
                 .replace("__FRAGMENT__", self.build()))
         with open(path, "w", encoding="utf-8") as f:
             f.write(page)
