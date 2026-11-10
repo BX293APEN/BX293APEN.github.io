@@ -1799,6 +1799,31 @@ sequenceDiagram
                     }
                 }
             )
+
+            window.addEventListener(
+                'load', 
+                () => {
+                    setTimeout(
+                        () => {
+                            createTableSearch(
+                                {
+                                    appId: 'attack-app',
+                                    inputId: 'q',
+                                    countId: 'count',
+                                    clearId: 'clear',
+                                    scrollerSelector: '.scroller',
+                                    headRowSelector: 'thead tr.r1',
+                                    rowSelector: 'tbody tr',
+                                    tagAttr: 'data-tag',
+                                    rowTagsAttr: 'data-tags',
+                                }
+                            );
+                        },
+                        300
+                    )
+                }
+            );
+
             
             new Pagination(3, securityModel.page, "pagination");
         </script>

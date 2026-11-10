@@ -323,11 +323,23 @@ __FRAGMENT__
         """
         esc = html.escape
         btns = "".join(
-            f'<button type="button" class="btn btn-sm btn-outline-primary" data-tag="{esc(n)}">'
-            f'{esc(n)} <span class="badge text-bg-light">{count[n]}</span></button>'
+            f"""\
+<button type="button" class="btn btn-sm btn-outline-primary" data-tag="{esc(n)}">
+                    {esc(n)} 
+                    <span class="badge text-bg-light">{count[n]}</span>
+                </button>
+                """
             for n in names if n in count)
-        return (f'<div class="d-flex flex-wrap gap-1 align-items-center mb-1">'
-                f'<br><span class="small text-body-secondary me-1">{title}</span><br>{btns}</div>')
+        return (
+            f"""\
+<div class="pt-3 d-flex flex-wrap gap-1 align-items-center mb-1">
+            <div class="me-1">{title}</div>
+            <div>
+                {btns}
+            </div>
+        </div>
+        """
+        )
 
     def build(self):
         """
