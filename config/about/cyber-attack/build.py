@@ -1,11 +1,24 @@
 """
 # cyber-attack.md → Bootstrap 5 用 HTML 変換
 
+## 出力の構成(3ファイル)
+
+| 出力 | 元になるファイル | 内容 |
+|---|---|---|
+| `cyber-attack.html` | `template.html` + `cyber-attack.md` | `<div id="attack-app">` の断片のみ |
+| `attack-style.css` | `template.css` | 見た目 |
+| `attack-script.js` | `template.js` | タグ・キーワードの絞り込み |
+
+**編集は元になるファイル側で行う。** 出力側を直接編集しても、再生成すると上書きされる。
+3ファイルは、`out`(HTML の出力先)と同じフォルダに書き出す。
+
 ## 使い方
 
 ```python
 CyberAttackMD2HTML("cyber-attack.md").save()
 ```
+
+コマンドラインでは `python3 build.py`。確認用ページも作るなら `python3 build.py --preview`。
 
 ## クラスの構成
 
@@ -19,15 +32,46 @@ CyberAttackMD2HTML("cyber-attack.md").save()
 | `row_html` | 1行分の `<tr>` を作る |
 | `group` | 上部のタグボタン群を作る |
 | `build` | HTML 全体を組み立てて文字列で返す |
-| `save` | `build` の結果をファイルに書き出す |
+| `save_html` | HTML の断片を書き出す |
+| `save_css` | CSS を書き出す |
+| `save_js` | JavaScript を書き出す |
+| `save` | 上の3つをまとめて書き出す |
+| `save_preview` | 単体で開ける確認用ページを書き出す(任意) |
 """
-import re, html, os
+import re, html, os, sys
+
+
+PREVIEW = """<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サイバー攻撃まとめ(確認用)</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="__CSS__" rel="stylesheet">
+</head>
+<body class="container-fluid">
+__FRAGMENT__
+<script src="__JS__"></script>
+</body>
+</html>
+"""
 
 
 class CyberAttackMD2HTML:
     """## Markdown の表を、タグ検索付きの Bootstrap 用 HTML に変換するクラス"""
 
-    def __init__(self, src, out=None, template="template.html"):
+    CSS = "attack-style.css"   # 出力する CSS のファイル名(確認用ページも読み込む)
+    JS = "attack-script.js"    # 出力する JavaScript のファイル名(確認用ページも読み込む)
+
+    def __init__(
+        self, 
+        src, 
+        out=None, 
+        template="template/template.html",
+        css_template="template/template.css", 
+        js_template="template/template.js"
+    ):
         """
         ## 初期化
 
@@ -38,12 +82,18 @@ class CyberAttackMD2HTML:
         | `src` | `str` | (必須) | 入力 Markdown |
         | `out` | `str` または `None` | `src` の拡張子を `.html` にしたもの | 出力 HTML |
         | `template` | `str` | `"template.html"` | HTML テンプレート |
+        | `css_template` | `str` | `"template.css"` | CSS の元ファイル |
+        | `js_template` | `str` | `"template.js"` | JavaScript の元ファイル |
         """
         self.here = os.path.dirname(os.path.abspath(__file__))
         self.src = self._path(src)
         self.out = self._path(out) if out else os.path.splitext(self.src)[0] + ".html"
-        with open(self._path(template), encoding="utf-8") as f:
-            self.template = f.read()
+        self.template = self._read(template)
+        self.css_text = self._read(css_template)
+        self.js_text = self._read(js_template)
+        out_dir = os.path.dirname(self.out)
+        self.out_css = os.path.join(out_dir, self.CSS)
+        self.out_js = os.path.join(out_dir, self.JS)
         self.rows = 0
         self.load_words()
 
@@ -60,6 +110,34 @@ class CyberAttackMD2HTML:
         | パス | `str` | 絶対パス(絶対パスで渡されたらそのまま) |
         """
         return p if os.path.isabs(p) else os.path.join(self.here, p)
+
+    def _read(self, p):
+        """
+        ## ファイルを UTF-8 で読み込む(改行コードはそのまま)
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `p` | `str` | パス(相対パスはスクリプト基準) |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 文字列 | `str` | ファイルの内容 |
+        """
+        with open(self._path(p), encoding="utf-8", newline="") as f:  # 改行コードを変換しない
+            return f.read()
+
+    @staticmethod
+    def _write(path, text):
+        """
+        ## ファイルを UTF-8 で書き出す(改行コードはそのまま)
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `path` | `str` | 出力先パス |
+        | `text` | `str` | 書き出す内容 |
+        """
+        with open(path, "w", encoding="utf-8", newline="") as f:  # 改行コードを変換しない
+            f.write(text)
 
     def load_words(self):
         """
@@ -98,7 +176,7 @@ class CyberAttackMD2HTML:
         # ## ①初動 / ②調査・根絶 の標準手順(分類ごと)
         # ③再発防止は元の表の「対策サービス・方法」をそのまま使う
         PH = {
-            "マルウェア": (["感染端末をネットワークから隔離(LAN抜線・Wi-Fi切断。電源は落とさない)", "関係部署へ報告し、影響範囲を仮判断", "関連アカウントのパスワード変更・無効化"],
+            "マルウェア": (["感染端末をネットワークから隔離(LAN抜線・Wi-Fi切断)\n※電源は落とさない", "関係部署へ報告し、影響範囲を仮判断", "関連アカウントのパスワード変更・無効化"],
                           ["メモリ・ディスク・ログを保全", "IoC(ハッシュ・C2通信先)で他端末を調査", "駆除、またはクリーン再構築・バックアップから復旧"]),
             "認証・パスワード": (["対象アカウントのロック・パスワードリセット・セッション失効", "不審な送信元IPの遮断"],
                             ["認証ログから試行元・成功ログインを特定", "侵害アカウントの操作履歴・権限を確認", "漏えいした資格情報を洗い出す"]),
@@ -185,6 +263,8 @@ class CyberAttackMD2HTML:
         """
         ## リストを `<ul>` にする
 
+        項目内の改行(`\n`)は `<br>` になる。
+
         | 引数 | 型 | 説明 |
         |---|---|---|
         | `items` | `list[str]` | 項目 |
@@ -193,7 +273,7 @@ class CyberAttackMD2HTML:
         |---|---|---|
         | HTML | `str` | `<ul><li>…</li></ul>` |
         """
-        return "<ul>" + "".join(f"<li>{html.escape(i)}</li>" for i in items) + "</ul>"
+        return "<ul>" + "".join(f"<li>{html.escape(i).replace(chr(10), '<br>')}</li>" for i in items) + "</ul>"
 
     def phase_cells(self, sec, topics, measure):
         """
@@ -234,10 +314,20 @@ class CyberAttackMD2HTML:
             f'<button type="button" class="tag badge text-bg-secondary" data-tag="{esc(t)}">{esc(t)}</button>'
             for t in tags)
         p1, p2, p3 = phases
-        return (f'<tr data-tags="{esc("|".join(tags))}">'
-                f'<th scope="row" class="name">{cells[0]}<div class="tags">{badges}</div></th>'
-                + cell(cells[1]) + cell(cells[2]) + cell(cells[3]) + cell(cells[4])
-                + cell(p1, "std") + cell(p2, "std") + cell(p3, "own") + cell(cells[6]) + "</tr>")
+        return (
+            f"""\
+                <tr data-tags="{esc("|".join(tags))}">
+                    <th scope="row" class="name">{cells[0]}<div class="tags">{badges}</div></th>
+                    {cell(cells[1])}
+                    {cell(cells[2])}
+                    {cell(cells[3])}
+                    {cell(cells[4])}
+                    {cell(p1, "std")}
+                    {cell(p2, "std")}
+                    {cell(p3, "own")}
+                    {cell(cells[6])} 
+                </tr>"""
+        )
 
     @staticmethod
     def group(title, names, count):
@@ -285,20 +375,75 @@ class CyberAttackMD2HTML:
                    + self.group("トピック", list(self.topic), count))
         return self.template.replace("__ROWS__", "\n".join(body)).replace("__FILTERS__", filters)
 
-    def save(self):
+    def save_html(self):
         """
-        ## HTML を `self.out` に書き出す
+        ## HTML の断片を `self.out` に書き出す
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
         | パス | `str` | 書き出したファイルのパス |
         """
         out = self.build()
-        with open(self.out, "w", encoding="utf-8") as f:
-            f.write(out)
+        self._write(self.out, out)
         print(self.rows, "rows,", len(out), "bytes ->", self.out)
         return self.out
 
+    def save_css(self):
+        """
+        ## CSS を `self.out_css` に書き出す
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | パス | `str` | 書き出したファイルのパス |
+        """
+        self._write(self.out_css, self.css_text)
+        print("css ->", self.out_css)
+        return self.out_css
+
+    def save_js(self):
+        """
+        ## JavaScript を `self.out_js` に書き出す
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | パス | `str` | 書き出したファイルのパス |
+        """
+        self._write(self.out_js, self.js_text)
+        print("js ->", self.out_js)
+        return self.out_js
+
+    def save(self):
+        """
+        ## HTML・CSS・JavaScript の3ファイルをまとめて書き出す
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | パスのリスト | `list[str]` | HTML・CSS・JavaScript の順 |
+        """
+        return [self.save_html(), self.save_css(), self.save_js()]
+
+    def save_preview(self):
+        """
+        ## 確認用ページ(Bootstrap CDN + CSS + JS 込み)を書き出す
+
+        貼り付け先のページがなくても、ブラウザで開くだけで動作を確認できる。
+        `self.out` の拡張子の前に `-preview` を付けたファイルに書き出す。
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | パス | `str` | 書き出したファイルのパス |
+        """
+        path = os.path.splitext(self.out)[0] + "-preview.html"
+        page = (PREVIEW.replace("__CSS__", self.CSS).replace("__JS__", self.JS)
+                .replace("__FRAGMENT__", self.build()))
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(page)
+        print("preview ->", path)
+        return path
+
 
 if __name__ == "__main__":
-    CyberAttackMD2HTML("cyber-attack.md").save()
+    conv = CyberAttackMD2HTML("cyber-attack.md")
+    conv.save()
+    if "--preview" in sys.argv:
+        conv.save_preview()
