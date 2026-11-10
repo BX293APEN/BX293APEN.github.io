@@ -441,11 +441,20 @@ __FRAGMENT__
         )
         return (
             f"""\
-<tr data-tags="{esc("|".join(tags))}">
-    <th scope="row" class="name">{cells[0]}<div class="tags">{badges}</div></th>
-    <td>{fix(cells[1])}</td>
-    <td>{fix(cells[2])}</td>
-</tr>"""
+                <tr data-tags="{esc("|".join(tags))}">
+                    <th scope="row" class="name">
+                        {cells[0]}
+                        <div class="tags">
+                            {badges}
+                        </div>
+                    </th>
+                    <td>
+                        {fix(cells[1])}
+                    </td>
+                    <td>
+                        {fix(cells[2])}
+                    </td>
+                </tr>"""
         )
 
     @staticmethod
