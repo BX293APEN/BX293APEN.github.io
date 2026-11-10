@@ -43,7 +43,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="物理・その他">
                     物理・その他 
-                    <span class="badge text-bg-light">29</span>
+                    <span class="badge text-bg-light">31</span>
                 </button>
                 
             </div>
@@ -61,7 +61,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">
                     国家関与主体 
-                    <span class="badge text-bg-light">32</span>
+                    <span class="badge text-bg-light">34</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">
                     個人クラッカー 
@@ -89,7 +89,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="研究者" title="【研究者(セキュリティ研究者)】&#10;脆弱性や新しい攻撃手法を調査・実証する立場の者(大学・企業の研究機関、セキュリティ研究者等)&#10;目的は攻撃の有効性の実証や防御の改善で、多くは善意(責任ある開示や論文発表)で行う&#10;ただし、公開された手法や実証コードが、他の攻撃者に悪用される場合がある">
                     研究者 
-                    <span class="badge text-bg-light">6</span>
+                    <span class="badge text-bg-light">8</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="ハクティビスト" title="【ハクティビスト】&#10;政治的・社会的な主張を目的として、Webサイト改ざんやDDoS攻撃等を行う攻撃者">
                     ハクティビスト 
@@ -101,7 +101,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="諜報機関" title="【諜報機関(インテリジェンス機関)】&#10;国家の安全保障上の情報収集(諜報・通信の傍受・サイバー工作)を任務とする政府の機関&#10;標的の機器への侵入や通信の傍受、暗号の解読等を、高度な技術と豊富な資金で組織的に行う&#10;国家関与主体の一形態として扱われることが多い">
                     諜報機関 
-                    <span class="badge text-bg-light">10</span>
+                    <span class="badge text-bg-light">11</span>
                 </button>
                 
             </div>
@@ -131,7 +131,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="サイドチャネル">
                     サイドチャネル 
-                    <span class="badge text-bg-light">5</span>
+                    <span class="badge text-bg-light">7</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="量子">
                     量子 
@@ -1560,6 +1560,28 @@
                     <td class="std"><ul><li>影響を受けた鍵を洗い出して再発行</li><li>実装・設置環境を再評価</li></ul></td>
                     <td class="own"><ul><li>電磁シールド</li><li>ノイズ付加</li><li>マスキング(演算のランダム化)</li></ul></td>
                     <td class=""><ul><li>国家関与主体</li><li>高度な攻撃者</li></ul></td> 
+                </tr>
+                <tr data-tags="物理・その他|国家関与主体|研究者|サイドチャネル">
+                    <th scope="row" class="name">キャッシュサイドチャネル攻撃<br>(CPUキャッシュ攻撃)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="物理・その他">物理・その他</button><button type="button" class="tag badge text-bg-secondary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">国家関与主体</button><button type="button" class="tag badge text-bg-secondary" data-tag="研究者" title="【研究者(セキュリティ研究者)】&#10;脆弱性や新しい攻撃手法を調査・実証する立場の者(大学・企業の研究機関、セキュリティ研究者等)&#10;目的は攻撃の有効性の実証や防御の改善で、多くは善意(責任ある開示や論文発表)で行う&#10;ただし、公開された手法や実証コードが、他の攻撃者に悪用される場合がある">研究者</button><button type="button" class="tag badge text-bg-secondary" data-tag="サイドチャネル">サイドチャネル</button></div></th>
+                    <td class="">サイドチャネル攻撃の一種で、<br>CPUのキャッシュメモリへのアクセス時間(ヒット/ミスによる速度差)を計測・解析し、<br>同一CPU上で動作する他のプロセス・仮想マシンのメモリアクセスパターンから秘密情報を推測する攻撃<br><ul><li>Flush+Reload: 共有メモリ上のラインをキャッシュから追い出し、被害者の実行後に再読込して速度差を観測する</li><li>Prime+Probe: キャッシュを自分のデータで埋め、被害者の実行後に追い出された箇所を観測する</li><li>Spectre/Meltdown: 投機的実行(トランジェント実行)で読み出した秘密値を、キャッシュの状態変化として外部に取り出す</li></ul>ソフトウェア的な脆弱性ではなく、CPUの性能向上機構そのものが原因である点が特徴</td>
+                    <td class=""><ul><li>攻撃者が、標的と同じCPU(キャッシュを共有する環境)上でコードを実行できること<br>(クラウドの同居VM・共有サーバ・ブラウザ上のJavaScript等)</li><li>キャッシュのアクセス時間差を測定できる高精度のタイマーが利用できること</li><li>被害者の処理が、秘密情報に依存したメモリアクセスを行うこと<br>(AESのテーブル参照・RSAの二乗乗算法等)</li><li>キャッシュを共有する構成(共有LLC・SMT・ページの重複排除等)が許可されていること</li></ul></td>
+                    <td class=""><ul><li>暗号鍵(AES・RSA等)の窃取</li><li>カーネルメモリ・他プロセスのメモリの読み出し(Spectre/Meltdown)</li><li>クラウド環境での、VM間・コンテナ間の情報漏えい</li></ul></td>
+                    <td class=""><ul><li>Spectre<br>(CVE-2017-5753 / CVE-2017-5715)</li><li>Meltdown<br>(CVE-2017-5754)</li><li>Flush+Reload</li><li>Prime+Probe</li></ul></td>
+                    <td class="std"><ul><li>対象機器の使用停止・物理的な隔離</li><li>影響を受けた鍵・証明書を失効</li></ul></td>
+                    <td class="std"><ul><li>影響を受けた鍵を洗い出して再発行</li><li>実装・設置環境を再評価</li></ul></td>
+                    <td class="own"><ul><li><strong>根本対策</strong>: 秘密情報に依存したメモリアクセス・分岐を行わない実装(定時間アルゴリズム)</li><li>AES-NI等、ハードウェア命令による暗号処理(テーブル参照の回避)</li><li>キャッシュ分割(Intel CAT等)・専有コアの割当</li><li>SMT(ハイパースレッディング)の無効化</li><li>OS・CPUマイクロコードのパッチ適用(KPTI・retpoline等)</li><li>ページの重複排除(KSM等)の無効化</li><li>ブラウザの高精度タイマーの粒度低下・サイト分離</li><li>重要なワークロードと信頼できないテナントを同一ホストに同居させない</li></ul></td>
+                    <td class=""><ul><li>国家関与主体</li><li>高度な攻撃者</li><li>悪意あるテナント(クラウドの同居VM)</li><li>研究者</li></ul></td> 
+                </tr>
+                <tr data-tags="物理・その他|国家関与主体|研究者|諜報機関|サイドチャネル">
+                    <th scope="row" class="name">音響サイドチャネル攻撃<br>(動作音による解析)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="物理・その他">物理・その他</button><button type="button" class="tag badge text-bg-secondary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">国家関与主体</button><button type="button" class="tag badge text-bg-secondary" data-tag="研究者" title="【研究者(セキュリティ研究者)】&#10;脆弱性や新しい攻撃手法を調査・実証する立場の者(大学・企業の研究機関、セキュリティ研究者等)&#10;目的は攻撃の有効性の実証や防御の改善で、多くは善意(責任ある開示や論文発表)で行う&#10;ただし、公開された手法や実証コードが、他の攻撃者に悪用される場合がある">研究者</button><button type="button" class="tag badge text-bg-secondary" data-tag="諜報機関" title="【諜報機関(インテリジェンス機関)】&#10;国家の安全保障上の情報収集(諜報・通信の傍受・サイバー工作)を任務とする政府の機関&#10;標的の機器への侵入や通信の傍受、暗号の解読等を、高度な技術と豊富な資金で組織的に行う&#10;国家関与主体の一形態として扱われることが多い">諜報機関</button><button type="button" class="tag badge text-bg-secondary" data-tag="サイドチャネル">サイドチャネル</button></div></th>
+                    <td class="">サイドチャネル攻撃の一種で、<br>機器の動作に伴って発生する音(キーボードの打鍵音・CPUやコンデンサ・コイルの高周波音・プリンタ音等)を録音・解析し、<br>入力内容や秘密鍵等の機密情報を推測する攻撃<br><ul><li>打鍵音解析: キーごとの音色・タイミングの違いを機械学習で分類し、入力文字列を復元する</li><li>暗号処理音の解析: 処理内容(鍵)によって変化するCPUの高周波音から、秘密鍵を推測する</li></ul>スマートフォン・ビデオ会議・音声アシスタント等の、身近なマイクが盗聴経路になりうる</td>
+                    <td class=""><ul><li>攻撃者が、標的の機器の音を録音できること<br>(近傍のマイク・マルウェアに感染した端末・ビデオ会議の音声等)</li><li>機器の音が、入力内容や処理内容(鍵)と相関していること</li><li>解析に十分な録音データ・学習データ(同一機種の打鍵音等)が得られること</li></ul></td>
+                    <td class=""><ul><li>パスワード・入力文書の再構成</li><li>暗号の秘密鍵の窃取</li><li>機密情報の漏えい</li></ul></td>
+                    <td class=""><ul><li>RSA秘密鍵の音響解析<br>(2013年、Genkin・Shamir・Tromerらが<br>GnuPGのRSA鍵を、CPUの高周波音から復元)</li><li>打鍵音からの入力推定<br>(ビデオ会議の音声から高精度で復元した研究報告)</li></ul></td>
+                    <td class="std"><ul><li>対象機器の使用停止・物理的な隔離</li><li>影響を受けた鍵・証明書を失効</li></ul></td>
+                    <td class="std"><ul><li>影響を受けた鍵を洗い出して再発行</li><li>実装・設置環境を再評価</li></ul></td>
+                    <td class="own"><ul><li><strong>根本対策</strong>: 秘密情報に処理音が依存しない実装(RSAブラインディング・定時間アルゴリズム)</li><li>パスワードマネージャによる自動入力・多要素認証(打鍵音からの復元だけでは突破されない構成)</li><li>機密情報の入力中のマイクのミュート・不要なマイクアクセスの制限</li><li>ホワイトノイズ・音声のノイズ付加</li><li>防音・遮音された環境での作業</li><li>録音機器の持ち込み制限</li></ul></td>
+                    <td class=""><ul><li>国家関与主体</li><li>高度な攻撃者</li><li>諜報機関</li><li>研究者</li></ul></td> 
                 </tr>
                 <tr data-tags="物理・その他|国家関与主体|諜報機関|サイドチャネル">
                     <th scope="row" class="name">テンペスト攻撃<br>(TEMPEST)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="物理・その他">物理・その他</button><button type="button" class="tag badge text-bg-secondary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">国家関与主体</button><button type="button" class="tag badge text-bg-secondary" data-tag="諜報機関" title="【諜報機関(インテリジェンス機関)】&#10;国家の安全保障上の情報収集(諜報・通信の傍受・サイバー工作)を任務とする政府の機関&#10;標的の機器への侵入や通信の傍受、暗号の解読等を、高度な技術と豊富な資金で組織的に行う&#10;国家関与主体の一形態として扱われることが多い">諜報機関</button><button type="button" class="tag badge text-bg-secondary" data-tag="サイドチャネル">サイドチャネル</button></div></th>
