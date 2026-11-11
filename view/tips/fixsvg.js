@@ -55,7 +55,7 @@ class FixSvgOverflow {
     constructor(
         className = 'svgclass',
         fontSize = '75%',
-        letterSpacing = '-1em',
+        letterSpacing = '-0.1em',
         targetFonts = ['HGPGothicE', 'HGPゴシックE'],
         scrollable = false
     ) {
@@ -168,7 +168,7 @@ class FixSvgOverflow {
             const textWidth = range.getBoundingClientRect().width;
 
             // 収まっていれば何もしない (誤差 0.5px は許容)
-            if (boxWidth <= 0 || textWidth <= boxWidth + 0.5) return;
+            if (boxWidth <= 0 || textWidth <= boxWidth + 0.2) return;
 
             const current = parseFloat(view.getComputedStyle(label).fontSize);
             const next = current * (boxWidth / textWidth);
