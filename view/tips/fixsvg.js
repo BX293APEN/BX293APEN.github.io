@@ -213,7 +213,7 @@ class FixSvgOverflow {
                     overflow: visible !important;
                 }
                 text, foreignObject div, foreignObject span, .nodeLabel, .label {
-                    font-family: "HGPGothicE", "Roboto Condensed", "Noto Sans JP", sans-serif !important;
+                    font-family: "HGPGothicE", "Noto Sans JP", "Roboto Condensed", sans-serif !important;
                     letter-spacing: ${this.letterSpacing} !important;
                     /* 仮名・記号の幅を詰める (HGP = プロポーショナルフォントに近づける) */
                     font-feature-settings: "palt" 1 !important;
