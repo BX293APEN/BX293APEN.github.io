@@ -50,7 +50,7 @@ class FixSvgOverflow {
      * | `fontSize` | `string` | `'88%'` | 補正時の基本フォントサイズ (元サイズに対する割合) |
      * | `letterSpacing` | `string` | `'-0.05em'` | 補正時の字間 |
      * | `targetFonts` | `string[]` | `['HGPGothicE', 'HGPゴシックE']` | 判定対象のフォント名 (どれか1つでもあれば補正しない) |
-     * | `scrollable` | `boolean` | `false` | `true` なら本来のサイズで横スクロール、`false` なら画面幅に合わせて縮小 |
+     * | `scrollable` | `boolean` | `false` | `true` なら本来のサイズで横スクロール(overflow-x-auto必要)、`false` なら画面幅に合わせて縮小 |
      */
     constructor(
         className = 'svgclass',
