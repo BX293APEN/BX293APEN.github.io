@@ -959,7 +959,7 @@
                 <tr data-tags="Webアプリ|個人クラッカー|セッション">
                     <th scope="row" class="name">クリックジャッキング<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">個人クラッカー</button><button type="button" class="tag badge text-bg-secondary" data-tag="セッション">セッション</button></div></th>
                     <td class="">透明なiframe等で誤クリックを誘発し、意図しない操作をさせる</td>
-                    <td class=""><ul><li>標的ページをiframeに埋め込めること<br>(X-Frame-Optionsヘッダ、またはContent-Security-Policyヘッダのframe-ancestorsが未設定)</li><li>利用者が標的サイトにログイン中であること</li><li>利用者が罠ページで誘導されたクリックを行うこと</li></ul></td>
+                    <td class=""><ul><li>標的ページをiframeに埋め込めること<ul><li>X-Frame-Optionsヘッダが未設定</li><li>Content-Security-Policyヘッダのframe-ancestorsが未設定</li></ul></li><li>利用者が標的サイトにログイン中であること</li><li>利用者が罠ページで誘導されたクリックを行うこと</li></ul></td>
                     <td class=""><ul><li>意図しない操作(購入・設定変更・SNSの「いいね」等)</li><li>不正な認可・情報の公開</li></ul></td>
                     <td class=""><span class="text-body-tertiary">—</span></td>
                     <td class="std"><ul><li>該当機能・ページを停止、またはWAFで遮断</li><li>影響セッションの失効・パスワード変更</li></ul></td>
