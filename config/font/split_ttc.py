@@ -282,6 +282,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    # TTC のファイルパスは起動後に input() で入力する
-    # TTC と同じディレクトリに分解したフォントを出力する
     sys.exit(main())
