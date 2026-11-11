@@ -55,7 +55,7 @@ class FixSvgOverflow {
     constructor(
         className = 'svgclass',
         fontSize = '88%',
-        letterSpacing = '-0.05em',
+        letterSpacing = '-0.1em',
         targetFonts = ['HGPGothicE', 'HGPゴシックE'],
         scrollable = false
     ) {
