@@ -224,7 +224,9 @@ flowchart LR
 -->
 
 
-<img class ="pt-4" src="/img/appbuild/slcp.svg" width = "100%"/>
+<div class="w-100 pt-4 mb-3">
+    <object type="image/svg+xml" data="/img/appbuild/slcp.svg" class="svgclass w-100"></object>
+</div>
 
 | 用語 | 内容 |
 |------|------|
@@ -931,6 +933,7 @@ flowchart LR
         <script src="/view/pagination.js"></script>
         <script src="/view/md.js"></script>
         <script src="/view/createTable.js"></script>
+        <script src="/view/tips/fixsvg.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -990,6 +993,17 @@ flowchart LR
                                     selectId: 'situation',
                                 }
                             );
+                        },
+                        300
+                    );
+                }
+            );
+
+            window.addEventListener(
+                'load', () => {
+                    setTimeout(
+                        () => {
+                            new FixSvgOverflow('svgclass', "10px");
                         },
                         300
                     );
