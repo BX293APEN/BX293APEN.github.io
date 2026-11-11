@@ -17,7 +17,7 @@ flowchart TD
         init: {
             'theme':'base',
             'themeVariables': { 
-                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'fontFamily' : 'HGPGothicE, arial',
                 'primaryColor': '#EEE',
                 'primaryTextColor': '#000000',
                 'primaryBorderColor': '#000000',
@@ -26,14 +26,14 @@ flowchart TD
             }
         }
     }%%
-    D["ドライバ<br/>(ボトムアップテスト用)"]
+    D["ドライバ<br/> (ボトムアップテスト用) "]
     M["テスト対象モジュール"]
-    S["スタブ<br/>(トップダウンテスト用)"]
+    S["スタブ<br/> (トップダウンテスト用) "]
 
-    D -- >|"呼び出し<br/>(テストデータ)"| M
-    M -- >|"呼び出し"| S
-    S -.->|"戻り値<br/>(ダミー値)"| M
-    M -.->|"戻り値<br/>(処理結果)"| D
+    D -- >|"呼び出し<br/> (テストデータ) "| M
+    M -- >|" 呼び出し "| S
+    S -.->|"戻り値<br/> (ダミー値) "| M
+    M -.->|"戻り値<br/> (処理結果) "| D
 
 -->
 
