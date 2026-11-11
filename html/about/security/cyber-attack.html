@@ -876,7 +876,7 @@
                     <td class=""><span class="text-body-tertiary">—</span></td>
                     <td class="std"><ul><li>該当機能・ページを停止、またはWAFで遮断</li><li>影響セッションの失効・パスワード変更</li></ul></td>
                     <td class="std"><ul><li>Web・DB・WAFログを保全して解析</li><li>改ざん・漏えい範囲を特定</li><li>不正ファイル(Webシェル等)の削除と脆弱箇所の特定</li></ul></td>
-                    <td class="own"><ul><li>CSRFトークン(推測不能な値をリクエストに埋め込み一致確認する)</li><li>SameSite Cookie</li><li>Referer/Origin検証<br>(リクエスト送信元ページの参照元を確認する)</li><li>重要処理の実行前にパスワード再入力等で本人確認を行う</li><li>重要な処理を行った際に登録済みメールアドレスへ確認通知を送る</li><li>重要な処理はGETではなくPOST+hiddenパラメータで実装し、<br>単純なリンクやURLの踏襲だけでは実行できないようにする</li></ul></td>
+                    <td class="own"><ul><li>CSRFトークン(推測不能な値をリクエストに埋め込み一致確認する)<br>トークンはセッションIDとユーザアカウント(利用者ID等)に紐づけて生成・検証する<br>(攻撃者が自分で取得した有効なトークンを、他人のリクエストに流用できないようにするため)</li><li>SameSite Cookie</li><li>Referer/Origin検証<br>(リクエスト送信元ページの参照元を確認する)</li><li>重要処理の実行前にパスワード再入力等で本人確認を行う</li><li>重要な処理を行った際に登録済みメールアドレスへ確認通知を送る</li><li>重要な処理はGETではなくPOST+hiddenパラメータで実装し、<br>単純なリンクやURLの踏襲だけでは実行できないようにする</li></ul></td>
                     <td class="">個人クラッカー</td> 
                 </tr>
                 <tr data-tags="Webアプリ|個人クラッカー|インジェクション">
@@ -959,12 +959,12 @@
                 <tr data-tags="Webアプリ|個人クラッカー|セッション">
                     <th scope="row" class="name">クリックジャッキング<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">個人クラッカー</button><button type="button" class="tag badge text-bg-secondary" data-tag="セッション">セッション</button></div></th>
                     <td class="">透明なiframe等で誤クリックを誘発し、意図しない操作をさせる</td>
-                    <td class=""><ul><li>標的ページをiframeに埋め込めること(X-Frame-Options・frame-ancestors未設定)</li><li>利用者が標的サイトにログイン中であること</li><li>利用者が罠ページで誘導されたクリックを行うこと</li></ul></td>
+                    <td class=""><ul><li>標的ページをiframeに埋め込めること<br>(X-Frame-Optionsヘッダ、またはContent-Security-Policyヘッダのframe-ancestorsが未設定)</li><li>利用者が標的サイトにログイン中であること</li><li>利用者が罠ページで誘導されたクリックを行うこと</li></ul></td>
                     <td class=""><ul><li>意図しない操作(購入・設定変更・SNSの「いいね」等)</li><li>不正な認可・情報の公開</li></ul></td>
                     <td class=""><span class="text-body-tertiary">—</span></td>
                     <td class="std"><ul><li>該当機能・ページを停止、またはWAFで遮断</li><li>影響セッションの失効・パスワード変更</li></ul></td>
                     <td class="std"><ul><li>Web・DB・WAFログを保全して解析</li><li>改ざん・漏えい範囲を特定</li><li>不正ファイル(Webシェル等)の削除と脆弱箇所の特定</li></ul></td>
-                    <td class="own"><ul><li>X-Frame-Options</li><li>CSP(frame-ancestors)</li></ul></td>
+                    <td class="own"><ul><li>X-Frame-Options</li><li>CSP(Content Security Policy)のframe-ancestors<br>(Content-Security-Policyヘッダで指定)</li></ul></td>
                     <td class="">個人クラッカー</td> 
                 </tr>
                 <tr data-tags="Webアプリ|APT攻撃者|個人クラッカー">
@@ -1514,7 +1514,7 @@
                     <td class="">Magecart</td>
                     <td class="std"><ul><li>該当機器・場所の物理的な隔離、出入りの制限</li><li>関連する認証情報を変更</li></ul></td>
                     <td class="std"><ul><li>防犯カメラ・入退室ログを確認</li><li>持ち出された資産・情報を特定</li></ul></td>
-                    <td class="own"><ul><li>WAF</li><li>Webサイト改ざん検知</li><li>CSP</li><li>サブリソース完全性(SRI)</li></ul></td>
+                    <td class="own"><ul><li>WAF</li><li>Webサイト改ざん検知</li><li>CSP(Content Security Policy)</li><li>サブリソース完全性(SRI)</li></ul></td>
                     <td class="">犯罪組織</td> 
                 </tr>
                 <tr data-tags="物理・その他|国家関与主体|サイドチャネル">
