@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/dhcp.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="DHCPサーバの設定方法について" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="ps-4 pt-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="dnsmasq">
+                                dnsmasqによるDHCPサーバの構築
+                            </h2>
+                            <p>
+                                ※ dhcpdは開発が終わったため、dnsmasqで設定
+                            </p>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant C as クライアント
+    participant S as DHCPサーバー
+
+    C->>S: ① DHCP Discover (カバー / ブロードキャスト / DHCPサーバーの探索)
+    S->>C: ② DHCP Offer (オファー / 割り当て候補のIPアドレスを提示)
+    C->>S: ③ DHCP Request (リクエスト / ブロードキャスト / 提示されたIPアドレスの使用を要求)
+    S->>C: ④ DHCP ACK (確認応答 / 割り当ての確定)
+    Note over C,S: IPアドレスの割り当て完了
+                            -->
+                            <img src="/img/server/dhcp.svg" width = "100%"/>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                dnsmasqのインストール
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo apt install dnsmasq</code></pre> 
+                            </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定ファイル
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/dnsmasq.d/lan.conf</code></pre> 
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash"># /etc/dnsmasq.d/lan.conf
+
+# ※設定項目のスペースを勝手に空けると構文チェックに通らなくなる
+
+# =================================================================
+# 共通・インターフェース設定
+# =================================================================
+interface=eth0          # 待ち受けインターフェース
+interface=lo            # 待ち受けインターフェース
+domain-needed           # ドット無しの名前を上流DNSへ転送しない
+bogus-priv              # プライベートIPの逆引きを上流へ転送しない
+local=/lan/             # ローカル専用ドメイン
+local=/local.lan/       # ローカル専用ドメイン
+domain=lan
+
+# =================================================================
+# DNSサーバー設定
+# =================================================================
+
+# port=0                # DNS 機能の無効化
+no-resolv               # サーバー本体の /etc/resolv.conf (上流DNS設定)を無視
+server=1.1.1.1          # 上流DNS
+server=8.8.8.8          # 上流DNS
+
+# =================================================================
+# 独自ゾーン設定
+# =================================================================
+no-hosts                # /etc/hosts を 読み込まない (名前解決はhost-recordのみ)
+host-record=gateway.lan,gateway,192.168.10.1
+host-record=raspi5.lan,raspi5,192.168.10.64
+host-record=raspi5.local.lan,192.168.10.64
+
+# =================================================================
+# DHCPサーバー設定
+# =================================================================
+
+# DHCP範囲 : 192.168.10.100/24 - 192.168.10.200/24
+# リース期間 : 24時間
+dhcp-range=192.168.10.100,192.168.10.200,255.255.255.0,24h
+
+
+dhcp-option=option:router,192.168.10.1          # デフォルトゲートウェイ
+dhcp-option=option:dns-server,192.168.10.64     # DNSサーバ
+# dhcp-option=option:ntp-server,192.168.10.99   # NTPサーバ
+# dnsmasq --help dhcpでオプション名確認
+</code></pre> 
+                            </p>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                設定の適用
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">dnsmasq --test                      # 構文チェック
+sudo systemctl restart dnsmasq      # 設定の適用
+sudo journalctl -u dnsmasq -n 20    # 動作ログチェック</code></pre> 
+                            </p>
+                            
+                        </article>
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ルーティングプロトコル比較
+                            </h2>
+                            <div id="md-route">
+
+| プロトコル | プロトコル番号<br>ポート番号 | IPv6 | 規格 | 分類 | アルゴリズム | メトリック | 経路計算 | 更新方式 | 概要 | メリット | デメリット | 使用用途 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| RIP-1 | 17 (UDP)<br>520 | <ul><li>非対応</li></ul> | <ul><li>RFC 1058</li></ul> | <ul><li>IGP</li><li>クラスフル</li></ul> | <ul><li>ディスタンスベクタ型</li></ul> | <ul><li>ホップ数</li><li>最大15</li><li>16で到達不能</li></ul> | <ul><li>隣接ルータの経路にホップ数を加算</li><li>最小値の経路を採用</li></ul> | <ul><li>30秒ごとに全経路を送信</li><li>ブロードキャストで送信 255.255.255.255</li><li>トリガードアップデートあり</li></ul> | <ul><li>ディスタンスベクタ型のIGP</li><li>隣接ルータから聞いた経路だけを知る</li><li>経路情報にサブネットマスクを含まない</li><li>可変長サブネットマスク (VLSM) 非対応</li><li>ルーティング情報の更新にブロードキャストを使用</li><li>認証機能なし</li><li>管理距離は120</li></ul> | <ul><li>設定が非常に簡単</li><li>トポロジ用のデータベースが不要でメモリ消費が少ない</li><li>ほぼ全てのルータが対応</li><li>動作原理が単純で理解しやすい</li></ul> | <ul><li>VLSMとCIDRに非対応</li><li>ブロードキャストのためRIPを使わないホストにも負荷</li><li>認証がなく偽の経路を受け入れる恐れ</li><li>収束が遅い</li><li>カウントトゥインフィニティが発生しやすい</li><li>ホップ数15の制限</li><li>帯域や遅延を考慮しない</li><li>全経路を定期送信するため帯域を消費</li><li>不連続サブネットを扱えない</li></ul> | <ul><li>ごく小規模なネットワーク</li><li>レガシー機器との接続</li></ul> |
+| RIP-2 | 17 (UDP)<br>520 | <ul><li>RIPngで対応</li><li>UDP 521</li><li>ff02::9宛</li></ul> | <ul><li>RFC 2453</li><li>RIPng: RFC 2080</li></ul> | <ul><li>IGP</li><li>クラスレス</li></ul> | <ul><li>ディスタンスベクタ型</li></ul> | <ul><li>ホップ数</li><li>最大15</li><li>16で到達不能</li></ul> | <ul><li>隣接ルータの経路にホップ数を加算</li><li>最小値の経路を採用</li></ul> | <ul><li>30秒ごとに全経路を送信</li><li>マルチキャストで送信 224.0.0.9</li><li>トリガードアップデートあり</li></ul> | <ul><li>RIP-1の拡張版</li><li>ディスタンスベクタ型のIGP</li><li>経路情報にサブネットマスクを含める</li><li>可変長サブネットマスク (VLSM) に対応</li><li>ルーティング情報の更新にマルチキャストを使用</li><li>平文とMD5による認証に対応</li><li>ネクストホップとルートタグのフィールドを追加</li><li>RIP-1との互換動作が可能</li><li>管理距離は120</li></ul> | <ul><li>VLSMとCIDRに対応</li><li>マルチキャストのためRIPを使わないホストに負荷をかけない</li><li>認証で不正な経路を防止できる</li><li>ネクストホップを指定できる</li><li>ルートタグで再配布の制御ができる</li><li>自動集約の無効化と手動集約が可能</li><li>設定が簡単</li></ul> | <ul><li>ホップ数15の制限</li><li>収束が遅い</li><li>カウントトゥインフィニティはスプリットホライズン等で緩和するのみ</li><li>帯域や遅延を考慮しない</li><li>全経路を定期送信するため帯域を消費</li><li>階層構造を持てない</li><li>MD5認証は現在の基準では強度が低い</li></ul> | <ul><li>小規模ネットワーク</li><li>検証環境</li><li>小規模拠点間の接続</li></ul> |
+| OSPF | 89 (IP直接)<br>なし | <ul><li>OSPFv3で対応</li></ul> | <ul><li>OSPFv2: RFC 2328</li><li>OSPFv3: RFC 5340</li></ul> | <ul><li>IGP</li><li>クラスレス</li></ul> | <ul><li>リンクステート型</li></ul> | <ul><li>コスト</li><li>参照帯域幅 ÷ インターフェース帯域幅</li></ul> | <ol><li>LSDBを構築</li><li>ダイクストラ法でSPFツリーを計算</li><li>ルーティングテーブルへ登録</li></ol> | <ul><li>変化時のみLSAをフラッディング</li><li>マルチキャストで送信 224.0.0.5 と 224.0.0.6</li><li>LSAを30分ごとに再送</li><li>Helloでネイバーを検出と維持</li></ul> | <ul><li>リンクステート型のIGP</li><li>リンクステートデータベース (LSDB) を全ルータが保持</li><li>LSAを交換してネットワーク全体のトポロジを把握</li><li>可変長サブネットマスク (VLSM) に対応</li><li>ルーティング情報の更新にマルチキャストを使用</li><li>エリアによる階層化 バックボーンはエリア0</li><li>ブロードキャストネットワークではDRとBDRを選出</li><li>ルータIDでルータを識別</li><li>管理距離は110</li></ul> | <ul><li>VLSMとCIDRに対応</li><li>全ルータが同一のトポロジ情報を持ちループフリー</li><li>変化時のみ更新するため帯域消費が少ない</li><li>収束が速い</li><li>帯域に基づくコストで経路を選択</li><li>等コストマルチパス (ECMP) に対応</li><li>エリア境界での経路集約が可能</li><li>認証に対応</li><li>標準規格でマルチベンダー環境に向く</li></ul> | <ul><li>設計と設定が複雑</li><li>SPF計算とLSDBでCPUとメモリの負荷が高い</li><li>全エリアをエリア0に接続する必要</li><li>参照帯域幅の既定値が機器により異なる</li><li>大規模でLSAが増えると不安定になりやすい</li><li>トラブルシューティングが難しい</li></ul> | <ul><li>企業内ネットワーク</li><li>データセンター</li><li>ISPの内部ネットワーク</li></ul> |
+| BGP | 6 (TCP)<br>179 | <ul><li>MP-BGPで対応</li><li>RFC 4760</li></ul> | <ul><li>BGP-4: RFC 4271</li></ul> | <ul><li>EGP</li><li>eBGPとiBGP</li></ul> | <ul><li>パスベクタ型</li></ul> | <ul><li>経路属性の組み合わせ</li></ul><ol><li>Weight (Cisco独自)</li><li>LOCAL_PREF</li><li>AS_PATH長</li><li>ORIGIN</li><li>MED</li></ol> | <ul><li>ベストパス選択アルゴリズム</li><li>AS_PATHでループを検出</li></ul> | <ul><li>TCPセッション上で差分のみ送信</li><li>マルチキャストは使わずユニキャストで直接通信</li><li>ネイバーを手動設定</li><li>KEEPALIVE 60秒 と HOLD 180秒</li></ul> | <ul><li>パスベクタ型のEGP</li><li>AS間の経路情報を交換</li><li>インターネットの基盤となるプロトコル</li><li>AS番号でネットワークを識別</li><li>TCPのセッションでネイバーを確立</li><li>OPEN UPDATE KEEPALIVE NOTIFICATIONの4種のメッセージ</li><li>経路属性 (Path Attributes) で経路を制御</li><li>可変長サブネットマスクとCIDRに対応</li><li>管理距離は eBGP が20 iBGP が200</li></ul> | <ul><li>TCPにより再送と順序制御で信頼性を確保</li><li>差分のみ更新するため帯域消費が少ない</li><li>経路属性でポリシーを柔軟に制御できる</li><li>VLSMとCIDRに対応し経路集約が可能</li><li>数十万経路の大規模ネットワークに対応</li><li>AS_PATHでループを防止</li><li>マルチホーミングが可能</li><li>MP-BGPでIPv6やVPNなど複数のアドレスファミリを扱える</li></ul> | <ul><li>設定と運用が難しい</li><li>収束が比較的遅い</li><li>誤設定が経路リークや経路ハイジャックにつながる</li><li>iBGPはフルメッシュが必要 ルートリフレクタ等で回避</li><li>全経路でメモリを大量に消費</li><li>ネイバーの手動設定が必要</li><li>ネクストホップの到達性にIGPが必要</li></ul> | <ul><li>ISP間の接続</li><li>マルチホーミング</li><li>大規模ネットワークの外部接続</li></ul> |
+
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#dnsmasq">NTPサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-route">ルーティングプロトコル比較</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["UEFITip", "windowsTip", "vimTip"]);
+            new Pagination(3, serverModel.page, "pagination");
+
+            const mdLists = [
+                "md-route",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>

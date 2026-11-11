@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/zabbix.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="システムの監視" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>システムの監視</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class ="pt-4 ps-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                システムの監視
+                            </h2>
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="zabbix">
+                                Zabbix
+                            </h2>
+                            <p>
+                                サーバ・ネットワーク機器・アプリケーションなどの状態を監視するためのオープンソースの統合監視ツール
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="zabbix-agent">
+                                Zabbixエージェントの構築
+                            </h3>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                必要なパッケージのインストール
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash"># ====== Zabbix Agent ======
+sudo apt install zabbix-agent
+
+# ===== Zabbix Agent 2 =====
+sudo apt install zabbix-agent2</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                監視キーの追加
+                            </h4>
+
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash"># ====== Zabbix Agent ======
+sudo nano /etc/zabbix/zabbix_agentd.conf.d/device_performance.conf
+
+# ===== Zabbix Agent 2 =====
+sudo nano /etc/zabbix/zabbix_agent2.d/device_performance.conf</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">UserParameter=[パラメータ名],[パラメータ取得コマンド]</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                設定の適用・自動起動設定
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash"># ====== Zabbix Agent ======
+sudo systemctl restart zabbix-agent
+sudo systemctl enable zabbix-agent
+
+# ===== Zabbix Agent 2 =====
+sudo systemctl restart zabbix-agent2
+sudo systemctl enable zabbix-agent2</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="zabbix-server">
+                                Zabbixサーバの構築 (Docker推奨)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    .env
+                                </div>
+                                <pre><code class="language-bash"># =============================================================================
+# .env  -  Zabbix Docker 環境設定ファイル
+#
+# バージョンアップ時は ZABBIX_VERSION のみ変更すればOK
+# 起動コマンド: docker compose up --build -d
+# =============================================================================
+
+# ---------- コンテナ名 ----------
+ZABBIX_CONTAINER_NAME=Zabbix_Server
+DB_CONTAINER_NAME=Zabbix_DB
+WEB_CONTAINER_NAME=Zabbix_Web
+
+# ---------- Dockerfile の場所 ----------
+# docker-compose.yml からの相対パス、または絶対パス
+DOCKERFILE_DIR=.                    # Dockerfile が置いてあるディレクトリ
+DOCKERFILE=Dockerfile               # Dockerfile のファイル名
+ENTRY_POINT=start.sh
+
+# ---------- Zabbix イメージバージョン ----------
+# https://hub.docker.com/r/zabbix/zabbix-server-mysql/tags で確認
+# ここを変えるだけで server / web / Dockerfile ARG すべてに反映される
+ZABBIX_VERSION=alpine-7.4-latest
+
+# ---------- MySQL イメージバージョン ----------
+MYSQL_VERSION=8.0
+
+# ---------- DB 接続情報 ----------
+MYSQL_DATABASE=zabbix
+MYSQL_USER=zabbix
+MYSQL_PASSWORD=zabbixpass
+MYSQL_ROOT_PASSWORD=rootpass
+
+# ---------- Zabbix サーバ ----------
+ZBX_SERVER_HOST=zabbix-server
+DB_SERVER_HOST=zabbix-db
+DB_SERVER_PORT=3306
+
+# ---------- Web UI ----------
+PHP_TZ=Asia/Tokyo
+WEB_PORT=8080
+
+# ---------- Zabbix トラッパーポート ----------
+ZBX_TRAPPER_PORT=10051
+
+# ---------- Zabbix 初期化 SQL ----------
+# Zabbix 7.x : create.sql.gz (schema+dataが統合)
+# Zabbix 6.x : schema.sql.gz と data.sql.gz が別ファイル (start.sh の修正も必要)
+ZBX_CREATE_SQL=/usr/share/doc/zabbix-server-mysql/create.sql.gz
+# 複数ファイルはコンマ区切りで指定可能:
+# ZBX_CREATE_SQL=schema.sql.gz,data.sql.gz,custom.sql.gz
+
+
+# 初回ログイン : ユーザ名 : Admin / パスワード : zabbix</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    compose.yml
+                                </div>
+                                <pre><code class="language-yaml">services:
+
+  zabbix-db:
+    image: mysql:${MYSQL_VERSION}
+    container_name: ${DB_CONTAINER_NAME}
+    env_file: .env
+
+    environment:
+      MYSQL_DATABASE:       ${MYSQL_DATABASE}
+      MYSQL_USER:           ${MYSQL_USER}
+      MYSQL_PASSWORD:       ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD:  ${MYSQL_ROOT_PASSWORD}
+
+    command:
+      - --max_allowed_packet=64M
+      - --explicit_defaults_for_timestamp=1
+      - --log-bin-trust-function-creators=1
+
+    volumes:
+      - ./zabbix-db:/var/lib/mysql
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  zabbix-server:
+    build:
+      context: ${DOCKERFILE_DIR}            # .env で指定するビルドコンテキスト
+      dockerfile: ${DOCKERFILE}             # .env で指定する Dockerfile パス
+      args:
+        ZABBIX_VERSION: ${ZABBIX_VERSION}   # FROM の ARG に渡してバージョンを動的に変える
+        ENTRY_POINT:    ${ENTRY_POINT}
+    image: zabbix-server-custom:${ZABBIX_VERSION}   # ビルド後イメージ名 (キャッシュ識別用)
+    container_name: ${ZABBIX_CONTAINER_NAME}
+    env_file: .env
+
+    environment:
+      DB_SERVER_HOST:   ${DB_SERVER_HOST}
+      DB_SERVER_PORT:   ${DB_SERVER_PORT}
+      MYSQL_DATABASE:   ${MYSQL_DATABASE}
+      MYSQL_USER:       ${MYSQL_USER}
+      MYSQL_PASSWORD:   ${MYSQL_PASSWORD}
+      ZBX_CREATE_SQL:   ${ZBX_CREATE_SQL}
+
+    ports:
+      - "${ZBX_TRAPPER_PORT}:10051"
+
+    depends_on:
+      zabbix-db:
+        condition: service_healthy          # DB healthcheck パス後に起動
+
+    volumes:
+      - ./zabbix_server.conf:/etc/zabbix/zabbix_server.conf
+
+    restart: unless-stopped
+
+    command:
+      - /usr/local/bin/${ENTRY_POINT}
+
+
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:${ZABBIX_VERSION}
+    container_name: ${WEB_CONTAINER_NAME}
+    env_file: .env
+
+    environment:
+      DB_SERVER_HOST:   ${DB_SERVER_HOST}
+      MYSQL_USER:       ${MYSQL_USER}
+      MYSQL_PASSWORD:   ${MYSQL_PASSWORD}
+      MYSQL_DATABASE:   ${MYSQL_DATABASE}
+      ZBX_SERVER_HOST:  ${ZBX_SERVER_HOST}
+      PHP_TZ:           ${PHP_TZ}
+
+    ports:
+      - "${WEB_PORT}:8080"
+
+    depends_on:
+      zabbix-server:
+        condition: service_started
+      zabbix-db:
+        condition: service_healthy
+
+    restart: unless-stopped
+</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    Dockerfile
+                                </div>
+                                <pre><code class="language-bash"># =============================================================================
+# zabbix-init/Dockerfile
+#
+# zabbix-server-mysql 公式イメージをベースに、
+# DB 自動初期化エントリーポイントを追加する薄いラッパー。
+#
+# イメージ本体は変更せず entrypoint だけ差し替えるため、
+# Zabbix バージョンアップ時は .env の ZABBIX_VERSION を変えるだけでよい。
+# =============================================================================
+
+ARG ZABBIX_VERSION
+FROM zabbix/zabbix-server-mysql:${ZABBIX_VERSION}
+
+USER root
+
+ARG ENTRY_POINT
+
+COPY ${ENTRY_POINT} /usr/local/bin/${ENTRY_POINT}
+RUN chmod +x /usr/local/bin/${ENTRY_POINT}
+
+# 公式イメージのデフォルトユーザに戻す
+USER 1997</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    start.sh
+                                </div>
+                                <pre><code class="language-bash">#!/bin/bash
+# =============================================================================
+# entrypoint.sh  -  Zabbix Server カスタムエントリーポイント
+#
+# 役割:
+#   1. MySQL が応答するまで待機
+#   2. Zabbix テーブルが存在しない(初回)場合のみ schema / data を投入
+#   3. 本来の zabbix_server エントリーポイントへ exec で引き渡す
+#
+# ※ このスクリプトは zabbix-server コンテナ内で動作する
+#    DB 接続情報は docker-compose.yml の environment / .env から渡される
+# =============================================================================
+
+set -euo pipefail
+
+log() { echo "[entrypoint $(date '+%H:%M:%S')] $*"; }
+
+# ---------- 環境変数 (docker-compose.yml の environment で注入される) ----------
+: "${DB_SERVER_HOST:?DB_SERVER_HOST が未設定です}"
+: "${DB_SERVER_PORT:=3306}"
+: "${MYSQL_DATABASE:?MYSQL_DATABASE が未設定です}"
+: "${MYSQL_USER:?MYSQL_USER が未設定です}"
+: "${MYSQL_PASSWORD:?MYSQL_PASSWORD が未設定です}"
+
+# SQLファイルは .env の ZBX_CREATE_SQL で変更可能
+# コンマ区切りで複数ファイルを指定できる
+# 例(単一): ZBX_CREATE_SQL=/usr/share/doc/zabbix-server-mysql/create.sql.gz
+# 例(複数): ZBX_CREATE_SQL=schema.sql.gz,data.sql.gz,custom.sql.gz
+: "${ZBX_CREATE_SQL:=/usr/share/doc/zabbix-server-mysql/create.sql.gz}"
+MYSQL_OPTS="--ssl=false"
+MAX_WAIT=30
+
+# ---------- MySQL 起動待ち ----------
+log "MySQL (${DB_SERVER_HOST}:${DB_SERVER_PORT}) の起動を待ちます..."
+count=0
+until mysqladmin ping ${MYSQL_OPTS} \
+        -h "${DB_SERVER_HOST}" \
+        -P "${DB_SERVER_PORT}" \
+        -u "${MYSQL_USER}" \
+        -p"${MYSQL_PASSWORD}" \
+        --silent 2>/dev/null; do
+    count=$((count + 1))
+    if [ "${count}" -ge "${MAX_WAIT}" ]; then
+        log "ERROR: MySQL が応答しません (${MAX_WAIT}回試行)。終了します。"
+        exit 1
+    fi
+    log "待機中... (${count}/${MAX_WAIT})"
+    sleep 2
+done
+log "MySQL 接続OK。"
+
+# ---------- 初回判定 ----------
+TABLE_EXISTS=$(mysql ${MYSQL_OPTS} \
+    -h "${DB_SERVER_HOST}" \
+    -P "${DB_SERVER_PORT}" \
+    -u "${MYSQL_USER}" \
+    -p"${MYSQL_PASSWORD}" \
+    "${MYSQL_DATABASE}" \
+    --skip-column-names -e \
+    "SELECT COUNT(*) FROM information_schema.tables
+     WHERE table_schema='${MYSQL_DATABASE}' AND table_name='users';" \
+    2>/dev/null || echo "0")
+
+if [ "${TABLE_EXISTS}" = "0" ] || [ -z "${TABLE_EXISTS}" ]; then
+    log "初回起動 — DB を初期化します..."
+
+    # コンマ区切りで複数の SQL ファイルを順番に適用する
+    OLD_IFS="$IFS"
+    IFS=','
+    sql_index=0
+    for sql_file in ${ZBX_CREATE_SQL}; do
+        # 前後の空白・タブを除去
+        sql_file="$(echo "${sql_file}" | tr -d ' \t')"
+        [ -z "${sql_file}" ] && continue
+        sql_index=$((sql_index + 1))
+
+        if [ ! -f "${sql_file}" ]; then
+            log "ERROR: SQL ファイルが見つかりません: ${sql_file}"
+            IFS="$OLD_IFS"
+            exit 1
+        fi
+
+        log "SQL を適用中... [${sql_index}] ${sql_file}"
+        zcat "${sql_file}" | mysql ${MYSQL_OPTS} \
+            -h "${DB_SERVER_HOST}" \
+            -P "${DB_SERVER_PORT}" \
+            -u "${MYSQL_USER}" \
+            -p"${MYSQL_PASSWORD}" \
+            "${MYSQL_DATABASE}"
+    done
+    IFS="$OLD_IFS"
+
+    if [ "${sql_index}" -eq 0 ]; then
+        log "ERROR: ZBX_CREATE_SQL に有効なファイルが1件もありません。"
+        exit 1
+    fi
+
+    log "DB 初期化完了 (${sql_index} ファイル適用)。"
+else
+    log "既存 DB を検出 — 初期化をスキップします。"
+fi
+
+# ---------- 本来の Zabbix Server エントリーポイントへ ----------
+log "Zabbix Server を起動します..."
+exec /usr/sbin/zabbix_server --foreground "$@"
+</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    zabbix_server.conf
+                                </div>
+                                <pre><code class="language-bash"># This is a configuration file for Zabbix server daemon
+# To get more information about Zabbix, visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+### Option: ListenPort
+#       Listen port for trapper.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# ListenPort=10051
+
+### Option: SourceIP
+#       Source IP address for outgoing connections.
+#
+# Mandatory: no
+# Default:
+# SourceIP=
+
+### Option: LogType
+#       Specifies where log messages are written to:
+#               system  - syslog
+#               file    - file specified with LogFile parameter
+#               console - standard output
+#
+# Mandatory: no
+# Default:
+# LogType=file
+LogType=console
+
+### Option: LogFile
+#       Log file name for LogType 'file' parameter.
+#
+# Mandatory: yes, if LogType is set to file, otherwise no
+# Default:
+# LogFile=
+
+
+### Option: LogFileSize
+#       Maximum size of log file in MB.
+#       0 - disable automatic log rotation.
+#
+# Mandatory: no
+# Range: 0-1024
+# Default:
+# LogFileSize=1
+
+### Option: DebugLevel
+#       Specifies debug level:
+#       0 - basic information about starting and stopping of Zabbix processes
+#       1 - critical information
+#       2 - error information
+#       3 - warnings
+#       4 - for debugging (produces lots of information)
+#       5 - extended debugging (produces even more information)
+#
+# Mandatory: no
+# Range: 0-5
+# Default:
+# DebugLevel=3
+
+### Option: PidFile
+#       Name of PID file.
+#
+# Mandatory: no
+# Default:
+# PidFile=/tmp/zabbix_server.pid
+
+### Option: SocketDir
+#       IPC socket directory.
+#               Directory to store IPC sockets used by internal Zabbix services.
+#
+# Mandatory: no
+# Default:
+# SocketDir=/tmp
+
+### Option: DBHost
+#       Database host name.
+#       If set to localhost, socket is used for MySQL.
+#       If set to empty string, socket is used for PostgreSQL.
+#       If set to empty string, the Net Service Name connection method is used to connect to Oracle database; also see
+#       the TNS_ADMIN environment variable to specify the directory where the tnsnames.ora file is located.
+#
+# Mandatory: no
+# Default:
+# DBHost=localhost
+DBHost=zabbix-db
+
+### Option: DBName
+#       Database name.
+#       If the Net Service Name connection method is used to connect to Oracle database, specify the service name from
+#       the tnsnames.ora file or set to empty string; also see the TWO_TASK environment variable if DBName is set to
+#       empty string.
+#
+# Mandatory: yes
+# Default:
+# DBName=
+
+DBName=zabbix
+
+### Option: DBSchema
+#       Schema name. Used for PostgreSQL.
+#
+# Mandatory: no
+# Default:
+# DBSchema=
+
+### Option: DBUser
+#       Database user.
+#
+# Mandatory: no
+# Default:
+# DBUser=
+
+DBUser=zabbix
+
+### Option: DBPassword
+#       Database password.
+#       Comment this line if no password is used.
+#
+# Mandatory: no
+# Default:
+# DBPassword=
+DBPassword=zabbixpass
+
+### Option: DBSocket
+#       Path to MySQL socket.
+#
+# Mandatory: no
+# Default:
+# DBSocket=
+
+### Option: DBPort
+#       Database port when not using local socket.
+#       If the Net Service Name connection method is used to connect to Oracle database, the port number from the
+#       tnsnames.ora file will be used. The port number set here will be ignored.
+#
+# Mandatory: no
+# Range: 1024-65535
+# Default:
+# DBPort=
+DBPort=3306
+
+### Option: AllowUnsupportedDBVersions
+#       Allow server to work with unsupported database versions.
+#       0 - do not allow
+#       1 - allow
+#
+# Mandatory: no
+# Default:
+# AllowUnsupportedDBVersions=0
+
+### Option: HistoryStorageURL
+#       History storage HTTP[S] URL.
+#
+# Mandatory: no
+# Default:
+# HistoryStorageURL=
+
+### Option: HistoryStorageTypes
+#       Comma separated list of value types to be sent to the history storage.
+#
+# Mandatory: no
+# Default:
+# HistoryStorageTypes=uint,dbl,str,log,text
+
+### Option: HistoryStorageDateIndex
+#       Enable preprocessing of history values in history storage to store values in different indices based on date.
+#       0 - disable
+#       1 - enable
+#
+# Mandatory: no
+# Default:
+# HistoryStorageDateIndex=0
+
+### Option: ExportDir
+#       Directory for real time export of events, history and trends in newline delimited JSON format.
+#       If set, enables real time export.
+#
+# Mandatory: no
+# Default:
+# ExportDir=
+
+### Option: ExportFileSize
+#       Maximum size per export file in bytes.
+#       Only used for rotation if ExportDir is set.
+#
+# Mandatory: no
+# Range: 1M-1G
+# Default:
+# ExportFileSize=1G
+
+### Option: ExportType
+#       List of comma delimited types of real time export - allows to control export entities by their
+#       type (events, history, trends) individually.
+#       Valid only if ExportDir is set.
+#
+# Mandatory: no
+# Default:
+# ExportType=events,history,trends
+
+############ ADVANCED PARAMETERS ################
+
+### Option: StartPollers
+#       Number of pre-forked instances of pollers.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartPollers=5
+
+### Option: StartIPMIPollers
+#       Number of pre-forked instances of IPMI pollers.
+#               The IPMI manager process is automatically started when at least one IPMI poller is started.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartIPMIPollers=0
+
+### Option: StartPreprocessors
+#       Number of pre-forked instances of preprocessing workers.
+#               The preprocessing manager process is automatically started when preprocessor worker is started.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# StartPreprocessors=3
+
+### Option: StartPollersUnreachable
+#       Number of pre-forked instances of pollers for unreachable hosts (including IPMI and Java).
+#       At least one poller for unreachable hosts must be running if regular, IPMI or Java pollers
+#       are started.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartPollersUnreachable=1
+
+### Option: StartHistoryPollers
+#       Number of pre-forked instances of history pollers.
+#       Only required for calculated and internal checks.
+#       A database connection is required for each history poller instance.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartHistoryPollers=5
+
+### Option: StartTrappers
+#       Number of pre-forked instances of trappers.
+#       Trappers accept incoming connections from Zabbix sender, active agents and active proxies.
+#       At least one trapper process must be running to display server availability and view queue
+#       in the frontend.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartTrappers=5
+
+### Option: StartPingers
+#       Number of pre-forked instances of ICMP pingers.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartPingers=1
+
+### Option: StartDiscoverers
+#       Number of pre-forked instances of discoverers.
+#
+# Mandatory: no
+# Range: 0-250
+# Default:
+# StartDiscoverers=1
+
+### Option: StartHTTPPollers
+#       Number of pre-forked instances of HTTP pollers.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartHTTPPollers=1
+
+### Option: StartTimers
+#       Number of pre-forked instances of timers.
+#       Timers process maintenance periods.
+#       Only the first timer process handles host maintenance updates. Problem suppression updates are shared
+#       between all timers.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# StartTimers=1
+
+### Option: StartEscalators
+#       Number of pre-forked instances of escalators.
+#
+# Mandatory: no
+# Range: 1-100
+# Default:
+# StartEscalators=1
+
+### Option: StartAlerters
+#       Number of pre-forked instances of alerters.
+#       Alerters send the notifications created by action operations.
+#
+# Mandatory: no
+# Range: 1-100
+# Default:
+# StartAlerters=3
+
+### Option: JavaGateway
+#       IP address (or hostname) of Zabbix Java gateway.
+#       Only required if Java pollers are started.
+#
+# Mandatory: no
+# Default:
+# JavaGateway=
+
+### Option: JavaGatewayPort
+#       Port that Zabbix Java gateway listens on.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# JavaGatewayPort=10052
+
+### Option: StartJavaPollers
+#       Number of pre-forked instances of Java pollers.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartJavaPollers=0
+
+### Option: StartVMwareCollectors
+#       Number of pre-forked vmware collector instances.
+#
+# Mandatory: no
+# Range: 0-250
+# Default:
+# StartVMwareCollectors=0
+
+### Option: VMwareFrequency
+#       How often Zabbix will connect to VMware service to obtain a new data.
+#
+# Mandatory: no
+# Range: 10-86400
+# Default:
+# VMwareFrequency=60
+
+### Option: VMwarePerfFrequency
+#       How often Zabbix will connect to VMware service to obtain performance data.
+#
+# Mandatory: no
+# Range: 10-86400
+# Default:
+# VMwarePerfFrequency=60
+
+### Option: VMwareCacheSize
+#       Size of VMware cache, in bytes.
+#       Shared memory size for storing VMware data.
+#       Only used if VMware collectors are started.
+#
+# Mandatory: no
+# Range: 256K-2G
+# Default:
+# VMwareCacheSize=8M
+
+### Option: VMwareTimeout
+#       Specifies how many seconds vmware collector waits for response from VMware service.
+#
+# Mandatory: no
+# Range: 1-300
+# Default:
+# VMwareTimeout=10
+
+### Option: SNMPTrapperFile
+#       Temporary file used for passing data from SNMP trap daemon to the server.
+#       Must be the same as in zabbix_trap_receiver.pl or SNMPTT configuration file.
+#
+# Mandatory: no
+# Default:
+# SNMPTrapperFile=/tmp/zabbix_traps.tmp
+
+### Option: StartSNMPTrapper
+#       If 1, SNMP trapper process is started.
+#
+# Mandatory: no
+# Range: 0-1
+# Default:
+# StartSNMPTrapper=0
+
+### Option: ListenIP
+#       List of comma delimited IP addresses that the trapper should listen on.
+#       Trapper will listen on all network interfaces if this parameter is missing.
+#
+# Mandatory: no
+# Default:
+# ListenIP=0.0.0.0
+
+### Option: HousekeepingFrequency
+#       How often Zabbix will perform housekeeping procedure (in hours).
+#       Housekeeping is removing outdated information from the database.
+#       To prevent Housekeeper from being overloaded, no more than 4 times HousekeepingFrequency
+#       hours of outdated information are deleted in one housekeeping cycle, for each item.
+#       To lower load on server startup housekeeping is postponed for 30 minutes after server start.
+#       With HousekeepingFrequency=0 the housekeeper can be only executed using the runtime control option.
+#       In this case the period of outdated information deleted in one housekeeping cycle is 4 times the
+#       period since the last housekeeping cycle, but not less than 4 hours and not greater than 4 days.
+#
+# Mandatory: no
+# Range: 0-24
+# Default:
+# HousekeepingFrequency=1
+
+### Option: MaxHousekeeperDelete
+#       The table "housekeeper" contains "tasks" for housekeeping procedure in the format:
+#       [housekeeperid], [tablename], [field], [value].
+#       No more than 'MaxHousekeeperDelete' rows (corresponding to [tablename], [field], [value])
+#       will be deleted per one task in one housekeeping cycle.
+#       If set to 0 then no limit is used at all. In this case you must know what you are doing!
+#
+# Mandatory: no
+# Range: 0-1000000
+# Default:
+# MaxHousekeeperDelete=5000
+
+### Option: CacheSize
+#       Size of configuration cache, in bytes.
+#       Shared memory size for storing host, item and trigger data.
+#
+# Mandatory: no
+# Range: 128K-64G
+# Default:
+# CacheSize=32M
+
+### Option: CacheUpdateFrequency
+#       How often Zabbix will perform update of configuration cache, in seconds.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# CacheUpdateFrequency=60
+
+### Option: StartDBSyncers
+#       Number of pre-forked instances of DB Syncers.
+#
+# Mandatory: no
+# Range: 1-100
+# Default:
+# StartDBSyncers=4
+
+### Option: HistoryCacheSize
+#       Size of history cache, in bytes.
+#       Shared memory size for storing history data.
+#
+# Mandatory: no
+# Range: 128K-2G
+# Default:
+# HistoryCacheSize=16M
+
+### Option: HistoryIndexCacheSize
+#       Size of history index cache, in bytes.
+#       Shared memory size for indexing history cache.
+#
+# Mandatory: no
+# Range: 128K-2G
+# Default:
+# HistoryIndexCacheSize=4M
+
+### Option: TrendCacheSize
+#       Size of trend write cache, in bytes.
+#       Shared memory size for storing trends data.
+#
+# Mandatory: no
+# Range: 128K-2G
+# Default:
+# TrendCacheSize=4M
+
+### Option: TrendFunctionCacheSize
+#       Size of trend function cache, in bytes.
+#       Shared memory size for caching calculated trend function data.
+#
+# Mandatory: no
+# Range: 128K-2G
+# Default:
+# TrendFunctionCacheSize=4M
+
+### Option: ValueCacheSize
+#       Size of history value cache, in bytes.
+#       Shared memory size for caching item history data requests.
+#       Setting to 0 disables value cache.
+#
+# Mandatory: no
+# Range: 0,128K-64G
+# Default:
+# ValueCacheSize=8M
+
+### Option: Timeout
+#       Specifies how long we wait for agent, SNMP device or external check (in seconds).
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Timeout=3
+Timeout=30
+
+### Option: TrapperTimeout
+#       Specifies how many seconds trapper may spend processing new data.
+#
+# Mandatory: no
+# Range: 1-300
+# Default:
+# TrapperTimeout=300
+
+### Option: UnreachablePeriod
+#       After how many seconds of unreachability treat a host as unavailable.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# UnreachablePeriod=45
+
+### Option: UnavailableDelay
+#       How often host is checked for availability during the unavailability period, in seconds.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# UnavailableDelay=60
+
+### Option: UnreachableDelay
+#       How often host is checked for availability during the unreachability period, in seconds.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# UnreachableDelay=15
+
+### Option: AlertScriptsPath
+#       Full path to location of custom alert scripts.
+#       Default depends on compilation options.
+#       To see the default path run command "zabbix_server --help".
+#
+# Mandatory: no
+# Default:
+# AlertScriptsPath=${datadir}/zabbix/alertscripts
+AlertScriptsPath=/usr/lib/zabbix/alertscripts
+
+### Option: ExternalScripts
+#       Full path to location of external scripts.
+#       Default depends on compilation options.
+#       To see the default path run command "zabbix_server --help".
+#
+# Mandatory: no
+# Default:
+# ExternalScripts=${datadir}/zabbix/externalscripts
+ExternalScripts=/usr/lib/zabbix/externalscripts
+
+### Option: FpingLocation
+#       Location of fping.
+#       Make sure that fping binary has root ownership and SUID flag set.
+#
+# Mandatory: no
+# Default:
+# FpingLocation=/usr/sbin/fping
+FpingLocation=/usr/sbin/fping
+
+### Option: Fping6Location
+#       Location of fping6.
+#       Make sure that fping6 binary has root ownership and SUID flag set.
+#       Make empty if your fping utility is capable to process IPv6 addresses.
+#
+# Mandatory: no
+# Default:
+# Fping6Location=/usr/sbin/fping6
+Fping6Location=
+
+### Option: SSHKeyLocation
+#       Location of public and private keys for SSH checks and actions.
+#
+# Mandatory: no
+# Default:
+# SSHKeyLocation=
+SSHKeyLocation=/var/lib/zabbix/ssh_keys
+
+### Option: LogSlowQueries
+#       How long a database query may take before being logged (in milliseconds).
+#       Only works if DebugLevel set to 3, 4 or 5.
+#       0 - don't log slow queries.
+#
+# Mandatory: no
+# Range: 1-3600000
+# Default:
+# LogSlowQueries=0
+
+
+### Option: TmpDir
+#       Temporary directory.
+#
+# Mandatory: no
+# Default:
+# TmpDir=/tmp
+
+### Option: StartProxyPollers
+#       Number of pre-forked instances of pollers for passive proxies.
+#
+# Mandatory: no
+# Range: 0-250
+# Default:
+# StartProxyPollers=1
+
+### Option: ProxyConfigFrequency
+#       How often Zabbix Server sends configuration data to a Zabbix Proxy in seconds.
+#       This parameter is used only for proxies in the passive mode.
+#
+# Mandatory: no
+# Range: 1-3600*24*7
+# Default:
+# ProxyConfigFrequency=3600
+
+### Option: ProxyDataFrequency
+#       How often Zabbix Server requests history data from a Zabbix Proxy in seconds.
+#       This parameter is used only for proxies in the passive mode.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# ProxyDataFrequency=1
+
+### Option: StartLLDProcessors
+#       Number of pre-forked instances of low level discovery processors.
+#
+# Mandatory: no
+# Range: 1-100
+# Default:
+# StartLLDProcessors=2
+
+### Option: AllowRoot
+#       Allow the server to run as 'root'. If disabled and the server is started by 'root', the server
+#       will try to switch to the user specified by the User configuration option instead.
+#       Has no effect if started under a regular user.
+#       0 - do not allow
+#       1 - allow
+#
+# Mandatory: no
+# Default:
+# AllowRoot=0
+
+### Option: User
+#       Drop privileges to a specific, existing user on the system.
+#       Only has effect if run as 'root' and AllowRoot is disabled.
+#
+# Mandatory: no
+# Default:
+# User=zabbix
+User=zabbix
+
+### Option: Include
+#       You may include individual files or all files in a directory in the configuration file.
+#       Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
+#
+# Mandatory: no
+# Default:
+# Include=
+
+# Include=/usr/local/etc/zabbix_server.general.conf
+# Include=/usr/local/etc/zabbix_server.conf.d/
+# Include=/usr/local/etc/zabbix_server.conf.d/*.conf
+
+### Option: SSLCertLocation
+#       Location of SSL client certificates.
+#       This parameter is used only in web monitoring.
+#       Default depends on compilation options.
+#       To see the default path run command "zabbix_server --help".
+#
+# Mandatory: no
+# Default:
+# SSLCertLocation=${datadir}/zabbix/ssl/certs
+SSLCertLocation=/var/lib/zabbix/ssl/certs/
+
+### Option: SSLKeyLocation
+#       Location of private keys for SSL client certificates.
+#       This parameter is used only in web monitoring.
+#       Default depends on compilation options.
+#       To see the default path run command "zabbix_server --help".
+#
+# Mandatory: no
+# Default:
+# SSLKeyLocation=${datadir}/zabbix/ssl/keys
+SSLKeyLocation=/var/lib/zabbix/ssl/keys/
+
+### Option: SSLCALocation
+#       Override the location of certificate authority (CA) files for SSL server certificate verification.
+#       If not set, system-wide directory will be used.
+#       This parameter is used in web monitoring, SMTP authentication, HTTP agent items and for communication with Vault.
+#
+# Mandatory: no
+# Default:
+# SSLCALocation=
+SSLCALocation=/var/lib/zabbix/ssl/ssl_ca/
+
+### Option: StatsAllowedIP
+#       List of comma delimited IP addresses, optionally in CIDR notation, or DNS names of external Zabbix instances.
+#       Stats request will be accepted only from the addresses listed here. If this parameter is not set no stats requests
+#       will be accepted.
+#       If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally
+#       and '::/0' will allow any IPv4 or IPv6 address.
+#       '0.0.0.0/0' can be used to allow any IPv4 address.
+#       Example: StatsAllowedIP=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.example.com
+#
+# Mandatory: no
+# Default:
+# StatsAllowedIP=
+
+####### LOADABLE MODULES #######
+
+### Option: LoadModulePath
+#       Full path to location of server modules.
+#       Default depends on compilation options.
+#       To see the default path run command "zabbix_server --help".
+#
+# Mandatory: no
+# Default:
+# LoadModulePath=${libdir}/modules
+LoadModulePath=/var/lib/zabbix/modules/
+
+### Option: LoadModule
+#       Module to load at server startup. Modules are used to extend functionality of the server.
+#       Formats:
+#               LoadModule=[module.so]
+#               LoadModule=[path/module.so]
+#               LoadModule=[/abs_path/module.so]
+#       Either the module must be located in directory specified by LoadModulePath or the path must precede the module name.
+#       If the preceding path is absolute (starts with '/') then LoadModulePath is ignored.
+#       It is allowed to include multiple LoadModule parameters.
+#
+# Mandatory: no
+# Default:
+# LoadModule=
+
+####### TLS-RELATED PARAMETERS #######
+
+### Option: TLSCAFile
+#       Full pathname of a file containing the top-level CA(s) certificates for
+#       peer certificate verification.
+#
+# Mandatory: no
+# Default:
+# TLSCAFile=
+
+### Option: TLSCRLFile
+#       Full pathname of a file containing revoked certificates.
+#
+# Mandatory: no
+# Default:
+# TLSCRLFile=
+
+### Option: TLSCertFile
+#       Full pathname of a file containing the server certificate or certificate chain.
+#
+# Mandatory: no
+# Default:
+# TLSCertFile=
+
+### Option: TLSKeyFile
+#       Full pathname of a file containing the server private key.
+#
+# Mandatory: no
+# Default:
+# TLSKeyFile=
+
+####### For advanced users - TLS ciphersuite selection criteria #######
+
+### Option: TLSCipherCert13
+#       Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+#       Override the default ciphersuite selection criteria for certificate-based encryption.
+#
+# Mandatory: no
+# Default:
+# TLSCipherCert13=
+
+### Option: TLSCipherCert
+#       GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+#       Override the default ciphersuite selection criteria for certificate-based encryption.
+#       Example for GnuTLS:
+#               NONE:+VERS-TLS1.2:+ECDHE-RSA:+RSA:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL:+CTYPE-X.509
+#       Example for OpenSSL:
+#               EECDH+aRSA+AES128:RSA+aRSA+AES128
+#
+# Mandatory: no
+# Default:
+# TLSCipherCert=
+
+### Option: TLSCipherPSK13
+#       Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+#       Override the default ciphersuite selection criteria for PSK-based encryption.
+#       Example:
+#               TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+#
+# Mandatory: no
+# Default:
+# TLSCipherPSK13=
+
+### Option: TLSCipherPSK
+#       GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+#       Override the default ciphersuite selection criteria for PSK-based encryption.
+#       Example for GnuTLS:
+#               NONE:+VERS-TLS1.2:+ECDHE-PSK:+PSK:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL
+#       Example for OpenSSL:
+#               kECDHEPSK+AES128:kPSK+AES128
+#
+# Mandatory: no
+# Default:
+# TLSCipherPSK=
+
+### Option: TLSCipherAll13
+#       Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+#       Override the default ciphersuite selection criteria for certificate- and PSK-based encryption.
+#       Example:
+#               TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+#
+# Mandatory: no
+# Default:
+# TLSCipherAll13=
+
+### Option: TLSCipherAll
+#       GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+#       Override the default ciphersuite selection criteria for certificate- and PSK-based encryption.
+#       Example for GnuTLS:
+#               NONE:+VERS-TLS1.2:+ECDHE-RSA:+RSA:+ECDHE-PSK:+PSK:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL:+CTYPE-X.509
+#       Example for OpenSSL:
+#               EECDH+aRSA+AES128:RSA+aRSA+AES128:kECDHEPSK+AES128:kPSK+AES128
+#
+# Mandatory: no
+# Default:
+# TLSCipherAll=
+
+### Option: DBTLSConnect
+#       Setting this option enforces to use TLS connection to database.
+#       required    - connect using TLS
+#       verify_ca   - connect using TLS and verify certificate
+#       verify_full - connect using TLS, verify certificate and verify that database identity specified by DBHost
+#                     matches its certificate
+#       On MySQL starting from 5.7.11 and PostgreSQL following values are supported: "required", "verify_ca" and
+#       "verify_full".
+#       On MariaDB starting from version 10.2.6 "required" and "verify_full" values are supported.
+#       Default is not to set any option and behavior depends on database configuration
+#
+# Mandatory: no
+# Default:
+# DBTLSConnect=
+
+### Option: DBTLSCAFile
+#       Full pathname of a file containing the top-level CA(s) certificates for database certificate verification.
+#       Supported only for MySQL and PostgreSQL
+#
+# Mandatory: no
+#       (yes, if DBTLSConnect set to one of: verify_ca, verify_full)
+# Default:
+# DBTLSCAFile=
+
+### Option: DBTLSCertFile
+#       Full pathname of file containing Zabbix server certificate for authenticating to database.
+#       Supported only for MySQL and PostgreSQL
+#
+# Mandatory: no
+# Default:
+# DBTLSCertFile=
+
+### Option: DBTLSKeyFile
+#       Full pathname of file containing the private key for authenticating to database.
+#       Supported only for MySQL and PostgreSQL
+#
+# Mandatory: no
+# Default:
+# DBTLSKeyFile=
+
+### Option: DBTLSCipher
+#       The list of encryption ciphers that Zabbix server permits for TLS protocols up through TLSv1.2
+#       Supported only for MySQL
+#
+# Mandatory no
+# Default:
+# DBTLSCipher=
+
+### Option: DBTLSCipher13
+#       The list of encryption ciphersuites that Zabbix server permits for TLSv1.3 protocol
+#       Supported only for MySQL, starting from version 8.0.16
+#
+# Mandatory no
+# Default:
+# DBTLSCipher13=
+
+### Option: VaultToken
+#       Vault authentication token that should have been generated exclusively for Zabbix server with read only permission
+#       to paths specified in Vault macros and read only permission to path specified in optional VaultDBPath
+#       configuration parameter.
+#       It is an error if VaultToken and VAULT_TOKEN environment variable are defined at the same time.
+#
+# Mandatory: no
+# Default:
+# VaultToken=
+
+### Option: VaultURL
+#       Vault server HTTP[S] URL. System-wide CA certificates directory will be used if SSLCALocation is not specified.
+#
+# Mandatory: no
+# Default:
+# VaultURL=https://127.0.0.1:8200
+
+### Option: VaultDBPath
+#       Vault path from where credentials for database will be retrieved by keys 'password' and 'username'.
+#       Example: secret/zabbix/database
+#       This option can only be used if DBUser and DBPassword are not specified.
+#
+# Mandatory: no
+# Default:
+# VaultDBPath=
+
+### Option: StartReportWriters
+#       Number of pre-forked report writer instances.
+#
+# Mandatory: no
+# Range: 0-100
+# Default:
+# StartReportWriters=0
+
+### Option: WebServiceURL
+#       URL to Zabbix web service, used to perform web related tasks.
+#       Example: http://localhost:10053/report
+#
+# Mandatory: no
+# Default:
+# WebServiceURL=
+WebServiceURL=http://zabbix-web-service:10053/report
+
+### Option: ServiceManagerSyncFrequency
+#       How often Zabbix will synchronize configuration of a service manager (in seconds).
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# ServiceManagerSyncFrequency=60
+
+### Option: ProblemHousekeepingFrequency
+#       How often Zabbix will delete problems for deleted triggers (in seconds).
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# ProblemHousekeepingFrequency=60
+
+## Option: StartODBCPollers
+#       Number of pre-forked ODBC poller instances.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartODBCPollers=1
+
+####### For advanced users - TCP-related fine-tuning parameters #######
+
+## Option: ListenBacklog
+#       The maximum number of pending connections in the queue. This parameter is passed to
+#       listen() function as argument 'backlog' (see "man listen").
+#
+# Mandatory: no
+# Range: 0 - INT_MAX (depends on system, too large values may be silently truncated to implementation-specified maximum)
+# Default: SOMAXCONN (hard-coded constant, depends on system)
+# ListenBacklog=
+
+
+####### High availability cluster parameters #######
+
+## Option: HANodeName
+#       The high availability cluster node name.
+#       When empty, server is working in standalone mode; a node with empty name is registered with address for the frontend to connect to.
+#
+# Mandatory: no
+# Default:
+# HANodeName=
+
+## Option: NodeAddress
+#       IP or hostname with optional port to specify how frontend should connect to the server.
+#       Format: [address]:[port]
+#
+#       If IP or hostname is not set, then ListenIP value will be used. In case ListenIP is not set, localhost will be used.
+#       If port is not set, then ListenPort value will be used. In case ListenPort is not set, 10051 will be used.
+#       This option can be overridden by address specified in frontend configuration.
+#
+# Mandatory: no
+# Default:
+# NodeAddress=localhost:10051
+</code></pre>
+                            </p>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="zabbix-proxy">
+                                Zabbixプロキシの構築 (Docker推奨)
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    .env
+                                </div>
+                                <pre><code class="language-bash"># =============================================================================
+# # .env - Zabbix Proxy (Docker) 環境設定ファイル
+#
+# 起動コマンド: `docker compose up -d`
+#
+# ## 最重要ルール
+#
+# `ZABBIX_VERSION` は **Zabbix_Server/.env と必ず同じ値** にすること。
+# プロキシはサーバと「メジャー.マイナー」(例: 7.4) を揃える必要がある。
+# バージョンアップ時はサーバ → プロキシの順で、両方の `ZABBIX_VERSION` を更新する。
+#
+# ## 起動後にやること(初回のみ)
+#
+# 1. サーバの Web UI で `管理 > プロキシ` を開き、プロキシを登録する
+# 2. 登録名を `ZBX_HOSTNAME` と **完全に一致** させる(大文字小文字も区別される)
+# 3. `ZBX_PROXYMODE` に合わせて動作モードを選ぶ
+#
+# 注意: インラインコメント(値の後ろの `#`)は意図的に使っていない。
+#       値の末尾に空白やコメントが混入する事故を避けるため。
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# ## コンテナ名
+#
+# | 変数 | 役割 |
+# |------|------|
+# | `PROXY_CONTAINER_NAME` | Zabbix Proxy コンテナ |
+# | `DB_CONTAINER_NAME`    | プロキシ用 MySQL コンテナ |
+# -----------------------------------------------------------------------------
+PROXY_CONTAINER_NAME=Zabbix_Proxy
+DB_CONTAINER_NAME=Zabbix_Proxy_DB
+
+
+# -----------------------------------------------------------------------------
+# ## イメージバージョン
+#
+# | 変数 | 説明 | 備考 |
+# |------|------|------|
+# | `ZABBIX_VERSION` | `zabbix/zabbix-proxy-mysql` のタグ | **サーバと同じ値にする** |
+# | `MYSQL_VERSION`  | `mysql` のタグ | プロキシ専用 DB のため、サーバ側と異なっていてもよい |
+#
+# タグ一覧: https://hub.docker.com/r/zabbix/zabbix-proxy-mysql/tags
+# -----------------------------------------------------------------------------
+ZABBIX_VERSION=alpine-7.4-latest
+MYSQL_VERSION=8.4
+
+
+# -----------------------------------------------------------------------------
+# ## プロキシ動作設定
+#
+# | 変数 | 既定値 | 説明 |
+# |------|--------|------|
+# | `ZBX_PROXYMODE` | `0` | `0` = アクティブ(プロキシ → サーバへ接続) / `1` = パッシブ(サーバ → プロキシへ接続) |
+# | `ZBX_HOSTNAME`  | `Zabbix_Proxy` | プロキシ名。Web UI の登録名と完全一致させる(使用可: 英数字 `.` `_` `-`) |
+# | `ZBX_SERVER_HOST` | (**必須**) | サーバのアドレス。`host:port` 形式。ポート省略時は 10051 |
+# | `ZBX_PROXY_PORT` | `10051` | ホスト側で公開するポート |
+# | `ZBX_PROXYOFFLINEBUFFER` | `24` | サーバ切断時にデータを保持する時間 (時間単位) |
+# | `ZBX_PROXYLOCALBUFFER`   | `0`  | サーバへ送信済みデータをローカルに保持する時間 (時間単位) |
+# | `ZBX_DEBUGLEVEL` | `3` | ログレベル (0=なし 〜 5=デバッグ) |
+#
+# ### モードごとの `ZBX_SERVER_HOST` の意味
+#
+# | モード | `ZBX_SERVER_HOST` の意味 | 必要な通信 |
+# |--------|--------------------------|-----------|
+# | アクティブ (`0`) | 接続先サーバのアドレス | プロキシ → サーバ `10051/TCP` |
+# | パッシブ (`1`)   | 接続を許可するサーバの IP | サーバ → プロキシ `ZBX_PROXY_PORT/TCP` |
+#
+# ### 同一ホストでサーバと同居させる場合
+#
+# サーバが `10051` を公開済みのため、`ZBX_PROXY_PORT` を `10061` などに変更すること。
+# `ZBX_SERVER_HOST` には、コンテナ名ではなく **ホストの IP** を指定する
+# (サーバ側 compose とはネットワークが別のため)。
+#
+# ### 注意
+#
+# `ZBX_SERVER_PORT` は Zabbix 6.0 以降で廃止されたため使用しない。
+# ポートは `ZBX_SERVER_HOST` に `:ポート番号` を付けて指定する。
+# -----------------------------------------------------------------------------
+ZBX_PROXYMODE=0
+ZBX_HOSTNAME=Zabbix_Proxy
+ZBX_SERVER_HOST=192.168.10.64:10051
+ZBX_PROXY_PORT=10051
+ZBX_PROXYOFFLINEBUFFER=24
+ZBX_PROXYLOCALBUFFER=0
+ZBX_DEBUGLEVEL=3
+
+
+# -----------------------------------------------------------------------------
+# ## DB 接続情報 (プロキシ専用 DB)
+#
+# サーバ側の DB とは **完全に別物** DB 名・パスワードも独立して設定してよい。
+#
+# | 変数 | 説明 |
+# |------|------|
+# | `MYSQL_DATABASE`      | プロキシ用 DB 名 |
+# | `MYSQL_USER`          | Zabbix Proxy が接続するユーザ |
+# | `MYSQL_PASSWORD`      | 同上のパスワード (**本番では必ず変更**) |
+# | `MYSQL_ROOT_PASSWORD` | MySQL root パスワード (**本番では必ず変更**) |
+# | `DB_SERVER_HOST`      | DB のホスト名 compose のサービス名 `zabbix-proxy-db` と一致させる |
+# | `DB_SERVER_PORT`      | DB のポート |
+# -----------------------------------------------------------------------------
+MYSQL_DATABASE=zabbix_proxy
+MYSQL_USER=zabbix
+MYSQL_PASSWORD=proxypass
+MYSQL_ROOT_PASSWORD=proxyrootpass
+DB_SERVER_HOST=zabbix-proxy-db
+DB_SERVER_PORT=3306
+</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    compose.yml
+                                </div>
+                                <pre><code class="language-yaml"># =============================================================================
+# # docker-compose.yml - Zabbix Proxy (MySQL)
+#
+# ## 構成
+#
+# | サービス | イメージ | 役割 |
+# |----------|----------|------|
+# | `zabbix-proxy-db` | `mysql` | プロキシ専用 DB (収集データのバッファ) |
+# | `zabbix-proxy`    | `zabbix/zabbix-proxy-mysql` | Zabbix Proxy 本体 |
+#
+# ## 設計メモ
+#
+# - 公式イメージの標準エントリーポイントが、初回起動時に DB スキーマを自動作成する。
+#   そのためサーバ側のようなカスタム `Dockerfile` / `entry.sh` は不要。
+# - バージョンは `.env` の `ZABBIX_VERSION` だけで決まる。
+# - `env_file` は使わず、必要な変数のみ `environment` で明示的に渡す。
+#   (`.env` 全体をコンテナへ流し込むと、無関係な変数が混入するため)
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # ## zabbix-proxy-db
+  #
+  # | `command` オプション | 説明 |
+  # |----------------------|------|
+  # | `--character-set-server=utf8mb4` | 文字コード |
+  # | `--collation-server=utf8mb4_bin` | Zabbix 推奨の照合順序 |
+  # | `--max_allowed_packet=64M`       | 大きなパケットを許可 |
+  # | `--skip-log-bin`                 | バイナリログを無効化 (ディスク肥大化の防止) |
+  #
+  # ### healthcheck について
+  #
+  # `-h 127.0.0.1` は **意図的な指定**。`localhost` だとソケット経由になり、
+  # MySQL の初回初期化中に立ち上がる一時サーバでも ping が成功してしまう。
+  # TCP 経由にすることで、初期化が完全に終わってから healthy になる。
+  # ---------------------------------------------------------------------------
+  zabbix-proxy-db:
+    image: mysql:${MYSQL_VERSION}
+    container_name: ${DB_CONTAINER_NAME}
+
+    environment:
+      MYSQL_DATABASE:       ${MYSQL_DATABASE}
+      MYSQL_USER:           ${MYSQL_USER}
+      MYSQL_PASSWORD:       ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD:  ${MYSQL_ROOT_PASSWORD}
+
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_bin
+      - --max_allowed_packet=64M
+      - --skip-log-bin
+
+    volumes:
+      - ./zabbix-proxy-db:/var/lib/mysql
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+
+  # ---------------------------------------------------------------------------
+  # ## zabbix-proxy
+  #
+  # | 環境変数 | 対応する zabbix_proxy.conf のパラメータ |
+  # |----------|----------------------------------------|
+  # | `ZBX_PROXYMODE`          | `ProxyMode` |
+  # | `ZBX_HOSTNAME`           | `Hostname` |
+  # | `ZBX_SERVER_HOST`        | `Server` |
+  # | `ZBX_PROXYOFFLINEBUFFER` | `ProxyOfflineBuffer` |
+  # | `ZBX_PROXYLOCALBUFFER`   | `ProxyLocalBuffer` |
+  # | `ZBX_DEBUGLEVEL`         | `DebugLevel` |
+  # | `DB_SERVER_HOST` / `DB_SERVER_PORT` | `DBHost` / `DBPort` |
+  # | `MYSQL_DATABASE` / `MYSQL_USER` / `MYSQL_PASSWORD` | `DBName` / `DBUser` / `DBPassword` |
+  #
+  # ### ポート公開について
+  #
+  # アクティブモードでは受信ポートは不要だが、パッシブモードへ切り替えても
+  # compose を編集しなくて済むよう、常に公開している。
+  # ---------------------------------------------------------------------------
+  zabbix-proxy:
+    image: zabbix/zabbix-proxy-mysql:${ZABBIX_VERSION}
+    container_name: ${PROXY_CONTAINER_NAME}
+
+    # 公式の推奨 (`docker run --init` 相当)。ゾンビプロセスの回収用。
+    init: true
+
+    environment:
+      ZBX_PROXYMODE:          ${ZBX_PROXYMODE}
+      ZBX_HOSTNAME:           ${ZBX_HOSTNAME}
+      ZBX_SERVER_HOST:        ${ZBX_SERVER_HOST:?.env に ZBX_SERVER_HOST (サーバのアドレス:ポート) を設定してください}
+      ZBX_PROXYOFFLINEBUFFER: ${ZBX_PROXYOFFLINEBUFFER}
+      ZBX_PROXYLOCALBUFFER:   ${ZBX_PROXYLOCALBUFFER}
+      ZBX_DEBUGLEVEL:         ${ZBX_DEBUGLEVEL}
+      DB_SERVER_HOST:         ${DB_SERVER_HOST}
+      DB_SERVER_PORT:         ${DB_SERVER_PORT}
+      MYSQL_DATABASE:         ${MYSQL_DATABASE}
+      MYSQL_USER:             ${MYSQL_USER}
+      MYSQL_PASSWORD:         ${MYSQL_PASSWORD}
+
+    ports:
+      - "${ZBX_PROXY_PORT}:10051"
+
+    depends_on:
+      zabbix-proxy-db:
+        condition: service_healthy          # DB healthcheck パス後に起動
+
+    restart: unless-stopped
+</code></pre>
+                            </p>
+
+                        </article>
+
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="snmp">
+                                SNMP
+                            </h2>
+                            <p>
+                                <ul>
+                                    <li>SNMP(Simple Network Management Protocol)は、ネットワーク機器を <b>監視・管理するためのプロトコル</b></li> 
+                                    <li>ルータ、スイッチ、サーバ、プリンタなどの状態(トラフィック量、CPU使用率、稼働時間など)を取得・設定できる</li> 
+                                    <li>トランスポートは基本的に <b>UDP</b></li> 
+                                    <li><b>マネージャ(NMS)</b> が <b>エージェント(監視対象機器)</b> に問い合わせる、またはエージェントがマネージャへ通知する</li> 
+                                    <li>管理対象の情報は <b>MIB</b> に木構造で定義され、<b>OID</b> で指定する</li> 
+                                    <li>
+                                        バージョンは v1 / v2c / v3 の3種類<br>
+                                        v1・v2c : 平文<br>
+                                        v3 : 認証・暗号化に対応
+                                    </li> 
+                                </ul>
+                            </p>
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                ポート
+                            </h2>
+                            <div id="md-snmp-port">
+| ポート種別 | ポート番号 | ポート名 | 説明 |
+|---|---|---|---|
+| UDP | 161 | snmp | エージェントがマネージャからのリクエスト(Get / GetNext / GetBulk / Set)を受け付ける |
+| UDP | 162 | snmptrap | マネージャがエージェントからの通知(Trap / Inform)を受け付ける |
+| TCP / UDP | 10161 | snmpdtls | TLS / DTLS 上の SNMP(リクエスト受付)、RFC 6353 |
+| TCP / UDP | 10162 | snmpdtls-trap | TLS / DTLS 上の SNMP(通知受付)、RFC 6353 |
+                            </div>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                通信方法
+                            </h2>
+
+<!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant A as エージェント(監視対象機器)
+    participant M as マネージャ(NMS)
+
+    Note over A,M: 1. Trap(エージェントからの一方向通知)
+    A->>M: Trap(UDP 162)例 linkDown
+    Note right of M: 応答なし、届かなくてもエージェントは気づけない
+
+    Note over A,M: 2. Inform(応答つき通知 v2c以降)
+    A->>M: InformRequest(UDP 162)
+    M-- >>A: Response
+    Note left of A: 応答がなければ再送する
+
+    Note over A,M: 3. ポーリング(マネージャからの問い合わせ)
+    M->>A: GetRequest(UDP 161)OIDを指定
+    A-- >>M: Response(値)
+    M->>A: GetNextRequest / GetBulkRequest
+    A-- >>M: Response(次のOIDと値)
+    M->>A: SetRequest
+    A-- >>M: Response(設定結果)
+
+-->
+                            <img src="/img/server/snmp.svg" width = "100%"/>
+
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                用語
+                            </h2>
+                            <div id="md-snmp-word">
+| 用語 | 説明 |
+|---|---|
+| コミュニティ名 | <ul><li>v1 / v2c で使うパスワード代わりの文字列</li><li>一致しないとエージェントは応答しない</li><li>平文で流れるため、既定値のまま運用するのは危険</li></ul><table class="table-nostriped"><tr><th>コミュニティ名</th><th>権限</th><th>説明</th></tr><tr><td>public</td><td>読み取り専用(RO)</td><td><ul><li>読み取り用の既定値として多い</li><li>第三者に機器情報を取得される恐れがある</li></ul></td></tr><tr><td>private</td><td>読み書き(RW)</td><td><ul><li>書き込み用の既定値として多い</li><li>設定を書き換えられる恐れがある</li></ul></td></tr></table> |
+| マネージャ(NMS) | <ul><li>監視する側</li><li>エージェントへ問い合わせを行う</li><li>エージェントからの通知を受信する</li></ul> |
+| エージェント | <ul><li>監視される側</li><li>機器上で動作し、情報を提供・通知する</li></ul> |
+| MIB | <ul><li>管理対象オブジェクトの定義集</li><li>ツリー構造</li><li>標準は MIB-II(`1.3.6.1.2.1`)</li><li>ベンダー独自は enterprises(`1.3.6.1.4.1`)配下</li></ul> |
+| OID | <ul><li>MIB のツリー上の位置を `.` 区切りの数字で表したもの</li><li>末尾の `.0` はスカラー値を表す</li></ul><table class="table-nostriped"><tr><th>名称</th><th>OID</th><th>内容</th></tr><tr><td>sysDescr</td><td>1.3.6.1.2.1.1.1.0</td><td>機器の説明</td></tr><tr><td>sysUpTime</td><td>1.3.6.1.2.1.1.3.0</td><td>起動からの経過時間</td></tr><tr><td>sysName</td><td>1.3.6.1.2.1.1.5.0</td><td>機器名</td></tr><tr><td>ifTable</td><td>1.3.6.1.2.1.2.2</td><td>インターフェース情報</td></tr></table> |
+| Trap | <ul><li>エージェントから能動的に送る通知</li><li>応答がない</li><li>UDP のため欠落しても検知できない</li></ul> |
+| Inform | <ul><li>応答つきの通知(v2c以降)</li><li>マネージャが Response を返す</li><li>応答がなければ再送される</li></ul> |
+| PDU | <ul><li>SNMP のメッセージ単位</li></ul><table class="table-nostriped"><tr><th>PDU</th><th>方向</th><th>内容</th></tr><tr><td>GetRequest</td><td>M → A</td><td>指定OIDの値を取得</td></tr><tr><td>GetNextRequest</td><td>M → A</td><td>次のOIDの値を取得(walkの基本)</td></tr><tr><td>GetBulkRequest</td><td>M → A</td><td>複数の値をまとめて取得(v2c以降)</td></tr><tr><td>SetRequest</td><td>M → A</td><td>値を設定</td></tr><tr><td>Response</td><td>A → M</td><td>各リクエストへの応答</td></tr></table> |
+| バージョン | <table class="table-nostriped"><tr><th>バージョン</th><th>認証</th><th>暗号化</th><th>備考</th></tr><tr><td>v1</td><td>コミュニティ名</td><td>なし</td><td>古い機器向け</td></tr><tr><td>v2c</td><td>コミュニティ名</td><td>なし</td><td>GetBulk / Inform に対応、現在も広く利用</td></tr><tr><td>v3</td><td>ユーザ認証(USM)</td><td>あり</td><td>VACM でアクセス範囲も制御、推奨</td></tr></table> |
+| USM / VACM | <ul><li>v3 のセキュリティ機構</li><li>USM はユーザ認証と暗号化</li><li>VACM はユーザごとのアクセス制御</li></ul> |
+                            </div>
+                        </article>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4 text-nowrap">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <div id = "toc"></div>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zabbix">Zabbix</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zabbix-agent">Zabbixエージェントの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zabbix-server">Zabbixサーバの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#zabbix-proxy">Zabbixプロキシの構築</a>
+                                    </li>
+                                    <li>
+                                        <a href="#snmp">SNMP</a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script src="/view/tex.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
+            new Pagination(12, serverModel.page, "pagination");
+
+            const mdLists = [
+                "md-snmp-port",
+                "md-snmp-word",
+            ];
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
+        </script>
+    </footer>
+</html>

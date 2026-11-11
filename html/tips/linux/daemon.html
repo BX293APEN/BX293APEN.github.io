@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="Linuxセットアップガイド" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/linux/daemon.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="デーモン化について" />
+        <meta name="theme-color" content="#FF0000" />
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/linuxTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>Linuxセットアップガイド</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="container pt-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold" id="article_top">
+                            Linuxセットアップガイド
+                        </h2>
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "daemon">
+                                デーモン化
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                root実行
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo nano /etc/systemd/system/サービス名.service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=&lt;サービスの説明&gt;
+
+[Service]
+Type=simple
+ExecStart=&lt;実行するコマンド&gt;
+Restart=always
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl enable サービス名.service        # 自動起動有効化
+sudo systemctl restart サービス名.service       # 起動
+sudo systemctl status サービス名.service        # 状態確認
+sudo journalctl -u サービス名 -n [行数] -x      # ログ確認 -x : ヒントを表示
+sudo systemctl stop サービス名.service          # 停止
+sudo systemctl disable サービス名.service       # 自動起動無効化</code></pre>
+                            </p>
+
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                ユーザ実行
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">mkdir -p ~/.config/systemd/user/
+nano ~/.config/systemd/user/サービス名.service</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">[Unit]
+Description=&lt;サービスの説明&gt;
+
+[Service]
+Type=simple
+ExecStart=&lt;実行するコマンド&gt;
+Restart=always
+
+[Install]
+WantedBy=default.target</code></pre>
+                            </p>
+
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">systemctl --user daemon-reload
+systemctl --user enable サービス名.service      # 自動起動有効化
+systemctl --user restart サービス名.service     # 起動
+systemctl --user status サービス名.service      # 状態確認
+journalctl --user -u サービス名 -n [行数] -x    # ログ確認 -x : ヒントを表示
+systemctl --user stop サービス名.service        # 停止
+systemctl --user disable サービス名.service     # 自動起動無効化</code></pre>
+                            </p>
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id = "cron">
+                                cronによる定期実行
+                            </h3>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                エディタの変更
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">select-editor</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                crontabでcronを操作
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo crontab -u [ユーザ名] -e</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    エディタ
+                                </div>
+                                <pre><code class="language-bash">#   分      時      日      月      曜日        [実行コマンド]
+    0       0       *       *       *           /usr/bin/apt update -y              # 毎日0:00にアップデート
+    */5     3-5     5,10,15 *       *           /usr/bin/apt upgrade -y             # 毎月5日、10日、15日の3時～5時台に5分間隔でアップグレード
+                                                                                    # ,     : 複数指定
+                                                                                    # -     : 範囲指定
+                                                                                    # [m]/[n] : mからn間隔で実行 (*/n : n間隔で実行)
+                                                                                    # 曜日  : 0～7で指定 (0と7は日曜日)
+</code></pre>
+                            </p>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                設定ファイルの読み込み (上書きのため注意)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">sudo crontab -u [ユーザ名] -l 2>/dev/null > [バックアップファイル]                  # 現在の設定をバックアップ
+sudo crontab -u [ユーザ名] [設定ファイル]</code></pre>
+                            </p>
+                        </article>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">References</h4>
+                                <blockquote cite="https://www.mikan-tech.net/entry/raspi-unattended-upgrades">
+                                    <a href="https://www.mikan-tech.net/entry/raspi-unattended-upgrades">
+                                        Raspberry Pi 自動アップデート
+                                    </a>
+                                </blockquote>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#daemon">デーモン化</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cron">cronによる定期実行</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["serverTip", "pythonTip", "dockerTip"]);
+            new Pagination(5, linuxModel.page, "pagination");
+        </script>
+    </footer>
+</html>

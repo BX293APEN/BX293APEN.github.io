@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="マイナンバーカードの仕組み" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/appbuild/jpki.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="マイナンバーカードの仕組み" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/appbuildTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>マイナンバーカードの仕組み</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="ps-4 pt-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 border-bottom fw-bold">
+                                マイナンバーカード
+                            </h2>
+                            <div id="md-jpki">
+
+| 用語 | マイナンバーカード(JPKI)の場合 | 正式名称 | 役割 |
+| --- | --- | --- | --- |
+| 利用者 | カードの持ち主(本人) | - | カードを読み取らせ、暗証番号を入力して署名を許可する |
+| 利用者端末 | <ul><li>NFC対応スマートフォン</li><li>ICカードリーダー付きPC</li></ul> | - | カードとの通信、事業者との送受信を仲介する |
+| カード | マイナンバーカード(ICチップ) | 個人番号カード | 秘密鍵・電子証明書を保管し、チップ内で署名する(秘密鍵は外に出ない) |
+| 事業者 | 特定事業者<br>(銀行・証券・通信事業者など) | - | 本人確認を行う側<br>チャレンジを出し、署名と証明書を検証する |
+| 署名検証者 | <ul><li>認定等を受けた民間事業者</li><li>行政機関</li></ul> | - | 署名用電子証明書の失効情報をJ-LISから取得して検証する(認定・契約の手続が必要) |
+| 利用者証明検証者 | ログイン(認証)を提供する事業者・行政機関 | - | 利用者証明用電子証明書を検証する(要確認: 手続の詳細はJ-LISの最新資料) |
+| CA<br>認証局 | J-LIS | Certification Authority<br>地方公共団体情報システム機構 | 電子証明書を発行し、証明書に署名する |
+| VA<br>検証局 | J-LIS | Validation Authority<br>地方公共団体情報システム機構 | 電子証明書の失効状態を回答する(OCSP / CRL) |
+| JPKI | 公的個人認証サービス | Japanese Public Key Infrastructure | CA・VAを含む、マイナンバーカードの電子証明書基盤の総称 |
+| チャレンジ | 事業者が発行するランダムなデータ | 署名対象データ | リプレイ攻撃を防ぐ<br>毎回新しく生成する |
+| OCSP | 失効状態のリアルタイム照会 | Online Certificate Status Protocol | VAへ問い合わせて証明書が有効か確認するプロトコル |
+| CRL | 失効した証明書の一覧 | Certificate Revocation List | 失効した証明書の一覧と照合する |
+
+                            </div>
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                マイナンバーカード内の証明書
+                            </h3>
+                            <div id="md-jpki-cert">
+
+| 項目 | 署名用電子証明書 | 利用者証明用電子証明書 |
+| --- | --- | --- |
+| 用途 | <ul><li>電子文書への署名</li><li>オンライン本人確認(eKYC)</li></ul> | Webサイト等へのログイン(本人であることの認証) |
+| 証明書に含まれる個人情報 | 基本4情報(氏名・住所・生年月日・性別) | なし |
+| 暗証番号 | 英数字6〜16文字 | 数字4桁 |
+| 誤入力でのロック | 連続5回 | 連続3回 |
+| 有効期間 | 発行日から5回目の誕生日まで(目安: 5年) | 同左 |
+| 失効する主なケース | <ul><li>氏名・住所等の変更</li><li>カード紛失・失効手続</li><li>死亡</li></ul> など | カード紛失・失効手続 など |
+
+                            </div>
+                            
+                            <h3 class="pt-4 border-bottom fw-bold" id="id-verify">
+                                本人確認方法
+                            </h3>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    autonumber
+    actor U as 利用者
+    participant App as 利用者端末(スマホ・アプリ)
+    participant IC as マイナンバーカード(ICチップ)
+    participant B as 事業者(署名検証者)
+    participant VA as VA(J-LIS)
+
+    B->>App: ランダムなデータ(チャレンジ)を送信
+    App->>U: カードの読み取りと暗証番号の入力を要求
+    U->>App: カードをかざし、暗証番号を入力
+    App->>IC: 暗証番号の照合 + チャレンジへの署名を要求
+
+    alt 暗証番号が正しい
+        IC->>IC: 秘密鍵でチャレンジに署名
+        IC-- >>App: 署名値 + 署名用電子証明書
+        App->>B: 署名値 + 署名用電子証明書を送信
+        B->>B: 証明書の公開鍵で署名を検証
+        B->>B: 証明書チェーンと有効期間を検証
+        B->>VA: 失効確認(OCSP / CRL)
+        VA-- >>B: 有効 / 失効
+        alt 証明書が有効
+            B-- >>App: 本人確認成功(基本4情報を取得)
+        else 証明書が失効
+            B-- >>App: 本人確認失敗
+        end
+    else 暗証番号が誤り
+        IC-- >>App: エラー(残り回数を通知 規定回数でロック)
+        App-- >>U: 再入力を要求
+    end
+-->
+                            <img class ="pt-4" src="/img/appbuild/jpkicert.svg" width = "100%"/>
+
+                            <ol class="pt-4">
+                                <li>事業者 が ランダムなデータ(チャレンジ / 署名対象データ)を生成して提示する<br>ランダムなデータ : 毎回新しく発行(リプレイ攻撃(過去の署名の使い回し)を防止) </li>
+                                <li>利用者 が カードをスマホ等で読み取り、暗証番号を入力する </li>
+                                <li>ICチップ  が 暗証番号が正しければ、秘密鍵でチャレンジに署名する(秘密鍵はチップ外に出ない) </li>
+                                <li>利用者端末 が 署名値と電子証明書を事業者へ送る </li>
+                                <li>事業者 が 証明書内の公開鍵で署名値を検証する(署名を行ったのが、その鍵の持ち主であることを確認) </li>
+                                <li>事業者 が 証明書の発行元(J-LIS)の署名と証明書チェーンを検証する </li>
+                                <li>事業者 が VA(J-LIS)へ失効確認を行い、有効な証明書か確認する </li>
+                            </ol>
+
+                            <h3 class="pt-4 border-bottom fw-bold" id="id-verify-law">
+                                犯収法に基づく本人確認
+                            </h3>
+                            <div id="md-id-verify-law">
+
+| 通称 | 概要 | 使うもの | 特徴 |
+| --- | --- | --- | --- |
+| ホ方式 | 写真付き本人確認書類の画像(厚みその他の特徴を含む) + 容貌の画像を、<br>事業者提供ソフトで撮影・送信 | 写真付き本人確認書類 | 手軽だが偽造・ディープフェイクのリスクが高い<br>2027年4月に廃止の方向 |
+| ヘ方式 | 本人確認書類のICチップ情報 + 容貌の画像を、<br>事業者提供ソフトで撮影・送信 | ICチップ付き写真付き書類<ul><li>免許証</li><li>在留カード</li><li>マイナンバーカード</li></ul>等 | ICチップ情報は秘密鍵/公開鍵で真正性を確認できる |
+| ト方式 | 画像またはICチップ情報の送信 + <br>(1)他の特定事業者(銀行等)の確認記録の照会、<br>または(2)顧客名義の預貯金口座への少額振込と通帳写し等の受領 | 本人確認書類・預貯金口座 | 追加の措置を組み合わせる |
+| チ方式 | 原本・ICチップ情報・本人確認用画像情報のいずれかの送付を受け、<br>転送不要郵便で住所確認 | 本人確認書類 | 時間がかかる |
+| リ方式 | 本人確認書類の写し(+補完書類) + 転送不要郵便 | 書類の写し | 偽造リスクがあり、2027年4月に廃止の方向 |
+| ヌ方式 | 給与振込口座、個人番号の提供を受けている場合などの特例 | 要件は条文参照 | 限定的な特例(要確認) |
+| ル方式 | 本人限定受取郵便(配達時に写真付き本人確認書類を提示) | 写真付き本人確認書類 | 配達業者が確認する |
+| ワ方式 | 公的個人認証(署名用電子証明書 + 電子署名)を検証する | マイナンバーカード(署名用電子証明書) | 秘密鍵による署名で、対面と同等の強度を確保できる |
+| (新設)スマホ搭載版 | スマートフォンに搭載したマイナンバーカード(カード代替電磁的記録)を用いる方式 | スマホ搭載のマイナンバーカード | 2025年6月24日公布の改正で追加(記号は資料により表記が揺れる) |
+
+                            </div>
+                            <h4 class="pt-4 border-bottom fw-bold">
+                                警察庁及び共管各省庁による意見公募手続の実施結果(一部)
+                            </h4>
+                            <div id="md-id-verify-law-qa">
+
+| 項番 | 質問の趣旨 | 回答の要点 |
+| --- | --- | --- |
+| 19 | 本人確認用画像情報に、動画やビデオ通話を使えるか | 動画も可。<br>ただし、本人特定事項の確認時に撮影されたものである必要があり、あらかじめ撮影された録画ファイルは認められない |
+| 21 | 専用ソフトで撮影した画像なら、事前に撮影して送信してもよいか | 事前撮影は認められない。<br>加工のおそれが高まるほか、確認時点での実在性の確認にも支障がある |
+| 22 | 撮影から送信までに時間が空いてもよいか | 撮影後に手続を中断して送信することは認められない。<br>撮影後直ちに送信させることが求められる |
+| 49 | 事前に撮影した画像を使う不正を防ぐ措置は、事業者が合理的に検討すればよいか。<br>ランダムな数字を書いた紙と一緒に撮影する方法などは問題ないか | 事前に撮影した容貌や書類の写真を撮影させて送信を受けることは認められない。<br>事業者はこれを確認できるようにする必要があり、具体的な方法は事業者が判断する。<br><br>例として、<br>確認時にランダムな数字等を示し、一定時間内にその数字を記した紙と一緒に容貌や書類を撮影させ、直ちに送信を受ける方法<br>が挙げられる |
+| 49(続き) | 容貌と書類を1枚で撮影する「IDセルフィー」はどうか | 認められる。<br>ただし、本人確認書類の記載事項や厚みその他の特徴が適切に確認できるなど、規則上の要件を満たす必要がある。<br>ランダムなポーズ指示などの対策も例として挙げられている |
+| 50 | 数字等と一緒に撮影した確認結果を、セットで保存する必要があるか | その確認結果の保存は義務付けられていない |
+| 51 | 数字を示してから撮影までの待ち時間に制約はあるか | なりすまし用の写真を準備される恐れがあるため、一定時間が経過しても撮影されない場合は、別のランダムな数字等を改めて示す必要がある |
+
+
+                            </div>
+
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h3 class="fst-italic border-bottom">Table of Contents</h3>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-jpki">マイナンバーカード</a>
+                                    </li>
+                                    <li>
+                                        <a href="#md-jpki-cert">マイナンバーカード内の証明書</a>
+                                    </li>
+                                    <li>
+                                        <a href="#id-verify">本人確認方法</a>
+                                    </li>
+                                    <li>
+                                        <a href="#id-verify-law">犯収法に基づく本人確認</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            
+            const mdLists = [
+                "md-jpki",
+                "md-jpki-cert",
+                "md-id-verify-law",
+                "md-id-verify-law-qa",
+            ];
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
+
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "securityTip", "serverTip"]);
+            new Pagination(7, appBuildModel.page, "pagination");
+        </script>
+    </footer>
+</html>
