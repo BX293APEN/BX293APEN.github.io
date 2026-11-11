@@ -1785,7 +1785,7 @@ sequenceDiagram
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
-            new Pagination(12, serverModel.page, "pagination");
+            new Pagination(9, serverModel.page, "pagination");
 
             const mdLists = [
                 "md-snmp-port",

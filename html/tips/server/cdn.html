@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="サーバの構築" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/server/cdn.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="CDN" />
+        <meta name="theme-color" content="#FF0000" />
+
+        
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/serverTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>サーバの構築</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class ="ps-4 pt-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-3 border-bottom fw-bold" id="docker-cdn">
+                                Nginx Docker(Flask) に CDNを使用する
+                            </h2>
+                            <h3 class="pt-3 border-bottom fw-bold">
+                                リポジトリのダウンロード
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">git clone https://github.com/BX293APEN/Nginx-Flask-CDN-Docker.git
+cd Nginx-Flask-CDN-Docker</code></pre>
+                            </p>
+
+                            <h3 class="pt-3 border-bottom fw-bold">
+                                オリジンサーバの起動
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd Nginx-Flask-Docker
+docker compose up --build -d
+cd ../</code></pre>
+                            </p>
+
+                            <h3 class="pt-3 border-bottom fw-bold">
+                                エッジサーバ(キャッシュサーバ)の起動
+                            </h3>
+                            <p>
+                                <div class="fw-bold">
+                                    ターミナル
+                                </div>
+                                <pre><code class="language-bash">cd Nginx-Flask-CDN-Docker
+docker compose up --build -d</code></pre>
+                            </p>
+
+                            <h2 class="pt-3 border-bottom fw-bold" id="cdn">
+                                CDNの仕組み
+                            </h2>
+                            <!--
+flowchart LR
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    %% ## ユーザー側
+    User["👤 ユーザー<br/>ブラウザ / アプリ"]
+
+    %% ## 名前解決
+    DNS["🌐 DNS<br/>CNAME <br/> GeoDNS"]
+
+    %% ## CDN層
+    subgraph CDN["☁️ CDN"]
+        direction TB
+        Edge1["📍 エッジサーバ<br/>キャッシュサーバ<br/>(東京)"]
+        Edge2["📍 エッジサーバ<br/>キャッシュサーバ<br/>(大阪)"]
+        Edge3["📍 エッジサーバ<br/>キャッシュサーバ"]
+        Shield["🛡️ オリジンシールド<br/>(中間キャッシュ)"]
+        Edge1 -- > Shield
+        Edge2 -- > Shield
+        Edge3 -- > Shield
+    end
+
+    %% ## オリジン層
+    subgraph Origin["🏢 オリジン"]
+        LB["⚖️ ロードバランサ"]
+        Web["🖥️ Webサーバ"]
+        Storage[("💾 ストレージ<br/>(S3等)")]
+        LB -- > Web
+        Web -- > Storage
+    end
+
+    %% ## リクエスト経路
+    User -- "1. ドメイン名を問い合わせ" -- > DNS
+    DNS -. "2. 最寄りエッジのIPを返却" .-> User
+    User -- "3. HTTP(S)リクエスト" -- > Edge1
+    Shield -- "4. キャッシュミス時のみ" -- > LB
+    LB -. "5. コンテンツ + Cache-Control" .-> Shield
+    Edge1 -. "6. コンテンツ返却" .-> User
+                            
+                            -->
+                            <img src="/img/server/cdn.png" width = "100%"/>
+
+                            <h3 class="pt-3 border-bottom fw-bold">
+                                データ取得方法
+                            </h3>
+                            <!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    autonumber
+    actor U as ユーザー
+    participant E as エッジサーバ
+    participant S as オリジンシールド
+    participant O as オリジン
+
+    U->>E: GET /image.jpg
+    alt キャッシュヒット(TTL内)
+        E-- >>U: 200 OK (X-Cache: HIT)
+    else キャッシュミス
+        E->>S: GET /image.jpg
+        alt シールドにあり
+            S-- >>E: 200 OK
+        else シールドにもなし
+            S->>O: GET /image.jpg
+            O-- >>S: 200 OK + Cache-Control: max-age=3600
+            S-- >>E: 200 OK(シールドに保存)
+        end
+        E-- >>U: 200 OK (X-Cache: MISS、エッジに保存)
+    end
+
+                            -->
+                            <img src="/img/server/cdnseq.svg" width = "100%"/>
+
+                            <div id="md-cdn">
+
+| 構成要素 | 役割 | 主な技術・設定 |
+|---|---|---|
+| DNS | ユーザーを最寄りのエッジへ誘導 | `CNAME`, GeoDNS, Anycast |
+| エッジサーバ | キャッシュからコンテンツを直接配信 | TTL, `Cache-Control`, TLS終端 |
+| オリジンシールド | エッジからオリジンへの問い合わせを集約 | 中間キャッシュ層 |
+| オリジン | 元コンテンツの保持と配信 | Webサーバ, ストレージ, LB |
+
+<br>
+<br>
+
+| 項目 | キャッシュヒット | キャッシュミス |
+|---|---|---|
+| 応答元 | エッジサーバ | オリジン(経由) |
+| レイテンシ | 低い | 高い |
+| オリジン負荷 | なし | あり |
+| `X-Cache` ヘッダ | `HIT` | `MISS` |
+
+
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h4 class="fst-italic border-bottom">Table of Contents</h4>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#docker-cdn">Nginx Docker(Flask) に CDNを使用する</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cdn">CDNの仕組み</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        
+        
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            new TipsView(tipsModel, "tips", "tips", ["windowsTip", "linuxTip", "dockerTip"]);
+            new Pagination(12, serverModel.page, "pagination");
+            
+            const mdLists = [
+                "md-cdn",
+            ];
+
+            for (const mdID of mdLists) {
+                new MarkDownMaker(
+                    id              = mdID,
+                )
+            }
+        </script>
+    </footer>
+</html>
