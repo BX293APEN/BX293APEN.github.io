@@ -21,7 +21,14 @@ class APPBuildModel{
                 "page" : 5,
                 "href" : "/html/tips/appbuild/chromium.html"
             },
-            
+            {
+                "page" : 6,
+                "href" : "/html/tips/appbuild/bitcoin.html"
+            },
+            {
+                "page" : 7,
+                "href" : "/html/tips/appbuild/jpki.html"
+            },
         ]
     }
 }

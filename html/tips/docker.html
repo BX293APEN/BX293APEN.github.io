@@ -477,6 +477,225 @@ WORKDIR /home/${USER_NAME}/${WS}
                                     start.sh
                                 </div>
                                 <pre><code class="language-bash">#!/usr/bin/env bash
+
+grep -q "# Bashユーザ設定" ~/.bashrc || tee -a ~/.bashrc &lt;&lt;'EOF'
+# Bashユーザ設定
+RESET=$'\033[0m'
+
+BOLD=$'\033[1m'          # 太字
+DIM=$'\033[2m'           # 薄く
+ITALIC=$'\033[3m'        # 斜体(非対応端末あり)
+UNDER=$'\033[4m'         # 下線
+BLINK=$'\033[5m'         # 点滅
+REVERSE=$'\033[7m'       # 反転
+HIDE=$'\033[8m'          # 非表示
+STRIKE=$'\033[9m'        # 打ち消し線
+
+FG_BLACK=$'\033[30m'
+FG_RED=$'\033[31m'
+FG_GREEN=$'\033[32m'
+FG_YELLOW=$'\033[33m'
+FG_BLUE=$'\033[34m'
+FG_PURPLE=$'\033[35m'
+FG_CYAN=$'\033[36m'
+FG_WHITE=$'\033[37m'
+
+FG_BRIGHT_BLACK=$'\033[90m'
+FG_BRIGHT_RED=$'\033[91m'
+FG_BRIGHT_GREEN=$'\033[92m'
+FG_BRIGHT_YELLOW=$'\033[93m'
+FG_BRIGHT_BLUE=$'\033[94m'
+FG_BRIGHT_PURPLE=$'\033[95m'
+FG_BRIGHT_CYAN=$'\033[96m'
+FG_BRIGHT_WHITE=$'\033[97m'
+
+BG_BLACK=$'\033[40m'
+BG_RED=$'\033[41m'
+BG_GREEN=$'\033[42m'
+BG_YELLOW=$'\033[43m'
+BG_BLUE=$'\033[44m'
+BG_MAGENTA=$'\033[45m'
+BG_CYAN=$'\033[46m'
+BG_WHITE=$'\033[47m'
+
+BG_BRIGHT_BLACK=$'\033[100m'
+BG_BRIGHT_RED=$'\033[101m'
+BG_BRIGHT_GREEN=$'\033[102m'
+BG_BRIGHT_YELLOW=$'\033[103m'
+BG_BRIGHT_BLUE=$'\033[104m'
+BG_BRIGHT_PURPLE=$'\033[105m'
+BG_BRIGHT_CYAN=$'\033[106m'
+BG_BRIGHT_WHITE=$'\033[107m'
+
+# ===== 256色 =====
+FG_256() { printf "\033[38;5;%sm" "$1"; }
+BG_256() { printf "\033[48;5;%sm" "$1"; }
+
+# ===== TrueColor(24bitカラー) =====
+FG_RGB() { printf "\033[38;2;%s;%s;%sm" "$1" "$2" "$3"; }
+BG_RGB() { printf "\033[48;2;%s;%s;%sm" "$1" "$2" "$3"; }
+
+DISP_STR(){
+    for arg in "$@"; do
+        printf "%s" "${arg}"
+    done
+}
+
+trim() {
+    local var="$1"
+    var="${var#"${var%%[![:space:]]*}"}"   # 前
+    var="${var%"${var##*[![:space:]]}"}"   # 後
+    echo "$var"
+}
+
+# ===== ログ出力用 =====
+LOG(){
+    local name=$(trim "${1:-USERAPP}")
+    local state=$(trim "${2:-LOG}")
+    local action=$(trim "${3:-ACTION}")
+    local nowtime="$(date '+%Y/%m/%d %H:%M:%S')"
+    local detail=$(trim "${4:-log detail}")
+    local header="[${name}][${state}][${action}]"
+    local headerSize="${5:-50}"
+    
+    printf "%-${headerSize}s %s %s\n" "${header}" "${nowtime}" "${detail}"
+}
+
+LOG_INFO(){
+    local name="${1:-USERAPP}"
+    local state="INFO"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_BRIGHT_CYAN}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_WARN(){
+    local name="${1:-USERAPP}"
+    local state="WARN"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_YELLOW}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_OK(){
+    local name="${1:-USERAPP}"
+    local state="OK"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_GREEN}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_ERROR(){
+    local name="${1:-USERAPP}"
+    local state="ERROR"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "${FG_RED}" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+LOG_FAIL(){
+    local name="${1:-USERAPP}"
+    local state="FAIL"
+    local action="${2:-ACTION}"
+    local detail="${3:-detail}"
+    local headerSize="${4:-50}"
+
+    DISP_STR "$(FG_RGB 204 51 0)" "${BG_BLACK}"
+    LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
+    DISP_STR "${RESET}"
+}
+
+# ===== フールプルーフ =====
+BLOCKED_COMMANDS=("chmod" "chown" "rm")
+BLOCKED_DIRS=("/")
+ROOT_CHILD_LIMIT=3
+
+_guard_check() {
+    local cmd_name
+    cmd_name="$(basename -- "$1")"
+    shift
+
+    local blocked=1 c
+    for c in "${BLOCKED_COMMANDS[@]}"; do
+        [[ "$cmd_name" == "$c" ]] && blocked=0
+    done
+    (( blocked == 0 )) || return 0
+
+    local arg resolved bd parent
+    local end_opts=0 root_children=0
+
+    for arg in "$@"; do
+        if [[ "$arg" == "--no-preserve-root" ]]; then
+            echo "[Reject] --no-preserve-root は使用禁止 ($cmd_name)" >&2
+            return 1
+        fi
+        if (( end_opts == 0 )); then
+            [[ "$arg" == "--" ]] && { end_opts=1; continue; }
+            [[ "$arg" == -* ]] && continue
+        fi
+
+        # 存在しないパスも正規化できるよう -m を使う (GNU coreutils)
+        resolved="$(realpath -m -- "$arg" 2>/dev/null)" || continue
+
+        for bd in "${BLOCKED_DIRS[@]}"; do
+            if [[ "$resolved" == "$bd" ]]; then
+                echo "[Reject] '$arg' は '$bd' に解決されます (pwd=$PWD, cmd=$cmd_name)" >&2
+                return 1
+            fi
+        done
+
+        # `/*` はシェルが展開してから渡されるため、/ 直下が大量に並ぶ形で検出する
+        parent="$(dirname -- "$resolved")"
+        if [[ "$parent" == "/" && "$resolved" != "/" && -d "$resolved" ]]; then
+            root_children=$((root_children + 1))
+        fi
+    done
+
+    if (( root_children >= ROOT_CHILD_LIMIT )); then
+        echo "[Reject] '/' 直下のディレクトリが ${root_children} 個指定されています (/* 展開の疑い, cmd=$cmd_name)" >&2
+        return 1
+    fi
+    return 0
+}
+
+sudo() {
+    local args=("$@") i=0
+    while (( i &lt; ${#args[@]} )); do
+        case "${args[i]}" in
+            -u|-g|-C|-D|-h|-p|-R|-r|-T|-t|-U) i=$((i + 2)) ;;
+            -*) i=$((i + 1)) ;;
+            *) break ;;
+        esac
+    done
+    if (( i &lt; ${#args[@]} )); then
+        _guard_check "${args[@]:i}" || return 1
+    fi
+    command sudo "$@"
+}
+
+for _guard_cmd in "${BLOCKED_COMMANDS[@]}"; do
+    eval "${_guard_cmd}() { _guard_check ${_guard_cmd} \"\$@\" || return 1; command ${_guard_cmd} \"\$@\"; }"
+done
+unset _guard_cmd
+
+EOF
+
 while true; do
     sleep 1000 
 done</code></pre>

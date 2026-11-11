@@ -76,8 +76,24 @@
                 mdFile          = "/html/tips/appbuild/blender.md",
             )
             
-            new MarkDownMaker(
-                id              = "md-source",
+            const mdLists = [
+                "md-source",
+            ];
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
             )
 
             new MarkDownTOC(

@@ -1,0 +1,36 @@
+<div id="attack-app" class="py-3">
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input id="q" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+        </div>
+        <div class="col-md-6 d-flex align-items-center gap-2">
+            <span id="count" class="small text-body-secondary"></span>
+            <button id="clear" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+        </div>
+    </div>
+
+    <div class="mb-2 pb-4">
+        __FILTERS__
+    </div>
+
+    <div class="scroller">
+        <table class="table-nostriped">
+            <thead>
+                <tr class="r1">
+                    <th class="name" rowspan="2">攻撃手法</th>
+                    <th rowspan="2">内容</th><th rowspan="2">成立条件</th><th rowspan="2">想定被害</th><th rowspan="2">代表例</th>
+                    <th colspan="3" class="text-center">対策サービス・方法</th>
+                    <th rowspan="2">攻撃者</th>
+                </tr>
+                <tr class="r2">
+                    <th>① 初動<br><span class="fw-normal small">封じ込め・被害拡大防止</span></th>
+                    <th>② 調査・根絶<br><span class="fw-normal small">保全・範囲特定・復旧</span></th>
+                    <th>③ 再発防止<br><span class="fw-normal small">恒久対策</span></th>
+                </tr>
+            </thead>
+            <tbody>
+__ROWS__
+            </tbody>
+        </table>
+    </div>
+</div>

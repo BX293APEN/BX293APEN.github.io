@@ -5,12 +5,12 @@
         <meta charset="UTF-8">
         <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="ようこそ - とあるペンギンの実験室" />
+        <meta property="og:title" content="情報セキュリティについて" />
         <meta property="og:url" content="https://bx293apen.github.io/html/about/security/security.html" />
         <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="とあるペンギンの実験室" />
-        <meta property="og:description" content="とあるペンギンの実験室へようこそ" />
+        <meta property="og:description" content="情報セキュリティについて" />
         <meta name="theme-color" content="#FF0000" />
 
         <script src="/model/tips/tips.js"></script>
@@ -19,6 +19,9 @@
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
+        <link href="/css/about/attack-style.css" rel="stylesheet">
+        <link href="/css/about/security-service.css" rel="stylesheet">
+
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
         </div>
@@ -1554,84 +1557,16 @@ sequenceDiagram
                                 </table>
                             </div>
                         </article>
-                        <article class="blog-post" id="cyber-attack">
-                            <h2 class="pt-3 border-bottom fw-bold">
-                                サイバー攻撃
-                            </h2>
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                攻撃者の種類
-                            </h3>
-                            <div id="md-attacker">
-| 種類 | 説明 |
-|---|---|
-| クラッカー | コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者<br>「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、<br>悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる) |
-| スクリプトキディ | 自らは高度な技術を持たず、他者が作成した攻撃ツールやスクリプトを利用して攻撃を行う初心者的な攻撃者 |
-| ハクティビスト | 政治的・社会的な主張を目的として、Webサイト改ざんやDDoS攻撃等を行う攻撃者 |
-| ボットハーダー | マルウェアに感染させた多数の端末(ボット)からなるボットネットを構築・遠隔操作する攻撃者 |
-| 内部関係者(インサイダー) | 従業員・元従業員・委託先担当者等、正規のアクセス権を持つ立場を悪用して情報漏えいや破壊行為を行う者<br>金銭目的、恨み、過失など動機は様々 |
-| 犯罪組織(サイバー犯罪集団) | 金銭的利益を目的として組織的にランサムウェア配布、フィッシング、不正送金等を行う集団<br>RaaS(Ransomware as a Service)のように攻撃基盤自体を商品化する例もある |
-| 詐欺犯 | フィッシングやビジネスメール詐欺(BEC)など、心理的な誘導によって金銭や情報をだまし取ることを目的とする者 |
-| APT攻撃者(標的型攻撃者) | 特定の組織を標的に、長期間・持続的に潜伏しながら情報窃取や妨害を行う高度な攻撃者<br>国家関与主体が背後にいる場合が多い |
-| 国家関与主体(ネーションステートアクター) | 国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者<br>高度な技術力と資金力を持つ |
-| 産業スパイ | 競合企業の技術情報・営業情報等を不正に取得することを目的とする者 |
-| 内部告発者との違いに注意すべき者(悪意ある退職者等) | 解雇・処遇への不満等を動機に、退職前後に情報持ち出しやシステム破壊を行う者 |
-                            </div>
+                        <article class="blog-post">
 
-                            <h3 class="pt-4 border-bottom fw-bold">
-                                脆弱性検査
-                            </h3>
-                            <div id="md-weakness-check">
-
-| 検査方法 | 製品 | 検査箇所 | 内容 |
-|---|---|---|---|
-| ペネトレーションテスト | - | 全層(共通) | 実際の攻撃者と同じ手法・手順でシステムに侵入を試み、脆弱性が実際に悪用可能かどうかを検証する実践的な検査 |
-| 脆弱性診断(脆弱性スキャナ) | - | 全層(共通) | 既知の脆弱性データベース(CVE 等)と照合し、対象システムに既知の脆弱性が存在しないかを網羅的に確認する検査<br> <table><thead><tr><th>項目</th><th>外部スキャン</th><th>内部スキャン</th></tr></thead><tbody><tr><td>実施位置</td><td>インターネット側(攻撃者と同じ視点)</td><td>社内ネットワーク内、またはホスト上</td></tr><tr><td>主な目的</td><td>外部に公開されている攻撃面の確認</td><td>内部に潜む脆弱性の網羅的な洗い出し</td></tr><tr><td>主な検査対象</td><td><ul><li>Webサーバー</li><li>VPN</li><li>メールサーバー</li><li>公開ポート・サービス</li></ul></td><td><ul><li>社内サーバー</li><li>クライアントPC</li><li>ネットワーク機器</li><li>パッチ未適用のOS・ミドルウェア</li></ul></td></tr><tr><td>認証</td><td>通常は認証なし</td><td>認証あり(エージェント型・認証付きスキャン)が可能</td></tr><tr><td>検出できるもの</td><td>公開サービスの既知の脆弱性<br>不要な開放ポート</td><td>パッチ適用状況<br>ソフトウェア一覧<br>設定不備</td></tr><tr><td>想定する脅威</td><td>外部からの侵入</td><td>侵入後の横展開<br>内部不正</td></tr></tbody></table> |
-| iLogScanner | IPA提供 | アプリケーション層 | IPA(情報処理推進機構)が無償提供するツール<br>Webサーバのアクセスログ・エラーログを解析し、SQLインジェクションやディレクトリトラバーサル等、既知の攻撃パターンによる被害の痕跡がないかを検出する |
-| ソースコード診断(静的解析 / SAST) | SonarQube | アプリケーション層 | プログラムを実行せずソースコードを解析し、脆弱性の原因となるコーディング上の欠陥を検出する手法 |
-| Webアプリケーション診断(動的解析/ DAST) | OWASP ZAP | アプリケーション層 | 実際にアプリケーションを動作させ、外部からリクエストを送って脆弱性(SQLインジェクション、XSS 等)を検出する手法 |
-| アプリケーション診断 | OWASP ZAP等 | アプリケーション層 | Webアプリケーション等、ソフトウェア固有のロジックや実装に起因する脆弱性(SQLインジェクション、認可不備等)を確認する診断 |
-| ファジング | - | アプリケーション層 | 想定外の値・不正な形式のデータ(ファズ)を大量に入力し、ソフトウェアの異常終了や未知の脆弱性を検出する手法 |
-| ポートスキャナ | Nmap | ネットワーク層 | 対象ホストの各ポートに接続要求を送り、開いているポート(稼働しているサービス)を洗い出すツール |
-| ネットワーク診断 | Nessus等 | ネットワーク層 | ネットワーク機器やサーバOSを対象に、既知の脆弱性の有無を確認する診断 |
-| プラットフォーム診断 | Nessus等 | エンドポイント層 | サーバのOS・ミドルウェアの設定やパッチ適用状況を確認する診断 |
-| 構成管理監査(コンフィグレーションチェック) | - | エンドポイント層 | OS・ミドルウェアの設定値がセキュリティ基準(ベースライン)に適合しているかを確認する検査 |
-| リバースエンジニアリング | 逆コンパイラ<br>コールグラフ | エンドポイント層 | ソフトウェアを解析し、ソースコードや設計情報がない状態から内部構造・動作原理・アルゴリズムを明らかにする手法<br>マルウェア解析や脆弱性調査等に利用される<br>※知的財産権の侵害に注意 |
-| 能動的サイバー防御<br>(アクティブ・サイバー・ディフェンス) | - | 全層 | <ul><li>被害が生じる前の段階から脅威を監視・探知し、攻撃の阻止や無害化といった措置を講じる防御の考え方</li><li>侵入後の対処が中心の受動的な防御に対し、攻撃を未然に防ぐことを狙う</li><li>検査対象 <ul><li>自組織内</li><li>攻撃者のインフラ(C2サーバ・踏み台など)</li><li>官民で共有する通信情報</li></ul></li><li>日本では官民連携による情報共有、通信情報の分析、攻撃元サーバ等への必要な措置を柱に法制化が進められている</li></ul> |
-| ┗ シグネチャ検査 | <ul><li>Snort</li><li>Suricata</li><li>各社IPS</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>ネットワークパケットを検査対象とする</li><li>既知の攻撃パターン(シグネチャ)と照合する</li><li>一致した通信を検知・遮断する</li></ul> |
-| ┗ アノマリ(振る舞い)検知 | <ul><li>Darktrace</li><li>Vectra AI</li><li>その他NDR製品</li></ul> | ネットワーク層〜トランスポート層 | <ul><li>ネットワークトラフィック全体を検査対象とする</li><li>平常時の通信の振る舞いを学習する</li><li>通信量・宛先などの逸脱を検知する</li></ul> |
-| ┗ エンドポイント検査 | <ul><li>CrowdStrike Falcon</li><li>Microsoft Defender for Endpoint</li><li>その他EDR製品</li></ul> | アプリケーション層 | <ul><li>端末のプロセス・ファイル・レジストリ・メモリを常時監視する</li><li>不審な挙動を検知する</li><li>隔離・調査を行う</li></ul> |
-| ┗ サンドボックス検査 | <ul><li>FireEye (Trellix)</li><li>Palo Alto WildFire</li></ul> | アプリケーション層 | <ul><li>メール添付ファイル・ダウンロードファイル・URLを検査対象とする</li><li>隔離された仮想環境で実行する</li><li>マルウェア特有の挙動を解析する</li></ul> |
-| ┗ ログ相関分析 | <ul><li>Splunk</li><li>Microsoft Sentinel</li><li>Elastic Security</li><li>その他SIEM製品</li></ul> | アプリケーション層 | <ul><li>サーバ・FW・認証基盤などの各種ログを集約する</li><li>複数のログを相関分析する</li><li>攻撃の予兆や侵入の痕跡を検知する</li></ul> |
-| ┗ デセプション(おとり) | <ul><li>Cowrie・T-Potなどのハニーポット</li><li>SentinelOne Singularity Hologram</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>おとりのサーバ・端末・認証情報を配置する</li><li>接触した攻撃者の手口を把握する</li><li>侵入経路を把握する</li></ul> |
-| ┗ 脅威インテリジェンス照合 | <ul><li>MISP</li><li>Recorded Future</li><li>Mandiant Threat Intelligence</li></ul> | ネットワーク層(IP)<br>アプリケーション層(ドメイン・ハッシュ) | <ul><li>通信先IP・ドメイン・ファイルハッシュ(IoC)を照合する</li><li>既知の悪性IoCと自組織の通信・ログを突き合わせる</li><li>侵害の有無を確認する</li></ul> |
-| ┗ DNS検査 | <ul><li>Cisco Umbrella</li><li>Cloudflare Gateway</li></ul> | アプリケーション層 | <ul><li>DNSクエリ・応答を検査対象とする</li><li>悪性ドメインや不審な名前解決(C2通信・DGAなど)を検知する</li><li>該当する通信をブロックする</li></ul> |
-| ┗ メール検査 | <ul><li>Proofpoint</li><li>Microsoft Defender for Office 365</li></ul> | アプリケーション層 | <ul><li>メール本文・ヘッダ・添付・URLを検査対象とする</li><li>フィッシングや標的型攻撃メールを検知する</li><li>該当するメールを隔離する</li></ul> |
-| ┗ Webアプリケーション検査 | <ul><li>AWS WAF</li><li>Cloudflare WAF</li><li>ModSecurity</li></ul> | アプリケーション層 | <ul><li>HTTP/HTTPSリクエスト・レスポンスを検査対象とする</li><li>SQLインジェクションやXSSなどのWeb攻撃を検知する</li><li>該当する通信を遮断する</li></ul> |
-| ┗ 脅威ハンティング | <ul><li>Velociraptor</li><li>OSquery</li><li>各社XDR</li></ul> | ネットワーク層〜アプリケーション層 | <ul><li>端末・ネットワーク・クラウド全域を検査対象とする</li><li>仮説に基づいて能動的に探索する</li><li>検知をすり抜けた潜伏中の脅威を発見する</li></ul> |
-| ┗ ユーザ行動分析 (UEBA) | <ul><li>Exabeam</li><li>Microsoft Entra ID Protection</li></ul> | アプリケーション層 | <ul><li>認証ログ・アクセス履歴を検査対象とする</li><li>ユーザや機器の通常行動との差異を分析する</li><li>内部不正やアカウント侵害を検知する</li></ul> |
-
-
-                            </div>
-
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h2 class="pt-4 border-bottom fw-bold">
                                 セキュリティサービス・製品の説明
-                            </h3>
-                            <div id="md-sec-service">
-
-| 用語 | 特徴 | 利用 |
-|---|---|---|
-| <strong>ブラックリスト方式</strong><br><small class="text-muted">拒否リスト</small> | <ul class="ps-3 mb-0"><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを<br>拒否する</li><li><strong>リストの内容</strong><br>既知の不正なもの<br>(IPアドレス・ドメイン・URL・ファイル等)</li><li><strong>未知の脅威</strong><br>リストに無いため防げない<br>リストを常に更新する必要がある</li><li><strong>運用面</strong><br>運用が容易<br>正常な業務への影響が小さい</li><li><strong>誤りの影響</strong><br>誤登録すると正常な通信まで<br>遮断される</li></ul> | <ul class="ps-3 mb-0"><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul> |
-| <strong>ホワイトリスト方式</strong><br><small class="text-muted">許可リスト</small> | <ul class="ps-3 mb-0"><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを<br>許可する</li><li><strong>リストの内容</strong><br>許可する正当なもの<br>(通信・サイト・プログラム・機器等)</li><li><strong>未知の脅威</strong><br>リストに載らないため基本的に防げる<br>(最小権限の考え方に合う)</li><li><strong>運用面</strong><br>リストの整備や申請の運用負荷が大きい</li><li><strong>誤りの影響</strong><br>登録漏れがあると正常な業務が<br>止まる</li></ul> | <ul class="ps-3 mb-0"><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul> |
-| <strong>フォールスポジティブ</strong><br><small class="text-muted">誤検知・過検知</small> | <ul class="ps-3 mb-0"><li>正常な通信・行為を誤って不正と<br>判定してしまうこと</li><li>検知を厳しくすると増える<br>(検知漏れとトレードオフ)</li></ul> | <ul class="ps-3 mb-0"><li>検知システムの判定誤りの評価に使う</li><li>以下を招く<ul class="ps-3 mb-0"><li><strong>業務への影響(正常な通信の遮断)</strong></li><li>アラート対応による運用負荷の増大</li></ul></li></ul> |
-| <strong>フォールスネガティブ</strong><br><small class="text-muted">検知漏れ</small> | <ul class="ps-3 mb-0"><li>実際には不正な通信・行為であるにも<br>かかわらず正常と判定して<br>見逃してしまうこと</li><li>検知を緩くすると増える<br>(誤検知とトレードオフ)</li></ul> | <ul class="ps-3 mb-0"><li>検知システムの判定誤りの評価に使う</li><li>被害の直接的な原因となりうる</li></ul> |
-| <strong>仮想化サーバ</strong> | <ul class="ps-3 mb-0"><li>1台の物理サーバ上に複数の仮想マシンを<br>構築する技術</li><li>以下がその上で動くすべての仮想マシンに<br>影響する点に注意が必要<ul class="ps-3 mb-0"><li>ハイパーバイザの脆弱性</li><li>設定不備</li></ul></li></ul> | <ul class="ps-3 mb-0"><li><strong>ハニーポットやサンドボックスの実行基盤</strong></li><li>VDIの基盤</li><li>検証環境の迅速な構築・破棄</li></ul> |
-
-                            </div>
+                            </h2>
                             <div id="sec-service"></div>
                             
-                            <h3 class="pt-4 border-bottom fw-bold">
+                            <h2 class="pt-4 border-bottom fw-bold">
                                 サイバー攻撃一覧
-                            </h3>
+                            </h2>
                             <br>
                             <div id="md-cyber-attack"></div>
 
@@ -1670,6 +1605,11 @@ sequenceDiagram
 | 電子透かし<br>(デジタルウォーターマーキング) | 追跡・証明 | <ul><li>デジカメ画像</li><li>音楽配信ファイル</li><li>契約書PDF</li></ul>等への著作権情報埋め込み | <ul><li>画像</li><li>音声</li><li>動画</li><li>文書</li></ul>等のデジタルコンテンツ | 埋め込み<ul><li>コンテンツ作成</li><li>配布時</li></ul><br>流出後の追跡・検証時に検出 | <ol><li>人間が知覚できない形で著作権情報や購入者ID等をコンテンツに埋め込む</li><li>複製・加工後も埋め込み情報を検出できる</li></ol> | 不正複製・流出時の追跡や<br>著作権の証明を目的とした技術<br>(複製自体は防がない) |
 | ブロックチェーン | 複製・利用の防止<br>(二重使用)<br>追跡・証明<br>改竄防止 | <ul><li>ビットコイン等の暗号資産</li><li>NFT(デジタル作品の所有証明)</li><li>学位・資格証明の発行履歴管理</li><li>サプライチェーンの履歴管理</li></ul> | <ul><li>暗号資産の残高・取引記録</li><li>権利移転の記録</li><li>発行・来歴の履歴</li></ul> | 取引・記録の登録(承認)時<br>検証時(いつでも第三者が確認可能) | <ol><li>取引を時系列に並べ、ハッシュで連鎖させたブロックとして保存</li><li>複数ノードで分散管理し、合意形成(PoW/PoS等)により正しい取引順序を確定</li><li>先に確定した取引と矛盾する取引(同じコインの二重支払い)は承認されない</li><li>過去の記録を改竄すると後続のハッシュが不整合になり検知できる</li></ol> | デジタルデータであるコインの<br>二重使用(二重支払い)を防ぎ、<br>権利・来歴の記録を改竄困難にする技術<br>(NFTの元画像などデータ自体の複製は防がない) |
 | WORM<br>(Write Once Read Many) | 改竄・削除の防止 | <ul><li>WORM対応ストレージ</li><li>光ディスク(CD-R/DVD-R)</li><li>クラウドのオブジェクトロック機能</li></ul> | 保存された記録データ<ul><li>ログ</li><li>会計・監査記録</li><li>電子カルテ等の法定保存文書</li></ul> | 書き込み後<br>(保存期間中は上書き・削除を禁止) | <ol><li>データの書き込みを一度だけ許可</li><li>書き込み後は読み出しのみ可能とし、変更・削除を拒否</li></ol> | 記録の完全性と証跡を保全する技術<br>(複製・閲覧は防がない) |
+| ハッシュ値による検証<br>(チェックサム) | 改竄検知 | <ul><li>ISOイメージ等のSHA-256値の公開</li><li>sha256sum / Get-FileHash</li><li>Subresource Integrity(SRI)</li><li>パッケージマネージャのintegrity値</li></ul> | 配布・保存されるファイルの完全性 | 配布時(ハッシュ値の算出・公開)<br>ダウンロード後・受信時(検証) | <ol><li>配布元がファイルのハッシュ値(SHA-256等)を算出して公開する</li><li>利用者が受け取ったファイルのハッシュ値を再計算する</li><li>公開値と一致すれば、改竄・破損がないと判断できる</li><li>MD5・SHA-1は衝突攻撃が知られており、SHA-256以上を使う</li></ol> | 最も簡易な改竄検知技術<br>(ハッシュ値自体が差し替えられると検知できないため、<br>別経路での公開やデジタル署名と併用する)<br>(発行元の証明・複製防止はできない) |
+| デジタル署名<br>(電子署名) | 改竄検知・発行元証明<br>(否認防止) | <ul><li>PDF署名</li><li>S/MIME(署名付きメール)</li><li>PGP / GPG</li><li>Git のコミット署名</li><li>マイナンバーカードの署名用電子証明書</li></ul> | 文書・メール・データの完全性と作成者 | 署名時(作成・送信時)<br>検証時(受信・閲覧時) | <ol><li>署名者が文書のハッシュ値を計算し、秘密鍵で暗号化して署名とする</li><li>署名と、認証局(CA)が発行した証明書(公開鍵)を文書に添付する</li><li>検証者が公開鍵で署名を復号し、再計算したハッシュ値と照合する</li><li>一致すれば、署名後に改竄されていないことと署名者本人であることを確認できる</li><li>署名者は後から「署名していない」と否認できない(否認防止)</li></ol> | 公開鍵暗号とハッシュで<br>改竄の有無と作成者を検証可能にする汎用技術<br>コードサイニングやタイムスタンプの基盤<br>(内容の秘匿・複製防止はできない、秘密鍵の流出で成りすまされる) |
+| コードサイニング<br>(Code Signing) | 改竄検知・発行元証明 | <ul><li>Windows Authenticode</li><li>macOS Gatekeeper / Notarization</li><li>Apple App Store / Google Play のアプリ署名</li><li>ドライバ署名</li><li>EVコードサイニング証明書</li></ul> | 配布されるソフトウェアの完全性と発行元<ul><li>実行ファイル(EXE/DLL)</li><li>インストーラ</li><li>スクリプト</li><li>ドライバ</li><li>モバイルアプリ</li></ul> | 署名時<br>(ビルド・リリース時)<br>検証時<br>(ダウンロード・インストール・実行時) | <ol><li>開発元がコードのハッシュ値を計算し、秘密鍵で署名する</li><li>署名と、認証局(CA)が発行したコードサイニング証明書をコードに添付して配布する</li><li>利用者側のOSが、証明書の信頼チェーンを検証して発行元を確認する</li><li>コードのハッシュ値を再計算して署名と照合し、署名後の改竄を検知する</li><li>タイムスタンプを付与すると、証明書の失効・期限切れ後も署名時点で有効だったことを示せる</li><li>証明書が失効(CRL/OCSP)した場合は信頼されなくなる</li></ol> | ソフトウェアの<b>改竄の有無</b>と<b>発行元</b>を<br>署名・証明書で検証可能にする技術<br>(コピー自体は防がない、署名されたコードの安全性までは保証しない)<br>マルウェア混入・なりすまし配布の対策に用いる<br>(秘密鍵の盗難で正規署名付きマルウェアが作られた事例がある) |
+| タイムスタンプ<br>(時刻認証) | 追跡・証明<br>改竄検知 | <ul><li>RFC 3161 準拠のTSA(時刻認証局)</li><li>総務省の認定制度に基づく時刻認証業務<br>(電子帳簿保存法の要件対応)</li><li>PAdES / CAdES の長期署名(LTV)</li></ul> | 電子文書・データの存在時刻と非改竄性<ul><li>契約書</li><li>請求書・領収書</li><li>研究データ</li><li>署名済みコード</li></ul> | 付与時(原本の確定時)<br>検証時(後日の証明が必要なとき) | <ol><li>利用者が文書のハッシュ値を計算し、TSAに送信する(文書本体は送らない)</li><li>TSAが信頼できる時刻源の時刻情報を付加して署名し、タイムスタンプトークンを返す</li><li>検証時は、保管した文書のハッシュ値とトークン内のハッシュ値を照合する</li><li>一致すれば、その時刻以前から文書が存在し、以降改竄されていないことを証明できる</li></ol> | 「いつ存在したか」と「それ以降変更されていないか」を<br>第三者機関が証明する技術<br>デジタル署名の有効期限切れ後も有効性を延ばせる<br>(複製・閲覧は防がない) |
+| セキュアブート / TPM<br>(Secure Boot / Trusted Platform Module) | 改竄検知・不正実行の防止 | <ul><li>UEFI Secure Boot</li><li>TPM 2.0</li><li>Windows Measured Boot / BitLocker</li><li>Android Verified Boot</li><li>Apple の起動チェーン(Secure Enclave)</li></ul> | 機器の起動時に実行されるコード<ul><li>ファームウェア</li><li>ブートローダ</li><li>OSカーネル</li><li>ドライバ</li></ul> | 機器の起動時<br>(以降は実行中の計測・鍵の利用時) | <ol><li>ROM・ファームウェアなどの信頼の起点(Root of Trust)から、次に実行するコードの署名を順に検証する(信頼の連鎖)</li><li>署名が不正または失効リスト(dbx)に載るコードは起動を拒否する</li><li>TPMが各段階のハッシュ値をPCRに記録する(Measured Boot)</li><li>PCRの値が想定と異なると、TPM内の鍵(BitLockerなど)を取り出せない</li><li>リモートアテステーションで、機器の状態を外部に証明できる</li></ol> | 起動時に署名を検証し、<br>改竄されたOS・ブートローダの実行を防ぐ技術<br>(ブートキット・ルートキット対策)<br>(起動後に動作するアプリの改竄やデータの複製は防がない) |
 
                             </div>
                         </article>
@@ -1696,16 +1636,7 @@ sequenceDiagram
                                         <a href="#md-tls">TLS/SSL</a>
                                     </li>
                                     <li>
-                                        <a href="#cyber-attack">サイバー攻撃</a>
-                                    </li>
-                                    <li>
-                                        <a href="#md-attacker">攻撃者の種類</a>
-                                    </li>
-                                    <li>
-                                        <a href="#md-weakness-check">脆弱性検査</a>
-                                    </li>
-                                    <li>
-                                        <a href="#md-sec-service">セキュリティサービス・製品の説明</a>
+                                        <a href="#sec-service">セキュリティサービス・製品の説明</a>
                                     </li>
                                     <li>
                                         <a href="#md-cyber-attack">サイバー攻撃一覧</a>
@@ -1723,7 +1654,6 @@ sequenceDiagram
                                 <div id="md-source">
 &#62; [認証技術 ソース](/html/about/security/auth.md)  
 &#62; [暗号一覧 ソース](/html/about/security/crypt.md)  
-&#62; [サイバー攻撃一覧 ソース](/html/about/security/cyber-attack.md)  
                                 </div>
                             </div>
 
@@ -1747,6 +1677,7 @@ sequenceDiagram
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
         <script src="/view/tex.js"></script>
+        <script src="/view/createTable.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -1766,19 +1697,13 @@ sequenceDiagram
                 mdFile          = "/html/about/security/auth.md",
             )
 
-            new MarkDownLoader(
-                id              = "md-cyber-attack",
-                mdFile          = "/html/about/security/cyber-attack.md",
-            )
+            embedded_html("/html/about/security/cyber-attack.html", "md-cyber-attack");
 
             const mdLists = [
                 "md-list", 
                 "md-tls",
-                "md-attacker", 
-                "md-weakness-check", 
                 "md-copy-protect", 
                 "md-source",
-                "md-sec-service",
             ];
 
             window.addEventListener(
@@ -1796,6 +1721,54 @@ sequenceDiagram
                     }
                 }
             )
+
+            window.addEventListener(
+                'load', 
+                () => {
+                    setTimeout(
+                        () => {
+                            createTableSearch(
+                                {
+                                    appId: 'attack-app',
+                                    inputId: 'q',
+                                    countId: 'count',
+                                    clearId: 'clear',
+                                    scrollerSelector: '.scroller',
+                                    headRowSelector: 'thead tr.r1',
+                                    rowSelector: 'tbody tr',
+                                    tagAttr: 'data-tag',
+                                    rowTagsAttr: 'data-tags',
+                                }
+                            );
+                        },
+                        300
+                    )
+                }
+            );
+            
+            window.addEventListener(
+                'load',
+                () => {
+                    setTimeout(
+                        () => {
+                            createTableSearch({
+                                appId: 'security-app',
+                                inputId: 'security-q',
+                                countId: 'security-count',
+                                clearId: 'security-clear',
+                                scrollerSelector: '.scroller',
+                                headRowSelector: 'thead tr.r1',
+                                rowSelector: '.scroller > table > tbody > tr',
+                                tagAttr: 'data-tag',
+                                rowTagsAttr: 'data-tags',
+                            });
+                        },
+                        300
+                    );
+                }
+            );
+
+
             
             new Pagination(3, securityModel.page, "pagination");
         </script>

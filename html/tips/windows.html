@@ -66,6 +66,7 @@ del [削除対象]                               # ファイル削除(rm相当)
 rmdir /s /q [削除対象]                       # 確認無し削除(rm -rf相当)
 copy [コピー元] [コピー先]                    # ファイルコピー(cp相当)
 robocopy [コピー元] [コピー先] /E            # フォルダごとコピー(cp -r相当)
+robocopy [コピー元] [コピー先] /E /r:0 /w:0 /log:[ログファイル]  # フォルダごとコピー(読めないファイルはリトライせずスキップして続行し、結果をログに出力)
 
 netstat -ano                                # ネットワーク接続状態と、それを使っているプログラムのPIDを一覧表示
 # プロトコル  ローカル アドレス      外部アドレス           状態            PID
@@ -215,7 +216,7 @@ sfc /scannow</code></pre>
                                 <div class="fw-bold">
                                     コマンドプロンプト
                                 </div>
-                                <pre><code class="language-bash">chkdsk [チェックするフォルダパス名] [オプション]</code></pre>
+                                <pre><code class="language-bash">chkdsk [チェックするドライブ名 (FAT系のみフォルダ指定可能)] [オプション]</code></pre>
                             </p>
                             <div class = "table-responsive">
                                 <table class="table table-bordered">
@@ -258,6 +259,53 @@ sfc /scannow</code></pre>
                                 </table>
                             </div>
 
+                        </article>
+
+                        <article class="blog-post">
+                            <h3 class="pt-4 border-bottom fw-bold" id="recover">
+                                壊れたファイルの救出(recover)
+                            </h3>
+                            <p>
+                                <strong>※物理的損傷(異音・認識が不安定など)が疑われる場合は、通電時間を増やさないこと</strong>
+                            </p>
+                            <p>
+                                &emsp;不良セクタを含むファイルから、<b>読み出せた部分だけ</b>を回収するコマンド<br>
+                                &emsp;不良セクタ部分のデータは失われるため、ファイルサイズは元より小さくなることがある
+                            </p>
+                            <p>
+                                <div class="fw-bold">
+                                    管理者権限コマンドプロンプト
+                                </div>
+                                <pre><code class="language-bash">recover [ドライブ:][パス]ファイル名</code></pre>
+                            </p>
+                            <ul>
+                                <li>対象 : ファイル1つずつ (ワイルドカード不可 / ドライブ全体の復旧は不可)</li>
+                                <li>書き込み先 : 元のファイルを回収データで上書きする (失敗しても元に戻せない)</li>
+                                <li>実行できない場合 : ディレクトリ情報からファイルが見えない / ドライブが認識されない</li>
+                            </ul>
+                            <h4 class="pt-4 fw-bold">
+                                ファイルの種類ごとの期待値
+                            </h4>
+                            <div class = "table-responsive">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>ファイルの種類</th>
+                                        <th>期待できる結果</th>
+                                    </tr>
+                                    <tr>
+                                        <td>テキスト・ログ・CSV</td>
+                                        <td>読めた部分は読める可能性が高い</td>
+                                    </tr>
+                                    <tr>
+                                        <td>動画・音声・一部の画像</td>
+                                        <td>欠損部分を除いて再生・表示できることがある</td>
+                                    </tr>
+                                    <tr>
+                                        <td>docx / xlsx / zip / PDF など</td>
+                                        <td>内部構造が壊れるため、欠損するとほぼ開けない</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </article>
 
                         <article class="blog-post">
@@ -586,6 +634,9 @@ bootrec /rebuildbcd                 # Boot Configuration Data (Windows の起動
                                     </li>
                                     <li>
                                         <a href="#chkdsk">チェックディスク(chkdsk)</a>
+                                    </li>
+                                    <li>
+                                        <a href="#recover">壊れたファイルの救出(recover)</a>
                                     </li>
                                     <li>
                                         <a href="#firewall">ファイヤーウォールのポートを開ける</a>

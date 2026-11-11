@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ja" data-bs-theme="auto">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="google-site-verification" content="OC87FYYbTNU7c3Q1vn3qee5kXLtXMjotpx0iGK1ZPUU" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:title" content="ビットコインの仕組み" />
+        <meta property="og:url" content="https://bx293apen.github.io/html/tips/appbuild/bitcoin.html" />
+        <meta property="og:image" content="https://bx293apen.github.io/img/PEN.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="とあるペンギンの実験室" />
+        <meta property="og:description" content="ビットコインの仕組み" />
+        <meta name="theme-color" content="#FF0000" />
+
+        <script src="/model/tips/tips.js"></script>
+        <script src="/model/index/index.js"></script>
+        <script src="/model/tips/appbuildTips.js"></script>
+
+        <div id="styleList"></div>
+        <link href="/css/loading.css" rel="stylesheet">
+        <div class="loading-container" id="loadingScreen">
+            <div class="loading"></div>
+        </div>
+        <script src="/view/loading.js"></script>
+        <title>ビットコインの仕組み</title>
+    </head>
+    <body>
+        <div id="header-contents"></div>
+        <div class="ps-4 pt-4">
+            <main>
+                <div class="row g-5">
+                    <div class="col-md-8">
+                        <article class="blog-post" id="article_top">
+                            <h2 class="pt-4 border-bottom fw-bold" id="bitcoin">
+                                ビットコイン
+                            </h2>
+                            <ul>
+                                <li>ビットコインのブロックチェーンは<strong>分散型台帳</strong></li>
+                                <li>今までの取引内容がすべて書かれた台帳で、世界中のノードが同じ写しを持つ</li>
+                                <li>取引(トランザクション)は<strong>電子署名</strong>で「持ち主本人が出した」ことを証明する</li>
+                                <li>取引はブロックにまとめられ、各ブロックは<strong>直前のブロックのハッシュ値</strong>を持って鎖状につながる</li>
+                                <li>ブロックの追加は<strong>Proof of Work</strong>(ハッシュ計算の競争)で決まり、特定の管理者(第三者)を必要としない</li>
+                                <li>ブロックには<strong>タイムスタンプ</strong>があり、取引がいつ確定したかの目安になる</li>
+                                <li>過去のブロックを改ざんするとハッシュ値が変わり、以降のブロックとの整合性が崩れる</li>
+                            </ul>
+                            <h3 class="pt-4 border-bottom fw-bold" id="blockchain">
+                                ブロックチェーン
+                            </h3>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+flowchart LR
+    G["ジェネシスブロック<br/>Height 0<br/>prev_hash = 000...000 <br>(参照先無し : すべて0)<br/>ブロックハッシュ H(0)<br/>000...000xxx...xxx"]
+    B1["ブロック N-1<br/>prev_hash = H(N-2)<br/>ブロックハッシュ H(N-1)<br/>000...000xxx...xxx"]
+    B2["ブロック N<br/>prev_hash = H(N-1)<br/>ブロックハッシュ H(N)<br/>000...000xxx...xxx"]
+    B3["ブロック N+1<br/>prev_hash = H(N)<br/>ブロックハッシュ H(N+1)<br/>000...000xxx...xxx"]
+
+    G -- > B1
+    B1 -. "prev_hash で参照" .-> B2
+    B2 -. "prev_hash で参照" .-> B3
+-->
+                            <img class ="pt-4" src="/img/appbuild/chain.svg" width = "100%"/>
+                            <h4 class="pt-4 border-bottom fw-bold" id="blockhash">
+                                ブロックハッシュ (32[Byte])
+                            </h4>
+                            <h5 class="pt-4 fw-bold">
+                                ハッシュ値の計算
+                            </h5>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+flowchart TD
+    HD["ブロックヘッダ 80Byte<ul style='text-align: left; text-wrap: nowrap;'><li>version</li><li>直前ブロックのハッシュ値</li><li>全トランザクションの要約(merkle_root) &emsp;</li><li>ブロック生成時刻(timestamp)</li><li>難易度ターゲット(bits)</li><li>nonce</li></ul>"]
+    S1["SHA-256"]
+    S2["SHA-256"]
+    R["ブロックハッシュ 32Byte<br/>000...000xxx...xxx"]
+    CK{"ハッシュ値 ≦ ターゲット ?<br/>(bits から算出)"}
+    OK["PoW 成立<br/>ブロックとして有効"]
+    NG["nonce を変更して再計算"]
+
+    HD -- > S1 -- > S2 -- > R -- > CK
+    CK -- "Yes" -- > OK
+    CK -- "No" -- > NG
+    NG -- > HD
+-->
+                            <img class ="pt-4" src="/img/appbuild/nonce.svg" width = "50%"/>
+                            <div id="md-hash" class ="pt-4">
+| 部分 | 意味 |
+|---|---|
+| `000...000` | 先頭に並ぶ 0<br>PoW の条件「ハッシュ値 ≦ ターゲット」を満たした結果<br>難易度が上がるほど 0 の数が増える |
+| `xxx...xxx` | 任意の値 (`x` は 0〜f の任意の16進数字)<br>nonce を変えながら探した結果として決まる |
+                            </div>
+                            <div class="text-end">
+                                求まったブロックハッシュは、次のブロックの <code>prev_block_hash</code> に入る
+                            </div>
+
+                            <h4 class="pt-4 border-bottom fw-bold" id="block">
+                                ブロックの中身
+                            </h4>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+flowchart TD
+    subgraph BLOCK["ブロック"]
+        direction TB
+        subgraph HEADER["ブロックヘッダ (80Byte)"]
+            direction TB
+            V["version"]
+            PH["prev_block_hash<br/>直前ブロックのハッシュ値"]
+            MR["merkle_root<br/>全トランザクションの要約"]
+            TS["timestamp<br/>ブロック生成時刻"]
+            BT["bits<br/>難易度ターゲット"]
+            NC["nonce<br/>PoW で探す値"]
+        end
+        subgraph BODY["ブロック本体"]
+            direction TB
+            CNT["トランザクション数"]
+            TX1["TX1 コインベース<br/>(マイナー報酬)"]
+            TX2["TX2"]
+            TXN["TX3 ..."]
+        end
+    end
+    TX1 -- > MR
+    TX2 -- > MR
+    TXN -- > MR
+-->
+                            <img class ="pt-4" src="/img/appbuild/block.svg" width = "100%"/>
+                            <div id="md-block">
+
+<br>
+
+| フィールド | サイズ | 説明 |
+|---|---|---|
+| version | 4Byte | ブロックのバージョン |
+| prev_block_hash | 32Byte | **直前ブロックのヘッダのハッシュ値**<br>鎖の連結部分 |
+| merkle_root | 32Byte | ブロック内の全TXから作るマークルツリーのルートハッシュ |
+| timestamp | 4Byte | ブロック生成時刻 (UNIX時間・秒) |
+| bits | 4Byte | 難易度ターゲットのコンパクト表現 |
+| nonce | 4Byte | マイナーが探索する値 |
+
+<br>
+                            </div>
+                            <h5 class="pt-4 border-bottom fw-bold" id="mt">
+                                マークルツリー
+                            </h5>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+flowchart TD
+    ROOT["Merkle Root<br/>H(H12 + H34)"]
+    H12["H12 = H(H1 + H2)"]
+    H34["H34 = H(H3 + H4)"]
+    H1["H1 = H(TX1)"]
+    H2["H2 = H(TX2)"]
+    H3["H3 = H(TX3)"]
+    H4["H4 = H(TX4)"]
+    HDR["ブロックヘッダの merkle_root に格納"]
+
+    H1 -- > H12
+    H2 -- > H12
+    H3 -- > H34
+    H4 -- > H34
+    H12 -- > ROOT
+    H34 -- > ROOT
+    ROOT -- > HDR
+-->
+                            <img class ="pt-4" src="/img/appbuild/mt.svg" width = "100%"/>
+                            <div class="text-end">
+                                ※TX数が奇数のときは、最後のハッシュを複製してペアにする
+                            </div>
+                            <h5 class="pt-4 border-bottom fw-bold" id="tx">
+                                トランザクションの中身
+                            </h5>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+flowchart LR
+    SENDER["送金主"]
+
+    subgraph PREV["過去のTX"]
+        PO["出力 #0 = UTXO<br/>0.5 BTC<br/>ロック条件 scriptPubKey"]
+    end
+
+    subgraph TX["新しいTX"]
+        direction TB
+        IN["入力<br/><p style='text-align: left;'>prev_txid + vout = 0<br/>解除条件 witness<br/>\[互換性維持 : <br> &emsp;&emsp;解除条件 scriptSig <br>\]</p>"]
+        OUT1["出力 #0<br/>0.3 BTC<br/>ロック条件 scriptPubKey"]
+        OUT2["出力 #1 (お釣り)<br/>0.1999 BTC<br/>ロック条件 scriptPubKey"]
+        FEE["手数料 0.0001 BTC<br/>(入力 - 出力 の差額)"]
+        LT["locktime"]
+    end
+
+    PO -- "UTXO を消費" -- > IN
+    SENDER -- "秘密鍵で署名" -- > IN
+    IN -- > OUT1
+    IN -- > OUT2
+    IN -.-> FEE
+    RECV["受取人"]
+    SENDER2["送金主"]
+    MINER["マイナー"]
+
+    OUT1 -- "受取人の鍵で<br/>将来 解除できる" -- > RECV
+    OUT2 -- "お釣りとして戻る" -- > SENDER2
+    FEE -. "ブロックのコインベースTX<br/>で受け取る" .-> MINER
+-->
+                            <img class ="pt-4" src="/img/appbuild/tx.svg" width = "100%"/>
+                            <div id="md-tx">
+
+<br>
+
+| 要素 | 内容 |
+|---|---|
+| txid | <ul><li>TXをシリアライズして SHA-256 を2回適用したハッシュ値</li><li>TXの識別子として使う</li><li>SegWit のTXでは witness を除いて計算する (witness を含めたものは wtxid)</li></ul> |
+| UTXO (Unspent Transaction Output) | <ul><li><b>まだ使われていない出力</b></li><li>ビットコインの「残高」の実体</li><li>所持金は、自分が解除できる UTXO の合計になる</li></ul> |
+| ロック条件 (`scriptPubKey`) | <ul><li>出力に付ける「このお金を使うには何が必要か」の条件</li><li>通常は「この公開鍵ハッシュに対応する鍵の署名」を要求する</li><li><b>鍵付きの箱に入れる</b>ことに当たる</li></ul> |
+| 解除条件 `witness` | <ul><li>過去の出力のロックを解くために、入力側に添える証拠</li><li>**SegWit 形式 (P2WPKH、P2WSH、P2TR)** </li><li>TXの末尾に入力ごとに置く</li><li>P2WPKH では<b>署名と公開鍵</b>、P2TR のキーパスでは Schnorr署名</li><li>txid の計算に含まれない (wtxid には含まれる)</li><li>ブロック容量には 1/4 として数える</li></ul> |
+| 解除条件 `scriptSig`<br>互換性維持 | <ul><li>過去の出力のロックを解くために、入力側に添える証拠</li><li>**レガシー形式 (P2PKH、P2SH)** </li><li>入力の中に置く</li><li>通常は<b>署名と公開鍵</b></li><li>txid の計算に含まれる</li><li><b>箱を開ける鍵を差し出す</b>ことに当たる</li></ul> |
+| 入力 (input) | <ul><li>消費する過去の出力 (`prev_txid`, `vout`)</li><li>それを解除する解除条件 (`scriptSig` / witness)</li></ul> |
+| 出力 (output) | <ul><li>金額 (satoshi)</li><li>受取人のロック条件 (`scriptPubKey`)</li><li>使われるまでは UTXO になる</li></ul> |
+| 送金主 | <ul><li>消費する UTXO の持ち主</li><li>秘密鍵で署名してロックを解除する</li></ul> |
+| 受取人 | <ul><li>出力のロック条件に指定された公開鍵ハッシュの持ち主</li><li>次に使うときに、自分の秘密鍵で解除する</li></ul> |
+| マイナー | <ul><li>TXをブロックにまとめる人</li><li>手数料を、ブロックのコインベースTXで受け取る</li></ul> |
+| お釣り | <ul><li>使い切れなかった分を、送金主自身のアドレスへ戻す出力</li><li>UTXO は分割できないため必要</li></ul> |
+| locktime | <ul><li>TXが有効になる時刻またはブロック高の制限</li></ul> |
+| 手数料 | <ul><li>入力の合計 - 出力の合計</li><li>マイナーが受け取る</li></ul> |
+
+<br>
+                            </div>
+                            <h3 class="pt-4 border-bottom fw-bold" id="addblock">
+                                ブロックの追加方法
+                            </h3>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+sequenceDiagram
+    autonumber
+    participant W as 送信者ウォレット
+    participant N as ノード (第三者)
+    participant M as マイナー (第三者)
+    participant C as ブロックチェーン
+
+    Note over W: 取引内容を作る<br/>入力 (どのUTXOか) と 出力 (誰にいくら)
+    W->>W: 署名対象ハッシュ (sighash) を計算
+    W->>W: 秘密鍵 k_i で電子署名
+    W->>N: TX送信 (取引内容 + 署名 + 公開鍵 K_i)
+
+    N->>N: 公開鍵ハッシュの一致を確認
+    N->>N: 公開鍵 K_i で署名を検証
+    N->>N: UTXO が未使用か確認 (二重支払い防止)
+    N->>N: 有効な TX をメモリプールに保持
+    N->>M: TX を伝播
+
+    M->>M: TX を選んでコインベースTXを先頭に追加
+    M->>M: マークルルートを計算
+    M->>M: ヘッダ作成 (prev_hash + merkle_root + timestamp + bits)
+    loop nonce を変えて繰り返す
+        M->>M: ヘッダを SHA-256 二重ハッシュ
+        M->>M: ハッシュ値 ≦ ターゲット か判定
+    end
+    M->>N: ブロックを伝播
+    N->>N: PoW・タイムスタンプ・全TX署名・マークルルートを検証
+    N->>C: 検証OKなら最長 (累積仕事量最大) のチェーンに接続
+    Note over C: 後続ブロックが積まれるほど<br/>承認数が増えて改ざん困難になる
+-->
+                            <img class ="pt-4" src="/img/appbuild/addblock.svg" width = "100%"/>
+
+                            <div id="md-addblock">
+
+| 要素 | 役割 |
+|---|---|
+| 取引内容 (トランザクション) | 誰のUTXOを誰にいくら送るかの記録 |
+| 電子署名 | 資金の持ち主だけが取引を作れることの証明 |
+| 第三者 (ノード) | TXとブロックを独立に検証する<br>特定の管理者はいない |
+| 第三者 (マイナー) | TXをブロックにまとめ、PoWを解いて追加する |
+| ハッシュ値 | ブロック同士の連結と、改ざん検知、PoW判定に使う |
+| タイムスタンプ | ブロック生成時刻<br>難易度調整や時刻の検証に使う |
+
+                            </div>
+                            <h3 class="pt-4 border-bottom fw-bold" id="timestamp">
+                                タイムスタンプの検証
+                            </h3>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+flowchart TD
+    A["新規ブロックを受信"] -- > B{"timestamp が<br>直近11ブロックの中央値 (MTP) より大きいか？<br>時刻逆行防止"}
+    B -- "No" -- > X["無効ブロックとして拒否"]
+    B -- "Yes" -- > C{"timestamp が<br>ノードの時刻+2時間以内か？<br> 未来の時刻による難易度操作を防ぐ"}
+    C -- "No" -- > X
+    C -- "Yes" -- > D["タイムスタンプ検証 OK"]
+-->
+                            <img class ="pt-4" src="/img/appbuild/timestamp.svg" width = "50%"/>
+
+                            
+                            <h3 class="pt-4 border-bottom fw-bold" id="xpub">
+                                署名鍵の生成
+                            </h3>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+flowchart TD
+    ENT["初期文字列 <br>(エントロピー 128〜256bit)"] -- > MN["ニーモニック 12〜24 単語"]
+    MN -- >|"PBKDF2-HMAC-SHA512"| SEED["シード 512bit"]
+    SEED -- >|"HMAC-SHA512 で<br>左右に分割"| MK["マスター秘密鍵 k_m<br/>マスターチェーンコード c_m"]
+    MK -- >|"k_m × G"| MPK["マスター公開鍵 K_m"]
+
+    MK -- > MXPRV["マスター xprv"]
+    MPK -- > MXPUB["マスター xpub"]
+    MXPRV -- >|"N() 公開鍵化"| MXPUB
+
+    MXPRV -- >|"CKDpriv"| CXPRV["子 xprv"]
+    MXPUB -- >|"CKDpub (通常導出のみ)"| CXPUB["子 xpub"]
+    CXPRV -- >|"N()"| CXPUB
+
+    CXPRV -- >|"分解"| SKI["子秘密鍵 k_i<br/>署名に使う"]
+    CXPUB -- >|"分解"| PKI["子公開鍵 K_i<br/>アドレス・署名検証に使う"]
+    SKI -- >|"k_i × G"| PKI
+
+    SKI -- >|"署名"| SIG["電子署名"]
+    SIG -- > TXN["トランザクションの入力<br/>署名 + 公開鍵 K_i"]
+    PKI -- > TXN
+-->
+                            <img class ="pt-4" src="/img/appbuild/xpub.svg" width = "100%"/>
+                            <div id="md-xpub">
+<br>
+
+| 鍵 | 持っているもの | できること |
+|---|---|---|
+| 拡張秘密鍵 (xprv) | 秘密鍵 + チェーンコード | <ul><li>子の秘密鍵・公開鍵の導出</li><li>**署名**</li></ul> |
+| 拡張公開鍵 (xpub) | 公開鍵 + チェーンコード | <ul><li>子の公開鍵の導出 (残高確認)</li><li>**アドレス生成**</li><li>(署名は不可)</li></ul> |
+| 子秘密鍵 `k_i` | 秘密鍵のみ               | <ul><li>**署名の生成**</li></ul> |
+| 子公開鍵 `K_i` | 公開鍵のみ               | <ul><li>**署名の検証**</li><li>アドレスの元</li></ul> |
+
+<br>
+                            </div>
+                            <h3 class="pt-4 border-bottom fw-bold" id="cert">
+                                署名検証
+                            </h3>
+<!--
+%%{
+    init: {
+        'theme':'base',
+        'themeVariables': {
+            'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+            'primaryColor': '#EEE',
+            'primaryTextColor': '#000000',
+            'primaryBorderColor': '#000000',
+            'lineColor': '#000000',
+            'secondaryColor': '#EEE'
+        }
+    }
+}%%
+sequenceDiagram
+    autonumber
+    participant S as 送信者
+    participant N as 検証ノード
+
+    Note over S: xprv から導出した子秘密鍵 k_i を保持
+    S->>S: TXの内容から sighash を計算
+    S->>S: 署名 = Sign(k_i, sighash)
+    S->>N: TX送信 (scriptSig = 署名 + 公開鍵 K_i)
+
+    N->>N: 参照先UTXOの scriptPubKey を取得
+    N->>N: HASH160(K_i) を計算
+    alt 公開鍵ハッシュが不一致
+        N-- >>S: 拒否 (OP_EQUALVERIFY 失敗)
+    else 一致
+        N->>N: sighash を再計算
+        N->>N: Verify(署名, sighash, K_i)
+        alt 署名が不正
+            N-- >>S: 拒否 (OP_CHECKSIG 失敗)
+        else 署名が正しい
+            N-- >>S: 有効と判断しメモリプールへ
+        end
+    end
+-->
+                            <img class ="pt-4" src="/img/appbuild/cert.svg" width = "75%"/>
+                        </article>
+                    
+                    </div>
+                    <div class="col-md-4">
+                        <div class="position-sticky" style="top: 2rem;">
+                            <div class="p-4">
+                                <h3 class="fst-italic border-bottom">Table of Contents</h3>
+                                <ol class="list-unstyled mb-0">
+                                    <li>
+                                        <a href="#article_top">Top</a>
+                                    </li>
+                                    <li>
+                                        <a href="#bitcoin">ビットコインについて</a>
+                                    </li>
+                                    <li>
+                                        <a href="#blockchain">ブロックチェーン</a>
+                                    </li>
+                                    <li>
+                                        <a href="#blockhash">ブロックハッシュ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#block">ブロックの中身</a>
+                                    </li>
+                                    <li>
+                                        <a href="#mt">マークルツリー</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tx">トランザクションの中身</a>
+                                    </li>
+                                    <li>
+                                        <a href="#addblock">ブロックの追加方法</a>
+                                    </li>
+                                    <li>
+                                        <a href="#timestamp">タイムスタンプの検証</a>
+                                    </li>
+                                    <li>
+                                        <a href="#xpub">署名鍵の生成</a>
+                                    </li>
+                                    <li>
+                                        <a href="#cert">署名検証</a>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="tips"></div>
+                        </div>
+                    </div>
+                </div>
+            
+            </main>
+        </div>
+    </body>
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
+        <script src="/view/bootstrap.bundle.min.js"></script>
+        <script src="/view/search.js"></script>
+        <script src="/view/embeddedHTML.js"></script>
+        <script src="/view/highlight.min.js"></script>
+        <script src="/view/activenav.js"></script>
+        <script src="/view/tips/tips.js"></script>
+        <script src="/view/pagination.js"></script>
+        <script src="/view/md.js"></script>
+        <script>
+            hljs.highlightAll();
+            embedded_html("/template/styleConfig.html", "styleList");
+            embedded_html("/template/header.html", "header-contents");
+            embedded_html("/template/footer.html", "footer-contents");
+            window.addEventListener("load", active_nav("tipsIndex"));
+            
+            const mdLists = [
+                "md-hash",
+                "md-block",
+                "md-tx",
+                "md-addblock",
+                "md-xpub",
+            ];
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
+            )
+
+            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "securityTip", "serverTip"]);
+            new Pagination(6, appBuildModel.page, "pagination");
+        </script>
+    </footer>
+</html>

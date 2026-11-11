@@ -1,0 +1,57 @@
+<div id="apptest-app" class="py-3">
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input id="q" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+        </div>
+        <div class="col-md-6 d-flex align-items-center gap-2">
+            <span id="count" class="small text-body-secondary"></span>
+            <button id="clear" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+        </div>
+    </div>
+
+    <div class="clearfix">
+        <!--
+
+flowchart TD
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    D["ドライバ<br/>(ボトムアップテスト用)"]
+    M["テスト対象モジュール"]
+    S["スタブ<br/>(トップダウンテスト用)"]
+
+    D -- >|"呼び出し<br/>(テストデータ)"| M
+    M -- >|"呼び出し"| S
+    S -.->|"戻り値<br/>(ダミー値)"| M
+    M -.->|"戻り値<br/>(処理結果)"| D
+
+-->
+
+
+        <img class ="pt-4 float-end" src="/img/appbuild/module.svg" width = "25%"/>
+        __FILTERS__
+    </div>
+    <div class="scroller">
+        <table class="table-nostriped">
+            <thead>
+                <tr class="r1">
+                    <th class="name">テスト技法</th>
+                    <th>別名</th><th>分類</th><th>説明</th><th>手順</th><th>長所</th><th>短所</th><th>主な用途</th>
+                </tr>
+            </thead>
+            <tbody>
+__ROWS__
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+# # dl_images.yml
+#
+# ## 概要
+#
+# `scripts/dl_images.py` で画像を取得・PNG 変換し、
+# `img/` 配下 (リポジトリのトップ) の変更を **コミットして push** する。
+#
+# ## トリガー
+#
+# | トリガー | 内容 |
+# | --- | --- |
+# | `workflow_dispatch` | 手動実行 |
+# | `schedule` | 毎週月曜 03:00 (UTC) |
+#
+# ## 前提
+#
+# | 項目 | 内容 |
+# | --- | --- |
+# | 権限 | `contents: write` (下記 `permissions`) |
+# | ブランチ保護 | 対象ブランチが push 禁止の場合は push が失敗する |
+# | 無限ループ | `GITHUB_TOKEN` による push は他の Workflow を起動しないため発生しない |
+
+name: Download images
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dl-images
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests pillow
+
+      - name: Download and convert images
+        run: python .github/scripts/dl_images.py
+
+      # 一部の画像が失敗しても、成功分はコミットする
+      - name: Commit and push
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- img
+          if git diff --cached --quiet; then
+            echo "変更なし"
+          else
+            git commit -m "chore: update images [skip ci]"
+            git push
+          fi

@@ -1,0 +1,1589 @@
+<div id="security-app" class="py-3">
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input id="security-q" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+        </div>
+        <div class="col-md-6 d-flex align-items-center gap-2">
+            <span id="security-count" class="small text-body-secondary"></span>
+            <button id="security-clear" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+        </div>
+    </div>
+
+    <div class="mb-2 pb-3">
+        <div class="pt-3 d-flex flex-wrap gap-1 align-items-center mb-1">
+            <div class="me-1">分類</div>
+            <div>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="ネットワーク防御">
+                    ネットワーク防御
+                    <span class="badge text-bg-light">19</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="Web・メール防御">
+                    Web・メール防御
+                    <span class="badge text-bg-light">19</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="エンドポイント防御">
+                    エンドポイント防御
+                    <span class="badge text-bg-light">15</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="データ保護">
+                    データ保護
+                    <span class="badge text-bg-light">9</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="クラウドセキュリティ">
+                    クラウドセキュリティ
+                    <span class="badge text-bg-light">2</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="検知・分析基盤">
+                    検知・分析基盤
+                    <span class="badge text-bg-light">9</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="脅威情報・診断">
+                    脅威情報・診断
+                    <span class="badge text-bg-light">29</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="物理的対策">
+                    物理的対策
+                    <span class="badge text-bg-light">4</span>
+                </button>
+                
+            </div>
+        </div>
+        <div class="pt-3 d-flex flex-wrap gap-1 align-items-center mb-1">
+            <div class="me-1">OSI層</div>
+            <div>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="L1 物理層">
+                    L1 物理層
+                    <span class="badge text-bg-light">4</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="L2 データリンク層">
+                    L2 データリンク層
+                    <span class="badge text-bg-light">5</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="L3 ネットワーク層">
+                    L3 ネットワーク層
+                    <span class="badge text-bg-light">29</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="L4 トランスポート層">
+                    L4 トランスポート層
+                    <span class="badge text-bg-light">23</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="L5 セッション層">
+                    L5 セッション層
+                    <span class="badge text-bg-light">9</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="L6 プレゼンテーション層">
+                    L6 プレゼンテーション層
+                    <span class="badge text-bg-light">9</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="L7 アプリケーション層">
+                    L7 アプリケーション層
+                    <span class="badge text-bg-light">57</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="OSI層なし">
+                    OSI層なし
+                    <span class="badge text-bg-light">40</span>
+                </button>
+                
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="scroller">
+        <table class="table-nostriped">
+            <thead>
+                <tr class="r1">
+                    <th class="name">サービスの種類</th>
+                    <th>説明</th>
+                    <th>製品例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>ファイアウォール</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>基本的な防御機構</li><li>ネットワークの境界でパケットの送受信を制御する</li><li>不正な通信を遮断する</li><li>あらかじめ定めたルール(許可/拒否)に基づいて通信を制御する</li><li>ルールの考え方(FW・IPS共通)<ul><li><strong>ブラックリスト方式</strong>：不正なIPアドレスの遮断、脅威インテリジェンスの悪性IPリストの活用</li><li><strong>ホワイトリスト方式</strong>：許可する通信(IPアドレス・ポート)のみ開放し、それ以外を拒否する</li></ul><table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>ブラックリスト方式</strong><br>(拒否リスト)</td><td><ul><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを拒否する</li><li><strong>リストの内容</strong><ul><li>既知の不正なもの(IPアドレス・ドメイン・URL・ファイル等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに無いため防げない</li><li>リストを常に更新する必要がある</li></ul></li><li><strong>運用面</strong><ul><li>運用が容易</li><li>正常な業務への影響が小さい</li></ul></li><li><strong>誤りの影響</strong><ul><li>誤登録すると正常な通信まで遮断される</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr><tr><td><strong>ホワイトリスト方式</strong><br>(許可リスト)</td><td><ul><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを許可する</li><li><strong>リストの内容</strong><ul><li>許可する正当なもの(通信・サイト・プログラム・機器等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに載らないため基本的に防げる(最小権限の考え方に合う)</li></ul></li><li><strong>運用面</strong><ul><li>リストの整備や申請の運用負荷が大きい</li></ul></li><li><strong>誤りの影響</strong><ul><li>登録漏れがあると正常な業務が止まる</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層">
+                    <th scope="row" class="name">
+                        └ パケットフィルタリング型
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>最も基本的な方式</li><li>送信元/宛先IPアドレス、ポート番号、プロトコル等のパケットのヘッダ情報のみでルールベースの許可・拒否を判定する</li><li>OSI参照モデルの第3層(ネットワーク層)・第4層(トランスポート層)で動作する</li><li>高速</li><li>パケットの中身(ペイロード)は検査しない</li><li>通信ごとの状態は見ない</li><li>戻りパケット用のルールをあらかじめ固定的に開けておく必要がある</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層">
+                    <th scope="row" class="name">
+                        └ ダイナミックパケットフィルタリング型
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li><strong>ステートフルパケットフィルタリング型とほぼ同一</strong>(呼称の違い)</li><li>通信の往路(要求)を監視する</li><li>通信状況に応じてフィルタリングルールを自動生成する<ul><li>戻りパケットのみを動的に許可する等</li></ul></li><li>通信が終了したらそのルールを削除する</li><li>ポートを開けたままにするリスクを減らせる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層">
+                    <th scope="row" class="name">
+                        └ ステートフルパケットフィルタリング型<br>(ステートフルインスペクションFW)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li><strong>ダイナミックパケットフィルタリング型とほぼ同一</strong>(呼称の違い)</li><li>セッション(コネクション)の状態を管理・追跡する</li><li>同一セッションに属する通信のみを許可する</li><li>なりすましや不正な戻りパケットを排除する</li><li>通信の開始から終了までの状態をテーブルで管理する</li><li>TCPの接続手順等に沿わない通信を遮断する</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ アプリケーションゲートウェイ型<br>(プロキシ型FW)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>アプリケーション層(OSI第7層)の内容まで解析する</li><li>通信を代理(プロキシ)する</li><li>内部と外部の通信を直接つながない</li><li>クライアント側とサーバ側で別々のセッションを張って中継する</li><li>厳密な制御ができる</li><li>処理負荷が高い</li><li>プロトコルごとに対応するプロキシが必要</li><li>検査精度が高い</li><li>プロキシの考え方は「Web・メール防御」のプロキシサーバを参照</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>UTM</strong>(統合脅威管理)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ファイアウォール、IDS/IPS、アンチウイルス、アンチスパム、URLフィルタリング等の複数のセキュリティ機能を1台に統合した製品</li><li>ネットワークの出入口(ゲートウェイ)に設置する</li><li>一括で防御する</li><li>メリットとデメリット<table><thead><tr><th>区分</th><th>内容</th></tr></thead><tbody><tr><td>メリット</td><td><ul><li>運用・管理の一元化ができる</li><li>コスト削減ができる</li></ul></td></tr><tr><td>デメリット</td><td><ul><li>1台に集中するため障害時の影響が大きい<ul><li><strong>単一障害点</strong></li></ul></li><li>全機能を有効にすると処理性能が低下しやすい</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>IDS(不正侵入検知システム)<br>IPS(不正侵入防止システム)</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>IDS<ul><li>ネットワークやホスト上の不正な兆候を検知する</li><li>管理者に通知する</li></ul></li><li>IPSは検知に加えて、不正な通信をリアルタイムに遮断する</li><li>判定誤りの評価(フォールスポジティブ・フォールスネガティブ)<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>フォールスポジティブ</strong><br>(誤検知・過検知)</td><td><ul><li>正常な通信・行為を誤って不正と判定してしまうこと</li><li>検知を厳しくすると増える(検知漏れとトレードオフ)</li></ul></td><td><ul><li>検知システムの判定誤りの評価に使う</li><li>以下を招く<ul><li><strong>業務への影響(正常な通信の遮断)</strong></li><li>アラート対応による運用負荷の増大</li></ul></li></ul></td></tr><tr><td><strong>フォールスネガティブ</strong><br>(検知漏れ)</td><td><ul><li>実際には不正な通信・行為であるにもかかわらず正常と判定して見逃してしまうこと</li><li>検知を緩くすると増える(誤検知とトレードオフ)</li></ul></td><td><ul><li>検知システムの判定誤りの評価に使う</li><li>被害の直接的な原因となりうる</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ IDS
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ネットワークやホスト上の不正な兆候を検知する</li><li>管理者に通知する</li><li>通信の遮断はしない</li><li>監視対象により、ネットワーク型の「NIDS」とホスト型の「HIDS」(「エンドポイント防御」を参照)に分けられる</li><li>検知方式<table><thead><tr><th>方式</th><th>判定の基準</th><th>長所</th><th>短所</th></tr></thead><tbody><tr><td>シグネチャ型(ミスユース検知)</td><td><ul><li>既知の攻撃パターンと照合する</li><li>一致したものを不正と判定する(ブラックリスト的)</li></ul></td><td>既知の攻撃には確実</td><td>未知の攻撃には対応できない</td></tr><tr><td>アノマリ型(異常検知)</td><td><ul><li>正常時の状態を基準とする</li><li>そこから逸脱したものを不正と判定する(ホワイトリスト的)</li></ul></td><td>未知の攻撃にも対応できる可能性がある</td><td>誤検知が起こりやすい</td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        Snort
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ NIDS(ネットワーク型IDS)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ネットワーク上を流れるパケットを監視する</li><li>ネットワークセグメント全体に対する不正アクセスの兆候を検知する</li><li>1台のセンサで複数のホストを監視できる</li><li><strong>暗号化された通信(HTTPS等)の中身は検査できない</strong></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ IPS
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>IDSの機能に加えて、検知した不正な通信をリアルタイムに遮断する機能を持つ</li><li>設置方法(動作モード)によって遮断できるかどうかが変わる(下記の2つ)</li><li>検知方式<table><thead><tr><th>方式</th><th>判定の基準</th><th>長所</th><th>短所</th></tr></thead><tbody><tr><td>シグネチャ型(ミスユース検知)</td><td><ul><li>既知の攻撃パターンと照合する</li><li>一致したものを不正と判定する(ブラックリスト的)</li></ul></td><td>既知の攻撃には確実</td><td>未知の攻撃には対応できない</td></tr><tr><td>アノマリ型(異常検知)</td><td><ul><li>正常時の状態を基準とする</li><li>そこから逸脱したものを不正と判定する(ホワイトリスト的)</li></ul></td><td>未知の攻撃にも対応できる可能性がある</td><td>誤検知が起こりやすい</td></tr></tbody></table></li><li>アノマリ型は誤検知が起こりやすいため、基準の調整・学習段階は通信が止まらないプロミスキャスモード(通知のみ)で運用するのに向く</li></ul>
+                    </td>
+                    <td>
+                        Snort
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ IPSインラインモード
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>通信経路上に直接設置する</li><li>通過するすべての通信を検査した上で転送する</li><li>不正な通信をリアルタイムに遮断できる</li><li>通信経路上にあるため、IPS自体の障害・性能不足が通信全体に影響する(<strong>単一障害点</strong>)</li><li><strong>誤検知した場合の影響</strong>：正常な通信まで遮断される。業務への影響が大きい</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ IPSプロミスキャスモード<br>(パッシブモード)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>スイッチのミラーポート(SPAN)やタップ等から通信のコピーを受け取って監視する</li><li>通信経路上には存在しない</li><li>不正な通信そのものを遮断することはできない</li><li>検知(IDS的な用途)にとどまる</li><li>TCPリセットの送信等で接続の切断を試みる製品もある</li><li>確実な遮断とはいえない</li><li><strong>誤検知した場合の影響</strong>：通知が増えるだけで通信は止まらない(IDSも同様)</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>NDR</strong><br>(Network Detection and Response)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ネットワークトラフィックを分析する</li><li>異常な通信パターンや侵害の兆候を検知する</li><li>対応を支援する仕組み</li><li>次の用途に有効<ul><li>EDRを導入できない機器(IoT・OT機器、未管理の端末等)の監視</li><li>侵入後の内部での横展開(ラテラルムーブメント)の検知</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L2 データリンク層|L3 ネットワーク層">
+                    <th scope="row" class="name">
+                        <strong>検疫ネットワーク</strong><br>(検疫ネットワークシステム)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L2 データリンク層">L2 データリンク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>社内ネットワークへの接続前に、端末のセキュリティ状態(パターンファイルの更新状況、パッチ適用状況等)を検査する専用の隔離ネットワーク</li><li>基準を満たさない端末は本番ネットワークへの接続を許可しない<ol><li>端末が接続しようとするとまず検疫用の隔離ネットワークに接続させる</li><li>OSのパッチやウイルス対策ソフトのパターンファイル等の状態を検査する</li><li>基準を満たさない端末は隔離環境で修復(パッチ適用・パターンファイル更新等)する</li><li>基準を満たしたことを確認してから本番ネットワークへの接続を許可する</li></ol></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>ZTNA</strong><br>(ゼロトラストネットワークアクセス)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>「何も信頼しない」ことを前提とする</li><li>通信のたびにアクセス主体(ユーザ・デバイス)を検証・認可する仕組み</li><li>従来のVPNとの違い<table><thead><tr><th>方式</th><th>接続範囲</th></tr></thead><tbody><tr><td>従来のVPN</td><td>接続後に社内ネットワーク全体へアクセスできてしまいがち</td></tr><tr><td>ZTNA</td><td>許可されたアプリケーションにのみ接続させる</td></tr></tbody></table></li><li><strong>SPA</strong>(Single Packet Authorization)<ul><li>ポートノッキングの発展形</li><li>認証情報を含む暗号化・署名済みの<strong>1パケット</strong>で認可を行う</li><li>ZTNAのSDP(Software Defined Perimeter)等で接続制御に使われる</li></ul></li><li>ポートノッキングとSPAの違い<table><thead><tr><th>項目</th><th>ポートノッキング</th><th>SPA</th></tr></thead><tbody><tr><td>認証の仕組み</td><td>決められたポートへ決められた順序で接続を試みる</td><td>暗号化・署名された認可パケットを1つ送る</td></tr><tr><td>認証情報</td><td>ポートの順序(合言葉のようなもの)</td><td>暗号化・署名されたペイロード</td></tr><tr><td>盗聴・リプレイ攻撃</td><td>順序を盗み見られると再利用される</td><td>タイムスタンプやナンス等で再利用を防げる</td></tr><tr><td>なりすまし・改ざん</td><td>順序を再現されると防げない</td><td>HMAC等の署名で検出できる</td></tr><tr><td>実装例</td><td>knockd</td><td>fwknop</td></tr></tbody></table></li><li>SPAの流れ<ol><li>サーバは全ポートを閉じ、応答を返さない(外部からは存在しないように見える)</li><li>クライアントが認可パケットを1つ送る</li><li>サーバは<strong>ポートを開けずに</strong>パケットを受け取り検証する</li><li>検証に成功した送信元IPに限り、指定ポートを一時的に開放する</li><li>一定時間後にルールを自動で削除する</li></ol></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>DDoS対策</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>大量の通信によるサービス停止攻撃に対する耐性を高める</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L3 ネットワーク層|L4 トランスポート層">
+                    <th scope="row" class="name">
+                        └ DDoS対策サービス<br>(スクラビングサービス)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>大量トラフィックを専用設備(スクラビングセンタ)で吸収・選別する</li><li>正常な通信のみをオリジンサーバへ転送する</li><li>DNSの切り替えやBGP経路の広告により、通信をスクラビングセンタへ迂回させる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ CDN<br>(コンテンツデリバリネットワーク)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>コンテンツを世界各地のエッジサーバに分散配置(キャッシュ)する</li><li>利用者に近いサーバから配信する</li><li>負荷分散やDDoS攻撃に対する耐性を高められる</li><li><strong>エッジサーバがリバースプロキシとして応答する</strong></li><li>オリジンサーバを直接公開せずに済む</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="ネットワーク防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>DNSSEC</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク防御">ネットワーク防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>DNS応答に電子署名を付与する</li><li>DNSキャッシュポイズニング等の改ざんを検知可能にする仕組み</li><li>権威DNSサーバが署名する</li><li>キャッシュDNSサーバ(フルサービスリゾルバ)が検証する</li><li>応答の真正性・完全性を確認できる</li><li>通信内容の暗号化(秘匿)は行わない</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>WAF<br>(Web Application Firewall)<br>WAAP<br>(Web Application and API Protection)</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>Webアプリケーション(およびAPI)への攻撃を検知・遮断する</li><li>通常のFWやIPSでは見分けにくい「正規のHTTP通信に見える攻撃」が対象<ul><li>SQLインジェクション</li><li>XSS等</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ WAF
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>HTTP/HTTPS通信の内容を検査する</li><li>Webアプリケーション層への攻撃を検知・遮断する専用のファイアウォール</li><li><strong>HTTPS通信は復号(TLS終端)した上で検査する</strong></li><li>検知のモデルには2つある<table><thead><tr><th>モデル</th><th>内容</th></tr></thead><tbody><tr><td>ネガティブセキュリティモデル</td><td>既知の攻撃パターンを遮断する(ブラックリスト的)</td></tr><tr><td>ポジティブセキュリティモデル</td><td>正規のリクエストの形式のみを許可する(ホワイトリスト的)</td></tr></tbody></table></li><li>ブラックリスト方式・ホワイトリスト方式の考え方<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>ブラックリスト方式</strong><br>(拒否リスト)</td><td><ul><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを拒否する</li><li><strong>リストの内容</strong><ul><li>既知の不正なもの(IPアドレス・ドメイン・URL・ファイル等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに無いため防げない</li><li>リストを常に更新する必要がある</li></ul></li><li><strong>運用面</strong><ul><li>運用が容易</li><li>正常な業務への影響が小さい</li></ul></li><li><strong>誤りの影響</strong><ul><li>誤登録すると正常な通信まで遮断される</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr><tr><td><strong>ホワイトリスト方式</strong><br>(許可リスト)</td><td><ul><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを許可する</li><li><strong>リストの内容</strong><ul><li>許可する正当なもの(通信・サイト・プログラム・機器等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに載らないため基本的に防げる(最小権限の考え方に合う)</li></ul></li><li><strong>運用面</strong><ul><li>リストの整備や申請の運用負荷が大きい</li></ul></li><li><strong>誤りの影響</strong><ul><li>登録漏れがあると正常な業務が止まる</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ WAAP
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>WAFの機能に加えて、以下の機能を統合したサービス<ul><li>API保護<ul><li>APIの可視化</li><li>不正なAPI呼び出しの遮断</li></ul></li><li>ボット対策(不正な自動化アクセスの識別・遮断)</li><li>アプリケーション層(L7)のDDoS対策</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>CSP</strong><br>(Content Security Policy)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>実行を許可するスクリプトの読み込み元等を指定する</li><li>XSS等の被害を軽減するHTTPヘッダベースの仕組み</li><li>WebサーバがContent-Security-Policyレスポンスヘッダでポリシーを通知する</li><li>ブラウザが許可されていないリソースの読み込み・実行を拒否する</li><li><strong>読み込みを許可する配信元を限定する</strong></li><li><strong>ホワイトリスト方式の一種</strong></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>プロキシサーバ</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>クライアントとサーバの間に立つ</li><li>通信を代理中継する中継サーバ</li><li>設置位置によって守る対象が変わる<ul><li>クライアント側ならクライアント</li><li>サーバ側ならサーバ</li></ul></li><li>代理中継の考え方はアプリケーションゲートウェイ型FWにも使われる(「ネットワーク防御」のファイアウォールを参照)</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ フォワードプロキシ
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>クライアントの代理として外部のサーバと通信する</li><li>クライアント側(組織内)とインターネットの間に設置する</li><li><strong>悪意あるサーバ(マルウェア配布サイト・フィッシングサイト・C2サーバ等)からクライアントを守る</strong></li><li>主な機能<table><thead><tr><th>機能</th><th>内容</th></tr></thead><tbody><tr><td>クライアントの隠蔽</td><td><ul><li>外部サーバにはプロキシのIPアドレスしか見えない</li><li>クライアントに直接接続されない</li></ul></td></tr><tr><td>アクセス制御</td><td><ul><li>URLフィルタリング・認証により危険・不要なサイトへのアクセスを制限する</li></ul></td></tr><tr><td>コンテンツ検査</td><td><ul><li>ダウンロードされるファイルのマルウェアスキャンや、<strong>TLS通信の復号検査(SSLインスペクション)</strong>を行う</li></ul></td></tr><tr><td>ログ取得</td><td><ul><li>誰がどこにアクセスしたかを記録する</li><li>インシデント調査や監査に利用する</li></ul></td></tr><tr><td>キャッシュ</td><td><ul><li>同じコンテンツの再取得を省く</li><li>帯域を節約する</li></ul></td></tr></tbody></table></li><li>プロキシを迂回する通信は検査できない</li><li>FWで直接の外部通信を禁止して経由を強制する</li><li>クラウド型や高機能化したものはSWG(Secure Web Gateway)とも呼ばれる</li></ul>
+                    </td>
+                    <td>
+                        Squid
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ リバースプロキシ
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>サーバの代理として外部クライアントからのリクエストを受け付ける</li><li>内部のWebサーバ等へ中継する</li><li>Webサーバ等の前段(DMZやクラウドの入口)に設置する</li><li><strong>悪意あるクライアント(攻撃者)からサーバを守る</strong></li><li>フォワードプロキシとは通信の向きが逆</li><li>代理する相手・守る対象が「サーバ側」になる</li><li>主な機能<table><thead><tr><th>機能</th><th>内容</th></tr></thead><tbody><tr><td>サーバの隠蔽</td><td><ul><li>内部サーバのIPアドレス・構成・ソフトウェアのバージョン等が外部から見えず、直接攻撃されない</li></ul></td></tr><tr><td>攻撃の遮断</td><td><ul><li>WAF機能と組み合わせる</li><li>不正なリクエストを内部サーバへ到達させない</li></ul></td></tr><tr><td>TLS終端</td><td><ul><li>暗号化・復号をプロキシが代行する</li><li>サーバの負荷を軽減する</li><li><strong>復号後の通信を検査できる</strong></li></ul></td></tr><tr><td>負荷分散</td><td><ul><li>複数のサーバへ振り分ける</li><li>可用性を高める</li></ul></td></tr><tr><td>キャッシュ</td><td><ul><li>静的コンテンツをプロキシが応答する</li><li>サーバの負荷を下げる</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Nginx</li><li>HAProxy等</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ メールプロキシ<br>(SMTPプロキシ)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>プロキシの考え方をメール(SMTP)通信に応用したもの</li><li>メールサーバの前段に設置する</li><li>送受信されるメールの内容検査・フィルタリング、送信元の正当性確認を代理で行う</li><li><strong>守る対象</strong>：メールサーバ・利用者</li><li>方向別の動作<table><thead><tr><th>方向</th><th>内容</th></tr></thead><tbody><tr><td>受信方向(リバースプロキシ的)</td><td><ul><li>外部から届くメールを内部メールサーバの代わりに受け取る</li><li>スパム・ウイルス・フィッシングメールを検査・排除してから転送する</li></ul></td></tr><tr><td>送信方向(フォワードプロキシ的)</td><td><ul><li>社内から外部へ送るメールを検査する</li><li>情報漏えい(誤送信・不正な持ち出し)やウイルスの拡散を防ぐ</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>URLフィルタリング</strong><br>(Webフィルタリング)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>危険・不要なWebサイトへのアクセスを、URLのレピュテーション情報・カテゴリ分類に基づいて制限する仕組み</li><li>制限の対象は業務上不要・危険なカテゴリのWebサイト<ul><li>悪意あるサイト</li><li>危険なダウンロード元</li><li>フィッシングサイト等</li></ul></li><li>フォワードプロキシ(SWG)やUTM等の機能として実装されることが多い</li><li>ブラックリスト方式・ホワイトリスト方式のどちらでも運用できる<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>ブラックリスト方式</strong><br>(拒否リスト)</td><td><ul><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを拒否する</li><li><strong>リストの内容</strong><ul><li>既知の不正なもの(IPアドレス・ドメイン・URL・ファイル等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに無いため防げない</li><li>リストを常に更新する必要がある</li></ul></li><li><strong>運用面</strong><ul><li>運用が容易</li><li>正常な業務への影響が小さい</li></ul></li><li><strong>誤りの影響</strong><ul><li>誤登録すると正常な通信まで遮断される</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr><tr><td><strong>ホワイトリスト方式</strong><br>(許可リスト)</td><td><ul><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを許可する</li><li><strong>リストの内容</strong><ul><li>許可する正当なもの(通信・サイト・プログラム・機器等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに載らないため基本的に防げる(最小権限の考え方に合う)</li></ul></li><li><strong>運用面</strong><ul><li>リストの整備や申請の運用負荷が大きい</li></ul></li><li><strong>誤りの影響</strong><ul><li>登録漏れがあると正常な業務が止まる</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr></tbody></table></li><li><strong>ホワイトリスト方式</strong>：許可したサイトのみ閲覧可</li><li><strong>動作</strong>：「許可/ブロック」の二択</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>RBI</strong><br>(Remote Browser Isolation)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>Webブラウザを利用者の端末ではなく隔離環境で実行する</li><li>端末には画面のみを転送する</li><li>Web経由の脅威を遮断する仕組み</li><li><strong>Webサイトのスクリプトやコンテンツが端末上で実行されない</strong>ため、以下の被害を抑えられる<ul><li>ドライブバイダウンロード</li><li>ゼロデイ攻撃</li><li>フィッシングサイト閲覧による被害</li></ul></li><li>仕組み<ol><li>利用者がURLにアクセスすると、クラウド上等の隔離環境のブラウザがそのサイトを読み込む</li><li>Webコンテンツ(スクリプト等)は隔離環境側で実行される</li><li>端末には画面の映像や無害化した描画データの描画結果のみが送られる</li><li>端末でのキーボード・マウス操作は隔離環境へ送り返される</li></ol></li><li><strong>動作</strong>：「許可するが隔離して閲覧させる」ことができる</li><li><strong>守る対象</strong>：クライアント(ブラウザ)</li><li>未分類サイトやリスクの高いサイトのみRBI経由に振り分ける運用が多い(プロキシ/SWGと連携)</li><li>コピー・貼り付け、ファイルのダウンロード、印刷等はポリシーで制御できる</li><li>課題<ul><li>操作の遅延</li><li>導入コスト</li><li>一部サイトの表示互換性</li></ul></li><li><strong>ブラウザだけを隔離する</strong>方式(VDIとの違いは「エンドポイント防御」のVDIを参照)</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>迷惑メール対策</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>迷惑メールを判定する</li><li>拒否・隔離する方式の総称</li><li>単独ではなく複数を組み合わせて使われる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ ブラックリスト方式<br>(メールでの適用例)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>既知の迷惑メール送信元(IPアドレス・ドメイン等)の一覧と照合する</li><li>該当するメールを拒否・隔離する</li><li><strong>DNSBL(RBL)として公開されているリストを利用することもある</strong></li><li>考え方<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>ブラックリスト方式</strong><br>(拒否リスト)</td><td><ul><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを拒否する</li><li><strong>リストの内容</strong><ul><li>既知の不正なもの(IPアドレス・ドメイン・URL・ファイル等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに無いため防げない</li><li>リストを常に更新する必要がある</li></ul></li><li><strong>運用面</strong><ul><li>運用が容易</li><li>正常な業務への影響が小さい</li></ul></li><li><strong>誤りの影響</strong><ul><li>誤登録すると正常な通信まで遮断される</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ ホワイトリスト方式<br>(メールでの適用例)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>許可した送信元・送信サーバ(SPFで正規と宣言されたサーバ等)のみ受け付ける</li><li>考え方<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>ホワイトリスト方式</strong><br>(許可リスト)</td><td><ul><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを許可する</li><li><strong>リストの内容</strong><ul><li>許可する正当なもの(通信・サイト・プログラム・機器等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに載らないため基本的に防げる(最小権限の考え方に合う)</li></ul></li><li><strong>運用面</strong><ul><li>リストの整備や申請の運用負荷が大きい</li></ul></li><li><strong>誤りの影響</strong><ul><li>登録漏れがあると正常な業務が止まる</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ ベイジアンフィルタ
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>過去の迷惑メール・正常メールの単語出現傾向を学習する</li><li>確率的に迷惑メールかどうかを判定する(ベイズの定理を利用)</li><li>未知の迷惑メールにも対応できる</li><li>利用者ごとに学習させることで精度が向上する</li><li>学習データが少ないうちは精度が低い</li><li>誤判定も起こりうる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ グレーリスティング
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>未知の送信元からの初回メールを一時的に拒否し、再送してくるかどうかで正規のメールサーバかを判別する<ol><li>未知の送信元(IPアドレス・送信者・宛先の組)からの初回の配送をSMTPの一時エラー(4xx)で拒否する</li><li>正規のメールサーバには再送の仕組みがあるため、一定時間後に再送してくる</li><li>再送を確認できた送信元を許可リストに登録し、以降のメールを受け付ける</li></ol></li><li>再送機能を持たない迷惑メール送信プログラムを排除できる</li><li>初回の配送が遅れる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>送信ドメイン認証</strong><br>(SPF・DKIM・DMARC)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>送信元ドメインのなりすましを検知する</li><li>正規の送信元からのメールであることを検証する</li><li>なりすましメール(フィッシング等)対策の代表技術</li><li>受信側が検証して結果に応じた処理を行う</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ SPF<br>(Sender Policy Framework)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        送信元ドメインのDNSに登録された正規の送信サーバのIPアドレスと、実際の送信元IPアドレスを照合する
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ DKIM<br>(DomainKeys Identified Mail)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>送信側がメールに電子署名を付与する</li><li>受信側がDNSで公開された公開鍵で署名を検証する(メールの改ざんも検知できる)</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="Web・メール防御|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ DMARC<br>(Domain-based Message Authentication, Reporting and Conformance)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="Web・メール防御">Web・メール防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>SPF/DKIMの検証結果とFromヘッダのドメインとの整合性に基づく</li><li>認証失敗時の扱いを送信側が宣言する<ul><li>何もしない</li><li>隔離</li><li>拒否</li></ul></li><li>認証結果のレポートも受け取れる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>アンチウイルスソフト</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>既知のマルウェアのパターン(シグネチャ)や挙動を検知・駆除するソフトウェア</li><li>検知手法の違いにより下記の方式に分けられる(組み合わせて使われる)</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        └ パターンマッチング法<br>(シグネチャ法)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>既知のマルウェアの特徴的なコードパターン(シグネチャ)をデータベース化する</li><li>検査対象と照合して検知する(<strong>ブラックリスト方式</strong>)</li><li>既知のマルウェアには有効</li><li>未知のマルウェア(ゼロデイ攻撃等)には対応できない</li><li>パターンファイルを常に最新に保つ必要がある</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        └ ヒューリスティック法
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>マルウェアに共通する特徴的なコード構造・命令列・動作を経験則(ルール)に基づいて評価する</li><li>疑わしさの度合いで悪意の有無を判定する<ul><li>シグネチャ(パターンファイル)に依存しない</li><li>未知のマルウェアや既存マルウェアの亜種にも対応可能</li><li>正常なプログラムを誤って不正と判定する「フォールスポジティブ」が起こりやすい<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>フォールスポジティブ</strong><br>(誤検知・過検知)</td><td><ul><li>正常な通信・行為を誤って不正と判定してしまうこと</li><li>検知を厳しくすると増える(検知漏れとトレードオフ)</li></ul></td><td><ul><li>検知システムの判定誤りの評価に使う</li><li>以下を招く<ul><li><strong>業務への影響(正常な通信の遮断)</strong></li><li>アラート対応による運用負荷の増大</li></ul></li></ul></td></tr><tr><td><strong>フォールスネガティブ</strong><br>(検知漏れ)</td><td><ul><li>実際には不正な通信・行為であるにもかかわらず正常と判定して見逃してしまうこと</li><li>検知を緩くすると増える(誤検知とトレードオフ)</li></ul></td><td><ul><li>検知システムの判定誤りの評価に使う</li><li>被害の直接的な原因となりうる</li></ul></td></tr></tbody></table></li><li>検査方法により「静的ヒューリスティック」と「動的ヒューリスティック」に大別される<table><thead><tr><th>項目</th><th>静的ヒューリスティック</th><th>動的ヒューリスティック</th></tr></thead><tbody><tr><td>実行の有無</td><td>実行しない(コードそのものを解析する)</td><td>実行する(エミュレータ等の仮想環境で動作させる)</td></tr><tr><td>検査内容</td><td><ul><li>逆アセンブル等で命令列・API呼び出し・文字列を調べる</li><li>マルウェア特有のコードパターンがないかを評価する</li></ul></td><td><ul><li>実行時の振る舞い(ファイル操作・レジストリ変更・不審な通信など)を評価する</li></ul></td></tr><tr><td>利点</td><td><ul><li>実際に実行しないため安全</li><li>検査も高速</li></ul></td><td>難読化されたコードでも、実行時に現れる挙動から検知できる</td></tr><tr><td>欠点</td><td><ul><li>難読化・パッキング・暗号化されたコードは解析しにくい</li><li>検知を回避されやすい</li></ul></td><td><ul><li>実行のため処理に時間がかかる</li><li><strong>仮想環境を検知して悪意ある動作を行わないマルウェアには、検知を回避されることがある</strong></li></ul></td></tr></tbody></table></li></ul></li><li>動的ヒューリスティックはビヘイビア法(振る舞い検知)に近い考え方</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        └ ビヘイビア法(振る舞い検知)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>プログラムを実際の環境または模擬環境(サンドボックス)のいずれかで動作させる</li><li>挙動(不審なファイル操作・通信等)を監視する</li><li>悪意の有無を判定する</li><li>未知のマルウェアにも対応可能</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        └ コンペア法
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査対象ファイルを、あらかじめ保管しておいた原本(感染前のクリーンな状態のファイル)と比較する</li><li>差異の有無から感染を判定する</li><li>原本を安全に保管・管理する必要がある</li><li>正規の更新による変更との区別も必要になる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        └ チェックサム法<br>(インテグリティチェック法)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ファイルのハッシュ値(チェックサム)をあらかじめ算出・保管しておく</li><li>定期的に再計算した値と比較する</li><li>改ざんや感染の有無を検知する</li><li>原本全体を保管するコンペア法に比べ、保管するデータが小さくて済む</li><li>ハッシュ値自体を攻撃者に書き換えられないよう安全な場所に保管する必要がある</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>EDR</strong><br>(Endpoint Detection and Response)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>エンドポイント(PC・サーバ)上の挙動を監視し、侵害の検知・調査・封じ込め(端末のネットワーク隔離等)を行う仕組み</li><li>プロセス・ファイル操作・通信等の挙動を継続的に監視・記録する</li><li>アンチウイルス等の入口対策をすり抜けた脅威への対応(侵入後の対策)に有効</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>HIDS</strong>(ホスト型IDS)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>サーバやPC等個々のホスト上にエージェントを常駐させる</li><li>ログの改ざん、ファイルの変更、プロセスの異常等を監視する方式</li><li>ホスト内部の変化を直接監視できる</li><li>監視対象ごとにエージェントの導入・管理が必要</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>アプリケーション制御</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>許可したプログラムのみ実行を認める仕組み</li><li><strong>ホワイトリスト方式</strong>：許可したプログラムのみ実行可<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>ホワイトリスト方式</strong><br>(許可リスト)</td><td><ul><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを許可する</li><li><strong>リストの内容</strong><ul><li>許可する正当なもの(通信・サイト・プログラム・機器等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに載らないため基本的に防げる(最小権限の考え方に合う)</li></ul></li><li><strong>運用面</strong><ul><li>リストの整備や申請の運用負荷が大きい</li></ul></li><li><strong>誤りの影響</strong><ul><li>登録漏れがあると正常な業務が止まる</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr></tbody></table></li><li><strong>適用先</strong>：固定用途の端末・制御システム等</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>デバイス制御</strong><br>(USBデバイス制御)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>USBメモリ等の外部記憶媒体や周辺機器の接続・利用を、端末上のソフトウェア(エージェント)で制御する仕組み</li><li><strong>許可した機器(登録済みのUSBメモリ等)のみ利用を認める(ホワイトリスト方式)</strong></li><li><strong>ブラックリスト方式</strong>：禁止する機器・種別を指定して利用を拒否する</li><li>書き込みのみ禁止(読み取り専用)にする等、操作単位で制限する</li><li>機器の利用ログを記録する</li><li><strong>情報の持ち出しやマルウェアの侵入を防止する</strong></li><li>物理的にポートを塞ぐ方法は「物理的対策」のUSBポートロックを参照</li><li>ブラックリスト方式・ホワイトリスト方式の考え方<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>ブラックリスト方式</strong><br>(拒否リスト)</td><td><ul><li><strong>原則許可</strong>する</li><li>リストに載った既知の不正なもののみを拒否する</li><li><strong>リストの内容</strong><ul><li>既知の不正なもの(IPアドレス・ドメイン・URL・ファイル等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに無いため防げない</li><li>リストを常に更新する必要がある</li></ul></li><li><strong>運用面</strong><ul><li>運用が容易</li><li>正常な業務への影響が小さい</li></ul></li><li><strong>誤りの影響</strong><ul><li>誤登録すると正常な通信まで遮断される</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr><tr><td><strong>ホワイトリスト方式</strong><br>(許可リスト)</td><td><ul><li><strong>原則拒否</strong>(デフォルトデニー)する</li><li>リストに載った正当なもののみを許可する</li><li><strong>リストの内容</strong><ul><li>許可する正当なもの(通信・サイト・プログラム・機器等)</li></ul></li><li><strong>未知の脅威</strong><ul><li>リストに載らないため基本的に防げる(最小権限の考え方に合う)</li></ul></li><li><strong>運用面</strong><ul><li>リストの整備や申請の運用負荷が大きい</li></ul></li><li><strong>誤りの影響</strong><ul><li>登録漏れがあると正常な業務が止まる</li></ul></li></ul></td><td><ul><li>メール</li><li>FW</li><li>URLフィルタリング</li><li>アプリケーション制御</li><li>WAF</li><li>デバイス制御等</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>VDI</strong><br>(Virtual Desktop Infrastructure)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>サーバ上の仮想マシンにデスクトップ環境を構築する</li><li>利用者の端末からは画面転送プロトコルで操作する仕組み(仮想デスクトップ)</li><li>アプリケーションやデータは端末ではなくサーバ側にある</li><li>端末とはキーボード・マウス操作と画面情報のみをやり取りする</li><li>主な効果<table><thead><tr><th>観点</th><th>内容</th></tr></thead><tbody><tr><td>情報漏えい対策</td><td><ul><li>端末にデータが残らない</li><li>紛失・盗難時の漏えいリスクを下げられる</li><li>コピー・貼り付けやファイルの持ち出しもポリシーで制御できる</li></ul></td></tr><tr><td>マルウェア対策</td><td><ul><li>端末が感染しても業務データのあるサーバ側へ影響が及びにくい</li><li>終了時にクリーンな状態へ戻す「使い捨て」の運用もできる</li></ul></td></tr><tr><td>一元管理</td><td>OS・アプリケーション・パッチをサーバ側で一括管理できる</td></tr><tr><td>インターネット分離</td><td><ul><li>インターネット接続用のデスクトップを隔離された環境(VDI)で動かす</li><li>手元の端末には画面だけを転送する</li><li>プロキシ経由のWeb閲覧を隔離環境で行う形になる</li></ul></td></tr></tbody></table></li><li><strong>デスクトップ全体を隔離する</strong>のがVDI</li><li><strong>設置位置</strong>：データセンター・クラウド上の仮想デスクトップ</li><li><strong>守る対象</strong>：端末とデータ(デスクトップ全体)</li><li>RBIとの違いは「Web・メール防御」のRBIを参照</li><li>課題<ul><li>サーバ・ネットワークの導入・運用コスト</li><li>画面転送による操作の遅延</li></ul></li><li>基盤となる仮想化サーバ<table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>仮想化サーバ</strong></td><td><ul><li>1台の物理サーバ上に複数の仮想マシンを構築する技術</li><li>以下がその上で動くすべての仮想マシンに影響する点に注意が必要<ul><li>ハイパーバイザの脆弱性</li><li>設定不備</li></ul></li></ul></td><td><ul><li><strong>ハニーポットやサンドボックスの実行基盤</strong></li><li>VDIの基盤</li><li>検証環境の迅速な構築・破棄</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>資産管理</strong>(IT資産管理・MDM)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>組織が保有するPC・サーバ・スマートフォン・ソフトウェア等のIT資産を把握する</li><li>構成や状態を管理する取り組み</li><li>把握できていない資産は守れない</li><li>他のあらゆる対策の前提となる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        └ IT資産管理ツール
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>端末のハードウェア構成、OS・ソフトウェアのバージョン、ライセンス情報等の情報をエージェントで自動収集し、台帳(インベントリ)として管理する<ul><li>パッチ未適用の端末の検出</li><li>禁止・不要なソフトウェアのインストールの検出</li><li>台帳に載っていない未管理端末(シャドーIT)の発見</li><li>操作ログの取得</li><li>ソフトウェアの配布・インストールの制限</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        └ MDM<br>(Mobile Device Management)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>スマートフォン・タブレット等のモバイル端末を遠隔から一元管理する<ul><li>パスコードや端末の暗号化の強制</li><li>紛失・盗難時のリモートロックやデータ消去(ワイプ)</li><li>利用できるアプリの制限・配布</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="エンドポイント防御|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>パッチ管理</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="エンドポイント防御">エンドポイント防御</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>OS・ソフトウェアの脆弱性を修正するパッチ(更新プログラム)の適用状況を把握しながら、計画的に配布・適用する運用</li><li>既知の脆弱性を放置した端末・サーバが攻撃の入口になりやすい</li><li>適用の遅れが被害に直結する</li><li>手順<ol><li>脆弱性情報の収集(ベンダの公開情報、CVE等)</li><li>自組織の資産への該当確認</li><li>緊急度の評価による優先順位付け(悪用の有無、影響度、CVSS等)</li><li>検証環境での動作確認(業務アプリケーションへの影響確認)</li><li>配布・適用(WSUSやIT資産管理ツール等による一括配布)</li><li>適用状況の確認</li><li>未適用端末のフォロー(検疫ネットワークとの連携)</li></ol></li><li>すぐに適用できない場合は暫定対策(緩和策)で被害を抑える<ul><li>IPS・WAFによる仮想パッチ</li><li>該当機能の無効化等</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>DLP</strong><br>(Data Loss Prevention)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>機密情報の外部送信・持ち出しを検知・防止する仕組み</li><li>機密情報のキーワードやデータ形式・ラベル等に基づいて検知する</li><li>メール送信、USBメモリへの書き出し、クラウドへのアップロード等を警告・ブロックする</li><li>監視する場所により、以下等の型がある<ul><li>エンドポイント型</li><li>ネットワーク型(メール/Web)</li><li>クラウド型</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|L3 ネットワーク層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>暗号化</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>データを第三者が読めない形に変換する</li><li>盗難・盗聴・漏えいが起きても内容を読まれないようにする</li><li>「保管中のデータ」と「通信中のデータ」の両方を対象とする</li><li>あわせて暗号鍵を管理する</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|OSI層なし">
+                    <th scope="row" class="name">
+                        └ 保管データの暗号化<br>(データ at rest)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ディスク・ファイル・データベース・バックアップ等に保存されたデータを暗号化する</li><li>端末の紛失・盗難、サーバからのデータ持ち出しによる情報漏えいに備える</li><li>以下の暗号化がある<ul><li>ディスク全体を暗号化</li><li>ファイル単位</li><li>データベース単位(列・表領域)</li></ul></li></ul>
+                    </td>
+                    <td>
+                        BitLocker等
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|L3 ネットワーク層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ 通信の暗号化<br>(データ in transit)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ネットワーク上を流れるデータを暗号化する</li><li>盗聴・改ざんを防ぐ</li><li>用途別の方式<table><thead><tr><th>用途</th><th>方式</th></tr></thead><tbody><tr><td>Web</td><td>TLS(HTTPS)</td></tr><tr><td>リモート接続</td><td><ul><li>VPN(IPsec・TLS-VPN)</li><li>SSH</li></ul></td></tr><tr><td>メール</td><td>STARTTLS等によるSMTP通信の暗号化</td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|OSI層なし">
+                    <th scope="row" class="name">
+                        └ 鍵管理
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>暗号鍵の生成・保管・更新(ローテーション)・失効・廃棄を管理する</li><li>鍵が漏えいすると暗号化の効果が失われる</li><li>データとは別の場所で厳重に保管する</li><li>鍵管理サービス(KMS)や、耐タンパ性を持つ専用装置(HSM)が使われる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>バックアップ</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>データやシステムの複製を別の場所に保管する</li><li>障害・誤操作・ランサムウェア等による被害からの復旧を可能にする</li><li><strong>取得するだけでなく確実に復元できることまで確認して初めて有効な対策となる</strong></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|OSI層なし">
+                    <th scope="row" class="name">
+                        └ 3-2-1ルール
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>バックアップ設計の基本的な考え方<table><thead><tr><th>数字</th><th>内容</th></tr></thead><tbody><tr><td>3</td><td>データを3つ持つ(原本+バックアップ2つ)</td></tr><tr><td>2</td><td>2種類以上の異なる媒体に保存する(例: ディスクとテープ・クラウド)</td></tr><tr><td>1</td><td>1つは遠隔地(オフサイト・クラウド)に保管する</td></tr></tbody></table></li><li>ランサムウェア対策としてさらに、以下を加えた「3-2-1-1-0」という考え方もある<ul><li><strong>1つはオフライン/変更不可とする</strong></li><li><strong>復元テストでエラーが0であることを確認する</strong></li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|OSI層なし">
+                    <th scope="row" class="name">
+                        └ オフライン・イミュータブル保管
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>バックアップ自体の暗号化・削除を、以下により防ぐ<ul><li><strong>ネットワークから切り離した保管(オフライン)</strong></li><li><strong>書き換え・削除ができない設定(イミュータブル)</strong></li></ul></li><li>ネットワークに常時接続したバックアップは、ランサムウェアに原本と一緒に暗号化・削除されるおそれがある</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="データ保護|OSI層なし">
+                    <th scope="row" class="name">
+                        └ 復元テスト
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="データ保護">データ保護</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li><strong>定期的に実際に復元できることを確認する</strong></li><li>以下の指標をあらかじめ定め、バックアップの頻度・方式を決める<table><thead><tr><th>指標</th><th>内容</th></tr></thead><tbody><tr><td>目標復旧時点(RPO)</td><td>どの時点まで戻せるか</td></tr><tr><td>目標復旧時間(RTO)</td><td>いつまでに復旧するか</td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="クラウドセキュリティ|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>CASB</strong><br>(Cloud Access Security Broker)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="クラウドセキュリティ">クラウドセキュリティ</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>クラウドサービスの利用状況を可視化する</li><li>セキュリティポリシーを適用・統制する仕組み</li><li>利用者とクラウドサービスの間に位置する</li><li>以下を行う<ul><li>許可されていないクラウドサービスの利用(シャドーIT)の検出</li><li>機密データのアップロード制限</li><li>不審な操作の検知等</li></ul></li><li><strong>対象</strong>：「利用者によるクラウドサービスの使い方」を統制する</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="クラウドセキュリティ|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>CSPM</strong><br>(Cloud Security Posture Management)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="クラウドセキュリティ">クラウドセキュリティ</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>IaaS/PaaS等のクラウド環境の設定を継続的に監視する</li><li>設定不備(ミスコンフィグレーション)を検出・是正する仕組み</li><li>クラウドでは設定ミスが情報漏えいに直結する</li><li>設定状態を自動でチェックする</li><li>クラウド事業者との責任共有モデルにおいて、利用者側が責任を負う設定部分が対象となる<ul><li>インターネットに公開されたオブジェクトストレージの検出</li><li>過剰な権限、不要な公開ポート、暗号化の無効化、ログ未取得等の検出</li><li>CISベンチマーク等の基準やコンプライアンス要件との照合</li><li>リスクの優先順位付け</li><li>是正手順の提示</li><li>自動修復</li></ul></li><li><strong>対象</strong>：「自組織が構築したクラウド環境の設定状態」を監視する</li><li>ワークロード保護(CWPP)等と統合した「CNAPP」として提供されることも多い</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>SIEM<br>SOAR<br>SCAP<br>XDR</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>ログや検知情報を集約・分析して脅威を早期に発見する</li><li>対応を効率化する仕組み</li><li>各サービスの役割<table><thead><tr><th>サービス</th><th>役割</th></tr></thead><tbody><tr><td>SIEM</td><td>「見つける」</td></tr><tr><td>SOAR</td><td>「自動で対応する」</td></tr><tr><td>SCAP</td><td>「脆弱性・設定不備を標準化された方法で評価する」</td></tr><tr><td>XDR</td><td>「複数レイヤの情報を束ねる」</td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        └ SIEM<br>(Security Information and Event Management)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>各種機器・システム(FW・サーバ・認証基盤・クラウド等)のログを収集・正規化する</li><li>相関分析することでインシデントの早期発見を支援する</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        └ SOAR<br>(Security Orchestration, Automation and Response)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>インシデント対応プロセス(プレイブック)を自動化・オーケストレーションする</li><li>対応の迅速化を図る</li><li>SIEM等のアラートを起点に、以下のような対応を自動で実行する<ul><li>不審なIPアドレスの遮断</li><li>侵害が疑われる端末のネットワーク隔離</li><li>チケットの起票・担当者への通知</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        └ SCAP<br>(Security Content Automation Protocol)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>米国NISTが策定した、脆弱性管理・セキュリティ設定の評価を自動化するための標準仕様群</li><li>共通の識別子・評価基準を用いて、以下を機械的に扱えるようにする<ul><li>脆弱性(CVE / CVSS)</li><li>製品・プラットフォーム(CPE)</li><li>設定項目(CCE)</li><li>チェックリスト・検査手順(XCCDF / OVAL)</li></ul></li><li>脆弱性スキャナや構成管理ツール間で結果を共通の形式でやり取りできる</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        └ XDR<br>(Extended Detection and Response)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>エンドポイント(EDR)、ネットワーク、メール、クラウド、ID等の複数のレイヤの情報を統合・相関分析して脅威を検知・対応する</li><li>個別の製品ごとにバラバラだったアラートを関連付ける</li><li>攻撃の全体像を把握しやすくする</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>サンドボックス<br>ハニーポット</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>隔離された環境で、マルウェアの挙動や攻撃者の手口を観察する</li><li>本番環境に被害を出さない</li><li><strong>どちらも仮想化サーバ上に構築されることが多い</strong><table><thead><tr><th>用語</th><th>特徴</th><th>利用</th></tr></thead><tbody><tr><td><strong>仮想化サーバ</strong></td><td><ul><li>1台の物理サーバ上に複数の仮想マシンを構築する技術</li><li>以下がその上で動くすべての仮想マシンに影響する点に注意が必要<ul><li>ハイパーバイザの脆弱性</li><li>設定不備</li></ul></li></ul></td><td><ul><li><strong>ハニーポットやサンドボックスの実行基盤</strong></li><li>VDIの基盤</li><li>検証環境の迅速な構築・破棄</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        └ サンドボックス
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>疑わしいファイルやプログラムを、本番環境から隔離された仮想環境で実行する</li><li>その挙動を観察して安全性を検証する</li><li>アクセスできるリソースや利用できる機能を制限している<ul><li>ファイルシステム</li><li>レジストリ</li><li>ネットワーク通信等</li></ul></li><li>マルウェアが動作しても本番環境に被害が及ばない</li><li>メールの添付ファイル検査、Web閲覧、エンドポイント等の様々な製品に組み込まれる</li><li>ビヘイビア法(振る舞い検知)の実行環境として利用される</li><li><strong>仮想環境を検知して動作を隠すマルウェアもある</strong></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|OSI層なし">
+                    <th scope="row" class="name">
+                        └ ハニーポット
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>攻撃者を誘引するため、わざと脆弱に見せかけたシステム・機器を設置する</li><li>攻撃の手口や痕跡を観察・収集するための「おとり」</li><li>正規の利用者はアクセスしない</li><li>アクセスがあれば攻撃の可能性が高い</li><li>踏み台にされないよう、業務システムとは切り離して設置する</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="検知・分析基盤|L3 ネットワーク層">
+                    <th scope="row" class="name">
+                        <strong>ダークネット監視</strong>(観測用センサ)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="検知・分析基盤">検知・分析基盤</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>インターネット上で到達可能でありながら実際には利用されていないIPアドレス空間(観測用の意味での「ダークネット」)にセンサを設置する</li><li>そこに届く通信を観測する仕組み</li><li>正規の通信は本来届かない領域</li><li>届いた通信は不正な通信である可能性が高く、攻撃の予兆把握に活用される<ul><li>ワームやボットによる無差別なスキャン(ランダムスキャン)</li><li>バックスキャッター：送信元を詐称したDDoS攻撃の被害ホストが返した応答パケット</li></ul></li><li>※闇市場としての「ダークウェブ」とは異なる用語</li></ul>
+                    </td>
+                    <td>
+                        NICTER(NICT)等
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>脅威インテリジェンス</strong><br>(脅威インテリジェンスサービス)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>以下を収集・提供し、防御に活用する<ul><li><strong>最新の攻撃手法</strong></li><li><strong>攻撃者情報</strong></li><li><strong>IoC(侵害指標)等</strong></li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|OSI層なし">
+                    <th scope="row" class="name">
+                        └ IoC(侵害指標)<br>(Indicator of Compromise)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>システムがマルウェア感染や不正アクセス等の侵害を受けたことを示す痕跡情報<ul><li>不審な通信先のIPアドレス・ドメイン</li><li>ファイルのハッシュ値</li><li>レジストリの変更 等</li></ul></li><li>脅威インテリジェンスサービス等で収集・共有される</li><li>SIEMやEDRでの照合を通じて、侵害の早期検知・対応に活用される</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L1 物理層|L2 データリンク層|L3 ネットワーク層|L4 トランスポート層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>セキュリティ診断</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L1 物理層">L1 物理層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L2 データリンク層">L2 データリンク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>システムの弱点を能動的に検証する</li><li>リスクを可視化するサービス</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|OSI層なし">
+                    <th scope="row" class="name">
+                        └ 脆弱性診断サービス
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>システムやアプリケーションの脆弱性(設定不備・未適用パッチ・実装上の欠陥等)を<strong>網羅的に検査する</strong></li><li>リスクを可視化する</li><li>対象により、以下等に分かれる<ul><li>プラットフォーム診断(OS・ミドルウェア・ネットワーク機器)</li><li>Webアプリケーション診断</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L1 物理層|L2 データリンク層|L3 ネットワーク層|L4 トランスポート層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ ペネトレーションテスト
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L1 物理層">L1 物理層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L2 データリンク層">L2 データリンク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：全層(共通)</li><li>実際の攻撃者の視点でシステムへの侵入を試みる</li><li>セキュリティ上の弱点を実証的に検証する</li><li><strong>目的</strong>：シナリオに沿って「実際に侵入・目的達成(情報の窃取等)ができるか」を検証する</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L1 物理層|L2 データリンク層|L3 ネットワーク層|L4 トランスポート層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ 脆弱性診断(脆弱性スキャナ)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L1 物理層">L1 物理層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L2 データリンク層">L2 データリンク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：全層(共通)</li><li>既知の脆弱性データベース(CVE 等)と照合し、対象システムに既知の脆弱性が存在しないかを網羅的に確認する検査</li><li>外部スキャンと内部スキャンの違い<table><thead><tr><th>項目</th><th>外部スキャン</th><th>内部スキャン</th></tr></thead><tbody><tr><td>実施位置</td><td>インターネット側(攻撃者と同じ視点)</td><td>社内ネットワーク内、またはホスト上</td></tr><tr><td>主な目的</td><td>外部に公開されている攻撃面の確認</td><td>内部に潜む脆弱性の網羅的な洗い出し</td></tr><tr><td>主な検査対象</td><td><ul><li>Webサーバー</li><li>VPN</li><li>メールサーバー</li><li>公開ポート・サービス</li></ul></td><td><ul><li>社内サーバー</li><li>クライアントPC</li><li>ネットワーク機器</li><li>パッチ未適用のOS・ミドルウェア</li></ul></td></tr><tr><td>認証</td><td>通常は認証なし</td><td>認証あり(エージェント型・認証付きスキャン)が可能</td></tr><tr><td>検出できるもの</td><td><ul><li>公開サービスの既知の脆弱性</li><li>不要な開放ポート</li></ul></td><td><ul><li>パッチ適用状況</li><li>ソフトウェア一覧</li><li>設定不備</li></ul></td></tr><tr><td>想定する脅威</td><td>外部からの侵入</td><td><ul><li>侵入後の横展開</li><li>内部不正</li></ul></td></tr></tbody></table></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ iLogScanner
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>IPA(情報処理推進機構)が無償提供するツール</li><li>Webサーバのアクセスログ・エラーログを解析し、SQLインジェクションやディレクトリトラバーサル等、既知の攻撃パターンによる被害の痕跡がないかを検出する</li></ul>
+                    </td>
+                    <td>
+                        IPA提供
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ ソースコード診断<br>(静的解析 / SAST)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>プログラムを実行せずソースコードを解析し、脆弱性の原因となるコーディング上の欠陥を検出する手法</li></ul>
+                    </td>
+                    <td>
+                        SonarQube
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ Webアプリケーション診断<br>(動的解析 / DAST)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>実際にアプリケーションを動作させ、外部からリクエストを送って脆弱性(SQLインジェクション、XSS 等)を検出する手法</li></ul>
+                    </td>
+                    <td>
+                        OWASP ZAP
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ アプリケーション診断
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>Webアプリケーション等、ソフトウェア固有のロジックや実装に起因する脆弱性(SQLインジェクション、認可不備等)を確認する診断</li></ul>
+                    </td>
+                    <td>
+                        OWASP ZAP等
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        └ ファジング
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>想定外の値・不正な形式のデータ(ファズ)を大量に入力し、ソフトウェアの異常終了や未知の脆弱性を検出する手法</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L3 ネットワーク層">
+                    <th scope="row" class="name">
+                        └ ポートスキャナ
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：ネットワーク層</li><li>対象ホストの各ポートに接続要求を送り、開いているポート(稼働しているサービス)を洗い出すツール</li></ul>
+                    </td>
+                    <td>
+                        Nmap
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L3 ネットワーク層">
+                    <th scope="row" class="name">
+                        └ ネットワーク診断
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：ネットワーク層</li><li>ネットワーク機器やサーバOSを対象に、既知の脆弱性の有無を確認する診断</li></ul>
+                    </td>
+                    <td>
+                        Nessus等
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|OSI層なし">
+                    <th scope="row" class="name">
+                        └ プラットフォーム診断
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：エンドポイント層</li><li>サーバのOS・ミドルウェアの設定やパッチ適用状況を確認する診断</li></ul>
+                    </td>
+                    <td>
+                        Nessus等
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|OSI層なし">
+                    <th scope="row" class="name">
+                        └ 構成管理監査<br>(コンフィグレーションチェック)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：エンドポイント層</li><li>OS・ミドルウェアの設定値がセキュリティ基準(ベースライン)に適合しているかを確認する検査</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|OSI層なし">
+                    <th scope="row" class="name">
+                        └ リバースエンジニアリング
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：エンドポイント層</li><li>ソフトウェアを解析し、ソースコードや設計情報がない状態から内部構造・動作原理・アルゴリズムを明らかにする手法</li><li>マルウェア解析や脆弱性調査等に利用される</li><li>※知的財産権の侵害に注意</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>逆コンパイラ</li><li>コールグラフ</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L1 物理層|L2 データリンク層|L3 ネットワーク層|L4 トランスポート層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        <strong>能動的サイバー防御<br>(アクティブ・サイバー・ディフェンス)</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L1 物理層">L1 物理層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L2 データリンク層">L2 データリンク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：全層</li><li>被害が生じる前の段階から脅威を監視・探知し、攻撃の阻止や無害化といった措置を講じる防御の考え方</li><li>侵入後の対処が中心の受動的な防御に対し、攻撃を未然に防ぐことを狙う</li><li>検査対象<ul><li>自組織内</li><li>攻撃者のインフラ(C2サーバ・踏み台など)</li><li>官民で共有する通信情報</li></ul></li><li>日本では官民連携による情報共有、通信情報の分析、攻撃元サーバ等への必要な措置を柱に法制化が進められている</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L3 ネットワーク層|L4 トランスポート層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ シグネチャ検査
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：ネットワーク層〜アプリケーション層</li><li>ネットワークパケットを検査対象とする</li><li>既知の攻撃パターン(シグネチャ)と照合する</li><li>一致した通信を検知・遮断する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Snort</li><li>Suricata</li><li>各社IPS</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L3 ネットワーク層|L4 トランスポート層">
+                    <th scope="row" class="name">
+                        ┗ アノマリ(振る舞い)検知
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：ネットワーク層〜トランスポート層</li><li>ネットワークトラフィック全体を検査対象とする</li><li>平常時の通信の振る舞いを学習する</li><li>通信量・宛先などの逸脱を検知する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Darktrace</li><li>Vectra AI</li><li>その他NDR製品</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ エンドポイント検査
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>端末のプロセス・ファイル・レジストリ・メモリを常時監視する</li><li>不審な挙動を検知する</li><li>隔離・調査を行う</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>CrowdStrike Falcon</li><li>Microsoft Defender for Endpoint</li><li>その他EDR製品</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ サンドボックス検査
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>メール添付ファイル・ダウンロードファイル・URLを検査対象とする</li><li>隔離された仮想環境で実行する</li><li>マルウェア特有の挙動を解析する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>FireEye (Trellix)</li><li>Palo Alto WildFire</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ ログ相関分析
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>サーバ・FW・認証基盤などの各種ログを集約する</li><li>複数のログを相関分析する</li><li>攻撃の予兆や侵入の痕跡を検知する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Splunk</li><li>Microsoft Sentinel</li><li>Elastic Security</li><li>その他SIEM製品</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L3 ネットワーク層|L4 トランスポート層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ デセプション(おとり)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：ネットワーク層〜アプリケーション層</li><li>おとりのサーバ・端末・認証情報を配置する</li><li>接触した攻撃者の手口を把握する</li><li>侵入経路を把握する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Cowrie・T-Potなどのハニーポット</li><li>SentinelOne Singularity Hologram</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L3 ネットワーク層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ 脅威インテリジェンス照合
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所<ul><li>ネットワーク層(IP)</li><li>アプリケーション層(ドメイン・ハッシュ)</li></ul></li><li>通信先IP・ドメイン・ファイルハッシュ(IoC)を照合する</li><li>既知の悪性IoCと自組織の通信・ログを突き合わせる</li><li>侵害の有無を確認する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>MISP</li><li>Recorded Future</li><li>Mandiant Threat Intelligence</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ DNS検査
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>DNSクエリ・応答を検査対象とする</li><li>悪性ドメインや不審な名前解決(C2通信・DGAなど)を検知する</li><li>該当する通信をブロックする</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Cisco Umbrella</li><li>Cloudflare Gateway</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ メール検査
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>メール本文・ヘッダ・添付・URLを検査対象とする</li><li>フィッシングや標的型攻撃メールを検知する</li><li>該当するメールを隔離する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Proofpoint</li><li>Microsoft Defender for Office 365</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ Webアプリケーション検査
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>HTTP/HTTPSリクエスト・レスポンスを検査対象とする</li><li>SQLインジェクションやXSSなどのWeb攻撃を検知する</li><li>該当する通信を遮断する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>AWS WAF</li><li>Cloudflare WAF</li><li>ModSecurity</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L3 ネットワーク層|L4 トランスポート層|L5 セッション層|L6 プレゼンテーション層|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ 脅威ハンティング
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L3 ネットワーク層">L3 ネットワーク層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L4 トランスポート層">L4 トランスポート層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L5 セッション層">L5 セッション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L6 プレゼンテーション層">L6 プレゼンテーション層</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：ネットワーク層〜アプリケーション層</li><li>端末・ネットワーク・クラウド全域を検査対象とする</li><li>仮説に基づいて能動的に探索する</li><li>検知をすり抜けた潜伏中の脅威を発見する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Velociraptor</li><li>OSquery</li><li>各社XDR</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="脅威情報・診断|L7 アプリケーション層">
+                    <th scope="row" class="name">
+                        ┗ ユーザ行動分析(UEBA)
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="脅威情報・診断">脅威情報・診断</button><button type="button" class="tag badge text-bg-secondary" data-tag="L7 アプリケーション層">L7 アプリケーション層</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>検査箇所：アプリケーション層</li><li>認証ログ・アクセス履歴を検査対象とする</li><li>ユーザや機器の通常行動との差異を分析する</li><li>内部不正やアカウント侵害を検知する</li></ul>
+                    </td>
+                    <td>
+                        <ul><li>Exabeam</li><li>Microsoft Entra ID Protection</li></ul>
+                    </td>
+                </tr>
+                <tr data-tags="物理的対策|OSI層なし">
+                    <th scope="row" class="name">
+                        <strong>物理的対策</strong>
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="物理的対策">物理的対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>設備・入退室・機器の物理的な管理による対策</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="物理的対策|OSI層なし">
+                    <th scope="row" class="name">
+                        └ 監視カメラ
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="物理的対策">物理的対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>執務エリアやサーバルーム等にカメラを設置する</li><li>不正な操作や情報の持ち出しを記録・抑止する</li><li>映像が証跡になる</li><li>「見られている」ことによる抑止効果もある</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="物理的対策|OSI層なし">
+                    <th scope="row" class="name">
+                        └ USBポートロック
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="物理的対策">物理的対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>USBポートを物理的に塞ぐ(ポートロック用のキャップや金具等)</li><li>許可されていない外部記憶媒体の接続、<strong>情報の持ち出しやマルウェアの侵入</strong>を防止する</li><li>端末のソフトウェアで制御する方法は「エンドポイント防御」のデバイス制御を参照</li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+                <tr data-tags="物理的対策|OSI層なし">
+                    <th scope="row" class="name">
+                        └ ピギーバック(共連れ)対策
+                        <div class="tags">
+                            <button type="button" class="tag badge text-bg-secondary" data-tag="物理的対策">物理的対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="OSI層なし">OSI層なし</button>
+                        </div>
+                    </th>
+                    <td>
+                        <ul><li>認証済みの正規利用者に付いて未認証の者が入退室してしまう「ピギーバック」を防ぐ(テールゲーティングとほぼ同義で用いられる)<ul><li>1人ずつ入退室する運用の徹底(1人1認証)</li><li>アンチパスバック機構<ul><li>入退室の履歴を管理する</li><li>入室記録のないカードによる退室、退室記録のないカードによる再入室を拒否する</li></ul></li><li>1人ずつしか通れないセキュリティゲートの設置</li><li>警備員による目視確認</li><li>監視カメラによる記録</li></ul></li></ul>
+                    </td>
+                    <td>
+                        <span class="text-body-tertiary">—</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

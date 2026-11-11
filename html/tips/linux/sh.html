@@ -197,7 +197,82 @@ LOG_FAIL(){
     DISP_STR "$(FG_RGB 204 51 0)" "${BG_BLACK}"
     LOG "${name}" "${state}" "${action}" "${detail}" "${headerSize}"
     DISP_STR "${RESET}"
-}</code></pre>
+}
+
+# ===== フールプルーフ =====
+BLOCKED_COMMANDS=("chmod" "chown" "rm")
+BLOCKED_DIRS=("/")
+ROOT_CHILD_LIMIT=3
+
+_guard_check() {
+    local cmd_name
+    cmd_name="$(basename -- "$1")"
+    shift
+
+    local blocked=1 c
+    for c in "${BLOCKED_COMMANDS[@]}"; do
+        [[ "$cmd_name" == "$c" ]] && blocked=0
+    done
+    (( blocked == 0 )) || return 0
+
+    local arg resolved bd parent
+    local end_opts=0 root_children=0
+
+    for arg in "$@"; do
+        if [[ "$arg" == "--no-preserve-root" ]]; then
+            echo "[Reject] --no-preserve-root は使用禁止 ($cmd_name)" >&2
+            return 1
+        fi
+        if (( end_opts == 0 )); then
+            [[ "$arg" == "--" ]] && { end_opts=1; continue; }
+            [[ "$arg" == -* ]] && continue
+        fi
+
+        # 存在しないパスも正規化できるよう -m を使う (GNU coreutils)
+        resolved="$(realpath -m -- "$arg" 2>/dev/null)" || continue
+
+        for bd in "${BLOCKED_DIRS[@]}"; do
+            if [[ "$resolved" == "$bd" ]]; then
+                echo "[Reject] '$arg' は '$bd' に解決されます (pwd=$PWD, cmd=$cmd_name)" >&2
+                return 1
+            fi
+        done
+
+        # `/*` はシェルが展開してから渡されるため、/ 直下が大量に並ぶ形で検出する
+        parent="$(dirname -- "$resolved")"
+        if [[ "$parent" == "/" && "$resolved" != "/" && -d "$resolved" ]]; then
+            root_children=$((root_children + 1))
+        fi
+    done
+
+    if (( root_children >= ROOT_CHILD_LIMIT )); then
+        echo "[Reject] '/' 直下のディレクトリが ${root_children} 個指定されています (/* 展開の疑い, cmd=$cmd_name)" >&2
+        return 1
+    fi
+    return 0
+}
+
+sudo() {
+    local args=("$@") i=0
+    while (( i &lt; ${#args[@]} )); do
+        case "${args[i]}" in
+            -u|-g|-C|-D|-h|-p|-R|-r|-T|-t|-U) i=$((i + 2)) ;;
+            -*) i=$((i + 1)) ;;
+            *) break ;;
+        esac
+    done
+    if (( i &lt; ${#args[@]} )); then
+        _guard_check "${args[@]:i}" || return 1
+    fi
+    command sudo "$@"
+}
+
+for _guard_cmd in "${BLOCKED_COMMANDS[@]}"; do
+    eval "${_guard_cmd}() { _guard_check ${_guard_cmd} \"\$@\" || return 1; command ${_guard_cmd} \"\$@\"; }"
+done
+unset _guard_cmd
+
+</code></pre>
                             </p>
 
                             

@@ -269,7 +269,7 @@ stub["スタブリゾルバ<br>(端末)"]
                             -->
                             <img src="/img/server/dns.svg" width = "100%"/>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped align-middle">
+                                <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-nowrap">用語</th>
@@ -290,7 +290,7 @@ stub["スタブリゾルバ<br>(端末)"]
                                             <td class="text-center">✕</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">
+                                            <th scope="row" class ="text-nowrap">
                                                 スタブリゾルバ<br>
                                                 リゾルバ(クライアント側)
                                             </th>
@@ -313,7 +313,7 @@ stub["スタブリゾルバ<br>(端末)"]
                                             <td class="text-center">✕</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">
+                                            <th scope="row" class ="text-nowrap">
                                                 キャッシュサーバ<br>
                                                 フルサービスリゾルバ<br>
                                                 再帰サーバ<br>
@@ -339,7 +339,7 @@ stub["スタブリゾルバ<br>(端末)"]
                                             <td class="text-center">✕</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">
+                                            <th scope="row" class ="text-nowrap">
                                                 ゾーンサーバ<br>
                                                 コンテンツサーバ<br>
                                                 権威DNSサーバ<br>
@@ -360,7 +360,7 @@ stub["スタブリゾルバ<br>(端末)"]
                                 DNSレコード
                             </h2>
                             <div class="table-responsive">
-                                <table class="table table-bordered table-sm align-middle">
+                                <table class="table table-bordered table-sm">
                                     <thead>
                                         <tr>
                                             <th>レコード</th>
@@ -382,8 +382,7 @@ stub["スタブリゾルバ<br>(端末)"]
                                             <td class="text-nowrap">IPv4アドレス(32bit)</td>
                                             <td>同一名に複数登録するとDNSラウンドロビンになる</td>
                                             <td class="text-nowrap">ホスト名からIPv4アドレスへの正引き</td>
-                                            <td>
-                                                <pre><code>www 3600 IN A 192.0.2.1</code></pre></td>
+                                            <td><pre><code>www 3600 IN A 192.0.2.1</code></pre></td>
                                         </tr>
                                     </tbody>
                                 
@@ -608,7 +607,11 @@ stub["スタブリゾルバ<br>(端末)"]
                                         </tr>
                                         <tr>
                                             <td>DKIM</td>
-                                            <td>電子署名を検証する公開鍵(<code>セレクタ._domainkey</code> に設定)</td>
+                                            <td class="text-nowrap">
+                                                電子署名を検証する公開鍵<br>
+                                                <code>[セレクタ]._domainkey</code> に設定<br>
+                                                ホスト名 : <code>[セレクタ]._domainkey.[ゾーン名]</code>
+                                            </td>
                                             <td><pre><code>sel1._domainkey IN TXT "v=DKIM1; k=rsa; p=MIGf..."</code></pre></td>
                                         </tr>
                                         <tr>
