@@ -7,7 +7,7 @@
  *
  * | 順序 | 処理 | 適用条件 |
  * |------|------|----------|
- * | 1 | `overflow: visible` / フォント / 字間 / `fontSize` の補正 | `targetFonts` のいずれも端末に無い場合のみ |
+ * | 1 | `overflow: visible` / フォント / 字間 / `fontSize` / プロポーショナル字詰め (`palt`) の補正 | `targetFonts` のいずれも端末に無い場合のみ |
  * | 2 | 1 でも枠からはみ出すラベルのフォントを個別に縮小 | 1 を適用した場合のみ |
  * | 3 | `scrollable` が `false` なら画面幅に合わせて縮小、`true` なら本来のサイズで親を横スクロール化 | 常に適用 |
  *
@@ -47,8 +47,8 @@ class FixSvgOverflow {
      * | 引数 | 型 | 既定値 | 説明 |
      * |------|----|--------|------|
      * | `className` | `string` | `'svgclass'` | 対象 `<object>` のクラス名 |
-     * | `fontSize` | `string` | `'88%'` | 補正時の基本フォントサイズ (元サイズに対する割合) |
-     * | `letterSpacing` | `string` | `'-0.05em'` | 補正時の字間 |
+     * | `fontSize` | `string` | `'75%'` | 補正時の基本フォントサイズ (元サイズに対する割合) |
+     * | `letterSpacing` | `string` | `'-0.1em'` | 補正時の字間 |
      * | `targetFonts` | `string[]` | `['HGPGothicE', 'HGPゴシックE']` | 判定対象のフォント名 (どれか1つでもあれば補正しない) |
      * | `scrollable` | `boolean` | `false` | `true` なら本来のサイズで横スクロール(overflow-x-auto必要)、`false` なら画面幅に合わせて縮小 |
      */
@@ -167,7 +167,7 @@ class FixSvgOverflow {
             range.selectNodeContents(label);
             const textWidth = range.getBoundingClientRect().width;
 
-            // 収まっていれば何もしない (誤差 0.5px は許容)
+            // 収まっていれば何もしない (誤差 0.2px は許容)
             if (boxWidth <= 0 || textWidth <= boxWidth + 0.2) return;
 
             const current = parseFloat(view.getComputedStyle(label).fontSize);
@@ -215,6 +215,9 @@ class FixSvgOverflow {
                 text, foreignObject div, foreignObject span, .nodeLabel, .label {
                     font-family: "HGPGothicE", "Roboto Condensed", "Noto Sans JP", sans-serif !important;
                     letter-spacing: ${this.letterSpacing} !important;
+                    /* 仮名・記号の幅を詰める (HGP = プロポーショナルフォントに近づける) */
+                    font-feature-settings: "palt" 1 !important;
+                    font-kerning: normal !important;
                 }
                 text, foreignObject > div {
                     font-size: ${this.fontSize} !important;
