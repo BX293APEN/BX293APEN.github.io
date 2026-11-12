@@ -94,11 +94,15 @@ class MermaidUML{
  * |------|------|--------|------|
  * | `draw()` | なし | `Promise<void>` | 対象要素を順に UML へ変換する |
  * | `redraw()` | なし | `Promise<void>` | 要素を再検索し、保存済みソースから描き直す |
+ * | `uniqueMarkers(el)` | `HTMLElement` | `void` | 描いた図の矢印の先端(`<marker>`)の ID を、図ごとに重複しないよう付け替える |
  *
  * ## 補足
  *
  * - 元の文字列は `data-mermaid-src` 属性に保存される
  * - 対象 class に `mermaid` は使わないこと(`startOnLoad` による自動処理と競合する)
+ * - Mermaid のバージョンによっては、シーケンス図の矢印の先端(`arrowhead` など)の ID が全図で同じになる。
+ *   ID が重複すると、最初の図が `display: none`(絞り込みで行を隠す等)になったとき、他の図の矢印の先端も消える。
+ *   そのため描画のたびに `uniqueMarkers` で ID を図ごとに付け替える
  *
  * ## 使用例
  *
@@ -111,6 +115,8 @@ class MermaidUML{
  * ```
  */
 class MermaidUMLByClass{
+    static svgSeq = 0;   // marker の ID の接頭辞に使う通し番号(インスタンスをまたいで重複させない)
+
     constructor (
         {
             className = "mermaid-src",
@@ -148,6 +154,7 @@ class MermaidUMLByClass{
                 } else {
                     mermaid.init(undefined, el);          // Mermaid v9 以前
                 }
+                this.uniqueMarkers(el);
             } catch (err) {
                 // 失敗した要素は元の文字列に戻して続行
                 console.error("Mermaid の変換に失敗しました:", err, el);
@@ -159,6 +166,27 @@ class MermaidUMLByClass{
 
     redraw(){
         return this.draw();
+    }
+
+    uniqueMarkers(el){
+        el.querySelectorAll("svg").forEach((svg) => {
+            const markers = svg.querySelectorAll("marker[id]");
+            if (!markers.length) return;
+            const prefix = `uml${++MermaidUMLByClass.svgSeq}-`;
+            const ids    = new Map([...markers].map((m) => [m.id, prefix + m.id]));
+            const rename = (s) => s.replace(
+                /url\(\s*(['"]?)#([^'")\s]+)\1\s*\)/g,
+                (all, q, id) => ids.has(id) ? `url(${q}#${ids.get(id)}${q})` : all
+            );
+            svg.querySelectorAll("*").forEach((node) => {
+                ["marker-start", "marker-mid", "marker-end", "style"].forEach((a) => {
+                    const v = node.getAttribute(a);
+                    if (v && v.includes("url(")) node.setAttribute(a, rename(v));
+                });
+                if (node.tagName.toLowerCase() === "style") node.textContent = rename(node.textContent);
+            });
+            markers.forEach((m) => { m.id = ids.get(m.id); });
+        });
     }
 }
 
