@@ -185,11 +185,11 @@ class FixSvgOverflow {
 
                 // 負の字間は最後の文字の後ろにも掛かるため、字形は測った幅より右にはみ出す。
                 // その分を幅に足す (computed の letter-spacing はユーザー単位の px)
-                const spacing = parseFloat(view.getComputedStyle(label).letterSpacing) * 1.5;
+                const spacing = parseFloat(view.getComputedStyle(label).letterSpacing);
                 const overhang = spacing < 0 ? -spacing : 0;
 
                 return {
-                    w: range.getBoundingClientRect().width / scale + overhang,
+                    w: range.getBoundingClientRect().width / scale + overhang * 1.5,
                     h: label.getBoundingClientRect().height / scale,
                 };
             };
