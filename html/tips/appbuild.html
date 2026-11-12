@@ -223,8 +223,8 @@ flowchart LR
 -->
 
 
-<div class="w-100 pt-4 mb-3">
-    <object type="image/svg+xml" data="/img/appbuild/slcp.svg" class="svgclass w-100"></object>
+<div class="w-100 pt-4 mb-3 overflow-x-auto">
+    <object type="image/svg+xml" data="/img/appbuild/slcp.svg" class="svgclass-sc w-100"></object>
 </div>
 
 | 用語 | 内容 |
@@ -1002,7 +1002,8 @@ flowchart LR
                 'load', () => {
                     setTimeout(
                         () => {
-                            new FixSvgOverflow('svgclass', "10px");
+                            new FixSvgOverflow('svgclass');
+                            new FixSvgOverflow('svgclass-sc', "true");
                         },
                         300
                     );
