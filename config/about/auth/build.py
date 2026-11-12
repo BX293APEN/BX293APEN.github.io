@@ -11,8 +11,11 @@ class AuthMD2HTML:
     | `load_words` | タグの定義(別名・認証要素・用途・トピック)を読み込む |
     | `split_cells` | 表の1行を、セルのリストに分ける(`\\|` は区切りにしない) |
     | `parse` | Markdown の表を行データに変換する |
-    | `category_tags` | 「分類」列から、分類タグを作る(列そのものは表示しない) |
+    | `category_paths` | 「分類」列を、分類の経路(`大分類 > 分類`)のリストにする |
+    | `class_tree` | 全行の経路から、大分類ごとの分類の一覧(木)を作り、タグ名の衝突を調べる |
     | `tags_of` | 行ごとにタグを決める |
+    | `is_child` | 名前が `└` で始まる(子の行)かを判定する |
+    | `inherit` | 子の行のタグを、親の行に足す |
     | `md_inline` | セル内に残った Markdown の強調(`**…**`)を `<strong>` にする |
     | `fit_tables` | セルの中の `<table>` を、列幅・見出しの固定が崩れないように整える |
     | `mermaid_body` | `mermaid-source` の中身から、mermaid の本文を取り出す(`<br>` を改行に戻す) |
@@ -22,7 +25,8 @@ class AuthMD2HTML:
     | `mermaid_init` | mermaid の先頭に付ける `%%{init: …}%%` を作る |
     | `flow_html` | 「認証手順」セルの HTML(整えた図 + 手順表)を作る |
     | `row_html` | 1行分の `<tr>` を作る |
-    | `group` | 上部のタグボタン群を作る |
+    | `group` | 上部のタグボタン群(認証要素・用途)を作る |
+    | `class_group` | 上部の分類ボタン群を、大分類ごとの行にして作る |
     | `build` | HTML 全体を組み立てて文字列で返す |
     | `save_html` | HTML の断片を書き出す |
     | `save_css` | CSS を書き出す |
@@ -35,12 +39,31 @@ class AuthMD2HTML:
     | 列 | 内容 | 変換後 |
     |---|---|---|
     | 1 認証技術 | 名前 | 固定列。名前の下にタグ(バッジ)を並べる |
-    | 2 分類 | `主分類<br>(補足)` | **表示しない**。主分類と補足の両方を、タグにする |
+    | 2 分類 | `大分類 > 分類`(書式は下の表) | **表示しない**。経路の全要素を、タグにする |
     | 3 概要 | HTML | そのまま |
     | 4 認証手順 | `<div class="mermaid-source">…</div>` + `<table>…</table>` | 図(mermaid)を整える + 手順表はそのまま |
     | 5 メリット | HTML | そのまま |
     | 6 デメリット | HTML | そのまま |
     | 7 主な用途 | HTML | そのまま |
+
+    ## 分類列の決まり
+
+    | 決まり | 内容 |
+    |---|---|
+    | 経路 | `大分類 > 分類` のように ` > ` で区切る。左ほど大きい分類。3段以上も可 |
+    | 複数の経路 | 1行に複数あるときは `<br>` で区切る(例 : PAP は「パスワード系」と「ネットワーク接続のプロトコル」の両方) |
+    | タグ | 経路の全要素がタグになる。大分類を選ぶと、その下の分類の行もすべて残る |
+    | 名前 | 1件だけの分類でも上部に出す。単独で意味が分かる名前にする(`実現方式` `総称` のような補足語だけにしない) |
+    | 重複 | 同じ名前を、別の大分類の下や、認証要素・用途のタグ名と重ねるとエラー |
+    | 空 | 分類が空の行はエラー |
+
+    ## 親子の行(`└`)の決まり
+
+    | 決まり | 内容 |
+    |---|---|
+    | 親 | 直前の、名前が `└` で始まらない行 |
+    | タグの引き継ぎ | 子のタグを、親にも付ける(子で絞り込んだとき、親の行も残る) |
+    | 見た目 | 子から引き継いだタグは、破線のバッジで表示する(親自身のタグと区別する) |
 
     ## 認証手順セルの決まり
 
@@ -59,6 +82,8 @@ class AuthMD2HTML:
     CSS = "auth-style.css"   # 出力する CSS のファイル名(確認用ページも読み込む)
     JS = "auth-script.js"    # 出力する JavaScript のファイル名(確認用ページも読み込む)
     COLS = 7                 # Markdown の表の列数
+    CLASS_SEP = ">"          # 「分類」列の経路の区切り(`大分類 > 分類`)
+    CHILD_MARK = "└"         # 子の行の名前の先頭につく印
     MERMAID_SRC = re.compile(r'<div class="mermaid-source">(.*?)</div>', re.S)  # 「認証手順」セルの図
 
     # ## mermaid の見た目の設定(`%%{init: …}%%` として、全図の先頭に付ける)
@@ -168,28 +193,14 @@ class AuthMD2HTML:
         | 設定する属性 | 型 | 説明 |
         |---|---|---|
         | `self.groups` | `tuple[str, ...]` | タグの系統名。上部のボタン群・行のタグは、この順に並ぶ |
-        | `self.alias` | `dict[str, str]` | 分類タグの別名 → 正式名(表記ゆれをそろえる) |
         | `self.factor` | `dict[str, str]` | 認証要素タグ名 → 認証技術名にマッチする正規表現 |
         | `self.use` | `dict[str, str]` | 用途タグ名 → 「主な用途」列にマッチする正規表現 |
-        | `self.topic` | `dict[str, str]` | トピックタグ名 → 認証技術名にマッチする正規表現 |
-        | `self.min_count` | `int` | 分類タグを上部のボタンに出す最小件数(これ未満は、行のタグとして表示するだけ) |
         | `self.prev` | `str` | 確認用ページのひな形 |
-        """
-        GROUPS = ("分類", "認証要素", "用途", "トピック")
 
-        # ## 分類タグの別名
-        # 「分類」列の語を、タグにするときの表記ゆれの補正。
-        #
-        # | キー(列の語) | 値(タグ名) | 理由 |
-        # |---|---|---|
-        # | `AAA認証・認可・課金` | `AAA` | `<br>` で折り返した括弧内を短くする |
-        # | `パスワードを使わない認証` | `パスワードレス認証` | 同じ意味の分類を1つにまとめる |
-        # | `パスワードレス` | `パスワードレス認証` | 同上 |
-        ALIAS = {
-            "AAA認証・認可・課金": "AAA",
-            "パスワードを使わない認証": "パスワードレス認証",
-            "パスワードレス": "パスワードレス認証",
-        }
+        「分類」のタグは、ここでは定義しない。`auth.md` の「分類」列に書いたものが、そのままタグになる
+        (`category_paths` を参照)。
+        """
+        GROUPS = ("分類", "認証要素", "用途")
 
         # ## 認証要素タグ(認証技術名にマッチすれば付与)
         #
@@ -220,22 +231,6 @@ class AuthMD2HTML:
             "入退室・施設": r"入退室|勤怠|空港|入出国|高セキュリティ施設",
         }
 
-        # ## トピックタグ(認証技術名にマッチすれば付与)
-        #
-        # | キー | 値 |
-        # |---|---|
-        # | タグ名 | 認証技術名にマッチする正規表現 |
-        TOPIC = {
-            "チャレンジレスポンス": r"チャレンジ|CHAP",
-            "署名・証跡": r"署名|タイムスタンプ",
-            "MAC": r"MAC",
-            "FIDO": r"FIDO|WebAuthn|パスキー|CTAP",
-            "OTP": r"ワンタイム|OTP|セキュリティトークン",
-            "リスク判定・継続的認証": r"リスクベース|継続的|UEBA|行動認証|3Dセキュア",
-            "SSO・ID連携": r"SSO|シングルサインオン|SAML|OAuth|OpenID|PKCE|JWT|Kerberos|フェデレーション",
-            "OAuth・OIDC系": r"OAuth|PKCE|OpenID|JWT",
-        }
-
         PREVIEW = """<!doctype html>
 <html lang="ja">
 <head>
@@ -257,9 +252,8 @@ mermaid.run({ querySelector: '.mermaid-source' });
 </body>
 </html>
 """
-        self.groups, self.alias, self.factor, self.use, self.topic, self.prev = GROUPS, ALIAS, FACTOR, USE, TOPIC, PREVIEW
-        self.min_count = 2
-        names = [n for d in (FACTOR, USE, TOPIC) for n in d]
+        self.groups, self.factor, self.use, self.prev = GROUPS, FACTOR, USE, PREVIEW
+        names = [n for d in (FACTOR, USE) for n in d]
         assert len(names) == len(set(names)), "タグ名が系統をまたいで重複しています"
 
     @staticmethod
@@ -315,57 +309,153 @@ mermaid.run({ querySelector: '.mermaid-source' });
                 rows.append((no, cells))
         return rows
 
-    def category_tags(self, cell):
+    def category_paths(self, name, cell):
         """
-        ## 「分類」列から分類タグを作る
+        ## 「分類」列を、分類の経路のリストにする
 
-        `主分類<br>(補足)` の形式を、主分類・補足の2つのタグにする。
-        補足がない場合は主分類だけ。`<br>` で折り返された括弧も1つにつなげる。
+        経路の中は `>` で区切り、左ほど大きい分類になる。
+        1行に複数の経路を書くときは `<br>` で区切る。
 
-        | 元のセル | タグ |
+        | 元のセル | 経路 |
         |---|---|
-        | `生体認証<br>(身体的特徴)` | `生体認証` `身体的特徴` |
-        | `総称<br>(生体認証)` | `総称` `生体認証` |
-        | `XML署名の形式` | `XML署名の形式` |
-        | `プロトコル<br>(AAA<br>認証・認可・課金)` | `プロトコル` `AAA`(別名で補正) |
+        | `シングルサインオン(SSO) > エージェント型SSO` | `[["シングルサインオン(SSO)", "エージェント型SSO"]]` |
+        | `生体認証(バイオメトリクス)` | `[["生体認証(バイオメトリクス)"]]` |
+        | `A > B<br>C > D` | `[["A", "B"], ["C", "D"]]` |
 
         | 引数 | 型 | 説明 |
         |---|---|---|
+        | `name` | `str` | 認証技術名(エラーメッセージ用) |
         | `cell` | `str` | 「分類」列のセル |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | タグのリスト | `list[str]` | 重複なし・別名補正済み |
-        """
-        s = self.plain(re.sub(r"<br\s*/?>", "", cell))
-        m = re.match(r"^(.*?)\s*[(\uff08](.*)[)\uff09]$", s)
-        words = [m.group(1), m.group(2)] if m else [s]
-        tags = []
-        for w in words:
-            w = self.alias.get(w.strip(), w.strip())
-            if w and w not in tags:
-                tags.append(w)
-        return tags
+        | 経路のリスト | `list[list[str]]` | 1つの経路は、大きい分類から順の分類名のリスト |
 
-    def tags_of(self, cells):
+        | 例外 | 条件 |
+        |---|---|
+        | `ValueError` | 分類が空、または経路の中に空の名前がある |
+        """
+        paths = []
+        for part in re.split(r"<br\s*/?>", cell):
+            s = self.plain(part)
+            if not s:
+                continue
+            path = [w.strip() for w in s.split(self.CLASS_SEP)]
+            if not all(path):
+                raise ValueError(f"{name}: 「分類」列の経路 {s!r} に空の名前があります")
+            paths.append(path)
+        if not paths:
+            raise ValueError(f"{name}: 「分類」列が空です")
+        return paths
+
+    def class_tree(self, all_paths):
+        """
+        ## 全行の経路から、大分類ごとの分類の一覧(木)を作る
+
+        同じ名前が、次のように重なっているとエラーにする。
+        1件だけでも上部のボタンに出すため、件数による足切りはしない。
+
+        | 重なり | 理由 |
+        |---|---|
+        | 別の大分類の下に同じ名前の分類がある | 1つのタグが2か所に出て、どちらか分からなくなる |
+        | 大分類と、別の大分類の下の分類が同じ名前 | 同上 |
+        | 認証要素・用途のタグ名と同じ | 系統をまたいで同じタグ名になる |
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `all_paths` | `list[list[list[str]]]` | 行ごとの経路のリスト(`category_paths` の結果) |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 木 | `dict[str, list[str]]` | 大分類名 → その下の分類名。どちらも初めて出てきた順 |
+
+        | 例外 | 条件 |
+        |---|---|
+        | `ValueError` | 上の表の重なりがある |
+        """
+        tree, owner = {}, {}
+        for paths in all_paths:
+            for path in paths:
+                top = path[0]
+                tree.setdefault(top, [])
+                for t in path:
+                    if owner.setdefault(t, top) != top:
+                        raise ValueError(f"分類タグ {t!r} が、{owner[t]!r} と {top!r} の両方に使われています")
+                tree[top] += [t for t in path[1:] if t not in tree[top]]
+        clash = sorted(set(owner) & (set(self.factor) | set(self.use)))
+        if clash:
+            raise ValueError(f"分類タグが、認証要素・用途のタグ名と重なっています: {clash}")
+        return tree
+
+    def tags_of(self, cells, paths):
         """
         ## 行のタグを系統ごとに返す
 
         | 引数 | 型 | 説明 |
         |---|---|---|
         | `cells` | `list[str]` | 7セル |
+        | `paths` | `list[list[str]]` | その行の分類の経路(`category_paths` の結果) |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | タプル | `tuple[list, list, list, list]` | `self.groups` の順(分類・認証要素・用途・トピック)のタグ |
+        | タプル | `tuple[list, list, list]` | `self.groups` の順(分類・認証要素・用途)のタグ。分類は経路の全要素(重複なし) |
         """
         name, use = self.plain(cells[0]), self.plain(cells[6])
         return (
-            self.category_tags(cells[1]),
+            list(dict.fromkeys(t for path in paths for t in path)),
             [t for t, rx in self.factor.items() if re.search(rx, name)],
             [t for t, rx in self.use.items() if re.search(rx, use)],
-            [t for t, rx in self.topic.items() if re.search(rx, name)],
         )
+
+    def is_child(self, name):
+        """
+        ## 名前が `└` で始まる(子の行)かを判定する
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `name` | `str` | 「認証技術」列のセル(`&emsp;└ …` のように HTML のままでよい) |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 判定 | `bool` | 子の行なら `True` |
+        """
+        return self.plain(name).startswith(self.CHILD_MARK)
+
+    def inherit(self, tags, child):
+        """
+        ## 子の行のタグを、親の行に足す
+
+        親は、直前の、子でない行。親が子のタグを持たないと、子のタグで絞り込んだときに
+        子だけが残り、親の行が消えて、検索結果が不自然になるため。
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `tags` | `list[list[str]]` | 行ごとのタグ(自分のタグだけ) |
+        | `child` | `list[bool]` | 行ごとの、子の行かどうか(`is_child` の結果) |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | `merged` | `list[list[str]]` | 行ごとのタグ(親には子のタグを足したもの。順序は、自分のタグ、子のタグの順) |
+        | `inherited` | `list[list[str]]` | 行ごとの、子から引き継いだタグ(表示で区別するため) |
+
+        | 例外 | 条件 |
+        |---|---|
+        | `ValueError` | 先頭の行が子で、親がない |
+        """
+        merged = [list(t) for t in tags]
+        inherited = [[] for _ in tags]
+        parent = None
+        for i, is_child in enumerate(child):
+            if not is_child:
+                parent = i
+                continue
+            if parent is None:
+                raise ValueError(f"{i + 1} 番目の行が子ですが、親の行がありません")
+            for t in tags[i]:
+                if t not in merged[parent]:
+                    merged[parent].append(t)
+                    inherited[parent].append(t)
+        return merged, inherited
 
     @staticmethod
     def md_inline(s):
@@ -568,17 +658,18 @@ mermaid.run({ querySelector: '.mermaid-source' });
         diagram = f'<div class="mermaid-source">\n{html.escape(body, quote=False).replace("&gt;", ">")}\n</div>'
         return cell[:mm.start()] + diagram + cell[mm.end():]
 
-    def row_html(self, name_no, cells, tags):
+    def row_html(self, name_no, cells, tags, inherited=()):
         """
         ## 1行分の `<tr>` を作る
 
         「分類」列(`cells[1]`)は出力しない(タグとして名前の下に出す)。
 
-        | 引数 | 型 | 説明 |
-        |---|---|---|
-        | `name_no` | `int` | Markdown の行番号(エラーメッセージ用) |
-        | `cells` | `list[str]` | 元の7セル |
-        | `tags` | `list[str]` | この行のタグ(分類+認証要素+用途+トピック) |
+        | 引数 | 型 | 既定値 | 説明 |
+        |---|---|---|---|
+        | `name_no` | `int` | (必須) | Markdown の行番号(エラーメッセージ用) |
+        | `cells` | `list[str]` | (必須) | 元の7セル |
+        | `tags` | `list[str]` | (必須) | この行のタグ(分類+認証要素+用途。子から引き継いだものを含む) |
+        | `inherited` | `list[str]` | `()` | `tags` のうち、子の行から引き継いだもの(破線のバッジにする) |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
@@ -589,9 +680,12 @@ mermaid.run({ querySelector: '.mermaid-source' });
         cell = lambda s: f"<td>{fix(self.fit_tables(self.md_inline(s)))}</td>"
         name = cells[0]
         flow = self.flow_html(f"{self.plain(name)}(auth.md {name_no}行目)", cells[3])
-        badges = "".join(
+        badge = lambda t: (
+            f'<button type="button" class="tag badge tag-child" title="下位の項目({self.CHILD_MARK})のタグ" data-tag="{esc(t)}">{esc(t)}</button>'
+            if t in inherited else
             f'<button type="button" class="tag badge text-bg-secondary" data-tag="{esc(t)}">{esc(t)}</button>'
-            for t in tags)
+        )
+        badges = "".join(badge(t) for t in tags)
         return (
             f"""\
                 <tr data-tags="{esc("|".join(tags))}">
@@ -604,20 +698,19 @@ mermaid.run({ querySelector: '.mermaid-source' });
                 </tr>"""
         )
 
-    def group(self, title, names, count, min_count=1):
+    def group(self, title, names, count):
         """
         ## 上部のタグボタン群(1系統分)を作る
 
-        | 引数 | 型 | 既定値 | 説明 |
-        |---|---|---|---|
-        | `title` | `str` | (必須) | 系統名(分類・認証要素・用途・トピック) |
-        | `names` | `list[str]` | (必須) | タグ名の候補(表示順) |
-        | `count` | `dict[str, int]` | (必須) | タグ名 → 該当件数 |
-        | `min_count` | `int` | `1` | この件数未満のタグは表示しない |
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `title` | `str` | 系統名(認証要素・用途) |
+        | `names` | `list[str]` | タグ名の候補(表示順) |
+        | `count` | `dict[str, int]` | タグ名 → 該当件数 |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | HTML | `str` | ボタンの並び。表示するタグがなければ空文字列 |
+        | HTML | `str` | ボタンの並び。該当が1件もないタグは出さない。表示するタグがなければ空文字列 |
         """
         esc = html.escape
         btns = "".join(
@@ -627,7 +720,7 @@ mermaid.run({ querySelector: '.mermaid-source' });
                     <span class="badge text-bg-light">{count[n]}</span>
                 </button>
                 """
-            for n in names if count.get(n, 0) >= min_count)
+            for n in names if count.get(n, 0) >= 1)
         if not btns:
             return ""
         return (
@@ -641,6 +734,48 @@ mermaid.run({ querySelector: '.mermaid-source' });
         """
         )
 
+    def class_group(self, title, tree, count):
+        """
+        ## 上部の分類ボタン群を、大分類ごとの行にして作る
+
+        大分類のボタン(太字)を行頭に置き、その下の分類のボタンを `›` の後ろに並べる。
+        大分類を選ぶと、その下の分類の行もすべて残る(経路の全要素がタグのため)。
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `title` | `str` | 系統名(分類) |
+        | `tree` | `dict[str, list[str]]` | 大分類名 → その下の分類名(`class_tree` の結果) |
+        | `count` | `dict[str, int]` | タグ名 → 該当件数 |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | HTML | `str` | 大分類ごとに1行のボタンの並び。木が空なら空文字列 |
+        """
+        esc = html.escape
+        btn = lambda t, extra="": (
+            f'<button type="button" class="btn btn-sm btn-outline-primary{extra}" data-tag="{esc(t)}">'
+            f'{esc(t)} <span class="badge text-bg-light">{count[t]}</span></button>'
+        )
+        lines = "".join(
+            f"""\
+                <div class="d-flex flex-wrap gap-1 align-items-center">
+                    {btn(top, " fw-bold")}{'<span class="text-body-secondary">›</span>' if subs else ""}{"".join(btn(t) for t in subs)}
+                </div>
+                """
+            for top, subs in tree.items())
+        if not lines:
+            return ""
+        return (
+            f"""\
+<div class="pt-3 d-flex gap-2 mb-1">
+            <div class="me-1">{title}</div>
+            <div class="d-flex flex-column gap-1">
+                {lines.strip()}
+            </div>
+        </div>
+        """
+        )
+
     def build(self):
         """
         ## HTML 全体を組み立てる
@@ -649,22 +784,28 @@ mermaid.run({ querySelector: '.mermaid-source' });
         |---|---|---|
         | HTML | `str` | テンプレートの `__ROWS__` と `__FILTERS__` を置換したもの(改行は CRLF にそろえる) |
 
-        行数は `self.rows` に、タグごとの件数は `self.count` に入る。
+        行数は `self.rows` に、タグごとの件数は `self.count` に、分類の木は `self.tree` に入る。
         """
-        body, count, cat_order = [], {}, []
-        for no, c in self.parse():
-            cat, fac, use, top = self.tags_of(c)
-            tags = list(dict.fromkeys(cat + fac + use + top))
-            for t in tags:
+        rows = self.parse()
+        all_paths, tags, child = [], [], []
+        for no, c in rows:
+            paths = self.category_paths(f"{self.plain(c[0])}(auth.md {no}行目)", c[1])
+            cat, fac, use = self.tags_of(c, paths)
+            all_paths.append(paths)
+            tags.append(list(dict.fromkeys(cat + fac + use)))
+            child.append(self.is_child(c[0]))
+        tree = self.class_tree(all_paths)
+        tags, inherited = self.inherit(tags, child)
+        count = {}
+        for ts in tags:
+            for t in ts:
                 count[t] = count.get(t, 0) + 1
-            cat_order += [t for t in cat if t not in cat_order]
-            body.append(self.row_html(no, c, tags))
-        self.rows, self.count = len(body), count
+        body = [self.row_html(no, c, ts, inh) for (no, c), ts, inh in zip(rows, tags, inherited)]
+        self.rows, self.count, self.tree = len(body), count, tree
         filters = (
-            self.group(self.groups[0], cat_order, count, self.min_count)
+            self.class_group(self.groups[0], tree, count)
             + self.group(self.groups[1], list(self.factor), count)
             + self.group(self.groups[2], list(self.use), count)
-            + self.group(self.groups[3], list(self.topic), count)
         )
         out = self.template.replace("__ROWS__", "\n".join(body)).replace("__FILTERS__", filters)
         return re.sub(r"\r?\n", "\r\n", out)

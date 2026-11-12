@@ -126,6 +126,7 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#auth-app` 配�
 |---|---|---|
 | `.tags` | 攻撃手法セル内 | バッジを並べる入れ物 |
 | `.tag` | 攻撃手法セル内 | 表中のタグ(`<button>`) |
+| `.tag-child` | 攻撃手法セル内 | 子の行(`└`)から引き継いだタグ。破線で、親自身のタグと区別する |
 | `[data-tag].active` | 上部ボタン・表中タグ | 選択中の状態 |
 */
 #auth-app .tags {
@@ -145,4 +146,9 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#auth-app` 配�
 }
 #auth-app .tag.active {
   background: var(--bs-primary) !important;      /* Bootstrap の `.text-bg-secondary` に勝たせる */
+}
+#auth-app .tag-child {
+  background: transparent;                       /* 塗りなし(自分のタグは塗りあり) */
+  color: var(--bs-secondary-color);
+  border: 1px dashed var(--bs-border-color);     /* `.tag` の `border: 0` を上書きする(`.tag` より後に書く) */
 }
