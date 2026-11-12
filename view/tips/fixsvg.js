@@ -55,7 +55,7 @@ class FixSvgOverflow {
     constructor(
         className = 'svgclass',
         fontSize = '75%',
-        letterSpacing = '-0.5em',
+        letterSpacing = '-0.1em',
         targetFonts = ['HGPGothicE', 'HGPゴシックE'],
         scrollable = false
     ) {
@@ -134,7 +134,7 @@ class FixSvgOverflow {
      *
      * 字間補正後も `foreignObject` の枠からはみ出すラベルを探し、
      * そのラベルだけフォントを縮小して収める。
-     * 折り返しで行数が変わると縮小率が線形にならないため、収まるまで最大 3 回繰り返す。
+     * 折り返しで行数が変わると縮小率が線形にならないため、収まるまで最大 10 回繰り返す。
      *
      * ### 引数
      *
@@ -153,7 +153,7 @@ class FixSvgOverflow {
      * | 対象 | 取得元 | 理由 |
      * |------|--------|------|
      * | 枠の幅・高さ | `foreignObject` の `width` / `height` 属性 (ユーザー単位) | `overflow: visible` 下の `getBoundingClientRect()` は、環境によりはみ出し分を含み、常に「収まっている」と誤判定しうるため |
-     * | 文字の幅 | `Range` の矩形 ÷ 画面倍率 | 実際に描画された文字の幅。単位を枠に合わせるため倍率で割る |
+     * | 文字の幅 | `Range` の矩形 ÷ 画面倍率 + 負の字間のはみ出し分 | 実際に描画された文字の幅。負の字間では最後の字形が測定幅より右に出るため、その分を足す |
      * | 文字の高さ | ラベル `div` の矩形 ÷ 画面倍率 | 折り返しによる縦のはみ出しも検出するため |
      *
      * ### 縮小量の決め方
@@ -161,7 +161,8 @@ class FixSvgOverflow {
      * | 状況 | 結果 |
      * |------|------|
      * | 幅・高さとも収まっている (誤差 0.2 以内) | 変更しない |
-     * | どちらかがはみ出している | 枠 / 実寸 の小さい方の比率で縮小 |
+     * | どちらかがはみ出している | 枠 / 実寸 の小さい方の比率で縮小 (丸め誤差対策で 1% 余分に縮める) |
+     * | 縮小しても文字サイズが変わらない | 打ち切る (ブラウザの最小フォントサイズ等) |
      */
     fitLabels(svgDoc) {
         const view = svgDoc.defaultView;
@@ -181,13 +182,19 @@ class FixSvgOverflow {
                 const scale = ctm && ctm.a > 0 ? ctm.a : 1;
                 const range = svgDoc.createRange();
                 range.selectNodeContents(label);
+
+                // 負の字間は最後の文字の後ろにも掛かるため、字形は測った幅より右にはみ出す。
+                // その分を幅に足す (computed の letter-spacing はユーザー単位の px)
+                const spacing = parseFloat(view.getComputedStyle(label).letterSpacing);
+                const overhang = spacing < 0 ? -spacing : 0;
+
                 return {
-                    w: range.getBoundingClientRect().width / scale,
+                    w: range.getBoundingClientRect().width / scale + overhang,
                     h: label.getBoundingClientRect().height / scale,
                 };
             };
 
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 10; i++) {
                 const { w, h } = measure();
 
                 // 収まっていれば終了 (誤差 0.2 は許容)
@@ -195,7 +202,12 @@ class FixSvgOverflow {
 
                 const ratio = Math.min(boxW / w, boxH / h);
                 const current = parseFloat(view.getComputedStyle(label).fontSize);
-                label.style.setProperty('font-size', `${current * ratio}px`, 'important');
+                // 丸め誤差で少し残るのを避けるため、1% 余分に縮める
+                label.style.setProperty('font-size', `${current * ratio * 0.99}px`, 'important');
+
+                // ブラウザの最小フォントサイズ等で縮まらない場合は打ち切る
+                const after = parseFloat(view.getComputedStyle(label).fontSize);
+                if (after >= current - 0.01) break;
             }
         });
     }
