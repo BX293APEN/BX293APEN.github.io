@@ -189,7 +189,7 @@ class FixSvgOverflow {
                 const overhang = spacing < 0 ? -spacing : 0;
 
                 return {
-                    w: range.getBoundingClientRect().width / scale + overhang,
+                    w: range.getBoundingClientRect().width / scale + overhang * 1.5,
                     h: label.getBoundingClientRect().height / scale,
                 };
             };
