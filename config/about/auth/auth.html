@@ -1312,14 +1312,10 @@ SP-->>U: 8. SPのセッションを確立しRelayStateで元のURLへ遷移
     }
 }}%%
 sequenceDiagram
-participant U as リソースオーナ
-利用者端末
-participant C as クライアント
-サービス要求するサーバ
-participant A as 認可サーバ
-IDaaS
-participant R as リソースサーバ
-リソースを保有しているサーバ
+participant U as リソースオーナ&lt;br/>利用者端末
+participant C as クライアント&lt;br/>サービス要求するサーバ
+participant A as 認可サーバ&lt;br/>IDaaS
+participant R as リソースサーバ&lt;br/>リソースを保有しているサーバ
 U->>C: 1. 連携操作を行いサービスを要求
 C->>C: 2. state等を生成しセッションに保存
 C-->>U: 3. 認可エンドポイントへ302リダイレクト(response_type=code, client_id, redirect_uri, scope, state)
@@ -1357,12 +1353,9 @@ A-->>C: 16. 新しいアクセストークンを返す
     }
 }}%%
 sequenceDiagram
-participant U as リソースオーナ
-利用者端末
-participant C as クライアント
-サービス要求するサーバ
-participant A as 認可サーバ
-IDaaS
+participant U as リソースオーナ&lt;br/>利用者端末
+participant C as クライアント&lt;br/>サービス要求するサーバ
+participant A as 認可サーバ&lt;br/>IDaaS
 U->>C: 1. 連携操作を行いサービスを要求
 C->>C: 2. code_verifierを生成しそのハッシュ値(code_challenge)を計算
 C-->>U: 3. code_challengeを付けて認可エンドポイントへ302リダイレクト
@@ -1395,12 +1388,9 @@ A-->>C: 11. 一致した場合のみアクセストークンを返す
     }
 }}%%
 sequenceDiagram
-participant U as リソースオーナ
-利用者端末
-participant C as クライアント(RP)
-サービス要求するサーバ
-participant O as 認可サーバ(OP)
-IDaaS
+participant U as リソースオーナ&lt;br/>利用者端末
+participant C as クライアント(RP)&lt;br/>サービス要求するサーバ
+participant O as 認可サーバ(OP)&lt;br/>IDaaS
 U->>C: 1. ログイン操作を行いサービスを要求
 C->>C: 2. state・nonceを生成しセッションに保存
 C-->>U: 3. 認可エンドポイントへ302リダイレクト(response_type, scope=openid, client_id, redirect_uri, state, nonce)

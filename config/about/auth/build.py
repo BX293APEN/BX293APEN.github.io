@@ -446,7 +446,7 @@ mermaid.run({ querySelector: '.mermaid-source' });
         |---|---|---|
         | 本文 | `str` | `<br>` を改行に、HTML の文字参照を元の文字に戻したもの(前後の空白は除去) |
         """
-        return html.unescape(re.sub(r"<br\s*/?>", "\n", raw)).strip()
+        return html.unescape(re.sub(r"<br\s*>", "\n", raw)).strip()
 
     @staticmethod
     def table_steps(cell):
