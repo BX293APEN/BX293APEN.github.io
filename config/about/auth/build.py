@@ -26,7 +26,7 @@ class AuthMD2HTML:
     | `flow_html` | 「認証手順」セルの HTML(整えた図 + 手順表)を作る |
     | `row_html` | 1行分の `<tr>` を作る |
     | `group` | 上部のタグボタン群(認証要素・用途)を作る |
-    | `class_group` | 上部の分類ボタン群を、大分類ごとの行にして作る |
+    | `class_group` | 上部の分類ボタン群を、大分類ごとのブロックにして作る |
     | `build` | HTML 全体を組み立てて文字列で返す |
     | `save_html` | HTML の断片を書き出す |
     | `save_css` | CSS を書き出す |
@@ -736,9 +736,10 @@ mermaid.run({ querySelector: '.mermaid-source' });
 
     def class_group(self, title, tree, count):
         """
-        ## 上部の分類ボタン群を、大分類ごとの行にして作る
+        ## 上部の分類ボタン群を、大分類ごとのブロックにして作る
 
-        大分類のボタン(太字)を行頭に置き、その下の分類のボタンを `›` の後ろに並べる。
+        系統名を1行目に置き、その下に大分類ごとのブロック(`pb-4`)を縦に並べる。
+        ブロックの中は、1行目が大分類のボタン(太字)、改行して2行目に、その下の分類のボタンを並べる。
         大分類を選ぶと、その下の分類の行もすべて残る(経路の全要素がタグのため)。
 
         | 引数 | 型 | 説明 |
@@ -749,28 +750,40 @@ mermaid.run({ querySelector: '.mermaid-source' });
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | HTML | `str` | 大分類ごとに1行のボタンの並び。木が空なら空文字列 |
+        | HTML | `str` | 系統名 + 大分類ごとのブロック。木が空なら空文字列 |
+
+        出力のイメージ。
+
+        | 行 | 内容 |
+        |---|---|
+        | 1 | 分類 |
+        | 2 | **大分類** |
+        | 3 | 分類 分類 分類 |
+        | 4 | (空行) |
+        | 5 | **大分類** |
+        | 6 | 分類 分類 |
         """
         esc = html.escape
         btn = lambda t, extra="": (
             f'<button type="button" class="btn btn-sm btn-outline-primary{extra}" data-tag="{esc(t)}">'
             f'{esc(t)} <span class="badge text-bg-light">{count[t]}</span></button>'
         )
-        lines = "".join(
+        blocks = "".join(
             f"""\
-                <div class="d-flex flex-wrap gap-1 align-items-center">
-                    {btn(top, " fw-bold")}{'<span class="text-body-secondary">›</span>' if subs else ""}{"".join(btn(t) for t in subs)}
+                <div class="pb-4">
+                    {btn(top, " fw-bold")}{"<br>" if subs else ""}
+                    {" ".join(btn(t) for t in subs)}
                 </div>
                 """
             for top, subs in tree.items())
-        if not lines:
+        if not blocks:
             return ""
         return (
             f"""\
-<div class="pt-3 d-flex gap-2 mb-1">
+<div class="pt-3">
             <div class="me-1">{title}</div>
-            <div class="d-flex flex-column gap-1">
-                {lines.strip()}
+            <div>
+                {blocks.strip()}
             </div>
         </div>
         """
