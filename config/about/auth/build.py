@@ -15,12 +15,12 @@ class AuthMD2HTML:
     | `tags_of` | 行ごとにタグを決める |
     | `md_inline` | セル内に残った Markdown の強調(`**…**`)を `<strong>` にする |
     | `fit_tables` | セルの中の `<table>` を、列幅・見出しの固定が崩れないように整える |
-    | `split_flow` | 「認証手順」セルを (mermaid, 手順のリスト, 残り) に分ける |
+    | `mermaid_body` | `mermaid-source` の中身から、mermaid の本文を取り出す(`<br>` を改行に戻す) |
+    | `table_steps` | 「認証手順」セルの手順表から、手順番号を取り出す |
     | `step_numbers` | mermaid 内のメッセージから、手順番号を取り出す |
-    | `check_steps` | mermaid の手順番号と、手順表の手順数が合っているか確認する |
-    | `steps_table` | 手順のリストを、手順表(`<table>`)にする |
+    | `check_steps` | mermaid の手順番号と、手順表の手順番号が合っているか確認する |
     | `mermaid_init` | mermaid の先頭に付ける `%%{init: …}%%` を作る |
-    | `flow_html` | 「認証手順」セルの HTML(図 + 手順表 + 残り)を作る |
+    | `flow_html` | 「認証手順」セルの HTML(整えた図 + 手順表)を作る |
     | `row_html` | 1行分の `<tr>` を作る |
     | `group` | 上部のタグボタン群を作る |
     | `build` | HTML 全体を組み立てて文字列で返す |
@@ -37,7 +37,7 @@ class AuthMD2HTML:
     | 1 認証技術 | 名前 | 固定列。名前の下にタグ(バッジ)を並べる |
     | 2 分類 | `主分類<br>(補足)` | **表示しない**。主分類と補足の両方を、タグにする |
     | 3 概要 | HTML | そのまま |
-    | 4 認証手順 | `<div class="mermaid-source">…</div>` + `<ol>…</ol>` | 図(mermaid)のまま + 手順表に変換 |
+    | 4 認証手順 | `<div class="mermaid-source">…</div>` + `<table>…</table>` | 図(mermaid)を整える + 手順表はそのまま |
     | 5 メリット | HTML | そのまま |
     | 6 デメリット | HTML | そのまま |
     | 7 主な用途 | HTML | そのまま |
@@ -47,16 +47,19 @@ class AuthMD2HTML:
     | 決まり | 内容 |
     |---|---|
     | 図 | `<div class="mermaid-source">` の中に mermaid を書く。Markdown の表は1行なので、mermaid の改行は `<br>` で表す |
-    | 手順 | 先頭の `<ol>` の直下の `<li>` が1手順(入れ子の `<ol>` `<ul>` は手順の中身として残す) |
-    | 手順番号 | mermaid のメッセージ・Note の文頭を `N.` にする。`N` は `<ol>` の何番目かと一致させる(合わないとエラー) |
+    | 手順表 | 図の後ろに `<table>` で書く。`<tbody>` の行のうち、先頭セルが `<b>N</b>` で始まる行が1手順(`rowspan` で複数行にまたがる手順は、先頭の行だけ数える) |
+    | 手順番号 | mermaid のメッセージ・Note の文頭を `N.` にする。`N` は手順表の `<b>N</b>` と一致させる(合わないとエラー) |
     | 1手順に複数メッセージ | 同じ番号を付けてよい(番号は小さい順に並べる) |
-    | `<ol>` の後ろ | 補足の表・説明など。手順表の後ろにそのまま残す |
-    | `<ol>` がないセル | 図も手順表も作らず、そのまま出す |
+    | 手順表の番号 | `1` から順に並べる(飛んでいたり、逆順だったりするとエラー) |
+    | 図の前後 | 補足の説明など。そのまま残す |
+    | 手順表があるのに図がない | エラー |
+    | 手順表がない | 図があれば、図だけ整える(手順番号の突き合わせはしない)。図も表もなければ、そのまま出す |
     """
 
     CSS = "auth-style.css"   # 出力する CSS のファイル名(確認用ページも読み込む)
     JS = "auth-script.js"    # 出力する JavaScript のファイル名(確認用ページも読み込む)
     COLS = 7                 # Markdown の表の列数
+    MERMAID_SRC = re.compile(r'<div class="mermaid-source">(.*?)</div>', re.S)  # 「認証手順」セルの図
 
     # ## mermaid の見た目の設定(`%%{init: …}%%` として、全図の先頭に付ける)
     #
@@ -431,11 +434,27 @@ mermaid.run({ querySelector: '.mermaid-source' });
         return s
 
     @staticmethod
-    def split_flow(cell):
+    def mermaid_body(raw):
         """
-        ## 「認証手順」セルを分ける
+        ## `mermaid-source` の中身から、mermaid の本文を取り出す
 
-        `<ol>` の直下の `<li>` を1手順とする(入れ子の `<ol>` `<ul>` の `<li>` は、手順の中身に含める)。
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `raw` | `str` | `<div class="mermaid-source">` の中身(Markdown の表は1行なので、改行が `<br>` になっている) |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 本文 | `str` | `<br>` を改行に、HTML の文字参照を元の文字に戻したもの(前後の空白は除去) |
+        """
+        return html.unescape(re.sub(r"<br\s*/?>", "\n", raw)).strip()
+
+    @staticmethod
+    def table_steps(cell):
+        """
+        ## 手順表から、手順番号を取り出す
+
+        `<tr>` の先頭セルが `<b>N</b>` で始まる行を、1手順とみなす。
+        `rowspan` で手順の続きになっている行は、先頭セルが別の内容なので数えない。
 
         | 引数 | 型 | 説明 |
         |---|---|---|
@@ -443,33 +462,9 @@ mermaid.run({ querySelector: '.mermaid-source' });
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | 3要素 | `tuple[str or None, list[str], str]` | (mermaid の本文, 手順のリスト, `<ol>` の前後の残り) |
-
-        `<ol>` がないときは `(None, [], cell)` を返す。
-        mermaid の本文は、`<br>` を改行に、HTML の文字参照を元の文字に戻したもの。
+        | 番号のリスト | `list[int]` | 表に出てきた順。手順表がなければ空 |
         """
-        mm = re.search(r'<div class="mermaid-source">(.*?)</div>', cell, re.S)
-        mermaid, rest = None, cell
-        if mm:
-            mermaid = html.unescape(re.sub(r"<br\s*/?>", "\n", mm.group(1))).strip()
-            rest = cell[:mm.start()] + cell[mm.end():]
-        tokens = list(re.finditer(r"<(/?)(ol|ul|li)\b[^>]*>", rest))
-        depth, start, steps, item = 0, None, [], None
-        for t in tokens:
-            closing, kind = t.group(1) == "/", t.group(2)
-            if not closing:
-                if depth == 0 and kind == "ol":
-                    start = t.start()
-                elif depth == 1 and kind == "li":
-                    item = t.end()
-                depth += 1
-            else:
-                depth -= 1
-                if depth == 1 and kind == "li":
-                    steps.append(rest[item:t.start()])
-                elif depth == 0 and kind == "ol":
-                    return mermaid, steps, rest[:start] + "\0" + rest[t.end():]
-        return mermaid, [], rest
+        return [int(n) for n in re.findall(r"<tr>\s*<td\b[^>]*>\s*<b>(\d+)</b>", cell)]
 
     @staticmethod
     def step_numbers(mermaid):
@@ -495,44 +490,25 @@ mermaid.run({ querySelector: '.mermaid-source' });
 
     def check_steps(self, name, mermaid, steps):
         """
-        ## mermaid の手順番号と、手順表の手順数が合っているか確認する
+        ## mermaid の手順番号と、手順表の手順番号が合っているか確認する
 
         | 確認 | 合わないとき |
         |---|---|
-        | 番号が小さい順に並んでいる | `ValueError` |
-        | 番号が 1〜(手順数) を過不足なく含む | `ValueError` |
+        | 手順表の番号が `1` から順に並んでいる | `ValueError` |
+        | mermaid の番号が小さい順に並んでいる | `ValueError` |
+        | mermaid の番号が、手順表の番号と過不足なく同じ | `ValueError` |
 
         | 引数 | 型 | 説明 |
         |---|---|---|
         | `name` | `str` | 認証技術名(エラーメッセージ用) |
         | `mermaid` | `str` | mermaid の本文 |
-        | `steps` | `list[str]` | 手順のリスト |
+        | `steps` | `list[int]` | 手順表の手順番号(`table_steps` の結果) |
         """
         nums = self.step_numbers(mermaid)
-        if nums != sorted(nums) or sorted(set(nums)) != list(range(1, len(steps) + 1)):
-            raise ValueError(f"{name}: mermaid の手順番号 {nums} が、手順数 {len(steps)} と合いません")
-
-    @staticmethod
-    def steps_table(steps):
-        """
-        ## 手順のリストを手順表にする
-
-        | 列 | 内容 |
-        |---|---|
-        | 手順 | 番号(mermaid の `N.` と同じ) |
-        | 内容 | 手順の文(`<br>` や入れ子のリストもそのまま) |
-
-        | 引数 | 型 | 説明 |
-        |---|---|---|
-        | `steps` | `list[str]` | 手順のリスト |
-
-        | 戻り値 | 型 | 説明 |
-        |---|---|---|
-        | HTML | `str` | `<table>…</table>` |
-        """
-        num = ' style="width:3.5rem;text-align:center"'
-        rows = "".join(f"<tr><td{num}>{i}</td><td>{s}</td></tr>" for i, s in enumerate(steps, 1))
-        return f"<table><thead><tr><th{num}>手順</th><th>内容</th></tr></thead><tbody>{rows}</tbody></table>"
+        if steps != list(range(1, len(steps) + 1)):
+            raise ValueError(f"{name}: 手順表の番号 {steps} が、1 から順に並んでいません")
+        if nums != sorted(nums) or sorted(set(nums)) != steps:
+            raise ValueError(f"{name}: mermaid の手順番号 {nums} が、手順表の番号 {steps} と合いません")
 
     @classmethod
     def mermaid_init(cls, mermaid):
@@ -562,6 +538,9 @@ mermaid.run({ querySelector: '.mermaid-source' });
         """
         ## 「認証手順」セルの HTML を作る
 
+        `mermaid-source` の中身を整える(`<br>` を改行に戻し、`%%{init: …}%%` を付ける)。
+        手順表は auth.md に書かれたものをそのまま使う。
+
         | 引数 | 型 | 説明 |
         |---|---|---|
         | `name` | `str` | 認証技術名(エラーメッセージ用) |
@@ -569,19 +548,25 @@ mermaid.run({ querySelector: '.mermaid-source' });
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | HTML | `str` | `<ol>` があれば「`<div class="mermaid-source">` + 手順表 + 残り」。なければ元のまま |
+        | HTML | `str` | `mermaid-source` を整えたセル。図も手順表もなければ元のまま |
 
-        `<ol>` があるのに mermaid がないときは `ValueError`。
+        | 例外 | 条件 |
+        |---|---|
+        | `ValueError` | 手順表があるのに mermaid がない |
+        | `ValueError` | 手順番号が合わない(`check_steps` を参照) |
         """
-        mermaid, steps, rest = self.split_flow(cell)
-        if not steps:
+        steps = self.table_steps(cell)
+        mm = self.MERMAID_SRC.search(cell)
+        if mm is None:
+            if steps:
+                raise ValueError(f"{name}: 認証手順に mermaid-source がありません")
             return cell
-        if mermaid is None:
-            raise ValueError(f"{name}: 認証手順に mermaid-source がありません")
-        self.check_steps(name, mermaid, steps)
+        mermaid = self.mermaid_body(mm.group(1))
+        if steps:
+            self.check_steps(name, mermaid, steps)
         body = self.mermaid_init(mermaid) + mermaid
         diagram = f'<div class="mermaid-source">\n{html.escape(body, quote=False).replace("&gt;", ">")}\n</div>'
-        return rest.replace("\0", diagram + self.steps_table(steps), 1)
+        return cell[:mm.start()] + diagram + cell[mm.end():]
 
     def row_html(self, name_no, cells, tags):
         """
