@@ -556,7 +556,7 @@ mermaid.run({ querySelector: '.mermaid-source' });
         """
         if not cls.MERMAID_INIT or mermaid.lstrip().startswith("%%{"):
             return ""
-        return f"%%{{init: {json.dumps(cls.MERMAID_INIT, ensure_ascii=False)}}}%%\n"
+        return f"%%{{init: {json.dumps(cls.MERMAID_INIT, ensure_ascii=False, indent=4)}}}%%\n"
 
     def flow_html(self, name, cell):
         """
