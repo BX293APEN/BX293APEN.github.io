@@ -186,6 +186,7 @@
                     <th scope="row" class="name">パスワード認証<br>(固定式)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="知識情報認証">知識情報認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="基本方式">基本方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="知識情報">知識情報</button></div></th>
                     <td>ID(利用者識別子)とパスワード(秘密の文字列)の組み合わせによる、<br>最も基本的な知識情報ベースの認証方式</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant S as サーバ
@@ -201,6 +202,7 @@ S-->>U: 3. 一致すれば認証成功
                     <th scope="row" class="name">PAP<br>(Password Authentication<br>Protocol)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="プロトコル">プロトコル</button><button type="button" class="tag badge text-bg-secondary" data-tag="固定式パスワード型">固定式パスワード型</button><button type="button" class="tag badge text-bg-secondary" data-tag="知識情報">知識情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="リモートアクセス・VPN">リモートアクセス・VPN</button></div></th>
                     <td>PPP接続等で使われる、<br>ID/パスワードを平文のまま送信する最も単純な認証プロトコル</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant C as クライアント
 participant S as サーバ
@@ -216,6 +218,7 @@ S-->>C: 3. 一致すれば認証成功
                     <th scope="row" class="name">チャレンジレスポンス認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="認証方式">認証方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="総称">総称</button><button type="button" class="tag badge text-bg-secondary" data-tag="知識情報">知識情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="チャレンジレスポンス">チャレンジレスポンス</button></div></th>
                     <td>パスワード等の秘密情報をネットワーク上に<br>平文で流さずに認証する方式<br>チャレンジはサーバが毎回変える乱数(使い捨て)のため、リプレイ攻撃を防げる<br><ul><li><b>検証方式</b><br><b>サーバが出したチャレンジと共有秘密から計算したハッシュ値が、<br>クライアントのレスポンスと一致するか</b>を確認する</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant C as クライアント
 participant S as サーバ
@@ -232,6 +235,7 @@ S->>S: 3. 同じ計算を行い一致を確認
                     <th scope="row" class="name">CHAP<br>(Challenge Handshake<br>Authentication Protocol)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="プロトコル">プロトコル</button><button type="button" class="tag badge text-bg-secondary" data-tag="チャレンジレスポンス型">チャレンジレスポンス型</button><button type="button" class="tag badge text-bg-secondary" data-tag="知識情報">知識情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="リモートアクセス・VPN">リモートアクセス・VPN</button><button type="button" class="tag badge text-bg-secondary" data-tag="チャレンジレスポンス">チャレンジレスポンス</button></div></th>
                     <td>PPP接続等で使われる<br>チャレンジレスポンス方式の代表的プロトコル</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant C as クライアント
 participant S as サーバ
@@ -250,6 +254,7 @@ Note over C,S: 3. パスワードは平文で送らない(PAPとの違い)
                     <th scope="row" class="name">XMLデジタル署名<br>(XML Signature)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="署名規格">署名規格</button><button type="button" class="tag badge text-bg-secondary" data-tag="W3C勧告">W3C勧告</button><button type="button" class="tag badge text-bg-secondary" data-tag="電子契約・電子申請">電子契約・電子申請</button><button type="button" class="tag badge text-bg-secondary" data-tag="API・システム間連携">API・システム間連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="署名・証跡">署名・証跡</button></div></th>
                     <td>XML文書(全体・一部の要素・外部リソース)に対するデジタル署名の標準規格<br>署名情報自体もXML(&lt;Signature&gt;要素)で表現される<br>形式の違いは「署名と署名対象の<b>位置関係</b>」で決まり、直下の3形式に分かれる<br>なお1つの&lt;Signature&gt;は複数の&lt;Reference&gt;を持てるため、<br>1対1・1対多といった数の関係は形式ではなく&lt;Reference&gt;の数で決まる<br>XMLは意味が同じでも空白・属性順等の表記が変わりうるため、<br>署名・検証の前に「正規化(C14N : Canonicalization)」を行う<br>主な構成要素 : <ul><li>&lt;SignedInfo&gt; : 署名対象の情報のまとまり(実際に署名される要素)</li><li>&lt;Reference&gt; : <br>署名対象1件分の参照(URI、Transforms、DigestMethod、DigestValue)<br>複数指定可</li><li>&lt;SignatureValue&gt; : &lt;SignedInfo&gt;に対する署名値</li><li>&lt;KeyInfo&gt; : 検証用の公開鍵・証明書(省略可)</li><li>&lt;Object&gt; : エンベロピング署名で対象データを格納する要素</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 署名者
 participant V as 検証者
@@ -268,6 +273,7 @@ V->>V: 5. DigestValueの再計算とSignatureValueの公開鍵検証を両方行
                     <th scope="row" class="name">&emsp;└ エンベローピド署名<br>(Enveloped Signature)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="XML署名の形式">XML署名の形式</button><button type="button" class="tag badge text-bg-secondary" data-tag="電子契約・電子申請">電子契約・電子申請</button><button type="button" class="tag badge text-bg-secondary" data-tag="署名・証跡">署名・証跡</button></div></th>
                     <td><ul><li>署名が、対象に<b>包まれる</b>(対象の内側に署名を書く)</li></ul><br><b>対象</b><ul><li>署名を含む文書全体(URI="")</li><li>署名を含む特定の親要素(URI="#id")</li></ul><br><b>署名関係</b><ul><li><b>基本</b><br>1署名 : 1文書(1対1)</li><li><b>署名者が複数</b><br>署名を追加して多対1も可能<br>(他の署名を対象に含めるかの設計が必要)</li></ul><br><b>署名場所</b><ul><li><b>対象の内部</b>に書く<br>(「属する文書」が対象)</li><li>署名自身が対象に含まれてしまうため、<br>署名要素を対象から除外する変換(enveloped-signature)が必須</li></ul><br><b>構造イメージ</b><br><code>Invoice&emsp;←署名対象<br>&nbsp;├ Amount<br>&nbsp;└ Signature&emsp;←対象の内側</code></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 署名者
 participant D as 対象文書
@@ -284,6 +290,7 @@ A->>D: 4. Signature要素を対象文書の内部に挿入
                     <th scope="row" class="name">&emsp;└ エンベロピング署名<br>(Enveloping Signature)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="XML署名の形式">XML署名の形式</button><button type="button" class="tag badge text-bg-secondary" data-tag="署名・証跡">署名・証跡</button></div></th>
                     <td><ul><li>署名が、対象を<b>包む</b>(署名の内側に対象を書く)</li></ul><br><b>対象</b><ul><li>&lt;Signature&gt;内の&lt;Object&gt;要素に格納したデータ</li><li>XML以外のデータ(Base64化したバイナリ等)も対象にできる</li></ul><br><b>署名関係</b><ul><li>1署名 : 1つ以上の&lt;Object&gt;</li><li>Objectを複数入れれば1署名で複数データを署名(1対多)</li></ul><br><b>署名場所</b><ul><li><b>署名が親、対象が子</b>(対象は署名の内部に書く)</li><li>&lt;Reference&gt;でURI="#id"により内側のObjectを参照</li><li>元データを使うには署名要素から取り出す</li></ul><br><b>構造イメージ</b><br><code>Signature&emsp;←署名が外側<br>&nbsp;└ Object&emsp;←対象が内側<br>&nbsp;&nbsp;&nbsp;└ 対象データ</code></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 署名者
 participant S as Signature要素
@@ -299,6 +306,7 @@ A->>A: 3. ダイジェストを計算しSignedInfoに署名
                     <th scope="row" class="name">&emsp;└ デタッチ署名<br>(Detached Signature)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="XML署名の形式">XML署名の形式</button><button type="button" class="tag badge text-bg-secondary" data-tag="API・システム間連携">API・システム間連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="署名・証跡">署名・証跡</button></div></th>
                     <td><ul><li>署名と対象が、互いに包まず<b>別々</b>(署名は対象を参照するだけ)</li></ul><br><b>対象</b><ul><li>同一XML文書内の特定要素(URI="#id")</li><li>外部ファイル(URI="https://…")</li><li>混在(文書の一部だけを対象にできる)</li></ul><br><b>署名関係</b><ul><li>1署名で複数の要素・リソースをまとめて署名(1対多)</li><li>複数署名者が同じ対象に署名(多対1)</li><li>多対多</li><li>3形式中最も柔軟</li></ul><br><b>署名場所</b><ul><li><b>対象の外側</b>に書き、対象を参照する</li><li>同一文書内の別要素への署名なら、<b>同じXML文書に含める</b>ことも可能(対象の兄弟要素などに配置)</li><li>対象を改変せずに署名できるが、署名と対象が分離すると検証できない</li></ul><br><b>構造イメージ</b><br><code>Order&emsp;←署名対象①(id=o1)<br>Item&emsp;←署名対象②(id=i1)<br>Signature&emsp;←対象の外側から参照<br>&nbsp;├ Reference URI="#o1"<br>&nbsp;└ Reference URI="#i1"</code></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 署名者
 participant T as 署名対象(要素・外部リソース)
@@ -315,6 +323,7 @@ A->>S: 3. Signature要素を対象の外側(別ファイルまたは同一文書
                     <th scope="row" class="name">タイムスタンプ<br>(デジタルタイムスタンプ)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="証跡技術">証跡技術</button><button type="button" class="tag badge text-bg-secondary" data-tag="電子契約・電子申請">電子契約・電子申請</button><button type="button" class="tag badge text-bg-secondary" data-tag="署名・証跡">署名・証跡</button></div></th>
                     <td>ある時刻にその電子データが「存在していたこと」<br>「改ざんされていないこと」を証明する技術<br>デジタル署名だけでは「いつ」署名したかは<br>証明できないため併用される</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant T as 時刻認証局(TSA)
@@ -330,6 +339,7 @@ T-->>U: 3. タイムスタンプを付与(完全性と存在時刻を証明)
                     <th scope="row" class="name">コードサイニング認証<br>(コード署名)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="署名方式">署名方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="モバイル">モバイル</button><button type="button" class="tag badge text-bg-secondary" data-tag="署名・証跡">署名・証跡</button></div></th>
                     <td>ソフトウェア(実行ファイル、ドライバ、アプリ等)の<br>作成者・非改ざんを証明する署名</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant D as 開発者
 participant O as OS・ブラウザ
@@ -346,6 +356,7 @@ O->>O: 3. 発行元・完全性を確認しインストール・実行を許可
                     <th scope="row" class="name">トランザクション署名<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="署名方式">署名方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="取引認証の一種">取引認証の一種</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button><button type="button" class="tag badge text-bg-secondary" data-tag="電子契約・電子申請">電子契約・電子申請</button><button type="button" class="tag badge text-bg-secondary" data-tag="署名・証跡">署名・証跡</button></div></th>
                     <td><ul><li>取引内容(振込先・金額等)そのものを署名対象データに含めて、<br>利用者側の署名デバイスで署名(またはMAC/ワンタイムパスワードを生成)し、<br>サーバが検証する方式</li><li>取引内容が改ざんされると署名が一致せず検証に失敗するため、<br>MITB(Man-in-the-Browser)攻撃対策となる</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者(PC)
 participant S as サーバ
@@ -365,6 +376,7 @@ S->>S: 5. 取引内容と署名を照合し一致した場合のみ実行
                     <th scope="row" class="name">MAC<br>(Message Authentication<br>Code : メッセージ認証符号)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総称">総称</button><button type="button" class="tag badge text-bg-secondary" data-tag="メッセージ認証符号">メッセージ認証符号</button><button type="button" class="tag badge text-bg-secondary" data-tag="不正検知・なりすまし対策">不正検知・なりすまし対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="MAC">MAC</button></div></th>
                     <td>共通鍵を用いてメッセージの <strong>完全性</strong> と<br>送信元認証を実現する符号の総称<br>実現方式によりHMAC(ハッシュ関数を利用)、<br>CMAC(ブロック暗号を利用)等に分かれる<br>デジタル署名と異なり共通鍵方式のため、<br>第三者への証明(否認防止)はできない</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 送信者
 participant B as 受信者
@@ -381,6 +393,7 @@ B->>B: 4. 一致すれば改ざんなし・正当な送信元と確認
                     <th scope="row" class="name">HMAC<br>(Hash-based Message<br>Authentication Code)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="MAC実現方式">MAC実現方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="API・システム間連携">API・システム間連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="MAC">MAC</button></div></th>
                     <td>MACの実現方式の一つ<br>共通鍵とハッシュ関数を<br>組み合わせて実装するメッセージ認証符号<br>HMAC = H(鍵 XOR opad || H(鍵 XOR ipad || メッセージ))<br>ハッシュ関数単体(メッセージダイジェスト)と異なり<br>鍵を知らないと正しいMAC値を計算できない</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 送信者
 participant B as 受信者
@@ -396,6 +409,7 @@ A->>B: 3. HMAC-SHA256のように組み合わせて利用(メッセージとHMAC
                     <th scope="row" class="name">CMAC<br>(Cipher-based Message<br>Authentication Code)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="MAC実現方式">MAC実現方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="MAC">MAC</button></div></th>
                     <td>MACの実現方式の一つ<br>共通鍵ブロック暗号<br>(AES等)を利用して実装するメッセージ認証符号</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 送信者
 participant K as ブロック暗号(AES等)
@@ -411,6 +425,7 @@ A->>A: 3. AES-CMAC等として利用
                     <th scope="row" class="name">生体認証全般<br>バイオメトリクス認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総称">総称</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体認証">生体認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体情報">生体情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="モバイル">モバイル</button><button type="button" class="tag badge text-bg-secondary" data-tag="入退室・施設">入退室・施設</button></div></th>
                     <td>身体的特徴・行動的特徴を用いて本人確認を行う認証方式<br>身体的特徴<ul><li>指紋</li><li>虹彩</li><li>静脈</li><li>顔</li><li>声紋等</li></ul><br>行動的特徴<ul><li>署名の筆跡</li><li>キーストローク</li></ul>等</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant S as 認証システム
@@ -426,6 +441,7 @@ S->>S: 3. 登録テンプレートと照合し一致度で判定
                     <th scope="row" class="name">指紋認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="生体認証">生体認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="身体的特徴">身体的特徴</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体情報">生体情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="モバイル">モバイル</button><button type="button" class="tag badge text-bg-secondary" data-tag="入退室・施設">入退室・施設</button></div></th>
                     <td>指先の紋様(隆線)のパターンを利用する認証方式</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant D as 指紋センサ
@@ -443,6 +459,7 @@ S-->>U: 3. 一致すれば認証成功
                     <th scope="row" class="name">虹彩認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="生体認証">生体認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="身体的特徴">身体的特徴</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体情報">生体情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="入退室・施設">入退室・施設</button></div></th>
                     <td>目の虹彩(瞳孔の周りの模様)のパターンを利用する認証方式</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant D as カメラ
@@ -460,6 +477,7 @@ S-->>U: 3. 一致すれば認証成功
                     <th scope="row" class="name">静脈認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="生体認証">生体認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="身体的特徴">身体的特徴</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体情報">生体情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button></div></th>
                     <td>手のひらや指の静脈パターンを利用する認証方式</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant D as 近赤外線センサー等
@@ -477,6 +495,7 @@ S-->>U: 3. 一致すれば認証成功
                     <th scope="row" class="name">顔認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="生体認証">生体認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="身体的特徴">身体的特徴</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体情報">生体情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="モバイル">モバイル</button><button type="button" class="tag badge text-bg-secondary" data-tag="入退室・施設">入退室・施設</button></div></th>
                     <td>顔の輪郭・パーツの位置関係等を利用する認証方式</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant D as カメラ
@@ -494,6 +513,7 @@ S-->>U: 3. 一致すれば認証成功
                     <th scope="row" class="name">声紋認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="生体認証">生体認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="行動・身体的特徴">行動・身体的特徴</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体情報">生体情報</button></div></th>
                     <td>声の周波数特性等を利用する認証方式</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant D as マイク
@@ -511,6 +531,7 @@ S-->>U: 3. 一致すれば認証成功
                     <th scope="row" class="name">行動認証<br>(行動的生体認証)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="生体認証">生体認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="行動的特徴">行動的特徴</button><button type="button" class="tag badge text-bg-secondary" data-tag="生体情報">生体情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button><button type="button" class="tag badge text-bg-secondary" data-tag="不正検知・なりすまし対策">不正検知・なりすまし対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="リスク判定・継続的認証">リスク判定・継続的認証</button></div></th>
                     <td>操作時の癖(行動的特徴)を利用して本人確認を行う方式<br>キーストロークダイナミクス(打鍵のリズム・間隔)、<br>マウスの動かし方、スワイプ・タッチ操作、歩き方等</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant S as 認証システム
@@ -526,6 +547,7 @@ S->>S: 3. 登録済みの特徴と照合し一致度で本人か判定
                     <th scope="row" class="name">&emsp;└ UEBA<br>(User and Entity Behavior<br>Analytics)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="行動認証の応用">行動認証の応用</button><button type="button" class="tag badge text-bg-secondary" data-tag="行動分析・異常検知">行動分析・異常検知</button><button type="button" class="tag badge text-bg-secondary" data-tag="不正検知・なりすまし対策">不正検知・なりすまし対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="リスク判定・継続的認証">リスク判定・継続的認証</button></div></th>
                     <td>ユーザに加え、エンティティ(サーバ、端末、アプリ、IoT機器等)も対象に<br>「通常の行動」をベースライン化し、逸脱を検知する分析技術<br>行動認証が主に「本人かどうか」を判定するのに対し、<br>UEBAは認証後の不審な振る舞い(内部不正・乗っ取り)の検知まで含む<br>リスクベース認証や継続的認証の<b>リスク判定材料</b>としても利用される</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant L as ログ・各種システム
 participant E as UEBA基盤
@@ -543,6 +565,7 @@ E->>A: 4. 閾値超過でアラート通知・追加認証要求・セッショ�
                     <th scope="row" class="name">3Dセキュア<br>(3-D Secure)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="決済認証サービス">決済認証サービス</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button><button type="button" class="tag badge text-bg-secondary" data-tag="不正検知・なりすまし対策">不正検知・なりすまし対策</button><button type="button" class="tag badge text-bg-secondary" data-tag="リスク判定・継続的認証">リスク判定・継続的認証</button></div></th>
                     <td>クレジットカードのオンライン決済における本人認証サービス<br>3D=「Three Domain」<br>(加盟店・カード会社・決済網の3領域)に由来<br>現行版(3DS2.0)はリスクベース認証を組み合わせる</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant M as ECサイト(加盟店)
@@ -562,6 +585,7 @@ M->>M: 4. 認証結果に応じて決済を確定
                     <th scope="row" class="name">CAPTCHA<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="人間判定技術">人間判定技術</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button></div></th>
                     <td>人間とコンピュータ(ボット)を区別するための認証技術<br>reCAPTCHA等はユーザ行動解析で<br>判定する方式も存在する</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant S as サイト
@@ -577,6 +601,7 @@ S->>S: 3. 正誤(または行動パターン)で人間かボットかを判定
                     <th scope="row" class="name">パスワードレス認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総称">総称</button><button type="button" class="tag badge text-bg-secondary" data-tag="パスワードレス認証">パスワードレス認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="リモートアクセス・VPN">リモートアクセス・VPN</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button><button type="button" class="tag badge text-bg-secondary" data-tag="モバイル">モバイル</button><button type="button" class="tag badge text-bg-secondary" data-tag="企業内システム">企業内システム</button><button type="button" class="tag badge text-bg-secondary" data-tag="無線LAN・ネットワーク機器">無線LAN・ネットワーク機器</button></div></th>
                     <td><ul><li>パスワードを使わず、次のもので認証する方式<ul><li>端末内の秘密鍵</li><li>生体情報</li><li>電子証明書等</li></ul></li><li>パスワード自体に起因する次のリスクをなくす<ul><li>パスワードの使い回し・漏えい</li><li>フィッシングによる窃取</li><li>パスワードリスト攻撃</li></ul></li><li>代表例はFIDO2/パスキーとクライアント証明書認証</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant D as 端末(秘密鍵・生体情報・証明書)
@@ -594,6 +619,7 @@ S->>S: 3. 公開鍵や証明書で検証し認証を許可
                     <th scope="row" class="name">FIDO<br>(Fast IDentity Online)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総称">総称</button><button type="button" class="tag badge text-bg-secondary" data-tag="標準規格群">標準規格群</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO">FIDO</button></div></th>
                     <td><ul><li>FIDOアライアンスが策定</li><li>パスワードに依存しないオンライン認証の標準規格群の総称</li><li>公開鍵暗号方式を採用</li><li>秘密鍵は常に端末内(セキュリティチップ等)に保持され<strong>外部へ送信されない</strong></li><li>策定時期・用途により<ul><li>UAF</li><li>U2F</li><li>FIDO2</li></ul>の3系統に分かれる</li></ul><br><b>ゼロ知識証明</b><ul><li>秘密情報そのものを開示せずに<br>その情報を知っていることを証明する方式</li><li>FIDO等の理論的背景の一つ</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant A as 認証器(端末)
@@ -611,6 +637,7 @@ S->>S: 3. 公開鍵で検証(公開鍵認証)
                     <th scope="row" class="name">FIDO UAF<br>(Universal Authentication<br>Framework)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO規格">FIDO規格</button><button type="button" class="tag badge text-bg-secondary" data-tag="パスワードレス認証">パスワードレス認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="モバイル">モバイル</button><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO">FIDO</button></div></th>
                     <td><ul><li>ID/パスワードの入力自体を廃止し、生体認証等のみでログインする <strong>パスワードレス認証</strong> の規格</li><li>パスワード自体を持たない(登録・使用しない)方式</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant A as スマートフォン等(認証器)
@@ -628,6 +655,7 @@ S->>S: 3. 署名を検証して認証
                     <th scope="row" class="name">FIDO U2F<br>(Universal 2nd Factor)<br>FIDO CTAP1<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO規格">FIDO規格</button><button type="button" class="tag badge text-bg-secondary" data-tag="第2要素">第2要素</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO">FIDO</button></div></th>
                     <td><ul><li>プロトコル : CTAP1</li><li>既存のID/パスワード認証を補強する<strong>第2要素</strong>としてセキュリティキー等を用いる規格</li><li>接続先ドメインと鍵が紐づくためフィッシング耐性が高い</li><li>現在は、FIDO2の仕様に取り込まれている</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant K as セキュリティキー
@@ -645,6 +673,7 @@ K->>S: 3. キー内の秘密鍵で署名して返送
                     <th scope="row" class="name">FIDO2 <br>FIDO CTAP2<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO規格">FIDO規格</button><button type="button" class="tag badge text-bg-secondary" data-tag="統合規格">統合規格</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO">FIDO</button></div></th>
                     <td><ul><li>UAF/U2Fを統合・発展させた最新世代の規格</li><li>WebAuthnとCTAP(CTAP2)の2仕様から構成される</li><li>端末内蔵の生体認証等(プラットフォーム認証器)と外付けセキュリティキー(ローミング認証器)の両方に対応</li><li>パスワードレス認証に加え、PIN/生体認証との組み合わせで多要素認証も実現できる</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant B as ブラウザ・OS
 participant A as 認証器
@@ -661,6 +690,7 @@ A->>S: 3. 認証器での認証結果をもとに公開鍵認証
                     <th scope="row" class="name">WebAuthn<br>(Web Authentication API)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="標準API">標準API</button><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO2の構成要素">FIDO2の構成要素</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO">FIDO</button></div></th>
                     <td><ul><li>パスワードを使わず公開鍵暗号方式でWebサイトへのログインを実現するW3C標準API</li><li>認証に用いる情報(clientDataJSON)に、ブラウザが付与する<ul><li><b>オリジン</b><br>[スキーム プロトコル名]://[ホスト名]:[ポート番号]</li><li>チャレンジ</li></ul>が含まれる</li><li>サーバが<b>オリジンと署名を検証</b>する仕組みのため、<br>偽サイトでは検証に失敗しフィッシング耐性が高い</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant S as サーバ(RP)
 participant B as ブラウザ
@@ -679,6 +709,7 @@ S->>S: 4. オリジン・チャレンジ・RP IDハッシュを確認し公開�
                     <th scope="row" class="name">パスキー<br>(Passkey)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO2実装">FIDO2実装</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button><button type="button" class="tag badge text-bg-secondary" data-tag="FIDO">FIDO</button></div></th>
                     <td>FIDO2/WebAuthnをベースとした<br>パスワードレス認証の実装<ul><li>端末内で秘密鍵を作成し、サービス側には公開鍵のみを登録する</li><li>秘密鍵や生体情報は端末の外に出ない</li><li>サービス側から漏えいしても悪用されにくい</li><li>秘密鍵は登録した正規のドメインでのみ使われるため、<br>偽サイト(フィッシング)では認証が成立しない</li><li>端末のロック解除(生体認証・PIN)と組み合わせるため、<br>「所持情報+生体情報/知識情報」の多要素認証にもなる</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant D as 端末
@@ -697,6 +728,7 @@ S->>S: 3. 公開鍵で検証してログイン
                     <th scope="row" class="name">ワンタイムパスワード<br>(OTP)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="使い捨てパスワード方式">使い捨てパスワード方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button><button type="button" class="tag badge text-bg-secondary" data-tag="OTP">OTP</button></div></th>
                     <td>一度限り使用可能な使い捨てパスワード<br><ul><li>HOTP : カウンタ値をもとに生成</li><li>TOTP : 現在時刻をもとに生成(Google Authenticator等)</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant T as トークン・アプリ
 participant U as 利用者
@@ -714,6 +746,7 @@ S->>S: 3. 同じ計算を行い一致を確認
                     <th scope="row" class="name">セキュリティトークン<br>(ハードウェアトークン)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報デバイス">所持情報デバイス</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="リモートアクセス・VPN">リモートアクセス・VPN</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button><button type="button" class="tag badge text-bg-secondary" data-tag="OTP">OTP</button></div></th>
                     <td>ワンタイムパスワードを生成する専用の物理デバイス<br>認証の3要素のうち「所持情報」にあたる<br>近年はスマートフォンアプリによる<br>ソフトウェアトークンも普及</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant T as セキュリティトークン
 participant U as 利用者
@@ -731,6 +764,7 @@ S->>S: 3. サーバ側で一致を確認
                     <th scope="row" class="name">リスクベース認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="認証方式">認証方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button><button type="button" class="tag badge text-bg-secondary" data-tag="リスク判定・継続的認証">リスク判定・継続的認証</button></div></th>
                     <td>通常と異なるアクセス(IPアドレス、端末、地域等)を<br>検知した場合のみ追加認証を要求する方式</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant S as サーバ
@@ -746,6 +780,7 @@ S-->>U: 3. 異なる場合のみ追加のOTP入力等を要求
                     <th scope="row" class="name">継続的認証<br>(Continuous Authentication)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="認証方式">認証方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="セッション中の再評価">セッション中の再評価</button><button type="button" class="tag badge text-bg-secondary" data-tag="リスク判定・継続的認証">リスク判定・継続的認証</button></div></th>
                     <td>ログイン時の1回だけでなく、<br>セッション中も継続的に本人性・リスクを評価する方式<br>ゼロトラストの「常に検証する」考え方と親和性が高い</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant S as サーバ
@@ -769,6 +804,7 @@ S-->>U: 3. リスクが高まったら再認証を要求またはセッション
                     <th scope="row" class="name">エージェント型SSO<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="シングルサインオン">シングルサインオン</button><button type="button" class="tag badge text-bg-secondary" data-tag="実現方式">実現方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="企業内システム">企業内システム</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button></div></th>
                     <td><ul><li><b>仕組み</b><br>各サーバ(アプリケーション)に常駐エージェントを導入し、SSO基盤と連携して認証を代行する<ul><li>認証済みかどうかは、SSO基盤が発行するクッキーで判定する</li></ul></li><li><b>必要なもの</b><ul><li>各サーバへのエージェントインストール権限</li><li>SSO基盤との連携設定</li></ul></li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as ユーザ
 participant A as 各サーバのエージェント
@@ -789,6 +825,7 @@ A-->>U: 4. 各サーバへの認証を代行(同一ドメイン内では再ロ�
                     <th scope="row" class="name">リバースプロキシ型SSO<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="シングルサインオン">シングルサインオン</button><button type="button" class="tag badge text-bg-secondary" data-tag="実現方式">実現方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="企業内システム">企業内システム</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button></div></th>
                     <td><ul><li><b>仕組み</b><br>SSO用リバースプロキシが全リクエストを中継し、認証済みセッションを各システムへ付与する</li><li><b>必要なもの</b><ul><li>リバースプロキシサーバの構築</li><li>通信経路の集約</li></ul></li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as ユーザ
 participant P as SSO用リバースプロキシ
@@ -805,6 +842,7 @@ P->>S: 3. 認証済みセッションを付与しリクエストを転送
                     <th scope="row" class="name">代理認証型SSO<br>(フォーム認証代行)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="シングルサインオン">シングルサインオン</button><button type="button" class="tag badge text-bg-secondary" data-tag="実現方式">実現方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="企業内システム">企業内システム</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button></div></th>
                     <td><ul><li><b>仕組み</b><br>ユーザに代わってID/パスワードを各システムのログイン画面へ自動入力し認証を代行する</li><li><b>必要なもの</b><ul><li>各システムのログイン画面情報(フォーム構造)の登録</li><li>認証情報の保管(暗号化等)</li></ul></li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as ユーザ
 participant A as SSO基盤(代理認証エージェント)
@@ -821,6 +859,7 @@ S->>S: 3. 各システム自身の認証処理で個別にログイン完了
                     <th scope="row" class="name">フェデレーション型SSO<br>(ID連携)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="シングルサインオン">シングルサインオン</button><button type="button" class="tag badge text-bg-secondary" data-tag="実現方式">実現方式</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button></div></th>
                     <td><ul><li><b>仕組み</b><br>IdP(Identity Provider)が認証を行い、認証結果をSP(Service Provider)へ連携する</li><li><b>必要なもの</b><ul><li>IdPとSP間の標準プロトコル対応</li><li>証明書等による信頼関係の構築</li></ul></li></ul><br><b>IdP / SP</b><ul><li>IdP(Identity Provider) : <br>ユーザを認証し、認証結果を発行する主体</li><li>SP(Service Provider) : <br>IdPの認証結果を受け取り<br>サービスを提供する側</li><li>フェデレーション型SSO(SAML/OIDC等)で登場する用語</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as ユーザ
 participant I as IdP
@@ -837,6 +876,7 @@ S->>S: 3. 連携された認証結果を検証しログインを許可
                     <th scope="row" class="name">&emsp;└ SAML<br>(Security Assertion<br>Markup Language)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="シングルサインオン">シングルサインオン</button><button type="button" class="tag badge text-bg-secondary" data-tag="フェデレーション型">フェデレーション型</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button></div></th>
                     <td><ul><li>IdPとSP間で認証結果・属性情報をXML形式でやり取りするフェデレーション型SSOの標準規格(OASIS策定、現行はSAML 2.0)</li><li>認証結果・属性は「アサーション(&lt;Assertion&gt;)」にまとめ、IdPが電子署名を付与する</li><li>一般的なWebのSSOは「Web Browser SSOプロファイル」で、メッセージを<b>ブラウザ経由</b>(HTTPリダイレクト/POST)で受け渡す(受け渡し方式はバインディングと呼ぶ、詳細は下記のバインディング表)</li><li>SPが署名を検証する鍵は、事前に交換したメタデータ(IdPの証明書・URL・EntityID)から得る</li></ul><br><b>バインディング(メッセージの受け渡し方式)と取得場所</b><table class="table table-sm table-bordered mb-2"><thead><tr><th style="position:static;min-width:0">メッセージ</th><th style="position:static;min-width:0">バインディング</th><th style="position:static;min-width:0">経路</th><th style="position:static;min-width:0">格納場所</th><th style="position:static;min-width:0">エンコード・署名</th></tr></thead><tbody><tr><td style="min-width:0">&lt;AuthnRequest&gt;</td><td style="min-width:0">HTTP-Redirect</td><td style="min-width:0">SP → ブラウザ(302) → IdP</td><td style="min-width:0">GETのクエリ <code>SAMLRequest</code>(+<code>RelayState</code>、署名時は<code>SigAlg</code>・<code>Signature</code>)</td><td style="min-width:0">DEFLATE圧縮 → Base64 → URLエンコード<br>署名はXML内ではなくクエリ文字列に対して計算</td></tr><tr><td style="min-width:0">&lt;AuthnRequest&gt;</td><td style="min-width:0">HTTP-POST</td><td style="min-width:0">SP → ブラウザ(自動submitフォーム) → IdP</td><td style="min-width:0">POSTボディの <code>SAMLRequest</code></td><td style="min-width:0">Base64<br>署名はXML内のエンベローピド署名</td></tr><tr><td style="min-width:0">&lt;Response&gt;<br>(&lt;Assertion&gt;)</td><td style="min-width:0"><b>HTTP-POST</b><br>(最も一般的)</td><td style="min-width:0">IdP → ブラウザ(自動submitフォーム) → SPのACS</td><td style="min-width:0"><b>POSTボディ(application/x-www-form-urlencoded)の <code>SAMLResponse</code></b>(+<code>RelayState</code>)</td><td style="min-width:0">Base64(圧縮しない)<br>署名はXML内(ResponseまたはAssertion)のエンベローピド署名</td></tr><tr><td style="min-width:0">&lt;Response&gt;<br>(&lt;Assertion&gt;)</td><td style="min-width:0">HTTP-Redirect<br>(まれ)</td><td style="min-width:0">IdP → ブラウザ(302) → SPのACS</td><td style="min-width:0"><b>GETの<u>クエリ文字列</u>の <code>SAMLResponse</code></b>(+<code>RelayState</code>、<code>SigAlg</code>、<code>Signature</code>)</td><td style="min-width:0">DEFLATE圧縮 → Base64 → URLエンコード<br>URL長の制限があり、アサーションが大きくなりやすいためResponseでは通常使われない<br>署名はクエリ文字列に対して計算</td></tr><tr><td style="min-width:0">&lt;Response&gt;<br>(&lt;Assertion&gt;)</td><td style="min-width:0">HTTP-Artifact</td><td style="min-width:0">IdP → ブラウザ(<code>SAMLart</code>のみ) → SP<br>SPがIdPへ直接アクセスしてアサーションを取得</td><td style="min-width:0">ブラウザ経由はアーティファクト(参照ID)のみ<br>本体はバックチャネル(SOAP)の &lt;ArtifactResolve&gt; で取得</td><td style="min-width:0">アサーション本体がブラウザを経由しない</td></tr></tbody></table></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as ブラウザ(ユーザ)
 participant SP as SP
@@ -860,6 +900,7 @@ SP-->>U: 8. SPのセッションを確立しRelayStateで元のURLへ遷移
                     <th scope="row" class="name">&emsp;└ OAuth 2.0<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="認可プロトコル">認可プロトコル</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button><button type="button" class="tag badge text-bg-secondary" data-tag="API・システム間連携">API・システム間連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="OAuth・OIDC系">OAuth・OIDC系</button></div></th>
                     <td><ul><li>リソースへのアクセス権限を第三者アプリに委譲するための「認可」の標準プロトコル(RFC 6749)</li><li>「誰であるか」を証明する認証プロトコルではなく「何を許可するか」を扱う認可プロトコルである点に注意</li><li>ユーザのID/パスワードをクライアントに渡さず、代わりに<b>アクセストークン</b>を発行して権限を委譲する</li><li>ロール・グラント種別は下記の表、トークン・受け渡し方法は「認証手順」欄、攻撃と対策は「デメリット」欄の表を参照</li></ul><br><b>ロール</b><br><table class="table table-sm table-bordered mb-2"><thead><tr><th style="position:static;min-width:0">ロール</th><th style="position:static;min-width:0">役割</th><th style="position:static;min-width:0">具体例<br>(写真印刷サービスがクラウド上の写真を読み込む場合)</th></tr></thead><tbody><tr><td style="min-width:0">リソースオーナ<br>(Resource Owner)</td><td style="min-width:0">保護対象のリソースの持ち主で、クライアントへのアクセス許可(認可)を与える主体(通常はエンドユーザ)</td><td style="min-width:0">写真の持ち主である利用者</td></tr><tr><td style="min-width:0">クライアント<br>(Client)</td><td style="min-width:0">リソースオーナの許可を得てリソースにアクセスするアプリケーション(利用者の端末ではなく、アプリ側を指す点に注意)</td><td style="min-width:0">写真印刷サービス</td></tr><tr><td style="min-width:0">認可サーバ<br>(Authorization Server)</td><td style="min-width:0">リソースオーナを認証し、同意を得たうえでクライアントにアクセストークンを発行する</td><td style="min-width:0"><ul><li>クラウドストレージ側のログイン・同意画面</li><li>トークン発行</li></ul>を担うサーバ</td></tr><tr><td style="min-width:0">リソースサーバ<br>(Resource Server)</td><td style="min-width:0">保護されたリソース(API)を保持するサーバ<br>アクセストークンを検証し、有効な場合のみリソースを返す</td><td style="min-width:0">クラウドストレージのAPIサーバ</td></tr></tbody></table><br><b>グラント種別(トークンを得る方式)</b><br><table class="table table-sm table-bordered mb-2"><thead><tr><th style="position:static;min-width:0">グラント種別</th><th style="position:static;min-width:0">概要</th><th style="position:static;min-width:0">主な用途</th><th style="position:static;min-width:0">現状</th></tr></thead><tbody><tr><td style="min-width:0">認可コード<br>(+PKCE)</td><td style="min-width:0">上記の標準的なフロー</td><td style="min-width:0">Webアプリ、モバイルアプリ、SPA</td><td style="min-width:0">推奨(PKCE併用)</td></tr><tr><td style="min-width:0">クライアントクレデンシャルズ</td><td style="min-width:0">ユーザを介さず、クライアント自身の資格情報でトークンを取得する</td><td style="min-width:0">サーバ間通信(M2M)</td><td style="min-width:0">利用可</td></tr><tr><td style="min-width:0">リフレッシュトークン</td><td style="min-width:0">リフレッシュトークンで新しいアクセストークンを取得する</td><td style="min-width:0">長期的な連携</td><td style="min-width:0">利用可</td></tr><tr><td style="min-width:0">デバイスコード<br>(RFC 8628)</td><td style="min-width:0">入力が困難な端末で表示したコードを、別端末のブラウザで認可する</td><td style="min-width:0">スマートTV、CLIツール</td><td style="min-width:0">利用可</td></tr><tr><td style="min-width:0">インプリシット</td><td style="min-width:0">認可エンドポイントから直接アクセストークンを返す(URLフラグメント)</td><td style="min-width:0">旧来のSPA</td><td style="min-width:0">非推奨(トークンがURL・履歴に露出)</td></tr><tr><td style="min-width:0">リソースオーナ・パスワード・クレデンシャル</td><td style="min-width:0">ユーザのID/パスワードをクライアントが直接受け取ってトークンを得る</td><td style="min-width:0">旧来のレガシー</td><td style="min-width:0">非推奨(委譲の趣旨に反する)</td></tr></tbody></table></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as リソースオーナ(ブラウザ)
 participant C as クライアント
@@ -888,6 +929,7 @@ A-->>C: 9. 新しいアクセストークンを返す
                     <th scope="row" class="name">&emsp;└ PKCE<br>(Proof Key for Code<br>Exchange)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="OAuth 2.0拡張仕様">OAuth 2.0拡張仕様</button><button type="button" class="tag badge text-bg-secondary" data-tag="モバイル">モバイル</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="OAuth・OIDC系">OAuth・OIDC系</button></div></th>
                     <td>OAuth 2.0の「認可コード」を横取りされて<br>悪用される攻撃を防ぐ拡張仕様<br>クライアントシークレットを安全に保持できない<br>モバイルアプリ/SPA(シングルページアプリ)で特に必須とされる<ul><li><b>検証方式</b><br><b>code_verifier(検証コード)のハッシュ値(S256 : SHA-256をBase64URLエンコード)が、<br>code_challenge(チャレンジコードの値)と一致するか</b>を確認する</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant C as クライアント
 participant A as 認可サーバ
@@ -905,6 +947,7 @@ A->>A: 4. Base64URL(SHA-256(code_verifier))を計算し保持済みのcode_chall
                     <th scope="row" class="name">&emsp;└ OpenID Connect<br>(OIDC)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="シングルサインオン">シングルサインオン</button><button type="button" class="tag badge text-bg-secondary" data-tag="フェデレーション型">フェデレーション型</button><button type="button" class="tag badge text-bg-secondary" data-tag="Web・クラウド">Web・クラウド</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="OAuth・OIDC系">OAuth・OIDC系</button></div></th>
                     <td><ul><li>OAuth 2.0を拡張し「認証」機能を追加した標準規格(OpenID Connect Core)</li><li>いわゆる「〇〇でログイン」の実体</li><li>OAuth 2.0のアクセストークンに加えて、認証結果を表す<b>IDトークン</b>(JWT)を発行する</li><li>リクエストに <code>scope=openid</code> を含めることでOIDCになる</li><li><b>フロー</b>は <code>response_type</code> で決まる</li><li>認可コードフロー(code)、インプリシットフロー(id_token等)、<b>ハイブリッドフロー</b>(code id_token等、OAuth 2.0本体ではなくOIDC Coreで定義)</li><li>state・nonce・認可コード・各トークンの所在とフロー比較は下記の表を参照</li></ul><br><b>フロー比較(response_typeで決まる)</b><br><table class="table table-sm table-bordered mb-2"><thead><tr><th style="position:static;min-width:0">フロー</th><th style="position:static;min-width:0">response_type</th><th style="position:static;min-width:0">認可エンドポイントからの返却<br>(フロントチャネル)</th><th style="position:static;min-width:0">トークンエンドポイントからの返却<br>(バックチャネル)</th><th style="position:static;min-width:0">認可レスポンスの返し方<br>(response_mode)</th><th style="position:static;min-width:0">nonce</th><th style="position:static;min-width:0">現状</th></tr></thead><tbody><tr><td style="min-width:0">認可コードフロー</td><td style="min-width:0"><code>code</code></td><td style="min-width:0">認可コード</td><td style="min-width:0">アクセストークン、IDトークン、(リフレッシュトークン)</td><td style="min-width:0"><code>query</code>(既定)</td><td style="min-width:0">任意(推奨)</td><td style="min-width:0">推奨(PKCE併用)</td></tr><tr><td style="min-width:0">インプリシットフロー</td><td style="min-width:0"><code>id_token</code><br><code>id_token token</code></td><td style="min-width:0">IDトークン(+アクセストークン)</td><td style="min-width:0">なし(トークンエンドポイントを使わない)</td><td style="min-width:0"><code>fragment</code>(既定)</td><td style="min-width:0"><b>必須</b></td><td style="min-width:0">非推奨</td></tr><tr><td style="min-width:0">ハイブリッドフロー</td><td style="min-width:0"><code>code id_token</code><br><code>code token</code><br><code>code id_token token</code></td><td style="min-width:0">認可コード + IDトークン / アクセストークン(指定に応じて)</td><td style="min-width:0">アクセストークン、IDトークン、(リフレッシュトークン)</td><td style="min-width:0"><code>fragment</code>(既定)、<code>form_post</code> 可</td><td style="min-width:0"><b>IDトークンを返す場合は必須</b></td><td style="min-width:0">特殊用途(コードとIDトークンを即時に使いたい場合)</td></tr></tbody></table><br>※ <code>response_mode</code> : <code>query</code>=URLのクエリ、<code>fragment</code>=URLの#以降(サーバには送信されない)、<code>form_post</code>=自動送信のPOSTフォーム(ボディ)<br><b>state・nonce・認可コード・トークンの所在</b><br><table class="table table-sm table-bordered mb-2"><thead><tr><th style="position:static;min-width:0">値</th><th style="position:static;min-width:0">生成・発行者</th><th style="position:static;min-width:0">どこに含まれるか</th><th style="position:static;min-width:0">誰がどう検証するか</th><th style="position:static;min-width:0">目的</th></tr></thead><tbody><tr><td style="min-width:0">state</td><td style="min-width:0">クライアント</td><td style="min-width:0"><ul><li>認可リクエストのパラメータ</li><li>認可レスポンス(リダイレクトのクエリ/フラグメント/form_postのボディ)でそのまま返る</li><li><b>トークンの中には含まれない</b></li></ul></td><td style="min-width:0">クライアントが、セッション(Cookie等)に保存した値と一致を確認</td><td style="min-width:0">CSRF対策、リクエストとレスポンスの対応付け</td></tr><tr><td style="min-width:0">nonce</td><td style="min-width:0">クライアント</td><td style="min-width:0"><ul><li>認可リクエストのパラメータ</li><li><b>IDトークン(JWT)のペイロードの <code>nonce</code> クレーム</b>に認可サーバが入れて返す</li><li>認可レスポンス自体にはnonceは返らない</li></ul></td><td style="min-width:0">クライアントが、IDトークンの <code>nonce</code> が、認可リクエストで送った値(セッションに保存)と一致することを確認</td><td style="min-width:0">IDトークンのリプレイ・差し替え対策(リクエストとIDトークンの対応付け)</td></tr><tr><td style="min-width:0">認可コード</td><td style="min-width:0">認可サーバ</td><td style="min-width:0"><ul><li>認可レスポンス(コードフロー : クエリ、ハイブリッド : フラグメント等)</li><li>トークンエンドポイントへのリクエストのボディ(<code>code</code>)</li><li>ハイブリッドでは、IDトークンの <code>c_hash</code> クレームでコードと対応付く</li></ul></td><td style="min-width:0">認可サーバが、有効期限・未使用・client・redirect_uri・(PKCEのcode_verifier)を確認<br>クライアントはc_hashを確認(ハイブリッド)</td><td style="min-width:0">アクセストークンと交換する一時的な引換券</td></tr><tr><td style="min-width:0">アクセストークン</td><td style="min-width:0">認可サーバ</td><td style="min-width:0"><ul><li>トークンエンドポイントのJSONレスポンス(<code>access_token</code>)</li><li>インプリシット/ハイブリッド(token指定)では認可レスポンスのフラグメント</li><li>API呼び出し時は <code>Authorization: Bearer …</code> ヘッダ</li><li>IDトークンの <code>at_hash</code> と対応付く(認可エンドポイントで返す場合)</li></ul></td><td style="min-width:0">リソースサーバが、署名/イントロスペクション・exp・スコープを確認<br>クライアントはat_hashを確認</td><td style="min-width:0">APIへのアクセス権の提示</td></tr><tr><td style="min-width:0">IDトークン</td><td style="min-width:0">認可サーバ(IdP)</td><td style="min-width:0"><ul><li>トークンエンドポイントのJSONレスポンス(<code>id_token</code>)</li><li>インプリシット/ハイブリッドでは認可レスポンスのフラグメント</li><li>中身(JWTペイロード) : <code>iss</code>、<code>sub</code>、<code>aud</code>、<code>exp</code>、<code>iat</code>、<code>nonce</code>、<code>auth_time</code>、<code>acr</code>、<code>c_hash</code>、<code>at_hash</code></li></ul></td><td style="min-width:0">クライアントが、署名(JWKS)・iss・aud・exp・nonce・c_hash・at_hashを確認</td><td style="min-width:0">認証結果(誰が、いつ、どう認証したか)の証明</td></tr><tr><td style="min-width:0">code_challenge / code_verifier</td><td style="min-width:0">クライアント</td><td style="min-width:0"><ul><li><code>code_challenge</code> : 認可リクエスト</li><li><code>code_verifier</code> : トークンリクエスト</li></ul></td><td style="min-width:0">認可サーバが、Base64URL(SHA-256(code_verifier))とcode_challengeの一致を確認</td><td style="min-width:0">認可コードの横取り対策(PKCE)</td></tr></tbody></table></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as ユーザ(ブラウザ)
 participant C as クライアント(RP)
@@ -932,6 +975,7 @@ C->>O: 5. 認可コードをトークンエンドポイントで交換
                     <th scope="row" class="name">&emsp;└ JWT<br>(JSON Web Token)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="形式名">形式名</button><button type="button" class="tag badge text-bg-secondary" data-tag="トークンフォーマット">トークンフォーマット</button><button type="button" class="tag badge text-bg-secondary" data-tag="API・システム間連携">API・システム間連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button><button type="button" class="tag badge text-bg-secondary" data-tag="OAuth・OIDC系">OAuth・OIDC系</button></div></th>
                     <td>署名付きの情報(クレーム)をJSON形式で<br>コンパクトにやり取りするためのトークン形式<br>署名により改ざん検知が可能だが、内容自体は<br>暗号化されず誰でもデコードして閲覧可能な点に注意</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant G as 発行側
 participant R as 受信側
@@ -950,6 +994,7 @@ R->>R: 5. 署名を検証しexp・nbf・iss・audを確認
                     <th scope="row" class="name">チケット型SSO<br>(Kerberos認証)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="シングルサインオン">シングルサインオン</button><button type="button" class="tag badge text-bg-secondary" data-tag="チケット型">チケット型</button><button type="button" class="tag badge text-bg-secondary" data-tag="企業内システム">企業内システム</button><button type="button" class="tag badge text-bg-secondary" data-tag="SSO・ID連携">SSO・ID連携</button></div></th>
                     <td><ul><li>共通鍵暗号とチケットに基づくネットワーク認証プロトコル(RFC 4120)</li><li>パスワード(由来の鍵)をネットワークに流さずに、クライアントとサービスが<b>相互認証</b>できる</li><li>登場人物 : KDC(鍵配布センタ、AS=認証サービス + TGS=チケット発行サービス、ADではドメインコントローラ)、クライアント、サービスサーバ</li><li><b>TGT</b>(Ticket Granting Ticket)は、KDCの鍵(krbtgtアカウント)で暗号化された「ログイン済み」の証明で、サービス用チケットの発行要求に使う(クライアントは中身を読めない)</li><li><b>ST</b>(Service Ticket、TGS/サービスチケット)は、サービスの鍵で暗号化された、特定サービスへのアクセス用チケット</li><li><b>認証子</b>(Authenticator)は、クライアント名と時刻をセッションキーで暗号化したもの</li><li>チケットの使い回し(リプレイ)を防ぐ</li><li>時刻同期が必須(既定では±5分以内)</li><li>メッセージ・鍵の詳細は「認証手順」欄、TGT/ST・鍵を狙う攻撃は「デメリット」欄の表を参照</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant C as クライアント
 participant K as KDC(AS)
@@ -974,6 +1019,7 @@ C->>C: 7. サービスの正当性を確認
                     <th scope="row" class="name">RADIUS<br>(Remote Authentication<br>Dial In User Service)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="プロトコル">プロトコル</button><button type="button" class="tag badge text-bg-secondary" data-tag="AAA">AAA</button><button type="button" class="tag badge text-bg-secondary" data-tag="リモートアクセス・VPN">リモートアクセス・VPN</button><button type="button" class="tag badge text-bg-secondary" data-tag="無線LAN・ネットワーク機器">無線LAN・ネットワーク機器</button></div></th>
                     <td>ネットワーク機器(NAS : Network Access Server<br>※ネットワーク接続ストレージ(NAS)とは別物)が<br>受け取った認証要求をRADIUSサーバに中継し、AAA<br>(Authentication : 認証、Authorization : 認可、<br>Accounting : 課金・利用記録)の仕組みにより<br>データベースと照合して可否を判断するプロトコル<br>後継としてTLSで暗号化するDiameterや<br>RadSecも存在する</td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant N as NAS(接続機器)
@@ -992,6 +1038,7 @@ R-->>N: 4. 認証結果(許可・拒否)と認可情報を返送
                     <th scope="row" class="name">クライアント証明書認証<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="パスワードレス認証">パスワードレス認証</button><button type="button" class="tag badge text-bg-secondary" data-tag="電子証明書型">電子証明書型</button><button type="button" class="tag badge text-bg-secondary" data-tag="所持情報">所持情報</button><button type="button" class="tag badge text-bg-secondary" data-tag="リモートアクセス・VPN">リモートアクセス・VPN</button><button type="button" class="tag badge text-bg-secondary" data-tag="企業内システム">企業内システム</button><button type="button" class="tag badge text-bg-secondary" data-tag="無線LAN・ネットワーク機器">無線LAN・ネットワーク機器</button></div></th>
                     <td><ul><li>利用者の端末に配布したデジタル証明書(秘密鍵)で認証する方式</li><li>証明書の発行・失効・更新を管理する仕組み(PKI)の運用が必要</li></ul><br><b>PKI(Public Key Infrastructure)</b><ul><li>公開鍵基盤</li><li>デジタル証明書の発行・失効・更新を管理する仕組み</li><li>クライアント証明書認証の運用に必要</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant A as 認証局
 participant C as クライアント
@@ -1009,6 +1056,7 @@ S-->>C: 4. 検証に成功すれば認証成功
                     <th scope="row" class="name">多要素認証<br>(MFA)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総称">総称</button><button type="button" class="tag badge text-bg-secondary" data-tag="認証要素の組み合わせ">認証要素の組み合わせ</button><button type="button" class="tag badge text-bg-secondary" data-tag="金融・決済">金融・決済</button></div></th>
                     <td>「知識情報」「所持情報」「生体情報」のうち<br><b>異なる種類を2つ以上</b>組み合わせて認証強度を高める認証<br>パスワードと秘密の質問のように同じ種類(知識情報)を<br>2つ使っても多要素認証にはならない<br>知識情報 : パスワード、PIN<br>所持情報 : ICカード、スマートフォン、<br>ワンタイムパスワードトークン、<br>USBキー(USBトークン)<br>生体情報 : 指紋、顔、虹彩等<br><b>本人認証の3要素</b><ul><li>Something you know(知識) : パスワード等</li><li>Something you have(所持) : ICカード等</li><li>Something you are(生体) : 指紋等</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant S as サーバ
@@ -1024,6 +1072,7 @@ S->>S: 3. 全ての要素が確認できた場合のみ認証成功
                     <th scope="row" class="name">PAM<br>(Privileged Access<br>Management : 特権アクセス管理)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総称">総称</button><button type="button" class="tag badge text-bg-secondary" data-tag="特権ID管理">特権ID管理</button><button type="button" class="tag badge text-bg-secondary" data-tag="不正検知・なりすまし対策">不正検知・なりすまし対策</button></div></th>
                     <td>管理者権限等の特権アカウントの利用を<br>制御・監視・記録する仕組み<ul><li>特権IDの貸出・払い出しとパスワードの管理(必要なときだけ利用させる)</li><li>承認ワークフローによる利用許可</li><li>操作ログ・画面操作の記録(証跡の取得)</li></ul></td>
                     <td><div class="mermaid-source">
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "HGPGothicE, arial", "primaryColor": "#EEE", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#EEE"}}}%%
 sequenceDiagram
 participant U as 利用者
 participant W as 承認者

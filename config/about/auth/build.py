@@ -1,4 +1,4 @@
-import re, html, os, sys
+import re, html, os, sys, json
 
 
 class AuthMD2HTML:
@@ -19,6 +19,7 @@ class AuthMD2HTML:
     | `step_numbers` | mermaid 内のメッセージから、手順番号を取り出す |
     | `check_steps` | mermaid の手順番号と、手順表の手順数が合っているか確認する |
     | `steps_table` | 手順のリストを、手順表(`<table>`)にする |
+    | `mermaid_init` | mermaid の先頭に付ける `%%{init: …}%%` を作る |
     | `flow_html` | 「認証手順」セルの HTML(図 + 手順表 + 残り)を作る |
     | `row_html` | 1行分の `<tr>` を作る |
     | `group` | 上部のタグボタン群を作る |
@@ -56,6 +57,31 @@ class AuthMD2HTML:
     CSS = "auth-style.css"   # 出力する CSS のファイル名(確認用ページも読み込む)
     JS = "auth-script.js"    # 出力する JavaScript のファイル名(確認用ページも読み込む)
     COLS = 7                 # Markdown の表の列数
+
+    # ## mermaid の見た目の設定(`%%{init: …}%%` として、全図の先頭に付ける)
+    #
+    # | キー | 値 | 説明 |
+    # |---|---|---|
+    # | `theme` | `base` | `themeVariables` を効かせるには `base` が必要 |
+    # | `fontFamily` | `HGPGothicE, arial` | フォント |
+    # | `primaryColor` | `#EEE` | 図形の塗り(参加者の箱など) |
+    # | `primaryTextColor` | `#000000` | 文字色 |
+    # | `primaryBorderColor` | `#000000` | 図形の枠線 |
+    # | `lineColor` | `#000000` | 線・矢印 |
+    # | `secondaryColor` | `#EEE` | 補助の塗り(Note など) |
+    #
+    # `None` にすると何も付けない。`auth.md` の図が自前で `%%{` から始まっていれば、そちらを優先する。
+    MERMAID_INIT = {
+        "theme": "base",
+        "themeVariables": {
+            "fontFamily": "HGPGothicE, arial",
+            "primaryColor": "#EEE",
+            "primaryTextColor": "#000000",
+            "primaryBorderColor": "#000000",
+            "lineColor": "#000000",
+            "secondaryColor": "#EEE",
+        },
+    }
 
     def __init__(
         self,
@@ -508,6 +534,30 @@ mermaid.run({ querySelector: '.mermaid-source' });
         rows = "".join(f"<tr><td{num}>{i}</td><td>{s}</td></tr>" for i, s in enumerate(steps, 1))
         return f"<table><thead><tr><th{num}>手順</th><th>内容</th></tr></thead><tbody>{rows}</tbody></table>"
 
+    @classmethod
+    def mermaid_init(cls, mermaid):
+        """
+        ## mermaid の先頭に付ける `%%{init: …}%%` を作る
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `mermaid` | `str` | mermaid の本文 |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | ディレクティブ | `str` | `%%{init: {...}}%%` + 改行。付けないときは空文字 |
+
+        次の場合は、空文字を返す(付けない)。
+
+        | 条件 | 理由 |
+        |---|---|
+        | `MERMAID_INIT` が `None` または空 | 設定なし |
+        | 本文がすでに `%%{` から始まる | 図ごとの指定を優先する |
+        """
+        if not cls.MERMAID_INIT or mermaid.lstrip().startswith("%%{"):
+            return ""
+        return f"%%{{init: {json.dumps(cls.MERMAID_INIT, ensure_ascii=False)}}}%%\n"
+
     def flow_html(self, name, cell):
         """
         ## 「認証手順」セルの HTML を作る
@@ -529,7 +579,8 @@ mermaid.run({ querySelector: '.mermaid-source' });
         if mermaid is None:
             raise ValueError(f"{name}: 認証手順に mermaid-source がありません")
         self.check_steps(name, mermaid, steps)
-        diagram = f'<div class="mermaid-source">\n{html.escape(mermaid, quote=False).replace("&gt;", ">")}\n</div>'
+        body = self.mermaid_init(mermaid) + mermaid
+        diagram = f'<div class="mermaid-source">\n{html.escape(body, quote=False).replace("&gt;", ">")}\n</div>'
         return rest.replace("\0", diagram + self.steps_table(steps), 1)
 
     def row_html(self, name_no, cells, tags):
