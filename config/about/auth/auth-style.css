@@ -125,7 +125,7 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#auth-app` 配�
 | クラス・属性 | 場所 | 説明 |
 |---|---|---|
 | `.tags` | 攻撃手法セル内 | バッジを並べる入れ物 |
-| `.tag` | 攻撃手法セル内 | 表中のタグ(`<button>`) |
+| `.tag` | 攻撃手法セル内 | 表中のタグ(`<button>`)。長い名前はセル幅の中で折り返す |
 | `.tag-child` | 攻撃手法セル内 | 子の行(`└`)から引き継いだタグ。破線で、親自身のタグと区別する |
 | `[data-tag].active` | 上部ボタン・表中タグ | 選択中の状態 |
 */
@@ -139,6 +139,11 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#auth-app` 配�
   border: 0;                                     /* `<button>` の既定の枠線を消す */
   font-weight: 400;
   cursor: pointer;
+  white-space: normal;                           /* Bootstrap の `.badge` は折り返さないため、長いタグがセルからはみ出す */
+  max-width: 100%;                               /* セル(`.name` の幅)を超えない */
+  text-align: left;                              /* `<button>` は既定が中央寄せ */
+  line-height: 1.3;                              /* 折り返したとき行がくっつかないようにする */
+  border-radius: .6rem;                          /* 2行以上になっても丸すぎない形にする(`.badge` は丸薬形) */
 }
 #auth-app [data-tag].active {
   background: var(--bs-primary);
