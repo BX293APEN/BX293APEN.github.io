@@ -132,9 +132,9 @@ class FixSvgOverflow {
     /**
      * ## fitLabels
      *
-     * 字間補正後も `foreignObject` の枠から横にはみ出すラベルを探し、
+     * 字間補正後も `foreignObject` の枠からはみ出すラベルを探し、
      * そのラベルだけフォントを縮小して収める。
-     * 枠・文字幅とも画面上の寸法で測るので、SVG の拡大縮小の影響を受けない。
+     * 折り返しで行数が変わると縮小率が線形にならないため、収まるまで最大 3 回繰り返す。
      *
      * ### 引数
      *
@@ -148,12 +148,20 @@ class FixSvgOverflow {
      * |----|------|
      * | `void` | なし |
      *
+     * ### 測り方
+     *
+     * | 対象 | 取得元 | 理由 |
+     * |------|--------|------|
+     * | 枠の幅・高さ | `foreignObject` の `width` / `height` 属性 (ユーザー単位) | `overflow: visible` 下の `getBoundingClientRect()` は、環境によりはみ出し分を含み、常に「収まっている」と誤判定しうるため |
+     * | 文字の幅 | `Range` の矩形 ÷ 画面倍率 | 実際に描画された文字の幅。単位を枠に合わせるため倍率で割る |
+     * | 文字の高さ | ラベル `div` の矩形 ÷ 画面倍率 | 折り返しによる縦のはみ出しも検出するため |
+     *
      * ### 縮小量の決め方
      *
      * | 状況 | 結果 |
      * |------|------|
-     * | 枠に収まっている | 変更しない |
-     * | はみ出している | 枠幅 / 文字幅 の比率で縮小 |
+     * | 幅・高さとも収まっている (誤差 0.2 以内) | 変更しない |
+     * | どちらかがはみ出している | 枠 / 実寸 の小さい方の比率で縮小 |
      */
     fitLabels(svgDoc) {
         const view = svgDoc.defaultView;
@@ -162,18 +170,33 @@ class FixSvgOverflow {
             const label = fo.firstElementChild;
             if (!label) return;
 
-            const boxWidth = fo.getBoundingClientRect().width;
-            const range = svgDoc.createRange();
-            range.selectNodeContents(label);
-            const textWidth = range.getBoundingClientRect().width;
+            // 枠の大きさは属性値 (ユーザー単位) から取る
+            const boxW = fo.width.baseVal.value;
+            const boxH = fo.height.baseVal.value;
+            if (boxW <= 0 || boxH <= 0) return;
 
-            // 収まっていれば何もしない (誤差 0.2px は許容)
-            if (boxWidth <= 0 || textWidth <= boxWidth + 0.2) return;
+            // 画面上の寸法を、ユーザー単位に直して測る
+            const measure = () => {
+                const ctm = fo.getScreenCTM();
+                const scale = ctm && ctm.a > 0 ? ctm.a : 1;
+                const range = svgDoc.createRange();
+                range.selectNodeContents(label);
+                return {
+                    w: range.getBoundingClientRect().width / scale,
+                    h: label.getBoundingClientRect().height / scale,
+                };
+            };
 
-            const current = parseFloat(view.getComputedStyle(label).fontSize);
-            const next = current * (boxWidth / textWidth);
+            for (let i = 0; i < 3; i++) {
+                const { w, h } = measure();
 
-            label.style.setProperty('font-size', `${next}px`, 'important');
+                // 収まっていれば終了 (誤差 0.2 は許容)
+                if (w <= boxW + 0.2 && h <= boxH + 0.2) break;
+
+                const ratio = Math.min(boxW / w, boxH / h);
+                const current = parseFloat(view.getComputedStyle(label).fontSize);
+                label.style.setProperty('font-size', `${current * ratio}px`, 'important');
+            }
         });
     }
 
