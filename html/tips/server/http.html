@@ -430,6 +430,49 @@ WantedBy=multi-user.target</code></pre>
 sudo systemctl restart [Project Name].service
 sudo systemctl enable [Project Name].service</code></pre>
                             </p>
+
+                            <h3 class="pt-4 border-bottom fw-bold">
+                                Djangoのセキュリティ機能
+                            </h3>
+                            <div id="md-django">
+
+| Djangoセキュリティ機能 | 有効方法 | 対策する脆弱性 |
+| --- | --- | --- |
+| CSRF対策用トークンの<ul><li>発行</li><li>HTMLへの埋め込み</li><li>リクエスト時の検証</li></ul> | <ul><li>`MIDDLEWARE` に `django.middleware.csrf.CsrfViewMiddleware` (startproject時のデフォルトで有効)</li><li>POSTフォームに `{% csrf_token %}`</li><li>AJAXは `X-CSRFToken` ヘッダでトークンを送信</li><li>信頼するオリジンは `CSRF_TRUSTED_ORIGINS`</li></ul> | CSRF (クロスサイトリクエストフォージェリ) |
+| テンプレートの自動エスケープ | <ul><li>デフォルトで有効 (設定不要)</li><li>無効化するのは `safe` フィルタ・`mark_safe()`・`{% autoescape off %}` (使用は最小限に)</li><li>JSへ値を渡す場合は `json_script` フィルタ</li></ul> | XSS (クロスサイトスクリプティング) |
+| ORMによるSQLのパラメータ化 | <ul><li>`filter()` / `get()` などORMを使う (デフォルトで有効)</li><li>生SQLは `raw()` / `cursor.execute()` の第2引数でパラメータを渡す (文字列結合・f文字列は使わない)</li></ul> | SQLインジェクション |
+| クリックジャッキング対策ミドルウェア | <ul><li>`MIDDLEWARE` に `django.middleware.clickjacking.XFrameOptionsMiddleware` (デフォルトで有効)</li><li>`X_FRAME_OPTIONS = "DENY"` (デフォルト)または `"SAMEORIGIN"`</li><li>ビュー単位は `@xframe_options_deny` / `@xframe_options_sameorigin` など</li></ul> | クリックジャッキング |
+| HTTPSリダイレクト | <ul><li>`MIDDLEWARE` に `django.middleware.security.SecurityMiddleware`</li><li>`SECURE_SSL_REDIRECT = True`</li><li>リバースプロキシ配下では `SECURE_PROXY_SSL_HEADER` も設定</li></ul> | 通信の盗聴・改ざん (中間者攻撃) |
+| HSTS (Strict-Transport-Security ヘッダ) | <ul><li>`SECURE_HSTS_SECONDS = 31536000` など</li><li>`SECURE_HSTS_INCLUDE_SUBDOMAINS = True`</li><li>`SECURE_HSTS_PRELOAD = True`</li></ul> | SSLストリッピング (HTTPSへのダウングレード攻撃) |
+| Cookieの保護属性 | <ul><li>`SESSION_COOKIE_SECURE = True`</li><li>`CSRF_COOKIE_SECURE = True`</li><li>`SESSION_COOKIE_HTTPONLY = True` (デフォルト)</li><li>`SESSION_COOKIE_SAMESITE = "Lax"` (デフォルト)</li></ul> | セッションハイジャック、Cookieの盗聴・窃取 (XSS経由含む)、CSRF |
+| MIMタイプスニッフィング防止 (X-Content-Type-Options) | `SECURE_CONTENT_TYPE_NOSNIFF = True` (デフォルトで有効、`SecurityMiddleware` が付与) | MIMスニッフィングによる意図しないスクリプト実行 |
+| Referrer-Policy ヘッダ | `SECURE_REFERRER_POLICY = "same-origin"` (デフォルト) | Refererヘッダ経由のURL・情報漏えい |
+| Cross-Origin-Opener-Policy ヘッダ | `SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin"` (デフォルト) | クロスオリジンのウィンドウ経由の攻撃 (Spectre系のサイドチャネルなど) |
+| Content Security Policy (Django 6.0以降) | <ul><li>`MIDDLEWARE` に `django.middleware.csp.ContentSecurityPolicyMiddleware`</li><li>`SECURE_CSP` でポリシーを定義</li></ul> | XSS、不正なリソース読み込み、データ流出 |
+| Hostヘッダの検証 | <ul><li>`ALLOWED_HOSTS = ["example.com"]`</li><li>`DEBUG = False` では必須</li></ul> | HTTP Hostヘッダ攻撃 (パスワードリセットポイズニング、キャッシュポイズニング) |
+| パスワードのハッシュ化 | <ul><li>`PASSWORD_HASHERS` (デフォルトはPBKDF2 + ソルト)</li><li>Argon2・bcryptも選択可能 (追加パッケージが必要)</li></ul> | パスワード漏えい時の平文流出、レインボーテーブル・総当たり攻撃 |
+| パスワードバリデーション | `AUTH_PASSWORD_VALIDATORS` (最小長・よくあるパスワード・数字のみ・ユーザー属性との類似を検査) | 弱いパスワード、辞書攻撃 |
+| セッション管理 | <ul><li>`django.contrib.sessions` と `SessionMiddleware`</li><li>ログイン時にセッションキーを再生成 (自動)</li><li>`SESSION_COOKIE_AGE` で有効期限を調整</li></ul> | セッション固定攻撃、セッションIDの推測 |
+| 認証・認可のデコレータ/Mixin | <ul><li>`@login_required` / `LoginRequiredMixin`</li><li>`@permission_required` / `PermissionRequiredMixin`</li><li>`@user_passes_test`</li></ul> | 認証・認可の不備 (アクセス制御の欠陥) |
+| 署名機能 | <ul><li>`django.core.signing` (`Signer` / `TimestampSigner` / `dumps` / `loads`)</li><li>`SECRET_KEY` を秘匿して使用</li></ul> | データの改ざん |
+| パスワードリセットトークン | <ul><li>`PasswordResetView` など組み込みビューを利用</li><li>トークンは有効期限付き (`PASSWORD_RESET_TIMEOUT`)で、比較には定数時間比較を使用</li></ul> | トークン推測・再利用、タイミング攻撃 |
+| オープンリダイレクト対策 | <ul><li>`url_has_allowed_host_and_scheme()` でリダイレクト先を検証</li><li>`LoginView` の `next` パラメータは自動で検証</li></ul> | オープンリダイレクト |
+| ファイルアップロードの保護 | <ul><li>`FileField` / `ImageField` (Pillowによる画像検証)</li><li>`FileExtensionValidator` で拡張子を制限</li><li>`DATA_UPLOAD_MAX_MEMORY_SIZE` / `DATA_UPLOAD_MAX_NUMBER_FIELDS` / `FILE_UPLOAD_PERMISSIONS`</li><li>ファイル名は自動サニタイズ (`get_valid_filename`)</li></ul> | ディレクトリトラバーサル、任意ファイルの設置、リソース枯渇 (DoS) |
+| ヘッダインジェクション対策 | メール送信 (`send_mail` など)や `HttpResponse` のヘッダに改行コードが含まれると例外を送出 (自動) | HTTP/メールヘッダインジェクション |
+| フォームバリデーション | <ul><li>`forms.Form` / `ModelForm`</li><li>`ModelForm` では `fields` を明示 (`__all__` は避ける)</li></ul> | 不正入力、マスアサインメント |
+| デバッグ情報・本番設定の保護 | <ul><li>本番では `DEBUG = False`</li><li>`SECRET_KEY` は環境変数などで管理</li><li>`python manage.py check --deploy` で設定を診断</li></ul> | 内部情報の漏えい、設定不備 |
+
+<br>
+<br>
+
+- 「デフォルトで有効」と書いた項目も、`startproject` が生成する `settings.py` を前提にしています。`MIDDLEWARE` から該当行を消していないか確認してください。
+- ログイン試行回数の制限 (ブルートフォース対策)はDjango本体には含まれません。`django-axes` や `django-ratelimit` などの追加パッケージで対応します。
+- 本番リリース前は `python manage.py check --deploy` で、上記設定の不足を一括チェックできます。
+- 設定名や既定値はバージョンで変わることがあるため、使用中のバージョンの公式ドキュメント (Security in Django / Deployment checklist)も併せて確認してください。
+
+
+
+                            </div>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold">
@@ -1008,6 +1051,9 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                                         <a href="#django-http">Djangoを利用したWebサーバの構築 (nginx)</a>
                                     </li>
                                     <li>
+                                        <a href="#md-django">Djangoのセキュリティ機能</a>
+                                    </li>
+                                    <li>
                                         <a href="#md-http-method">HTTPメソッド</a>
                                     </li>
                                     <li>
@@ -1075,6 +1121,7 @@ Content-Security-Policy-Report-Only: [コンテンツセキュリティポリシ
                 "md-http-method",
                 "md-http-status",
                 "md-tls-alert",
+                "md-django",
             ];
 
             window.addEventListener(
