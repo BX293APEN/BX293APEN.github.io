@@ -513,7 +513,7 @@
                     <td class=""><ul><li>Ophcrack</li><li>RainbowCrack</li></ul></td>
                     <td class="std"><ul><li>対象アカウントのロック・パスワードリセット・セッション失効</li><li>不審な送信元IPの遮断</li></ul></td>
                     <td class="std"><ul><li>認証ログから試行元・成功ログインを特定</li><li>侵害アカウントの操作履歴・権限を確認</li><li>漏えいした資格情報を洗い出す</li></ul></td>
-                    <td class="own"><ul><li>ソルト付与</li><li>ストレッチング(bcrypt/Argon2等)</li></ul></td>
+                    <td class="own"><ul><li>ソルト付与</li><li>ストレッチング(ハッシュ演算を繰り返し、1回あたりの計算コストを増やす)<br><ul><li>bcrypt</li><li>PBKDF2</li><li>Argon2</li></ul></li></ul></td>
                     <td class=""><ul><li>個人クラッカー</li><li>スクリプトキディ</li></ul></td> 
                 </tr>
                 <tr data-tags="認証・パスワード|APT攻撃者|内部関係者|暗号">
@@ -1288,7 +1288,7 @@
                 </tr>
                 <tr data-tags="ネットワーク|内部関係者">
                     <th scope="row" class="name">ARPスプーフィング<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ネットワーク">ネットワーク</button><button type="button" class="tag badge text-bg-secondary" data-tag="内部関係者" title="【内部関係者(インサイダー)】&#10;従業員・元従業員・委託先担当者等、正規のアクセス権を持つ立場を悪用して情報漏えいや破壊行為を行う者&#10;金銭目的、恨み、過失など動機は様々">内部関係者</button></div></th>
-                    <td class="">偽のARP応答を送り、通信経路を攻撃者に誘導する(MITMの前段)</td>
+                    <td class="">偽のARP応答を送り、通信経路を攻撃者に誘導する(MITMの前段)<br>兆候: 1つのMACアドレスが複数のIPアドレスと対応している(正常な構成でも起こりうる)</td>
                     <td class=""><ul><li>攻撃者が同一LAN(同一セグメント)内にいること</li><li>ARPに認証がなく、偽の応答が受け入れられること</li></ul></td>
                     <td class=""><ul><li>通信の盗聴・改ざん(MITM)</li><li>通信の遮断</li></ul></td>
                     <td class=""><ul><li>Ettercap</li><li>arpspoof</li></ul></td>
