@@ -21,6 +21,7 @@
         <link href="/css/loading.css" rel="stylesheet">
         <link href="/css/about/attack-style.css" rel="stylesheet">
         <link href="/css/about/security-service.css" rel="stylesheet">
+        <link href="/css/about/auth-style.css" rel="stylesheet">
 
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
@@ -1678,6 +1679,8 @@ sequenceDiagram
         <script src="/view/pagination.js"></script>
         <script src="/view/tex.js"></script>
         <script src="/view/createTable.js"></script>
+        <script src="/view/mermaid.min.js"></script>
+        <script src="/view/createUML.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -1692,11 +1695,7 @@ sequenceDiagram
                 mdFile          = "/html/about/security/crypt.md",
             )
 
-            new MarkDownLoader(
-                id              = "md-cert",
-                mdFile          = "/html/about/security/auth.md",
-            )
-
+            embedded_html("/html/about/security/auth.html", "md-cert");
             embedded_html("/html/about/security/cyber-attack.html", "md-cyber-attack");
 
             const mdLists = [
@@ -1762,6 +1761,43 @@ sequenceDiagram
                                 tagAttr: 'data-tag',
                                 rowTagsAttr: 'data-tags',
                             });
+                        },
+                        300
+                    );
+                }
+            );
+
+
+            window.addEventListener(
+                'load',
+                () => {
+                    setTimeout(
+                        () => {
+                            createTableSearch(
+                                    {
+                                    appId: 'auth-app',
+                                    inputId: 'q',
+                                    countId: 'count',
+                                    clearId: 'clear',
+                                    scrollerSelector: '.scroller',
+                                    headRowSelector: 'thead tr.r1',
+                                    rowSelector: 'tbody tr[data-tags]',
+                                    tagAttr: 'data-tag',
+                                    rowTagsAttr: 'data-tags',
+                                }
+                            );
+                        },
+                        300
+                    );
+                }
+            );
+
+            window.addEventListener(
+                'load',
+                () => {
+                    setTimeout(
+                        () => {
+                            new MermaidUMLByClass({ className: "mermaid-source" });
                         },
                         300
                     );

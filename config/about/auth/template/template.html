@@ -1,0 +1,29 @@
+<div id="auth-app" class="py-3">
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input id="q" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+        </div>
+        <div class="col-md-6 d-flex align-items-center gap-2">
+            <span id="count" class="small text-body-secondary"></span>
+            <button id="clear" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+        </div>
+    </div>
+
+    <div class="mb-2 pb-4">
+        __FILTERS__
+    </div>
+
+    <div class="scroller">
+        <table class="table-nostriped">
+            <thead>
+                <tr class="r1">
+                    <th class="name">認証技術</th>
+                    <th>概要</th><th>認証手順</th><th>メリット</th><th>デメリット</th><th>主な用途</th>
+                </tr>
+            </thead>
+            <tbody>
+__ROWS__
+            </tbody>
+        </table>
+    </div>
+</div>
