@@ -71,9 +71,10 @@ class AuthMD2HTML:
     |---|---|
     | 図 | `<div class="mermaid-source">` の中に mermaid を書く。Markdown の表は1行なので、mermaid の改行は `<br>` で表す |
     | 手順表 | 図の後ろに `<table>` で書く。`<tbody>` の行のうち、先頭セルが `<b>N</b>` で始まる行が1手順(`rowspan` で複数行にまたがる手順は、先頭の行だけ数える) |
-    | 手順番号 | mermaid のメッセージ・Note の文頭を `N.` にする。`N` は手順表の `<b>N</b>` と一致させる(合わないとエラー) |
+    | 手順番号 | mermaid のメッセージ・Note の文頭を `N.` にする。`N` は手順表の `<b>N</b>` と一致させる(合わないとエラー)。**手順0を除く** |
     | 1手順に複数メッセージ | 同じ番号を付けてよい(番号は小さい順に並べる) |
     | 手順表の番号 | `1` から順に並べる(飛んでいたり、逆順だったりするとエラー) |
+    | 手順0(事前準備) | 手順表の**先頭にだけ**、`<b>0</b>` の手順を置いてよい(`PRE_STEP`)。ログインのたびに行う手順ではなく、事前に1回行う準備(メタデータ・証明書・URL・属性の交換など)のため、**図(mermaid)には書かない**。図に `0.` があるとエラー |
     | 図の前後 | 補足の説明など。そのまま残す |
     | 手順表があるのに図がない | エラー |
     | 手順表がない | 図があれば、図だけ整える(手順番号の突き合わせはしない)。図も表もなければ、そのまま出す |
@@ -84,6 +85,7 @@ class AuthMD2HTML:
     COLS = 7                 # Markdown の表の列数
     CLASS_SEP = ">"          # 「分類」列の経路の区切り(`大分類 > 分類`)
     CHILD_MARK = "└"         # 子の行の名前の先頭につく印
+    PRE_STEP = 0             # 手順表の先頭にだけ置ける「手順0(事前準備)」の番号(図には書かない)
     MERMAID_SRC = re.compile(r'<div class="mermaid-source">(.*?)</div>', re.S)  # 「認証手順」セルの図
 
     # ## mermaid の見た目の設定(`%%{init: …}%%` として、全図の先頭に付ける)
@@ -545,6 +547,7 @@ mermaid.run({ querySelector: '.mermaid-source' });
 
         `<tr>` の先頭セルが `<b>N</b>` で始まる行を、1手順とみなす。
         `rowspan` で手順の続きになっている行は、先頭セルが別の内容なので数えない。
+        手順0(事前準備。`PRE_STEP`)も、他の手順と同じ方法で取り出す(`0` も番号として拾う)。
 
         | 引数 | 型 | 説明 |
         |---|---|---|
@@ -552,7 +555,7 @@ mermaid.run({ querySelector: '.mermaid-source' });
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | 番号のリスト | `list[int]` | 表に出てきた順。手順表がなければ空 |
+        | 番号のリスト | `list[int]` | 表に出てきた順(手順0があれば先頭に `0`)。手順表がなければ空 |
         """
         return [int(n) for n in re.findall(r"<tr>\s*<td\b[^>]*>\s*<b>(\d+)</b>", cell)]
 
@@ -582,23 +585,33 @@ mermaid.run({ querySelector: '.mermaid-source' });
         """
         ## mermaid の手順番号と、手順表の手順番号が合っているか確認する
 
+        手順表の先頭に手順0(事前準備。`PRE_STEP`)があるときは、手順0を除いた番号で確認する。
+        手順0は図に書かないため、mermaid と突き合わせない。
+
         | 確認 | 合わないとき |
         |---|---|
-        | 手順表の番号が `1` から順に並んでいる | `ValueError` |
+        | 手順表の番号が、(手順0を除いて)`1` から順に並んでいる | `ValueError` |
+        | mermaid に手順0が書かれていない | `ValueError` |
         | mermaid の番号が小さい順に並んでいる | `ValueError` |
-        | mermaid の番号が、手順表の番号と過不足なく同じ | `ValueError` |
+        | mermaid の番号が、手順表の番号(手順0を除く)と過不足なく同じ | `ValueError` |
 
         | 引数 | 型 | 説明 |
         |---|---|---|
         | `name` | `str` | 認証技術名(エラーメッセージ用) |
         | `mermaid` | `str` | mermaid の本文 |
-        | `steps` | `list[int]` | 手順表の手順番号(`table_steps` の結果) |
+        | `steps` | `list[int]` | 手順表の手順番号(`table_steps` の結果。先頭に `0` があってよい) |
         """
         nums = self.step_numbers(mermaid)
-        if steps != list(range(1, len(steps) + 1)):
-            raise ValueError(f"{name}: 手順表の番号 {steps} が、1 から順に並んでいません")
-        if nums != sorted(nums) or sorted(set(nums)) != steps:
-            raise ValueError(f"{name}: mermaid の手順番号 {nums} が、手順表の番号 {steps} と合いません")
+        main = steps[1:] if steps[:1] == [self.PRE_STEP] else steps  # 手順0は表の先頭にだけ置ける
+        if main != list(range(1, len(main) + 1)):
+            raise ValueError(
+                f"{name}: 手順表の番号 {steps} が、1 から順に並んでいません"
+                f"(手順{self.PRE_STEP}は先頭にだけ置けます)"
+            )
+        if self.PRE_STEP in nums:
+            raise ValueError(f"{name}: 手順{self.PRE_STEP}(事前準備)は手順表だけに書き、mermaid には書かないでください")
+        if nums != sorted(nums) or sorted(set(nums)) != main:
+            raise ValueError(f"{name}: mermaid の手順番号 {nums} が、手順表の番号 {main} と合いません")
 
     @classmethod
     def mermaid_init(cls, mermaid):
