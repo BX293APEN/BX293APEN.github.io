@@ -54,7 +54,7 @@ class FixSvgOverflow {
      */
     constructor(
         className = 'svgclass',
-        fontSize = '75%',
+        fontSize = '60%',
         letterSpacing = '-0.1em',
         targetFonts = ['HGPGothicE', 'HGPゴシックE'],
         scrollable = false
@@ -189,7 +189,7 @@ class FixSvgOverflow {
                 const overhang = spacing < 0 ? -spacing : 0;
 
                 return {
-                    w: range.getBoundingClientRect().width / scale + overhang * 1.5,
+                    w: range.getBoundingClientRect().width / scale + overhang,
                     h: label.getBoundingClientRect().height / scale,
                 };
             };
