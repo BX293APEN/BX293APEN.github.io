@@ -438,7 +438,7 @@ sudo systemctl enable [Project Name].service</code></pre>
 
 | Djangoセキュリティ機能 | 有効方法 | 対策する脆弱性 |
 | --- | --- | --- |
-| CSRF対策用トークンの<ul><li>発行</li><li>HTMLへの埋め込み</li><li>リクエスト時の検証</li></ul> | <ul><li>`MIDDLEWARE` に `django.middleware.csrf.CsrfViewMiddleware` (startproject時のデフォルトで有効)</li><li>POSTフォームに `{% csrf_token %}`</li><li>AJAXは `X-CSRFToken` ヘッダでトークンを送信</li><li>信頼するオリジンは `CSRF_TRUSTED_ORIGINS`</li></ul> | CSRF (クロスサイトリクエストフォージェリ) |
+| CSRF対策用トークンの<ul><li>発行</li><li>HTMLへの埋め込み</li><li>必要な紐づけ(アカウント・セッションオブジェクト)</li><li>リクエスト時の検証</li></ul> | <ul><li>`MIDDLEWARE` に `django.middleware.csrf.CsrfViewMiddleware` (startproject時のデフォルトで有効)</li><li>POSTフォームに `{% csrf_token %}`</li><li>AJAXは `X-CSRFToken` ヘッダでトークンを送信</li><li>信頼するオリジンは `CSRF_TRUSTED_ORIGINS`</li></ul> | CSRF (クロスサイトリクエストフォージェリ) |
 | テンプレートの自動エスケープ | <ul><li>デフォルトで有効 (設定不要)</li><li>無効化するのは `safe` フィルタ・`mark_safe()`・`{% autoescape off %}` (使用は最小限に)</li><li>JSへ値を渡す場合は `json_script` フィルタ</li></ul> | XSS (クロスサイトスクリプティング) |
 | ORMによるSQLのパラメータ化 | <ul><li>`filter()` / `get()` などORMを使う (デフォルトで有効)</li><li>生SQLは `raw()` / `cursor.execute()` の第2引数でパラメータを渡す (文字列結合・f文字列は使わない)</li></ul> | SQLインジェクション |
 | クリックジャッキング対策ミドルウェア | <ul><li>`MIDDLEWARE` に `django.middleware.clickjacking.XFrameOptionsMiddleware` (デフォルトで有効)</li><li>`X_FRAME_OPTIONS = "DENY"` (デフォルト)または `"SAMEORIGIN"`</li><li>ビュー単位は `@xframe_options_deny` / `@xframe_options_sameorigin` など</li></ul> | クリックジャッキング |
