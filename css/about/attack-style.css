@@ -8,10 +8,11 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#attack-app` 配
 
 | 項目 | セレクタ | プロパティ | 現在値 | 変更例 |
 |---|---|---|---|---|
-| 表の高さ | `.scroller` | `max-height` | `78vh` | `90vh` |
-| 文字サイズ | `table` | `font-size` | `.875rem` | `1rem` |
+| 表の高さ | `.scroller` | `max-height` | `200vh` | `90vh` |
+| 文字サイズ | `table` | `font-size` | `1rem` | `1.1rem` |
 | 列の幅 | `th, td` | `min-width` | `17rem` | `20rem` |
 | 攻撃手法列の幅 | `.name` | `min-width` / `max-width` | `15rem` | `16rem`(2つとも同じ値にする) |
+| 固定を外す画面幅 | `@media` | `max-width` | `1024px` | `768px`(スマホ・縦向きタブレットのみにする) |
 */
 
 
@@ -33,7 +34,7 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#attack-app` 配
 | `border-collapse` | `separate` | `collapse` のままだと sticky セルの罫線が消えるため |
 | `width` | `max-content` | 列が縮まず、横スクロールになるようにする |
 | `min-width` | `100%` | 列が少ないときも幅いっぱいに広げる |
-| `font-size` | `.875rem` | 表全体の文字サイズ |
+| `font-size` | `1rem` | 表全体の文字サイズ |
 */
 #attack-app table {
   border-collapse: separate;
@@ -145,4 +146,42 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#attack-app` 配
 }
 #attack-app .tag.active {
   background: var(--bs-primary) !important;      /* Bootstrap の `.text-bg-secondary` に勝たせる */
+}
+
+
+/* ## スマホ・タブレットでは列を固定しない
+
+PC(マウス操作・広い画面)では、タイトル列(`.name`)を左に固定したままにする。
+スマホ・タブレットでは画面が狭く、固定列が画面の大半を占めて本文が読めなくなるため、
+タイトル列を固定せず、他の列と一緒に横スクロールさせる。
+
+| 条件 | 内容 | 補足 |
+|---|---|---|
+| `max-width: 1024px` | 画面幅が 1024px 以下 | スマホ・タブレット(縦向き・横向き)が対象 |
+| `hover: none` かつ `pointer: coarse` | タッチ操作が主の端末 | 画面が広いタブレットも対象にする |
+
+上の2条件のどちらかに当てはまると適用する。
+
+| 対象 | プロパティ | PC | スマホ・タブレット | 理由 |
+|---|---|---|---|---|
+| `.name` | `position` | `sticky` | `static` | 左固定をやめる |
+| `.name` | `border-right` | `2px` | `1px` | 固定列の境目を強調する必要がなくなるため |
+| `thead th.name` | `position` | `sticky` | `sticky`(上のみ) | 見出し行の上固定は残す(左の固定だけ外す) |
+| `thead th.name` | `left` | `0` | `auto` | 左方向には固定しない |
+| `thead th.name` | `z-index` | `4` | `3` | 左上の角を最前面にする必要がなくなるため |
+
+見出し行の上固定(縦スクロール時)はそのまま残す。
+*/
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+  #attack-app .name {
+    position: static;                            /* 左固定をやめる */
+    left: auto;
+    z-index: auto;
+    border-right: 1px solid var(--bs-border-color);
+  }
+  #attack-app thead th.name {
+    position: sticky;                            /* 見出し行の上固定は残す */
+    left: auto;                                  /* 左には固定しない */
+    z-index: 3;                                  /* 他の見出しセルと同じ高さにする */
+  }
 }
