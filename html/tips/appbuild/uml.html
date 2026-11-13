@@ -96,6 +96,21 @@ classDiagram
                                 <li>ドメインモデルの整理</li>
                                 <li>データベース設計(ER図の代わり)の下書き</li>
                             </ul>
+                            <h4 class="pt-4 mt-4 border-bottom fw-bold">
+                                モジュール結合
+                            </h4>
+                            <div id="md-module">
+
+| 結合の種類 | 設計評価 | モジュール強度<br>(独立性) | 結合度 | 内容 | 例 |
+|---|---|---|---|---|---|
+| データ結合 | 最良(目指す) | 最も高い | 最も弱い | <ul><li>必要なデータだけを引数で受け渡す</li><li>相手モジュールの内部構造を知る必要がない</li></ul> | <ul><li>数値や文字列など単純な値のみを引数にする</li></ul> |
+| スタンプ結合 | 良い | 高め | 弱い | <ul><li>構造体やレコードなどのデータ構造全体を引数として受け渡す</li><li>受け取る側は構造の一部しか使わないことがある</li></ul> | <ul><li>構造体を丸ごと渡し、一部のメンバだけ使う</li></ul> |
+| 制御結合 | 注意が必要 | 中程度 | 中程度 | <ul><li>制御用の情報(フラグ・コード)を渡す</li><li>相手の処理の流れを制御する</li></ul> | <ul><li>処理切り替えフラグを引数で渡す</li></ul> |
+| 外部結合 | 悪い | 低め | やや強い | <ul><li>外部で宣言されたデータ(形式・仕様)を複数モジュールが共有する</li></ul> | <ul><li>外部デバイスやファイルのフォーマットの共有</li><li>通信プロトコルの共有</li></ul> |
+| 共通結合 | 悪い | 低い | 強い | <ul><li>複数モジュールが共通のデータ領域を共有する</li><li>データ変更の影響範囲が把握しにくい</li></ul> | <ul><li>グローバル変数</li><li>共通メモリ領域の共有</li></ul> |
+| 内容結合 | 最悪(避ける) | 最も低い | 最も強い | <ul><li>他モジュールの内部データや処理内容を直接参照・変更する</li></ul> | <ul><li>他モジュールの内部変数の直接書き換え</li><li>他モジュール内部へのジャンプ</li></ul> |
+
+                            </div>
 
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="object">
                                 オブジェクト図
@@ -995,6 +1010,7 @@ flowchart TD
         <script src="/view/pagination.js"></script>
         <script src="/view/mermaid.min.js"></script>
         <script src="/view/createUML.js"></script>
+        <script src="/view/md.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -1024,6 +1040,27 @@ flowchart TD
                             300
                         )
                     };
+                }
+            )
+
+
+            const mdLists = [
+                "md-module",
+            ];
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
                 }
             )
 
