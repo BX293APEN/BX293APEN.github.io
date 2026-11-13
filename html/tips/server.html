@@ -19,6 +19,9 @@
 
         <div id="styleList"></div>
         <link href="/css/loading.css" rel="stylesheet">
+        <link href="/css/tips/net-connection-style.css" rel="stylesheet">
+
+
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
         </div>
@@ -1591,6 +1594,7 @@ sudo update-ca-certificates</code></pre>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/pagination.js"></script>
         <script src="/view/md.js"></script>
+        <script src="/view/createTable.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -1627,6 +1631,30 @@ sudo update-ca-certificates</code></pre>
                     }
                 }
             )
+
+            window.addEventListener(
+                'load',
+                () => {
+                    setTimeout(
+                        () => {
+                            createTableSearch(
+                                    {
+                                    appId: 'net-connection-app',
+                                    inputId: 'q',
+                                    countId: 'count',
+                                    clearId: 'clear',
+                                    scrollerSelector: '.scroller',
+                                    headRowSelector: 'thead tr.r1',
+                                    rowSelector: 'tbody[data-tags]',
+                                    tagAttr: 'data-tag',
+                                    rowTagsAttr: 'data-tags',
+                                }
+                            );
+                        },
+                        300
+                    );
+                }
+            );
             
         </script>
     </footer>
