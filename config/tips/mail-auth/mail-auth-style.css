@@ -1,0 +1,256 @@
+/*
+# mail-auth-style.css
+
+メール認証・暗号化まとめ表(`#mail-auth-app`)用のスタイル。
+Bootstrap 5.3 を読み込んだページで使う。すべて `#mail-auth-app` 配下にのみ適用される。
+
+## よく変える値
+
+| 項目 | セレクタ | プロパティ | 現在値 | 変更例 |
+|---|---|---|---|---|
+| 表の高さ | `.scroller` | `max-height` | `200vh` | `90vh` |
+| 文字サイズ | `table` | `font-size` | `1rem` | `1.1rem` |
+| 列の幅 | `th, td` | `min-width` | `17rem` | `20rem` |
+| 列の最大幅 | `td, th:not(.name)` | `max-width` | `30rem` | `40rem` |
+| 方式列の幅 | `.name` | `min-width` / `max-width` | `15rem` | `16rem`(2つとも同じ値にする) |
+| 固定を外す画面幅 | `@media` | `max-width` | `1024px` | `768px`(スマホ・縦向きタブレットのみにする) |
+*/
+
+
+/* ## 表の外枠とスクロール
+
+`.scroller` が縦横のスクロール領域になる。
+固定(sticky)した見出し・左列は、この領域の中で固定される。
+*/
+#mail-auth-app .scroller {
+  max-height: 200vh;                              /* 表の高さ(画面の高さに対する割合) */
+  overflow: auto;                                /* 縦横ともスクロール */
+  border: 1px solid var(--bs-border-color);
+}
+
+/* ## 表本体
+
+| プロパティ | 値 | 理由 |
+|---|---|---|
+| `border-collapse` | `separate` | `collapse` のままだと sticky セルの罫線が消えるため |
+| `width` | `max-content` | 列が縮まず、横スクロールになるようにする |
+| `min-width` | `100%` | 列が少ないときも幅いっぱいに広げる |
+| `font-size` | `1rem` | 表全体の文字サイズ |
+*/
+#mail-auth-app table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ## セル共通
+
+`background` を指定しているのは、sticky セルの下を他のセルが透けて見えないようにするため。
+*/
+#mail-auth-app th,
+#mail-auth-app td {
+  padding: .5rem .65rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--bs-border-color);
+  border-right: 1px solid var(--bs-border-color);
+  min-width: 17rem;                              /* 列の幅 */
+  background: var(--bs-body-bg);
+}
+
+/* セル内の箇条書き */
+#mail-auth-app ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+
+/* ## 固定(sticky)の指定
+
+| 対象 | 固定方向 | `z-index` | 補足 |
+|---|---|---|---|
+| `thead th`(1段目) | 上(`top: 0`) | 3 | |
+| `thead th`(2段目) | 上(1段目の高さの下) | 3 | `--r1h` は JavaScript が1段目の高さから設定する |
+| `.name`(方式の列) | 左(`left: 0`) | 2 | 本文セルより前面に出す |
+| 左上の角(`thead th.name`) | 上・左 | 4 | 見出しにも左列にも隠れないよう最前面にする |
+*/
+#mail-auth-app thead th {
+  position: sticky;
+  z-index: 3;
+  background: var(--bs-tertiary-bg);
+  font-weight: 600;
+}
+#mail-auth-app thead tr.r1 th { top: 0; }
+#mail-auth-app thead tr.r2 th { top: var(--r1h, 2.4rem); }   /* 2.4rem は JavaScript が動くまでの仮の値 */
+
+#mail-auth-app .name {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 15rem;                              /* 方式列の幅(max-width と同じ値にする) */
+  max-width: 15rem;
+  background: var(--bs-body-bg);
+  border-right: 2px solid var(--bs-border-color); /* 固定列の境目を少し太くする */
+}
+#mail-auth-app thead th.name {
+  z-index: 4;
+  background: var(--bs-tertiary-bg);
+}
+
+/* ## 行のホバー表示
+
+行全体(固定列を含む)の背景を変える。`> *` で `th` と `td` の両方に当てる。
+*/
+#mail-auth-app tbody tr:hover > * {
+  background: var(--bs-primary-bg-subtle);
+}
+
+
+/* ## 対策3分割の見た目
+
+| 列 | クラス | 見た目 | 中身 |
+|---|---|---|---|
+| ① 初動 | `td.std` | 背景を薄く・文字を灰色 | 分類ごとの標準手順 |
+| ② 調査・根絶 | `td.std` | 同上 | 分類ごとの標準手順 |
+| ③ 再発防止 | `td.own` | 通常表示 | 元の表の「対策サービス・方法」 |
+*/
+#mail-auth-app td.std {
+  background: var(--bs-tertiary-bg);
+  color: var(--bs-secondary-color);
+}
+
+
+/* ## タグ(バッジ)
+
+| クラス・属性 | 場所 | 説明 |
+|---|---|---|
+| `.tags` | 方式名セル内 | バッジを並べる入れ物 |
+| `.tag` | 方式名セル内 | 表中のタグ(`<button>`) |
+| `[data-tag].active` | 上部ボタン・表中タグ | 選択中の状態 |
+*/
+#mail-auth-app .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .2rem;
+  margin-top: .35rem;
+}
+#mail-auth-app .tag {
+  border: 0;                                     /* `<button>` の既定の枠線を消す */
+  font-weight: 400;
+  cursor: pointer;
+  white-space: normal;                           /* 長い分類名を方式列の幅で折り返す */
+  text-align: left;
+}
+#mail-auth-app [data-tag].active {
+  background: var(--bs-primary);
+  color: #fff;
+}
+#mail-auth-app .tag.active {
+  background: var(--bs-primary) !important;      /* Bootstrap の `.text-bg-secondary` に勝たせる */
+}
+
+
+/* ## 入れ子の表(説明セルの中の小さな表)
+
+外側の表用の指定(列幅・`max-content`・見出し固定)を打ち消して、通常の小さな表として表示する。
+打ち消さないと、外側の「説明」列が横に大きく広がってしまう。
+
+| セレクタ | プロパティ | 値 | 打ち消す対象 |
+|---|---|---|---|
+| `td table` | `width` | `auto` | 外側の `width: max-content` |
+| `td table` | `min-width` | `0` | 外側の `min-width: 100%` |
+| `td table th, td table td` | `min-width` | `0` | 外側の列の幅(`17rem`) |
+| `td table thead th` | `position` | `static` | 外側の見出しの固定(sticky) |
+*/
+#mail-auth-app td table {
+  width: auto;
+  min-width: 0;
+  font-size: .9rem;
+}
+#mail-auth-app td table th,
+#mail-auth-app td table td {
+  min-width: 0;
+  padding: .25rem .5rem;
+}
+#mail-auth-app td table thead th {
+  position: static;
+}
+
+
+/* ## 列の最大幅と折り返し
+
+この表は説明文が長いため、`max-content` のままだと列が 1300px 以上に広がり、横スクロールが過大になる。
+列の幅に上限を付け、元の HTML にある `text-nowrap`(折り返し禁止)も打ち消して折り返せるようにする。
+`<br>` による改行は残る。
+
+| セレクタ | プロパティ | 値 | 説明 |
+|---|---|---|---|
+| `td, th:not(.name)` | `max-width` | `30rem` | 列の最大幅。広げたいときは大きくする(機器名列は `.name` の `15rem` で別に決まる) |
+| `.text-nowrap` | `white-space` | `normal` | 折り返しを許可する(Bootstrap の `!important` に勝つため `!important` を付ける) |
+*/
+#mail-auth-app td,
+#mail-auth-app th:not(.name) {
+  max-width: 30rem;
+}
+#mail-auth-app .text-nowrap {
+  white-space: normal !important;
+}
+
+
+/* ## スマホ・タブレットでは列を固定しない
+
+PC(マウス操作・広い画面)では、タイトル列(`.name`)を左に固定したままにする。
+スマホ・タブレットでは画面が狭く、固定列が画面の大半を占めて本文が読めなくなるため、
+タイトル列を固定せず、他の列と一緒に横スクロールさせる。
+
+| 条件 | 内容 | 補足 |
+|---|---|---|
+| `max-width: 1024px` | 画面幅が 1024px 以下 | スマホ・タブレット(縦向き・横向き)が対象 |
+| `hover: none` かつ `pointer: coarse` | タッチ操作が主の端末 | 画面が広いタブレットも対象にする |
+
+上の2条件のどちらかに当てはまると適用する。
+
+| 対象 | プロパティ | PC | スマホ・タブレット | 理由 |
+|---|---|---|---|---|
+| `.name` | `position` | `sticky` | `static` | 左固定をやめる |
+| `.name` | `border-right` | `2px` | `1px` | 固定列の境目を強調する必要がなくなるため |
+| `thead th.name` | `position` | `sticky` | `sticky`(上のみ) | 見出し行の上固定は残す(左の固定だけ外す) |
+| `thead th.name` | `left` | `0` | `auto` | 左方向には固定しない |
+| `thead th.name` | `z-index` | `4` | `3` | 左上の角を最前面にする必要がなくなるため |
+
+見出し行の上固定(縦スクロール時)はそのまま残す。
+*/
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+  #mail-auth-app .name {
+    position: static;                            /* 左固定をやめる */
+    left: auto;
+    z-index: auto;
+    border-right: 1px solid var(--bs-border-color);
+  }
+  #mail-auth-app thead th.name {
+    position: sticky;                            /* 見出し行の上固定は残す */
+    left: auto;                                  /* 左には固定しない */
+    z-index: 3;                                  /* 他の見出しセルと同じ高さにする */
+  }
+}
+
+/* ## 入れ子の表を含むセルは幅を広げる
+
+手順(シーケンス表)・概要(DKIM のタグ一覧など)のセルには、表が入れ子になっている。
+通常の列の最大幅(`30rem`)では表がセルからはみ出すため、入れ子の表を含むセルだけ広い固定幅にする。
+コードブロック(`pre`)は、セルの幅の中で横スクロールする。
+
+| 項目 | 現在値 | 変更例 |
+|---|---|---|
+| 入れ子の表を含むセルの幅 | `60rem` | 狭くすると入れ子の表が折り返して縦に伸びる |
+*/
+#mail-auth-app td:has(table) {
+  min-width: 60rem;
+  max-width: 60rem;
+}
+#mail-auth-app td pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
