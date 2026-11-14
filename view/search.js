@@ -7,6 +7,7 @@ function url_search(targetURL){
     }
 }
 
+
 class Search{
     constructor (
         bookmarkData,
@@ -23,9 +24,10 @@ class Search{
     key_press(pressKey){
         if (pressKey.key === "Enter") {
             let url = `https://www.google.com/search?q=${this.searchQuery.value}&udm=14`;
-            for(let alias in this.bookmarkData){
+            for(let bookmark of this.bookmarkData){
+                let alias = (bookmark["word"] ?? []).join("").toUpperCase();
                 if ( alias.toUpperCase().indexOf(this.searchQuery.value.toUpperCase()) != -1) {
-                    url = this.bookmarkData[alias]["href"];
+                    url = bookmark["href"];
                     break;
                 }
             }
@@ -34,5 +36,4 @@ class Search{
         }
     }
 }
-
 //new Search(model.bookmarkData);
