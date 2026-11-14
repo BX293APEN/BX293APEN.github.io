@@ -733,6 +733,18 @@ if __name__== "__main__": # 直接起動の場合はこちらの関数を実行
                 () => {
                     setTimeout(
                         () => {
+                            new MermaidUMLByClass({ className: "mermaid-source" });
+                        },
+                        300
+                    );
+                }
+            );
+
+            window.addEventListener(
+                'load',
+                () => {
+                    setTimeout(
+                        () => {
                             const script = document.createElement("script");
                             script.src = "/view/tex.js";
                             document.body.appendChild(script);
