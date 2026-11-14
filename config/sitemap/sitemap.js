@@ -173,7 +173,7 @@ let sitemap = [
     },
     {
         "href" : "/html/tips/appbuild/bitcoin.html",
-        "word" : ["bitcoin"]
+        "word" : ["bitcoin", "ビットコイン"]
     },
     {
         "href" : "/html/tips/linux/format.html",
@@ -189,7 +189,7 @@ let sitemap = [
     },
     {
         "href" : "/html/tips/appbuild/jpki.html",
-        "word" : ["jpki"]
+        "word" : ["jpki", "マイナンバーカード"]
     },
     {
         "href" : "/html/tips/linux/sh.html",

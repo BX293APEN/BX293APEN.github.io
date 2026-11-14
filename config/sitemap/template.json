@@ -258,5 +258,13 @@
     {
         "href" : "/html/tips/RN4020.html",
         "word" : ["datasheet", "データシート"]
+    },
+    {
+        "href" : "/html/tips/appbuild/jpki.html",
+        "word" : ["jpki", "マイナンバーカード"]
+    },
+    {
+        "href" : "/html/tips/appbuild/bitcoin.html",
+        "word" : ["bitcoin", "ビットコイン"]
     }
 ]
