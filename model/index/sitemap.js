@@ -24,10 +24,6 @@ let sitemap = [
         "word" : ["about"]
     },
     {
-        "href" : "/html/tips/UEFI.html",
-        "word" : ["bios", "UEFI"]
-    },
-    {
         "href" : "/html/tips/appbuild.html",
         "word" : ["appbuild", "app"]
     },
@@ -40,68 +36,148 @@ let sitemap = [
         "word" : ["C++", "CPP", "CLANG", "GCC", "C言語", "c"]
     },
     {
-        "href" : "/html/tips/c-lang/msquic.html",
-        "word" : ["msquic"]
+        "href" : "/html/tips/docker.html",
+        "word" : ["docker"]
     },
     {
-        "href" : "/html/tips/windows/wsl.html",
-        "word" : ["wsl"]
+        "href" : "/BX293APEN/github.html",
+        "word" : ["github"]
+    },
+    {
+        "href" : "/html/about/security/index.html",
+        "word" : ["securityplan", "security"]
+    },
+    {
+        "href" : "/html/tips/linux.html",
+        "word" : ["linux"]
     },
     {
         "href" : "/html/tips/linuxMemo.html",
         "word" : ["arch", "linuxMemo"]
     },
     {
-        "href" : "/html/tips/linuxMemo/repo.html",
-        "word" : ["gentoo", "yocto", "openwrt", "lfs"]
+        "href" : "/BX293APEN/opencv.html",
+        "word" : ["opencv"]
     },
     {
-        "href" : "/html/tips/linux/network.html",
-        "word" : ["ネットワーク", "network", "firewall", "nat", "iptables", "nftables", "nmtuinmcli"]
+        "href" : "/html/tips/python.html",
+        "word" : ["python"]
     },
     {
-        "href" : "/html/tips/linux/raspi.html",
-        "word" : ["raspi", "picoW", "ラズパイ"]
-    },
-    {
-        "href" : "/html/tips/linux/config.html",
-        "word" : ["Wine", "Ubuntu", "node-red", "trim", "printer"]
-    },
-    {
-        "href" : "/html/tips/linux/daemon.html",
-        "word" : ["daemon", "cron", "自動起動", "systemctl"]
-    },
-    {
-        "href" : "/html/tips/linux/format.html",
-        "word" : ["format", "7zip", "tar", "gz"]
-    },
-    {
-        "href" : "/html/tips/linux/sh.html",
-        "word" : ["sh", "ln"]
-    },
-    {
-        "href" : "/html/tips/server/emqx.html",
-        "word" : ["emqx", "mqtt"]
+        "href" : "/html/tips/RN4020.html",
+        "word" : ["datasheet", "データシート", "rn4020"]
     },
     {
         "href" : "/html/tips/server.html",
         "word" : ["lan", "rj45", "server"]
     },
     {
+        "href" : "/html/tips/teraterm.html",
+        "word" : ["teraterm"]
+    },
+    {
+        "href" : "/html/tips/UEFI.html",
+        "word" : ["bios", "UEFI"]
+    },
+    {
+        "href" : "/BX293APEN/vim.html",
+        "word" : ["vim"]
+    },
+    {
+        "href" : "/html/tips/visualstudio.html",
+        "word" : ["visualstudio"]
+    },
+    {
+        "href" : "/html/tips/windows.html",
+        "word" : ["windows"]
+    },
+    {
+        "href" : "/html/tips/UEFI/datatrans.html",
+        "word" : ["datatrans"]
+    },
+    {
         "href" : "/html/tips/server/dns.html",
         "word" : ["dns", "bind9"]
+    },
+    {
+        "href" : "/html/tips/c-lang/EMBEDDED_C.html",
+        "word" : ["EMBEDDEDC"]
+    },
+    {
+        "href" : "/html/tips/linux/network.html",
+        "word" : ["ネットワーク", "network", "firewall", "nat", "iptables", "nftables", "nmtuinmcli"]
+    },
+    {
+        "href" : "/html/tips/linuxMemo/repo.html",
+        "word" : ["gentoo", "yocto", "openwrt", "lfs"]
+    },
+    {
+        "href" : "/html/about/security/security-laws.html",
+        "word" : ["law", "企業", "gov"]
+    },
+    {
+        "href" : "/html/tips/appbuild/uml.html",
+        "word" : ["uml"]
+    },
+    {
+        "href" : "/html/tips/windows/wsl.html",
+        "word" : ["wsl"]
+    },
+    {
+        "href" : "/html/tips/linux/config.html",
+        "word" : ["Wine", "Ubuntu", "node-red", "trim", "printer"]
+    },
+    {
+        "href" : "/html/tips/server/dhcp.html",
+        "word" : ["dhcp"]
+    },
+    {
+        "href" : "/API/index.html",
+        "word" : ["API"]
+    },
+    {
+        "href" : "/html/tips/c-lang/msquic.html",
+        "word" : ["msquic"]
+    },
+    {
+        "href" : "/html/about/security/security.html",
+        "word" : ["security", "cyberattack"]
+    },
+    {
+        "href" : "/html/tips/appbuild/blender.html",
+        "word" : ["blender"]
+    },
+    {
+        "href" : "/html/about/security/critical-cyber-attack.html",
+        "word" : ["criticalcyberattack"]
     },
     {
         "href" : "/html/tips/server/ftp.html",
         "word" : ["vsftp", "smb", "nas"]
     },
     {
-        "href" : "/html/tips/server/http.html",
-        "word" : ["nginx", "django", "cgi", "http"]
+        "href" : "/html/tips/linux/raspi.html",
+        "word" : ["raspi", "picoW", "ラズパイ"]
+    },
+    {
+        "href" : "/html/tips/appbuild/chromium.html",
+        "word" : ["chromium"]
+    },
+    {
+        "href" : "/html/tips/linux/daemon.html",
+        "word" : ["daemon", "cron", "自動起動", "systemctl"]
     },
     {
         "href" : "/html/tips/server/ntp.html",
         "word" : ["chrony", "ntp"]
+    },
+    {
+        "href" : "/html/tips/appbuild/bitcoin.html",
+        "word" : ["bitcoin"]
+    },
+    {
+        "href" : "/html/tips/linux/format.html",
+        "word" : ["format", "7zip", "tar", "gz"]
     },
     {
         "href" : "/html/tips/server/vnc.html",
@@ -112,112 +188,36 @@ let sitemap = [
         "word" : ["iperf3"]
     },
     {
-        "href" : "/html/tips/server/mail.html",
-        "word" : ["mail", "mime", "dkim", "dmark"]
+        "href" : "/html/tips/appbuild/jpki.html",
+        "word" : ["jpki"]
     },
     {
-        "href" : "/html/tips/server/db.html",
-        "word" : ["db", "database"]
+        "href" : "/html/tips/linux/sh.html",
+        "word" : ["sh", "ln"]
+    },
+    {
+        "href" : "/html/tips/server/emqx.html",
+        "word" : ["emqx", "mqtt"]
     },
     {
         "href" : "/html/tips/server/zabbix.html",
         "word" : ["snmp", "zabbix"]
     },
     {
-        "href" : "/html/about/security/security.html",
-        "word" : ["security", "cyberattack"]
+        "href" : "/html/tips/server/mail.html",
+        "word" : ["mail", "mime", "dkim", "dmark"]
     },
     {
-        "href" : "/html/about/security/security-laws.html",
-        "word" : ["law", "企業", "gov"]
-    },
-    {
-        "href" : "/html/about/security/index.html",
-        "word" : ["securityplan", "security"]
-    },
-    {
-        "href" : "/html/tips/RN4020.html",
-        "word" : ["datasheet", "データシート", "rn4020"]
-    },
-    {
-        "href" : "/API/index.html",
-        "word" : ["API"]
-    },
-    {
-        "href" : "/BX293APEN/github.html",
-        "word" : ["github"]
-    },
-    {
-        "href" : "/BX293APEN/opencv.html",
-        "word" : ["opencv"]
-    },
-    {
-        "href" : "/BX293APEN/vim.html",
-        "word" : ["vim"]
-    },
-    {
-        "href" : "/html/about/security/critical-cyber-attack.html",
-        "word" : ["criticalcyberattack"]
-    },
-    {
-        "href" : "/html/tips/UEFI/datatrans.html",
-        "word" : ["datatrans"]
-    },
-    {
-        "href" : "/html/tips/appbuild/bitcoin.html",
-        "word" : ["bitcoin"]
-    },
-    {
-        "href" : "/html/tips/appbuild/blender.html",
-        "word" : ["blender"]
-    },
-    {
-        "href" : "/html/tips/appbuild/chromium.html",
-        "word" : ["chromium"]
-    },
-    {
-        "href" : "/html/tips/appbuild/jpki.html",
-        "word" : ["jpki"]
-    },
-    {
-        "href" : "/html/tips/appbuild/uml.html",
-        "word" : ["uml"]
-    },
-    {
-        "href" : "/html/tips/c-lang/EMBEDDED_C.html",
-        "word" : ["EMBEDDEDC"]
-    },
-    {
-        "href" : "/html/tips/docker.html",
-        "word" : ["docker"]
-    },
-    {
-        "href" : "/html/tips/linux.html",
-        "word" : ["linux"]
-    },
-    {
-        "href" : "/html/tips/python.html",
-        "word" : ["python"]
+        "href" : "/html/tips/server/http.html",
+        "word" : ["nginx", "django", "cgi", "http"]
     },
     {
         "href" : "/html/tips/server/cdn.html",
         "word" : ["cdn"]
     },
     {
-        "href" : "/html/tips/server/dhcp.html",
-        "word" : ["dhcp"]
-    },
-    {
-        "href" : "/html/tips/teraterm.html",
-        "word" : ["teraterm"]
-    },
-    {
-        "href" : "/html/tips/visualstudio.html",
-        "word" : ["visualstudio"]
-    },
-    {
-        "href" : "/html/tips/windows.html",
-        "word" : ["windows"]
+        "href" : "/html/tips/server/db.html",
+        "word" : ["db", "database"]
     },
     {
         "href" : "https://chatgpt.com/",

@@ -1,72 +1,157 @@
 # sitemap
 
-`model/` 内の JS から抽出した href の一覧 (66 件)。
+`model/` 内の JS から抽出した href の一覧 (151 件)。
 
-| href | 出典 | キー名 |
-| --- | --- | --- |
-| /API/index.html | model/tips/appbuildTips.js:14 | - |
-| /BX293APEN/github.html | model/tips/tips.js:5 | githubTip |
-| /BX293APEN/opencv.html | model/tips/tips.js:75 | opencvTip |
-| /BX293APEN/vim.html | model/tips/tips.js:13 | vimTip |
-| /DLC/download/easeus-todo-backup-free-12-0-0.exe | model/download/index.js:37 | eb |
-| /DLC/download/epm.exe | model/download/index.js:45 | epm |
-| /html/about/security/critical-cyber-attack.html | model/about/securityTips.js:18 | - |
-| /html/about/security/index.html | model/about/securityTips.js:6 | - |
-| /html/about/security/index.html | model/tips/tips.js:124 | securityTip |
-| /html/about/security/security-laws.html | model/about/securityTips.js:10 | - |
-| /html/about/security/security.html | model/about/securityTips.js:14 | - |
-| /html/tips/RN4020.html | model/tips/tips.js:21 | rn4020Tip |
-| /html/tips/UEFI.html | model/tips/tips.js:110 | UEFITip |
-| /html/tips/UEFI.html | model/tips/UEFITips.js:6 | - |
-| /html/tips/UEFI/datatrans.html | model/tips/UEFITips.js:14 | - |
-| /html/tips/appbuild.html | model/tips/appbuildTips.js:6 | - |
-| /html/tips/appbuild.html | model/tips/tips.js:117 | appTip |
-| /html/tips/appbuild/bitcoin.html | model/tips/appbuildTips.js:26 | - |
-| /html/tips/appbuild/blender.html | model/tips/appbuildTips.js:18 | - |
-| /html/tips/appbuild/chromium.html | model/tips/appbuildTips.js:22 | - |
-| /html/tips/appbuild/jpki.html | model/tips/appbuildTips.js:30 | - |
-| /html/tips/appbuild/uml.html | model/tips/appbuildTips.js:10 | - |
-| /html/tips/ascii-code.html | model/tips/tips.js:68 | asciiCodeTip |
-| /html/tips/c-lang/EMBEDDED_C.html | model/tips/cTips.js:201 | - |
-| /html/tips/c-lang/msquic.html | model/tips/cTips.js:205 | - |
-| /html/tips/c.html | model/tips/cTips.js:197 | - |
-| /html/tips/c.html | model/tips/tips.js:61 | cTip |
-| /html/tips/docker.html | model/tips/tips.js:96 | dockerTip |
-| /html/tips/linux.html | model/tips/linuxTips.js:6 | - |
-| /html/tips/linux.html | model/tips/tips.js:29 | linuxTip |
-| /html/tips/linux/config.html | model/tips/linuxTips.js:14 | - |
-| /html/tips/linux/daemon.html | model/tips/linuxTips.js:22 | - |
-| /html/tips/linux/format.html | model/tips/linuxTips.js:26 | - |
-| /html/tips/linux/network.html | model/tips/linuxTips.js:10 | - |
-| /html/tips/linux/raspi.html | model/tips/linuxTips.js:18 | - |
-| /html/tips/linux/sh.html | model/tips/linuxTips.js:30 | - |
-| /html/tips/linuxMemo.html | model/tips/linuxMemoTips.js:6 | - |
-| /html/tips/linuxMemo.html | model/tips/tips.js:37 | linuxTipMemo |
-| /html/tips/linuxMemo/repo.html | model/tips/linuxMemoTips.js:10 | - |
-| /html/tips/python.html | model/tips/tips.js:45 | pythonTip |
-| /html/tips/server.html | model/tips/serverTips.js:6 | - |
-| /html/tips/server.html | model/tips/tips.js:89 | serverTip |
-| /html/tips/server/cdn.html | model/tips/serverTips.js:52 | - |
-| /html/tips/server/db.html | model/tips/serverTips.js:56 | - |
-| /html/tips/server/dhcp.html | model/tips/serverTips.js:14 | - |
-| /html/tips/server/dns.html | model/tips/serverTips.js:10 | - |
-| /html/tips/server/emqx.html | model/tips/serverTips.js:35 | - |
-| /html/tips/server/ftp.html | model/tips/serverTips.js:18 | - |
-| /html/tips/server/http.html | model/tips/serverTips.js:48 | - |
-| /html/tips/server/iperf3.html | model/tips/serverTips.js:31 | - |
-| /html/tips/server/mail.html | model/tips/serverTips.js:43 | - |
-| /html/tips/server/ntp.html | model/tips/serverTips.js:23 | - |
-| /html/tips/server/vnc.html | model/tips/serverTips.js:27 | - |
-| /html/tips/server/zabbix.html | model/tips/serverTips.js:39 | - |
-| /html/tips/teraterm.html | model/tips/tips.js:103 | teratermTip |
-| /html/tips/visualstudio.html | model/tips/tips.js:53 | visualstudioTip |
-| /html/tips/windows.html | model/tips/tips.js:82 | windowsTip |
-| /html/tips/windows.html | model/tips/windowsTips.js:6 | - |
-| /html/tips/windows/wsl.html | model/tips/windowsTips.js:10 | - |
-| https://code.visualstudio.com/ | model/download/index.js:12 | vscodeDL |
-| https://github.com/BX293APEN/Gentoo_Docker | model/tips/linuxMemoTips.js:39 | Gentoo |
-| https://github.com/BX293APEN/LFS_Docker | model/tips/linuxMemoTips.js:23 | LFS |
-| https://github.com/BX293APEN/OpenWrt_Docker | model/tips/linuxMemoTips.js:31 | OpenWrt |
-| https://github.com/BX293APEN/Yocto_Docker | model/tips/linuxMemoTips.js:15 | Yocto |
-| https://gnuwin32.sourceforge.net/packages/make.htm | model/download/index.js:5 | makeDL |
-| https://spring-fragrance.mints.ne.jp/aviutl/ | model/download/index.js:84 | aviutl |
+| href | 出典 | キー名 | ページ |
+| --- | --- | --- | --- |
+| / | model/index/sitemap.js:3 | - | - |
+| /API/index.html | model/index/sitemap.js:143 | - | - |
+| /API/index.html | model/tips/appbuildTips.js:14 | - | 3 |
+| /BX293APEN/github.html | model/index/sitemap.js:147 | - | - |
+| /BX293APEN/github.html | model/tips/tips.js:5 | githubTip | 1 |
+| /BX293APEN/opencv.html | model/index/sitemap.js:151 | - | - |
+| /BX293APEN/opencv.html | model/tips/tips.js:75 | opencvTip | 1 |
+| /BX293APEN/vim.html | model/index/sitemap.js:155 | - | - |
+| /BX293APEN/vim.html | model/tips/tips.js:13 | vimTip | 1 |
+| /DLC/download/easeus-todo-backup-free-12-0-0.exe | model/download/index.js:37 | eb | - |
+| /DLC/download/epm.exe | model/download/index.js:45 | epm | - |
+| /html/about/security/critical-cyber-attack.html | model/about/securityTips.js:18 | - | 4 |
+| /html/about/security/critical-cyber-attack.html | model/index/sitemap.js:159 | - | - |
+| /html/about/security/index.html | model/about/securityTips.js:6 | - | 1 |
+| /html/about/security/index.html | model/index/sitemap.js:135 | - | - |
+| /html/about/security/index.html | model/tips/tips.js:124 | securityTip | 1 |
+| /html/about/security/security-laws.html | model/about/securityTips.js:10 | - | 2 |
+| /html/about/security/security-laws.html | model/index/sitemap.js:131 | - | - |
+| /html/about/security/security.html | model/about/securityTips.js:14 | - | 3 |
+| /html/about/security/security.html | model/index/sitemap.js:127 | - | - |
+| /html/app/index.html | model/index/sitemap.js:11 | - | - |
+| /html/blog/index.html | model/index/sitemap.js:15 | - | - |
+| /html/download/index.html | model/index/sitemap.js:19 | - | - |
+| /html/tips/RN4020.html | model/index/sitemap.js:139 | - | - |
+| /html/tips/RN4020.html | model/tips/tips.js:21 | rn4020Tip | 1 |
+| /html/tips/UEFI.html | model/index/sitemap.js:27 | - | - |
+| /html/tips/UEFI.html | model/tips/tips.js:110 | UEFITip | 1 |
+| /html/tips/UEFI.html | model/tips/UEFITips.js:6 | - | 1 |
+| /html/tips/UEFI/datatrans.html | model/index/sitemap.js:163 | - | - |
+| /html/tips/UEFI/datatrans.html | model/tips/UEFITips.js:14 | - | 2 |
+| /html/tips/appbuild.html | model/index/sitemap.js:31 | - | - |
+| /html/tips/appbuild.html | model/tips/appbuildTips.js:6 | - | 1 |
+| /html/tips/appbuild.html | model/tips/tips.js:117 | appTip | 1 |
+| /html/tips/appbuild/bitcoin.html | model/index/sitemap.js:167 | - | - |
+| /html/tips/appbuild/bitcoin.html | model/tips/appbuildTips.js:26 | - | 6 |
+| /html/tips/appbuild/blender.html | model/index/sitemap.js:171 | - | - |
+| /html/tips/appbuild/blender.html | model/tips/appbuildTips.js:18 | - | 4 |
+| /html/tips/appbuild/chromium.html | model/index/sitemap.js:175 | - | - |
+| /html/tips/appbuild/chromium.html | model/tips/appbuildTips.js:22 | - | 5 |
+| /html/tips/appbuild/jpki.html | model/index/sitemap.js:179 | - | - |
+| /html/tips/appbuild/jpki.html | model/tips/appbuildTips.js:30 | - | 7 |
+| /html/tips/appbuild/uml.html | model/index/sitemap.js:183 | - | - |
+| /html/tips/appbuild/uml.html | model/tips/appbuildTips.js:10 | - | 2 |
+| /html/tips/ascii-code.html | model/index/sitemap.js:35 | - | - |
+| /html/tips/ascii-code.html | model/tips/tips.js:68 | asciiCodeTip | 1 |
+| /html/tips/c-lang/EMBEDDED_C.html | model/index/sitemap.js:187 | - | - |
+| /html/tips/c-lang/EMBEDDED_C.html | model/tips/cTips.js:201 | - | 2 |
+| /html/tips/c-lang/msquic.html | model/index/sitemap.js:43 | - | - |
+| /html/tips/c-lang/msquic.html | model/tips/cTips.js:205 | - | 3 |
+| /html/tips/c.html | model/index/sitemap.js:39 | - | - |
+| /html/tips/c.html | model/tips/cTips.js:197 | - | 1 |
+| /html/tips/c.html | model/tips/tips.js:61 | cTip | 1 |
+| /html/tips/docker.html | model/index/sitemap.js:191 | - | - |
+| /html/tips/docker.html | model/tips/tips.js:96 | dockerTip | 1 |
+| /html/tips/index.html | model/index/sitemap.js:7 | - | - |
+| /html/tips/linux.html | model/index/sitemap.js:195 | - | - |
+| /html/tips/linux.html | model/tips/linuxTips.js:6 | - | 1 |
+| /html/tips/linux.html | model/tips/tips.js:29 | linuxTip | 1 |
+| /html/tips/linux/config.html | model/index/sitemap.js:67 | - | - |
+| /html/tips/linux/config.html | model/tips/linuxTips.js:14 | - | 3 |
+| /html/tips/linux/daemon.html | model/index/sitemap.js:71 | - | - |
+| /html/tips/linux/daemon.html | model/tips/linuxTips.js:22 | - | 5 |
+| /html/tips/linux/format.html | model/index/sitemap.js:75 | - | - |
+| /html/tips/linux/format.html | model/tips/linuxTips.js:26 | - | 6 |
+| /html/tips/linux/network.html | model/index/sitemap.js:59 | - | - |
+| /html/tips/linux/network.html | model/tips/linuxTips.js:10 | - | 2 |
+| /html/tips/linux/raspi.html | model/index/sitemap.js:63 | - | - |
+| /html/tips/linux/raspi.html | model/tips/linuxTips.js:18 | - | 4 |
+| /html/tips/linux/sh.html | model/index/sitemap.js:79 | - | - |
+| /html/tips/linux/sh.html | model/tips/linuxTips.js:30 | - | 7 |
+| /html/tips/linuxMemo.html | model/index/sitemap.js:51 | - | - |
+| /html/tips/linuxMemo.html | model/tips/linuxMemoTips.js:6 | - | 1 |
+| /html/tips/linuxMemo.html | model/tips/tips.js:37 | linuxTipMemo | 1 |
+| /html/tips/linuxMemo/repo.html | model/index/sitemap.js:55 | - | - |
+| /html/tips/linuxMemo/repo.html | model/tips/linuxMemoTips.js:10 | - | 2 |
+| /html/tips/python.html | model/index/sitemap.js:199 | - | - |
+| /html/tips/python.html | model/tips/tips.js:45 | pythonTip | 1 |
+| /html/tips/server.html | model/index/sitemap.js:87 | - | - |
+| /html/tips/server.html | model/tips/serverTips.js:6 | - | 1 |
+| /html/tips/server.html | model/tips/tips.js:89 | serverTip | 1 |
+| /html/tips/server/cdn.html | model/index/sitemap.js:203 | - | - |
+| /html/tips/server/cdn.html | model/tips/serverTips.js:52 | - | 12 |
+| /html/tips/server/db.html | model/index/sitemap.js:119 | - | - |
+| /html/tips/server/db.html | model/tips/serverTips.js:56 | - | 13 |
+| /html/tips/server/dhcp.html | model/index/sitemap.js:207 | - | - |
+| /html/tips/server/dhcp.html | model/tips/serverTips.js:14 | - | 3 |
+| /html/tips/server/dns.html | model/index/sitemap.js:91 | - | - |
+| /html/tips/server/dns.html | model/tips/serverTips.js:10 | - | 2 |
+| /html/tips/server/emqx.html | model/index/sitemap.js:83 | - | - |
+| /html/tips/server/emqx.html | model/tips/serverTips.js:35 | - | 8 |
+| /html/tips/server/ftp.html | model/index/sitemap.js:95 | - | - |
+| /html/tips/server/ftp.html | model/tips/serverTips.js:18 | - | 4 |
+| /html/tips/server/http.html | model/index/sitemap.js:99 | - | - |
+| /html/tips/server/http.html | model/tips/serverTips.js:48 | - | 11 |
+| /html/tips/server/iperf3.html | model/index/sitemap.js:111 | - | - |
+| /html/tips/server/iperf3.html | model/tips/serverTips.js:31 | - | 7 |
+| /html/tips/server/mail.html | model/index/sitemap.js:115 | - | - |
+| /html/tips/server/mail.html | model/tips/serverTips.js:43 | - | 10 |
+| /html/tips/server/ntp.html | model/index/sitemap.js:103 | - | - |
+| /html/tips/server/ntp.html | model/tips/serverTips.js:23 | - | 5 |
+| /html/tips/server/vnc.html | model/index/sitemap.js:107 | - | - |
+| /html/tips/server/vnc.html | model/tips/serverTips.js:27 | - | 6 |
+| /html/tips/server/zabbix.html | model/index/sitemap.js:123 | - | - |
+| /html/tips/server/zabbix.html | model/tips/serverTips.js:39 | - | 9 |
+| /html/tips/teraterm.html | model/index/sitemap.js:211 | - | - |
+| /html/tips/teraterm.html | model/tips/tips.js:103 | teratermTip | 1 |
+| /html/tips/visualstudio.html | model/index/sitemap.js:215 | - | - |
+| /html/tips/visualstudio.html | model/tips/tips.js:53 | visualstudioTip | 1 |
+| /html/tips/windows.html | model/index/sitemap.js:219 | - | - |
+| /html/tips/windows.html | model/tips/tips.js:82 | windowsTip | 1 |
+| /html/tips/windows.html | model/tips/windowsTips.js:6 | - | 1 |
+| /html/tips/windows/wsl.html | model/index/sitemap.js:47 | - | - |
+| /html/tips/windows/wsl.html | model/tips/windowsTips.js:10 | - | 2 |
+| /html/welcome.html | model/index/sitemap.js:23 | - | - |
+| https://abema.tv/ | model/index/sitemap.js:251 | - | - |
+| https://akizukidenshi.com/catalog/default.aspx | model/index/sitemap.js:263 | - | - |
+| https://bsky.app/profile/bx293apen.bsky.social | model/index/sitemap.js:235 | - | - |
+| https://ch.dlsite.com/pommu/profile/3945756 | model/index/sitemap.js:243 | - | - |
+| https://chatgpt.com/ | model/index/sitemap.js:223 | - | - |
+| https://claude.ai/new | model/index/sitemap.js:231 | - | - |
+| https://code.visualstudio.com/ | model/download/index.js:12 | vscodeDL | - |
+| https://earth.google.com/web/?authuser=0 | model/index/sitemap.js:311 | - | - |
+| https://fast.com/ja/# | model/index/sitemap.js:315 | - | - |
+| https://finance.yahoo.com/ | model/index/sitemap.js:323 | - | - |
+| https://gemini.google.com/app?hl=ja | model/index/sitemap.js:227 | - | - |
+| https://github.com/BX293APEN/Gentoo_Docker | model/tips/linuxMemoTips.js:39 | Gentoo | - |
+| https://github.com/BX293APEN/LFS_Docker | model/tips/linuxMemoTips.js:23 | LFS | - |
+| https://github.com/BX293APEN/OpenWrt_Docker | model/tips/linuxMemoTips.js:31 | OpenWrt | - |
+| https://github.com/BX293APEN/Yocto_Docker | model/tips/linuxMemoTips.js:15 | Yocto | - |
+| https://gnuwin32.sourceforge.net/packages/make.htm | model/download/index.js:5 | makeDL | - |
+| https://ja.numberempire.com/9018421 | model/index/sitemap.js:331 | - | - |
+| https://kakaku.com/ | model/index/sitemap.js:267 | - | - |
+| https://mail.google.com/mail/u/0/#inbox | model/index/sitemap.js:291 | - | - |
+| https://pcfreebook.com/article/450856544.html | model/index/sitemap.js:275 | - | - |
+| https://pcfreebook.com/article/458775622.html | model/index/sitemap.js:279 | - | - |
+| https://pcfreebook.com/article/459993300.html | model/index/sitemap.js:287 | - | - |
+| https://pcfreebook.com/article/smartfone-cpu-list.html | model/index/sitemap.js:283 | - | - |
+| https://radiko.jp/#!/timetable | model/index/sitemap.js:255 | - | - |
+| https://spring-fragrance.mints.ne.jp/aviutl/ | model/download/index.js:84 | aviutl | - |
+| https://time.is/ja/ | model/index/sitemap.js:327 | - | - |
+| https://translate.google.com/?lfhs=2 | model/index/sitemap.js:303 | - | - |
+| https://webshop.monster-strike.com/serial-code | model/index/sitemap.js:339 | - | - |
+| https://www.amazon.co.jp/ | model/index/sitemap.js:259 | - | - |
+| https://www.av-comparatives.org/ | model/index/sitemap.js:271 | - | - |
+| https://www.google.co.jp | model/index/sitemap.js:295 | - | - |
+| https://www.google.co.jp/imghp?hl=ja&tab=ri&authuser=0&ogbl | model/index/sitemap.js:299 | - | - |
+| https://www.google.com/maps?force=tt&source=ttpwa | model/index/sitemap.js:307 | - | - |
+| https://www.j-platpat.inpit.go.jp/t0100 | model/index/sitemap.js:335 | - | - |
+| https://www.speedtest.net/ja | model/index/sitemap.js:319 | - | - |
+| https://www.youtube.com/ | model/index/sitemap.js:247 | - | - |
+| https://x.com/BX293A_PEN | model/index/sitemap.js:239 | - | - |

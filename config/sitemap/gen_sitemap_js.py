@@ -20,7 +20,14 @@ word の決め方 (sitemap.md の href ごと):
 
 TEMPLATE に同じ href があれば、キー名由来の word だけ追記する (重複は除く)。
 TEMPLATE に無ければ新規エントリを追加する (キー名が無ければ href から作る)。
-並び順は 内部リンク -> 外部リンク (各グループ内は TEMPLATE の順、新規は末尾)。
+並び順:
+  1. ページ番号が無い内部リンク (TEMPLATE の順、新規は末尾)
+  2. ページ番号がある内部リンク
+       ページ番号の昇順 -> 同じ番号ならファイル名 (hrefの最後の "/" 以降) の昇順
+       (大文字小文字は区別しない。例: linux.html は linuxMemo.html より前)
+       -> それも同じなら href 全体の昇順
+  3. 外部リンク (TEMPLATE の順、新規は末尾)
+ページ番号は sitemap.md の4カラム目。同じ href に複数あれば最小値を使う (ページ番号が無い行 (-) は無視)。
 """
 import json
 import re
@@ -35,6 +42,7 @@ class GenSiteMapJS:
         if not self.md_path.is_file():
             sys.exit(f"ファイルが見つかりません: {self.md_path}")
         self.TEMPLATE = self.load_template(template)
+        self.pages = {}  # href -> ページ番号 (load_md で設定)
 
         self.entries = self.merge(self.load_md())
         self.write()
@@ -81,18 +89,22 @@ class GenSiteMapJS:
         return list(merged.values())
 
     def load_md(self) -> dict:
-        """sitemap.md の表を読み、href -> キー名由来の word のリスト (出現順) を返す"""
+        """sitemap.md の表を読み、href -> キー名由来の word のリスト (出現順) を返す
+        (ページ番号は self.pages に href -> 番号 で入れる。複数あれば最小値。- は無視)"""
         keys = {}  # href -> [キー名, ...]
         for line in self.md_path.read_text(encoding="utf-8").splitlines():
             if not line.startswith("|"):
                 continue
             cells = [c.strip().replace("\\|", "|") for c in re.split(r"(?<!\\)\|", line)[1:-1]]
-            if len(cells) != 3:
-                continue
-            href, _source, key = cells
+            if len(cells) < 3:
+                continue  # 先頭3カラム (href / 出典 / キー名) だけ使う (ページ列は無視)
+            href, _source, key = cells[:3]
+            page = cells[3] if len(cells) > 3 else "-"
             if not (href.startswith("/") and href.endswith(".html")):
                 continue  # ヘッダ行・区切り行・外部リンク・html以外
             keys.setdefault(href, [])
+            if page.isdigit():
+                self.pages[href] = min(int(page), self.pages.get(href, int(page)))
             if key != "-":
                 keys[href].append(key)
 
@@ -104,8 +116,9 @@ class GenSiteMapJS:
         return result
 
     def merge(self, md_words: dict) -> list:
-        """TEMPLATE (コピー) に合成する。最後に内部リンク -> 外部リンクの順に並べ直す
-        (各グループ内は TEMPLATE の順を保ち、新規は末尾に追加。TEMPLATE の途中に外部リンクがあってもよい)"""
+        """TEMPLATE (コピー) に合成する。最後に
+        ページ番号なしの内部リンク -> ページ番号順 (同じ番号はファイル名順) の内部リンク -> 外部リンク の順に並べ直す
+        (ページ番号なしと外部は TEMPLATE の順を保ち、新規は末尾に追加。TEMPLATE の途中に外部リンクがあってもよい)"""
         entries = [{"href": e["href"], "word": list(e["word"])} for e in self.TEMPLATE]
         index = {e["href"]: e for e in entries}
 
@@ -119,10 +132,19 @@ class GenSiteMapJS:
                 entries.append(entry)
                 index[href] = entry
 
-        # 安定な振り分け: "/" 始まり (内部) を先、それ以外 (外部) を後ろへ
+        # 内部 (ページ番号なし) -> 内部 (ページ番号順 -> ファイル名順) -> 外部
         internal = [e for e in entries if e["href"].startswith("/")]
         external = [e for e in entries if not e["href"].startswith("/")]
-        return internal + external
+        no_page = [e for e in internal if e["href"] not in self.pages]
+        paged = sorted(
+            (e for e in internal if e["href"] in self.pages),
+            key=lambda e: (
+                self.pages[e["href"]],
+                e["href"].rsplit("/", 1)[-1].casefold(),
+                e["href"],
+            ),
+        )
+        return no_page + paged + external
 
     def write(self):
         q = lambda s: '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
