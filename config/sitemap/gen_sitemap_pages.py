@@ -25,8 +25,8 @@ from pathlib import Path
 class GenerateSiteMap:
     HREF_RE = re.compile(r"""["']href["']\s*:\s*(?P<q>["'])(?P<href>(?:\\.|(?!(?P=q)).)*)(?P=q)""")
     KEY_RE = re.compile(r"""["']([^"'\n]+)["']\s*:\s*\{""")
-    # 検索対象外 (modelフォルダからの相対パス。index.js は bookmark.js に移行済み)
-    EXCLUDE = ("index/index.js",)
+    # 検索対象外 (modelフォルダからの相対パス)
+    EXCLUDE = ("index/index.js", "index/sitemap.js",)
     # 含まれる href を全て 1 ページ目として扱うファイル (modelフォルダからの相対パス)
     PAGE1_FILES = ("tips/tips.js",)
     PAGE_RE = re.compile(r"this\.page\s*=\s*\[")
