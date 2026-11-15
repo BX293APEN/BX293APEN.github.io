@@ -116,7 +116,23 @@
                 }
             )();
 
-            new DownloadFile("dl-sitemap", [JSON.stringify(sitemap, null, 4)], "sitemap.json", "application/json");
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    setTimeout(
+                        () =>{
+                            new DownloadFile(
+                                "dl-sitemap", 
+                                [JSON.stringify(sitemap, null, 4)], 
+                                "sitemap.json", 
+                                "application/json"
+                            );
+                        },
+                        300
+                    )
+                }
+            );
             
         </script>
     </footer>
