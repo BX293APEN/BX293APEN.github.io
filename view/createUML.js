@@ -1,3 +1,66 @@
+/**
+ * # DownloadFile
+ *
+ * ボタンのクリックでファイルをダウンロードさせるクラス。
+ *
+ * ## コンストラクタ引数
+ *
+ * | 引数 | 型 | 既定値 | 説明 |
+ * |------|----|--------|------|
+ * | `placeID` | `string` | (必須) | クリックを受けるボタンの ID |
+ * | `content` | `string \| (() => string)` | (必須) | ファイルの中身。関数ならクリックのたびに呼び出す |
+ * | `fileName` | `string` | (必須) | 保存するファイル名 |
+ * | `mimeType` | `string` | `"text/plain"` | MIME タイプ |
+ *
+ * ## メンバ変数
+ *
+ * | 名前 | 型 | 説明 |
+ * |------|----|------|
+ * | `btn` | `HTMLElement` | クリックを受けるボタン |
+ * | `content` | `string \| (() => string)` | ファイルの中身、またはそれを返す関数 |
+ * | `fileName` | `string` | 保存するファイル名 |
+ * | `mimeType` | `string` | MIME タイプ |
+ *
+ * ## メソッド
+ *
+ * | 名前 | 引数 | 戻り値 | 説明 |
+ * |------|------|--------|------|
+ * | `download()` | なし | `void` | `File` を作ってダウンロードする |
+ */
+class DownloadFile{
+    constructor (
+        placeID,
+        content,
+        fileName,
+        mimeType = "text/plain"
+    ){
+        this.btn      = document.getElementById(placeID);
+        this.content  = content;
+        this.fileName = fileName;
+        this.mimeType = mimeType;
+        this.btn.addEventListener(
+            "click", () => {
+                this.download();
+            }
+        );
+    }
+    download(){
+        // 関数なら、クリックした時点の内容を取得する
+        const body = typeof this.content === "function"
+            ? this.content()
+            : this.content;
+        const file = new File([body], this.fileName, { type: this.mimeType });
+        const url  = URL.createObjectURL(file);
+        const a    = document.createElement("a");
+        a.href     = url;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+}
+
 class MermaidUML{
     constructor (
         {
@@ -9,7 +72,6 @@ class MermaidUML{
     ){
         this.uml    = document.getElementById(umlPlace);
         this.src    = document.getElementById(umlSource);
-        this.dl     = document.getElementById(dl);
         this.name   = umlName;
         this.src.addEventListener(
             'keydown', 
@@ -21,12 +83,11 @@ class MermaidUML{
             }
         );
         this.draw();
-        this.dl.addEventListener(
-            'click', 
-            () => {
-                this.download_svg();
-            }
-            
+        new DownloadFile(
+            dl,
+            () => this.get_svg_text(),          // クリック時に最新の SVG を取得
+            `${this.name}.svg`,
+            "image/svg+xml;charset=utf-8"
         );
     }
     draw(){
@@ -40,28 +101,19 @@ class MermaidUML{
             this.draw()
         }
     }
-    download_svg() {
-        // svg要素を取得
-        let svgNode = this.uml.querySelector("svg");
-        let svgText = new XMLSerializer().serializeToString(svgNode);
-        let svgBlob = new Blob(
-            [svgText], 
-            { 
-                type: 'image/svg+xml;charset=utf-8' 
-            }
+
+    /**
+     * 現在描画されている SVG を文字列で返す。
+     *
+     * | 戻り値 | 説明 |
+     * |--------|------|
+     * | `string` | SVG のシリアライズ結果 |
+     */
+    get_svg_text() {
+        return new XMLSerializer().serializeToString(
+            this.uml.querySelector("svg")
         );
-        let svgUrl = URL.createObjectURL(svgBlob);
-      
-        // a要素を作ってダウンロード
-        let a = document.createElement('a');
-        a.href = svgUrl;
-        a.download = `${this.name}.svg`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(svgUrl);
     }
-      
 }
 
 // new MermaidUML("drawUML", "sourceUML", "umlDownload", "uml");
