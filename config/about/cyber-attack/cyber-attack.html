@@ -860,7 +860,7 @@
                 <tr data-tags="Webアプリ|個人クラッカー|インジェクション">
                     <th scope="row" class="name">DOMベースXSS<br>(DOM-based XSS)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">個人クラッカー</button><button type="button" class="tag badge text-bg-secondary" data-tag="インジェクション">インジェクション</button></div></th>
                     <td class="">ブラウザ側のJavaScriptが入力値をDOMに書き込む際に実行される<br>(サーバを経由しないためWAFで防ぎにくい)</td>
-                    <td class=""><ul><li>JavaScriptが入力値(location.hash・URLパラメータ等)を安全でない方法でDOMに書き込むこと(innerHTML・document.write等)</li><li>利用者が罠のURLを踏むこと</li></ul></td>
+                    <td class=""><ul><li>JavaScriptが入力値(location.hash・URLパラメータ等)を安全でない方法でDOMに書き込むこと<ul><li>innerHTML</li><li>document.write</li></ul>等</li><li>利用者が罠のURLを踏むこと</li></ul></td>
                     <td class=""><ul><li>Cookie・セッションIDの窃取</li><li>ページ内容の改ざん・不正な操作</li><li>サーバを経由しないため、WAFで検知されにくい</li></ul></td>
                     <td class="">BeEF<br>(Browser Exploitation <br>Framework)</td>
                     <td class="std"><ul><li>該当機能・ページを停止、またはWAFで遮断</li><li>影響セッションの失効・パスワード変更</li></ul></td>
