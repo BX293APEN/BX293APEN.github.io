@@ -66,6 +66,21 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div id="md-permission">
+
+| 対象＼権限 | R (read) | W (write) | X (execute) |
+|---|---|---|---|
+| ファイル | 内容の読み取り | 内容の<ul><li>書き込み・変更</li><li>切り詰め</li><li>追記</li></ul> | 直接実行<br>(実行されるプロセスの中身はバイナリ・シェバンに従う) |
+| ディレクトリ | 中に含まれる<br>エントリ(ファイル・子ディレクトリ)**名**の<br>一覧取得(`ls`) | エントリの<ul><li>作成(**X 必要**)</li><li>削除(**X 必要**)</li><li>名前変更(**X 必要**)</li></ul>(単体では無効な権限) | エントリへの<ul><li>内容へのアクセス</li><li>パス解決</li></ul>(`cd`、`stat`、`open` など) |
+  
+<br>
+  
+- ファイルの削除・名前変更・移動 : **親ディレクトリの W + X**
+- ディレクトリの R : 名前の一覧のみ
+- 機械語 : ファイルの X / インタプリタ言語 : ファイルの W + X
+
+                            </div>
                         </article>
                         <article class="blog-post">
                             <h3 class="pt-4 border-bottom fw-bold" id="update">
@@ -758,8 +773,26 @@ sudo umount -R /Programs/mnt</code></pre>
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["windowsTip", "dockerTip", "serverTip"]);
             new Pagination(1, linuxModel.page, "pagination");
-            new MarkDownMaker(
-                id              = "md-text",
+
+            const mdLists = [
+                "md-text",
+                "md-permission",
+            ];
+
+            window.addEventListener(
+                "load", 
+                () => {
+                    for (const mdID of mdLists) {
+                        setTimeout(
+                            () => {
+                                new MarkDownMaker(
+                                    id              = mdID,
+                                )
+                            },
+                            300
+                        )
+                    }
+                }
             )
 
             $('#context-tree').treeview({
