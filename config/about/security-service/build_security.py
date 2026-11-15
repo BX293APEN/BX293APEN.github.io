@@ -25,6 +25,7 @@ SecurityServiceMD2HTML("security-service.md").save()
 | `python3 build_security.py` | 3ファイルを書き出す |
 | `python3 build_security.py --preview` | 確認用ページも書き出す |
 | `python3 build_security.py --osi` | 各サービスの OSI 層の割り当て一覧を表示する |
+| `python3 build_security.py --purpose` | 各サービスの「保護の目的」の割り当て一覧を表示する |
 """
 import re, html, os, sys
 
@@ -38,15 +39,19 @@ class SecurityServiceMD2HTML:
     | `__init__` | パスの解決・元ファイルの読み込み |
     | `load_words` | OSI 層の割り当てルール・CSS の差分・確認用ページの定義を読み込む |
     | `plain` | HTML タグを除いた文字列にする |
-    | `parse` | Markdown の表を行データに変換する |
+    | `parse` | Markdown の表を行データに変換する(3列、または分類列つきの4列) |
+    | `extra_tags` | 4列目の「分類」の文字列から、タグを取り出す |
     | `inspect_text` | 説明の「検査箇所」の項目(`<li>`)を取り出す |
     | `layers_in` | 「検査箇所」の文字列を OSI 層の番号に変換する |
+    | `inherit` | 親子の関係(子は親から継承・親は子の和集合)を適用する。`osi_of`・`purpose_of` の共通処理 |
     | `osi_of` | 各行の OSI 層と、その根拠を決める |
-    | `tags_of` | 行ごとにタグ(分類・OSI層)を決める |
+    | `purpose_of` | 各行の「保護の目的」のタグと、その根拠を決める |
+    | `tags_of` | 行ごとにタグ(分類・保護の目的・OSI層)を決める |
     | `row_html` | 1行分の `<tr>` を作る |
     | `group` | 上部のタグボタン群を作る |
     | `build` | HTML 全体を組み立てて文字列で返す |
     | `osi_table` | OSI 層の割り当て一覧(確認用)を Markdown の表で返す |
+    | `purpose_table` | 「保護の目的」の割り当て一覧(確認用)を Markdown の表で返す |
     | `save_html` | HTML の断片を書き出す |
     | `save_css` | CSS を書き出す |
     | `save_js` | JavaScript を書き出す |
@@ -80,6 +85,45 @@ class SecurityServiceMD2HTML:
         "アプリケーション": 7,
     }
     CHILD_MARKS = "└┗"   # 名前の先頭にこの文字があれば子の項目
+
+    # ## 4列目「分類」(`copy-protect.md` 由来)からタグを作るときの設定
+    #
+    # | 定数 | 内容 |
+    # |---|---|
+    # | `PURPOSE_TITLE` | 上部のタグボタン群の系統名 |
+    # | `TAG_ALIAS` | 「A・B」のように複数の意味を1語にまとめた分類を、個別のタグに分ける。表記ゆれ(「改竄防止」)を既存のタグにそろえる用途にも使う。ここに無い分類は、そのままタグにする(「複製・利用の防止」のように「・」を含む1語のタグもあるため、自動では分けない) |
+    PURPOSE_TITLE = "保護の目的"
+    # ## 「保護の目的」のタグの一覧(上部のタグボタンは、この順に並べる)
+    #
+    # | タグ | 意味 | 主な対象 |
+    # |---|---|---|
+    # | 不正アクセスの防止 | 不正な通信・侵入・操作を入口で止める | FW・IPS・WAF・ZTNA・検疫・物理的な入退室 |
+    # | 不正実行の防止 | 許可されていないプログラムの実行を止める | アプリケーション制御・セキュアブート |
+    # | マルウェア対策 | マルウェアの侵入・実行・拡散を防ぐ、または検出する | アンチウイルス・EDR・サンドボックス・URL フィルタ |
+    # | フィッシング・迷惑メール対策 | 迷惑メール・フィッシングを判定して止める | 迷惑メール対策・送信ドメイン認証・メール検査 |
+    # | なりすまし防止 | 送信元・通信相手の偽装を見破る | SPF・DKIM・DMARC・DNSSEC |
+    # | 情報漏えいの防止 | 情報の持ち出し・盗聴・盗難による漏えいを防ぐ | DLP・暗号化・デバイス制御・MDM |
+    # | 複製・利用の防止 | コンテンツの複製・利用を制限する | DRM・コピーガード・HDCP |
+    # | 情報隠蔽 | 情報の存在自体を隠す | ステガノグラフィ |
+    # | 改竄検知 | データ・通信・コードの改竄を見つける | ハッシュ値・デジタル署名・チェックサム法 |
+    # | 改竄・削除の防止 | データの書き換え・削除を禁止する | WORM・イミュータブル保管 |
+    # | 発行元証明 | 作成者・発行元が本人であることを示す | デジタル署名・コードサイニング |
+    # | 追跡・証明 | 流出元の追跡や、存在・権利の証明に使う | 電子透かし・タイムスタンプ・監視カメラ |
+    # | 攻撃の検知・分析 | 攻撃の兆候・痕跡を見つけて分析する | IDS・NDR・SIEM・ハニーポット・脅威インテリジェンス |
+    # | 脆弱性対策 | 弱点を見つけて、修正・是正する | パッチ管理・各種診断・CSPM |
+    # | 資産・設定の管理 | 資産と設定の状態を把握・維持する | 資産管理・MDM・構成管理監査 |
+    # | 可用性の確保 | サービスの継続・復旧を可能にする | DDoS 対策・CDN・バックアップ |
+    PURPOSES = [
+        "不正アクセスの防止", "不正実行の防止", "マルウェア対策", "フィッシング・迷惑メール対策",
+        "なりすまし防止", "情報漏えいの防止", "複製・利用の防止", "情報隠蔽",
+        "改竄検知", "改竄・削除の防止", "発行元証明", "追跡・証明",
+        "攻撃の検知・分析", "脆弱性対策", "資産・設定の管理", "可用性の確保",
+    ]
+    TAG_ALIAS = {
+        "改竄検知・発行元証明": ["改竄検知", "発行元証明"],
+        "改竄検知・不正実行の防止": ["改竄検知", "不正実行の防止"],
+        "改竄防止": ["改竄・削除の防止"],   # 表記ゆれ(ブロックチェーンの行)を1つのタグにそろえる
+    }
 
     def __init__(
         self,
@@ -200,6 +244,25 @@ class SecurityServiceMD2HTML:
         | ダークネット監視 | L3 | 未使用の IP アドレス空間に届くパケットを観測する |
         | 上記以外 | OSI層なし | 端末・データ・運用・物理が対象で、通信の層に当てはまらない |
 
+        ## 「保護の目的」の決め方(上から順に優先)
+
+        | 優先 | 方法 | 内容 |
+        |---|---|---|
+        | 1 | 4列目の「分類」 | 4列の表の行は、その記載どおりにする(`copy-protect.md` 由来の行) |
+        | 2 | `purpose_rules` | 判断で割り当てたもの(下の表の `PURPOSES` の意味を参照) |
+        | 3 | 親子の関係 | 子の項目は親から引き継ぐ。親の項目でルールが無ければ、子のタグの和集合にする |
+
+        「保護の目的」のタグの一覧は、クラス定数 `PURPOSES` のコメントを参照。
+
+        ### `purpose_rules` の考え方
+
+        | 項目 | 方針 |
+        |---|---|
+        | 入口で止める対策 | 不正アクセスの防止(FW・IPS・WAF・ZTNA・検疫・入退室管理) |
+        | 見つける対策 | 攻撃の検知・分析(IDS・NDR・SIEM・ハニーポット・脅威インテリジェンス) |
+        | 複数の効果がある対策 | 複数のタグを付ける(例: IPS = 不正アクセスの防止 + 攻撃の検知・分析) |
+        | 子で性質が違うもの | 子に専用のルールを書き、親のルールより先に判定する(例: IDS は検知のみ、IPS は防止と検知) |
+
         """
         self.osi_rules = [
             (r"^(パケットフィルタリング型|ダイナミックパケットフィルタリング型|ステートフルパケットフィルタリング型)", [3, 4]),
@@ -212,6 +275,73 @@ class SecurityServiceMD2HTML:
             (r"^(CDN|DNSSEC|CSP\b|WAF$|WAAP$|フォワードプロキシ|リバースプロキシ|メールプロキシ|URLフィルタリング|RBI|迷惑メール対策|送信ドメイン認証|CASB|DLP)", [7]),
             (r"^通信の暗号化", [3, 5, 6, 7]),
             (r"^ダークネット監視", [3]),
+        ]
+
+        # ## 「保護の目的」の割り当て(判断で割り当てたもの。名前の先頭にマッチした最初のルールを使う)
+        FW, RUN, MAL, MAIL, SPOOF = "不正アクセスの防止", "不正実行の防止", "マルウェア対策", "フィッシング・迷惑メール対策", "なりすまし防止"
+        LEAK, TAMPER, WIPE = "情報漏えいの防止", "改竄検知", "改竄・削除の防止"
+        TRACE, DETECT, VULN, ASSET, AVAIL = "追跡・証明", "攻撃の検知・分析", "脆弱性対策", "資産・設定の管理", "可用性の確保"
+        self.purpose_rules = [
+            # ネットワーク防御
+            (r"^(ファイアウォール|パケットフィルタリング型|ダイナミックパケット|ステートフルパケット|アプリケーションゲートウェイ型)", [FW]),
+            (r"^UTM", [FW, DETECT, MAL, MAIL]),
+            (r"^IDS[(（]", [FW, DETECT]),
+            (r"^(IDS$|NIDS|IPSプロミスキャス|NDR)", [DETECT]),
+            (r"^(IPS$|IPSインライン)", [FW, DETECT]),
+            (r"^検疫ネットワーク", [FW, MAL]),
+            (r"^ZTNA", [FW]),
+            (r"^(DDoS対策|CDN)", [AVAIL]),
+            (r"^DNSSEC", [SPOOF, TAMPER]),
+            # Web・メール防御
+            (r"^(WAF|WAAP|CSP(?!M))", [FW]),   # CSPM は別のサービスなので除く
+            (r"^フォワードプロキシ", [MAL]),
+            (r"^リバースプロキシ", [FW]),
+            (r"^メールプロキシ", [MAIL, MAL]),
+            (r"^URLフィルタリング", [MAL, MAIL]),
+            (r"^RBI", [MAL]),
+            (r"^迷惑メール対策", [MAIL]),
+            (r"^DKIM", [SPOOF, TAMPER]),
+            (r"^送信ドメイン認証", [SPOOF, MAIL]),
+            # エンドポイント防御
+            (r"^(コンペア法|チェックサム法)", [MAL, TAMPER]),
+            (r"^アンチウイルスソフト", [MAL]),
+            (r"^EDR", [MAL, DETECT]),
+            (r"^HIDS", [DETECT, TAMPER]),
+            (r"^アプリケーション制御", [RUN]),
+            (r"^デバイス制御", [LEAK, MAL]),
+            (r"^VDI", [LEAK]),
+            (r"^MDM", [ASSET, LEAK]),
+            (r"^資産管理", [ASSET]),
+            (r"^パッチ管理", [VULN]),
+            # データ保護
+            (r"^DLP", [LEAK]),
+            (r"^通信の暗号化", [LEAK, TAMPER]),
+            (r"^暗号化", [LEAK]),
+            (r"^オフライン・イミュータブル保管", [AVAIL, WIPE]),
+            (r"^バックアップ", [AVAIL]),
+            # クラウドセキュリティ
+            (r"^CASB", [LEAK, FW]),
+            (r"^CSPM", [VULN, ASSET]),
+            # 検知・分析基盤
+            (r"^(SIEM|SOAR|XDR)\s*[(（]", [DETECT]),
+            (r"^SCAP\s*[(（]", [VULN, ASSET]),
+            (r"^サンドボックス$", [MAL, DETECT]),
+            (r"^ハニーポット", [DETECT]),
+            (r"^ダークネット監視", [DETECT]),
+            # 脅威情報・診断
+            (r"^脅威インテリジェンス", [DETECT]),
+            (r"^iLogScanner", [DETECT, VULN]),
+            (r"^リバースエンジニアリング", [DETECT, VULN]),
+            (r"^構成管理監査", [VULN, ASSET]),
+            (r"^セキュリティ診断", [VULN]),
+            (r"^能動的サイバー防御", [FW, DETECT]),
+            (r"^(エンドポイント検査|サンドボックス検査|DNS検査)", [MAL, DETECT]),
+            (r"^メール検査", [MAIL, MAL]),
+            (r"^(アノマリ|ログ相関分析|デセプション|脅威ハンティング|ユーザ行動分析)", [DETECT]),   # 検知のみ(遮断しない)
+            # 物理的対策
+            (r"^監視カメラ", [TRACE, LEAK]),
+            (r"^USBポートロック", [LEAK, MAL]),
+            (r"^物理的対策", [FW]),
         ]
 
         # ## CSS の置換(攻撃表用 → このページ用)
@@ -290,9 +420,14 @@ __FRAGMENT__
 
         `## ` の見出しを分類名として使う。見出し行・区切り行(`| --- |`)は読み飛ばす。
 
+        | 列数 | 列 | 備考 |
+        |---|---|---|
+        | 3 | サービスの種類・説明・製品例 | 通常の表 |
+        | 4 | 上の3列 + 分類 | 4列目はタグにだけ使い、HTML の表には出さない(`copy-protect.md` 由来の表) |
+
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | 行リスト | `list[tuple[str, list[str]]]` | (分類名, 3セル) |
+        | 行リスト | `list[tuple[str, list[str]]]` | (分類名, 3セルまたは4セル) |
         """
         rows, sec = [], None
         with open(self.src, encoding="utf-8") as f:
@@ -302,11 +437,33 @@ __FRAGMENT__
                 sec = ln[3:].strip()
             elif ln.startswith("|") and not re.match(r"^\|[\s\-:|]+\|$", ln):
                 cells = [c.strip() for c in ln.strip().strip("|").split("|")]
-                assert len(cells) == 3, (len(cells), ln[:60])
+                assert len(cells) in (3, 4), (len(cells), ln[:60])
                 if self.plain(cells[0]) == "サービスの種類":
                     continue
                 rows.append((sec, cells))
         return rows
+
+    def extra_tags(self, cell):
+        """
+        ## 4列目「分類」の文字列から、タグを取り出す
+
+        `<br>` で区切られた項目を1つずつタグにする。`(…)` で始まる項目は直前の項目の補足なので、タグにしない。
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `cell` | `str` | 4列目の HTML(例: `複製・利用の防止<br>(二重使用)<br>追跡・証明`) |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | タグのリスト | `list[str]` | 重複を除いた出現順のタグ。`TAG_ALIAS` にある分類は個別のタグに分ける |
+        """
+        tags = []
+        for part in re.split(r"<br\s*/?>", cell):
+            part = self.plain(part)
+            if not part or part.startswith(("(", "(")):
+                continue
+            tags.extend(self.TAG_ALIAS.get(part, [part]))
+        return list(dict.fromkeys(tags))
 
     @staticmethod
     def inspect_text(desc):
@@ -356,6 +513,80 @@ __FRAGMENT__
         found.update(self.LAYER_NAMES[n] for n in re.findall(rf"({names})層", t))
         return sorted(found)
 
+    @staticmethod
+    def inherit(names, is_child, own, basis, merge):
+        """
+        ## 親子の関係を適用する(`osi_of`・`purpose_of` の共通処理)
+
+        | 項目 | 内容 |
+        |---|---|
+        | 子の項目で、自身の値が無い(`None`) | 親の値を引き継ぐ。基準は `親から継承`(親も空なら `該当なし`) |
+        | 親の項目で、自身の値が無い(`None`) | 子の値を `merge` でまとめる。基準は `子の和集合`(空なら `該当なし`) |
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `names` | `list[str]` | 行ごとの名前(`assert` のメッセージ用) |
+        | `is_child` | `list[bool]` | 行ごとの、子の項目かどうか |
+        | `own` | `list[list or None]` | 行ごとの、自身の値。決まっていなければ `None` |
+        | `basis` | `list[str or None]` | 行ごとの根拠。自身の値が決まった行は、その根拠が入っている |
+        | `merge` | `Callable[[list[list]], list]` | 子の値のリストを1つにまとめる関数 |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 値のリスト | `list[list]` | 行ごとの値 |
+        | 根拠のリスト | `list[str]` | 行ごとの根拠 |
+        """
+        values, children, parent = [None] * len(own), {}, None
+        for i, child in enumerate(is_child):
+            if not child:
+                parent = i
+                children[i] = []
+                values[i] = own[i]
+            else:
+                assert parent is not None, names[i]
+                children[parent].append(i)
+                if own[i] is not None:
+                    values[i] = own[i]
+                else:
+                    values[i] = list(values[parent] or [])
+                    basis[i] = "親から継承" if values[i] else "該当なし"
+        for p, kids in children.items():
+            if values[p] is None:
+                values[p] = merge([values[k] for k in kids])
+                basis[p] = "子の和集合" if values[p] else "該当なし"
+        return values, basis
+
+    def purpose_of(self, rows):
+        """
+        ## 各行の「保護の目的」のタグと、その根拠を決める
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `rows` | `list[tuple[str, list[str]]]` | `parse` の戻り値 |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | タグのリスト | `list[list[str]]` | 行ごとのタグ。`PURPOSES` の順に並べる。該当なしは空リスト |
+        | 根拠のリスト | `list[str]` | 行ごとの根拠。`分類列`・`ルール`・`親から継承`・`子の和集合`・`該当なし` のどれか |
+        """
+        names = [self.plain(c[0]) for _, c in rows]
+        mark = f"^[{self.CHILD_MARKS}]"
+        is_child = [bool(re.match(mark, n)) for n in names]
+        names = [re.sub(mark + r"\s*", "", n) for n in names]
+        order = lambda tags: sorted(dict.fromkeys(tags), key=lambda t: self.PURPOSES.index(t) if t in self.PURPOSES else len(self.PURPOSES))
+
+        own, basis = [], []
+        for n, (_, c) in zip(names, rows):
+            if len(c) > 3:                                        # 1. 4列目の「分類」
+                own.append(order(self.extra_tags(c[3])))
+                basis.append("分類列")
+                continue
+            rule = next((tg for rx, tg in self.purpose_rules if re.search(rx, n)), None)
+            own.append(order(rule) if rule is not None else None)  # 2. purpose_rules
+            basis.append("ルール" if rule is not None else None)
+        merge = lambda lists: order([t for l in lists for t in l])
+        return self.inherit(names, is_child, own, basis, merge)    # 3. 親子の関係
+
     def osi_of(self, rows):
         """
         ## 各行の OSI 層と、その根拠を決める
@@ -385,40 +616,24 @@ __FRAGMENT__
             own.append(rule)                                      # 2. osi_rules
             basis.append("ルール" if rule is not None else None)
 
-        layers, children, parent = [None] * len(rows), {}, None  # 3. 親子の関係
-        for i, child in enumerate(is_child):
-            if not child:
-                parent = i
-                children[i] = []
-                layers[i] = own[i]
-            else:
-                assert parent is not None, names[i]
-                children[parent].append(i)
-                if own[i] is not None:
-                    layers[i] = own[i]
-                else:
-                    layers[i] = list(layers[parent] or [])
-                    basis[i] = "親から継承" if layers[i] else "該当なし"
-        for p, kids in children.items():
-            if layers[p] is None:
-                layers[p] = sorted({ly for k in kids for ly in layers[k]})
-                basis[p] = "子の和集合" if layers[p] else "該当なし"
-        return layers, basis
+        merge = lambda lists: sorted({ly for l in lists for ly in l})
+        return self.inherit(names, is_child, own, basis, merge)   # 3. 親子の関係
 
-    def tags_of(self, sec, layers):
+    def tags_of(self, sec, purpose, layers):
         """
-        ## 行のタグを (分類, OSI層) で返す
+        ## 行のタグを (分類, 保護の目的, OSI層) で返す
 
         | 引数 | 型 | 説明 |
         |---|---|---|
         | `sec` | `str` | 分類名(`## ` の見出し) |
+        | `purpose` | `list[str]` | `purpose_of` で決めた「保護の目的」のタグ |
         | `layers` | `list[int]` | `osi_of` で決めた OSI 層の番号 |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | タプル | `tuple[list[str], list[str]]` | 分類のタグ・OSI 層のタグ(該当なしは `OSI層なし`) |
+        | タプル | `tuple[list[str], list[str], list[str]]` | 分類のタグ・保護の目的のタグ・OSI 層のタグ(該当なしは `OSI層なし`) |
         """
-        return [sec], [self.LAYERS[ly] for ly in layers] or [self.NONE_TAG]
+        return [sec], list(purpose), [self.LAYERS[ly] for ly in layers] or [self.NONE_TAG]
 
     def row_html(self, cells, tags):
         """
@@ -426,7 +641,7 @@ __FRAGMENT__
 
         | 引数 | 型 | 説明 |
         |---|---|---|
-        | `cells` | `list[str]` | 元の3セル |
+        | `cells` | `list[str]` | 元のセル(4セルあっても、先頭の3セルだけを表示する) |
         | `tags` | `list[str]` | この行のタグ(分類+OSI層) |
 
         | 戻り値 | 型 | 説明 |
@@ -502,21 +717,25 @@ __FRAGMENT__
         |---|---|---|
         | HTML | `str` | テンプレートの `__ROWS__` と `__FILTERS__` を置換したもの |
 
-        行数は `self.rows` に入る。
+        タグボタンの系統は「分類」「保護の目的」「OSI層」の順。行数は `self.rows` に入る。
         """
         rows = self.parse()
         layers, _ = self.osi_of(rows)
+        purposes, _ = self.purpose_of(rows)
         body, count = [], {}
-        for (sec, c), ly in zip(rows, layers):
-            cat, osi = self.tags_of(sec, ly)
-            tags = cat + osi
+        for (sec, c), pu, ly in zip(rows, purposes, layers):
+            cat, pu, osi = self.tags_of(sec, pu, ly)
+            tags = cat + pu + osi
             for t in tags:
                 count[t] = count.get(t, 0) + 1
             body.append(self.row_html(c, tags))
         self.rows = len(body)
         sections = list(dict.fromkeys(sec for sec, _ in rows))   # 出現順
-        filters = self.group("分類", sections, count) + self.group(
-            "OSI層", list(self.LAYERS.values()) + [self.NONE_TAG], count
+        names = self.PURPOSES + [t for t in dict.fromkeys(t for pu in purposes for t in pu) if t not in self.PURPOSES]
+        filters = (
+            self.group("分類", sections, count)
+            + self.group(self.PURPOSE_TITLE, names, count)
+            + self.group("OSI層", list(self.LAYERS.values()) + [self.NONE_TAG], count)
         )
         return self.template.replace("__ROWS__", "\n".join(body)).replace("__FILTERS__", filters)
 
@@ -534,6 +753,21 @@ __FRAGMENT__
         for i, ((_, c), ly, b) in enumerate(zip(rows, layers, basis), 1):
             text = ", ".join(f"L{n}" for n in ly) or "なし"
             lines.append(f"| {i} | {self.plain(c[0])} | {text} | {b} |")
+        return "\n".join(lines)
+
+    def purpose_table(self):
+        """
+        ## 「保護の目的」の割り当て一覧(確認用)を Markdown の表で返す
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 表 | `str` | `#`・サービス・保護の目的・根拠の4列の Markdown の表 |
+        """
+        rows = self.parse()
+        tags, basis = self.purpose_of(rows)
+        lines = ["| # | サービス | 保護の目的 | 根拠 |", "|---|---|---|---|"]
+        for i, ((_, c), tg, b) in enumerate(zip(rows, tags, basis), 1):
+            lines.append(f"| {i} | {self.plain(c[0])} | {', '.join(tg) or 'なし'} | {b} |")
         return "\n".join(lines)
 
     def save_html(self):
@@ -616,6 +850,8 @@ if __name__ == "__main__":
     conv = SecurityServiceMD2HTML("security-service.md")
     if "--osi" in sys.argv:
         print(conv.osi_table())
+    elif "--purpose" in sys.argv:
+        print(conv.purpose_table())
     else:
         conv.save()
         if "--preview" in sys.argv:
