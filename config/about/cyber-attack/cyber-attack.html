@@ -31,7 +31,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="Webアプリ">
                     Webアプリ 
-                    <span class="badge text-bg-light">23</span>
+                    <span class="badge text-bg-light">24</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="AI">
                     AI 
@@ -57,7 +57,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="犯罪組織" title="【犯罪組織(サイバー犯罪集団)】&#10;金銭的利益を目的として組織的にランサムウェア配布、フィッシング、不正送金等を行う集団&#10;RaaS(Ransomware as a Service)のように攻撃基盤自体を商品化する例もある">
                     犯罪組織 
-                    <span class="badge text-bg-light">66</span>
+                    <span class="badge text-bg-light">67</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">
                     国家関与主体 
@@ -65,7 +65,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">
                     個人クラッカー 
-                    <span class="badge text-bg-light">67</span>
+                    <span class="badge text-bg-light">68</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="スクリプトキディ" title="【スクリプトキディ】&#10;自らは高度な技術を持たず、他者が作成した攻撃ツールやスクリプトを利用して攻撃を行う初心者的な攻撃者">
                     スクリプトキディ 
@@ -81,7 +81,7 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="詐欺犯" title="【詐欺犯】&#10;フィッシングやビジネスメール詐欺(BEC)など、心理的な誘導によって金銭や情報をだまし取ることを目的とする者">
                     詐欺犯 
-                    <span class="badge text-bg-light">15</span>
+                    <span class="badge text-bg-light">16</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="ボットハーダー" title="【ボットハーダー】&#10;マルウェアに感染させた多数の端末(ボット)からなるボットネットを構築・遠隔操作する攻撃者">
                     ボットハーダー 
@@ -999,6 +999,17 @@
                     <td class="std"><ul><li>Web・DB・WAFログを保全して解析</li><li>改ざん・漏えい範囲を特定</li><li>不正ファイル(Webシェル等)の削除と脆弱箇所の特定</li></ul></td>
                     <td class="own"><ul><li>URLホワイトリスト化</li><li>内部ネットワーク分離</li><li>メタデータAPI保護</li></ul></td>
                     <td class=""><ul><li>個人クラッカー</li><li>APT攻撃者</li></ul></td> 
+                </tr>
+                <tr data-tags="Webアプリ|犯罪組織|個人クラッカー|詐欺犯">
+                    <th scope="row" class="name">オープンリダイレクト<br>(Open Redirect)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="犯罪組織" title="【犯罪組織(サイバー犯罪集団)】&#10;金銭的利益を目的として組織的にランサムウェア配布、フィッシング、不正送金等を行う集団&#10;RaaS(Ransomware as a Service)のように攻撃基盤自体を商品化する例もある">犯罪組織</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">個人クラッカー</button><button type="button" class="tag badge text-bg-secondary" data-tag="詐欺犯" title="【詐欺犯】&#10;フィッシングやビジネスメール詐欺(BEC)など、心理的な誘導によって金銭や情報をだまし取ることを目的とする者">詐欺犯</button></div></th>
+                    <td class="">リダイレクト先のURLを指定するパラメータ(クエリ等)を、<br>攻撃者が悪意あるサイトのURLに書き換え、<br>正規サイトを経由して利用者を<br>悪意あるサイトへ転送させる攻撃<br><ul><li>転送を行う機能が標的となる<br>(ログイン後の遷移先・外部リンクの中継等)<br>例: https://example.com/login?next=<br>https://evil.example/</li><li>罠のURLが正規サイトのドメインで始まるため、<br>利用者が信用して踏みやすく、<br>URLフィルタ・メールフィルタも通過しやすい</li><li>フィッシングへの誘導のほか、<br>OAuth等のredirect_uriの検証不備と組み合わさると、<br>認可コード・トークンの窃取に発展する</li></ul></td>
+                    <td class=""><ul><li>リダイレクト先のURLを、クエリやフォームの値など<br>外部から指定できる実装であること</li><li>リダイレクト先が、許可リスト等で<br>検証されていないこと</li><li>利用者が罠のURLをクリックすること</li></ul></td>
+                    <td class=""><ul><li>フィッシングサイト・マルウェア配布サイトへの誘導</li><li>偽ログイン画面による認証情報の詐取</li><li>OAuth等の認可コード・トークンの窃取<br>(redirect_uriの検証不備と組み合わさる場合)</li><li>正規サイトの信用の悪用・URLフィルタの回避</li></ul></td>
+                    <td class=""><ul><li>Burp Suite<br>(スキャナ・手動での検証)</li><li>OWASP ZAP</li></ul></td>
+                    <td class="std"><ul><li>該当機能・ページを停止、またはWAFで遮断</li><li>影響セッションの失効・パスワード変更</li></ul></td>
+                    <td class="std"><ul><li>Web・DB・WAFログを保全して解析</li><li>改ざん・漏えい範囲を特定</li><li>不正ファイル(Webシェル等)の削除と脆弱箇所の特定</li></ul></td>
+                    <td class="own"><ul><li><strong>根本対策</strong>: リダイレクト先を、<br>外部の入力値から直接指定させない<br>(固定のURLにする、または番号やキーで<br>サーバ側の対応表から選ばせる)</li><li>外部からURLを受け取る場合は、<br>許可リストでリダイレクト先を検証する<br>(部分一致・前方一致は迂回されやすいため、<br>ドメインを完全一致で確認する)</li><li>相対パスのみ許可し、<br>外部サイトのURL(絶対URL)を拒否する</li><li>外部サイトへ遷移する前に、<br>警告・確認画面を挟む</li><li>OAuth等ではredirect_uriを事前登録し、<br>完全一致で検証する</li></ul></td>
+                    <td class=""><ul><li>犯罪組織</li><li>詐欺犯</li><li>個人クラッカー</li></ul></td> 
                 </tr>
                 <tr data-tags="Webアプリ|個人クラッカー|インジェクション">
                     <th scope="row" class="name">ファイルインクルード攻撃<br>(LFI/RFI)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">個人クラッカー</button><button type="button" class="tag badge text-bg-secondary" data-tag="インジェクション">インジェクション</button></div></th>
