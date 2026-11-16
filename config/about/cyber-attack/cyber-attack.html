@@ -31,7 +31,11 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="Webアプリ">
                     Webアプリ 
-                    <span class="badge text-bg-light">24</span>
+                    <span class="badge text-bg-light">23</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-tag="アプリの脆弱性">
+                    アプリの脆弱性 
+                    <span class="badge text-bg-light">14</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="AI">
                     AI 
@@ -1022,17 +1026,6 @@
                     <td class="own"><ul><li>入力検証</li><li>includeパスの固定化</li></ul></td>
                     <td class="">個人クラッカー</td> 
                 </tr>
-                <tr data-tags="Webアプリ|国家関与主体|個人クラッカー">
-                    <th scope="row" class="name"><a href="/html/tips/appbuild.html">バッファオーバーフロー</a><br>(BOF)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">国家関与主体</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">個人クラッカー</button></div></th>
-                    <td class="">想定を超えるデータを送り込み、<br>メモリ領域を破壊し任意コード実行につなげる</td>
-                    <td class=""><ul><li>入力データの長さを検証せずにバッファへ書き込むプログラムであること</li><li>ASLR・DEP/NX・スタックガード等の防御機構が無効、または回避可能であること</li></ul></td>
-                    <td class=""><ul><li>任意コードの実行・システムの乗っ取り</li><li>プログラムの異常終了(DoS)</li><li>情報漏えい</li></ul></td>
-                    <td class=""><ul><li>Metasploit<br>(exploitモジュール)</li></ul></td>
-                    <td class="std"><ul><li>該当機能・ページを停止、またはWAFで遮断</li><li>影響セッションの失効・パスワード変更</li></ul></td>
-                    <td class="std"><ul><li>Web・DB・WAFログを保全して解析</li><li>改ざん・漏えい範囲を特定</li><li>不正ファイル(Webシェル等)の削除と脆弱箇所の特定</li></ul></td>
-                    <td class="own"><ul><li>境界チェック</li><li>ASLR</li><li>DEP/NX</li><li>静的解析</li></ul></td>
-                    <td class=""><ul><li>個人クラッカー</li><li>国家関与主体</li></ul></td> 
-                </tr>
                 <tr data-tags="Webアプリ|APT攻撃者|国家関与主体|諜報機関">
                     <th scope="row" class="name">ゼロデイ攻撃<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="Webアプリ">Webアプリ</button><button type="button" class="tag badge text-bg-secondary" data-tag="APT攻撃者" title="【APT攻撃者(標的型攻撃者)】&#10;特定の組織を標的に、長期間・持続的に潜伏しながら情報窃取や妨害を行う高度な攻撃者&#10;国家関与主体が背後にいる場合が多い">APT攻撃者</button><button type="button" class="tag badge text-bg-secondary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">国家関与主体</button><button type="button" class="tag badge text-bg-secondary" data-tag="諜報機関" title="【諜報機関(インテリジェンス機関)】&#10;国家の安全保障上の情報収集(諜報・通信の傍受・サイバー工作)を任務とする政府の機関&#10;標的の機器への侵入や通信の傍受、暗号の解読等を、高度な技術と豊富な資金で組織的に行う&#10;国家関与主体の一形態として扱われることが多い">諜報機関</button></div></th>
                     <td class="">未公開・未修正の脆弱性を悪用する</td>
@@ -1065,6 +1058,160 @@
                     <td class="std"><ul><li>Web・DB・WAFログを保全して解析</li><li>改ざん・漏えい範囲を特定</li><li>不正ファイル(Webシェル等)の削除と脆弱箇所の特定</li></ul></td>
                     <td class="own"><ul><li><strong>根本対策</strong>: コンテナランタイム・カーネル・オーケストレータの迅速なパッチ適用</li><li>特権コンテナを使わない・不要なケーパビリティの削除(drop ALL)</li><li>非rootユーザでの実行・Rootlessコンテナ・User Namespaceの利用</li><li>seccomp・AppArmor・SELinuxによるシステムコールやアクセスの制限</li><li>Dockerソケットや重要なホストパスをコンテナにマウントしない</li><li>ルートFSの読み取り専用化(readOnlyRootFilesystem)</li><li>Pod Security Standards等による特権・ホスト名前空間共有の禁止</li><li>gVisor・Kata Containers等、強い分離を持つランタイムの利用</li><li>ランタイム監視による異常検知(Falco等)</li><li>イメージの脆弱性スキャン・信頼できるイメージの利用</li></ul></td>
                     <td class=""><ul><li>個人クラッカー</li><li>犯罪組織</li><li>APT攻撃者</li></ul></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性|国家関与主体|個人クラッカー">
+                    <th scope="row" class="name">バッファオーバーフロー<br>(BOF)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button><button type="button" class="tag badge text-bg-secondary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">国家関与主体</button><button type="button" class="tag badge text-bg-secondary" data-tag="個人クラッカー" title="【クラッカー】&#10;コンピュータやネットワークに不正侵入し、破壊・改ざん・情報窃取等の悪意ある行為を行う者&#10;「ハッカー」は本来、高度な技術を持つ者を指す中立的な語であり、&#10;悪意ある行為者は「クラッカー」と呼ぶのが技術的には正しい(ただし一般には「ハッカー」が悪意ある意味でも使われる)">個人クラッカー</button></div></th>
+                    <td class="">確保した領域(バッファ)を超えてデータを書き込み、<br>メモリ領域を破壊し任意コード実行につなげる</td>
+                    <td class=""><ul><li>入力データの長さを検証(境界チェック)せずにバッファへ書き込むプログラムであること</li><li>ASLR・DEP/NX・スタックガード等の防御機構が無効、または回避可能であること</li></ul></td>
+                    <td class=""><ul><li>任意コードの実行・システムの乗っ取り</li><li>プログラムの異常終了(DoS)</li><li>情報漏えい</li></ul></td>
+                    <td class=""><ul><li>Metasploit<br>(exploitモジュール)</li></ul></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>境界チェック</li><li>安全な関数の使用</li><li>ASLR</li><li>DEP/NX</li><li>静的解析</li></ul></td>
+                    <td class=""><ul><li>個人クラッカー</li><li>国家関与主体</li></ul></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">スタックオーバーフロー<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">スタック領域の確保サイズを超えて使用する</td>
+                    <td class=""><ul><li>再帰呼び出しの終了条件不備</li><li>巨大なローカル変数</li><li>スタック上でのバッファオーバーフロー</li></ul></td>
+                    <td class=""><ul><li>リターンアドレス改ざんによる任意コード実行</li><li>サービス停止</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>再帰の深さ制限</li><li>スタック保護(カナリア)</li><li>境界チェック</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">ヒープオーバーフロー<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">ヒープ領域上のバッファ境界を超えて書き込む</td>
+                    <td class=""><ul><li>動的確保サイズの計算誤り</li><li>境界チェック不足</li></ul></td>
+                    <td class="">ヒープ管理情報の破壊による任意コード実行</td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>境界チェック</li><li>ヒープ保護機構</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">Use-After-Free<br>(解放後使用)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">解放済みメモリ領域への参照・書き込みを行う</td>
+                    <td class="">解放後にポインタを初期化していない<br>(ダングリングポインタ)</td>
+                    <td class=""><ul><li>任意コード実行</li><li>情報漏えい</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>解放後のポインタをNULL化</li><li>スマートポインタの利用</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">二重解放<br>(Double Free)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">同一メモリ領域を2回解放する</td>
+                    <td class=""><ul><li>解放処理の重複</li><li>エラー処理の不備</li></ul></td>
+                    <td class=""><ul><li>ヒープ破壊</li><li>任意コード実行</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>解放後のポインタをNULL化</li><li>所有権管理の徹底</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">ヌルポインタアクセス<br>(NULLポインタ参照外し)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">NULLを指すポインタを参照する</td>
+                    <td class="">戻り値・確保結果の未チェック</td>
+                    <td class=""><ul><li>サービス停止(クラッシュ)</li><li>DoS</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>NULLチェックの徹底</li><li>Optional型等の活用</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">ダングリングポインタ<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">解放済み・無効な領域を指し続けるポインタ</td>
+                    <td class=""><ul><li>解放後の初期化漏れ</li><li>スコープ外変数へのポインタ保持</li></ul></td>
+                    <td class=""><ul><li>Use-After-Freeの誘発</li><li>不正な動作</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>解放後のNULL代入</li><li>スコープ管理の徹底</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">未初期化変数の使用<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">初期化前の変数値を読み取る</td>
+                    <td class="">変数の初期化漏れ</td>
+                    <td class=""><ul><li>不定動作</li><li>情報漏洩(メモリ内容の漏洩)</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>変数の宣言時初期化</li><li>静的解析</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">整数オーバーフロー<br>アンダーフロー<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">数値型の表現範囲を超えた演算結果になる</td>
+                    <td class="">サイズ計算等での桁あふれチェック不足</td>
+                    <td class="">バッファサイズ誤計算経由でのオーバーフロー誘発</td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>オーバーフロー検知</li><li>安全な整数演算ライブラリ</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">オフバイワンエラー<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">ループや配列の境界を1つ誤る</td>
+                    <td class="">ループ条件<br>添字の誤り(&lt;と&lt;=の混同等)</td>
+                    <td class=""><ul><li>境界外アクセス</li><li>バッファオーバーフロー</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>境界条件のレビュー</li><li>テスト強化</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">メモリリーク<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">不要になったメモリが解放されず蓄積する</td>
+                    <td class="">解放処理の記述漏れ</td>
+                    <td class="">メモリ枯渇によるサービス停止(DoS)</td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>確保と解放の対応管理</li><li>ガベージコレクション</li><li>静的解析</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">レースコンディション<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">複数スレッド/プロセスの実行順序により結果が変わる</td>
+                    <td class="">共有資源への排他制御不足</td>
+                    <td class=""><ul><li>データ不整合</li><li>権限昇格</li><li>二重処理</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>排他制御(ロック、セマフォ)</li><li>アトミック操作</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">TOCTOU<br>(Time-of-Check to Time-of-Use)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">チェック時点と使用時点の間に状態が変化する</td>
+                    <td class="">チェックと使用の間に処理の隙間(間隙)がある</td>
+                    <td class=""><ul><li>権限のないファイルへのアクセス</li><li>シンボリックリンク攻撃</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>アトミックなチェック＆使用</li><li>ファイルロック</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
+                </tr>
+                <tr data-tags="アプリの脆弱性">
+                    <th scope="row" class="name">デッドロック<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="アプリの脆弱性">アプリの脆弱性</button></div></th>
+                    <td class="">複数の処理が互いにロック解放を待ち続け停止する</td>
+                    <td class="">ロック取得順序の不統一</td>
+                    <td class="">サービス停止(可用性低下)</td>
+                    <td class=""><span class="text-body-tertiary">—</span></td>
+                    <td class="std"><ul><li>該当機能・サービスを停止、またはIPS/WAFで攻撃パターンを遮断</li><li>影響を受けたプロセス・サーバを隔離<br>※再起動する場合は、先にメモリダンプ・クラッシュダンプを保全</li><li>ベンダ・開発元へ連絡し、パッチ・回避策を確認</li></ul></td>
+                    <td class="std"><ul><li>クラッシュダンプ・コアダンプ・ログを解析し、脆弱箇所(コード・入力)を特定</li><li>悪用による侵入(任意コード実行・権限昇格・不審プロセス)の有無を調査</li><li>修正パッチの適用、または修正版へ更新し、再発しないことを確認</li></ul></td>
+                    <td class="own"><ul><li>ロック取得順序の統一</li><li>タイムアウト設定</li></ul></td>
+                    <td class=""><span class="text-body-tertiary">—</span></td> 
                 </tr>
                 <tr data-tags="AI|国家関与主体|研究者">
                     <th scope="row" class="name">Adversarial Example攻撃<br>(敵対的サンプル攻撃)<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="AI">AI</button><button type="button" class="tag badge text-bg-secondary" data-tag="国家関与主体" title="【国家関与主体(ネーションステートアクター)】&#10;国家の支援・関与を受け、諜報活動・重要インフラ攻撃・サイバー戦を目的として活動する攻撃者&#10;高度な技術力と資金力を持つ">国家関与主体</button><button type="button" class="tag badge text-bg-secondary" data-tag="研究者" title="【研究者(セキュリティ研究者)】&#10;脆弱性や新しい攻撃手法を調査・実証する立場の者(大学・企業の研究機関、セキュリティ研究者等)&#10;目的は攻撃の有効性の実証や防御の改善で、多くは善意(責任ある開示や論文発表)で行う&#10;ただし、公開された手法や実証コードが、他の攻撃者に悪用される場合がある">研究者</button></div></th>
