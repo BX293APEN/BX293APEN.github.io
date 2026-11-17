@@ -266,5 +266,9 @@
     {
         "href" : "/html/tips/appbuild/bitcoin.html",
         "word" : ["bitcoin", "ビットコイン"]
+    },
+    {
+        "href" : "/html/tips/datasheet/electrician.html",
+        "word" : ["electrician", "electricity", "第二種電気工事士"]
     }
 ]

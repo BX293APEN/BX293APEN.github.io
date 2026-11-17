@@ -1,6 +1,6 @@
 # sitemap
 
-`model/` 内の JS から抽出した href の一覧 (66 件)。
+`model/` 内の JS から抽出した href の一覧 (68 件)。
 
 | href | 出典 | キー名 | ページ |
 | --- | --- | --- | --- |
@@ -15,6 +15,7 @@
 | /html/about/security/index.html | model/tips/tips.js:124 | securityTip | 1 |
 | /html/about/security/security-laws.html | model/about/securityTips.js:10 | - | 2 |
 | /html/about/security/security.html | model/about/securityTips.js:14 | - | 3 |
+| /html/tips/RN4020.html | model/tips/rn4020Tips.js:6 | - | 1 |
 | /html/tips/RN4020.html | model/tips/tips.js:21 | rn4020Tip | 1 |
 | /html/tips/UEFI.html | model/tips/tips.js:110 | UEFITip | 1 |
 | /html/tips/UEFI.html | model/tips/UEFITips.js:6 | - | 1 |
@@ -31,6 +32,7 @@
 | /html/tips/c-lang/msquic.html | model/tips/cTips.js:205 | - | 3 |
 | /html/tips/c.html | model/tips/cTips.js:197 | - | 1 |
 | /html/tips/c.html | model/tips/tips.js:61 | cTip | 1 |
+| /html/tips/datasheet/electrician.html | model/tips/rn4020Tips.js:10 | - | 2 |
 | /html/tips/docker.html | model/tips/tips.js:96 | dockerTip | 1 |
 | /html/tips/linux.html | model/tips/linuxTips.js:6 | - | 1 |
 | /html/tips/linux.html | model/tips/tips.js:29 | linuxTip | 1 |

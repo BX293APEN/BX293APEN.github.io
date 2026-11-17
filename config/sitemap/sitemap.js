@@ -100,6 +100,10 @@ let sitemap = [
         "word" : ["dns", "bind9"]
     },
     {
+        "href" : "/html/tips/datasheet/electrician.html",
+        "word" : ["electrician", "electricity", "第二種電気工事士"]
+    },
+    {
         "href" : "/html/tips/c-lang/EMBEDDED_C.html",
         "word" : ["EMBEDDEDC"]
     },

@@ -7,7 +7,7 @@ class RN4020Model{
             },
             {
                 "page" : 2,
-                "href" : "/html/tips/datasheet/electricity.html"
+                "href" : "/html/tips/datasheet/electrician.html"
             },
         ]
     }
