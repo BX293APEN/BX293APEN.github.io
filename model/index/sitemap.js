@@ -113,7 +113,7 @@ let sitemap = [
     },
     {
         "href" : "/html/about/security/security-laws.html",
-        "word" : ["law", "企業", "gov"]
+        "word" : ["law", "企業", "gov", "簿記", "boki", "bookkeeping"]
     },
     {
         "href" : "/html/tips/appbuild/uml.html",
