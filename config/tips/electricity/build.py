@@ -90,26 +90,22 @@ class ElectricityMD2HTML:
     NARROW_STYLE = "min-width:8rem"                 # 狭める列に足す `style`
     NEST_WIDTH = "38rem"                            # セル内に `<table>` があるとき、中身を入れる箱の幅(下の説明を参照)
 
-    PREVIEW = """<!doctype html>
+    PREVIEW = r"""<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__TITLE__(確認用)</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet">
 __CSS__
 </head>
 <body class="container-fluid">
 __BODY__
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script>
-// 確認用: `$...$` の TeX を KaTeX で描画する(本番ページ側に数式の仕組みがある場合は不要)
-if (window.renderMathInElement) {
-    renderMathInElement(document.body, { delimiters: [{ left: '$', right: '$', display: false }] });
-}
+// 確認用: `\[\begin{flalign}& … \end{flalign}\]` を MathJax で描画する(KaTeX は flalign 非対応)。本番ページ側に数式の仕組みがある場合は不要
+window.MathJax = { tex: { displayMath: [['\\[', '\\]']], inlineMath: [] } };
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <script src="__SUPPORT__"></script>
 __JS__
 </body>
@@ -713,7 +709,7 @@ __JS__
 
     def save_preview(self):
         """
-        ## 確認用ページ(Bootstrap CDN + KaTeX CDN + CSS + JS)を書き出す
+        ## 確認用ページ(Bootstrap CDN + MathJax CDN + CSS + JS)を書き出す
 
         貼り付け先のページがなくても、ブラウザで開くだけで動作を確認できる。
         `createTableSearch` は貼り付け先のページが持つ関数なので、確認用には `preview/table-search.js` の簡易版を読み込む。

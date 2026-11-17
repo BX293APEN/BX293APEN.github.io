@@ -72,14 +72,15 @@
             window.addEventListener("load", active_nav("tipsIndex"));
             new TipsView(tipsModel, "tips", "tips", ["linuxTip", "pythonTip", "vimTip", "cTip"]);
 
-            embedded_html("/html/tips/datasheet/electricity.html", "electricity");
             window.addEventListener(
-                'load',
-                () => {
+                'load', () => {
                     setTimeout(
-                        () => {
+                        async () => {
+                            await embedded_html("/html/tips/datasheet/electricity.html", "electricity");
+                            await load_script("/view/tex.js");
+
                             createTableSearch(
-                                    {
+                                {
                                     appId: 'electricity-app',
                                     inputId: 'electricity-q',
                                     countId: 'electricity-count',
@@ -91,24 +92,8 @@
                                     rowTagsAttr: 'data-tags',
                                 }
                             );
-                        },
-                        300
-                    );
-                }
-            );
-            window.addEventListener(
-                'load',
-                () => {
-                    setTimeout(
-                        () => {
-                            const script = document.createElement("script");
-                            script.src = "/view/tex.js";
-                            document.body.appendChild(script);
-                            script.onload = () => {
-                                console.log("[Load] tex.js");
-                            };
-                        },
-                        300
+                        }, 
+                        1000
                     );
                 }
             );
