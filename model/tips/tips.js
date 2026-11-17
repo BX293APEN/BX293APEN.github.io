@@ -19,7 +19,7 @@ class TipsModel { // img src="https://skillicons.dev/icons?i=github"
             },
             "rn4020Tip" : {
                 "href"      : "/html/tips/RN4020.html",
-                "imgSrc"    : "/img/RN4020_design.jpg", 
+                "imgSrc"    : "/img/lsi.png", 
                 "title"     : "データシート",
                 "text"      : "&emsp;電子回路の設計を行う際はデータシートを読みましょう",
                 "svg"       : false
