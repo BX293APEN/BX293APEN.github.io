@@ -1,43 +1,43 @@
 [
     {
         "page" : "html/about/security/critical-cyber-attack.html",
-        "tipList" : ["cTip", "pythonTip", "serverTip", "appTip"]
+        "tipList" : ["cTip", "pythonTip", "appTip"]
     },
     {
         "page" : "html/about/security/index.html",
-        "tipList" : ["cTip", "dockerTip", "serverTip", "appTip"]
+        "tipList" : ["cTip", "serverTip", "appTip"]
     },
     {
         "page" : "html/about/security/security-laws.html",
-        "tipList" : ["cTip", "pythonTip", "serverTip", "appTip"]
+        "tipList" : ["cTip", "pythonTip", "serverTip"]
     },
     {
         "page" : "html/about/security/security.html",
-        "tipList" : ["cTip", "pythonTip", "serverTip", "appTip"]
+        "tipList" : ["serverTip", "appTip", "dockerTip"]
     },
     {
         "page" : "html/tips/appbuild/bitcoin.html",
-        "tipList" : ["cTip", "pythonTip", "securityTip", "serverTip"]
+        "tipList" : ["cTip", "securityTip", "serverTip"]
     },
     {
         "page" : "html/tips/appbuild/blender.html",
-        "tipList" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"]
+        "tipList" : ["pythonTip", "vimTip", "visualstudioTip"]
     },
     {
         "page" : "html/tips/appbuild/chromium.html",
-        "tipList" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"]
+        "tipList" : ["cTip", "pythonTip", "visualstudioTip"]
     },
     {
         "page" : "html/tips/appbuild/jpki.html",
-        "tipList" : ["cTip", "pythonTip", "securityTip", "serverTip"]
+        "tipList" : ["rn4020Tip", "securityTip", "serverTip"]
     },
     {
         "page" : "html/tips/appbuild/uml.html",
-        "tipList" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"]
+        "tipList" : ["securityTip", "pythonTip", "serverTip"]
     },
     {
         "page" : "html/tips/appbuild.html",
-        "tipList" : ["cTip", "pythonTip", "securityTip", "serverTip"]
+        "tipList" : ["cTip", "securityTip", "serverTip"]
     },
     {
         "page" : "html/tips/ascii-code.html",
@@ -45,19 +45,19 @@
     },
     {
         "page" : "html/tips/c-lang/EMBEDDED_C.html",
-        "tipList" : ["linuxTip", "serverTip", "windowsTip", "visualstudioTip"]
+        "tipList" : ["linuxTip", "serverTip", "rn4020Tip"]
     },
     {
         "page" : "html/tips/c-lang/msquic.html",
-        "tipList" : ["linuxTip", "serverTip", "windowsTip", "visualstudioTip"]
+        "tipList" : ["linuxTip", "windowsTip", "visualstudioTip"]
     },
     {
         "page" : "html/tips/c.html",
-        "tipList" : ["visualstudioTip", "pythonTip", "asciiCodeTip", "opencvTip"]
+        "tipList" : ["visualstudioTip", "asciiCodeTip", "opencvTip"]
     },
     {
         "page" : "html/tips/datasheet/electrician.html",
-        "tipList" : ["linuxTip", "pythonTip", "vimTip", "cTip"]
+        "tipList" : ["serverTip", "pythonTip", "cTip"]
     },
     {
         "page" : "html/tips/docker.html",
@@ -105,15 +105,15 @@
     },
     {
         "page" : "html/tips/RN4020.html",
-        "tipList" : ["linuxTip", "pythonTip", "vimTip", "cTip"]
+        "tipList" : ["linuxTip", "pythonTip", "appTip"]
     },
     {
         "page" : "html/tips/server/cdn.html",
-        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+        "tipList" : ["securityTip", "linuxTip", "dockerTip"]
     },
     {
         "page" : "html/tips/server/db.html",
-        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+        "tipList" : ["appTip", "asciiCodeTip", "dockerTip"]
     },
     {
         "page" : "html/tips/server/dhcp.html",
@@ -121,11 +121,11 @@
     },
     {
         "page" : "html/tips/server/dns.html",
-        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+        "tipList" : ["windowsTip", "linuxTip", "securityTip"]
     },
     {
         "page" : "html/tips/server/emqx.html",
-        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+        "tipList" : ["cTip", "linuxTip", "dockerTip"]
     },
     {
         "page" : "html/tips/server/ftp.html",
@@ -137,11 +137,11 @@
     },
     {
         "page" : "html/tips/server/iperf3.html",
-        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+        "tipList" : ["windowsTip", "linuxTip", "linuxTipMemo"]
     },
     {
         "page" : "html/tips/server/mail.html",
-        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+        "tipList" : ["securityTip", "asciiCodeTip", "pythonTip"]
     },
     {
         "page" : "html/tips/server/ntp.html",
@@ -165,11 +165,11 @@
     },
     {
         "page" : "html/tips/UEFI/datatrans.html",
-        "tipList" : ["windowsTip", "linuxTip", "serverTip", "dockerTip"]
+        "tipList" : ["securityTip", "linuxTip", "rn4020Tip"]
     },
     {
         "page" : "html/tips/UEFI.html",
-        "tipList" : ["windowsTip", "linuxTip", "serverTip", "dockerTip"]
+        "tipList" : ["windowsTip", "linuxTip", "serverTip"]
     },
     {
         "page" : "html/tips/visualstudio.html",

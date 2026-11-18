@@ -1018,7 +1018,7 @@ flowchart TD
             embedded_html("/template/footer.html", "footer-contents");
             window.addEventListener("load", active_nav("tipsIndex"));
             
-            new TipsView(tipsModel, "tips", "tips", ["cTip", "pythonTip", "vimTip", "visualstudioTip"]);
+            new TipsView(tipsModel, "tips", "tips", ["securityTip", "pythonTip", "serverTip"]);
             new Pagination(2, appBuildModel.page, "pagination");
 
             const uml = ["class", "object", "component", "composite", "deployment", "package", "profile", "usecase", "activity", "state", "sequence", "communication", "timing", "interaction"]
