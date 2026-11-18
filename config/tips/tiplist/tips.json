@@ -1,0 +1,186 @@
+[
+    {
+        "page" : "html/about/security/critical-cyber-attack.html",
+        "tipList" : ["cTip", "pythonTip", "serverTip", "appTip"]
+    },
+    {
+        "page" : "html/about/security/index.html",
+        "tipList" : ["cTip", "dockerTip", "serverTip", "appTip"]
+    },
+    {
+        "page" : "html/about/security/security-laws.html",
+        "tipList" : ["cTip", "pythonTip", "serverTip", "appTip"]
+    },
+    {
+        "page" : "html/about/security/security.html",
+        "tipList" : ["cTip", "pythonTip", "serverTip", "appTip"]
+    },
+    {
+        "page" : "html/tips/appbuild/bitcoin.html",
+        "tipList" : ["cTip", "pythonTip", "securityTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/appbuild/blender.html",
+        "tipList" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"]
+    },
+    {
+        "page" : "html/tips/appbuild/chromium.html",
+        "tipList" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"]
+    },
+    {
+        "page" : "html/tips/appbuild/jpki.html",
+        "tipList" : ["cTip", "pythonTip", "securityTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/appbuild/uml.html",
+        "tipList" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"]
+    },
+    {
+        "page" : "html/tips/appbuild.html",
+        "tipList" : ["cTip", "pythonTip", "securityTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/ascii-code.html",
+        "tipList" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"]
+    },
+    {
+        "page" : "html/tips/c-lang/EMBEDDED_C.html",
+        "tipList" : ["linuxTip", "serverTip", "windowsTip", "visualstudioTip"]
+    },
+    {
+        "page" : "html/tips/c-lang/msquic.html",
+        "tipList" : ["linuxTip", "serverTip", "windowsTip", "visualstudioTip"]
+    },
+    {
+        "page" : "html/tips/c.html",
+        "tipList" : ["visualstudioTip", "pythonTip", "asciiCodeTip", "opencvTip"]
+    },
+    {
+        "page" : "html/tips/datasheet/electrician.html",
+        "tipList" : ["linuxTip", "pythonTip", "vimTip", "cTip"]
+    },
+    {
+        "page" : "html/tips/docker.html",
+        "tipList" : ["linuxTip", "windowsTip", "securityTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/linux/config.html",
+        "tipList" : ["vimTip", "githubTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/linux/daemon.html",
+        "tipList" : ["serverTip", "pythonTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/linux/format.html",
+        "tipList" : ["UEFITip", "asciiCodeTip", "cTip"]
+    },
+    {
+        "page" : "html/tips/linux/network.html",
+        "tipList" : ["dockerTip", "githubTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/linux/raspi.html",
+        "tipList" : ["pythonTip", "rn4020Tip", "teratermTip"]
+    },
+    {
+        "page" : "html/tips/linux/sh.html",
+        "tipList" : ["pythonTip", "rn4020Tip", "teratermTip"]
+    },
+    {
+        "page" : "html/tips/linux.html",
+        "tipList" : ["windowsTip", "dockerTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/linuxMemo/repo.html",
+        "tipList" : ["linuxTip", "serverTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/linuxMemo.html",
+        "tipList" : ["linuxTip", "windowsTip", "vimTip"]
+    },
+    {
+        "page" : "html/tips/python.html",
+        "tipList" : ["cTip", "asciiCodeTip", "opencvTip", "rn4020Tip"]
+    },
+    {
+        "page" : "html/tips/RN4020.html",
+        "tipList" : ["linuxTip", "pythonTip", "vimTip", "cTip"]
+    },
+    {
+        "page" : "html/tips/server/cdn.html",
+        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/server/db.html",
+        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/server/dhcp.html",
+        "tipList" : ["UEFITip", "windowsTip", "vimTip"]
+    },
+    {
+        "page" : "html/tips/server/dns.html",
+        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/server/emqx.html",
+        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/server/ftp.html",
+        "tipList" : ["githubTip", "teratermTip", "rn4020Tip"]
+    },
+    {
+        "page" : "html/tips/server/http.html",
+        "tipList" : ["vimTip", "pythonTip", "visualstudioTip"]
+    },
+    {
+        "page" : "html/tips/server/iperf3.html",
+        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/server/mail.html",
+        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/server/ntp.html",
+        "tipList" : ["UEFITip", "windowsTip", "vimTip"]
+    },
+    {
+        "page" : "html/tips/server/vnc.html",
+        "tipList" : ["windowsTip", "linuxTip", "appTip"]
+    },
+    {
+        "page" : "html/tips/server/zabbix.html",
+        "tipList" : ["windowsTip", "linuxTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/server.html",
+        "tipList" : ["windowsTip", "linuxTip", "UEFITip"]
+    },
+    {
+        "page" : "html/tips/teraterm.html",
+        "tipList" : ["cTip", "pythonTip", "vimTip", "windowsTip"]
+    },
+    {
+        "page" : "html/tips/UEFI/datatrans.html",
+        "tipList" : ["windowsTip", "linuxTip", "serverTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/UEFI.html",
+        "tipList" : ["windowsTip", "linuxTip", "serverTip", "dockerTip"]
+    },
+    {
+        "page" : "html/tips/visualstudio.html",
+        "tipList" : ["githubTip", "vimTip", "pythonTip", "cTip"]
+    },
+    {
+        "page" : "html/tips/windows/wsl.html",
+        "tipList" : ["linuxTip", "dockerTip", "serverTip"]
+    },
+    {
+        "page" : "html/tips/windows.html",
+        "tipList" : ["pythonTip", "cTip", "visualstudioTip"]
+    }
+]
