@@ -1,92 +1,136 @@
-#!/usr/bin/env python3
-"""
+r"""
 # page_pattern.py
 
-`export_config.py` / `import_config.py` が共通で使う、**HTML 内の探索パターン定義**。
+`export_config.py` / `import_config.py` が共通で使う、**HTML 内の探索パターン**の読み込み処理。
 
-エクスポートとインポートで同じパターンを使うため、1 か所にまとめている。
-扱う項目を増やしたいときは、`PagePattern.SEARCH_PATTERN` に 1 行足すだけでよい。
+パターンは同じディレクトリの `page_pattern.json` に**完成した正規表現として**書く。
+Python 側では正規表現を組み立てない（読み込んでコンパイルするだけ）。
+扱う項目を増やしたいときは、`page_pattern.json` に 1 行足すだけでよい（Python は触らない）。
 
-## 扱えるキー
+## `page_pattern.json` の形式
 
-| キー | 対象 | JSON 上の型 |
+キー → 正規表現（文字列）のオブジェクト。
+
+```json
+{
+    "tips" : "new\\s+TipsView\\s*\\( ... (?P<value>\\[[^\\]]*\\]) ... \\)",
+    "property:og:title" : "<meta\\s+property\\s*=\\s*\"og:title\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>"
+}
+```
+
+| 項目 | 内容 |
+| --- | --- |
+| キー | 設定ファイル（`config.json`）に書き出すキー名。`page` 以外なら自由（慣例: メタタグは `property:<名前>`） |
+| 値 | 正規表現の文字列。**空文字は不可**（空のままにしたキーはエラーになる） |
+| 順序 | 書いた順が、エクスポートの出力順になる |
+
+JSON の文字列なので、正規表現の `\` は `\\`、`"` は `\"` と書く。
+
+## 正規表現の条件
+
+| 条件 | 内容 |
+| --- | --- |
+| 名前付きグループ `value` | 必須。置き換え対象の範囲を表す（`tips` は `[` `]` を含む。メタタグは引用符の内側） |
+| フラグ | 指定できない（必要なら `(?s)` など、パターン先頭のインラインフラグを使う） |
+| 不備がある場合 | `import page_pattern` の時点でメッセージを表示して終了コード `1` で終了する（正規表現として不正、`value` がない、空文字、など） |
+
+## 値の型
+
+| キー | `config.json` 上の型 | 変換 |
 | --- | --- | --- |
-| `tips` | `new TipsView(tipsModel, "tips", "tips", [...])` の `[...]` | `string[]` |
-| `property:<名前>` | `<meta property="<名前>" content="...">` の `content` | `string` |
+| `tips` | `string[]` | `value` を `"..."` / `'...'` の列として分解する（`TIP_ITEM_PATTERN`） |
+| それ以外 | `string` | HTML エスケープを外した文字列（`&amp;` ⇄ `&`） |
 
-`property:` から始まるキーは、`SEARCH_PATTERN` に載っていなくても
-`PagePattern.get_pattern` がその場でパターンを作る（インポートで使える）。
-ただし**エクスポートの対象になるのは `SEARCH_PATTERN` のキーだけ**。
+配列になるのは `tips` だけで、これは `PagePattern.TIPS_KEY` でコードに固定している。
 
 ## 定数
 
 | 名前 | 説明 |
 | --- | --- |
-| `TIPS_VIEW_PATTERN` | 4 番目の引数に配列を持つ `new TipsView(...)` にマッチする正規表現 |
-| `PagePattern.SEARCH_PATTERN` | キー → 正規表現の辞書。正規表現には必ず名前付きグループ `value` を含める |
+| `PATTERN_FILE` | パターンファイルのパス（`page_pattern.py` と同じディレクトリの `page_pattern.json`） |
+| `PagePattern.SEARCH_PATTERN` | キー → コンパイル済み正規表現の辞書（`page_pattern.json` から読み込み、記述順） |
 | `PagePattern.TIP_ITEM_PATTERN` | 配列内の文字列リテラル（`"..."` または `'...'`）にマッチする正規表現 |
-| `PagePattern.TIPS_KEY` | チップ一覧のキー名（`"tips"`） |
-| `PagePattern.PROPERTY_PREFIX` | メタタグのキーの接頭辞（`"property:"`） |
+| `PagePattern.TIPS_KEY` | 値が配列になるキー名（`"tips"`） |
 | `PagePattern.LEGACY_KEYS` | 旧キー → 現行キーの対応表（旧 JSON の読み込み用） |
 
 ## 注意
 
-- `<meta>` は `property` 属性が **`content` 属性より前**にある書き方だけを対象とする
 - `//` や `<!--` の後ろにある呼び出しはコメントアウトとみなして無視する
-- メタタグの値は HTML エスケープを外した文字列として扱う（`&amp;` ⇄ `&`）
+- `page_pattern.json` にないキーは、エクスポートもインポートもできない（インポートでは未対応のキーとしてエラー）
 """
 
 import html
 import json
 import re
+from pathlib import Path
 
 
-# `value` グループは、置き換え対象の範囲（`[` `]` や `"` の内側）を表す
-TIPS_VIEW_PATTERN = re.compile(
-    r"""new\s+TipsView\s*\(
-        \s*\w+\s*,                          # model
-        \s*(?:"[^"]*"|'[^']*')\s*,          # html
-        \s*(?:"[^"]*"|'[^']*')\s*,          # id
-        \s*(?P<value>\[[^\]]*\])            # dispElement（`[` `]` を含む）
-        \s*\)""",
-    re.VERBOSE,
-)
+PATTERN_FILE = Path(__file__).resolve().parent / "page_pattern.json"
 
 
-def meta_pattern(prop: str) -> re.Pattern:
+class PatternFileError(Exception):
+    """`page_pattern.json` の内容に不備があるときに送出する。"""
+
+
+def load_pattern_file(path: Path) -> dict[str, re.Pattern]:
     """
-    `<meta property="<prop>" content="...">` にマッチする正規表現を作る。
+    `page_pattern.json` を読み込み、各正規表現をコンパイルして返す。
 
     ## 引数
 
     | 名前 | 型 | 説明 |
     | --- | --- | --- |
-    | `prop` | `str` | `property` 属性の値（例: `"og:title"`） |
+    | `path` | `Path` | パターンファイル |
 
     ## 戻り値
 
     | 型 | 説明 |
     | --- | --- |
-    | `re.Pattern` | `content` の中身を名前付きグループ `value` に持つ正規表現 |
+    | `dict[str, re.Pattern]` | キー → コンパイル済み正規表現（記述順） |
+
+    ## 例外
+
+    | 型 | 条件 |
+    | --- | --- |
+    | `PatternFileError` | ファイルが読めない / JSON が不正 / 空のオブジェクト / 値が空文字または文字列でない / 正規表現として不正 / 名前付きグループ `value` がない |
     """
-    return re.compile(
-        rf"""<meta\s+property\s*=\s*"{re.escape(prop)}"\s+content\s*=\s*"(?P<value>[^"]*)"[^>]*>"""
-    )
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError) as e:
+        raise PatternFileError(f"{path} を読み込めません: {e}") from e
+
+    if not isinstance(data, dict) or not data:
+        raise PatternFileError("トップレベルは空でないオブジェクトである必要があります")
+
+    patterns: dict[str, re.Pattern] = {}
+    for key, source in data.items():
+        if key == "page":
+            raise PatternFileError("キー 'page' はページのパスに使われるため使えません")
+        if not isinstance(source, str) or not source:
+            raise PatternFileError(f"{key}: 正規表現は空でない文字列で書いてください")
+        try:
+            pattern = re.compile(source)
+        except re.error as e:
+            raise PatternFileError(f"{key}: 正規表現が不正です: {e}") from e
+        if "value" not in pattern.groupindex:
+            raise PatternFileError(f"{key}: 名前付きグループ (?P<value>...) がありません")
+        patterns[key] = pattern
+
+    return patterns
+
+
+# 不備があれば、トレースバックではなくメッセージだけを表示して終了コード 1 で終了する
+try:
+    _SEARCH_PATTERN = load_pattern_file(PATTERN_FILE)
+except PatternFileError as e:
+    raise SystemExit(f"エラー: {PATTERN_FILE.name}: {e}")
 
 
 class PagePattern:
     TIPS_KEY = "tips"
-    PROPERTY_PREFIX = "property:"
 
-    SEARCH_PATTERN: dict[str, re.Pattern] = {
-        "tips": TIPS_VIEW_PATTERN,
-        "property:og:title": meta_pattern("og:title"),
-        "property:og:url": meta_pattern("og:url"),
-        "property:og:image": meta_pattern("og:image"),
-        "property:og:type": meta_pattern("og:type"),
-        "property:og:site_name": meta_pattern("og:site_name"),
-        "property:og:description": meta_pattern("og:description"),
-    }
+    SEARCH_PATTERN: dict[str, re.Pattern] = _SEARCH_PATTERN
 
     TIP_ITEM_PATTERN = re.compile(r"""\"([^\"]*)\"|'([^']*)'""")
 
@@ -122,21 +166,16 @@ class PagePattern:
 
         | 名前 | 型 | 説明 |
         | --- | --- | --- |
-        | `key` | `str` | `"tips"` または `"property:<名前>"` |
+        | `key` | `str` | `page_pattern.json` のキー |
 
         ## 戻り値
 
         | 型 | 条件 | 内容 |
         | --- | --- | --- |
-        | `re.Pattern` | `SEARCH_PATTERN` にある | 登録済みの正規表現 |
-        | `re.Pattern` | `property:` で始まり、名前が空でない | その場で作った正規表現 |
-        | `None` | 上記以外 | 未対応のキー |
+        | `re.Pattern` | `SEARCH_PATTERN` にある | `page_pattern.json` に書かれた正規表現 |
+        | `None` | ない | 未対応のキー |
         """
-        if key in cls.SEARCH_PATTERN:
-            return cls.SEARCH_PATTERN[key]
-        if key.startswith(cls.PROPERTY_PREFIX) and len(key) > len(cls.PROPERTY_PREFIX):
-            return meta_pattern(key[len(cls.PROPERTY_PREFIX):])
-        return None
+        return cls.SEARCH_PATTERN.get(key)
 
 
     @classmethod
@@ -149,7 +188,7 @@ class PagePattern:
         | 型 | 値 | 意味 |
         | --- | --- | --- |
         | `bool` | `True` | 値は `list[str]`（`tips`） |
-        | `bool` | `False` | 値は `str`（`property:*`） |
+        | `bool` | `False` | 値は `str` |
         """
         return key == cls.TIPS_KEY
 
@@ -222,7 +261,7 @@ class PagePattern:
         | 型 | 条件 | 内容 |
         | --- | --- | --- |
         | `list[str]` | `tips` | チップ ID のリスト（記述順）。空配列なら `[]` |
-        | `str` | `property:*` | HTML エスケープを外した文字列 |
+        | `str` | それ以外 | HTML エスケープを外した文字列 |
         """
         if cls.is_list_key(key):
             return [
@@ -249,7 +288,7 @@ class PagePattern:
         | 型 | 条件 | 内容 |
         | --- | --- | --- |
         | `str` | `tips` | `["a", "b"]` 形式の配列リテラル |
-        | `str` | `property:*` | `&` `<` `>` `"` をエスケープした文字列 |
+        | `str` | それ以外 | `&` `<` `>` `"` をエスケープした文字列 |
         """
         if cls.is_list_key(key):
             return "[" + ", ".join(json.dumps(v, ensure_ascii=False) for v in value) + "]"

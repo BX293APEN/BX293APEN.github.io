@@ -7,9 +7,10 @@
 | キー | 書き換える場所 |
 | --- | --- |
 | `tips` | `new TipsView(tipsModel, "tips", "tips", [...])` の `[...]` |
-| `property:og:title` など | `<meta property="og:title" content="...">` の `content` |
+| `property:og:title` など | `<meta property="og:title" content="...">` の `content`（例） |
 
-探すキーとパターンは `page_pattern.py` の `PagePattern` で定義している。
+探すキーと正規表現は `page_pattern.json` に**完成した正規表現として**書く（読み込みは `page_pattern.py`）。
+`page_pattern.json` にないキーはインポートできない（未対応のキーとしてエラー）。
 
 ## 使い方
 
@@ -27,9 +28,9 @@ python import_config.py
 | --- | --- |
 | 実行ディレクトリ | `config/data`（どこから実行しても、スクリプトの場所を基準に解決する） |
 | サイトのルート | スクリプトから `../../`。JSON の `page` はここからの相対パス |
-| 入力ファイル | スクリプトと同じディレクトリの `tips.json` |
+| 入力ファイル | スクリプトと同じディレクトリの `config.json` |
 | モデル | ルートからの `model/tips/tips.js`（チップ ID の存在確認用。ファイルがなければ確認を省略） |
-| 共通モジュール | スクリプトと同じディレクトリの `page_pattern.py` |
+| 共通モジュール | スクリプトと同じディレクトリの `page_pattern.py`（パターンは同じ場所の `page_pattern.json`） |
 
 ## 入力形式
 
@@ -47,7 +48,7 @@ python import_config.py
 | --- | --- | --- |
 | `page` | `string` | ルートからの相対パス（区切りは `/`）。必須 |
 | `tips` | `string[]` | 新しいチップ ID のリスト。空配列も可。旧キー `tipList` も読める |
-| `property:*` | `string` | `<meta property="*">` の新しい `content`。HTML エスケープは不要（書き込み時に行う） |
+| 上記以外のキー | `string` | `page_pattern.json` に書いたキーごとの新しい値。HTML エスケープは不要（書き込み時に行う） |
 
 **JSON に書かれていないキーは、HTML を変更しない。**
 
@@ -101,7 +102,7 @@ class ImportTips:
     def __init__(
         self,
         root: str,
-        json_path: str = "tips.json",
+        json_path: str = "config.json",
         model: str = "model/tips/tips.js",
         dry_run: bool = False,
     ):
@@ -113,7 +114,7 @@ class ImportTips:
         | 名前 | 型 | 既定値 | 説明 |
         | --- | --- | --- | --- |
         | `root` | `str` | - | サイトのルートディレクトリ（例: `"../../"`） |
-        | `json_path` | `str` | `"tips.json"` | 読み込む JSON ファイル |
+        | `json_path` | `str` | `"config.json"` | 読み込む JSON ファイル |
         | `model` | `str` | `"model/tips/tips.js"` | `root` からみた、チップ ID 確認用のモデル |
         | `dry_run` | `bool` | `False` | `True` ならファイルを書き換えず、変更内容だけ表示する |
         """
@@ -150,9 +151,9 @@ class ImportTips:
         | トップレベル | 配列であること |
         | 各要素 | オブジェクトで、`page`（空でない文字列）を持つこと |
         | `page` | 重複しないこと |
-        | その他のキー | `PagePattern` が対応するキーであること（`tips`、`property:*`） |
+        | その他のキー | `page_pattern.json` に書かれたキーであること |
         | `tips` | 文字列の配列であること |
-        | `property:*` | 文字列であること |
+        | `tips` 以外 | 文字列であること |
         | 別名 | `tips` と `tipList` を同時に書かないこと |
         """
         if not isinstance(data, list):
@@ -236,7 +237,7 @@ class ImportTips:
         | 名前 | 型 | 説明 |
         | --- | --- | --- |
         | `text` | `str` | HTML 全文（改行コードは変換せず、そのまま渡すこと） |
-        | `key` | `str` | `"tips"` または `"property:<名前>"` |
+        | `key` | `str` | `page_pattern.json` のキー |
         | `value` | `list[str]` または `str` | 新しい値 |
 
         ## 戻り値

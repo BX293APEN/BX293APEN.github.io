@@ -7,10 +7,10 @@
 | キー | 探す場所 |
 | --- | --- |
 | `tips` | `new TipsView(tipsModel, "tips", "tips", [...])` の `[...]` |
-| `property:og:title` など | `<meta property="og:title" content="...">` の `content` |
+| `property:og:title` など | `<meta property="og:title" content="...">` の `content`（例） |
 
-探すキーとパターンは `page_pattern.py` の `PagePattern.SEARCH_PATTERN` で定義している。
-項目を増やすときは、そちらに 1 行足す。
+探すキーと正規表現は `page_pattern.json` に**完成した正規表現として**書く（読み込みは `page_pattern.py`）。
+項目を増やすときは、そちらに 1 行足す（Python は触らない）。
 
 ## 使い方
 
@@ -27,8 +27,8 @@ python export_config.py
 | 実行ディレクトリ | `config/data`（どこから実行しても、スクリプトの場所を基準に解決する） |
 | サイトのルート | スクリプトから `../../`（`html/` と `model/` がある場所） |
 | 探索ディレクトリ | ルート直下の `html` |
-| 出力ファイル | スクリプトと同じディレクトリの `tips.json` |
-| 共通モジュール | スクリプトと同じディレクトリの `page_pattern.py` |
+| 出力ファイル | スクリプトと同じディレクトリの `config.json` |
+| 共通モジュール | スクリプトと同じディレクトリの `page_pattern.py`（パターンは同じ場所の `page_pattern.json`） |
 
 ## 出力形式
 
@@ -47,7 +47,7 @@ python export_config.py
 | --- | --- | --- |
 | `page` | `string` | ルートからの相対パス（区切りは `/`）。`index.html` が複数あるため、ファイル名だけでは一意にならない |
 | `tips` | `string[]` | `TipsView` の 4 番目の引数（`dispElement`）。HTML に書かれた順序のまま |
-| `property:*` | `string` | `<meta property="*">` の `content`。HTML エスケープは外した文字列 |
+| 上記以外のキー | `string` | `page_pattern.json` に書いたキーごとの値。HTML エスケープは外した文字列（例: `property:og:title` は `<meta property="og:title">` の `content`） |
 
 ## 注意
 
@@ -67,7 +67,7 @@ from page_pattern import PagePattern
 
 
 class ExportTips:
-    def __init__(self, root: str, html_dir: str = "html", output: str = "tips.json"):
+    def __init__(self, root: str, html_dir: str = "html", output: str = "config.json"):
         """
         出力先などの設定を保持する。相対パスはスクリプトの場所を基準に解決する。
 
@@ -77,7 +77,7 @@ class ExportTips:
         | --- | --- | --- | --- |
         | `root` | `str` | - | サイトのルートディレクトリ（例: `"../../"`） |
         | `html_dir` | `str` | `"html"` | `root` からみた、HTML を探索するディレクトリ |
-        | `output` | `str` | `"tips.json"` | 書き出す JSON ファイル |
+        | `output` | `str` | `"config.json"` | 書き出す JSON ファイル |
         """
         base = Path(__file__).resolve().parent
         self.root = (base / root).resolve()
@@ -87,7 +87,7 @@ class ExportTips:
 
     def collect_pages(self) -> tuple[list[dict], list[str]]:
         """
-        `root/html_dir` 以下の全 `.html` を走査し、`SEARCH_PATTERN` の各キーの値を集める。
+        `root/html_dir` 以下の全 `.html` を走査し、`page_pattern.json` の各キーの値を集める。
 
         ## 引数
 

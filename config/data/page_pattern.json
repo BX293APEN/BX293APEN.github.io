@@ -1,0 +1,9 @@
+{
+    "tips" : "new\\s+TipsView\\s*\\(\\s*\\w+\\s*,\\s*(?:\"[^\"]*\"|'[^']*')\\s*,\\s*(?:\"[^\"]*\"|'[^']*')\\s*,\\s*(?P<value>\\[[^\\]]*\\])\\s*\\)",
+    "property:og:title" : "<meta\\s+property\\s*=\\s*\"og:title\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",
+    "property:og:url" : "<meta\\s+property\\s*=\\s*\"og:url\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",
+    "property:og:image" : "<meta\\s+property\\s*=\\s*\"og:image\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",
+    "property:og:type" : "<meta\\s+property\\s*=\\s*\"og:type\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",
+    "property:og:site_name" : "<meta\\s+property\\s*=\\s*\"og:site_name\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",
+    "property:og:description" : "<meta\\s+property\\s*=\\s*\"og:description\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>"
+}
