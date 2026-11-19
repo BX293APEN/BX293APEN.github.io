@@ -176,6 +176,7 @@
 | 用語 | 内容 |
 |---|---|
 | DTLS (Datagram TLS) | <ul><li>UDP等のコネクションレス(データグラム型)通信に、<br>TLSと同等のセキュリティ(暗号化・完全性保護・認証)を提供するプロトコル</li><li>パケットの損失対策 : 再送タイムアウト</li><li>順序入れ替わり対策 : シーケンス番号(epoch含む)を付与する</li><li>リフレクション攻撃対策 : ハンドシェイク開始時にHelloVerifyRequestを用いて送信元IPアドレスの検証</li></ul> |
+| QUICTLS<br>(QUIC-TLS) | <ul><li>QUIC(RFC 9000)が、TLS 1.3(RFC 8446)をハンドシェイクと鍵共有に利用する仕組み(RFC 9001)</li><li>TLSレコードプロトコルは使わず、TLSハンドシェイクメッセージをQUICの`CRYPTO`フレームで運ぶ</li><li>TLSで合意・導出した鍵を、QUICがパケット単位の暗号化(AEAD)とヘッダ保護に使用する</li><li>TLS 1.3のみ対応(TLS 1.2以前は使用不可)</li><li>転送(QUIC)と暗号(TLS)のハンドシェイクを統合し、1-RTTで接続確立(再接続時は0-RTTも可能)</li><li>補足 : 「quictls」はQUIC向けAPIを追加したOpenSSLのフォークの名称でもある</li></ul> |
 | TLSアクセラレータ | TLSの暗号化・復号処理を専用ハードウェアで肩代わりし、サーバの処理負荷を軽減する装置 |
 | ハンドシェイクプロトコル<br>(Handshake Protocol) | TLSにおいて、通信開始時に暗号方式の合意・サーバ(および必要に応じクライアント)の認証・鍵交換を行う上位プロトコル<br>この過程でプリマスタシークレット・マスターシークレットが生成される |
 | プリマスタシークレット<br>(Pre-Master Secret) | TLSハンドシェイクの鍵交換(DHE/ECDHE等)によって<br>クライアント・サーバ間で共有される元となる乱数値<br>この値をもとにマスターシークレットが導出される |
@@ -200,8 +201,9 @@
 | 9. Finished | ハンドシェイク全体のハッシュ値を暗号化して送信し、改ざんがないことを相互に確認 |
 | 10. Application Data | 以降、共有したセッション鍵を用いてアプリケーションデータを暗号化して送受信 |
 
-                            </div>
-                            <!--
+
+
+<!--
 sequenceDiagram
     %%{
         init: {
@@ -296,8 +298,173 @@ sequenceDiagram
         Note over C,S: TCPコネクション切断
     end
 
-                            -->
-                            <img src="/img/about/tls.svg" width = "100%"/>
+-->
+
+<img src="/img/about/tls.svg" width = "100%"/>
+
+<br>
+
+---
+
+<br>
+
+### TLS 認証手順(QUICTLS)
+
+- QUICTLSでは、TLS 1.3のハンドシェイクをQUICパケットの中で行う
+- TCPの3ウェイハンドシェイクとTLSハンドシェイクが統合されるため、最短1-RTTで暗号化通信を開始できる
+
+| 用語 | 意味 |
+|---|---|
+| 1-RTT(往復回数) | ハンドシェイク完了までに必要な往復が1回であること |
+| 1-RTT(鍵・パケット名) | ハンドシェイク完了後に使うアプリケーション用鍵、およびそれで保護するShort Headerパケット |
+
+---
+
+| 暗号化レベル | パケット種別(ヘッダ形式) | 保護に使う鍵 | 主な内容 |
+|---|---|---|---|
+| Initial | Initial (Long Header) | Destination Connection IDと固定ソルトからHKDFで導出(誰でも計算可能) | ClientHello / ServerHello |
+| 0-RTT (Early Data) | 0-RTT (Long Header) | 前回セッションのPSK(再開用チケット)から導出 | 再接続時の早期アプリケーションデータ |
+| Handshake | Handshake (Long Header) | ECDHE共有秘密から導出したハンドシェイク用鍵 | EncryptedExtensions / Certificate / CertificateVerify / Finished |
+| 1-RTT (Application) | 1-RTT (Short Header) | ハンドシェイク完了後に導出するアプリケーション用鍵 | アプリケーションデータ / HANDSHAKE_DONE |
+
+---
+
+| 項目 | TLS 1.2(TCP + TLS) | QUICTLS(QUIC + TLS 1.3) |
+|---|---|---|
+| 下位プロトコル | TCP | UDP |
+| TLSバージョン | 1.2 | 1.3のみ |
+| 接続確立 | TCP 3-way + TLS 2-RTT(計約3-RTT) | 1-RTT(再接続時は0-RTT可) |
+| ハンドシェイクの運搬 | TLSレコード | QUICの`CRYPTO`フレーム |
+| データの暗号化 | TLSレコードプロトコル | QUICパケット保護(AEAD) |
+| ヘッダ保護 | なし(TCPヘッダは平文) | あり(パケット番号等を保護) |
+| ChangeCipherSpec | あり | なし(暗号化レベルの切替で代替) |
+| 鍵交換 | RSA / DHE / ECDHE | (EC)DHEのみ(前方秘匿性あり) |
+| ALPN | 任意 | 必須 |
+| 切断 | close_notify + TCP FIN | `CONNECTION_CLOSE`フレーム |
+
+
+#### 認証手順(QUIC + TLS 1.3 フルハンドシェイク)
+
+| ステップ | 内容 |
+|---|---|
+| 1. ClientHello | クライアントが`Initial`パケット内の`CRYPTO`フレームで送信<br>対応暗号スイート・Client Random・`key_share`(ECDHE公開値)・ALPN・`quic_transport_parameters`拡張等を含む |
+| 2. ServerHello | サーバが`Initial`パケットで返信<br>暗号スイート・Server Random・`key_share`を選択<br>この時点でECDHE共有秘密が確定し、Handshake用鍵が導出される |
+| 3. EncryptedExtensions | サーバが`Handshake`パケットで送信(以降はHandshake鍵で暗号化)<br>ALPN結果・サーバ側`quic_transport_parameters`等を通知 |
+| 4. Certificate | サーバが自身のデジタル証明書(公開鍵を含む)を送信 |
+| 5. CertificateVerify | サーバが秘密鍵でハンドシェイクのハッシュに署名し、証明書の持ち主であることを証明 |
+| 6. Finished(サーバ) | ハンドシェイク全体のMACを送信し、改ざんがないことを確認させる<br>サーバはここでアプリケーション用鍵を導出し、1-RTTデータ(Application Data)を送信可能 |
+| 7. 証明書検証 | クライアントが署名・有効期限・ホスト名・信頼チェーンを検証 |
+| 8. Finished(クライアント) | クライアントが`Handshake`パケットでFinishedを送信し、相互にハンドシェイクを確認<br>以降、クライアントも1-RTT鍵でApplication Dataを送信可能 |
+| 9. HANDSHAKE_DONE | サーバが`HANDSHAKE_DONE`フレームを送信し、ハンドシェイク完了を通知<br>Initial / Handshake鍵は破棄される |
+| 10. NewSessionTicket | サーバが再開用チケットを送信(次回接続で0-RTTを可能にする) |
+| 11. Application Data | 1-RTT鍵で保護した`STREAM`フレームでアプリケーションデータを送受信 |
+
+<!--
+sequenceDiagram
+    %%{
+        init: {
+            'theme':'base',
+            'themeVariables': { 
+                'fontSize': '32px',
+                'fontFamily' : 'HGPGothicE, trebuchet ms, verdana, arial',
+                'primaryColor': '#EEE',
+                'primaryTextColor': '#000000',
+                'primaryBorderColor': '#000000',
+                'lineColor': '#000000',
+                'secondaryColor': '#EEE'
+            }
+        }
+    }%%
+    %% # QUIC + TLS 1.3 フルハンドシェイク + 終了処理
+    %%
+    %% ## フェーズ構成
+    %%
+    %% | フェーズ | 概要 |
+    %% |---|---|
+    %% | 1. QUIC + TLS 1.3 Handshake | UDP上で接続確立・暗号方式の合意・サーバ認証・鍵共有を同時に行う |
+    %% | 2. Application Data | 1-RTT鍵で保護したストリームデータを送受信する |
+    %% | 3. 切断 | CONNECTION_CLOSE フレームで接続を終了する |
+    %%
+    %% ## 補足
+    %%
+    %% | 項目 | 内容 |
+    %% |---|---|
+    %% | TCP 3-way Handshake | 不要(UDPのため) |
+    %% | ChangeCipherSpec | 不要(暗号化レベルの切替で代替) |
+    %% | TLSメッセージの運搬 | QUIC の CRYPTO フレーム |
+    %% | アプリケーションデータ | 各端点が自身のFinished送信直後から1-RTT鍵で送信可能 |
+    %% | Long Header | Initial / Handshake 等、接続確立時に使うパケットのヘッダ形式 |
+    %% | Short Header | 1-RTT鍵で保護されるパケット種別("1-RTT"は往復回数ではなく鍵・パケットの名称) |
+    %% | ハンドシェイク所要時間 | クライアントのFinished送信までで往復1回(1-RTT) |
+
+    autonumber
+    participant C as クライアント
+    participant S as サーバ
+
+    %% ## Phase 1: QUIC + TLS 1.3 Handshake
+    rect rgb(235, 255, 235)
+        Note over C,S: QUIC + TLS 1.3 フルハンドシェイク(UDP上・TCP 3-wayなし)
+
+        C->>S: Long Header (Initial) [CRYPTO: ClientHello]<br/>(暗号スイート一覧 / Client Random / key_share / ALPN / QUICトランスポートパラメータ)
+        Note over C,S: Initial鍵 = Destination Connection ID + 固定ソルトから導出(誰でも計算可能)
+
+        S->>C: Long Header (Initial) [ACK, CRYPTO: ServerHello]<br/>(暗号スイート / Server Random / key_share)
+        Note over C,S: ECDHE共有秘密 → Handshake鍵(双方で生成)
+
+        S->>C: Long Header (Handshake) [CRYPTO: EncryptedExtensions]<br/>(ALPN結果 / サーバのQUICトランスポートパラメータ)
+        S->>C: Long Header (Handshake) [CRYPTO: Certificate]<br/>(サーバ証明書・公開鍵)
+        S->>C: Long Header (Handshake) [CRYPTO: CertificateVerify]<br/>(ハンドシェイクのハッシュへの署名)
+        S->>C: Long Header (Handshake) [CRYPTO: Finished]<br/>(ハンドシェイク全体のMAC)
+
+        Note over C,S: ハンドシェイク全体のハッシュ → アプリケーション用鍵(1-RTT鍵)を双方で生成
+
+        S->>C: Short Header [STREAM]<br/>Application Data(サーバ側のハンドシェイク完了直後から送信可能 / 0.5-RTTデータ)
+
+        Note left of C: 証明書を検証<br/>(署名・有効期限・ホスト名・信頼チェーン)
+
+        C->>S: Long Header (Initial) [ACK]
+        C->>S: Long Header (Handshake) [ACK, CRYPTO: Finished]<br/>(ハンドシェイク全体のMAC)
+        Note over C,S: ここまでで往復1回(1-RTT)でハンドシェイク完了
+        C->>S: Short Header [STREAM]<br/>Application Data(クライアント側のハンドシェイク完了直後から送信可能)
+
+        Note over C,S: 相互にFinishedを検証し、改ざんがないことを確認
+
+        S->>C: Short Header [HANDSHAKE_DONE]<br/>(ハンドシェイク完了を通知)
+        Note over C,S: Initial鍵・Handshake鍵を破棄
+
+        S->>C: Short Header [CRYPTO: NewSessionTicket]<br/>(0-RTT再開用チケット)
+    end
+
+    %% ## Phase 2: Application Data
+    rect rgb(255, 245, 225)
+        C->>S: Short Header [STREAM]<br/>Application Data(1-RTT鍵で暗号化)
+        S->>C: Short Header [STREAM]<br/>Application Data(1-RTT鍵で暗号化)
+    end
+
+    %% ## Phase 3: 切断
+    rect rgb(255, 235, 235)
+        Note over C,S: 切断(クライアントから切断する例)
+        C->>S: Short Header [CONNECTION_CLOSE]<br/>(エラーコード / 理由 / 以降このコネクションでは送信しない通知)
+        Note left of C: closing状態<br/>(遅延パケット対策として一定時間待機)
+        Note over S: draining状態<br/>(新たなパケットは送信せず待機後にクローズ)
+        Note over C,S: QUICコネクション切断(セッション鍵は破棄)
+    end
+
+-->
+
+<img src="/img/about/quictls.svg" width = "100%"/>
+
+#### 0-RTT再接続(参考)
+
+| 項目 | 内容 |
+|---|---|
+| 前提 | 前回の接続で受け取った`NewSessionTicket`(PSK)を保持している |
+| 動作 | ClientHelloと同時に`0-RTT`パケットでアプリケーションデータを送信 |
+| 利点 | ハンドシェイク完了を待たずにデータ送信でき、遅延が最小になる |
+| 注意 | 0-RTTデータはリプレイ攻撃を受ける可能性があるため、冪等な処理(GET等)に限定する |
+| アドレス検証 | `Retry`パケットで送信元IPアドレスを検証し、増幅攻撃・なりすましを防ぐ場合がある |
+
+                            </div>
                             <h3 class="pt-4 mt-4 border-bottom fw-bold">
                                 バージョン
                             </h3>
