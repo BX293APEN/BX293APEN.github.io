@@ -1,5 +1,6 @@
 {
     "tips" : "new\\s+TipsView\\s*\\(\\s*\\w+\\s*,\\s*(?:\"[^\"]*\"|'[^']*')\\s*,\\s*(?:\"[^\"]*\"|'[^']*')\\s*,\\s*(?P<value>\\[[^\\]]*\\])\\s*\\)",
+    "title" : "<title[^>]*>(?P<value>[^<]*)</title>",
     "property:og:title" : "<meta\\s+property\\s*=\\s*\"og:title\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",
     "property:og:url" : "<meta\\s+property\\s*=\\s*\"og:url\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",
     "property:og:image" : "<meta\\s+property\\s*=\\s*\"og:image\"\\s+content\\s*=\\s*\"(?P<value>[^\"]*)\"[^>]*>",

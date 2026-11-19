@@ -2,16 +2,18 @@
     {
         "page" : "html/about/security/critical-cyber-attack.html",
         "tips" : ["cTip", "pythonTip", "appTip"],
+        "title" : "重大なサイバー攻撃の攻撃手順と対策について",
         "property:og:title" : "重大なサイバー攻撃の攻撃手順と対策について",
         "property:og:url" : "https://bx293apen.github.io/html/about/security/critical-cyber-attack.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "重大なサイバー攻撃の攻撃手順と対策について"
+        "property:og:description" : "情報セキュリティについて"
     },
     {
         "page" : "html/about/security/index.html",
         "tips" : ["cTip", "serverTip", "appTip"],
+        "title" : "情報セキュリティについて",
         "property:og:title" : "情報セキュリティについて",
         "property:og:url" : "https://bx293apen.github.io/html/about/security/index.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -22,6 +24,7 @@
     {
         "page" : "html/about/security/security-laws.html",
         "tips" : ["cTip", "pythonTip", "serverTip"],
+        "title" : "情報セキュリティについて",
         "property:og:title" : "情報セキュリティについて",
         "property:og:url" : "https://bx293apen.github.io/html/about/security/security-laws.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -32,6 +35,7 @@
     {
         "page" : "html/about/security/security.html",
         "tips" : ["serverTip", "appTip", "dockerTip"],
+        "title" : "情報セキュリティについて",
         "property:og:title" : "情報セキュリティについて",
         "property:og:url" : "https://bx293apen.github.io/html/about/security/security.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -41,6 +45,7 @@
     },
     {
         "page" : "html/app/index.html",
+        "title" : "Apps",
         "property:og:title" : "Apps - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/html/app/index.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -50,6 +55,7 @@
     },
     {
         "page" : "html/app/Katamari_Damacy.html",
+        "title" : "塊魂風ゲーム",
         "property:og:title" : "Apps - 塊魂風ゲーム",
         "property:og:url" : "https://bx293apen.github.io/html/app/Katamari_Damacy.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -59,6 +65,7 @@
     },
     {
         "page" : "html/app/tetris.html",
+        "title" : "Apps",
         "property:og:title" : "Apps - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/html/app/index.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -68,6 +75,7 @@
     },
     {
         "page" : "html/app/translation.html",
+        "title" : "翻訳メモ",
         "property:og:title" : "翻訳メモ - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -77,6 +85,7 @@
     },
     {
         "page" : "html/blog/index.html",
+        "title" : "BX293A_PEN",
         "property:og:title" : "Blog - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/html/blog/index.html",
         "property:og:image" : "https://x.com/BX293A_PEN/photo",
@@ -86,6 +95,7 @@
     },
     {
         "page" : "html/download/index.html",
+        "title" : "Download",
         "property:og:title" : "DLC - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/html/download/index.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -96,6 +106,7 @@
     {
         "page" : "html/tips/appbuild/bitcoin.html",
         "tips" : ["cTip", "securityTip", "serverTip"],
+        "title" : "ビットコインの仕組み",
         "property:og:title" : "ビットコインの仕組み",
         "property:og:url" : "https://bx293apen.github.io/html/tips/appbuild/bitcoin.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -106,6 +117,7 @@
     {
         "page" : "html/tips/appbuild/blender.html",
         "tips" : ["pythonTip", "vimTip", "visualstudioTip"],
+        "title" : "Blenderの使い方",
         "property:og:title" : "Blenderの使い方",
         "property:og:url" : "https://bx293apen.github.io/html/tips/appbuild/blender.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -116,16 +128,18 @@
     {
         "page" : "html/tips/appbuild/chromium.html",
         "tips" : ["cTip", "pythonTip", "visualstudioTip"],
-        "property:og:title" : "アプリのビルド方法",
+        "title" : "Chromiumのビルド方法",
+        "property:og:title" : "Chromiumのビルド方法",
         "property:og:url" : "https://bx293apen.github.io/html/tips/appbuild/chromium.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "アプリのビルド方法の紹介"
+        "property:og:description" : "Chromiumのビルド方法の紹介"
     },
     {
         "page" : "html/tips/appbuild/jpki.html",
         "tips" : ["rn4020Tip", "securityTip", "serverTip"],
+        "title" : "マイナンバーカードの仕組み",
         "property:og:title" : "マイナンバーカードの仕組み",
         "property:og:url" : "https://bx293apen.github.io/html/tips/appbuild/jpki.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -136,6 +150,7 @@
     {
         "page" : "html/tips/appbuild/uml.html",
         "tips" : ["securityTip", "pythonTip", "serverTip"],
+        "title" : "UML図一覧",
         "property:og:title" : "UML図一覧",
         "property:og:url" : "https://bx293apen.github.io/html/tips/appbuild/uml.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -146,6 +161,7 @@
     {
         "page" : "html/tips/appbuild.html",
         "tips" : ["cTip", "securityTip", "serverTip"],
+        "title" : "アプリ作成メモ",
         "property:og:title" : "アプリ作成メモ",
         "property:og:url" : "https://bx293apen.github.io/html/tips/appbuild.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -156,6 +172,7 @@
     {
         "page" : "html/tips/ascii-code.html",
         "tips" : ["cTip", "pythonTip", "vimTip", "visualstudioTip"],
+        "title" : "文字コード表",
         "property:og:title" : "文字コード表",
         "property:og:url" : "https://bx293apen.github.io/html/tips/ascii-code.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -166,6 +183,7 @@
     {
         "page" : "html/tips/c-lang/EMBEDDED_C.html",
         "tips" : ["linuxTip", "serverTip", "rn4020Tip"],
+        "title" : "C/C++ Notes (Additional)",
         "property:og:title" : "C/C++ Notes (Additional) - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -176,6 +194,7 @@
     {
         "page" : "html/tips/c-lang/msquic.html",
         "tips" : ["linuxTip", "windowsTip", "visualstudioTip"],
+        "title" : "MsQuic Setup - とあるペンギンの実験室",
         "property:og:title" : "MsQuic Setup - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/html/tips/c-lang/msquic.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -186,6 +205,7 @@
     {
         "page" : "html/tips/c.html",
         "tips" : ["visualstudioTip", "asciiCodeTip", "opencvTip"],
+        "title" : "C/C++ Notes",
         "property:og:title" : "C/C++ Notes",
         "property:og:url" : "https://bx293apen.github.io/html/tips/c.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -196,6 +216,7 @@
     {
         "page" : "html/tips/datasheet/electrician.html",
         "tips" : ["serverTip", "pythonTip", "cTip"],
+        "title" : "電気工事まとめ(第二種相当)",
         "property:og:title" : "電気工事まとめ(第二種相当)",
         "property:og:url" : "https://bx293apen.github.io/html/tips/datasheet/electrician.html",
         "property:og:image" : "https://bx293apen.github.io/img/lsi.png",
@@ -206,6 +227,7 @@
     {
         "page" : "html/tips/docker.html",
         "tips" : ["linuxTip", "windowsTip", "securityTip", "serverTip"],
+        "title" : "How to use Docker?",
         "property:og:title" : "How to use Docker?",
         "property:og:url" : "https://bx293apen.github.io/html/tips/docker.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -215,6 +237,7 @@
     },
     {
         "page" : "html/tips/index.html",
+        "title" : "Tips",
         "property:og:title" : "Tips",
         "property:og:url" : "https://bx293apen.github.io/html/tips/index.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -225,96 +248,106 @@
     {
         "page" : "html/tips/linux/config.html",
         "tips" : ["vimTip", "githubTip", "serverTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linuxセットアップガイド",
+        "property:og:title" : "Linuxのセットアップ作業について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linux/config.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Linuxのセットアップ作業について"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linux/daemon.html",
         "tips" : ["serverTip", "pythonTip", "dockerTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linuxセットアップガイド",
+        "property:og:title" : "デーモン化について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linux/daemon.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "デーモン化について"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linux/format.html",
         "tips" : ["UEFITip", "asciiCodeTip", "cTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linuxセットアップガイド",
+        "property:og:title" : "Linuxのストレージフォーマットについて",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linux/format.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Linuxのストレージフォーマットについて"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linux/network.html",
         "tips" : ["dockerTip", "githubTip", "serverTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linuxセットアップガイド",
+        "property:og:title" : "ネットワーク設定(Linux)",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linux/config.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Linuxのセットアップ作業について"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linux/raspi.html",
         "tips" : ["pythonTip", "rn4020Tip", "teratermTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linuxセットアップガイド",
+        "property:og:title" : "Raspberry Piで使える機能について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linux/raspi.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Raspberry Piで使える機能について"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linux/sh.html",
         "tips" : ["pythonTip", "rn4020Tip", "teratermTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linuxセットアップガイド",
+        "property:og:title" : "便利コマンド",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linux/sh.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "便利コマンド"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linux.html",
         "tips" : ["windowsTip", "dockerTip", "serverTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linuxセットアップガイド",
+        "property:og:title" : "Linuxのセットアップ作業について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linux.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Linuxのセットアップ作業について"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linuxMemo/repo.html",
         "tips" : ["linuxTip", "serverTip", "dockerTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Linux セットアップ自動化リポジトリ",
+        "property:og:title" : "Linux セットアップ自動化リポジトリ",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linuxMemo/repo.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Linux セットアップ自動化リポジトリ"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/linuxMemo.html",
         "tips" : ["linuxTip", "windowsTip", "vimTip"],
-        "property:og:title" : "Linuxセットアップガイド",
+        "title" : "Arch Linux のセットアップ方法",
+        "property:og:title" : "Arch Linux のセットアップ方法",
         "property:og:url" : "https://bx293apen.github.io/html/tips/linuxMemo.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Arch Linux のセットアップ方法"
+        "property:og:description" : "Linuxセットアップガイド"
     },
     {
         "page" : "html/tips/python.html",
         "tips" : ["cTip", "asciiCodeTip", "opencvTip", "rn4020Tip"],
+        "title" : "Pythonの環境構築",
         "property:og:title" : "Pythonの環境構築",
         "property:og:url" : "https://bx293apen.github.io/html/tips/python.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -325,7 +358,8 @@
     {
         "page" : "html/tips/RN4020.html",
         "tips" : ["linuxTip", "pythonTip", "appTip"],
-        "property:og:title" : "RN4020",
+        "title" : "電子モジュール データシート",
+        "property:og:title" : "RN4020 (BLEモジュール)",
         "property:og:url" : "https://bx293apen.github.io/html/tips/RN4020.html",
         "property:og:image" : "https://bx293apen.github.io/img/RN4020_design.jpg",
         "property:og:type" : "website",
@@ -335,57 +369,63 @@
     {
         "page" : "html/tips/server/cdn.html",
         "tips" : ["securityTip", "linuxTip", "dockerTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "CDN (Nginx)",
+        "property:og:title" : "NginxへCDNを導入する",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/cdn.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "CDN"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/server/db.html",
         "tips" : ["appTip", "asciiCodeTip", "dockerTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "データベースサーバ",
+        "property:og:title" : "データベースサーバ",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/db.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "データベースサーバ"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/server/dhcp.html",
         "tips" : ["UEFITip", "windowsTip", "vimTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "DHCPサーバの構築",
+        "property:og:title" : "DHCPサーバの設定方法について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/dhcp.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "DHCPサーバの設定方法について"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/server/dns.html",
         "tips" : ["windowsTip", "linuxTip", "securityTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "DNSサーバの構築",
+        "property:og:title" : "DNSサーバの設定方法について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/dns.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "DNSサーバの設定方法について"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/server/emqx.html",
         "tips" : ["cTip", "linuxTip", "dockerTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "EMQXブローカ",
+        "property:og:title" : "EMQXブローカ",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/emqx.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "EMQXブローカ"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/server/ftp.html",
         "tips" : ["githubTip", "teratermTip", "rn4020Tip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "ファイルサーバの構築",
+        "property:og:title" : "ファイルサーバの構築",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/ftp.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
@@ -395,7 +435,8 @@
     {
         "page" : "html/tips/server/http.html",
         "tips" : ["vimTip", "pythonTip", "visualstudioTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "Webサーバの構築",
+        "property:og:title" : "Webサーバの構築",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/http.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
@@ -405,37 +446,41 @@
     {
         "page" : "html/tips/server/iperf3.html",
         "tips" : ["windowsTip", "linuxTip", "linuxTipMemo"],
-        "property:og:title" : "サーバの構築",
+        "title" : "How to use iperf3 ?",
+        "property:og:title" : "How to use iperf3 ?",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/iperf3.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "How to use iperf3 ?"
+        "property:og:description" : "iperf3コマンド使い方"
     },
     {
         "page" : "html/tips/server/mail.html",
         "tips" : ["securityTip", "asciiCodeTip", "pythonTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "検証用メールサーバ",
+        "property:og:title" : "メールサーバ",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/mail.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "メールサーバ"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/server/ntp.html",
         "tips" : ["UEFITip", "windowsTip", "vimTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "NTPサーバの構築",
+        "property:og:title" : "NTPサーバの設定方法について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/ntp.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "NTPサーバの設定方法について"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/server/vnc.html",
         "tips" : ["windowsTip", "linuxTip", "appTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "VNCサーバの構築",
+        "property:og:title" : "VNCサーバの構築",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/vnc.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
@@ -445,26 +490,29 @@
     {
         "page" : "html/tips/server/zabbix.html",
         "tips" : ["windowsTip", "linuxTip", "dockerTip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "システムの監視",
+        "property:og:title" : "システムの監視",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server/zabbix.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "システムの監視"
+        "property:og:description" : "Zabbix / SNMPの仕組み"
     },
     {
         "page" : "html/tips/server.html",
         "tips" : ["windowsTip", "linuxTip", "UEFITip"],
-        "property:og:title" : "サーバの構築",
+        "title" : "サーバの構築",
+        "property:og:title" : "サーバの構築の基礎知識について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/server.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "LANケーブルの作成方法 / EMQXについて"
+        "property:og:description" : "サーバの構築"
     },
     {
         "page" : "html/tips/teraterm.html",
         "tips" : ["cTip", "pythonTip", "vimTip", "windowsTip"],
+        "title" : "Tera Termマクロ",
         "property:og:title" : "Tera Termマクロ",
         "property:og:url" : "https://bx293apen.github.io/html/tips/teraterm.html",
         "property:og:image" : "https://bx293apen.github.io/img/teraterm.png",
@@ -475,6 +523,7 @@
     {
         "page" : "html/tips/UEFI/datatrans.html",
         "tips" : ["securityTip", "linuxTip", "rn4020Tip"],
+        "title" : "パソコンの内部構造",
         "property:og:title" : "パソコンの内部構造",
         "property:og:url" : "https://bx293apen.github.io/html/tips/UEFI/datatrans.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -485,36 +534,40 @@
     {
         "page" : "html/tips/UEFI.html",
         "tips" : ["windowsTip", "linuxTip", "serverTip"],
-        "property:og:title" : "UEFI (AMD用)",
+        "title" : "UEFI (AMD用)",
+        "property:og:title" : "X670E-FのBIOS設定方法",
         "property:og:url" : "https://bx293apen.github.io/html/tips/UEFI.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "X670E-FのBIOS設定方法"
+        "property:og:description" : "パソコンの内部構造"
     },
     {
         "page" : "html/tips/visualstudio.html",
         "tips" : ["githubTip", "vimTip", "pythonTip", "cTip"],
-        "property:og:title" : "Visual Studio Tips",
+        "title" : "Visual Studio Tips",
+        "property:og:title" : "Visual Studioの設定について",
         "property:og:url" : "https://bx293apen.github.io/html/tips/visualstudio.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "Visual Studioの設定について"
+        "property:og:description" : "環境構築"
     },
     {
         "page" : "html/tips/windows/wsl.html",
         "tips" : ["linuxTip", "dockerTip", "serverTip"],
-        "property:og:title" : "Windows便利機能集",
+        "title" : "Windows便利機能集",
+        "property:og:title" : "WSLについて",
         "property:og:url" : "https://bx293apen.github.io/html/tips/windows/wsl.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
         "property:og:type" : "website",
         "property:og:site_name" : "とあるペンギンの実験室",
-        "property:og:description" : "WSLについて"
+        "property:og:description" : "Windows便利機能集"
     },
     {
         "page" : "html/tips/windows.html",
         "tips" : ["pythonTip", "cTip", "visualstudioTip"],
+        "title" : "Windows便利機能集",
         "property:og:title" : "Windows便利機能集",
         "property:og:url" : "https://bx293apen.github.io/html/tips/windows.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
@@ -524,6 +577,7 @@
     },
     {
         "page" : "html/welcome.html",
+        "title" : "ようこそ - とあるペンギンの実験室",
         "property:og:title" : "ようこそ - とあるペンギンの実験室",
         "property:og:url" : "https://bx293apen.github.io/html/welcome.html",
         "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
