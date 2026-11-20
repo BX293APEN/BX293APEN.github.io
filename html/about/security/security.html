@@ -1990,10 +1990,10 @@ sequenceDiagram
         <script src="/view/tips/tips.js"></script>
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
-        <script src="/view/tex.js"></script>
         <script src="/view/createTable.js"></script>
         <script src="/view/mermaid.min.js"></script>
         <script src="/view/createUML.js"></script>
+        <script src="/view/Tex2Math.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -2118,6 +2118,8 @@ sequenceDiagram
 
             
             new Pagination(3, securityModel.page, "pagination");
+            
+            new Tex2Math(document, "/view/tex.js");
         </script>
     </footer>
     

@@ -244,7 +244,7 @@ ${${::-j}${::-n}${::-d}${::-i}:ldap://ldap.zone/[検索キー]}</code></pre>
         <script src="/view/tips/tips.js"></script>
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
-        <script src="/view/tex.js"></script>
+        <script src="/view/Tex2Math.js"></script>
         <script src="/view/api.js"></script>
         <script>
             hljs.highlightAll();
@@ -277,6 +277,7 @@ ${${::-j}${::-n}${::-d}${::-i}:ldap://ldap.zone/[検索キー]}</code></pre>
 
             new Pagination(4, securityModel.page, "pagination");
             new GetCveScore("CVE-2021-44228", "cvss-value", "epss-value");
+            new Tex2Math(document, "/view/tex.js");
         </script>
     </footer>
     

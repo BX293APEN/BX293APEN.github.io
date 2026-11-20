@@ -443,6 +443,7 @@
         <script src="/view/md.js"></script>
         <script src="/view/pagination.js"></script>
         <script src="/view/createTable.js"></script>
+        <script src="/view/Tex2Math.js"></script>
         <script>
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
@@ -512,12 +513,7 @@
                 () => {
                     setTimeout(
                         () => {
-                            const script = document.createElement("script");
-                            script.src = "/view/tex.js";
-                            document.body.appendChild(script);
-                            script.onload = () => {
-                                console.log("[Load] tex.js");
-                            };
+                            new Tex2Math(document, "/view/tex.js");
                         },
                         300
                     );
