@@ -34,8 +34,8 @@ class TexMD2HTML:
     | `inline` | セルや段落の Markdown 記法(`` ` `` `**` `<br>` `texClass`)を HTML にする |
     | `parse` | Markdown を `Block` のリストに変換する |
     | `section_tree` | 見出し(`##` `###`)から、タグの木を作り、タグ名の衝突を調べる |
-    | `table_rows` | 表1つ分を、「説明・書き方・数式」の行にする(補正前・補正後は2行に分ける) |
-    | `row_html` | 1行分の `<tr>`(説明 + タグ・書き方・数式)を作る |
+    | `table_rows` | 表1つ分を、「説明・書き方・数式・備考」の行にする(見出し名と空の説明を検査する) |
+    | `row_html` | 1行分の `<tr>`(説明 + タグ・書き方・数式・備考)を作る |
     | `group` | 上部のタグボタン群を、`##` ごとのブロックにして作る |
     | `build` | HTML 全体を組み立てて文字列で返す |
     | `save_html` | HTML の断片を書き出す |
@@ -52,7 +52,7 @@ class TexMD2HTML:
     | セクション | `## …` | 各行のタグ(バッジ・絞り込みボタン) |
     | 小セクション | `### …`(`##` の下) | 各行のタグ(親の `##` のタグも付く) |
     | 段落 | 見出しでも表でもない行(連続する行は1段落) | 表の上の注記(「`##` の名前: 本文」) |
-    | 表 | `\\| … \\|` の行(2行目は `\\| --- \\|`) | **すべて1つの表**にまとめる(列は 説明・書き方・数式)。本文の1行が、絞り込み・検索の1件 |
+    | 表 | `\\| … \\|` の行(2行目は `\\| --- \\|`) | **すべて1つの表**にまとめる(列は 説明・書き方・数式・備考)。本文の1行が、絞り込み・検索の1件 |
     | `` `…` `` | セル・段落の中 | `<code>`(中身はエスケープ) |
     | `**…**` | セル・段落の中 | `<strong>` |
     | `<div class="texClass">…</div>` | セルの中 | そのまま残す(中身の LaTeX はエスケープ。貼り付け先のページが数式にする) |
@@ -63,7 +63,9 @@ class TexMD2HTML:
     | 条件 | 理由 |
     |---|---|
     | `##` より前に `###` や表がある | タグが決まらない |
+    | 表の見出し行が `説明` `書き方` `数式` `備考` の4つ(順不同)でない | 列の役割が決まらない |
     | 表の本文行のセル数が、見出し行と違う | 列がずれる |
+    | 説明が空の行がある | 何の行か分からなくなる(`説明` は必須。`書き方` `数式` `備考` は空でもよい) |
     | 表の2行目が `\\| --- \\|` の区切り行でない | 表として読めない |
     | 同じ名前のタグが2か所にある | 1つのタグが2か所に出て、どちらか分からなくなる |
     | `#` が2つ以上ある | タイトルが決まらない |
@@ -93,27 +95,15 @@ class TexMD2HTML:
 
     # ## 表の列の役割(`table_rows` が使う)
     #
-    # | 役割 | 出力先 | 見出し名 |
-    # |---|---|---|
-    # | `code` | 「書き方」列 | `書き方` `コマンド` |
-    # | `math` | 「数式」列 | `数式` |
-    # | `desc` | 「説明」列(2つ目以降は「見出し名: 」を付ける) | `幅` `働き` `主な用途` `症状` |
-    ROLE = {
-        "書き方": "code", "コマンド": "code",
-        "数式": "math",
-        "幅": "desc", "働き": "desc", "主な用途": "desc", "症状": "desc",
-    }
-
-    # ## 1行を2行に分ける表(補正前・補正後)
+    # 見出し名は、すべての表で同じ4つを使う。列の並びは自由(見出し名で役割を決める)。
     #
-    # | キー(行の名前) | 値の1つ目(書き方の列) | 値の2つ目(数式の列) |
-    # |---|---|---|
-    # | `補正前` | `補正前` | `None`(書き方から数式を自動で作る) |
-    # | `補正後` | `補正後` | `補正後の数式` |
-    SPLIT = {
-        "補正前": ("補正前", None),
-        "補正後": ("補正後", "補正後の数式"),
-    }
+    # | 見出し名 | 役割 | 出力先 | 空にできるか |
+    # |---|---|---|---|
+    # | `説明` | `desc` | 1列目(`th.name`)。何の記法か・どんな症状かを書く | できない |
+    # | `書き方` | `code` | 「書き方」列 | できる |
+    # | `数式` | `math` | 「数式」列(`<div class="texClass">…</div>`) | できる |
+    # | `備考` | `note` | 「備考」列。補正のポイント・使い方の注意を書く | できる |
+    ROLE = {"説明": "desc", "書き方": "code", "数式": "math", "備考": "note"}
 
     # ## 出力の改行コード
     #
@@ -377,9 +367,9 @@ __FRAGMENT__
 
     def table_rows(self, blk):
         """
-        ## 表1つ分を、「説明・書き方・数式」の行のリストにする
+        ## 表1つ分を、「説明・書き方・数式・備考」の行のリストにする
 
-        列の役割は `ROLE` で決める。`SPLIT` に当てはまる表(補正前・補正後)は、1行を2行に分ける。
+        列の役割は `ROLE` で決める(見出し名で決めるので、列の並びは自由)。
 
         | 引数 | 型 | 説明 |
         |---|---|---|
@@ -387,46 +377,33 @@ __FRAGMENT__
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | 行のリスト | `list[tuple[list, str, str]]` | (説明の部品のリスト `[(見出し名 または None, Markdown)]`, 書き方, 数式)。書き方・数式がなければ空文字列 |
+        | 行のリスト | `list[tuple[str, str, str, str]]` | (説明, 書き方, 数式, 備考)。説明以外は、なければ空文字列 |
 
         | 例外 | 条件 |
         |---|---|
-        | `ValueError` | `ROLE` にない見出しがある / 書き方・数式の列が2つ以上ある |
-        | `ValueError` | `SPLIT` の書き方が `` `…` `` 1つだけでなく、数式を自動で作れない |
+        | `ValueError` | `ROLE` にない見出しがある / 同じ役割の列が2つ以上ある / 4つの役割がそろっていない |
+        | `ValueError` | 説明が空の行がある |
         """
-        head = blk.header
-        split = all(code in head for code, _ in self.SPLIT.values())
-        skip = {n for c, m in self.SPLIT.values() for n in (c, m)} if split else set()
-        roles = {}
-        for i, h in enumerate(head):
-            if h in skip:
-                continue
+        pos = {}
+        for i, h in enumerate(blk.header):
             if h not in self.ROLE:
                 raise ValueError(f"tex.md {blk.line}行目: 見出し {h!r} の役割が ROLE にありません")
-            roles[i] = self.ROLE[h]
-        for r in ("code", "math"):
-            if sum(v == r for v in roles.values()) > 1:
-                raise ValueError(f"tex.md {blk.line}行目: {r} の列が2つ以上あります")
-        pick = lambda cells, r: next((cells[i] for i, v in roles.items() if v == r), "")
+            role = self.ROLE[h]
+            if role in pos:
+                raise ValueError(f"tex.md {blk.line}行目: {h!r} の列が2つ以上あります")
+            pos[role] = i
+        missing = [h for h, r in self.ROLE.items() if r not in pos]
+        if missing:
+            raise ValueError(f"tex.md {blk.line}行目: 見出しに {missing} がありません")
         out = []
         for no, cells in blk.rows:
-            desc = [(head[i], cells[i]) for i, v in roles.items() if v == "desc" and cells[i]]
-            if not split:
-                out.append((desc, pick(cells, "code"), pick(cells, "math")))
-                continue
-            for label, (ch, mh) in self.SPLIT.items():
-                code = cells[head.index(ch)]
-                if mh:
-                    math = cells[head.index(mh)]
-                else:
-                    m = re.fullmatch(r"`+(.+?)`+", code.strip())
-                    if not m:
-                        raise ValueError(f"tex.md {no}行目: {ch} が `…` 1つではなく、数式を作れません")
-                    math = f'<div class="texClass">{m.group(1)}</div>'
-                out.append((desc + [(None, f"**{label}**")], code, math))
+            desc, code, math, note = (cells[pos[r]] for r in ("desc", "code", "math", "note"))
+            if not desc:
+                raise ValueError(f"tex.md {no}行目: 説明が空です")
+            out.append((desc, code, math, note))
         return out
 
-    def row_html(self, desc, code, math, tags):
+    def row_html(self, desc, code, math, note, tags):
         """
         ## 1行分の `<tr>` を作る
 
@@ -436,31 +413,29 @@ __FRAGMENT__
 
         | 引数 | 型 | 説明 |
         |---|---|---|
-        | `desc` | `list[tuple[str or None, str]]` | 説明の部品 `(見出し名 または None, Markdown)`。2つ目以降は「見出し名: 」を付ける |
+        | `desc` | `str` | 説明の Markdown |
         | `code` | `str` | 書き方の Markdown(なければ空文字列) |
         | `math` | `str` | 数式のセル(`<div class="texClass">…</div>`。なければ空文字列) |
+        | `note` | `str` | 備考の Markdown(なければ空文字列) |
         | `tags` | `list[str]` | この行のタグ(`##` と、あれば `###`) |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | HTML | `str` | `<tr>…</tr>` |
+        | HTML | `str` | `<tr>…</tr>`(セルが空のときは `—` を出す) |
         """
         esc = html.escape
         fix = lambda t: t if t else '<span class="text-body-tertiary">—</span>'
-        lines = []
-        for k, (h, t) in enumerate(desc):
-            label = f'<span class="text-body-secondary">{esc(h)}: </span>' if (k and h) else ""
-            lines.append(label + self.inline(t))
         badges = "".join(
             f'<button type="button" class="tag badge text-bg-secondary" data-tag="{esc(t)}">{esc(t)}</button>'
             for t in tags
         )
-        text = " ".join(dict.fromkeys(self.plain(x) for x in [t for _, t in desc] + [code, math] + tags if x))
+        text = " ".join(dict.fromkeys(self.plain(x) for x in [desc, code, math, note] + tags if x))
         return (
             f'                <tr data-tags="{esc("|".join(tags))}" data-text="{esc(text)}">\n'
-            f'                    <th scope="row" class="name">{"<br>".join(lines)}<div class="tags">{badges}</div></th>\n'
+            f'                    <th scope="row" class="name">{self.inline(desc)}<div class="tags">{badges}</div></th>\n'
             f"                    <td>{fix(self.inline(code))}</td>\n"
             f"                    <td>{fix(self.inline(math))}</td>\n"
+            f"                    <td>{fix(self.inline(note))}</td>\n"
             f"                </tr>"
         )
 
@@ -522,7 +497,7 @@ __FRAGMENT__
         | 属性 | 型 | 説明 |
         |---|---|---|
         | `self.title` | `str` | `#` のタイトル(なければ空文字列) |
-        | `self.rows` | `int` | 表の行の合計(補正前・補正後は2行と数える) |
+        | `self.rows` | `int` | 表の行の合計 |
         | `self.count` | `dict[str, int]` | タグ名 → 該当する行の数 |
         | `self.tree` | `dict[str, list[str]]` | タグの木(`section_tree` の結果) |
         """
@@ -543,8 +518,8 @@ __FRAGMENT__
                 notes.append(f'<div class="small text-body-secondary mb-1">{label}{self.inline(b.text)}</div>')
             else:
                 tags = [top] + ([sub] if sub else [])
-                for desc, code, math in self.table_rows(b):
-                    rows.append(self.row_html(desc, code, math, tags))
+                for desc, code, math, note in self.table_rows(b):
+                    rows.append(self.row_html(desc, code, math, note, tags))
                     for t in tags:
                         count[t] = count.get(t, 0) + 1
 
