@@ -138,7 +138,6 @@
 | --- | --- | --- | --- |
 | 立体(ローマン体) | `\begin{equation} \mathrm{d}x \end{equation}` | <div class="texClass">\begin{equation} \mathrm{d}x \end{equation}</div> | 微分の d や単位など、変数でないものに使う |
 | 太字(ボールド体) | `\begin{equation} \mathbf{A} \end{equation}` | <div class="texClass">\begin{equation} \mathbf{A} \end{equation}</div> | 行列・ベクトルによく使う。ギリシャ文字は太字にならない |
-| 太字(ギリシャ文字も可) | `\begin{equation} \boldsymbol{\alpha} \end{equation}` | <div class="texClass">\begin{equation} \boldsymbol{\alpha} \end{equation}</div> |  |
 | 黒板太字 | `\begin{equation} \mathbb{R} \end{equation}` | <div class="texClass">\begin{equation} \mathbb{R} \end{equation}</div> | 実数 R などの数の集合に使う。大文字のみ |
 | カリグラフィ体 | `\begin{equation} \mathcal{L} \end{equation}` | <div class="texClass">\begin{equation} \mathcal{L} \end{equation}</div> | 大文字のみ |
 | フラクトゥール体(ドイツ文字) | `\begin{equation} \mathfrak{g} \end{equation}` | <div class="texClass">\begin{equation} \mathfrak{g} \end{equation}</div> |  |

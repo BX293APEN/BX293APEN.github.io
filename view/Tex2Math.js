@@ -69,6 +69,14 @@ class Tex2Math {
     static #baseUrl = document.currentScript?.src ?? location.href;
 
     /**
+     * `tex.js` の既定の場所 (`Tex2Math.js` と同じ場所の `tex.js`)。
+     * `TexText2Math` など、同じファイル内の他のクラスが参照する。
+     */
+    static get default_src() {
+        return new URL("tex.js", Tex2Math.#baseUrl).href;
+    }
+
+    /**
      * ## コンストラクタ
      *
      * ### 引数
@@ -186,3 +194,149 @@ class Tex2Math {
 
 // new Tex2Math(document, "/view/tex.js"); // 従来どおりページ全体を変換する場合
 // new Tex2Math("texClass", "/view/tex.js"); // tex.js の場所を指定する場合
+
+
+/**
+ * # TexText2Math
+ *
+ * テキストエリアに書いた Tex 文字列を、数式に変換して表示するクラス。
+ * `createUML.js` の `MermaidUML` に相当する、Tex 版のクラス。
+ * 表示には `Tex2Math` の仕組み (MathJax 4 `tex-chtml`) をそのまま使う。
+ *
+ * ## コンストラクタ引数 (オブジェクト)
+ *
+ * | 引数 | 型 | 既定値 | 説明 |
+ * | --- | --- | --- | --- |
+ * | `texPlace` | `string` | (必須) | 変換結果を表示する要素の ID |
+ * | `texSource` | `string` | (必須) | Tex 文字列を入力する `<textarea>` の ID |
+ * | `src` | `string` | `Tex2Math.js` と同じ場所の `tex.js` | `tex.js` の場所 |
+ * | `live` | `boolean` | `true` | `true` なら入力のたびに自動で変換する |
+ * | `delay` | `number` | `300` | `live` のとき、入力が止まってから変換するまでの待ち時間 (ms) |
+ *
+ * ## 変換のタイミング
+ *
+ * | 操作 | 動作 |
+ * | --- | --- |
+ * | 入力 (`live: true` のとき) | `delay` ミリ秒後に変換する |
+ * | `Ctrl + Enter` / `Cmd + Enter` | すぐに変換する (`Enter` 単独は改行のまま) |
+ * | `draw()` を呼ぶ | すぐに変換する |
+ *
+ * ## 書き方 (MathJax の標準)
+ *
+ * | 種別 | 書き方 |
+ * | --- | --- |
+ * | インライン数式 | `\( ... \)` |
+ * | ディスプレイ数式 | `$$ ... $$` または `\[ ... \]` |
+ * | 環境 (ディスプレイ数式) | `\begin{equation} ... \end{equation}` など。区切り文字は不要 |
+ *
+ * 上のどれにも当てはまらない部分は、ただの文字として表示される。
+ * 改行は表示にも反映される (`white-space: pre-wrap`)。
+ *
+ * ## メンバ変数
+ *
+ * | 名前 | 型 | 説明 |
+ * | --- | --- | --- |
+ * | `place` | `HTMLElement` | 変換結果の表示先 |
+ * | `source` | `HTMLTextAreaElement` | Tex 文字列の入力欄 |
+ * | `src` | `string` | `tex.js` の場所 |
+ * | `delay` | `number` | `live` の待ち時間 (ms) |
+ * | `ready` | `Promise<void>` | 最初の変換が完了すると解決される |
+ *
+ * ## メソッド
+ *
+ * | 名前 | 引数 | 戻り値 | 説明 |
+ * | --- | --- | --- | --- |
+ * | `draw()` | なし | `Promise<void>` | 入力欄の内容を数式に変換して表示する。連続で呼んでも順番に処理される |
+ *
+ * ## 補足
+ *
+ * 入力は `textContent` で表示先に入れるため、`<script>` などを書いても HTML としては解釈されない。
+ *
+ * ## 使用例
+ *
+ * ```html
+ * <textarea id="texSource">\( E = mc^2 \)</textarea>
+ * <div id="texPlace"></div>
+ * <script src="Tex2Math.js"></script>
+ * <script>
+ *     new TexText2Math({ texPlace: "texPlace", texSource: "texSource" });
+ * </script>
+ * ```
+ */
+class TexText2Math {
+    /**
+     * ## 内部状態
+     *
+     * | 名前 | 型 | 説明 |
+     * | --- | --- | --- |
+     * | `#queue` | `Promise<void>` | 変換の待ち行列。変換が重ならないよう、前の変換が終わってから次を始める |
+     * | `#timer` | `number \| null` | `live` の待ち時間のタイマー ID |
+     */
+    #queue = Promise.resolve();
+    #timer = null;
+
+    constructor (
+        {
+            texPlace,
+            texSource,
+            src   = Tex2Math.default_src,
+            live  = true,
+            delay = 300
+        } = {}
+    ){
+        this.place  = document.getElementById(texPlace);
+        this.source = document.getElementById(texSource);
+        if (!this.place || !this.source) {
+            throw new Error(`TexText2Math: ID "${texPlace}" または "${texSource}" の要素が見つかりません`);
+        }
+        this.src   = src;
+        this.delay = delay;
+
+        // 入力欄の改行を表示にも反映する (指定済みなら上書きしない)
+        this.place.style.whiteSpace = this.place.style.whiteSpace || "pre-wrap";
+
+        this.source.addEventListener(
+            "keydown", (e) => {
+                if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    clearTimeout(this.#timer);
+                    this.draw();
+                }
+            }
+        );
+        if (live) {
+            this.source.addEventListener(
+                "input", () => {
+                    clearTimeout(this.#timer);
+                    this.#timer = setTimeout(() => this.draw(), this.delay);
+                }
+            );
+        }
+
+        this.ready = this.draw();
+    }
+
+    /**
+     * ## 入力欄の内容を数式に変換して表示する
+     *
+     * 呼ばれた順に1つずつ処理する。失敗してもコンソールに出すだけで、次の変換は続けられる。
+     *
+     * @returns {Promise<void>}
+     */
+    draw() {
+        this.#queue = this.#queue
+            .then(() => this.#render())
+            .catch((err) => console.error("TexText2Math: 変換に失敗しました:", err));
+        return this.#queue;
+    }
+
+    async #render() {
+        await Tex2Math.load_script(this.src);
+        const mj = window.MathJax;
+        mj.typesetClear([this.place]);              // 前回の変換結果の管理情報を捨てる
+        this.place.textContent = this.source.value; // 元の Tex 文字列に戻してから変換する
+        await mj.typesetPromise([this.place]);
+    }
+}
+
+// new TexText2Math({ texPlace: "texPlace", texSource: "texSource" });

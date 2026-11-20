@@ -31,7 +31,31 @@
         <div class ="mx-1 g-5 pt-4 ps-4">
             <main>
                 <div class = "row">
-                    <div id="tex" class ="col-md-8 pt-4"></div>
+                    <div class ="col-md-8 pt-4">
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold">
+                                LaTeX 数式入力
+                            </h2>
+                            <div class="row featurette">
+                                <div class="col-md-7 order-md-2">
+                                    <textarea id="texSource" rows = "12">
+\begin{equation} x^{2} \end{equation}
+                                    </textarea>
+                        
+                                </div>
+                    
+                                <div class="col-md-5 order-md-1">
+                                    <div class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <div id="texPlace"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="blog-post">
+                            <div id="tex"></div>
+                        </article>
+                        
+                    </div>
 
                     <div class="col-md-4">
                         <div class="position-sticky" style="top: 2rem;">
@@ -110,7 +134,15 @@
                 () => {
                     setTimeout(
                         () => {
+                            new TexText2Math(
+                                { 
+                                    texPlace: "texPlace", 
+                                    texSource: "texSource", 
+                                    src: "/view/tex.js",
+                                }
+                            );
                             new Tex2Math("texClass", "/view/tex.js");
+                            
                         },
                         300
                     );
