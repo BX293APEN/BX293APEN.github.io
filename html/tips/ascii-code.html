@@ -288,7 +288,9 @@
             </main>
         </div>
     </body>
-    <footer class="container border-top" id="footer-contents"> <!-- FOOTER -->
+    <footer class="container border-top"> <!-- FOOTER -->
+        <div id="pagination"></div>
+        <div id="footer-contents"></div>
         <script src="/view/bootstrap.bundle.min.js"></script>
         <script src="/view/search.js"></script>
         <script src="/view/embeddedHTML.js"></script>
@@ -297,9 +299,10 @@
         <script src="/view/tips/tips.js"></script>
         <script src="/view/createTable.js"></script>
         <script src="/view/md.js"></script>
+        <script src="/view/pagination.js"></script>
 
         <script>
-            createTable("ascii", asciiTable, true);
+            createTable("ascii", asciiModel.asciiTable, true);
             hljs.highlightAll();
             embedded_html("/template/styleConfig.html", "styleList");
             embedded_html("/template/header.html", "header-contents");
@@ -319,6 +322,7 @@
                     id              = mdID,
                 )
             }
+            new Pagination(1, asciiModel.page, "pagination");
         </script>
     </footer>
 </html>

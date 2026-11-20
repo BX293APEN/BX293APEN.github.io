@@ -1,0 +1,723 @@
+<div id="tex-app" class="py-3">
+    <h1 class="h4 mb-3">LaTeX 書き方一覧</h1>
+
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input id="tex-q" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+        </div>
+        <div class="col-md-6 d-flex align-items-center gap-2">
+            <span id="tex-count" class="small text-body-secondary"></span>
+            <button id="tex-clear" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+        </div>
+    </div>
+
+    <div class="mb-2 pb-4">
+        <div class="pt-3">
+            <div class="me-1">セクション</div>
+            <div>
+                <div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="基本">基本 <span class="badge text-bg-light">11</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="総和・積分・極限">総和・積分・極限 <span class="badge text-bg-light">9</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="括弧">括弧 <span class="badge text-bg-light">10</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="ギリシャ文字">ギリシャ文字 <span class="badge text-bg-light">7</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="演算子・関係記号">演算子・関係記号 <span class="badge text-bg-light">18</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="矢印">矢印 <span class="badge text-bg-light">6</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等） <span class="badge text-bg-light">13</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="フォント">フォント <span class="badge text-bg-light">7</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="関数名">関数名 <span class="badge text-bg-light">7</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="行列・場合分け・複数行">行列・場合分け・複数行 <span class="badge text-bg-light">5</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="空白">空白 <span class="badge text-bg-light">7</span></button></div>
+<div class="d-inline-block align-top me-3 mb-2"><button type="button" class="btn btn-sm btn-outline-primary fw-bold" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正 <span class="badge text-bg-light">35</span></button><br><button type="button" class="btn btn-sm btn-outline-primary" data-tag="補正用コマンド">補正用コマンド <span class="badge text-bg-light">9</span></button> <button type="button" class="btn btn-sm btn-outline-primary" data-tag="症状別の補正例">症状別の補正例 <span class="badge text-bg-light">26</span></button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="small text-body-secondary mb-1"><b>ルート・バーのずれ補正</b>: 文字の高さ（ascender / descender の有無）によって、根号や上線の高さ・形が変わってしまうことがある。<br>下表のコマンドで見えない支柱（phantom）を入れると高さが揃う。</div>
+
+    <div class="scroller">
+        <table class="table-nostriped">
+            <thead>
+                <tr class="r1">
+                    <th class="name">説明</th>
+                    <th>書き方</th><th>数式</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-tags="基本" data-text="\begin{equation} x^{2} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} x^{2} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} x^{2} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} x_{i} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} x_{i} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} x_{i} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} x_{i}^{2} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} x_{i}^{2} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} x_{i}^{2} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} e^{-x^{2}} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} e^{-x^{2}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} e^{-x^{2}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} \frac{a}{b} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} \frac{a}{b} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \frac{a}{b} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} \dfrac{a}{b} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} \dfrac{a}{b} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \dfrac{a}{b} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} \tfrac{a}{b} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} \tfrac{a}{b} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \tfrac{a}{b} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} \sqrt{x} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} \sqrt{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} \sqrt[3]{x} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} \sqrt[3]{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt[3]{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} \sqrt{x^{2}+y^{2}} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} \sqrt{x^{2}+y^{2}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{x^{2}+y^{2}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="基本" data-text="\begin{equation} \binom{n}{k} \end{equation} 基本">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="基本">基本</button></div></th>
+                    <td><code>\begin{equation} \binom{n}{k} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \binom{n}{k} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \sum_{i=1}^{n} a_i \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \sum_{i=1}^{n} a_i \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sum_{i=1}^{n} a_i \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \prod_{i=1}^{n} a_i \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \prod_{i=1}^{n} a_i \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \prod_{i=1}^{n} a_i \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \int_{a}^{b} f(x)\,dx \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \int_{a}^{b} f(x)\,dx \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \int_{a}^{b} f(x)\,dx \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \iint_{D} f\,dA \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \iint_{D} f\,dA \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \iint_{D} f\,dA \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \oint_{C} \vec{F}\cdot d\vec{r} \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \oint_{C} \vec{F}\cdot d\vec{r} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \oint_{C} \vec{F}\cdot d\vec{r} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \lim_{x \to 0} \frac{\sin x}{x} \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \lim_{x \to 0} \frac{\sin x}{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \lim_{x \to 0} \frac{\sin x}{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \frac{d}{dx} f(x) \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \frac{d}{dx} f(x) \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \frac{d}{dx} f(x) \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \frac{\partial f}{\partial x} \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \frac{\partial f}{\partial x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \frac{\partial f}{\partial x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="総和・積分・極限" data-text="\begin{equation} \nabla f \end{equation} 総和・積分・極限">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="総和・積分・極限">総和・積分・極限</button></div></th>
+                    <td><code>\begin{equation} \nabla f \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \nabla f \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \left( \frac{a}{b} \right) \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \left( \frac{a}{b} \right) \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \left( \frac{a}{b} \right) \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \left[ \frac{a}{b} \right] \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \left[ \frac{a}{b} \right] \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \left[ \frac{a}{b} \right] \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \left\{ \frac{a}{b} \right\} \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \left\{ \frac{a}{b} \right\} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \left\{ \frac{a}{b} \right\} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \lvert x \rvert \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \lvert x \rvert \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \lvert x \rvert \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \lVert x \rVert \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \lVert x \rVert \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \lVert x \rVert \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \langle x, y \rangle \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \langle x, y \rangle \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \langle x, y \rangle \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \lfloor x \rfloor \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \lfloor x \rfloor \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \lfloor x \rfloor \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \lceil x \rceil \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \lceil x \rceil \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \lceil x \rceil \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \bigl( x \bigr) \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \bigl( x \bigr) \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \bigl( x \bigr) \end{equation}</div></td>
+                </tr>
+                <tr data-tags="括弧" data-text="\begin{equation} \Bigl( x \Bigr) \end{equation} 括弧">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="括弧">括弧</button></div></th>
+                    <td><code>\begin{equation} \Bigl( x \Bigr) \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \Bigl( x \Bigr) \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ギリシャ文字" data-text="\begin{equation} \alpha \beta \gamma \delta \end{equation} ギリシャ文字">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ギリシャ文字">ギリシャ文字</button></div></th>
+                    <td><code>\begin{equation} \alpha \beta \gamma \delta \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \alpha \beta \gamma \delta \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ギリシャ文字" data-text="\begin{equation} \epsilon \varepsilon \zeta \eta \end{equation} ギリシャ文字">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ギリシャ文字">ギリシャ文字</button></div></th>
+                    <td><code>\begin{equation} \epsilon \varepsilon \zeta \eta \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \epsilon \varepsilon \zeta \eta \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ギリシャ文字" data-text="\begin{equation} \theta \vartheta \lambda \mu \end{equation} ギリシャ文字">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ギリシャ文字">ギリシャ文字</button></div></th>
+                    <td><code>\begin{equation} \theta \vartheta \lambda \mu \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \theta \vartheta \lambda \mu \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ギリシャ文字" data-text="\begin{equation} \pi \rho \sigma \tau \end{equation} ギリシャ文字">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ギリシャ文字">ギリシャ文字</button></div></th>
+                    <td><code>\begin{equation} \pi \rho \sigma \tau \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \pi \rho \sigma \tau \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ギリシャ文字" data-text="\begin{equation} \phi \varphi \chi \psi \omega \end{equation} ギリシャ文字">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ギリシャ文字">ギリシャ文字</button></div></th>
+                    <td><code>\begin{equation} \phi \varphi \chi \psi \omega \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \phi \varphi \chi \psi \omega \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ギリシャ文字" data-text="\begin{equation} \Gamma \Delta \Theta \Lambda \end{equation} ギリシャ文字">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ギリシャ文字">ギリシャ文字</button></div></th>
+                    <td><code>\begin{equation} \Gamma \Delta \Theta \Lambda \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \Gamma \Delta \Theta \Lambda \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ギリシャ文字" data-text="\begin{equation} \Pi \Sigma \Phi \Psi \Omega \end{equation} ギリシャ文字">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ギリシャ文字">ギリシャ文字</button></div></th>
+                    <td><code>\begin{equation} \Pi \Sigma \Phi \Psi \Omega \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \Pi \Sigma \Phi \Psi \Omega \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \pm b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \pm b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \pm b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \times b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \times b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \times b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \cdot b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \cdot b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \cdot b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \div b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \div b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \div b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \leq b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \leq b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \leq b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \geq b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \geq b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \geq b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \neq b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \neq b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \neq b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \approx b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \approx b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \approx b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \equiv b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \equiv b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \equiv b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \propto b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \propto b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \propto b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \ll b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \ll b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \ll b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} a \gg b \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} a \gg b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a \gg b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} x \in A \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} x \in A \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} x \in A \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} A \subset B \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} A \subset B \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} A \subset B \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} A \cup B \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} A \cup B \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} A \cup B \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} A \cap B \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} A \cap B \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} A \cap B \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} \forall x \exists y \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} \forall x \exists y \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \forall x \exists y \end{equation}</div></td>
+                </tr>
+                <tr data-tags="演算子・関係記号" data-text="\begin{equation} \infty \end{equation} 演算子・関係記号">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="演算子・関係記号">演算子・関係記号</button></div></th>
+                    <td><code>\begin{equation} \infty \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \infty \end{equation}</div></td>
+                </tr>
+                <tr data-tags="矢印" data-text="\begin{equation} \to \end{equation} 矢印">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="矢印">矢印</button></div></th>
+                    <td><code>\begin{equation} \to \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \to \end{equation}</div></td>
+                </tr>
+                <tr data-tags="矢印" data-text="\begin{equation} \rightarrow \end{equation} 矢印">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="矢印">矢印</button></div></th>
+                    <td><code>\begin{equation} \rightarrow \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \rightarrow \end{equation}</div></td>
+                </tr>
+                <tr data-tags="矢印" data-text="\begin{equation} \Rightarrow \end{equation} 矢印">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="矢印">矢印</button></div></th>
+                    <td><code>\begin{equation} \Rightarrow \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \Rightarrow \end{equation}</div></td>
+                </tr>
+                <tr data-tags="矢印" data-text="\begin{equation} \Leftrightarrow \end{equation} 矢印">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="矢印">矢印</button></div></th>
+                    <td><code>\begin{equation} \Leftrightarrow \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \Leftrightarrow \end{equation}</div></td>
+                </tr>
+                <tr data-tags="矢印" data-text="\begin{equation} \mapsto \end{equation} 矢印">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="矢印">矢印</button></div></th>
+                    <td><code>\begin{equation} \mapsto \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \mapsto \end{equation}</div></td>
+                </tr>
+                <tr data-tags="矢印" data-text="\begin{equation} \xrightarrow{f} \end{equation} 矢印">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="矢印">矢印</button></div></th>
+                    <td><code>\begin{equation} \xrightarrow{f} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \xrightarrow{f} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \bar{x} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \bar{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \bar{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \overline{xy} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \overline{xy} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{xy} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \underline{xy} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \underline{xy} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \underline{xy} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \hat{x} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \hat{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \hat{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \widehat{xyz} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \widehat{xyz} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \widehat{xyz} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \tilde{x} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \tilde{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \tilde{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \widetilde{xyz} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \widetilde{xyz} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \widetilde{xyz} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \vec{v} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \vec{v} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \vec{v} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \overrightarrow{AB} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \overrightarrow{AB} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overrightarrow{AB} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \dot{x} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \dot{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \dot{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \ddot{x} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \ddot{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \ddot{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \overbrace{a+b+c}^{3} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \overbrace{a+b+c}^{3} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overbrace{a+b+c}^{3} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="装飾（バー・ハット・ベクトル等）" data-text="\begin{equation} \underbrace{a+b+c}_{3} \end{equation} 装飾（バー・ハット・ベクトル等）">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="装飾（バー・ハット・ベクトル等）">装飾（バー・ハット・ベクトル等）</button></div></th>
+                    <td><code>\begin{equation} \underbrace{a+b+c}_{3} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \underbrace{a+b+c}_{3} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="フォント" data-text="\begin{equation} \mathrm{d}x \end{equation} フォント">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="フォント">フォント</button></div></th>
+                    <td><code>\begin{equation} \mathrm{d}x \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \mathrm{d}x \end{equation}</div></td>
+                </tr>
+                <tr data-tags="フォント" data-text="\begin{equation} \mathbf{A} \end{equation} フォント">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="フォント">フォント</button></div></th>
+                    <td><code>\begin{equation} \mathbf{A} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \mathbf{A} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="フォント" data-text="\begin{equation} \boldsymbol{\alpha} \end{equation} フォント">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="フォント">フォント</button></div></th>
+                    <td><code>\begin{equation} \boldsymbol{\alpha} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \boldsymbol{\alpha} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="フォント" data-text="\begin{equation} \mathbb{R} \end{equation} フォント">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="フォント">フォント</button></div></th>
+                    <td><code>\begin{equation} \mathbb{R} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \mathbb{R} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="フォント" data-text="\begin{equation} \mathcal{L} \end{equation} フォント">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="フォント">フォント</button></div></th>
+                    <td><code>\begin{equation} \mathcal{L} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \mathcal{L} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="フォント" data-text="\begin{equation} \mathfrak{g} \end{equation} フォント">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="フォント">フォント</button></div></th>
+                    <td><code>\begin{equation} \mathfrak{g} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \mathfrak{g} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="フォント" data-text="\begin{equation} \text{if } x &gt; 0 \end{equation} フォント">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="フォント">フォント</button></div></th>
+                    <td><code>\begin{equation} \text{if } x &gt; 0 \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \text{if } x &gt; 0 \end{equation}</div></td>
+                </tr>
+                <tr data-tags="関数名" data-text="\begin{equation} \sin \cos \tan \end{equation} 関数名">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="関数名">関数名</button></div></th>
+                    <td><code>\begin{equation} \sin \cos \tan \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sin \cos \tan \end{equation}</div></td>
+                </tr>
+                <tr data-tags="関数名" data-text="\begin{equation} \log_{2} x \end{equation} 関数名">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="関数名">関数名</button></div></th>
+                    <td><code>\begin{equation} \log_{2} x \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \log_{2} x \end{equation}</div></td>
+                </tr>
+                <tr data-tags="関数名" data-text="\begin{equation} \ln x \end{equation} 関数名">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="関数名">関数名</button></div></th>
+                    <td><code>\begin{equation} \ln x \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \ln x \end{equation}</div></td>
+                </tr>
+                <tr data-tags="関数名" data-text="\begin{equation} \exp(x) \end{equation} 関数名">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="関数名">関数名</button></div></th>
+                    <td><code>\begin{equation} \exp(x) \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \exp(x) \end{equation}</div></td>
+                </tr>
+                <tr data-tags="関数名" data-text="\begin{equation} \max_{x} f(x) \end{equation} 関数名">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="関数名">関数名</button></div></th>
+                    <td><code>\begin{equation} \max_{x} f(x) \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \max_{x} f(x) \end{equation}</div></td>
+                </tr>
+                <tr data-tags="関数名" data-text="\begin{equation} \operatorname{rank} A \end{equation} 関数名">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="関数名">関数名</button></div></th>
+                    <td><code>\begin{equation} \operatorname{rank} A \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \operatorname{rank} A \end{equation}</div></td>
+                </tr>
+                <tr data-tags="関数名" data-text="\begin{equation} \arg\min_{x} f(x) \end{equation} 関数名">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="関数名">関数名</button></div></th>
+                    <td><code>\begin{equation} \arg\min_{x} f(x) \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \arg\min_{x} f(x) \end{equation}</div></td>
+                </tr>
+                <tr data-tags="行列・場合分け・複数行" data-text="\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix} 行列・場合分け・複数行">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="行列・場合分け・複数行">行列・場合分け・複数行</button></div></th>
+                    <td><code>\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}</code></td>
+                    <td><div class="texClass">\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}</div></td>
+                </tr>
+                <tr data-tags="行列・場合分け・複数行" data-text="\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} 行列・場合分け・複数行">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="行列・場合分け・複数行">行列・場合分け・複数行</button></div></th>
+                    <td><code>\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}</code></td>
+                    <td><div class="texClass">\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}</div></td>
+                </tr>
+                <tr data-tags="行列・場合分け・複数行" data-text="\begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix} 行列・場合分け・複数行">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="行列・場合分け・複数行">行列・場合分け・複数行</button></div></th>
+                    <td><code>\begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix}</code></td>
+                    <td><div class="texClass">\begin{vmatrix} a &amp; b \\ c &amp; d \end{vmatrix}</div></td>
+                </tr>
+                <tr data-tags="行列・場合分け・複数行" data-text="f(x)=\begin{cases} 1 &amp; (x&gt;0) \\ 0 &amp; (x\leq 0) \end{cases} 行列・場合分け・複数行">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="行列・場合分け・複数行">行列・場合分け・複数行</button></div></th>
+                    <td><code>f(x)=\begin{cases} 1 &amp; (x&gt;0) \\ 0 &amp; (x\leq 0) \end{cases}</code></td>
+                    <td><div class="texClass">f(x)=\begin{cases} 1 &amp; (x&gt;0) \\ 0 &amp; (x\leq 0) \end{cases}</div></td>
+                </tr>
+                <tr data-tags="行列・場合分け・複数行" data-text="\begin{aligned} a &amp;= b+c \\ &amp;= d \end{aligned} 行列・場合分け・複数行">
+                    <th scope="row" class="name"><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="行列・場合分け・複数行">行列・場合分け・複数行</button></div></th>
+                    <td><code>\begin{aligned} a &amp;= b+c \\ &amp;= d \end{aligned}</code></td>
+                    <td><div class="texClass">\begin{aligned} a &amp;= b+c \\ &amp;= d \end{aligned}</div></td>
+                </tr>
+                <tr data-tags="空白" data-text="細い空白（3/18 em） \begin{equation} a\,b \end{equation} 空白">
+                    <th scope="row" class="name">細い空白（3/18 em）<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="空白">空白</button></div></th>
+                    <td><code>\begin{equation} a\,b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a\,b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="空白" data-text="中間の空白（4/18 em） \begin{equation} a\:b \end{equation} 空白">
+                    <th scope="row" class="name">中間の空白（4/18 em）<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="空白">空白</button></div></th>
+                    <td><code>\begin{equation} a\:b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a\:b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="空白" data-text="太い空白（5/18 em） \begin{equation} a\;b \end{equation} 空白">
+                    <th scope="row" class="name">太い空白（5/18 em）<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="空白">空白</button></div></th>
+                    <td><code>\begin{equation} a\;b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a\;b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="空白" data-text="通常の空白 \begin{equation} a\ b \end{equation} 空白">
+                    <th scope="row" class="name">通常の空白<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="空白">空白</button></div></th>
+                    <td><code>\begin{equation} a\ b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a\ b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="空白" data-text="1 em \begin{equation} a\quad b \end{equation} 空白">
+                    <th scope="row" class="name">1 em<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="空白">空白</button></div></th>
+                    <td><code>\begin{equation} a\quad b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a\quad b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="空白" data-text="2 em \begin{equation} a\qquad b \end{equation} 空白">
+                    <th scope="row" class="name">2 em<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="空白">空白</button></div></th>
+                    <td><code>\begin{equation} a\qquad b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a\qquad b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="空白" data-text="負の空白（-3/18 em） \begin{equation} a\!b \end{equation} 空白">
+                    <th scope="row" class="name">負の空白（-3/18 em）<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="空白">空白</button></div></th>
+                    <td><code>\begin{equation} a\!b \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} a\!b \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="幅 0・高さ／深さは X と同じ見えない箱 根号・上線の高さを揃える \vphantom{X} ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name">幅 0・高さ／深さは <code>X</code> と同じ見えない箱<br><span class="text-body-secondary">主な用途: </span>根号・上線の高さを揃える<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\vphantom{X}</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="高さ 0・幅は X と同じ見えない箱 横幅を揃える \hphantom{X} ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name">高さ 0・幅は <code>X</code> と同じ見えない箱<br><span class="text-body-secondary">主な用途: </span>横幅を揃える<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\hphantom{X}</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="幅・高さ・深さが X と同じ見えない箱 位置合わせ全般 \phantom{X} ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name">幅・高さ・深さが <code>X</code> と同じ見えない箱<br><span class="text-body-secondary">主な用途: </span>位置合わせ全般<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\phantom{X}</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="\vphantom{(} と同じ 根号・上線の高さを標準に揃える \mathstrut ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name"><code>\vphantom{(}</code> と同じ<br><span class="text-body-secondary">主な用途: </span>根号・上線の高さを標準に揃える<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\mathstrut</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="X の高さ・深さを 0 として扱う 根号が大きくなりすぎるのを防ぐ \smash{X} ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name"><code>X</code> の高さ・深さを 0 として扱う<br><span class="text-body-secondary">主な用途: </span>根号が大きくなりすぎるのを防ぐ<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\smash{X}</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="上側の高さだけ 0 にする 上に突き出る文字の影響を消す \smash[t]{X} ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name">上側の高さだけ 0 にする<br><span class="text-body-secondary">主な用途: </span>上に突き出る文字の影響を消す<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\smash[t]{X}</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="下側の深さだけ 0 にする y g p などの下端の影響を消す \smash[b]{X} ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name">下側の深さだけ 0 にする<br><span class="text-body-secondary">主な用途: </span><code>y</code> <code>g</code> <code>p</code> などの下端の影響を消す<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\smash[b]{X}</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="幅 0・高さ h の見えない棒 高さを数値で直接指定する \rule{0pt}{h} ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name">幅 0・高さ <code>h</code> の見えない棒<br><span class="text-body-secondary">主な用途: </span>高さを数値で直接指定する<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\rule{0pt}{h}</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|補正用コマンド" data-text="分数・和などを大きい表示にする 根号内の分数が小さくなるのを防ぐ \displaystyle ルート・バーのずれ補正 補正用コマンド">
+                    <th scope="row" class="name">分数・和などを大きい表示にする<br><span class="text-body-secondary">主な用途: </span>根号内の分数が小さくなるのを防ぐ<div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="補正用コマンド">補正用コマンド</button></div></th>
+                    <td><code>\displaystyle</code></td>
+                    <td><span class="text-body-tertiary">—</span></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号の高さが文字ごとに違う 補正前 \begin{equation} \sqrt{a}\sqrt{b}\sqrt{x} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号の高さが文字ごとに違う<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{a}\sqrt{b}\sqrt{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{a}\sqrt{b}\sqrt{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号の高さが文字ごとに違う 補正後 \begin{equation} \sqrt{\mathstrut a}\sqrt{\mathstrut b}\sqrt{\mathstrut x} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号の高さが文字ごとに違う<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{\mathstrut a}\sqrt{\mathstrut b}\sqrt{\mathstrut x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{\mathstrut a}\sqrt{\mathstrut b}\sqrt{\mathstrut x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号を隣の項と同じ高さにしたい 補正前 \begin{equation} \sqrt{a}+\sqrt{b} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号を隣の項と同じ高さにしたい<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{a}+\sqrt{b} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{a}+\sqrt{b} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号を隣の項と同じ高さにしたい 補正後 \begin{equation} \sqrt{\vphantom{b}a}+\sqrt{b} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号を隣の項と同じ高さにしたい<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{\vphantom{b}a}+\sqrt{b} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{\vphantom{b}a}+\sqrt{b} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="下付き文字で根号が深くなる 補正前 \begin{equation} \sqrt{x_{i}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">下付き文字で根号が深くなる<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{x_{i}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{x_{i}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="下付き文字で根号が深くなる 補正後 \begin{equation} \sqrt{\smash[b]{x_{i}}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">下付き文字で根号が深くなる<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{\smash[b]{x_{i}}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{\smash[b]{x_{i}}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号内の分数が小さい 補正前 \begin{equation} \sqrt{\frac{a}{b}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号内の分数が小さい<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{\frac{a}{b}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{\frac{a}{b}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号内の分数が小さい 補正後 \begin{equation} \sqrt{\dfrac{a}{b}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号内の分数が小さい<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{\dfrac{a}{b}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{\dfrac{a}{b}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号が分数に食い込む 補正前 \begin{equation} \sqrt{\frac{a}{b}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号が分数に食い込む<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{\frac{a}{b}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{\frac{a}{b}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="根号が分数に食い込む 補正後 \begin{equation} \sqrt{\frac{a}{b}\vphantom{\Big\vert}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">根号が分数に食い込む<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \sqrt{\frac{a}{b}\vphantom{\Big\vert}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \sqrt{\frac{a}{b}\vphantom{\Big\vert}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="上線の高さが文字ごとに違う 補正前 \begin{equation} \overline{a}\,\overline{b}\,\overline{x} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">上線の高さが文字ごとに違う<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overline{a}\,\overline{b}\,\overline{x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{a}\,\overline{b}\,\overline{x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="上線の高さが文字ごとに違う 補正後 \begin{equation} \overline{\mathstrut a}\,\overline{\mathstrut b}\,\overline{\mathstrut x} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">上線の高さが文字ごとに違う<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overline{\mathstrut a}\,\overline{\mathstrut b}\,\overline{\mathstrut x} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{\mathstrut a}\,\overline{\mathstrut b}\,\overline{\mathstrut x} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="上線の高さを揃えたい 補正前 \begin{equation} \overline{a}\,\overline{b} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">上線の高さを揃えたい<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overline{a}\,\overline{b} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{a}\,\overline{b} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="上線の高さを揃えたい 補正後 \begin{equation} \overline{\vphantom{b}a}\,\overline{b} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">上線の高さを揃えたい<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overline{\vphantom{b}a}\,\overline{b} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{\vphantom{b}a}\,\overline{b} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="\bar が文字の幅に合わない 補正前 \begin{equation} \bar{AB} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name"><code>\bar</code> が文字の幅に合わない<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \bar{AB} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \bar{AB} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="\bar が文字の幅に合わない 補正後 \begin{equation} \overline{AB} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name"><code>\bar</code> が文字の幅に合わない<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overline{AB} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{AB} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="\bar が文字からずれる（ i や j ） 補正前 \begin{equation} \bar{i} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name"><code>\bar</code> が文字からずれる（<code>i</code> や <code>j</code>）<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \bar{i} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \bar{i} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="\bar が文字からずれる（ i や j ） 補正後 \begin{equation} \overline{\imath} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name"><code>\bar</code> が文字からずれる（<code>i</code> や <code>j</code>）<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overline{\imath} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{\imath} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="\bar が二重のときずれる 補正前 \begin{equation} \bar{\bar{x}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name"><code>\bar</code> が二重のときずれる<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \bar{\bar{x}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \bar{\bar{x}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="\bar が二重のときずれる 補正後 \begin{equation} \overline{\overline{x}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name"><code>\bar</code> が二重のときずれる<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overline{\overline{x}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overline{\overline{x}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="下線の高さが文字ごとに違う 補正前 \begin{equation} \underline{a}\,\underline{y} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">下線の高さが文字ごとに違う<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \underline{a}\,\underline{y} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \underline{a}\,\underline{y} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="下線の高さが文字ごとに違う 補正後 \begin{equation} \underline{\smash[b]{a}}\,\underline{\smash[b]{y}} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">下線の高さが文字ごとに違う<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \underline{\smash[b]{a}}\,\underline{\smash[b]{y}} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \underline{\smash[b]{a}}\,\underline{\smash[b]{y}} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="ハットが大文字で上にずれる 補正前 \begin{equation} \hat{A} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">ハットが大文字で上にずれる<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \hat{A} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \hat{A} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="ハットが大文字で上にずれる 補正後 \begin{equation} \widehat{A} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">ハットが大文字で上にずれる<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \widehat{A} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \widehat{A} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="ベクトル矢印が短い 補正前 \begin{equation} \vec{AB} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">ベクトル矢印が短い<br><strong>補正前</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \vec{AB} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \vec{AB} \end{equation}</div></td>
+                </tr>
+                <tr data-tags="ルート・バーのずれ補正|症状別の補正例" data-text="ベクトル矢印が短い 補正後 \begin{equation} \overrightarrow{AB} \end{equation} ルート・バーのずれ補正 症状別の補正例">
+                    <th scope="row" class="name">ベクトル矢印が短い<br><strong>補正後</strong><div class="tags"><button type="button" class="tag badge text-bg-secondary" data-tag="ルート・バーのずれ補正">ルート・バーのずれ補正</button><button type="button" class="tag badge text-bg-secondary" data-tag="症状別の補正例">症状別の補正例</button></div></th>
+                    <td><code>\begin{equation} \overrightarrow{AB} \end{equation}</code></td>
+                    <td><div class="texClass">\begin{equation} \overrightarrow{AB} \end{equation}</div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
