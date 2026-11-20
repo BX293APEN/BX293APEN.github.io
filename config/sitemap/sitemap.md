@@ -1,6 +1,6 @@
 # sitemap
 
-`model/` 内の JS から抽出した href の一覧 (68 件)。
+`model/` 内の JS から抽出した href の一覧 (70 件)。
 
 | href | 出典 | キー名 | ページ |
 | --- | --- | --- | --- |
@@ -27,11 +27,13 @@
 | /html/tips/appbuild/chromium.html | model/tips/appbuildTips.js:22 | - | 5 |
 | /html/tips/appbuild/jpki.html | model/tips/appbuildTips.js:30 | - | 7 |
 | /html/tips/appbuild/uml.html | model/tips/appbuildTips.js:10 | - | 2 |
+| /html/tips/ascii-code.html | model/tips/ascii.js:140 | - | 1 |
 | /html/tips/ascii-code.html | model/tips/tips.js:68 | asciiCodeTip | 1 |
 | /html/tips/c-lang/EMBEDDED_C.html | model/tips/cTips.js:201 | - | 2 |
 | /html/tips/c-lang/msquic.html | model/tips/cTips.js:205 | - | 3 |
 | /html/tips/c.html | model/tips/cTips.js:197 | - | 1 |
 | /html/tips/c.html | model/tips/tips.js:61 | cTip | 1 |
+| /html/tips/char/tex.html | model/tips/ascii.js:144 | - | 2 |
 | /html/tips/datasheet/electrician.html | model/tips/rn4020Tips.js:10 | - | 2 |
 | /html/tips/docker.html | model/tips/tips.js:96 | dockerTip | 1 |
 | /html/tips/linux.html | model/tips/linuxTips.js:6 | - | 1 |

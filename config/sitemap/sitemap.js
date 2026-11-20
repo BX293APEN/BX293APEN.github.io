@@ -120,6 +120,10 @@ let sitemap = [
         "word" : ["law", "企業", "gov", "簿記", "boki", "bookkeeping"]
     },
     {
+        "href" : "/html/tips/char/tex.html",
+        "word" : ["tex"]
+    },
+    {
         "href" : "/html/tips/appbuild/uml.html",
         "word" : ["uml"]
     },
