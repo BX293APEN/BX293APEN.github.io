@@ -1,0 +1,28 @@
+<div id="__APP_ID__" class="py-3">
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input id="__INPUT_ID__" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+        </div>
+        <div class="col-md-6 d-flex align-items-center gap-2">
+            <span id="__COUNT_ID__" class="small text-body-secondary"></span>
+            <button id="__CLEAR_ID__" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+        </div>
+    </div>
+
+    <div class="clearfix">
+        __FILTERS__
+    </div>
+    <div class="scroller">
+        <table class="table-nostriped">
+            <thead>
+                <tr class="r1">
+                    <th class="name">バージョン</th>
+                    <th>変更点</th><th>認証手順</th><th>暗号スイート</th><th>利用可能暗号形式</th><th>利用状況</th><th>脆弱性・攻撃手法・対策</th><th>規格</th><th>公開年</th>
+                </tr>
+            </thead>
+            <tbody>
+__ROWS__
+            </tbody>
+        </table>
+    </div>
+</div>

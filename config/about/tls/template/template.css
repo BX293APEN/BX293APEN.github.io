@@ -1,0 +1,233 @@
+/*
+# tls.css
+
+TLS バージョン別まとめ表(`#__APP_ID__`)用のスタイル。
+Bootstrap 5.3 を読み込んだページで使う。すべて `#__APP_ID__` 配下にのみ適用される。
+
+## よく変える値
+
+| 項目 | セレクタ | プロパティ | 現在値 | 変更例 |
+|---|---|---|---|---|
+| 表の高さ | `.scroller` | `max-height` | `200vh` | `90vh` |
+| 文字サイズ | `table` | `font-size` | `1rem` | `1.1rem` |
+| 列の幅 | `th, td` | `min-width` | `17rem` | `20rem` |
+| テスト技法列の幅 | `.name` | `min-width` / `max-width` | `15rem` | `16rem`(2つとも同じ値にする) |
+| 固定を外す画面幅 | `@media` | `max-width` | `1024px` | `768px`(スマホ・縦向きタブレットのみにする) |
+*/
+
+
+/* ## 表の外枠とスクロール
+
+`.scroller` が縦横のスクロール領域になる。
+固定(sticky)した見出し・左列は、この領域の中で固定される。
+*/
+#__APP_ID__ .scroller {
+  max-height: 200vh;                              /* 表の高さ(画面の高さに対する割合) */
+  overflow: auto;                                /* 縦横ともスクロール */
+  border: 1px solid var(--bs-border-color);
+}
+
+/* ## 表本体
+
+| プロパティ | 値 | 理由 |
+|---|---|---|
+| `border-collapse` | `separate` | `collapse` のままだと sticky セルの罫線が消えるため |
+| `width` | `max-content` | 列が縮まず、横スクロールになるようにする |
+| `min-width` | `100%` | 列が少ないときも幅いっぱいに広げる |
+| `font-size` | `1rem` | 表全体の文字サイズ |
+*/
+#__APP_ID__ table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ## セル共通
+
+`background` を指定しているのは、sticky セルの下を他のセルが透けて見えないようにするため。
+*/
+#__APP_ID__ th,
+#__APP_ID__ td {
+  padding: .5rem .65rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--bs-border-color);
+  border-right: 1px solid var(--bs-border-color);
+  min-width: 17rem;                              /* 列の幅 */
+  background: var(--bs-body-bg);
+}
+
+/* セル内の箇条書き */
+#__APP_ID__ ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+
+/* ## 固定(sticky)の指定
+
+| 対象 | 固定方向 | `z-index` | 補足 |
+|---|---|---|---|
+| `thead th`(1段目) | 上(`top: 0`) | 3 | |
+| `thead th`(2段目) | 上(1段目の高さの下) | 3 | `--r1h` は JavaScript が1段目の高さから設定する |
+| `.name`(テスト技法の列) | 左(`left: 0`) | 2 | 本文セルより前面に出す |
+| 左上の角(`thead th.name`) | 上・左 | 4 | 見出しにも左列にも隠れないよう最前面にする |
+*/
+#__APP_ID__ thead th {
+  position: sticky;
+  z-index: 3;
+  background: var(--bs-tertiary-bg);
+  font-weight: 600;
+}
+#__APP_ID__ thead tr.r1 th { top: 0; }
+#__APP_ID__ thead tr.r2 th { top: var(--r1h, 2.4rem); }   /* 2.4rem は JavaScript が動くまでの仮の値 */
+
+#__APP_ID__ .name {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 15rem;                              /* テスト技法列の幅(max-width と同じ値にする) */
+  max-width: 15rem;
+  background: var(--bs-body-bg);
+  border-right: 2px solid var(--bs-border-color); /* 固定列の境目を少し太くする */
+}
+#__APP_ID__ thead th.name {
+  z-index: 4;
+  background: var(--bs-tertiary-bg);
+}
+
+/* ## 行のホバー表示
+
+行全体(固定列を含む)の背景を変える。`> *` で `th` と `td` の両方に当てる。
+*/
+#__APP_ID__ tbody tr:hover > * {
+  background: var(--bs-primary-bg-subtle);
+}
+
+
+/* ## 対策3分割の見た目
+
+| 列 | クラス | 見た目 | 中身 |
+|---|---|---|---|
+| ① 初動 | `td.std` | 背景を薄く・文字を灰色 | 分類ごとの標準手順 |
+| ② 調査・根絶 | `td.std` | 同上 | 分類ごとの標準手順 |
+| ③ 再発防止 | `td.own` | 通常表示 | 元の表の「対策サービス・方法」 |
+*/
+#__APP_ID__ td.std {
+  background: var(--bs-tertiary-bg);
+  color: var(--bs-secondary-color);
+}
+
+
+/* ## タグ(バッジ)
+
+| クラス・属性 | 場所 | 説明 |
+|---|---|---|
+| `.tags` | テスト技法セル内 | バッジを並べる入れ物 |
+| `.tag` | テスト技法セル内 | 表中のタグ(`<button>`) |
+| `[data-tag].active` | 上部ボタン・表中タグ | 選択中の状態 |
+*/
+#__APP_ID__ .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .2rem;
+  margin-top: .35rem;
+}
+#__APP_ID__ .tag {
+  border: 0;                                     /* `<button>` の既定の枠線を消す */
+  font-weight: 400;
+  cursor: pointer;
+}
+#__APP_ID__ [data-tag].active {
+  background: var(--bs-primary);
+  color: #fff;
+}
+#__APP_ID__ .tag.active {
+  background: var(--bs-primary) !important;      /* Bootstrap の `.text-bg-secondary` に勝たせる */
+}
+
+
+/* ## スマホ・タブレットでは列を固定しない
+
+PC(マウス操作・広い画面)では、タイトル列(`.name`)を左に固定したままにする。
+スマホ・タブレットでは画面が狭く、固定列が画面の大半を占めて本文が読めなくなるため、
+タイトル列を固定せず、他の列と一緒に横スクロールさせる。
+
+| 条件 | 内容 | 補足 |
+|---|---|---|
+| `max-width: 1024px` | 画面幅が 1024px 以下 | スマホ・タブレット(縦向き・横向き)が対象 |
+| `hover: none` かつ `pointer: coarse` | タッチ操作が主の端末 | 画面が広いタブレットも対象にする |
+
+上の2条件のどちらかに当てはまると適用する。
+
+| 対象 | プロパティ | PC | スマホ・タブレット | 理由 |
+|---|---|---|---|---|
+| `.name` | `position` | `sticky` | `static` | 左固定をやめる |
+| `.name` | `border-right` | `2px` | `1px` | 固定列の境目を強調する必要がなくなるため |
+| `thead th.name` | `position` | `sticky` | `sticky`(上のみ) | 見出し行の上固定は残す(左の固定だけ外す) |
+| `thead th.name` | `left` | `0` | `auto` | 左方向には固定しない |
+| `thead th.name` | `z-index` | `4` | `3` | 左上の角を最前面にする必要がなくなるため |
+
+見出し行の上固定(縦スクロール時)はそのまま残す。
+*/
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+  #__APP_ID__ .name {
+    position: static;                            /* 左固定をやめる */
+    left: auto;
+    z-index: auto;
+    border-right: 1px solid var(--bs-border-color);
+  }
+  #__APP_ID__ thead th.name {
+    position: sticky;                            /* 見出し行の上固定は残す */
+    left: auto;                                  /* 左には固定しない */
+    z-index: 3;                                  /* 他の見出しセルと同じ高さにする */
+  }
+}
+
+
+/* ## 入れ子の表(セルの中の表)と列幅(TLS 用に追加)
+
+テンプレートのままだと、`width: max-content` により長い文が折り返されず列が伸びるため、
+列幅を指定して折り返す。入れ子の表は、見出しの固定(sticky)も外す。
+
+| 対象 | プロパティ | 値 | 理由 |
+|---|---|---|---|
+| トップレベルの列 | `width` | 列ごと(下表) | 長い文を折り返す |
+| `td table` | `width` / `min-width` | `100%` / `0` | セル幅いっぱいに収め、`max-content` で伸びないようにする |
+| `td th` / `td td` | `min-width` | `0` | 入れ子の表では `17rem` を適用しない |
+| `td thead th` | `position` | `static` | 入れ子の見出しを固定しない(固定すると外側の見出しと重なる) |
+
+| 列 | 内容 | 幅 |
+|---|---|---|
+| 2 | 変更点 | `24rem` |
+| 3 | 認証手順 | `24rem` |
+| 4 | 暗号スイート | `24rem` |
+| 5 | 利用可能暗号形式 | `24rem` |
+| 6 | 利用状況 | `10rem` |
+| 7 | 脆弱性・攻撃手法・対策 | `60rem` |
+| 8 | 規格 | `24rem` |
+| 9 | 公開年 | `8rem` |
+*/
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(2),
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(3),
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(4),
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(5),
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(8) { width: 24rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(6) { width: 10rem; min-width: 10rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(7) { width: 60rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(9) { width: 8rem;  min-width: 8rem; }
+
+#__APP_ID__ td table {
+  width: 100%;
+  min-width: 0;
+}
+#__APP_ID__ td th,
+#__APP_ID__ td td {
+  min-width: 0;
+}
+#__APP_ID__ td thead th {
+  position: static;
+  background: var(--bs-tertiary-bg);
+}

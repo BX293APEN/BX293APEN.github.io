@@ -1,24 +1,41 @@
-                            <div class="table-responsive">
-                                <table class="table table-bordered align-top">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th class="text-nowrap">バージョン</th>
-                                                <th>変更点</th>
-                                                <th>認証手順</th>
-                                                <th>暗号スイート</th>
-                                                <th>利用可能暗号形式</th>
-                                                <th class="text-nowrap">利用状況</th>
-                                                <th>脆弱性</th>
-                                                <th>攻撃手法</th>
-                                                <th>対策</th>
-                                                <th>規格</th>
-                                                <th>公開年</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>SSL 1.0</td>
-                                            <td>
+<div id="tls-app" class="py-3">
+    <div class="row g-2 mb-2">
+        <div class="col-md-6">
+            <input id="tls-q" type="search" class="form-control" placeholder="キーワード検索(大文字・小文字・全角半角を区別しません / 空白区切りでAND)">
+        </div>
+        <div class="col-md-6 d-flex align-items-center gap-2">
+            <span id="tls-count" class="small text-body-secondary"></span>
+            <button id="tls-clear" type="button" class="btn btn-sm btn-outline-secondary">絞り込みを解除</button>
+        </div>
+    </div>
+
+    <div class="clearfix">
+        <div class="pt-3 d-flex flex-wrap gap-1 align-items-center mb-1">
+            <label class="me-1" for="tls-version-select">バージョン</label>
+            <select id="tls-version-select" class="form-select form-select-sm w-auto mw-100">
+                <option value="" selected>全て</option>
+                <option value="SSL 1.0">SSL 1.0</option>
+                <option value="SSL 2.0">SSL 2.0</option>
+                <option value="SSL 3.0">SSL 3.0</option>
+                <option value="TLS 1.0">TLS 1.0</option>
+                <option value="TLS 1.1">TLS 1.1</option>
+                <option value="TLS 1.2">TLS 1.2</option>
+                <option value="TLS 1.3">TLS 1.3</option>
+            </select>
+        </div>
+    </div>
+    <div class="scroller">
+        <table class="table-nostriped">
+            <thead>
+                <tr class="r1">
+                    <th class="name">バージョン</th>
+                    <th>変更点</th><th>認証手順</th><th>暗号スイート</th><th>利用可能暗号形式</th><th>利用状況</th><th>脆弱性・攻撃手法・対策</th><th>規格</th><th>公開年</th>
+                </tr>
+            </thead>
+            <tbody>
+        <tr data-tags="SSL 1.0">
+            <th scope="row" class="name">SSL 1.0</th>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 align-top">
                                                     <thead class="table-light">
                                                         <tr>
@@ -37,27 +54,38 @@
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td>
+            <td>
                                                 -
                                             </td>
-                                            <td>
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>(未公開のためなし)</li>
                                                 </ul>
                                             </td>
-                                            <td>
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>(未公開のためなし)</li>
                                                 </ul>
                                             </td>
-                                            <td class="text-center">✖</td>
-                                            <td class="text-nowrap">
+            <td class="text-center">✖</td>
+            <td class="p-0">
+                <table class="table table-sm table-bordered mb-0 align-top sub-vuln">
+                    <thead class="table-light">
+                        <tr><th>脆弱性</th><th>攻撃手法</th><th>対策</th></tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td class="text-nowrap">
                                                 設計段階で重大な欠陥が見つかった<br>
                                                 (データ完全性の保護不足等とされるが、一次資料がなく詳細は不明)
                                             </td>
-                                            <td>未公開のため攻撃事例なし</td>
-                                            <td>公開見送り</td>
-                                            <td>
+                                <td>未公開のため攻撃事例なし</td>
+                                <td>公開見送り</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
                                                         <tr>
@@ -75,11 +103,11 @@
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td>未公開</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="5">SSL 2.0</td>
-                                            <td rowspan="5">
+            <td>未公開</td>
+        </tr>
+        <tr data-tags="SSL 2.0">
+            <th scope="row" class="name">SSL 2.0</th>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 align-top">
                                                     <thead class="table-light">
                                                         <tr>
@@ -98,7 +126,7 @@
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="5">
+            <td>
                                                 <div class="mermaid-source">
 sequenceDiagram
     %%{
@@ -222,10 +250,10 @@ sequenceDiagram
                                                 </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="5">
+            <td>
                                                 <pre><code>SSL_CK_[暗号化方式]_WITH_[ハッシュ関数方式]</code></pre>
                                             </td>
-                                            <td rowspan="5">
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>鍵交換方式
                                                         <table class="table table-sm table-bordered mb-0 w-auto">
@@ -272,11 +300,42 @@ sequenceDiagram
                                                     </li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="5" class="text-center text-nowrap">✖<br>RFC 6176</td>
-                                            <td>ハンドシェイクメッセージが認証されない</td>
-                                            <td>ロールバック攻撃: 中間者が暗号スイート一覧を改ざんし、弱い暗号へ誘導</td>
-                                            <td>SSL 3.0でFinishedメッセージによりハンドシェイク全体を検証</td>
-                                            <td rowspan="5">
+            <td class="text-center text-nowrap">✖<br>RFC 6176</td>
+            <td class="p-0">
+                <table class="table table-sm table-bordered mb-0 align-top sub-vuln">
+                    <thead class="table-light">
+                        <tr><th>脆弱性</th><th>攻撃手法</th><th>対策</th></tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>ハンドシェイクメッセージが認証されない</td>
+                                <td>ロールバック攻撃: 中間者が暗号スイート一覧を改ざんし、弱い暗号へ誘導</td>
+                                <td>SSL 3.0でFinishedメッセージによりハンドシェイク全体を検証</td>
+                            </tr>
+                            <tr>
+                                <td>接続終了が認証されない</td>
+                                <td>トランケーション攻撃: 切断を偽装し、データを途中で切り捨てる</td>
+                                <td>SSL 3.0でclose_notifyアラートを追加</td>
+                            </tr>
+                            <tr>
+                                <td>MACに暗号化鍵と同じ鍵を流用(用途分離なし)</td>
+                                <td>名称のある攻撃は特になし(MAC・鍵管理の強度不足)</td>
+                                <td>SSL 3.0で暗号化鍵とMAC鍵を分離して導出</td>
+                            </tr>
+                            <tr>
+                                <td>輸出規制向けの40ビット鍵が使える</td>
+                                <td class="text-nowrap">総当たり(ブルートフォース)攻撃</td>
+                                <td>128ビット以上の鍵長の暗号スイートのみ許可</td>
+                            </tr>
+                            <tr>
+                                <td>SSL 2.0が有効なサーバが残存</td>
+                                <td>DROWN攻撃(2016年): 同じRSA鍵を使うTLS通信を解読</td>
+                                <td>SSL 2.0を無効化し、SSL 2.0対応サーバとRSA鍵を共有しない</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
                                                         <tr>
@@ -294,31 +353,11 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="5" class="text-nowrap">1995年～2011年</td>
-                                        </tr>
-                                        <tr>
-                                            <td>接続終了が認証されない</td>
-                                            <td>トランケーション攻撃: 切断を偽装し、データを途中で切り捨てる</td>
-                                            <td>SSL 3.0でclose_notifyアラートを追加</td>
-                                        </tr>
-                                        <tr>
-                                            <td>MACに暗号化鍵と同じ鍵を流用(用途分離なし)</td>
-                                            <td>名称のある攻撃は特になし(MAC・鍵管理の強度不足)</td>
-                                            <td>SSL 3.0で暗号化鍵とMAC鍵を分離して導出</td>
-                                        </tr>
-                                        <tr>
-                                            <td>輸出規制向けの40ビット鍵が使える</td>
-                                            <td class="text-nowrap">総当たり(ブルートフォース)攻撃</td>
-                                            <td>128ビット以上の鍵長の暗号スイートのみ許可</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SSL 2.0が有効なサーバが残存</td>
-                                            <td>DROWN攻撃(2016年): 同じRSA鍵を使うTLS通信を解読</td>
-                                            <td>SSL 2.0を無効化し、SSL 2.0対応サーバとRSA鍵を共有しない</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="2">SSL 3.0</td>
-                                            <td rowspan="2">
+            <td class="text-nowrap">1995年～2011年</td>
+        </tr>
+        <tr data-tags="SSL 3.0">
+            <th scope="row" class="name">SSL 3.0</th>
+            <td>
                                                 <p class="text-nowrap">
                                                     SSL 2.0の欠陥を踏まえてほぼ全面的に再設計
                                                 </p>
@@ -343,7 +382,7 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="2">
+            <td>
                                                 <div class="mermaid-source">
 sequenceDiagram
     %%{
@@ -483,7 +522,7 @@ sequenceDiagram
                                                 </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="2">
+            <td>
                                                 <pre><code>SSL_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
                                                 <p>
                                                     ※ RSA鍵交換では署名方式を省略
@@ -493,7 +532,7 @@ sequenceDiagram
                                                 </p>
                                                 <pre><code>SSL_FORTEZZA_KEA_WITH_[暗号化方式]_SHA</code></pre>
                                             </td>
-                                            <td rowspan="2">
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>鍵交換方式
                                                         <table class="table table-sm table-bordered mb-0 w-auto">
@@ -561,11 +600,27 @@ sequenceDiagram
                                                     </li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="2" class="text-center">✖<br>RFC 7568</td>
-                                            <td>CBCのパディング内容がMACで保護されない(MAC-then-Encrypt)</td>
-                                            <td>POODLE攻撃(2014年, CVE-2014-3566): パディングオラクルでCookie等を1バイトずつ復号</td>
-                                            <td>SSL 3.0を無効化し、TLS 1.1以上を利用</td>
-                                            <td rowspan="2">
+            <td class="text-center">✖<br>RFC 7568</td>
+            <td class="p-0">
+                <table class="table table-sm table-bordered mb-0 align-top sub-vuln">
+                    <thead class="table-light">
+                        <tr><th>脆弱性</th><th>攻撃手法</th><th>対策</th></tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>CBCのパディング内容がMACで保護されない(MAC-then-Encrypt)</td>
+                                <td>POODLE攻撃(2014年, CVE-2014-3566): パディングオラクルでCookie等を1バイトずつ復号</td>
+                                <td>SSL 3.0を無効化し、TLS 1.1以上を利用</td>
+                            </tr>
+                            <tr>
+                                <td>バージョンのフォールバックを許容</td>
+                                <td>ダウングレード攻撃: 攻撃者がフォールバックを強制し、SSL 3.0へ落とす</td>
+                                <td>TLS_FALLBACK_SCSV</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
                                                         <tr>
@@ -588,16 +643,11 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="2" class="text-nowrap">1996年～2015年</td>
-                                        </tr>
-                                        <tr>
-                                            <td>バージョンのフォールバックを許容</td>
-                                            <td>ダウングレード攻撃: 攻撃者がフォールバックを強制し、SSL 3.0へ落とす</td>
-                                            <td>TLS_FALLBACK_SCSV</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="3">TLS 1.0</td>
-                                            <td rowspan="3">
+            <td class="text-nowrap">1996年～2015年</td>
+        </tr>
+        <tr data-tags="TLS 1.0">
+            <th scope="row" class="name">TLS 1.0</th>
+            <td>
                                                 <p class="text-nowrap">
                                                     IETFがSSL 3.0をベースに標準化した最初のTLS
                                                 </p>
@@ -625,7 +675,7 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="3">
+            <td>
                                                 <div class="mermaid-source">
 sequenceDiagram
     %%{
@@ -765,13 +815,13 @@ sequenceDiagram
                                                 </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="3">
+            <td>
                                                 <pre><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
                                                 <p>
                                                     ※ RSA鍵交換では署名方式を省略
                                                 </p>
                                             </td>
-                                            <td rowspan="3">
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>鍵交換方式
                                                         <table class="table table-sm table-bordered mb-0 w-auto">
@@ -833,11 +883,32 @@ sequenceDiagram
                                                     </li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="3" class="text-center">✖<br>RFC 8996</td>
-                                            <td>CBCのIVが直前レコードの暗号文末尾ブロック(連鎖IV)で予測可能</td>
-                                            <td>BEAST攻撃(2011年, CVE-2011-3389): 選択平文攻撃でCookie等を復号</td>
-                                            <td>クライアント側の1/n-1レコード分割、TLS 1.1以上(明示的IV)の利用</td>
-                                            <td rowspan="3">
+            <td class="text-center">✖<br>RFC 8996</td>
+            <td class="p-0">
+                <table class="table table-sm table-bordered mb-0 align-top sub-vuln">
+                    <thead class="table-light">
+                        <tr><th>脆弱性</th><th>攻撃手法</th><th>対策</th></tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>CBCのIVが直前レコードの暗号文末尾ブロック(連鎖IV)で予測可能</td>
+                                <td>BEAST攻撃(2011年, CVE-2011-3389): 選択平文攻撃でCookie等を復号</td>
+                                <td>クライアント側の1/n-1レコード分割、TLS 1.1以上(明示的IV)の利用</td>
+                            </tr>
+                            <tr>
+                                <td>パディングエラーの種類がアラートで区別でき、復号の可否が漏れる</td>
+                                <td>パディングオラクル攻撃(Vaudenay)</td>
+                                <td>TLS 1.1でエラーをbad_record_macに統一</td>
+                            </tr>
+                            <tr>
+                                <td>SSL 3.0へのフォールバックを許容</td>
+                                <td>POODLE攻撃(ダウングレード経由)</td>
+                                <td>TLS_FALLBACK_SCSV、SSL 3.0の無効化</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
                                                         <tr>
@@ -895,21 +966,11 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="3" class="text-nowrap">1999年～2021年</td>
-                                        </tr>
-                                        <tr>
-                                            <td>パディングエラーの種類がアラートで区別でき、復号の可否が漏れる</td>
-                                            <td>パディングオラクル攻撃(Vaudenay)</td>
-                                            <td>TLS 1.1でエラーをbad_record_macに統一</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SSL 3.0へのフォールバックを許容</td>
-                                            <td>POODLE攻撃(ダウングレード経由)</td>
-                                            <td>TLS_FALLBACK_SCSV、SSL 3.0の無効化</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="2">TLS 1.1</td>
-                                            <td rowspan="2">
+            <td class="text-nowrap">1999年～2021年</td>
+        </tr>
+        <tr data-tags="TLS 1.1">
+            <th scope="row" class="name">TLS 1.1</th>
+            <td>
                                                 <p>TLS 1.0の小規模な改訂</p>
                                                 <table class="table table-sm table-bordered mb-0 align-top">
                                                     <thead class="table-light">
@@ -940,7 +1001,7 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="2">
+            <td>
                                                 <div class="mermaid-source">
 sequenceDiagram
     %%{
@@ -1080,13 +1141,13 @@ sequenceDiagram
                                                 </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="2">
+            <td>
                                                 <pre><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
                                                 <p>
                                                     ※ RSA鍵交換では署名方式を省略
                                                 </p>
                                             </td>
-                                            <td rowspan="2">
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>鍵交換方式
                                                         <table class="table table-sm table-bordered mb-0 w-auto">
@@ -1148,11 +1209,27 @@ sequenceDiagram
                                                     </li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="2" class="text-center">✖<br>RFC 8996</td>
-                                            <td>MAC-then-Encryptのまま(CBC)</td>
-                                            <td>Lucky13攻撃(2013年): CBCのタイミング攻撃</td>
-                                            <td>実装側の定時間処理、AEAD(TLS 1.2以上)への移行</td>
-                                            <td rowspan="2">
+            <td class="text-center">✖<br>RFC 8996</td>
+            <td class="p-0">
+                <table class="table table-sm table-bordered mb-0 align-top sub-vuln">
+                    <thead class="table-light">
+                        <tr><th>脆弱性</th><th>攻撃手法</th><th>対策</th></tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>MAC-then-Encryptのまま(CBC)</td>
+                                <td>Lucky13攻撃(2013年): CBCのタイミング攻撃</td>
+                                <td>実装側の定時間処理、AEAD(TLS 1.2以上)への移行</td>
+                            </tr>
+                            <tr>
+                                <td>PRFがMD5+SHA-1併用のまま、AEAD未対応</td>
+                                <td>名称のある攻撃は特になし(ハッシュ・暗号の陳腐化リスク)</td>
+                                <td>TLS 1.2でPRFを暗号スイートごとに指定可能にし、AEADに対応</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
                                                         <tr>
@@ -1190,16 +1267,11 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="2" class="text-nowrap">2006年～2021年</td>
-                                        </tr>
-                                        <tr>
-                                            <td>PRFがMD5+SHA-1併用のまま、AEAD未対応</td>
-                                            <td>名称のある攻撃は特になし(ハッシュ・暗号の陳腐化リスク)</td>
-                                            <td>TLS 1.2でPRFを暗号スイートごとに指定可能にし、AEADに対応</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="10">TLS 1.2</td>
-                                            <td rowspan="10">
+            <td class="text-nowrap">2006年～2021年</td>
+        </tr>
+        <tr data-tags="TLS 1.2">
+            <th scope="row" class="name">TLS 1.2</th>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 align-top">
                                                     <thead class="table-light">
                                                         <tr>
@@ -1236,7 +1308,7 @@ sequenceDiagram
                                                     ※ AEAD(GCM / ChaCha20-Poly1305)のハッシュ関数方式はPRF用で、MACは使わない
                                                 </p>
                                             </td>
-                                            <td rowspan="10">
+            <td>
                                                 <div class="mermaid-source">
 sequenceDiagram
     %%{
@@ -1376,7 +1448,7 @@ sequenceDiagram
                                                 </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="10">
+            <td>
                                                 <pre><code>TLS_[鍵交換方式]_[署名方式]_WITH_[暗号化方式]_[ハッシュ関数方式]</code></pre>
                                                 <p>
                                                     ※ RSA鍵交換では署名方式を省略
@@ -1386,7 +1458,7 @@ sequenceDiagram
                                                     </small>
                                                 </p>
                                             </td>
-                                            <td rowspan="10">
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>鍵交換方式
                                                         <table class="table table-sm table-bordered mb-0 w-auto">
@@ -1459,14 +1531,74 @@ sequenceDiagram
                                                     </li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="10" class="text-center">〇</td>
-                                            <td>CBCのMAC-then-Encrypt</td>
-                                            <td>Lucky13攻撃(2013年): CBCのタイミング攻撃</td>
-                                            <td>
+            <td class="text-center">〇</td>
+            <td class="p-0">
+                <table class="table table-sm table-bordered mb-0 align-top sub-vuln">
+                    <thead class="table-light">
+                        <tr><th>脆弱性</th><th>攻撃手法</th><th>対策</th></tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>CBCのMAC-then-Encrypt</td>
+                                <td>Lucky13攻撃(2013年): CBCのタイミング攻撃</td>
+                                <td>
                                                 AEAD(AES-GCM/ChaCha20-Poly1305)のみ許可<br>
                                                 Encrypt-then-MAC拡張
                                             </td>
-                                            <td rowspan="10">
+                            </tr>
+                            <tr>
+                                <td>64ビットブロック暗号(3DES等)の利用</td>
+                                <td>Sweet32攻撃(2016年): 誕生日攻撃で平文を回収</td>
+                                <td>3DESを無効化し、128ビットブロックのAESを使用</td>
+                            </tr>
+                            <tr>
+                                <td>RC4の出力バイアス</td>
+                                <td>統計的な偏りを利用した平文の推測</td>
+                                <td>RC4の使用禁止</td>
+                            </tr>
+                            <tr>
+                                <td>TLS圧縮・HTTP圧縮の併用</td>
+                                <td>CRIME攻撃(2012年, TLS圧縮)、BREACH攻撃(2013年, HTTP圧縮): 圧縮後のサイズの差からCookie等を推測</td>
+                                <td>
+                                                TLS圧縮を無効化<br>
+                                                BREACHは秘密情報を含む応答のHTTP圧縮の回避<br>
+                                                CSRFトークンのリクエストごとのマスク等
+                                            </td>
+                            </tr>
+                            <tr>
+                                <td>再ネゴシエーションが既存の接続と結び付けて検証されない</td>
+                                <td>再ネゴシエーション攻撃(2009年): 中間者が接続の先頭に平文を注入</td>
+                                <td>renegotiation_info拡張</td>
+                            </tr>
+                            <tr>
+                                <td>RSA鍵交換(PKCS#1 v1.5)のパディング検証</td>
+                                <td>ROBOT攻撃(2017年): Bleichenbacher攻撃の再来で、プリマスターシークレットを復号</td>
+                                <td>RSA鍵交換を無効化し、ECDHEのみ許可</td>
+                            </tr>
+                            <tr>
+                                <td>輸出グレードRSA・弱いDHパラメータが残存</td>
+                                <td>FREAK攻撃/Logjam攻撃(2015年): 弱い鍵・パラメータへのダウングレード</td>
+                                <td>輸出グレード暗号の無効化、2048ビット以上のDHパラメータまたはECDHEの利用</td>
+                            </tr>
+                            <tr>
+                                <td>RSA鍵交換では前方秘匿性がない</td>
+                                <td>サーバ秘密鍵の漏洩後、記録済みの過去通信をまとめて復号</td>
+                                <td>ECDHE/DHE暗号スイートのみ許可</td>
+                            </tr>
+                            <tr>
+                                <td>マスターシークレットがハンドシェイク全体と結び付かない</td>
+                                <td>Triple Handshake攻撃(2014年): 異なる接続間でセッション鍵を一致させ、再開・再ネゴシエーション時の認証を悪用</td>
+                                <td>Extended Master Secret拡張</td>
+                            </tr>
+                            <tr>
+                                <td>OpenSSLのHeartbeat拡張の実装バグ(プロトコルの欠陥ではない)</td>
+                                <td>Heartbleed攻撃(2014年, CVE-2014-0160): サーバのメモリ内容(秘密鍵等)が漏洩</td>
+                                <td>OpenSSLの更新、秘密鍵・証明書の再発行</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
                                                         <tr>
@@ -1539,60 +1671,11 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="10">2008年</td>
-                                        </tr>
-                                        <tr>
-                                            <td>64ビットブロック暗号(3DES等)の利用</td>
-                                            <td>Sweet32攻撃(2016年): 誕生日攻撃で平文を回収</td>
-                                            <td>3DESを無効化し、128ビットブロックのAESを使用</td>
-                                        </tr>
-                                        <tr>
-                                            <td>RC4の出力バイアス</td>
-                                            <td>統計的な偏りを利用した平文の推測</td>
-                                            <td>RC4の使用禁止</td>
-                                        </tr>
-                                        <tr>
-                                            <td>TLS圧縮・HTTP圧縮の併用</td>
-                                            <td>CRIME攻撃(2012年, TLS圧縮)、BREACH攻撃(2013年, HTTP圧縮): 圧縮後のサイズの差からCookie等を推測</td>
-                                            <td>
-                                                TLS圧縮を無効化<br>
-                                                BREACHは秘密情報を含む応答のHTTP圧縮の回避<br>
-                                                CSRFトークンのリクエストごとのマスク等
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>再ネゴシエーションが既存の接続と結び付けて検証されない</td>
-                                            <td>再ネゴシエーション攻撃(2009年): 中間者が接続の先頭に平文を注入</td>
-                                            <td>renegotiation_info拡張</td>
-                                        </tr>
-                                        <tr>
-                                            <td>RSA鍵交換(PKCS#1 v1.5)のパディング検証</td>
-                                            <td>ROBOT攻撃(2017年): Bleichenbacher攻撃の再来で、プリマスターシークレットを復号</td>
-                                            <td>RSA鍵交換を無効化し、ECDHEのみ許可</td>
-                                        </tr>
-                                        <tr>
-                                            <td>輸出グレードRSA・弱いDHパラメータが残存</td>
-                                            <td>FREAK攻撃/Logjam攻撃(2015年): 弱い鍵・パラメータへのダウングレード</td>
-                                            <td>輸出グレード暗号の無効化、2048ビット以上のDHパラメータまたはECDHEの利用</td>
-                                        </tr>
-                                        <tr>
-                                            <td>RSA鍵交換では前方秘匿性がない</td>
-                                            <td>サーバ秘密鍵の漏洩後、記録済みの過去通信をまとめて復号</td>
-                                            <td>ECDHE/DHE暗号スイートのみ許可</td>
-                                        </tr>
-                                        <tr>
-                                            <td>マスターシークレットがハンドシェイク全体と結び付かない</td>
-                                            <td>Triple Handshake攻撃(2014年): 異なる接続間でセッション鍵を一致させ、再開・再ネゴシエーション時の認証を悪用</td>
-                                            <td>Extended Master Secret拡張</td>
-                                        </tr>
-                                        <tr>
-                                            <td>OpenSSLのHeartbeat拡張の実装バグ(プロトコルの欠陥ではない)</td>
-                                            <td>Heartbleed攻撃(2014年, CVE-2014-0160): サーバのメモリ内容(秘密鍵等)が漏洩</td>
-                                            <td>OpenSSLの更新、秘密鍵・証明書の再発行</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="4">TLS 1.3</td>
-                                            <td rowspan="4">
+            <td>2008年</td>
+        </tr>
+        <tr data-tags="TLS 1.3">
+            <th scope="row" class="name">TLS 1.3</th>
+            <td>
                                                 <p>
                                                     HTTP/3の基盤であるQUICも、暗号化・鍵交換の仕組みとしてTLS 1.3を内部で利用<br>
                                                     QUICはTLSのレコード層は使わず、ハンドシェイクのみを利用
@@ -1714,7 +1797,7 @@ sequenceDiagram
 
                                                 </table>
                                             </td>
-                                            <td rowspan="4">
+            <td>
                                                 <div class="mermaid-source">
 sequenceDiagram
     %%{
@@ -1860,7 +1943,7 @@ sequenceDiagram
                                                 </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="4">
+            <td>
                                                 <pre><code>TLS_[暗号化方式(AEAD)]_[ハッシュ関数方式(HKDF)]</code></pre>
                                                 <p>
                                                     暗号化方式 : 全てAEAD(認証暗号アルゴリズム)<br>
@@ -1868,7 +1951,7 @@ sequenceDiagram
                                                     <small>※ 鍵交換方式・署名方式は暗号スイートに含まれない</small>
                                                 </p>
                                             </td>
-                                            <td rowspan="4">
+            <td>
                                                 <ul class="mb-0 ps-3">
                                                     <li>鍵交換方式(暗号スイートとは別にネゴシエーション)
                                                         <table class="table table-sm table-bordered mb-0 w-auto">
@@ -1920,18 +2003,50 @@ sequenceDiagram
                                                     </li>
                                                 </ul>
                                             </td>
-                                            <td rowspan="4" class="text-center">〇</td>
-                                            <td>0-RTT(early data)にリプレイ耐性がない</td>
-                                            <td>
+            <td class="text-center">〇</td>
+            <td class="p-0">
+                <table class="table table-sm table-bordered mb-0 align-top sub-vuln">
+                    <thead class="table-light">
+                        <tr><th>脆弱性</th><th>攻撃手法</th><th>対策</th></tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td>0-RTT(early data)にリプレイ耐性がない</td>
+                                <td>
                                                 リプレイ攻撃: <br>
                                                 盗聴したearly dataを再送し、処理を重複実行させる
                                             </td>
-                                            <td>
+                                <td>
                                                 冪等な要求のみ0-RTTで送る<br>
                                                 サーバ側でリプレイ検出(チケットの使い捨て等)<br>
                                                 0-RTTを無効化
                                             </td>
-                                            <td rowspan="4">
+                            </tr>
+                            <tr>
+                                <td>0-RTTのearly dataはPSK由来の鍵で暗号化され、前方秘匿性がない</td>
+                                <td>PSK(チケット鍵)が漏洩すると、記録済みのearly dataを復号</td>
+                                <td>
+                                                機密性の高いデータを0-RTTで送らない<br>
+                                                PSKはDHE併用(psk_dhe_ke)にする
+                                            </td>
+                            </tr>
+                            <tr>
+                                <td>旧バージョン(TLS 1.2以下)にも対応するサーバでのバージョン交渉</td>
+                                <td>ダウングレード攻撃: 旧バージョンへ誘導</td>
+                                <td>
+                                                ServerHello.randomの末尾8バイトに固定値(DOWNGRD + 0x01/0x00)を入れて検知<br>
+                                                バージョンはsupported_versions拡張で決定(legacy_versionは1.2相当で固定)
+                                            </td>
+                            </tr>
+                            <tr>
+                                <td>実装上の脆弱性やサーバ設定の不備</td>
+                                <td>実装バグ・設定ミスを突いた攻撃</td>
+                                <td>修正パッチの適用、設定の見直し</td>
+                            </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
                                                 <table class="table table-sm table-bordered mb-0 w-auto">
                                                     <thead class="table-light">
                                                         <tr>
@@ -1959,30 +2074,9 @@ sequenceDiagram
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td rowspan="4">2018年</td>
-                                        </tr>
-                                        <tr>
-                                            <td>0-RTTのearly dataはPSK由来の鍵で暗号化され、前方秘匿性がない</td>
-                                            <td>PSK(チケット鍵)が漏洩すると、記録済みのearly dataを復号</td>
-                                            <td>
-                                                機密性の高いデータを0-RTTで送らない<br>
-                                                PSKはDHE併用(psk_dhe_ke)にする
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>旧バージョン(TLS 1.2以下)にも対応するサーバでのバージョン交渉</td>
-                                            <td>ダウングレード攻撃: 旧バージョンへ誘導</td>
-                                            <td>
-                                                ServerHello.randomの末尾8バイトに固定値(DOWNGRD + 0x01/0x00)を入れて検知<br>
-                                                バージョンはsupported_versions拡張で決定(legacy_versionは1.2相当で固定)
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>実装上の脆弱性やサーバ設定の不備</td>
-                                            <td>実装バグ・設定ミスを突いた攻撃</td>
-                                            <td>修正パッチの適用、設定の見直し</td>
-                                        </tr>
-                                        </tbody>
-                                </table>
-
-                            </div>
+            <td>2018年</td>
+        </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

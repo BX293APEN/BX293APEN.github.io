@@ -22,6 +22,7 @@
         <link href="/css/about/attack-style.css" rel="stylesheet">
         <link href="/css/about/security-service.css" rel="stylesheet">
         <link href="/css/about/auth-style.css" rel="stylesheet">
+        <link href="/css/about/tls.css" rel="stylesheet">
 
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
@@ -147,7 +148,7 @@
                         </article>
 
                         <article class="blog-post">
-                            <h2 class="pt-3 border-bottom fw-bold">
+                            <h2 class="pt-3 border-bottom fw-bold" id="tls_ssl">
                                 TLS (Transport Layer Security) / SSL (Secure Sockets Layer)
                             </h2>
                             <p>
@@ -618,7 +619,7 @@ sequenceDiagram
                                         <a href="#md-cry">暗号一覧</a>
                                     </li>
                                     <li>
-                                        <a href="#md-tls">TLS/SSL</a>
+                                        <a href="#tls_ssl">TLS/SSL</a>
                                     </li>
                                     <li>
                                         <a href="#sec-service">セキュリティサービス・製品の説明</a>
@@ -797,6 +798,32 @@ sequenceDiagram
             
             new Tex2Math(document, "/view/tex.js");
             embedded_html("/html/about/security/tls.html", "tls-version");
+
+            window.addEventListener(
+                'load',
+                () => {
+                    setTimeout(
+                        () => {
+                            createTableSearch(
+                                {
+                                    appId: 'tls-app',
+                                    inputId: 'tls-q',
+                                    countId: 'tls-count',
+                                    clearId: 'tls-clear',
+                                    scrollerSelector: '.scroller',
+                                    headRowSelector: 'thead tr.r1',
+                                    rowSelector: '.scroller > table > tbody > tr',
+                                    tagAttr: 'data-tag',
+                                    rowTagsAttr: 'data-tags',
+                                    selectId: 'tls-version-select',
+                                }
+                            );
+                        },
+                        300
+                    );
+                }
+            );
+
         </script>
     </footer>
     
