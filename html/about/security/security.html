@@ -365,43 +365,45 @@ sequenceDiagram
     end
 
                             </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-top">
+                                    <thead>
+                                        <tr><th class="text-nowrap">ステップ</th><th>送信者</th><th>受信者</th><th>送信物</th><th>格納場所</th><th>受信後の処理</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>1</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>Destination Connection IDと固定ソルトからInitial鍵を導出する<br>(誰でも計算可能な鍵)</td></tr>
+                                        <tr><td>2</td><td class="text-nowrap">クライアント</td><td>サーバ</td><td>ClientHello<br>対応暗号スイート一覧・Client Random・<code>key_share</code>(ECDHE公開値)・ALPN・<code>quic_transport_parameters</code>拡張等</td><td><code>Initial</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム</td><td>サーバがパケットを受信する<br>(復号はステップ3)</td></tr>
+                                        <tr><td>3</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>Destination Connection IDと固定ソルトからInitial鍵を導出し、ClientHelloを復号・解析する</td></tr>
+                                        <tr><td>4</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>暗号スイートと<code>key_share</code>を選択し、クライアントの<code>key_share</code>とでECDHE共有秘密を算出する<br>共有秘密からHandshake鍵を導出する</td></tr>
+                                        <tr><td>5</td><td>サーバ</td><td class="text-nowrap">クライアント</td><td>ServerHello<br>暗号スイート・Server Random・<code>key_share</code><br>(あわせてClientHelloへの<code>ACK</code>)</td><td><code>Initial</code>パケット(Long Header)内の<code>CRYPTO</code>フレームおよび<code>ACK</code>フレーム</td><td>クライアントがInitial鍵で復号し、選択された暗号スイートとサーバの<code>key_share</code>を取得する</td></tr>
+                                        <tr><td>6</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>サーバの<code>key_share</code>と自身の秘密値からECDHE共有秘密を算出し、Handshake鍵を導出する<br>以降のサーバ→クライアント方向のメッセージはHandshake鍵で復号できる</td></tr>
+                                        <tr><td>7</td><td>サーバ</td><td>クライアント</td><td>EncryptedExtensions<br>ALPN結果・サーバ側<code>quic_transport_parameters</code>等</td><td><code>Handshake</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム<br>(Handshake鍵で暗号化)</td><td>Handshake鍵で復号し、ALPN結果とサーバのQUICトランスポートパラメータを取得する</td></tr>
+                                        <tr><td>8</td><td>サーバ</td><td>クライアント</td><td>Certificate<br>サーバのデジタル証明書(公開鍵を含む)</td><td><code>Handshake</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム</td><td>証明書を保持する<br>(検証はステップ13)</td></tr>
+                                        <tr><td>9</td><td>サーバ</td><td>クライアント</td><td>CertificateVerify<br>秘密鍵によるハンドシェイクのハッシュへの署名</td><td><code>Handshake</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム</td><td>署名を保持する<br>(検証はステップ14)</td></tr>
+                                        <tr><td>10</td><td>サーバ</td><td>クライアント</td><td>Finished(サーバ)<br>ハンドシェイク全体のMAC</td><td><code>Handshake</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム</td><td>MACを保持する<br>(検証はステップ15)</td></tr>
+                                        <tr><td>11</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>ハンドシェイク全体のハッシュからアプリケーション鍵(1-RTT鍵)を導出する<br>以降、サーバは1-RTTデータを送信可能</td></tr>
+                                        <tr><td>12</td><td>サーバ</td><td>クライアント</td><td>Application Data<br>(0.5-RTTデータ)</td><td><code>Short Header</code>パケット内の<code>STREAM</code>フレーム<br>(1-RTT鍵で暗号化)</td><td>クライアントはステップ16で1-RTT鍵を導出後に復号し、アプリケーションへ渡す</td></tr>
+                                        <tr><td>13</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>ステップ8の証明書を検証する<br>有効期限・ホスト名・信頼チェーンを確認する</td></tr>
+                                        <tr><td>14</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>ステップ9の署名を証明書の公開鍵で検証し、サーバが秘密鍵の持ち主であることを確認する</td></tr>
+                                        <tr><td>15</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>ステップ10のMACを検証し、ハンドシェイクに改ざんがないことを確認する</td></tr>
+                                        <tr><td>16</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>ハンドシェイク全体のハッシュからアプリケーション鍵(1-RTT鍵)を導出する<br>以降、クライアントも1-RTTデータを送信可能</td></tr>
+                                        <tr><td>17</td><td>クライアント</td><td>サーバ</td><td>ACK<br>(サーバのInitialパケットの受信確認)</td><td><code>Initial</code>パケット(Long Header)内の<code>ACK</code>フレーム</td><td>サーバがInitialパケットの到達を確認する</td></tr>
+                                        <tr><td>18</td><td>クライアント</td><td>サーバ</td><td>Finished(クライアント)<br>ハンドシェイク全体のMAC<br>(あわせてHandshakeパケットへの<code>ACK</code>)</td><td><code>Handshake</code>パケット(Long Header)内の<code>CRYPTO</code>フレームおよび<code>ACK</code>フレーム<br>(Handshake鍵で暗号化)</td><td>サーバがMACを保持する<br>(検証はステップ20)<br>ここまでで往復1回(1-RTT)</td></tr>
+                                        <tr><td>19</td><td>クライアント</td><td>サーバ</td><td>Application Data</td><td><code>Short Header</code>パケット内の<code>STREAM</code>フレーム<br>(1-RTT鍵で暗号化)</td><td>サーバが1-RTT鍵で復号し、アプリケーションへ渡す</td></tr>
+                                        <tr><td>20</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>ステップ18のMACを検証し、相互にハンドシェイクを確認する</td></tr>
+                                        <tr><td>21</td><td>サーバ</td><td>クライアント</td><td>HANDSHAKE_DONE<br>ハンドシェイク完了の通知</td><td><code>Short Header</code>パケット内の<code>HANDSHAKE_DONE</code>フレーム</td><td>クライアントがハンドシェイク完了を認識する</td></tr>
+                                        <tr><td>22</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>Initial鍵・Handshake鍵を破棄する</td></tr>
+                                        <tr><td>23</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>Initial鍵・Handshake鍵を破棄する</td></tr>
+                                        <tr><td>24</td><td>サーバ</td><td>クライアント</td><td>NewSessionTicket<br>再開用チケット(次回接続で0-RTTを可能にする)</td><td><code>Short Header</code>パケット内の<code>CRYPTO</code>フレーム</td><td>チケットを保存し、次回接続の再開(0-RTT)に利用する</td></tr>
+                                        <tr><td>25</td><td>クライアント</td><td>サーバ</td><td>Application Data</td><td><code>Short Header</code>パケット内の<code>STREAM</code>フレーム<br>(1-RTT鍵で暗号化)</td><td>サーバが1-RTT鍵で復号し、アプリケーションへ渡す</td></tr>
+                                        <tr><td>26</td><td>サーバ</td><td>クライアント</td><td>Application Data</td><td><code>Short Header</code>パケット内の<code>STREAM</code>フレーム<br>(1-RTT鍵で暗号化)</td><td>クライアントが1-RTT鍵で復号し、アプリケーションへ渡す</td></tr>
+                                        <tr><td>27</td><td>クライアント</td><td>サーバ</td><td>CONNECTION_CLOSE<br>エラーコード・理由</td><td><code>Short Header</code>パケット内の<code>CONNECTION_CLOSE</code>フレーム</td><td>サーバが切断要求を受信する</td></tr>
+                                        <tr><td>28</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>closing状態へ移行し、遅延パケット対策として一定時間待機する</td></tr>
+                                        <tr><td>29</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>draining状態へ移行し、新たなパケットは送信せず待機後にクローズする</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div id="md-quictls">
-
-| ステップ | 送信者 | 受信者 | 送信物 | 格納場所 | 受信後の処理 |
-|---|---|---|---|---|---|
-| 1 | 送信なし<br>(内部の処理) | クライアント | ― | ― | Destination Connection IDと固定ソルトからInitial鍵を導出する<br>(誰でも計算可能な鍵) |
-| 2 | クライアント | サーバ | ClientHello<br>対応暗号スイート一覧・Client Random・`key_share`(ECDHE公開値)・ALPN・`quic_transport_parameters`拡張等 | `Initial`パケット(Long Header)内の`CRYPTO`フレーム | サーバがパケットを受信する<br>(復号はステップ3) |
-| 3 | 送信なし<br>(内部の処理) | サーバ | ― | ― | Destination Connection IDと固定ソルトからInitial鍵を導出し、ClientHelloを復号・解析する |
-| 4 | 送信なし<br>(内部の処理) | サーバ | ― | ― | 暗号スイートと`key_share`を選択し、クライアントの`key_share`とでECDHE共有秘密を算出する<br>共有秘密からHandshake鍵を導出する |
-| 5 | サーバ | クライアント | ServerHello<br>暗号スイート・Server Random・`key_share`<br>(あわせてClientHelloへの`ACK`) | `Initial`パケット(Long Header)内の`CRYPTO`フレームおよび`ACK`フレーム | クライアントがInitial鍵で復号し、選択された暗号スイートとサーバの`key_share`を取得する |
-| 6 | 送信なし<br>(内部の処理) | クライアント | ― | ― | サーバの`key_share`と自身の秘密値からECDHE共有秘密を算出し、Handshake鍵を導出する<br>以降のサーバ→クライアント方向のメッセージはHandshake鍵で復号できる |
-| 7 | サーバ | クライアント | EncryptedExtensions<br>ALPN結果・サーバ側`quic_transport_parameters`等 | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム<br>(Handshake鍵で暗号化) | Handshake鍵で復号し、ALPN結果とサーバのQUICトランスポートパラメータを取得する |
-| 8 | サーバ | クライアント | Certificate<br>サーバのデジタル証明書(公開鍵を含む) | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム | 証明書を保持する<br>(検証はステップ13) |
-| 9 | サーバ | クライアント | CertificateVerify<br>秘密鍵によるハンドシェイクのハッシュへの署名 | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム | 署名を保持する<br>(検証はステップ14) |
-| 10 | サーバ | クライアント | Finished(サーバ)<br>ハンドシェイク全体のMAC | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム | MACを保持する<br>(検証はステップ15) |
-| 11 | 送信なし<br>(内部の処理) | サーバ | ― | ― | ハンドシェイク全体のハッシュからアプリケーション鍵(1-RTT鍵)を導出する<br>以降、サーバは1-RTTデータを送信可能 |
-| 12 | サーバ | クライアント | Application Data<br>(0.5-RTTデータ) | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | クライアントはステップ16で1-RTT鍵を導出後に復号し、アプリケーションへ渡す |
-| 13 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ステップ8の証明書を検証する<br>有効期限・ホスト名・信頼チェーンを確認する |
-| 14 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ステップ9の署名を証明書の公開鍵で検証し、サーバが秘密鍵の持ち主であることを確認する |
-| 15 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ステップ10のMACを検証し、ハンドシェイクに改ざんがないことを確認する |
-| 16 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ハンドシェイク全体のハッシュからアプリケーション鍵(1-RTT鍵)を導出する<br>以降、クライアントも1-RTTデータを送信可能 |
-| 17 | クライアント | サーバ | ACK<br>(サーバのInitialパケットの受信確認) | `Initial`パケット(Long Header)内の`ACK`フレーム | サーバがInitialパケットの到達を確認する |
-| 18 | クライアント | サーバ | Finished(クライアント)<br>ハンドシェイク全体のMAC<br>(あわせてHandshakeパケットへの`ACK`) | `Handshake`パケット(Long Header)内の`CRYPTO`フレームおよび`ACK`フレーム<br>(Handshake鍵で暗号化) | サーバがMACを保持する<br>(検証はステップ20)<br>ここまでで往復1回(1-RTT) |
-| 19 | クライアント | サーバ | Application Data | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | サーバが1-RTT鍵で復号し、アプリケーションへ渡す |
-| 20 | 送信なし<br>(内部の処理) | サーバ | ― | ― | ステップ18のMACを検証し、相互にハンドシェイクを確認する |
-| 21 | サーバ | クライアント | HANDSHAKE_DONE<br>ハンドシェイク完了の通知 | `Short Header`パケット内の`HANDSHAKE_DONE`フレーム | クライアントがハンドシェイク完了を認識する |
-| 22 | 送信なし<br>(内部の処理) | サーバ | ― | ― | Initial鍵・Handshake鍵を破棄する |
-| 23 | 送信なし<br>(内部の処理) | クライアント | ― | ― | Initial鍵・Handshake鍵を破棄する |
-| 24 | サーバ | クライアント | NewSessionTicket<br>再開用チケット(次回接続で0-RTTを可能にする) | `Short Header`パケット内の`CRYPTO`フレーム | チケットを保存し、次回接続の再開(0-RTT)に利用する |
-| 25 | クライアント | サーバ | Application Data | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | サーバが1-RTT鍵で復号し、アプリケーションへ渡す |
-| 26 | サーバ | クライアント | Application Data | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | クライアントが1-RTT鍵で復号し、アプリケーションへ渡す |
-| 27 | クライアント | サーバ | CONNECTION_CLOSE<br>エラーコード・理由 | `Short Header`パケット内の`CONNECTION_CLOSE`フレーム | サーバが切断要求を受信する |
-| 28 | 送信なし<br>(内部の処理) | クライアント | ― | ― | closing状態へ移行し、遅延パケット対策として一定時間待機する |
-| 29 | 送信なし<br>(内部の処理) | サーバ | ― | ― | draining状態へ移行し、新たなパケットは送信せず待機後にクローズする |
-
-<br>
-
----
 
 | 暗号化レベル | パケット種別(ヘッダ形式) | 保護に使う鍵 | 主な内容 |
 |---|---|---|---|
