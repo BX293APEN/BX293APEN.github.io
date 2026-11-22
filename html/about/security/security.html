@@ -371,11 +371,41 @@ sequenceDiagram
                                         <tr><th class="text-nowrap">ステップ</th><th>送信者</th><th>受信者</th><th>送信物</th><th>格納場所</th><th>受信後の処理</th></tr>
                                     </thead>
                                     <tbody>
-                                        <tr><td>1</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>Destination Connection IDと固定ソルトからInitial鍵を導出する<br>(誰でも計算可能な鍵)</td></tr>
-                                        <tr><td>2</td><td class="text-nowrap">クライアント</td><td>サーバ</td><td>ClientHello<br>対応暗号スイート一覧・Client Random・<code>key_share</code>(ECDHE公開値)・ALPN・<code>quic_transport_parameters</code>拡張等</td><td><code>Initial</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム</td><td>サーバがパケットを受信する<br>(復号はステップ3)</td></tr>
-                                        <tr><td>3</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>Destination Connection IDと固定ソルトからInitial鍵を導出し、ClientHelloを復号・解析する</td></tr>
-                                        <tr><td>4</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td><td>―</td><td>―</td><td>暗号スイートと<code>key_share</code>を選択し、クライアントの<code>key_share</code>とでECDHE共有秘密を算出する<br>共有秘密からHandshake鍵を導出する</td></tr>
-                                        <tr><td>5</td><td>サーバ</td><td class="text-nowrap">クライアント</td><td>ServerHello<br>暗号スイート・Server Random・<code>key_share</code><br>(あわせてClientHelloへの<code>ACK</code>)</td><td><code>Initial</code>パケット(Long Header)内の<code>CRYPTO</code>フレームおよび<code>ACK</code>フレーム</td><td>クライアントがInitial鍵で復号し、選択された暗号スイートとサーバの<code>key_share</code>を取得する</td></tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td colspan="2">送信なし<br>(クライアント内部の処理)</td>
+                                            <td>―</td>
+                                            <td>―</td>
+                                            <td class="text-nowrap">Destination Connection IDと固定ソルトからInitial鍵を導出する<br>(誰でも計算可能な鍵)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td class="text-nowrap">クライアント</td>
+                                            <td>サーバ</td>
+                                            <td>ClientHello<br>対応暗号スイート一覧・Client Random・<code>key_share</code>(ECDHE公開値)・ALPN・<code>quic_transport_parameters</code>拡張等</td>
+                                            <td><code>Initial</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム</td><td>サーバがパケットを受信する<br>(復号はステップ3)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td colspan="2">送信なし<br>(サーバ内部の処理)</td>
+                                            <td>―</td>
+                                            <td>―</td>
+                                            <td>Destination Connection IDと固定ソルトからInitial鍵を導出し、ClientHelloを復号・解析する</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td><td colspan="2">送信なし<br>(サーバ内部の処理)</td>
+                                            <td>―</td>
+                                            <td>―</td>
+                                            <td>暗号スイートと<code>key_share</code>を選択し、クライアントの<code>key_share</code>とでECDHE共有秘密を算出する<br>共有秘密からHandshake鍵を導出する</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>サーバ</td>
+                                            <td class="text-nowrap">クライアント</td>
+                                            <td class="text-nowrap">ServerHello<br>暗号スイート・Server Random・<code>key_share</code><br>(あわせてClientHelloへの<code>ACK</code>)</td>
+                                            <td class="text-nowrap"><code>Initial</code>パケット(Long Header)内の<code>CRYPTO</code>フレームおよび<code>ACK</code>フレーム</td>
+                                            <td class="text-nowrap">クライアントがInitial鍵で復号し、選択された暗号スイートとサーバの<code>key_share</code>を取得する</td>
+                                        </tr>
                                         <tr><td>6</td><td colspan="2">送信なし<br>(クライアント内部の処理)</td><td>―</td><td>―</td><td>サーバの<code>key_share</code>と自身の秘密値からECDHE共有秘密を算出し、Handshake鍵を導出する<br>以降のサーバ→クライアント方向のメッセージはHandshake鍵で復号できる</td></tr>
                                         <tr><td>7</td><td>サーバ</td><td>クライアント</td><td>EncryptedExtensions<br>ALPN結果・サーバ側<code>quic_transport_parameters</code>等</td><td><code>Handshake</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム<br>(Handshake鍵で暗号化)</td><td>Handshake鍵で復号し、ALPN結果とサーバのQUICトランスポートパラメータを取得する</td></tr>
                                         <tr><td>8</td><td>サーバ</td><td>クライアント</td><td>Certificate<br>サーバのデジタル証明書(公開鍵を含む)</td><td><code>Handshake</code>パケット(Long Header)内の<code>CRYPTO</code>フレーム</td><td>証明書を保持する<br>(検証はステップ13)</td></tr>
