@@ -241,61 +241,20 @@
 | マスターシークレット<br>(Master Secret) | プリマスタシークレットとクライアント/サーバの乱数(Random)から、<br>擬似乱数関数(PRF)を用いて生成される48byteの値<br>暗号化鍵・MAC鍵・IV等、実際に使用する鍵材料はここから導出される |
 | レコードプロトコル<br>(Record Protocol) | TLSにおいて、ハンドシェイクプロトコルで確立された鍵を用いて<br>実際のアプリケーションデータの暗号化・完全性保護・送受信を行う下位プロトコル |
 
-<br>
-<br>
+                            </div>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold">
+                                QUICTLS認証手順
+                            </h3>
+                            <ul>
+                                <li>QUICTLSでは、TLS 1.3のハンドシェイクをQUICパケットの中で行う</li>
+                                <li>TCPの3ウェイハンドシェイクとTLSハンドシェイクが統合されるため、最短1-RTTで暗号化通信を開始できる</li>
 
-### TLS 認証手順(QUICTLS)
+                                <li>※ 1-RTT(往復回数) : ハンドシェイク完了までに必要な往復が1回であること</li>
+                                <li>※ 1-RTT(鍵・パケット名) : ハンドシェイク完了後に使うアプリケーション用鍵、およびそれで保護するShort Headerパケット</li>
+                                
+                            </ul>
 
-- QUICTLSでは、TLS 1.3のハンドシェイクをQUICパケットの中で行う
-- TCPの3ウェイハンドシェイクとTLSハンドシェイクが統合されるため、最短1-RTTで暗号化通信を開始できる
-
-| 用語 | 意味 |
-|---|---|
-| 1-RTT(往復回数) | ハンドシェイク完了までに必要な往復が1回であること |
-| 1-RTT(鍵・パケット名) | ハンドシェイク完了後に使うアプリケーション用鍵、およびそれで保護するShort Headerパケット |
-
----
-
-| 暗号化レベル | パケット種別(ヘッダ形式) | 保護に使う鍵 | 主な内容 |
-|---|---|---|---|
-| Initial | Initial (Long Header) | Destination Connection IDと固定ソルトからHKDFで導出(誰でも計算可能) | ClientHello / ServerHello |
-| 0-RTT (Early Data) | 0-RTT (Long Header) | 前回セッションのPSK(再開用チケット)から導出 | 再接続時の早期アプリケーションデータ |
-| Handshake | Handshake (Long Header) | ECDHE共有秘密から導出したハンドシェイク用鍵 | EncryptedExtensions / Certificate / CertificateVerify / Finished |
-| 1-RTT (Application) | 1-RTT (Short Header) | ハンドシェイク完了後に導出するアプリケーション用鍵 | アプリケーションデータ / HANDSHAKE_DONE |
-
----
-
-| 項目 | TLS 1.2(TCP + TLS) | QUICTLS(QUIC + TLS 1.3) |
-|---|---|---|
-| 下位プロトコル | TCP | UDP |
-| TLSバージョン | 1.2 | 1.3のみ |
-| 接続確立 | TCP 3-way + TLS 2-RTT(計約3-RTT) | 1-RTT(再接続時は0-RTT可) |
-| ハンドシェイクの運搬 | TLSレコード | QUICの`CRYPTO`フレーム |
-| データの暗号化 | TLSレコードプロトコル | QUICパケット保護(AEAD) |
-| ヘッダ保護 | なし(TCPヘッダは平文) | あり(パケット番号等を保護) |
-| ChangeCipherSpec | あり | なし(暗号化レベルの切替で代替) |
-| 鍵交換 | RSA / DHE / ECDHE | (EC)DHEのみ(前方秘匿性あり) |
-| ALPN | 任意 | 必須 |
-| 切断 | close_notify + TCP FIN | `CONNECTION_CLOSE`フレーム |
-
-
-#### 認証手順(QUIC + TLS 1.3 フルハンドシェイク)
-
-| ステップ | 内容 |
-|---|---|
-| 1. ClientHello | クライアントが`Initial`パケット内の`CRYPTO`フレームで送信<br>対応暗号スイート・Client Random・`key_share`(ECDHE公開値)・ALPN・`quic_transport_parameters`拡張等を含む |
-| 2. ServerHello | サーバが`Initial`パケットで返信<br>暗号スイート・Server Random・`key_share`を選択<br>この時点でECDHE共有秘密が確定し、Handshake用鍵が導出される |
-| 3. EncryptedExtensions | サーバが`Handshake`パケットで送信(以降はHandshake鍵で暗号化)<br>ALPN結果・サーバ側`quic_transport_parameters`等を通知 |
-| 4. Certificate | サーバが自身のデジタル証明書(公開鍵を含む)を送信 |
-| 5. CertificateVerify | サーバが秘密鍵でハンドシェイクのハッシュに署名し、証明書の持ち主であることを証明 |
-| 6. Finished(サーバ) | ハンドシェイク全体のMACを送信し、改ざんがないことを確認させる<br>サーバはここでアプリケーション用鍵を導出し、1-RTTデータ(Application Data)を送信可能 |
-| 7. 証明書検証 | クライアントが署名・有効期限・ホスト名・信頼チェーンを検証 |
-| 8. Finished(クライアント) | クライアントが`Handshake`パケットでFinishedを送信し、相互にハンドシェイクを確認<br>以降、クライアントも1-RTT鍵でApplication Dataを送信可能 |
-| 9. HANDSHAKE_DONE | サーバが`HANDSHAKE_DONE`フレームを送信し、ハンドシェイク完了を通知<br>Initial / Handshake鍵は破棄される |
-| 10. NewSessionTicket | サーバが再開用チケットを送信(次回接続で0-RTTを可能にする) |
-| 11. Application Data | 1-RTT鍵で保護した`STREAM`フレームでアプリケーションデータを送受信 |
-
-<div class="mermaid-source">
+                            <div class="mermaid-source">
 sequenceDiagram
     %%{
         init: {
@@ -386,7 +345,35 @@ sequenceDiagram
         Note over C,S: QUICコネクション切断(セッション鍵は破棄)
     end
 
-</div>
+                            </div>
+                            <div id="md-quictls">
+
+| ステップ | 内容 |
+|---|---|
+| 1. ClientHello | クライアントが`Initial`パケット内の`CRYPTO`フレームで送信<br>対応暗号スイート・Client Random・`key_share`(ECDHE公開値)・ALPN・`quic_transport_parameters`拡張等を含む |
+| 2. ServerHello | サーバが`Initial`パケットで返信<br>暗号スイート・Server Random・`key_share`を選択<br>この時点でECDHE共有秘密が確定し、Handshake用鍵が導出される |
+| 3. EncryptedExtensions | サーバが`Handshake`パケットで送信(以降はHandshake鍵で暗号化)<br>ALPN結果・サーバ側`quic_transport_parameters`等を通知 |
+| 4. Certificate | サーバが自身のデジタル証明書(公開鍵を含む)を送信 |
+| 5. CertificateVerify | サーバが秘密鍵でハンドシェイクのハッシュに署名し、証明書の持ち主であることを証明 |
+| 6. Finished(サーバ) | ハンドシェイク全体のMACを送信し、改ざんがないことを確認させる<br>サーバはここでアプリケーション用鍵を導出し、1-RTTデータ(Application Data)を送信可能 |
+| 7. 証明書検証 | クライアントが署名・有効期限・ホスト名・信頼チェーンを検証 |
+| 8. Finished(クライアント) | クライアントが`Handshake`パケットでFinishedを送信し、相互にハンドシェイクを確認<br>以降、クライアントも1-RTT鍵でApplication Dataを送信可能 |
+| 9. HANDSHAKE_DONE | サーバが`HANDSHAKE_DONE`フレームを送信し、ハンドシェイク完了を通知<br>Initial / Handshake鍵は破棄される |
+| 10. NewSessionTicket | サーバが再開用チケットを送信(次回接続で0-RTTを可能にする) |
+| 11. Application Data | 1-RTT鍵で保護した`STREAM`フレームでアプリケーションデータを送受信 |
+
+<br>
+
+---
+
+| 暗号化レベル | パケット種別(ヘッダ形式) | 保護に使う鍵 | 主な内容 |
+|---|---|---|---|
+| Initial | Initial (Long Header) | Destination Connection IDと固定ソルトからHKDFで導出(誰でも計算可能) | ClientHello / ServerHello |
+| 0-RTT (Early Data) | 0-RTT (Long Header) | 前回セッションのPSK(再開用チケット)から導出 | 再接続時の早期アプリケーションデータ |
+| Handshake | Handshake (Long Header) | ECDHE共有秘密から導出したハンドシェイク用鍵 | EncryptedExtensions / Certificate / CertificateVerify / Finished |
+| 1-RTT (Application) | 1-RTT (Short Header) | ハンドシェイク完了後に導出するアプリケーション用鍵 | アプリケーションデータ / HANDSHAKE_DONE |
+
+<br>
 
 #### 0-RTT再接続(参考)
 
@@ -397,6 +384,26 @@ sequenceDiagram
 | 利点 | ハンドシェイク完了を待たずにデータ送信でき、遅延が最小になる |
 | 注意 | 0-RTTデータはリプレイ攻撃を受ける可能性があるため、冪等な処理(GET等)に限定する |
 | アドレス検証 | `Retry`パケットで送信元IPアドレスを検証し、増幅攻撃・なりすましを防ぐ場合がある |
+
+<br>
+
+---
+
+<br>
+
+| 項目 | TLS 1.2(TCP + TLS) | QUICTLS(QUIC + TLS 1.3) |
+|---|---|---|
+| 下位プロトコル | TCP | UDP |
+| TLSバージョン | 1.2 | 1.3のみ |
+| 接続確立 | TCP 3-way + TLS 2-RTT(計約3-RTT) | 1-RTT(再接続時は0-RTT可) |
+| ハンドシェイクの運搬 | TLSレコード | QUICの`CRYPTO`フレーム |
+| データの暗号化 | TLSレコードプロトコル | QUICパケット保護(AEAD) |
+| ヘッダ保護 | なし(TCPヘッダは平文) | あり(パケット番号等を保護) |
+| ChangeCipherSpec | あり | なし(暗号化レベルの切替で代替) |
+| 鍵交換 | RSA / DHE / ECDHE | (EC)DHEのみ(前方秘匿性あり) |
+| ALPN | 任意 | 必須 |
+| 切断 | close_notify + TCP FIN | `CONNECTION_CLOSE`フレーム |
+
 
                             </div>
                         </article>
@@ -689,6 +696,7 @@ sequenceDiagram
             const mdLists = [
                 "md-list", 
                 "md-tls",
+                "md-quictls",
             ];
 
             window.addEventListener(
