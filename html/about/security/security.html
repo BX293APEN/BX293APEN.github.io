@@ -295,7 +295,7 @@
 | 10. NewSessionTicket | サーバが再開用チケットを送信(次回接続で0-RTTを可能にする) |
 | 11. Application Data | 1-RTT鍵で保護した`STREAM`フレームでアプリケーションデータを送受信 |
 
-<!--
+<div class="mermaid-source">
 sequenceDiagram
     %%{
         init: {
@@ -386,9 +386,7 @@ sequenceDiagram
         Note over C,S: QUICコネクション切断(セッション鍵は破棄)
     end
 
--->
-
-<img src="/img/about/quictls.svg" width = "100%"/>
+</div>
 
 #### 0-RTT再接続(参考)
 
