@@ -274,11 +274,20 @@ sequenceDiagram
     %%
     %% ## フェーズ構成
     %%
-    %% | フェーズ | 概要 |
+    %% | フェーズ | ステップ番号 | 概要 |
+    %% |---|---|---|
+    %% | 1. QUIC + TLS 1.3 Handshake | 1〜24 | UDP上で接続確立・暗号方式の合意・サーバ認証・鍵共有を同時に行う |
+    %% | 2. Application Data | 25〜26 | 1-RTT鍵で保護したストリームデータを送受信する |
+    %% | 3. 切断 | 27〜29 | CONNECTION_CLOSE フレームで接続を終了する |
+    %%
+    %% ## ステップ番号の規則
+    %%
+    %% | 項目 | 内容 |
     %% |---|---|
-    %% | 1. QUIC + TLS 1.3 Handshake | UDP上で接続確立・暗号方式の合意・サーバ認証・鍵共有を同時に行う |
-    %% | 2. Application Data | 1-RTT鍵で保護したストリームデータを送受信する |
-    %% | 3. 切断 | CONNECTION_CLOSE フレームで接続を終了する |
+    %% | 番号の付与 | `autonumber` により、矢印(メッセージ)1本につき1つ付与される |
+    %% | 通信を伴うステップ | クライアント/サーバ間の矢印で表現する |
+    %% | 内部処理のステップ | 同一参加者に戻る矢印(自己メッセージ)で表現する |
+    %% | 認証手順の表との対応 | 図のステップ番号と表の「ステップ」列は同じ番号で対応する |
     %%
     %% ## 補足
     %%
@@ -300,33 +309,43 @@ sequenceDiagram
     rect rgb(235, 255, 235)
         Note over C,S: QUIC + TLS 1.3 フルハンドシェイク(UDP上・TCP 3-wayなし)
 
+        %% ### ClientHello
+        C->>C: Initial鍵を導出<br/>(Destination Connection ID + 固定ソルト / 誰でも計算可能)
         C->>S: Long Header (Initial) [CRYPTO: ClientHello]<br/>(暗号スイート一覧 / Client Random / key_share / ALPN / QUICトランスポートパラメータ)
-        Note over C,S: Initial鍵 = Destination Connection ID + 固定ソルトから導出(誰でも計算可能)
 
+        %% ### ServerHello
+        S->>S: Initial鍵を導出し、ClientHelloを復号・解析<br/>(Destination Connection ID + 固定ソルト)
+        S->>S: ECDHE共有秘密を算出 → Handshake鍵を導出
         S->>C: Long Header (Initial) [ACK, CRYPTO: ServerHello]<br/>(暗号スイート / Server Random / key_share)
-        Note over C,S: ECDHE共有秘密 → Handshake鍵(双方で生成)
+        C->>C: ECDHE共有秘密を算出 → Handshake鍵を導出
 
+        %% ### サーバ認証メッセージ(Handshake鍵で暗号化)
         S->>C: Long Header (Handshake) [CRYPTO: EncryptedExtensions]<br/>(ALPN結果 / サーバのQUICトランスポートパラメータ)
         S->>C: Long Header (Handshake) [CRYPTO: Certificate]<br/>(サーバ証明書・公開鍵)
         S->>C: Long Header (Handshake) [CRYPTO: CertificateVerify]<br/>(ハンドシェイクのハッシュへの署名)
         S->>C: Long Header (Handshake) [CRYPTO: Finished]<br/>(ハンドシェイク全体のMAC)
 
-        Note over C,S: ハンドシェイク全体のハッシュ → アプリケーション用鍵(1-RTT鍵)を双方で生成
-
+        %% ### サーバ側のアプリケーションデータ送信
+        S->>S: アプリケーション鍵(1-RTT鍵)を導出<br/>(ハンドシェイク全体のハッシュから生成)
         S->>C: Short Header [STREAM]<br/>Application Data(サーバ側のハンドシェイク完了直後から送信可能 / 0.5-RTTデータ)
 
-        Note left of C: 証明書を検証<br/>(署名・有効期限・ホスト名・信頼チェーン)
+        %% ### クライアントによるサーバ認証
+        C->>C: 証明書を検証<br/>(有効期限・ホスト名・信頼チェーン)
+        C->>C: CertificateVerifyを検証<br/>(証明書の公開鍵で署名を確認)
+        C->>C: サーバのFinishedを検証<br/>(MACを確認)
+        C->>C: アプリケーション鍵(1-RTT鍵)を導出<br/>(ハンドシェイク全体のハッシュから生成)
 
+        %% ### クライアントのハンドシェイク完了
         C->>S: Long Header (Initial) [ACK]
         C->>S: Long Header (Handshake) [ACK, CRYPTO: Finished]<br/>(ハンドシェイク全体のMAC)
         Note over C,S: ここまでで往復1回(1-RTT)でハンドシェイク完了
         C->>S: Short Header [STREAM]<br/>Application Data(クライアント側のハンドシェイク完了直後から送信可能)
+        S->>S: クライアントのFinishedを検証<br/>(改ざんがないことを確認)
 
-        Note over C,S: 相互にFinishedを検証し、改ざんがないことを確認
-
+        %% ### ハンドシェイク完了通知・後処理
         S->>C: Short Header [HANDSHAKE_DONE]<br/>(ハンドシェイク完了を通知)
-        Note over C,S: Initial鍵・Handshake鍵を破棄
-
+        S->>S: Initial鍵・Handshake鍵を破棄
+        C->>C: Initial鍵・Handshake鍵を破棄
         S->>C: Short Header [CRYPTO: NewSessionTicket]<br/>(0-RTT再開用チケット)
     end
 
@@ -340,27 +359,45 @@ sequenceDiagram
     rect rgb(255, 235, 235)
         Note over C,S: 切断(クライアントから切断する例)
         C->>S: Short Header [CONNECTION_CLOSE]<br/>(エラーコード / 理由 / 以降このコネクションでは送信しない通知)
-        Note left of C: closing状態<br/>(遅延パケット対策として一定時間待機)
-        Note over S: draining状態<br/>(新たなパケットは送信せず待機後にクローズ)
+        C->>C: closing状態へ移行<br/>(遅延パケット対策として一定時間待機)
+        S->>S: draining状態へ移行<br/>(新たなパケットは送信せず待機後にクローズ)
         Note over C,S: QUICコネクション切断(セッション鍵は破棄)
     end
 
                             </div>
                             <div id="md-quictls">
 
-| ステップ | 内容 |
-|---|---|
-| 1. ClientHello | クライアントが`Initial`パケット内の`CRYPTO`フレームで送信<br>対応暗号スイート・Client Random・`key_share`(ECDHE公開値)・ALPN・`quic_transport_parameters`拡張等を含む |
-| 2. ServerHello | サーバが`Initial`パケットで返信<br>暗号スイート・Server Random・`key_share`を選択<br>この時点でECDHE共有秘密が確定し、Handshake用鍵が導出される |
-| 3. EncryptedExtensions | サーバが`Handshake`パケットで送信(以降はHandshake鍵で暗号化)<br>ALPN結果・サーバ側`quic_transport_parameters`等を通知 |
-| 4. Certificate | サーバが自身のデジタル証明書(公開鍵を含む)を送信 |
-| 5. CertificateVerify | サーバが秘密鍵でハンドシェイクのハッシュに署名し、証明書の持ち主であることを証明 |
-| 6. Finished(サーバ) | ハンドシェイク全体のMACを送信し、改ざんがないことを確認させる<br>サーバはここでアプリケーション用鍵を導出し、1-RTTデータ(Application Data)を送信可能 |
-| 7. 証明書検証 | クライアントが署名・有効期限・ホスト名・信頼チェーンを検証 |
-| 8. Finished(クライアント) | クライアントが`Handshake`パケットでFinishedを送信し、相互にハンドシェイクを確認<br>以降、クライアントも1-RTT鍵でApplication Dataを送信可能 |
-| 9. HANDSHAKE_DONE | サーバが`HANDSHAKE_DONE`フレームを送信し、ハンドシェイク完了を通知<br>Initial / Handshake鍵は破棄される |
-| 10. NewSessionTicket | サーバが再開用チケットを送信(次回接続で0-RTTを可能にする) |
-| 11. Application Data | 1-RTT鍵で保護した`STREAM`フレームでアプリケーションデータを送受信 |
+| ステップ | 送信者 | 受信者 | 送信物 | 格納場所 | 受信後の処理 |
+|---|---|---|---|---|---|
+| 1 | 送信なし<br>(内部の処理) | クライアント | ― | ― | Destination Connection IDと固定ソルトからInitial鍵を導出する<br>(誰でも計算可能な鍵) |
+| 2 | クライアント | サーバ | ClientHello<br>対応暗号スイート一覧・Client Random・`key_share`(ECDHE公開値)・ALPN・`quic_transport_parameters`拡張等 | `Initial`パケット(Long Header)内の`CRYPTO`フレーム | サーバがパケットを受信する<br>(復号はステップ3) |
+| 3 | 送信なし<br>(内部の処理) | サーバ | ― | ― | Destination Connection IDと固定ソルトからInitial鍵を導出し、ClientHelloを復号・解析する |
+| 4 | 送信なし<br>(内部の処理) | サーバ | ― | ― | 暗号スイートと`key_share`を選択し、クライアントの`key_share`とでECDHE共有秘密を算出する<br>共有秘密からHandshake鍵を導出する |
+| 5 | サーバ | クライアント | ServerHello<br>暗号スイート・Server Random・`key_share`<br>(あわせてClientHelloへの`ACK`) | `Initial`パケット(Long Header)内の`CRYPTO`フレームおよび`ACK`フレーム | クライアントがInitial鍵で復号し、選択された暗号スイートとサーバの`key_share`を取得する |
+| 6 | 送信なし<br>(内部の処理) | クライアント | ― | ― | サーバの`key_share`と自身の秘密値からECDHE共有秘密を算出し、Handshake鍵を導出する<br>以降のサーバ→クライアント方向のメッセージはHandshake鍵で復号できる |
+| 7 | サーバ | クライアント | EncryptedExtensions<br>ALPN結果・サーバ側`quic_transport_parameters`等 | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム<br>(Handshake鍵で暗号化) | Handshake鍵で復号し、ALPN結果とサーバのQUICトランスポートパラメータを取得する |
+| 8 | サーバ | クライアント | Certificate<br>サーバのデジタル証明書(公開鍵を含む) | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム | 証明書を保持する<br>(検証はステップ13) |
+| 9 | サーバ | クライアント | CertificateVerify<br>秘密鍵によるハンドシェイクのハッシュへの署名 | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム | 署名を保持する<br>(検証はステップ14) |
+| 10 | サーバ | クライアント | Finished(サーバ)<br>ハンドシェイク全体のMAC | `Handshake`パケット(Long Header)内の`CRYPTO`フレーム | MACを保持する<br>(検証はステップ15) |
+| 11 | 送信なし<br>(内部の処理) | サーバ | ― | ― | ハンドシェイク全体のハッシュからアプリケーション鍵(1-RTT鍵)を導出する<br>以降、サーバは1-RTTデータを送信可能 |
+| 12 | サーバ | クライアント | Application Data<br>(0.5-RTTデータ) | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | クライアントはステップ16で1-RTT鍵を導出後に復号し、アプリケーションへ渡す |
+| 13 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ステップ8の証明書を検証する<br>有効期限・ホスト名・信頼チェーンを確認する |
+| 14 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ステップ9の署名を証明書の公開鍵で検証し、サーバが秘密鍵の持ち主であることを確認する |
+| 15 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ステップ10のMACを検証し、ハンドシェイクに改ざんがないことを確認する |
+| 16 | 送信なし<br>(内部の処理) | クライアント | ― | ― | ハンドシェイク全体のハッシュからアプリケーション鍵(1-RTT鍵)を導出する<br>以降、クライアントも1-RTTデータを送信可能 |
+| 17 | クライアント | サーバ | ACK<br>(サーバのInitialパケットの受信確認) | `Initial`パケット(Long Header)内の`ACK`フレーム | サーバがInitialパケットの到達を確認する |
+| 18 | クライアント | サーバ | Finished(クライアント)<br>ハンドシェイク全体のMAC<br>(あわせてHandshakeパケットへの`ACK`) | `Handshake`パケット(Long Header)内の`CRYPTO`フレームおよび`ACK`フレーム<br>(Handshake鍵で暗号化) | サーバがMACを保持する<br>(検証はステップ20)<br>ここまでで往復1回(1-RTT) |
+| 19 | クライアント | サーバ | Application Data | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | サーバが1-RTT鍵で復号し、アプリケーションへ渡す |
+| 20 | 送信なし<br>(内部の処理) | サーバ | ― | ― | ステップ18のMACを検証し、相互にハンドシェイクを確認する |
+| 21 | サーバ | クライアント | HANDSHAKE_DONE<br>ハンドシェイク完了の通知 | `Short Header`パケット内の`HANDSHAKE_DONE`フレーム | クライアントがハンドシェイク完了を認識する |
+| 22 | 送信なし<br>(内部の処理) | サーバ | ― | ― | Initial鍵・Handshake鍵を破棄する |
+| 23 | 送信なし<br>(内部の処理) | クライアント | ― | ― | Initial鍵・Handshake鍵を破棄する |
+| 24 | サーバ | クライアント | NewSessionTicket<br>再開用チケット(次回接続で0-RTTを可能にする) | `Short Header`パケット内の`CRYPTO`フレーム | チケットを保存し、次回接続の再開(0-RTT)に利用する |
+| 25 | クライアント | サーバ | Application Data | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | サーバが1-RTT鍵で復号し、アプリケーションへ渡す |
+| 26 | サーバ | クライアント | Application Data | `Short Header`パケット内の`STREAM`フレーム<br>(1-RTT鍵で暗号化) | クライアントが1-RTT鍵で復号し、アプリケーションへ渡す |
+| 27 | クライアント | サーバ | CONNECTION_CLOSE<br>エラーコード・理由 | `Short Header`パケット内の`CONNECTION_CLOSE`フレーム | サーバが切断要求を受信する |
+| 28 | 送信なし<br>(内部の処理) | クライアント | ― | ― | closing状態へ移行し、遅延パケット対策として一定時間待機する |
+| 29 | 送信なし<br>(内部の処理) | サーバ | ― | ― | draining状態へ移行し、新たなパケットは送信せず待機後にクローズする |
 
 <br>
 
