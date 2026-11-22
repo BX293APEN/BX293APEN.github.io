@@ -149,7 +149,7 @@ let sitemap = [
     },
     {
         "href" : "/html/about/security/security.html",
-        "word" : ["security", "cyberattack"]
+        "word" : ["security", "cyberattack", "tls", "auth"]
     },
     {
         "href" : "/html/tips/appbuild/blender.html",

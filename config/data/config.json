@@ -214,6 +214,17 @@
         "property:og:description" : "C/C++について"
     },
     {
+        "page" : "html/tips/char/tex.html",
+        "tips" : ["linuxTip", "serverTip", "rn4020Tip"],
+        "title" : "LaTeX",
+        "property:og:title" : "LaTeX",
+        "property:og:url" : "https://bx293apen.github.io/",
+        "property:og:image" : "https://bx293apen.github.io/img/PEN.png",
+        "property:og:type" : "website",
+        "property:og:site_name" : "とあるペンギンの実験室",
+        "property:og:description" : "LaTeX 書き方一覧"
+    },
+    {
         "page" : "html/tips/datasheet/electrician.html",
         "tips" : ["serverTip", "pythonTip", "cTip"],
         "title" : "電気工事まとめ(第二種相当)",
