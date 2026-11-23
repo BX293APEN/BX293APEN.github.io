@@ -303,7 +303,7 @@
 <td rowspan="2">
                                                     通信やホストの挙動を監視し、不正アクセスや攻撃を検知(IDS)・遮断(IPS)する
                                                     <ul>
-<li>IDS : 検知・通知が目的。通信経路の外に設置し、ネットワークタップやミラーポートで複製した通信を監視する</li>
+<li>IDS : 検知・通知が目的<br/>通信経路の外に設置し、ネットワークタップやミラーポートで複製した通信を監視する</li>
 <li>IPS : 通信経路上にインラインで設置し、検知した攻撃を遮断する</li>
 <li>検知方式として、既知の攻撃パターンと照合するシグネチャ型と、通常と異なる挙動を検知するアノマリ型がある</li>
 </ul>
@@ -499,7 +499,7 @@
 <ul>
 <li>機器の<strong>コントロールプレーン</strong> (経路などの制御) と<strong>データプレーン</strong> (パケットの転送) を分離する</li>
 <li>制御を<strong>SDNコントローラ</strong>に集約し、スイッチ等は指示に従って転送するだけになる</li>
-<li>OpenFlow : コントローラとスイッチ間 (サウスバウンドAPI) の代表的なプロトコル。フロールールに従ってパケットを処理する</li>
+<li>OpenFlow : コントローラとスイッチ間 (サウスバウンドAPI) の代表的なプロトコル<br/>フロールールに従ってパケットを処理する</li>
 <li>フロールールの照合条件 : 宛先MACアドレス・IPアドレス・ポート番号など (第2〜4層のヘッダ情報)</li>
 <li>アプリケーションとコントローラ間はノースバウンドAPI (REST APIなど) で連携する</li>
 <li>ネットワーク全体の設定変更を一括・自動化でき、トラフィックの動的な制御も可能 (従来は機器ごとに個別設定)</li>
@@ -520,12 +520,27 @@
 <td>ETSI NFV (NFVアーキテクチャ)<div class="tags"><button class="tag badge text-bg-secondary" data-tag="第2層 データリンク層" type="button">第2層 データリンク層</button><button class="tag badge text-bg-secondary" data-tag="第3層 ネットワーク層" type="button">第3層 ネットワーク層</button><button class="tag badge text-bg-secondary" data-tag="第4層 トランスポート層" type="button">第4層 トランスポート層</button><button class="tag badge text-bg-secondary" data-tag="第5層 セッション層" type="button">第5層 セッション層</button><button class="tag badge text-bg-secondary" data-tag="第6層 プレゼンテーション層" type="button">第6層 プレゼンテーション層</button><button class="tag badge text-bg-secondary" data-tag="第7層 アプリケーション層" type="button">第7層 アプリケーション層</button></div></td>
 <td>
 <ul>
-<li>仮想化されたネットワーク機能を<strong>VNF</strong> (Virtualised Network Function) と呼ぶ (例 : 仮想ファイアウォール、仮想ルータ、仮想ロードバランサ)</li>
-<li>構成要素 : ① <strong>VNF</strong> (ソフトウェアとして動作する機能) ② <strong>NFVI</strong> (NFV Infrastructure : VNFを動かす物理サーバ・仮想化基盤) ③ <strong>MANO</strong> (Management and Orchestration : VNFの配置・起動・停止・監視などの管理・自動化)</li>
+<li>
+                                                            仮想化されたネットワーク機能を<strong>VNF</strong> (Virtualised Network Function) と呼ぶ
+                                                            <ul>
+<li>仮想ファイアウォール</li>
+<li>仮想ルータ</li>
+<li>仮想ロードバランサ</li>
+<li>等</li>
+</ul>
+</li>
+<li>
+<strong>構成要素</strong>
+<ul>
+<li>① VNF (ソフトウェアとして動作する機能)</li>
+<li>② NFVI (NFV Infrastructure : VNFを動かす物理サーバ・仮想化基盤)</li>
+<li>③ MANO (Management and Orchestration : VNFの配置・起動・停止・監視などの管理・自動化)</li>
+</ul>
+</li>
 <li>専用機器の購入・設置が不要になり、機能の追加・変更・拡張をソフトウェアで素早く行える (コスト削減・導入期間の短縮)</li>
 <li>通信事業者のコアネットワークなどで、専用機器の置き換えを目的に普及した</li>
 <li>汎用サーバ上で動作するため、専用ハードウェアに比べて処理性能が劣る場合がある</li>
-<li>SDNとの違い : SDNは「制御の集中化・ソフトウェア化 (経路制御や設定変更を柔軟にする)」、NFVは「機能そのものの仮想化 (専用機器をソフトウェアに置き換える)」。互いに独立した技術だが、組み合わせて使うことが多い</li>
+<li>SDNとの違い : SDNは「制御の集中化・ソフトウェア化 (経路制御や設定変更を柔軟にする)」、NFVは「機能そのものの仮想化 (専用機器をソフトウェアに置き換える)」<br/>互いに独立した技術だが、組み合わせて使うことが多い</li>
 </ul>
 </td>
 </tr>
@@ -938,7 +953,7 @@
 <li>L2SWは宛先MACアドレスのポートにしかフレームを転送しないため、スイッチ配下の端末で有効にしても他端末宛の通信は見えない<br/>→ ミラーポートやネットワークタップで通信を複製して受け取る</li>
 <li>リピータハブは全ポートにフレームを流すため、設定だけで他端末宛の通信を取得できた</li>
 <li>有効化には管理者権限が必要</li>
-<li>盗聴 (スニッフィング) にも悪用される。通信の暗号化 (TLS・IPsecなど) が対策になる</li>
+<li>盗聴 (スニッフィング) にも悪用される<br/>通信の暗号化 (TLS・IPsecなど) が対策になる</li>
 </ul>
 </td>
 </tr>
@@ -1062,7 +1077,7 @@
                                                 <div class="tags"><button class="tag badge text-bg-secondary" data-tag="第1層 物理層" type="button">第1層 物理層</button><button class="tag badge text-bg-success" data-tag="LANケーブル" type="button">LANケーブル</button><button class="tag badge text-bg-success" data-tag="ツイストペアケーブル" type="button">ツイストペアケーブル</button></div></th>
 
 <td rowspan="9">
-                                                    構内で使用する有線LAN規格 (IEEE 802.3)。ケーブルのカテゴリにより、対応できる速度と伝送距離が決まる
+                                                    構内で使用する有線LAN規格 (IEEE 802.3)<br/>ケーブルのカテゴリにより、対応できる速度と伝送距離が決まる
                                                     <ul>
 <li>
 <strong>UTP(Unshielded Twisted Pair)</strong><br/>
@@ -1204,7 +1219,7 @@
 </tbody>
 </table>
 <ul>
-<li>MDI-Xは、機器の内部で送受信を入れ替えているポート。家庭用ルータのLANポートのようにスイッチ機能を内蔵している場合はMDI-Xになる</li>
+<li>MDI-Xは、機器の内部で送受信を入れ替えているポート<br/>家庭用ルータのLANポートのようにスイッチ機能を内蔵している場合はMDI-Xになる</li>
 <li>
 <strong>Auto MDI/MDI-X</strong><br/>
 <ul>
@@ -1401,9 +1416,9 @@
 <!-- #### 変調方式 (2カラム)
                                                     | 変調方式 | 説明 |
                                                     |---|---|
-                                                    | BPSK / QPSK (DBPSK / DQPSK) | 搬送波の位相でデータを表す。BPSK : 1シンボルで1ビット / QPSK : 1シンボルで2ビット。低速だが雑音に強い。DBPSK / DQPSKは差動方式 (802.11bの1 / 2Mbps) |
-                                                    | QAM (直交振幅変調) | 振幅と位相の組み合わせでデータを表す。多値数が大きいほど高速だが、良好な電波環境が必要 |
-                                                    | CCK (Complementary Code Keying) | 802.11bの5.5 / 11Mbpsで使われる。符号系列を用いる |
+                                                    | BPSK / QPSK (DBPSK / DQPSK) | 搬送波の位相でデータを表す<br>BPSK : 1シンボルで1ビット / QPSK : 1シンボルで2ビット<br>低速だが雑音に強い<br>DBPSK / DQPSKは差動方式 (802.11bの1 / 2Mbps) |
+                                                    | QAM (直交振幅変調) | 振幅と位相の組み合わせでデータを表す<br>多値数が大きいほど高速だが、良好な電波環境が必要 |
+                                                    | CCK (Complementary Code Keying) | 802.11bの5.5 / 11Mbpsで使われる<br>符号系列を用いる |
                                                     -->
 <table class="table table-sm table-bordered mb-2">
 <thead>
@@ -1449,8 +1464,8 @@
 <!-- #### 多重化方式 (2カラム)
                                                     | 多重化方式 | 説明 |
                                                     |---|---|
-                                                    | DSSS (直接スペクトラム拡散) | 拡散符号でデータを広い周波数帯に拡散。ノイズ・干渉に強い。CDMAと同じ拡散符号の考え方 |
-                                                    | OFDM (直交周波数分割多重) | 直交する多数のサブキャリアに分割して並列伝送。マルチパスに強い |
+                                                    | DSSS (直接スペクトラム拡散) | 拡散符号でデータを広い周波数帯に拡散<br>ノイズ・干渉に強い<br>CDMAと同じ拡散符号の考え方 |
+                                                    | OFDM (直交周波数分割多重) | 直交する多数のサブキャリアに分割して並列伝送<br>マルチパスに強い |
                                                     | OFDMA | OFDMのサブキャリアを複数端末に割り当てて同時通信 (Wi-Fi 6以降) |
                                                     | MIMO | 複数アンテナで複数ストリームを同時送受信する空間多重 (Wi-Fi 4以降) |
                                                     | MU-MIMO | 複数端末に同時送信するMIMO (Wi-Fi 5は下りのみ / Wi-Fi 6以降は上り・下り) |
@@ -1833,7 +1848,7 @@
                                                     (Low Power Wide Area)
                                                 <div class="tags"><button class="tag badge text-bg-secondary" data-tag="第1層 物理層" type="button">第1層 物理層</button><button class="tag badge text-bg-success" data-tag="電波" type="button">電波</button></div></th>
 
-<td rowspan="3">低消費電力で広域(数km〜数十km)をカバーする無線通信の総称。少量のデータを低速で送るIoT向け</td>
+<td rowspan="3">低消費電力で広域(数km〜数十km)をカバーする無線通信の総称<br/>少量のデータを低速で送るIoT向け</td>
 <td>
                                                     LoRaWAN<br/>
                                                     (LoRa Alliance)
@@ -1880,7 +1895,7 @@
                 <tr>
 <th class="name" rowspan="2" scope="rowgroup">衛星通信<div class="tags"><button class="tag badge text-bg-secondary" data-tag="第1層 物理層" type="button">第1層 物理層</button><button class="tag badge text-bg-success" data-tag="電波" type="button">電波</button></div></th>
 
-<td rowspan="2">通信衛星を経由して地上局・端末間で通信する方式。地上回線を敷設できない場所でも利用可能</td>
+<td rowspan="2">通信衛星を経由して地上局・端末間で通信する方式<br/>地上回線を敷設できない場所でも利用可能</td>
 <td>静止軌道衛星(GEO)<div class="tags"><button class="tag badge text-bg-secondary" data-tag="第1層 物理層" type="button">第1層 物理層</button></div></td>
 <td>
 <ul>
@@ -2088,7 +2103,7 @@
                                                 <div class="tags"><button class="tag badge text-bg-secondary" data-tag="第1層 物理層" type="button">第1層 物理層</button><button class="tag badge text-bg-success" data-tag="光ファイバ" type="button">光ファイバ</button></div></th>
 
 <td rowspan="3">
-                                                    FTTHの方式の1つ。光スプリッタ(受動素子)で1本の光ファイバを分岐し、複数の加入者で共有する
+                                                    FTTHの方式の1つ<br/>光スプリッタ(受動素子)で1本の光ファイバを分岐し、複数の加入者で共有する
                                                     <ul>
 <li>局側装置をOLT、加入者側装置をONUと呼ぶ</li>
 <li>光スプリッタは電源が不要で、設備の保守が容易</li>
