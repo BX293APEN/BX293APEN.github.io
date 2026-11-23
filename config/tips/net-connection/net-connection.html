@@ -19,27 +19,27 @@
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="第2層 データリンク層">
                     第2層 データリンク層 
-                    <span class="badge text-bg-light">15</span>
+                    <span class="badge text-bg-light">17</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="第3層 ネットワーク層">
                     第3層 ネットワーク層 
-                    <span class="badge text-bg-light">9</span>
+                    <span class="badge text-bg-light">11</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="第4層 トランスポート層">
                     第4層 トランスポート層 
-                    <span class="badge text-bg-light">4</span>
+                    <span class="badge text-bg-light">6</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="第5層 セッション層">
                     第5層 セッション層 
-                    <span class="badge text-bg-light">3</span>
+                    <span class="badge text-bg-light">4</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="第6層 プレゼンテーション層">
                     第6層 プレゼンテーション層 
-                    <span class="badge text-bg-light">3</span>
+                    <span class="badge text-bg-light">4</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-primary" data-tag="第7層 アプリケーション層">
                     第7層 アプリケーション層 
-                    <span class="badge text-bg-light">10</span>
+                    <span class="badge text-bg-light">11</span>
                 </button>
                 
             </div>
@@ -482,6 +482,50 @@
 <li>データリンク層のフレームをそのままトンネリングし、あたかも社内LANに接続しているかのような通信を実現</li>
 <li>TLS(またはDTLS)の暗号化ペイロードの中に、IPパケットやイーサネットフレームをそのまま格納してカプセル化する</li>
 <li>専用クライアント (エージェント) のインストールが必要</li>
+</ul>
+</td>
+</tr>
+            </tbody>
+            <tbody data-tags="第2層 データリンク層|第3層 ネットワーク層|第4層 トランスポート層">
+                <tr>
+<th class="name" scope="rowgroup">
+                                                    SDN<br/>
+                                                    (Software Defined Networking)
+                                                <div class="tags"><button class="tag badge text-bg-secondary" data-tag="第2層 データリンク層" type="button">第2層 データリンク層</button><button class="tag badge text-bg-secondary" data-tag="第3層 ネットワーク層" type="button">第3層 ネットワーク層</button><button class="tag badge text-bg-secondary" data-tag="第4層 トランスポート層" type="button">第4層 トランスポート層</button></div></th>
+
+<td>ネットワーク機器の制御機能をソフトウェアで集中管理し、ネットワーク全体を柔軟に制御・構成変更する技術・考え方</td>
+<td>OpenFlow<div class="tags"><button class="tag badge text-bg-secondary" data-tag="第2層 データリンク層" type="button">第2層 データリンク層</button><button class="tag badge text-bg-secondary" data-tag="第3層 ネットワーク層" type="button">第3層 ネットワーク層</button><button class="tag badge text-bg-secondary" data-tag="第4層 トランスポート層" type="button">第4層 トランスポート層</button></div></td>
+<td>
+<ul>
+<li>機器の<strong>コントロールプレーン</strong> (経路などの制御) と<strong>データプレーン</strong> (パケットの転送) を分離する</li>
+<li>制御を<strong>SDNコントローラ</strong>に集約し、スイッチ等は指示に従って転送するだけになる</li>
+<li>OpenFlow : コントローラとスイッチ間 (サウスバウンドAPI) の代表的なプロトコル。フロールールに従ってパケットを処理する</li>
+<li>フロールールの照合条件 : 宛先MACアドレス・IPアドレス・ポート番号など (第2〜4層のヘッダ情報)</li>
+<li>アプリケーションとコントローラ間はノースバウンドAPI (REST APIなど) で連携する</li>
+<li>ネットワーク全体の設定変更を一括・自動化でき、トラフィックの動的な制御も可能 (従来は機器ごとに個別設定)</li>
+<li>データセンタやWANの運用効率化、仮想ネットワークの構築 (VXLANなどのオーバーレイ技術と併用) などに利用される</li>
+<li>コントローラの障害がネットワーク全体に影響するため、冗長化やセキュリティ対策が必要</li>
+</ul>
+</td>
+</tr>
+            </tbody>
+            <tbody data-tags="第2層 データリンク層|第3層 ネットワーク層|第4層 トランスポート層|第5層 セッション層|第6層 プレゼンテーション層|第7層 アプリケーション層">
+                <tr>
+<th class="name" scope="rowgroup">
+                                                    NFV<br/>
+                                                    (Network Functions Virtualisation)
+                                                <div class="tags"><button class="tag badge text-bg-secondary" data-tag="第2層 データリンク層" type="button">第2層 データリンク層</button><button class="tag badge text-bg-secondary" data-tag="第3層 ネットワーク層" type="button">第3層 ネットワーク層</button><button class="tag badge text-bg-secondary" data-tag="第4層 トランスポート層" type="button">第4層 トランスポート層</button><button class="tag badge text-bg-secondary" data-tag="第5層 セッション層" type="button">第5層 セッション層</button><button class="tag badge text-bg-secondary" data-tag="第6層 プレゼンテーション層" type="button">第6層 プレゼンテーション層</button><button class="tag badge text-bg-secondary" data-tag="第7層 アプリケーション層" type="button">第7層 アプリケーション層</button></div></th>
+
+<td>ルータ・ファイアウォール・ロードバランサなどのネットワーク機能を、専用ハードウェアではなく汎用サーバ上の仮想マシンやコンテナ上のソフトウェアとして実現する技術</td>
+<td>ETSI NFV (NFVアーキテクチャ)<div class="tags"><button class="tag badge text-bg-secondary" data-tag="第2層 データリンク層" type="button">第2層 データリンク層</button><button class="tag badge text-bg-secondary" data-tag="第3層 ネットワーク層" type="button">第3層 ネットワーク層</button><button class="tag badge text-bg-secondary" data-tag="第4層 トランスポート層" type="button">第4層 トランスポート層</button><button class="tag badge text-bg-secondary" data-tag="第5層 セッション層" type="button">第5層 セッション層</button><button class="tag badge text-bg-secondary" data-tag="第6層 プレゼンテーション層" type="button">第6層 プレゼンテーション層</button><button class="tag badge text-bg-secondary" data-tag="第7層 アプリケーション層" type="button">第7層 アプリケーション層</button></div></td>
+<td>
+<ul>
+<li>仮想化されたネットワーク機能を<strong>VNF</strong> (Virtualised Network Function) と呼ぶ (例 : 仮想ファイアウォール、仮想ルータ、仮想ロードバランサ)</li>
+<li>構成要素 : ① <strong>VNF</strong> (ソフトウェアとして動作する機能) ② <strong>NFVI</strong> (NFV Infrastructure : VNFを動かす物理サーバ・仮想化基盤) ③ <strong>MANO</strong> (Management and Orchestration : VNFの配置・起動・停止・監視などの管理・自動化)</li>
+<li>専用機器の購入・設置が不要になり、機能の追加・変更・拡張をソフトウェアで素早く行える (コスト削減・導入期間の短縮)</li>
+<li>通信事業者のコアネットワークなどで、専用機器の置き換えを目的に普及した</li>
+<li>汎用サーバ上で動作するため、専用ハードウェアに比べて処理性能が劣る場合がある</li>
+<li>SDNとの違い : SDNは「制御の集中化・ソフトウェア化 (経路制御や設定変更を柔軟にする)」、NFVは「機能そのものの仮想化 (専用機器をソフトウェアに置き換える)」。互いに独立した技術だが、組み合わせて使うことが多い</li>
 </ul>
 </td>
 </tr>
