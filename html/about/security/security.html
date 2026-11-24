@@ -45,6 +45,10 @@
                             <h2 class="border-bottom fw-bold" id="CRYPTREC">
                                 CRYPTREC暗号リスト
                             </h2>
+                            <p>
+                                政府機関の情報システム調達で参照される暗号のリスト<br>
+                                デジタル庁・総務省・経済産業省が公表
+                            </p>
                             <div id="md-list">
 | リスト名 | 安全性・実装性能の確認 | 利用実績 | 推奨度 |
 |---|---|---|---|
@@ -81,6 +85,10 @@
                                 CRYPTRECにより安全性及び実装性能が確認された暗号技術について、市場における利用実績が十分であるか、今後の普及が見込まれると判断され、<strong>当該技術の利用を推奨するもの</strong>のリスト<br>
                                 政府機関の情報システム調達において参照される、最も信頼性の高いリスト
                             </p>
+
+                            <h4 class="pt-3 fw-bold">
+                                現行暗号リスト
+                            </h4>
 
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
                                 <div class="col"><pre><code class="language-bash">DSA</code></pre></div>
@@ -121,6 +129,61 @@
                             <p>
                                 ※ : RSA-PSS, RSASSA-PKCS1-v1_5, RSA-OAEPは「SHA-1及びRSA1024に係る移行指針」を踏まえて利用すること
                             </p>
+                            <h4 class="pt-3 fw-bold">
+                                PQCリスト
+                            </h4>
+                            <p>
+                                現行暗号の解読に利用可能な水準の量子コンピュータ(CRQC)への耐性が確認された暗号技術のリスト(2026年3月に電子政府推奨暗号リストの表2として追加)
+                            </p>
+
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                <div class="col"><pre><code class="language-bash">ML-KEM-768 (Cat.3)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">ML-KEM-1024 (Cat.5)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">ML-DSA-44 ※1 (Cat.1/2)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">ML-DSA-65 ※1 (Cat.3)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">ML-DSA-87 ※1 (Cat.5)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SLH-DSA-SHA2-192[s/f] ※1 (Cat.3)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SLH-DSA-SHAKE-192[s/f] ※1 (Cat.3)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SLH-DSA-SHA2-256[s/f] ※1 (Cat.5)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SLH-DSA-SHAKE-256[s/f] ※1 (Cat.5)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">AES-192 (Cat.3)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">AES-256 (Cat.5)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">Camellia-192 (Cat.3)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">Camellia-256 (Cat.5)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SHA-384 (Cat.4)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SHA-512 (Cat.4)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SHA3-384 (Cat.4)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SHA3-512 (Cat.4)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">SHAKE256 ※2 (Cat.4)</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">CBC</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">CFB</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">CTR</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">OFB</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">XTS</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">CCM</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">GCM</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">CMAC</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">HMAC</code></pre></div>
+                                <div class="col"><pre><code class="language-bash">ChaCha20-Poly1305 (Cat.5)</code></pre></div>
+                            </div>
+
+                            <p>
+                                ※1 : ML-DSA・SLH-DSAは2026年10月に意見募集された改定案で、CRYPTRECの安全性評価が終わっておらず確定していない(焦点はCategory 1・2にあたるML-DSA-44とSLH-DSA-128系を載せるか)<br>
+                                ML-DSA-44は可能な限りML-DSA-65/87を推奨<br>
+                                ※2 : SHAKE256はハッシュ長384ビット以上とすること<br>
+                                暗号利用モード(CBC〜HMAC)は、組み合わせる暗号技術のカテゴリに準ずる。XTSはストレージ暗号化に限る<br>
+                                GCMのIV長は96ビット推奨
+
+                                <div id="md-nist-cat">
+| カテゴリ(NIST基準) | 同等の探索難度 |
+|---|---|
+| Category 1 | 128ビット鍵を持つブロック暗号に対する鍵探索 |
+| Category 2 | 256ビットのハッシュ関数に対する衝突探索 |
+| Category 3 | 192ビット鍵を持つブロック暗号に対する鍵探索 |
+| Category 4 | 384ビットのハッシュ関数に対する衝突探索 |
+| Category 5 | 256ビット鍵を持つブロック暗号に対する鍵探索 |
+                                </div>
+                            </p>
 
                             <h3 class="pt-3 border-bottom fw-bold">
                                 運用監視暗号リスト
@@ -137,13 +200,6 @@
                                 <div class="col"><pre><code class="language-bash">RSAES-PKCS1-v1_5</code></pre></div>
                                 <div class="col"><pre><code class="language-bash">SHA-1</code></pre></div>
                             </div>
-
-                            <h2 class="border-bottom fw-bold">
-                                暗号一覧
-                            </h2>
-
-                            <div id="md-cry"></div>
-
 
                         </article>
 
@@ -766,6 +822,7 @@ sequenceDiagram
                 "md-list", 
                 "md-tls",
                 "md-quictls",
+                "md-nist-cat",
             ];
 
             window.addEventListener(
