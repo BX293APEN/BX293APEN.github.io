@@ -1,0 +1,199 @@
+/*
+# crypt.css
+
+暗号一覧表(`#crypt-app`)用のスタイル。
+Bootstrap 5.3 を読み込んだページで使う。すべて `#crypt-app` 配下にのみ適用される。
+
+## よく変える値
+
+| 項目 | セレクタ | プロパティ | 現在値 | 変更例 |
+|---|---|---|---|---|
+| 表の高さ | `.scroller` | `max-height` | `400vh` | `90vh` |
+| 文字サイズ | `table` | `font-size` | `1rem` | `1.1rem` |
+| 列の幅 | `th, td` | `min-width` | `17rem` | `20rem` |
+| テスト技法列の幅 | `.name` | `min-width` / `max-width` | `15rem` | `16rem`(2つとも同じ値にする) |
+| 固定を外す画面幅 | `@media` | `max-width` | `1024px` | `768px`(スマホ・縦向きタブレットのみにする) |
+*/
+
+
+/* ## 表の外枠とスクロール
+
+`.scroller` が縦横のスクロール領域になる。
+固定(sticky)した見出し・左列は、この領域の中で固定される。
+*/
+#crypt-app .scroller {
+  max-height: 400vh;                              /* 表の高さ(画面の高さに対する割合) */
+  overflow: auto;                                /* 縦横ともスクロール */
+  border: 1px solid var(--bs-border-color);
+}
+
+/* ## 表本体
+
+| プロパティ | 値 | 理由 |
+|---|---|---|
+| `border-collapse` | `separate` | `collapse` のままだと sticky セルの罫線が消えるため |
+| `width` | `max-content` | 列が縮まず、横スクロールになるようにする |
+| `min-width` | `100%` | 列が少ないときも幅いっぱいに広げる |
+| `font-size` | `1rem` | 表全体の文字サイズ |
+*/
+#crypt-app table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ## セル共通
+
+`background` を指定しているのは、sticky セルの下を他のセルが透けて見えないようにするため。
+*/
+#crypt-app th,
+#crypt-app td {
+  padding: .5rem .65rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--bs-border-color);
+  border-right: 1px solid var(--bs-border-color);
+  min-width: 17rem;                              /* 列の幅 */
+  background: var(--bs-body-bg);
+}
+
+/* セル内の箇条書き */
+#crypt-app ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+
+/* ## 固定(sticky)の指定
+
+| 対象 | 固定方向 | `z-index` | 補足 |
+|---|---|---|---|
+| `thead th`(1段目) | 上(`top: 0`) | 3 | |
+| `thead th`(2段目) | 上(1段目の高さの下) | 3 | `--r1h` は JavaScript が1段目の高さから設定する |
+| `.name`(テスト技法の列) | 左(`left: 0`) | 2 | 本文セルより前面に出す |
+| 左上の角(`thead th.name`) | 上・左 | 4 | 見出しにも左列にも隠れないよう最前面にする |
+*/
+#crypt-app thead th {
+  position: sticky;
+  z-index: 3;
+  background: var(--bs-tertiary-bg);
+  font-weight: 600;
+}
+#crypt-app thead tr.r1 th { top: 0; }
+#crypt-app thead tr.r2 th { top: var(--r1h, 2.4rem); }   /* 2.4rem は JavaScript が動くまでの仮の値 */
+
+#crypt-app .name {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 15rem;                              /* テスト技法列の幅(max-width と同じ値にする) */
+  max-width: 15rem;
+  background: var(--bs-body-bg);
+  border-right: 2px solid var(--bs-border-color); /* 固定列の境目を少し太くする */
+}
+#crypt-app thead th.name {
+  z-index: 4;
+  background: var(--bs-tertiary-bg);
+}
+
+/* ## 行のホバー表示
+
+行全体(固定列を含む)の背景を変える。`> *` で `th` と `td` の両方に当てる。
+*/
+#crypt-app tbody tr:hover > * {
+  background: var(--bs-primary-bg-subtle);
+}
+
+
+/* ## タグ(バッジ)
+
+| クラス・属性 | 場所 | 説明 |
+|---|---|---|
+| `.tags` | テスト技法セル内 | バッジを並べる入れ物 |
+| `.tag` | テスト技法セル内 | 表中のタグ(`<button>`) |
+| `[data-tag].active` | 上部ボタン・表中タグ | 選択中の状態 |
+*/
+#crypt-app .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .2rem;
+  margin-top: .35rem;
+}
+#crypt-app .tag {
+  border: 0;                                     /* `<button>` の既定の枠線を消す */
+  font-weight: 400;
+  cursor: pointer;
+}
+#crypt-app [data-tag].active {
+  background: var(--bs-primary);
+  color: #fff;
+}
+#crypt-app .tag.active {
+  background: var(--bs-primary) !important;      /* Bootstrap の `.text-bg-secondary` に勝たせる */
+}
+
+
+/* ## スマホ・タブレットでは列を固定しない
+
+PC(マウス操作・広い画面)では、タイトル列(`.name`)を左に固定したままにする。
+スマホ・タブレットでは画面が狭く、固定列が画面の大半を占めて本文が読めなくなるため、
+タイトル列を固定せず、他の列と一緒に横スクロールさせる。
+
+| 条件 | 内容 | 補足 |
+|---|---|---|
+| `max-width: 1024px` | 画面幅が 1024px 以下 | スマホ・タブレット(縦向き・横向き)が対象 |
+| `hover: none` かつ `pointer: coarse` | タッチ操作が主の端末 | 画面が広いタブレットも対象にする |
+
+上の2条件のどちらかに当てはまると適用する。
+
+| 対象 | プロパティ | PC | スマホ・タブレット | 理由 |
+|---|---|---|---|---|
+| `.name` | `position` | `sticky` | `static` | 左固定をやめる |
+| `.name` | `border-right` | `2px` | `1px` | 固定列の境目を強調する必要がなくなるため |
+| `thead th.name` | `position` | `sticky` | `sticky`(上のみ) | 見出し行の上固定は残す(左の固定だけ外す) |
+| `thead th.name` | `left` | `0` | `auto` | 左方向には固定しない |
+| `thead th.name` | `z-index` | `4` | `3` | 左上の角を最前面にする必要がなくなるため |
+
+見出し行の上固定(縦スクロール時)はそのまま残す。
+*/
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+  #crypt-app .name {
+    position: static;                            /* 左固定をやめる */
+    left: auto;
+    z-index: auto;
+    border-right: 1px solid var(--bs-border-color);
+  }
+  #crypt-app thead th.name {
+    position: sticky;                            /* 見出し行の上固定は残す */
+    left: auto;                                  /* 左には固定しない */
+    z-index: 3;                                  /* 他の見出しセルと同じ高さにする */
+  }
+}
+
+
+/* ## 列幅(暗号一覧用に追加)
+
+テンプレートのままだと、`width: max-content` により長い文が折り返されず列が伸びるため、
+列ごとに幅を指定して折り返す。`min-width` も同じ値にして、セル共通の `17rem` を上書きする。
+
+| 列 | 内容 | 幅 |
+|---|---|---|
+| 1 | 名称(左に固定) | `15rem`(`.name`) |
+| 2 | 概要(仕組みの概要 + 備考) | `40rem` |
+| 3 | CRYPTREC種別 | `14rem` |
+| 4 | 基盤となる数学的問題 | `16rem` |
+| 5 | 鍵長・生成ビット数 | `20rem` |
+
+備考の項目(`オプション` `並列処理` など)は、概要の下に `.note` で続ける。前に1行分の余白を空ける。
+
+分類・量子耐性は列としては出さない(上部と名称の下のタグで表す)。
+*/
+#crypt-app .scroller > table > thead > tr > th:nth-child(2) { width: 40rem; min-width: 40rem; }
+#crypt-app .scroller > table > thead > tr > th:nth-child(3) { width: 14rem; min-width: 14rem; }
+#crypt-app .scroller > table > thead > tr > th:nth-child(4) { width: 16rem; min-width: 16rem; }
+#crypt-app .scroller > table > thead > tr > th:nth-child(5) { width: 20rem; min-width: 20rem; }
+
+/* 概要の下に続ける備考の項目(1行分の空きで概要と区別する) */
+#crypt-app .note { margin-top: 1.5em; }

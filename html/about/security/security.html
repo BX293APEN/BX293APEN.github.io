@@ -23,6 +23,7 @@
         <link href="/css/about/security-service.css" rel="stylesheet">
         <link href="/css/about/auth-style.css" rel="stylesheet">
         <link href="/css/about/tls.css" rel="stylesheet">
+        <link href="/css/about/crypt.css" rel="stylesheet">
 
         <div class="loading-container" id="loadingScreen">
             <div class="loading"></div>
@@ -201,11 +202,13 @@
                                 <div class="col"><pre><code class="language-bash">SHA-1</code></pre></div>
                             </div>
 
-                            <h2 class="border-bottom fw-bold">
+                            <h2 class="border-bottom fw-bold" id="crypt">
                                 暗号一覧
                             </h2>
 
-                            <div id="md-cry"></div>
+                            <div id="crypt-list"></div>
+
+                            <div id="md-cry" class="pt-4"></div>
 
                         </article>
 
@@ -752,7 +755,7 @@ sequenceDiagram
                                         <a href="#CRYPTREC">CRYPTREC暗号リスト</a>
                                     </li>
                                     <li>
-                                        <a href="#md-cry">暗号一覧</a>
+                                        <a href="#crypt">暗号一覧</a>
                                     </li>
                                     <li>
                                         <a href="#tls_ssl">TLS/SSL</a>
@@ -818,7 +821,7 @@ sequenceDiagram
             
             new MarkDownLoader(
                 id              = "md-cry",
-                mdFile          = "/html/about/security/crypt.md",
+                mdFile          = "/html/about/security/cryptword.md",
             )
 
             embedded_html("/html/about/security/auth.html", "md-cert");
@@ -961,6 +964,34 @@ sequenceDiagram
                     );
                 }
             );
+
+            embedded_html("/html/about/security/crypt.html", "crypt-list");
+
+            window.addEventListener(
+                'load',
+                () => {
+                    setTimeout(
+                        () => {
+                            createTableSearch(
+                                {
+                                    appId: 'crypt-app',
+                                    inputId: 'crypt-q',
+                                    countId: 'crypt-count',
+                                    clearId: 'crypt-clear',
+                                    scrollerSelector: '.scroller',
+                                    headRowSelector: 'thead tr.r1',
+                                    rowSelector: '.scroller > table > tbody > tr',
+                                    tagAttr: 'data-tag',
+                                    rowTagsAttr: 'data-tags',
+                                    selectId: null,                                 // プルダウンは使わない(タグの絞り込みだけ)
+                                }
+                            );
+                        },
+                        300
+                    );
+                }
+            );
+
 
         </script>
     </footer>
