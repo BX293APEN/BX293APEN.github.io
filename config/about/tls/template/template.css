@@ -8,7 +8,7 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#__APP_ID__` 配
 
 | 項目 | セレクタ | プロパティ | 現在値 | 変更例 |
 |---|---|---|---|---|
-| 表の高さ | `.scroller` | `max-height` | `200vh` | `90vh` |
+| 表の高さ | `.scroller` | `max-height` | `400vh` | `90vh` |
 | 文字サイズ | `table` | `font-size` | `1rem` | `1.1rem` |
 | 列の幅 | `th, td` | `min-width` | `17rem` | `20rem` |
 | テスト技法列の幅 | `.name` | `min-width` / `max-width` | `15rem` | `16rem`(2つとも同じ値にする) |
@@ -22,7 +22,7 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#__APP_ID__` 配
 固定(sticky)した見出し・左列は、この領域の中で固定される。
 */
 #__APP_ID__ .scroller {
-  max-height: 200vh;                              /* 表の高さ(画面の高さに対する割合) */
+  max-height: 400vh;                              /* 表の高さ(画面の高さに対する割合) */
   overflow: auto;                                /* 縦横ともスクロール */
   border: 1px solid var(--bs-border-color);
 }
@@ -210,13 +210,13 @@ PC(マウス操作・広い画面)では、タイトル列(`.name`)を左に固�
 | 8 | 規格 | `24rem` |
 | 9 | 公開年 | `8rem` |
 */
-#__APP_ID__ .scroller > table > thead > tr > th:nth-child(2),
-#__APP_ID__ .scroller > table > thead > tr > th:nth-child(3),
-#__APP_ID__ .scroller > table > thead > tr > th:nth-child(4),
-#__APP_ID__ .scroller > table > thead > tr > th:nth-child(5),
-#__APP_ID__ .scroller > table > thead > tr > th:nth-child(8) { width: 24rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(2) { width: 24rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(3) { width: 48rem; min-width: 36rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(4) { width: 24rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(5) { width: 24rem; }
 #__APP_ID__ .scroller > table > thead > tr > th:nth-child(6) { width: 10rem; min-width: 10rem; }
 #__APP_ID__ .scroller > table > thead > tr > th:nth-child(7) { width: 60rem; }
+#__APP_ID__ .scroller > table > thead > tr > th:nth-child(8) { width: 24rem; }
 #__APP_ID__ .scroller > table > thead > tr > th:nth-child(9) { width: 8rem;  min-width: 8rem; }
 
 #__APP_ID__ td table {
