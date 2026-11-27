@@ -5,7 +5,7 @@ class BookkeepingMD2HTML:
     """
     ## 簿記・企業会計まとめ(Markdown の表)を、タグ検索付きの Bootstrap 用 HTML に変換するクラス
 
-    `auth/build.py`(AuthMD2HTML)を参考に、表が4列・分類が見出し由来になるよう作り変えたもの。
+    `auth/build.py`(AuthMD2HTML)を参考に、表が5列(用語・説明・計算式・備考・タグ)・分類が見出し由来になるよう作り変えたもの。
     JavaScript と CSS は、テンプレート(`template/`)の ID・引数だけを `auth` 用から変えてある。
 
     | メソッド | 役割 |
@@ -15,8 +15,9 @@ class BookkeepingMD2HTML:
     | `split_cells` | 表の1行を、セルのリストに分ける(`\\\\|` は区切りにしない) |
     | `parse` | Markdown を、見出し(大分類・分類)つきの行データに変換する |
     | `class_tree` | 全行の経路から、大分類ごとの分類の一覧(木)を作り、タグ名の衝突を調べる |
-    | `tags_of` | 行ごとにタグを決める |
+    | `tags_of` | 行ごとにタグを決める(見出しの経路 + `タグ` 列) |
     | `check_clean` | 級・出題区分など、簿記の内容ではない情報が残っていないか確認する |
+    | `check_tags` | 特徴タグが、他の列の内容と食い違っていないか確認する(食い違いは警告) |
     | `md_inline` | セル内に残った Markdown の強調(`**…**`)を `<strong>` にする |
     | `row_html` | 1行分の `<tr>` を作る |
     | `group` | 上部のタグボタン群(特徴)を作る |
@@ -34,7 +35,7 @@ class BookkeepingMD2HTML:
     |---|---|---|
     | `## 大分類` | 大分類の見出し | 分類タグ(大分類)になる |
     | `### 分類` | 分類の見出し(省略可。省略したときは大分類だけが分類になる) | 分類タグになる |
-    | 表 | `用語 \\| 説明 \\| 計算式 \\| 備考` の4列。見出し行・区切り行は読み飛ばす | 1つの表にまとめる |
+    | 表 | `用語 \\| 説明 \\| 計算式 \\| 備考 \\| タグ` の5列。見出し行・区切り行は読み飛ばす | 1つの表にまとめる |
     | `# …` | 表記ルールなど、表のない説明 | 変換しない(表を置くとエラー) |
 
     | 列 | 内容 | 変換後 |
@@ -43,24 +44,34 @@ class BookkeepingMD2HTML:
     | 2 説明 | HTML | そのまま |
     | 3 計算式 | `<div class="boki-formula">\\\\[…\\\\]</div>`(TeX) | そのまま(数式の描画は貼り付け先の MathJax が行う) |
     | 4 備考 | HTML | そのまま |
+    | 5 タグ | 見出し以外で決めるタグを、コンマ(`,`)区切りで書く。なければ `-` | 名前の下のバッジと、上部の絞り込みボタンになる |
 
     ## タグの決まり
 
     | 系統 | 内容 |
     |---|---|
-    | 分類 | 見出しの経路(`大分類 > 分類`)の全要素。大分類を選ぶと、その下の分類の行もすべて残る |
-    | 特徴 | `計算式あり`(計算式列が `-` でない)と `仕訳あり`(用語・説明・備考に `(借)` がある) |
+    | 分類 | 見出しの経路(`大分類 > 分類`)の全要素 + `タグ` 列に書いた見出し名(その大分類も加わる)。大分類を選ぶと、その下の分類の行もすべて残る |
+    | 特徴 | `タグ` 列に書いた特徴タグ(`FEATURE` に定義したもの) |
+
+    `タグ` 列に書けるのは、次のどちらかだけ。
+
+    | 書くもの | 使いどころ |
+    |---|---|
+    | 見出しの名前(`###` の名前。`###` がなければ `##` の名前) | 同じ用語が別の見出しの下にも属するとき。重複する行は1行にまとめ、行は最初に出てくる見出しの下に置く |
+    | 特徴タグ(`FEATURE`) | `計算式あり` `仕訳あり` `評価勘定` など、見出しからは決まらない性質 |
 
     | 決まり | 内容 |
     |---|---|
     | 名前の重複 | 同じ名前を、別の大分類の下や、特徴のタグ名と重ねるとエラー |
+    | 未定義のタグ | `タグ` 列に、見出しにも `FEATURE` にもない名前があるとエラー(誤字の検出) |
+    | 特徴タグの食い違い | `計算式あり` `仕訳あり` が、計算式列・`(借)` の有無と合わないと警告(`check_tags`) |
     | 表が見出しの外 | `##` より前に表があるとエラー |
     | 余分な情報 | 級・年度・区分表・未確認などが残っているとエラー(`CLEAN_NG`) |
     """
 
     CSS = "bookkeeping-style.css"   # 出力する CSS のファイル名(確認用ページも読み込む)
     JS = "bookkeeping-script.js"    # 出力する JavaScript のファイル名(確認用ページも読み込む)
-    COLS = 4                        # Markdown の表の列数
+    COLS = 5                        # Markdown の表の列数(用語・説明・計算式・備考・タグ)
     CLASS_SEP = " > "               # 経路の表示用の区切り(エラーメッセージ用)
     # 簿記の内容ではない情報(何級か・出題区分表・試験年度・未確認の印)。残っているとエラーにする
     CLEAN_NG = re.compile(r"区分表(?!示)|未確認|標準勘定科目表|20\d\d年|範囲外|[1-3１-３]級|出題|※|\d章を")
@@ -96,6 +107,8 @@ class BookkeepingMD2HTML:
         self.out_css = os.path.join(out_dir, self.CSS)
         self.out_js = os.path.join(out_dir, self.JS)
         self.rows = 0
+        self.owner = {}       # 分類タグ名 → 大分類名(`class_tree` が設定)
+        self.warnings = []    # 警告のリスト(`build` が設定。`save_html` が表示)
         self.load_words()
 
     def _path(self, p):
@@ -147,7 +160,8 @@ class BookkeepingMD2HTML:
         | 設定する属性 | 型 | 説明 |
         |---|---|---|
         | `self.groups` | `tuple[str, ...]` | タグの系統名。上部のボタン群・行のタグは、この順に並ぶ |
-        | `self.feature` | `dict[str, tuple[str, str]]` | 特徴タグ名 → (対象の列, マッチする正規表現) |
+        | `self.feature` | `tuple[str, ...]` | `タグ` 列に書ける特徴タグ名。上部のボタン・行のタグは、この順に並ぶ |
+        | `self.feature_check` | `dict[str, tuple[str, str]]` | 特徴タグ名 → (対象の列, マッチする正規表現)。`check_tags` の確認用 |
         | `self.prev` | `str` | 確認用ページのひな形 |
 
         「分類」のタグは、ここでは定義しない。`bookkeeping.md` の見出しがそのままタグになる
@@ -157,10 +171,17 @@ class BookkeepingMD2HTML:
 
         # ## 特徴タグ
         #
+        # `タグ` 列に書けるのは、見出しの名前か、ここに定義した名前だけ(`tags_of` を参照)。
+        FEATURE = ("計算式あり", "仕訳あり", "評価勘定")
+
+        # ## 特徴タグの確認規則
+        #
+        # 他の列の内容から機械的に判断できる特徴タグだけ、書き忘れ・書き間違いを警告する(`check_tags`)。
+        #
         # | キー | 値 |
         # |---|---|
         # | タグ名 | `(対象, 正規表現)`。対象は `formula`(計算式列が `-` でない行)、または `text`(用語・説明・備考にマッチする行) |
-        FEATURE = {
+        FEATURE_CHECK = {
             "計算式あり": ("formula", r""),
             "仕訳あり": ("text", r"\(借\)"),
         }
@@ -218,7 +239,7 @@ if (typeof createTableSearch === 'undefined') {
 </body>
 </html>
 """
-        self.groups, self.feature, self.prev = GROUPS, FEATURE, PREVIEW
+        self.groups, self.feature, self.feature_check, self.prev = GROUPS, FEATURE, FEATURE_CHECK, PREVIEW
 
     @staticmethod
     def plain(s):
@@ -262,12 +283,12 @@ if (typeof createTableSearch === 'undefined') {
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | 行リスト | `list[tuple[int, list[str], list[str]]]` | (Markdown の行番号, 4セル, 経路 `[大分類]` または `[大分類, 分類]`) |
+        | 行リスト | `list[tuple[int, list[str], list[str]]]` | (Markdown の行番号, 5セル, 経路 `[大分類]` または `[大分類, 分類]`) |
 
         | 例外 | 条件 |
         |---|---|
         | `ValueError` | `##` より前、または `#` の下に表がある |
-        | `AssertionError` | 表の列数が4でない |
+        | `AssertionError` | 表の列数が5でない |
         """
         rows, top, sub = [], None, None
         with open(self.src, encoding="utf-8") as f:
@@ -314,6 +335,10 @@ if (typeof createTableSearch === 'undefined') {
         |---|---|---|
         | 木 | `dict[str, list[str]]` | 大分類名 → その下の分類名。どちらも初めて出てきた順 |
 
+        | 設定する属性 | 型 | 説明 |
+        |---|---|---|
+        | `self.owner` | `dict[str, str]` | 分類タグ名(大分類・分類) → その大分類名。`tags_of` が `タグ` 列の見出し名を引くのに使う |
+
         | 例外 | 条件 |
         |---|---|
         | `ValueError` | 上の表の重なりがある |
@@ -329,46 +354,94 @@ if (typeof createTableSearch === 'undefined') {
         clash = sorted(set(owner) & set(self.feature))
         if clash:
             raise ValueError(f"分類タグが、特徴のタグ名と重なっています: {clash}")
+        self.owner = owner
         return tree
 
-    def tags_of(self, cells, path):
+    def tags_of(self, no, cells, path):
         """
         ## 行のタグを系統ごとに返す
 
+        見出しの経路に、`タグ` 列(コンマ区切り)のタグを加える。`タグ` 列の名前は、次のように振り分ける。
+
+        | `タグ` 列の名前 | 振り分け先 | 備考 |
+        |---|---|---|
+        | 見出しの名前(`self.owner` にある) | 分類 | その大分類も加える(先に並べる)。自分の経路にあるものは重ねない |
+        | `self.feature` にある名前 | 特徴 | `self.feature` の順に並べる |
+        | どちらでもない | (エラー) | 誤字を見つけるため |
+
         | 引数 | 型 | 説明 |
         |---|---|---|
-        | `cells` | `list[str]` | 4セル |
+        | `no` | `int` | Markdown の行番号(エラーメッセージ用) |
+        | `cells` | `list[str]` | 5セル |
         | `path` | `list[str]` | その行の経路(`[大分類]` または `[大分類, 分類]`) |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
-        | タプル | `tuple[list, list]` | `self.groups` の順(分類・特徴)のタグ。分類は経路の全要素 |
+        | タプル | `tuple[list, list]` | `self.groups` の順(分類・特徴)のタグ。分類は経路の全要素 + `タグ` 列の見出し名 |
+
+        | 例外 | 条件 |
+        |---|---|
+        | `ValueError` | `タグ` 列に、見出しにも `self.feature` にもない名前がある |
         """
-        text = self.plain(" ".join((cells[0], cells[1], cells[3])))
-        feats = []
-        for tag, (kind, rx) in self.feature.items():
-            if kind == "formula" and cells[2] not in ("-", ""):
-                feats.append(tag)
-            elif kind == "text" and re.search(rx, text):
-                feats.append(tag)
-        return list(path), feats
+        names = [t.strip() for t in cells[4].split(",") if t.strip() not in ("", "-")]
+        cls, feats = list(path), []
+        for t in dict.fromkeys(names):  # 同じ名前の重複は除く(書いた順は保つ)
+            if t in self.owner:
+                cls += [x for x in (self.owner[t], t) if x not in cls]
+            elif t in self.feature:
+                feats.append(t)
+            else:
+                raise ValueError(
+                    f"{self.plain(cells[0])}(bookkeeping.md {no}行目): "
+                    f"タグ {t!r} は、見出しの名前にも特徴のタグ名({', '.join(self.feature)})にもありません")
+        return cls, sorted(feats, key=self.feature.index)
 
     def check_clean(self, no, cells):
         """
         ## 級・出題区分など、簿記の内容ではない情報が残っていないか確認する
 
+        `タグ` 列は対象にしない(タグ名は `tags_of` が確認する)。
+
         | 引数 | 型 | 説明 |
         |---|---|---|
         | `no` | `int` | Markdown の行番号(エラーメッセージ用) |
-        | `cells` | `list[str]` | 4セル |
+        | `cells` | `list[str]` | 5セル |
 
         | 例外 | 条件 |
         |---|---|
         | `ValueError` | `CLEAN_NG` にマッチする文字列がある |
         """
-        m = self.CLEAN_NG.search(self.plain(" ".join(cells)))
+        m = self.CLEAN_NG.search(self.plain(" ".join(cells[:4])))
         if m:
             raise ValueError(f"{self.plain(cells[0])}(bookkeeping.md {no}行目): 余分な情報 {m.group(0)!r} が残っています")
+
+    def check_tags(self, no, cells, feats):
+        """
+        ## 特徴タグが、他の列の内容と食い違っていないか確認する
+
+        `self.feature_check` にある特徴タグだけが対象(`評価勘定` のように機械的に判断できないタグは対象外)。
+        食い違っていてもエラーにはせず、警告の文字列を返す(`タグ` 列を正とするため)。
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `no` | `int` | Markdown の行番号(警告用) |
+        | `cells` | `list[str]` | 5セル |
+        | `feats` | `list[str]` | `tags_of` が返した、その行の特徴タグ |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 警告のリスト | `list[str]` | 食い違いごとに1件。なければ空リスト |
+        """
+        text = self.plain(" ".join((cells[0], cells[1], cells[3])))
+        warns = []
+        for tag, (kind, rx) in self.feature_check.items():
+            expect = cells[2] not in ("-", "") if kind == "formula" else bool(re.search(rx, text))
+            if expect != (tag in feats):
+                warns.append(
+                    f"{self.plain(cells[0])}(bookkeeping.md {no}行目): "
+                    + (f"{tag!r} の内容があるのに、タグ列にありません" if expect
+                       else f"タグ列に {tag!r} がありますが、内容がありません"))
+        return warns
 
     @staticmethod
     def md_inline(s):
@@ -391,7 +464,7 @@ if (typeof createTableSearch === 'undefined') {
 
         | 引数 | 型 | 説明 |
         |---|---|---|
-        | `cells` | `list[str]` | 元の4セル |
+        | `cells` | `list[str]` | 元のセル(先頭の4セルを使う。`タグ` 列は `tags` に反映済み) |
         | `tags` | `list[str]` | この行のタグ(分類+特徴) |
 
         | 戻り値 | 型 | 説明 |
@@ -502,14 +575,16 @@ if (typeof createTableSearch === 'undefined') {
         |---|---|---|
         | HTML | `str` | テンプレートの `__ROWS__` と `__FILTERS__` を置換したもの(改行は CRLF にそろえる) |
 
-        行数は `self.rows` に、タグごとの件数は `self.count` に、分類の木は `self.tree` に入る。
+        行数は `self.rows` に、タグごとの件数は `self.count` に、分類の木は `self.tree` に、
+        警告は `self.warnings` に入る。
         """
         rows = self.parse()
         tree = self.class_tree([p for _, _, p in rows])
-        tags = []
+        tags, self.warnings = [], []
         for no, c, path in rows:
             self.check_clean(no, c)
-            cat, feat = self.tags_of(c, path)
+            cat, feat = self.tags_of(no, c, path)
+            self.warnings += self.check_tags(no, c, feat)
             tags.append(cat + feat)
         count = {}
         for ts in tags:
@@ -528,6 +603,8 @@ if (typeof createTableSearch === 'undefined') {
         """
         ## HTML の断片を `self.out` に書き出す
 
+        `build` が集めた警告(`check_tags`)があれば、標準エラーに `WARN` 付きで表示する。
+
         | 戻り値 | 型 | 説明 |
         |---|---|---|
         | パス | `str` | 書き出したファイルのパス |
@@ -535,6 +612,8 @@ if (typeof createTableSearch === 'undefined') {
         out = self.build()
         self._write(self.out, out)
         print(self.rows, "rows,", len(out), "bytes ->", self.out)
+        for w in self.warnings:
+            print("WARN", w, file=sys.stderr)
         return self.out
 
     def save_css(self):
