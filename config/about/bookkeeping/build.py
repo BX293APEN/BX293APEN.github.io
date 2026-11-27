@@ -685,7 +685,7 @@ if (typeof createTableSearch === 'undefined') {
                     {btn(top, " fw-bold")}{"<br>" if subs else ""}
                     {" ".join(btn(t) for t in subs)}
                 </div>
-                """
+"""
             for top, subs in tree.items())
         if not blocks:
             return ""
