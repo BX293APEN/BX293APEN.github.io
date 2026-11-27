@@ -107,6 +107,7 @@ class BookkeepingMD2HTML:
         self.out_css = os.path.join(out_dir, self.CSS)
         self.out_js = os.path.join(out_dir, self.JS)
         self.rows = 0
+        self.heads = []       # 見出しの経路(表のない見出しも含む)の出現順のリスト(`parse` が設定)
         self.owner = {}       # 分類タグ名 → 大分類名(`class_tree` が設定)
         self.warnings = []    # 警告のリスト(`build` が設定。`save_html` が表示)
         self.load_words()
@@ -281,9 +282,16 @@ if (typeof createTableSearch === 'undefined') {
         `#` `##` `###` の見出しで、いまの大分類・分類を追う。`#` は表記ルールなどの説明で、
         大分類・分類を空にする。見出し行(3・4列目が `計算式` `備考` の行。1列目は `用語` でなくてもよい)と区切り行(`| ---`)は読み飛ばす。
 
+        表のない見出し(`### 財務三表の基本構造` のように、見出しだけで中身が空のもの)も、
+        分類タグとして使えるよう、見出しの経路を `self.heads` に出現順で記録する。
+
         | 戻り値 | 型 | 説明 |
         |---|---|---|
         | 行リスト | `list[tuple[int, list[str], list[str]]]` | (Markdown の行番号, 5セル, 経路 `[大分類]` または `[大分類, 分類]`) |
+
+        | 設定する属性 | 型 | 説明 |
+        |---|---|---|
+        | `self.heads` | `list[list[str]]` | 見出しの経路(`[大分類]` または `[大分類, 分類]`)。表の有無にかかわらず、出現順に並べる |
 
         | 例外 | 条件 |
         |---|---|
@@ -291,6 +299,7 @@ if (typeof createTableSearch === 'undefined') {
         | `AssertionError` | 表の列数が5でない |
         """
         rows, top, sub = [], None, None
+        self.heads = []
         with open(self.src, encoding="utf-8") as f:
             lines = f.read().splitlines()
         for no, ln in enumerate(lines, 1):
@@ -301,10 +310,12 @@ if (typeof createTableSearch === 'undefined') {
                     top = sub = None
                 elif depth == 2:
                     top, sub = title, None
+                    self.heads.append([top])          # 表がなくても、大分類をタグにする
                 else:
                     if top is None:
                         raise ValueError(f"{no}行目: 「{title}」の前に大分類(##)がありません")
                     sub = title
+                    self.heads.append([top, sub])     # 表がなくても、分類をタグにする
                 continue
             if ln.startswith("|") and not re.match(r"\|\s*-{3}", ln) and self.split_cells(ln)[2:4] != ["計算式", "備考"]:
                 if top is None:
@@ -316,8 +327,9 @@ if (typeof createTableSearch === 'undefined') {
 
     def class_tree(self, all_paths):
         """
-        ## 全行の経路から、大分類ごとの分類の一覧(木)を作る
+        ## 見出しと全行の経路から、大分類ごとの分類の一覧(木)を作る
 
+        表のない見出しも木に入れる(`build` が `self.heads` を先に渡す)。
         同じ名前が、次のように重なっているとエラーにする。
         1件だけでも上部のボタンに出すため、件数による足切りはしない。
 
@@ -329,7 +341,7 @@ if (typeof createTableSearch === 'undefined') {
 
         | 引数 | 型 | 説明 |
         |---|---|---|
-        | `all_paths` | `list[list[str]]` | 行ごとの経路(`parse` の結果) |
+        | `all_paths` | `list[list[str]]` | 見出しの経路(`self.heads`)に続けて、行ごとの経路(`parse` の結果)を並べたもの |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
@@ -535,7 +547,7 @@ if (typeof createTableSearch === 'undefined') {
         |---|---|---|
         | `title` | `str` | 系統名(分類) |
         | `tree` | `dict[str, list[str]]` | 大分類名 → その下の分類名(`class_tree` の結果) |
-        | `count` | `dict[str, int]` | タグ名 → 該当件数 |
+        | `count` | `dict[str, int]` | タグ名 → 該当件数(表のない見出しで、どの行も使っていないタグは `0` 件として表示する) |
 
         | 戻り値 | 型 | 説明 |
         |---|---|---|
@@ -544,7 +556,7 @@ if (typeof createTableSearch === 'undefined') {
         esc = html.escape
         btn = lambda t, extra="": (
             f'<button type="button" class="btn btn-sm btn-outline-primary{extra}" data-tag="{esc(t)}">'
-            f'{esc(t)} <span class="badge text-bg-light">{count[t]}</span></button>'
+            f'{esc(t)} <span class="badge text-bg-light">{count.get(t, 0)}</span></button>'
         )
         blocks = "".join(
             f"""\
@@ -579,7 +591,7 @@ if (typeof createTableSearch === 'undefined') {
         警告は `self.warnings` に入る。
         """
         rows = self.parse()
-        tree = self.class_tree([p for _, _, p in rows])
+        tree = self.class_tree(self.heads + [p for _, _, p in rows])  # 表のない見出しもタグにする
         tags, self.warnings = [], []
         for no, c, path in rows:
             self.check_clean(no, c)
