@@ -12,6 +12,7 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#boki-app` 配�
 | 文字サイズ | `table` | `font-size` | `1rem` | `1.1rem` |
 | 列の幅 | `th, td` | `min-width` | `17rem` | `20rem` |
 | 攻撃手法列の幅 | `.name` | `min-width` / `max-width` | `15rem` | `16rem`(2つとも同じ値にする) |
+| 入れ子の表の最小幅 | `.boki-nested` | `min-width` | `36rem` | `44rem`(列が多い表のとき) |
 | 固定を外す画面幅 | `@media` | `max-width` | `1024px` | `768px`(スマホ・縦向きタブレットのみにする) |
 */
 
@@ -63,6 +64,45 @@ Bootstrap 5.3 を読み込んだページで使う。すべて `#boki-app` 配�
 #boki-app ul {
   margin: 0;
   padding-left: 1.1rem;
+}
+
+/* ## 入れ子の表(`FS.html` などを、セルにネストして入れ込んだもの)
+
+セル内の `<div class="boki-nested">` の中の表。上の「表本体」「セル共通」「固定」の指定が、
+そのままだと入れ子の表にも当たってしまうため、`#boki-app .boki-nested` 配下で打ち消す。
+
+| 対象 | プロパティ | 値 | 理由 |
+|---|---|---|---|
+| `.boki-nested` | `min-width` | `36rem` | 6列などの表が、セル幅(`17rem`)で潰れないようにする |
+| `table` | `width` / `min-width` | `100%` / `0` | 外の表の `max-content` を打ち消す |
+| `table` | `margin-bottom` | `1rem !important` | 断片側の `mb-5`(`!important`)に勝たせる |
+| `table` | `border-collapse` | `collapse` | 外の表の `separate` を打ち消し、罫線を1本にする |
+| `th`, `td` | `min-width` | `0` | 外の表の列幅(`17rem`)を打ち消す |
+| `thead th` | `position` | `static` | 外の表の見出し固定が、入れ子の見出しにも効くのを防ぐ |
+| `tbody tr:hover > *` | `background` | `var(--bs-body-bg)` | 外の行のホバー色と重ならないようにする |
+*/
+#boki-app .boki-nested {
+  min-width: 36rem;                              /* 入れ子の表の最小幅 */
+  padding: .25rem 0;
+}
+#boki-app .boki-nested table {
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 1rem !important;                   /* 断片側の `mb-5` に勝たせる */
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+#boki-app .boki-nested th,
+#boki-app .boki-nested td {
+  min-width: 0;
+  padding: .25rem .5rem;
+  border: 1px solid var(--bs-border-color);
+}
+#boki-app .boki-nested thead th {
+  position: static;                              /* 外の表の見出し固定を打ち消す */
+}
+#boki-app .boki-nested tbody tr:hover > * {
+  background: var(--bs-body-bg);
 }
 
 

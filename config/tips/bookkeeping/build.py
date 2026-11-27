@@ -19,6 +19,8 @@ class BookkeepingMD2HTML:
     | `check_clean` | 級・出題区分など、簿記の内容ではない情報が残っていないか確認する |
     | `check_tags` | 特徴タグが、他の列の内容と食い違っていないか確認する(食い違いは警告) |
     | `md_inline` | セル内に残った Markdown の強調(`**…**`)を `<strong>` にする |
+    | `load_fragments` | `FS.html` などの断片ファイルを、差し込み指示コメントごとに分ける |
+    | `inject` | 断片を、指示された行・列のセルにネストして入れ込む |
     | `row_html` | 1行分の `<tr>` を作る |
     | `group` | 上部のタグボタン群(特徴)を作る |
     | `class_group` | 上部の分類ボタン群を、大分類ごとのブロックにして作る |
@@ -67,11 +69,34 @@ class BookkeepingMD2HTML:
     | 特徴タグの食い違い | `計算式あり` `仕訳あり` が、計算式列・`(借)` の有無と合わないと警告(`check_tags`) |
     | 表が見出しの外 | `##` より前に表があるとエラー |
     | 余分な情報 | 級・年度・区分表・未確認などが残っているとエラー(`CLEAN_NG`) |
+
+    ## 断片 HTML(`FS.html`)の書式
+
+    `FS.html` のような断片ファイルに、差し込み指示コメント `<!-- into: 用語名; col: 列; at: 位置 -->` を書くと、
+    次の指示コメントまで(またはファイル末尾まで)の HTML が、指示した行のセルにネストして入る。
+    1つのファイルに、指示コメントを何個でも書ける。
+
+    | キー | 必須 | 既定値 | 内容 |
+    |---|---|---|---|
+    | `into` | 必須 | (なし) | 差し込み先の行の `用語` 列(完全一致。例: `貸借対照表(B/S)`)。0件・2件以上にマッチするとエラー |
+    | `col` | 任意 | `説明` | 差し込み先の列。`説明` `計算式` `備考` のどれか |
+    | `at` | 任意 | `end` | セル内の位置。`end`(既存の内容の後ろ)か `start`(前) |
+
+    | 決まり | 内容 |
+    |---|---|
+    | 区切り | キーは `;` で区切る(`:` の左がキー、右が値) |
+    | 包み方 | 差し込む HTML は `<div class="boki-nested">…</div>` で包む(CSS が、入れ子の表の見た目を整える) |
+    | 先頭の内容 | 最初の指示コメントより前には、通常のコメント以外を書けない(書き忘れの検出) |
+    | 空の断片 | 指示コメントの後ろに HTML がないとエラー |
     """
 
     CSS = "bookkeeping-style.css"   # 出力する CSS のファイル名(確認用ページも読み込む)
     JS = "bookkeeping-script.js"    # 出力する JavaScript のファイル名(確認用ページも読み込む)
     COLS = 5                        # Markdown の表の列数(用語・説明・計算式・備考・タグ)
+    FRAG_DIRECTIVE = re.compile(r"<!--\s*into\s*:(.+?)-->", re.S)   # 差し込み指示コメント(`<!-- into: … -->`)
+    FRAG_COLS = {"説明": 1, "計算式": 2, "備考": 3}               # 差し込める列名 → `cells` の添字
+    FRAG_AT = ("end", "start")                                  # 差し込む位置(既存の内容の後ろ・前)
+    FRAG_CLASS = "boki-nested"                                  # 差し込む HTML を包む `<div>` のクラス名
     CLASS_SEP = " > "               # 経路の表示用の区切り(エラーメッセージ用)
     # 簿記の内容ではない情報(何級か・出題区分表・試験年度・未確認の印)。残っているとエラーにする
     CLEAN_NG = re.compile(r"区分表(?!示)|未確認|標準勘定科目表|20\d\d年|範囲外|[1-3１-３]級|出題|※|\d章を")
@@ -82,7 +107,8 @@ class BookkeepingMD2HTML:
         out=None,
         template="template/template.html",
         css_template="template/template.css",
-        js_template="template/template.js"
+        js_template="template/template.js",
+        fragments=("FS.html",)
     ):
         """
         ## 初期化
@@ -96,6 +122,7 @@ class BookkeepingMD2HTML:
         | `template` | `str` | `"template/template.html"` | HTML テンプレート |
         | `css_template` | `str` | `"template/template.css"` | CSS の元ファイル |
         | `js_template` | `str` | `"template/template.js"` | JavaScript の元ファイル |
+        | `fragments` | `tuple[str, ...]` | `("FS.html",)` | 表のセルにネストして入れ込む HTML 断片のファイル(書式はクラスの説明を参照)。空のタプルなら何も入れ込まない |
         """
         self.here = os.path.dirname(os.path.abspath(__file__))
         self.src = self._path(src)
@@ -103,6 +130,7 @@ class BookkeepingMD2HTML:
         self.template = self._read(template)
         self.css_text = self._read(css_template)
         self.js_text = self._read(js_template)
+        self.fragments = [self._path(p) for p in fragments]
         out_dir = os.path.dirname(self.out)
         self.out_css = os.path.join(out_dir, self.CSS)
         self.out_js = os.path.join(out_dir, self.JS)
@@ -110,6 +138,7 @@ class BookkeepingMD2HTML:
         self.heads = []       # 見出しの経路(表のない見出しも含む)の出現順のリスト(`parse` が設定)
         self.owner = {}       # 分類タグ名 → 大分類名(`class_tree` が設定)
         self.warnings = []    # 警告のリスト(`build` が設定。`save_html` が表示)
+        self.nested = 0       # セルに入れ込んだ断片の数(`inject` が設定)
         self.load_words()
 
     def _path(self, p):
@@ -470,6 +499,98 @@ if (typeof createTableSearch === 'undefined') {
         """
         return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
 
+    def load_fragments(self):
+        """
+        ## 断片ファイルを、差し込み指示コメントごとに分ける
+
+        `self.fragments` のファイルを順に読み、`<!-- into: … -->` ごとに、次の指示コメントまでの HTML を1件にする。
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 断片のリスト | `list[dict]` | ファイルの順・書いた順。空なら空リスト |
+
+        | 戻り値の要素のキー | 型 | 説明 |
+        |---|---|---|
+        | `term` | `str` | 差し込み先の `用語` |
+        | `col` | `str` | 差し込み先の列名(`説明` `計算式` `備考`) |
+        | `at` | `str` | 位置(`end` `start`) |
+        | `html` | `str` | 差し込む HTML(前後の空白は除去済み) |
+        | `where` | `str` | `ファイル名 N行目`(エラーメッセージ用) |
+
+        | 例外 | 条件 |
+        |---|---|
+        | `ValueError` | 最初の指示コメントより前に、コメント以外の内容がある |
+        | `ValueError` | 指示コメントに、`into` の用語がない・未知のキー・`col` や `at` の値が不正 |
+        | `ValueError` | 指示コメントの後ろに HTML がない |
+        """
+        frags = []
+        for p in self.fragments:
+            text, name = self._read(p), os.path.basename(p)
+            marks = list(self.FRAG_DIRECTIVE.finditer(text))
+            head = text[:marks[0].start()] if marks else text
+            if re.sub(r"<!--.*?-->", "", head, flags=re.S).strip():
+                raise ValueError(f"{name}: 最初の指示コメント(<!-- into: … -->)より前に、内容があります")
+            for i, m in enumerate(marks):
+                where = f"{name} {text.count(chr(10), 0, m.start()) + 1}行目"
+                parts = [s.strip() for s in m.group(1).split(";")]
+                opt = {"col": "説明", "at": "end"}
+                for s in parts[1:]:
+                    k, sep, v = s.partition(":")
+                    if not sep or k.strip() not in opt:
+                        raise ValueError(f"{where}: 指示 {s!r} が分かりません(使えるキー: col, at)")
+                    opt[k.strip()] = v.strip()
+                if not parts[0]:
+                    raise ValueError(f"{where}: into の用語がありません")
+                if opt["col"] not in self.FRAG_COLS:
+                    raise ValueError(f"{where}: col {opt['col']!r} は使えません({', '.join(self.FRAG_COLS)})")
+                if opt["at"] not in self.FRAG_AT:
+                    raise ValueError(f"{where}: at {opt['at']!r} は使えません({', '.join(self.FRAG_AT)})")
+                end = marks[i + 1].start() if i + 1 < len(marks) else len(text)
+                body = text[m.end():end].strip()
+                if not body:
+                    raise ValueError(f"{where}: 指示コメントの後ろに HTML がありません")
+                frags.append({"term": parts[0], "col": opt["col"], "at": opt["at"], "html": body, "where": where})
+        return frags
+
+    def inject(self, rows):
+        """
+        ## 断片を、指示された行・列のセルにネストして入れ込む
+
+        `用語` 列(`**…**` と HTML タグを除いたもの)が、断片の `term` と完全一致する行を探す。
+        元のセルが `-` または空なら、断片だけにする。`rows` 自体は書き換えない(コピーを返す)。
+
+        | 引数 | 型 | 説明 |
+        |---|---|---|
+        | `rows` | `list[tuple[int, list[str], list[str]]]` | `parse` の結果 |
+
+        | 戻り値 | 型 | 説明 |
+        |---|---|---|
+        | 行リスト | `list[tuple[int, list[str], list[str]]]` | `rows` と同じ形。指示された行のセルだけ断片入り |
+
+        | 設定する属性 | 型 | 説明 |
+        |---|---|---|
+        | `self.nested` | `int` | 入れ込んだ断片の数 |
+
+        | 例外 | 条件 |
+        |---|---|
+        | `ValueError` | 断片の `term` にマッチする行が、0件または2件以上(誤字・曖昧さの検出) |
+        """
+        out = [(no, list(c), p) for no, c, p in rows]
+        frags = self.load_fragments()
+        for f in frags:
+            hit = [r for r in out if self.plain(self.md_inline(r[1][0])) == f["term"]]
+            if len(hit) != 1:
+                raise ValueError(
+                    f"{f['where']}: 用語 {f['term']!r} にマッチする行が {len(hit)} 件あります(1件だけにしてください)")
+            cells, i = hit[0][1], self.FRAG_COLS[f["col"]]
+            box = f'<div class="{self.FRAG_CLASS}">{f["html"]}</div>'
+            if cells[i] in ("-", ""):
+                cells[i] = box
+            else:
+                cells[i] = cells[i] + "\n" + box if f["at"] == "end" else box + "\n" + cells[i]
+        self.nested = len(frags)
+        return out
+
     def row_html(self, cells, tags):
         """
         ## 1行分の `<tr>` を作る
@@ -602,6 +723,7 @@ if (typeof createTableSearch === 'undefined') {
         for ts in tags:
             for t in ts:
                 count[t] = count.get(t, 0) + 1
+        rows = self.inject(rows)  # 検査(`check_clean` `check_tags`)のあとで入れ込む(断片は検査の対象外)
         body = [self.row_html(c, ts) for (_, c, _), ts in zip(rows, tags)]
         self.rows, self.count, self.tree = len(body), count, tree
         filters = (
@@ -623,7 +745,7 @@ if (typeof createTableSearch === 'undefined') {
         """
         out = self.build()
         self._write(self.out, out)
-        print(self.rows, "rows,", len(out), "bytes ->", self.out)
+        print(self.rows, "rows,", self.nested, "nested,", len(out), "bytes ->", self.out)
         for w in self.warnings:
             print("WARN", w, file=sys.stderr)
         return self.out
