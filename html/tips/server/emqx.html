@@ -32,7 +32,7 @@
             <main>
                 <div class = "row g-5">
                     <div class ="col-md-8">
-                        <article class="blog-post">
+                        <article class="blog-post" id="article_top">
                             <h2 class="pt-4 mt-4 border-bottom fw-bold" id="mqtt">
                                 MQTTブローカ
                             </h2>
@@ -246,6 +246,48 @@ sudo systemctl restart emqx.service</code></pre>
                             </p>
                             
                         </article>
+                        <article class="blog-post">
+                            <h2 class="pt-4 mt-4 border-bottom fw-bold" id="mqtt-protocol">
+                                MQTT (Message Queuing Telemetry Transport)
+                            </h2>
+                            <ul>
+                                <li>Publish/Subscribe(出版/購読)型の軽量なメッセージングプロトコル(ブローカを介して通信が行われる)</li>
+                                <li>OASISおよびISO/IEC 20922として標準化</li>
+                                <li>もともとは帯域が狭く不安定な回線上のセンサ機器との通信を想定して設計された</li>
+                                <li>現在はIoT分野のデファクトスタンダードとして広く使われている</li>
+                                <li>主に使われるバージョン : 3.1.1 / 5.0</li>
+                            </ul>
+
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="mqtt-role">
+                                MQTTの構成
+                            </h3>
+                            <div id="md-mqtt-role">
+| 役割 | 説明 |
+|------|------|
+| パブリッシャ(Publisher) | トピックを指定してメッセージを送信するクライアント |
+| ブローカ(Broker) | メッセージを受け取り、該当トピックを購読しているクライアントへ配送するサーバ |
+| サブスクライバ(Subscriber) | 関心のあるトピックを購読し、メッセージを受信するクライアント |
+                            </div>
+                            <h3 class="pt-4 mt-4 border-bottom fw-bold" id="mqtt-topic">
+                                MQTT トピック
+                            </h3>
+                            <ul>
+                                <li>メッセージを識別してルーティングするための文字列</li>
+                                <li>
+                                    <code>/</code> 区切りの階層構造を持ち、購読時のみ<b>ワイルドカード</b>を使用可能
+                                    <ul>
+                                        <li><code>+</code> : 1階層の任意の文字列 (例 : <code>home/+/temperature</code>) </li>
+                                        <li><code>#</code> : 0階層以上の任意の文字列(末尾のみ) (例 : <code>home/#</code>)</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    パブリッシャとサブスクライバはトピックのみで結びつく<br>
+                                    ┗ 送信側・受信側を独立して制御できる
+                                </li>
+                                
+                            </ul>
+
+                        </article>
                     </div>
 
 
@@ -259,6 +301,9 @@ sudo systemctl restart emqx.service</code></pre>
                                     </li>
                                     <li>
                                         <a href="#mqtt">MQTTブローカ</a>
+                                    </li>
+                                    <li>
+                                        <a href="#mqtt-protocol">MQTT</a>
                                     </li>
                                 </ol>
                             </div>
